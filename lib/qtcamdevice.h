@@ -43,6 +43,7 @@ signals:
   void error(const QString& message, int code, const QString& debug);
   void started();
   void stopped();
+  void idleStateChanged(bool isIdle);
 
 private:
   Q_PRIVATE_SLOT(d_ptr, void _d_error(const QString&, int, const QString&))

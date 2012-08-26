@@ -51,6 +51,9 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
   QObject::connect(d_ptr->listener, SIGNAL(started()), this, SIGNAL(started()));
   QObject::connect(d_ptr->listener, SIGNAL(stopped()), this, SIGNAL(stopped()));
 
+  g_signal_connect(d_ptr->cameraBin, "notify::idle",
+		   G_CALLBACK(QtCamDevicePrivate::on_idle_changed), d_ptr);
+
   d_ptr->image = new QtCamImageMode(d_ptr, this);
   d_ptr->video = new QtCamVideoMode(d_ptr, this);
 }

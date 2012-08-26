@@ -121,6 +121,14 @@ public:
     }
   }
 
+  static void on_idle_changed(GObject *obj, GParamSpec *pspec, QtCamDevicePrivate *d) {
+    Q_UNUSED(obj);
+    Q_UNUSED(pspec);
+
+    QMetaObject::invokeMethod(d->q_ptr, "idleStateChanged", Qt::QueuedConnection,
+			      Q_ARG(bool, d->q_ptr->isIdle()));
+  }
+
   QString name;
   QVariant id;
 
