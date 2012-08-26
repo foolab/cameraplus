@@ -32,6 +32,7 @@ private:
   QImage m_image;
   QMutex m_mutex;
   QSizeF m_size;
+  unsigned long m_id;
 };
 
 #endif /* QT_CAM_VIEWFINDER_RENDERER_GENERIC_H */

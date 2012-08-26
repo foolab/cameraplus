@@ -11,7 +11,7 @@ QT_CAM_VIEWFINDER_RENDERER(RENDERER_TYPE_GENERIC, QtCamViewfinderRendererGeneric
 // TODO: this needs to be debugged or rewritten. There are race conditions.
 QtCamViewfinderRendererGeneric::QtCamViewfinderRendererGeneric(QtCamConfig *config,
 							       QObject *parent) :
-  QtCamViewfinderRenderer(config, parent), m_elem(0), m_sink(0) {
+  QtCamViewfinderRenderer(config, parent), m_elem(0), m_sink(0), m_id(0) {
 
 }
 
@@ -22,7 +22,7 @@ QtCamViewfinderRendererGeneric::~QtCamViewfinderRendererGeneric() {
     g_object_remove_toggle_ref(G_OBJECT(m_elem), (GToggleNotify)sink_notify, this);
     m_elem = 0;
 
-    g_signal_handlers_disconnect_by_data(m_sink, this);
+    g_signal_handler_disconnect(m_sink, m_id);
   }
 
   m_mutex.unlock();
@@ -64,7 +64,7 @@ GstElement *QtCamViewfinderRendererGeneric::sinkElement() {
     }
 
     g_object_set(G_OBJECT(sink), "signal-handoffs", TRUE, "sync", TRUE, NULL);
-    g_signal_connect(sink, "handoff", G_CALLBACK(on_gst_buffer), this);
+    m_id = g_signal_connect(sink, "handoff", G_CALLBACK(on_gst_buffer), this);
 
     GstElement *csp = gst_element_factory_make("ffmpegcolorspace",
 					       "QtCamViewfinderRendererGenericCsp");
