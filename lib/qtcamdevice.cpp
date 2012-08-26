@@ -1,0 +1,230 @@
+#include "qtcamdevice.h"
+#include "qtcamviewfinder.h"
+#include "qtcamconfig.h"
+#include "qtcamdevice_p.h"
+#include <QDebug>
+#include <gst/gst.h>
+#include "qtcamgstreamermessagelistener.h"
+#include "qtcammode.h"
+#include "qtcamimagemode.h"
+#include "qtcamvideomode.h"
+
+QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
+			 const QVariant& id, QObject *parent) :
+  QObject(parent), d_ptr(new QtCamDevicePrivate) {
+
+  d_ptr->q_ptr = this;
+  d_ptr->name = name;
+  d_ptr->id = id;
+  d_ptr->conf = config;
+
+  d_ptr->cameraBin = gst_element_factory_make("camerabin2", "QtCameraCameraBin");
+  if (!d_ptr->cameraBin) {
+    qCritical() << "Failed to create camerabin";
+    return;
+  }
+
+  d_ptr->createAndAddElement(d_ptr->conf->audioSource(), "audio-source", "QtCameraAudioSrc");
+  d_ptr->createAndAddVideoSource();
+
+  int flags =
+    0x00000001 /* no-audio-conversion - Do not use audio conversion elements */
+    | 0x00000002 /* no-video-conversion - Do not use video conversion elements */
+    | 0x00000004 /* no-viewfinder-conversion - Do not use viewfinder conversion elements */
+    | 0x00000008; /* no-image-conversion - Do not use image conversion elements */
+
+  g_object_set(d_ptr->cameraBin, "flags", flags, NULL);
+
+  d_ptr->setAudioCaptureCaps();
+
+  // TODO: audio bitrate
+  // TODO: video bitrate
+  // TODO: filters
+  // TODO: capabilities
+  // TODO: custom properties for jifmux, mp4mux, audio encoder, video encoder, sink & video source
+  // color tune, scene modes
+  d_ptr->listener = new QtCamGStreamerMessageListener(gst_element_get_bus(d_ptr->cameraBin),
+						      d_ptr, this);
+
+  QObject::connect(d_ptr->listener, SIGNAL(error(const QString&, int, const QString&)),
+		   this, SLOT(_d_error(const QString&, int, const QString&)));
+  QObject::connect(d_ptr->listener, SIGNAL(started()), this, SIGNAL(started()));
+  QObject::connect(d_ptr->listener, SIGNAL(stopped()), this, SIGNAL(stopped()));
+
+  d_ptr->image = new QtCamImageMode(d_ptr, this);
+  d_ptr->video = new QtCamVideoMode(d_ptr, this);
+}
+
+QtCamDevice::~QtCamDevice() {
+  stop();
+
+  d_ptr->image->deactivate();
+  d_ptr->video->deactivate();
+
+  delete d_ptr->image; d_ptr->image = 0;
+  delete d_ptr->video; d_ptr->video = 0;
+  delete d_ptr; d_ptr = 0;
+}
+
+bool QtCamDevice::setViewfinder(QtCamViewfinder *viewfinder) {
+  if (isRunning()) {
+    qWarning() << "QtCamDevice: pipeline must be stopped before setting a viewfinder";
+    return false;
+  }
+
+  if (d_ptr->viewfinder == viewfinder) {
+    return true;
+  }
+
+  if (!viewfinder) {
+    qWarning() << "QtCamDevice: viewfinder cannot be unset.";
+    return false;
+  }
+
+  if (d_ptr->viewfinder) {
+    qWarning() << "QtCamDevice: viewfinder cannot be replaced.";
+    return false;
+  }
+
+  if (!viewfinder->setDevice(this)) {
+    return false;
+  }
+
+  d_ptr->viewfinder = viewfinder;
+
+  return true;
+}
+
+bool QtCamDevice::start() {
+  if (d_ptr->error) {
+    qWarning() << "Pipeline must be stopped first because of an error.";
+    return false;
+  }
+
+  if (!d_ptr->cameraBin) {
+    qWarning() << "Missing camerabin";
+    return false;
+  }
+
+  if (!d_ptr->viewfinder) {
+    qWarning() << "Viewfinder not set";
+    return false;
+  }
+
+  if (isRunning()) {
+    return true;
+  }
+
+  if (!d_ptr->active) {
+    d_ptr->image->activate();
+  }
+  else {
+    d_ptr->active->applySettings();
+  }
+
+  // Set sink.
+  if (!d_ptr->setViewfinderSink()) {
+    return false;
+  }
+
+  GstStateChangeReturn err = gst_element_set_state(d_ptr->cameraBin, GST_STATE_PLAYING);
+  if (err == GST_STATE_CHANGE_FAILURE) {
+    qWarning() << "Failed to start camera pipeline";
+    return false;
+  }
+
+  return true;
+}
+
+bool QtCamDevice::stop() {
+  if (!d_ptr->cameraBin) {
+    return true;
+  }
+
+  if (d_ptr->error) {
+    gst_element_set_state(d_ptr->cameraBin, GST_STATE_NULL);
+    d_ptr->error = false;
+    return true;
+  }
+
+  GstState state;
+  gst_element_get_state(d_ptr->cameraBin, &state, 0, GST_CLOCK_TIME_NONE);
+
+  if (state == GST_STATE_NULL) {
+    // Nothing to do.
+    return true;
+  }
+
+  if (!isIdle()) {
+    return false;
+  }
+
+  // First we go to ready:
+  GstStateChangeReturn st = gst_element_set_state(d_ptr->cameraBin, GST_STATE_READY);
+  if (st != GST_STATE_CHANGE_FAILURE) {
+    // Flush the bus:
+    d_ptr->listener->flushMessages();
+  }
+
+  // Now to NULL
+  gst_element_set_state(d_ptr->cameraBin, GST_STATE_NULL);
+
+  return true;
+}
+
+bool QtCamDevice::isRunning() {
+  if (!d_ptr->cameraBin) {
+    return false;
+  }
+
+  GstState state;
+  GstStateChangeReturn err = gst_element_get_state(d_ptr->cameraBin,
+						   &state, 0, GST_CLOCK_TIME_NONE);
+
+  if (err == GST_STATE_CHANGE_FAILURE || state != GST_STATE_PLAYING) {
+    return false;
+  }
+
+  return true;
+}
+
+bool QtCamDevice::isIdle() {
+  if (!d_ptr->cameraBin) {
+    return true;
+  }
+
+  gboolean idle = FALSE;
+  g_object_get(d_ptr->cameraBin, "idle", &idle, NULL);
+
+  return idle == TRUE;
+}
+
+QtCamImageMode *QtCamDevice::imageMode() const {
+  return d_ptr->image;
+}
+
+QtCamVideoMode *QtCamDevice::videoMode() const {
+  return d_ptr->video;
+}
+
+QtCamMode *QtCamDevice::activeMode() const {
+  return d_ptr->active;
+}
+
+QString QtCamDevice::name() const {
+  return d_ptr->name;
+}
+
+QVariant QtCamDevice::id() const {
+  return d_ptr->id;
+}
+
+QtCamConfig *QtCamDevice::config() const {
+  return d_ptr->conf;
+}
+
+QtCamGStreamerMessageListener *QtCamDevice::listener() const {
+  return d_ptr->listener;
+}
+
+#include "moc_qtcamdevice.cpp"
