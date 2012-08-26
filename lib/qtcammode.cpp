@@ -164,7 +164,7 @@ void QtCamMode::setCaps(const char *property, const QSize& resolution,
     return;
   }
 
-  if (resolution.width() <= 0 || resolution.width() <= 0) {
+  if (resolution.width() <= 0 || resolution.height() <= 0) {
     return;
   }
 
