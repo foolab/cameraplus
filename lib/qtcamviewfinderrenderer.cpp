@@ -18,8 +18,8 @@ QtCamViewfinderRenderer::~QtCamViewfinderRenderer() {
 QtCamViewfinderRenderer *QtCamViewfinderRenderer::create(QtCamConfig *config, QObject *parent) {
   QString key = config->viewfinderRenderer();
   if (!_renderers.contains(key)) {
-    qCritical() << "Unknown renderer" << key;
-    return 0;
+    qCritical() << "Unknown renderer" << key << "will fallback to" << RENDERER_TYPE_GENERIC;
+    key = RENDERER_TYPE_GENERIC;
   }
 
   QObject *obj = _renderers[key].newInstance(Q_ARG(QtCamConfig *, config),
