@@ -11,6 +11,11 @@ public:
   void ensureBackend() {
     if (!renderer) {
       renderer = QtCamViewfinderRenderer::create(conf, q_ptr);
+      if (!renderer) {
+	qCritical() << "Failed to create a viewfinder renderer";
+	return;
+      }
+
       renderer->resize(q_ptr->size());
       QObject::connect(renderer, SIGNAL(updateRequested()), q_ptr, SLOT(updateRequested()));
     }
@@ -42,6 +47,10 @@ QtCamGraphicsViewfinder::~QtCamGraphicsViewfinder() {
 
 GstElement *QtCamGraphicsViewfinder::sinkElement() {
   d_ptr->ensureBackend();
+
+  if (!d_ptr->renderer) {
+    return 0;
+  }
 
   return d_ptr->renderer->sinkElement();
 }
