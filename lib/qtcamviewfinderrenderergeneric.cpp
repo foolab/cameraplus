@@ -2,8 +2,9 @@
 #include <QDebug>
 #include <gst/video/video.h>
 #include <QPainter>
+#include "qtcamconfig.h"
 
-QT_CAM_VIEWFINDER_RENDERER("generic", QtCamViewfinderRendererGeneric);
+QT_CAM_VIEWFINDER_RENDERER(RENDERER_TYPE_GENERIC, QtCamViewfinderRendererGeneric);
 
 #define CAPS "video/x-raw-rgb, bpp = (int) 32, depth = (int) 24, red_mask = (int) 65280, green_mask = (int) 16711680, blue_mask = (int) -16777216"
 
