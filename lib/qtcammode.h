@@ -14,6 +14,9 @@ class QImage;
 class QtCamMode : public QObject {
   Q_OBJECT
 
+  Q_PROPERTY(bool canCapture READ canCapture NOTIFY canCaptureChanged);
+  Q_PROPERTY(bool active READ isActive NOTIFY activeChanged);
+
 public:
   QtCamMode(QtCamModePrivate *d, const char *mode, const char *done, QObject *parent = 0);
   virtual ~QtCamMode();
@@ -21,6 +24,7 @@ public:
   void deactivate();
 
   virtual bool canCapture();
+
   bool isActive();
 
   virtual void applySettings() = 0;
@@ -31,6 +35,8 @@ public slots:
 signals:
   void previewAvailable(const QImage& image, const QString& fileName);
   void saved(const QString& fileName);
+  void canCaptureChanged();
+  void activeChanged();
 
 protected:
   virtual void start() = 0;

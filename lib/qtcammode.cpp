@@ -126,6 +126,10 @@ void QtCamMode::activate() {
   start();
 
   applySettings();
+
+  QMetaObject::invokeMethod(d_ptr->dev->q_ptr, "modeChanged");
+
+  emit activeChanged();
 }
 
 void QtCamMode::deactivate() {
@@ -142,6 +146,10 @@ void QtCamMode::deactivate() {
   stop();
 
   d_ptr->dev->active = 0;
+
+  QMetaObject::invokeMethod(d_ptr->dev->q_ptr, "modeChanged");
+
+  emit activeChanged();
 }
 
 bool QtCamMode::canCapture() {
