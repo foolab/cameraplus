@@ -1,5 +1,5 @@
-TEMPLATE = app
-TARGET = 
+TEMPLATE = lib
+TARGET = qtcamera
 DEPENDPATH += .
 INCLUDEPATH += .
 
@@ -28,6 +28,3 @@ isEqual(MEEGO_EDITION, harmattan) {
 SOURCES += qtcamviewfinderrenderermeego.cpp
 HEADERS += qtcamviewfinderrenderermeego.h
 }
-
-SOURCES += main.cpp
-HEADERS += main.h
