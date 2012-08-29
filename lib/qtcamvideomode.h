@@ -13,6 +13,8 @@ class QtCamVideoSettings;
 class QtCamVideoMode : public QtCamMode {
   Q_OBJECT
 
+  Q_PROPERTY(bool recording READ isRecording NOTIFY recordingStateChanged);
+
 public:
   QtCamVideoMode(QtCamDevicePrivate *d, QObject *parent = 0);
   ~QtCamVideoMode();
@@ -21,18 +23,25 @@ public:
   virtual void applySettings();
 
   bool isRecording();
-  bool startRecording(const QString& fileName);
-  bool stopRecording();
+  Q_INVOKABLE bool startRecording(const QString& fileName);
 
   bool setSettings(const QtCamVideoSettings& settings);
 
   void setProfile(GstEncodingProfile *profile);
+
+public slots:
+  void stopRecording();
+
+signals:
+  void recordingStateChanged();
 
 protected:
   virtual void start();
   virtual void stop();
 
 private:
+  Q_PRIVATE_SLOT(d_ptr, void _d_idleStateChanged(bool));
+
   QtCamVideoModePrivate *d_ptr;
 };
 

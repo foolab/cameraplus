@@ -15,6 +15,13 @@ public:
 
   ~QtCamVideoModePrivate() {}
 
+  void _d_idleStateChanged(bool isIdle) {
+    if (isIdle && dev->active == dev->video) {
+      QMetaObject::invokeMethod(dev->video, "recordingStateChanged");
+      QMetaObject::invokeMethod(dev->video, "canCaptureChanged");
+    }
+  }
+
   QtCamVideoSettings settings;
 };
 
@@ -32,6 +39,9 @@ QtCamVideoMode::QtCamVideoMode(QtCamDevicePrivate *d, QObject *parent) :
       setProfile(profile);
     }
   }
+
+  QObject::connect(d_ptr->dev->q_ptr, SIGNAL(idleStateChanged(bool)),
+		   this, SLOT(_d_idleStateChanged(bool)));
 }
 
 QtCamVideoMode::~QtCamVideoMode() {
@@ -76,15 +86,17 @@ bool QtCamVideoMode::startRecording(const QString& fileName) {
   g_object_set(d_ptr->dev->cameraBin, "location", fileName.toUtf8().data(), NULL);
   g_signal_emit_by_name(d_ptr->dev->cameraBin, "start-capture", NULL);
 
+  emit recordingStateChanged();
+
+  emit canCaptureChanged();
+
   return true;
 }
 
-bool QtCamVideoMode::stopRecording() {
+void QtCamVideoMode::stopRecording() {
   if (isRecording()) {
     g_signal_emit_by_name(d_ptr->dev->cameraBin, "stop-capture", NULL);
   }
-
-  return true;
 }
 
 bool QtCamVideoMode::setSettings(const QtCamVideoSettings& settings) {
@@ -99,7 +111,6 @@ bool QtCamVideoMode::setSettings(const QtCamVideoSettings& settings) {
   return true;
 }
 
-
 void QtCamVideoMode::setProfile(GstEncodingProfile *profile) {
   if (!d_ptr->dev->cameraBin) {
     gst_encoding_profile_unref(profile);
@@ -108,3 +119,5 @@ void QtCamVideoMode::setProfile(GstEncodingProfile *profile) {
 
   g_object_set(d_ptr->dev->cameraBin, "video-profile", profile, NULL);
 }
+
+#include "moc_qtcamvideomode.cpp"
