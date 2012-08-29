@@ -26,9 +26,6 @@ public:
 
   void setProfile(GstEncodingProfile *profile);
 
-signals:
-  void imageSaved(const QString& fileName);
-
 protected:
   virtual void start();
   virtual void stop();
