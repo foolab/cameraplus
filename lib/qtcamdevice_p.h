@@ -8,6 +8,7 @@
 #include "qtcamconfig.h"
 #include "qtcamviewfinder.h"
 #include "qtcamdevice.h"
+#include "qtcammode.h"
 
 class QtCamGStreamerMessageListener;
 class QtCamMode;
@@ -154,6 +155,18 @@ public:
     g_object_get(wrapperVideoSource, "ready-for-capture", &ready, NULL);
 
     return ready == TRUE;
+  }
+
+  static void on_ready_for_capture_changed(GObject *obj, GParamSpec *pspec,
+					   QtCamDevicePrivate *d)  {
+    Q_UNUSED(obj);
+    Q_UNUSED(pspec);
+
+    if (!d->active) {
+      return;
+    }
+
+    QMetaObject::invokeMethod(d->active, "canCaptureChanged", Qt::QueuedConnection);
   }
 
   static void on_idle_changed(GObject *obj, GParamSpec *pspec, QtCamDevicePrivate *d) {
