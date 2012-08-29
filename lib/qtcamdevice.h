@@ -42,11 +42,18 @@ public:
 signals:
   void error(const QString& message, int code, const QString& debug);
   void started();
+  void stopping();
   void stopped();
   void idleStateChanged(bool isIdle);
+  void modeChanged();
+  void runningStateChanged(bool running);
 
 private:
   Q_PRIVATE_SLOT(d_ptr, void _d_error(const QString&, int, const QString&))
+  Q_PRIVATE_SLOT(d_ptr, void _d_started())
+  Q_PRIVATE_SLOT(d_ptr, void _d_stopped())
+  Q_PRIVATE_SLOT(d_ptr, void _d_stopping())
+
   friend class QtCamMetaData;
   QtCamDevicePrivate *d_ptr;
 };
