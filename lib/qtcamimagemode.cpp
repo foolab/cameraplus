@@ -15,17 +15,6 @@ public:
   ~QtCamImageModePrivate() {
   }
 
-  bool wrapperIsReady() {
-    if (!dev->wrapperVideoSource) {
-      return false;
-    }
-
-    gboolean ready = FALSE;
-    g_object_get(dev->wrapperVideoSource, "ready-for-capture", &ready, NULL);
-
-    return ready == TRUE;
-  }
-
   QtCamImageSettings settings;
 };
 
@@ -50,7 +39,7 @@ QtCamImageMode::~QtCamImageMode() {
 }
 
 bool QtCamImageMode::canCapture() {
-  return QtCamMode::canCapture() && d_ptr->wrapperIsReady();
+  return QtCamMode::canCapture() && d_ptr->dev->isWrapperReady();
 }
 
 void QtCamImageMode::applySettings() {

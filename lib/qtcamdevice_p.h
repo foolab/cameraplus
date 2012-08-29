@@ -145,6 +145,17 @@ public:
     }
   }
 
+  bool isWrapperReady() {
+    if (!wrapperVideoSource) {
+      return false;
+    }
+
+    gboolean ready = FALSE;
+    g_object_get(wrapperVideoSource, "ready-for-capture", &ready, NULL);
+
+    return ready == TRUE;
+  }
+
   static void on_idle_changed(GObject *obj, GParamSpec *pspec, QtCamDevicePrivate *d) {
     Q_UNUSED(obj);
     Q_UNUSED(pspec);
