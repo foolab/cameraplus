@@ -49,7 +49,6 @@ QtCamera::~QtCamera() {
   gst_deinit();
 }
 
-
 void QtCamera::refreshDevices() {
   d_ptr->scanner->refresh();
 }
