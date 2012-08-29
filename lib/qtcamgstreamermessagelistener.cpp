@@ -86,6 +86,9 @@ public:
 	QMetaObject::invokeMethod(q_ptr, "started");
       }
       else if (oldState == GST_STATE_PLAYING && newState == GST_STATE_PAUSED) {
+	QMetaObject::invokeMethod(q_ptr, "stopping");
+      }
+      else if (oldState == GST_STATE_READY && newState == GST_STATE_NULL) {
 	QMetaObject::invokeMethod(q_ptr, "stopped");
       }
     }

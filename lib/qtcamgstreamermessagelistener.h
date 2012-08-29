@@ -28,6 +28,7 @@ signals:
   void error(const QString& message, int code, const QString& debug);
   void started();
   void stopped();
+  void stopping();
 
 private:
   QtCamGStreamerMessageListenerPrivate *d_ptr;
