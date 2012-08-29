@@ -18,13 +18,15 @@ public:
   QtCamMode(QtCamModePrivate *d, const char *mode, const char *done, QObject *parent = 0);
   virtual ~QtCamMode();
 
-  void activate();
   void deactivate();
 
   virtual bool canCapture();
   bool isActive();
 
   virtual void applySettings() = 0;
+
+public slots:
+  void activate();
 
 signals:
   void previewAvailable(const QImage& image, const QString& fileName);
