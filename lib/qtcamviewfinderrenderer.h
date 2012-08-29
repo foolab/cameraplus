@@ -33,6 +33,6 @@ signals:
 };
 
 #define QT_CAM_VIEWFINDER_RENDERER(key, klass) \
-static int klass_seq = QtCamViewfinderRenderer::registerRenderer(key, klass::staticMetaObject)
+  static int klass_seq = QtCamViewfinderRenderer::registerRenderer(key, klass::staticMetaObject);
 
 #endif /* QT_CAM_VIEWFINDER_RENDERER_H */
