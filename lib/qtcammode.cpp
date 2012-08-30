@@ -117,8 +117,9 @@ void QtCamMode::activate() {
   d_ptr->dev->active = this;
 
   // TODO: check that we can actually do it. Perhaps the pipeline is busy.
-
   g_object_set(d_ptr->dev->cameraBin, "mode", d_ptr->id, NULL);
+
+  d_ptr->dev->resetCapabilities();
 
   d_ptr->dev->listener->addHandler(d_ptr->previewImageHandler);
   d_ptr->dev->listener->addHandler(d_ptr->doneHandler);
