@@ -177,6 +177,11 @@ public:
 			      Q_ARG(bool, d->q_ptr->isIdle()));
   }
 
+  void resetCapabilities() {
+    g_object_set(cameraBin, "zoom", 1.0, NULL);
+    g_object_set(videoSource, "flash-mode", 0, NULL);
+  }
+
   QString name;
   QVariant id;
 
