@@ -73,6 +73,10 @@ public:
     videoSource = src;
     wrapperVideoSource = wrapper;
 
+    if (!id.isValid() || id.isNull()) {
+      return;
+    }
+
     if (conf->deviceScannerType() == SCANNER_TYPE_ENUM) {
       int dev = id.toInt();
       g_object_set(src, conf->deviceScannerProperty().toAscii().data(), dev, NULL);
