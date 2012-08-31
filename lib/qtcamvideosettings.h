@@ -13,7 +13,7 @@ class QtCamVideoSettings {
 public:
   QtCamVideoSettings(const QString& id, const QString& name,
 		     const QSize& capture, const QSize& preview,
-		     int numerator, int denominator);
+		     int numerator, int denominator, int nightNumerator, int nightDenominator);
 
   QtCamVideoSettings(const QtCamVideoSettings& other);
 
@@ -26,6 +26,7 @@ public:
   QSize captureResolution() const;
   QSize previewResolution() const;
   QPair<int, int> frameRate() const;
+  QPair<int, int> nightFrameRate() const;
 
 private:
   QtCamVideoSettingsPrivate *d_ptr;

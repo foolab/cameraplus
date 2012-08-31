@@ -16,8 +16,8 @@ public:
     return QSize(parts[0].toInt(), parts[1].toInt());
   }
 
-  QPair<int, int> readFrameRate() {
-    QList<QString> parts = conf->value("fps").toString().trimmed().split("/");
+  QPair<int, int> readFrameRate(const QString& key) {
+    QList<QString> parts = conf->value(key).toString().trimmed().split("/");
     return qMakePair<int, int>(parts[0].toInt(), parts[1].toInt());
   }
 
@@ -98,13 +98,17 @@ QList<QtCamImageSettings> QtCamConfig::imageSettings() {
     QStringList presets = d_ptr->conf->value("image/presets").toStringList();
     foreach (const QString& preset, presets) {
       d_ptr->conf->beginGroup(preset);
-      QPair<int, int> fps = d_ptr->readFrameRate();
+
+      QPair<int, int> fps = d_ptr->readFrameRate("fps");
+      QPair<int, int> night = d_ptr->readFrameRate("night");
+
       d_ptr->imageSettings <<
 	QtCamImageSettings(preset, d_ptr->conf->value("name").toString(),
 			   d_ptr->readResolution("capture"),
 			   d_ptr->readResolution("preview"),
 			   d_ptr->readResolution("viewfinder"),
-			   fps.first, fps.second);
+			   fps.first, fps.second, night.first, night.second);
+
       d_ptr->conf->endGroup();
     }
   }
@@ -132,12 +136,16 @@ QList<QtCamVideoSettings> QtCamConfig::videoSettings() {
     QStringList presets = d_ptr->conf->value("video/presets").toStringList();
     foreach (const QString& preset, presets) {
       d_ptr->conf->beginGroup(preset);
-      QPair<int, int> fps = d_ptr->readFrameRate();
+
+      QPair<int, int> fps = d_ptr->readFrameRate("fps");
+      QPair<int, int> night = d_ptr->readFrameRate("night");
+
       d_ptr->videoSettings <<
 	QtCamVideoSettings(preset, d_ptr->conf->value("name").toString(),
 			   d_ptr->readResolution("capture"),
 			   d_ptr->readResolution("preview"),
-			   fps.first, fps.second);
+			   fps.first, fps.second, night.first, night.second);
+
       d_ptr->conf->endGroup();
     }
   }

@@ -13,7 +13,7 @@ class QtCamImageSettings {
 public:
   QtCamImageSettings(const QString& id, const QString& name, const QSize& capture,
 		     const QSize& preview, const QSize& viewfinder,
-		     int numerator, int denominator);
+		     int numerator, int denominator, int nightNumerator, int nightDenominator);
 
   QtCamImageSettings(const QtCamImageSettings& other);
 
@@ -27,6 +27,7 @@ public:
   QSize viewfinderResolution() const;
   QSize previewResolution() const;
   QPair<int, int> frameRate() const;
+  QPair<int, int> nightFrameRate() const;
 
 private:
   QtCamImageSettingsPrivate *d_ptr;

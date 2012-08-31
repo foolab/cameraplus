@@ -8,11 +8,14 @@ public:
   QSize preview;
   int numerator;
   int denominator;
+  int nightNumerator;
+  int nightDenominator;
 };
 
 QtCamVideoSettings::QtCamVideoSettings(const QString& id, const QString& name,
 				       const QSize& capture, const QSize& preview,
-				       int numerator, int denominator) :
+				       int numerator, int denominator,
+				       int nightNumerator, int nightDenominator) :
   d_ptr(new QtCamVideoSettingsPrivate) {
 
   d_ptr->id = id;
@@ -21,6 +24,8 @@ QtCamVideoSettings::QtCamVideoSettings(const QString& id, const QString& name,
   d_ptr->preview = preview;
   d_ptr->numerator = numerator;
   d_ptr->denominator = denominator;
+  d_ptr->nightNumerator = nightNumerator;
+  d_ptr->nightDenominator = nightDenominator;
 }
 
 QtCamVideoSettings::QtCamVideoSettings(const QtCamVideoSettings& other) :
@@ -32,6 +37,8 @@ QtCamVideoSettings::QtCamVideoSettings(const QtCamVideoSettings& other) :
   d_ptr->preview = other.d_ptr->preview;
   d_ptr->numerator = other.d_ptr->numerator;
   d_ptr->denominator = other.d_ptr->denominator;
+  d_ptr->nightNumerator = other.d_ptr->nightNumerator;
+  d_ptr->nightDenominator = other.d_ptr->nightDenominator;
 }
 
 QtCamVideoSettings::~QtCamVideoSettings() {
@@ -46,6 +53,8 @@ QtCamVideoSettings& QtCamVideoSettings::operator=(const QtCamVideoSettings&
   d_ptr->preview = other.d_ptr->preview;
   d_ptr->numerator = other.d_ptr->numerator;
   d_ptr->denominator = other.d_ptr->denominator;
+  d_ptr->nightNumerator = other.d_ptr->nightNumerator;
+  d_ptr->nightDenominator = other.d_ptr->nightDenominator;
 
   return *this;
 }
@@ -68,4 +77,8 @@ QSize QtCamVideoSettings::previewResolution() const {
 
 QPair<int, int> QtCamVideoSettings::frameRate() const {
   return qMakePair<int, int>(d_ptr->numerator, d_ptr->denominator);
+}
+
+QPair<int, int> QtCamVideoSettings::nightFrameRate() const {
+  return qMakePair<int, int>(d_ptr->nightNumerator, d_ptr->nightDenominator);
 }
