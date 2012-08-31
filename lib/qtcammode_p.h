@@ -12,6 +12,8 @@ class QtCamDevicePrivate;
 class PreviewImageHandler;
 class DoneHandler;
 
+#define CAPS "video/x-raw-yuv, width = (int) %1, height = (int) %2, framerate = (fraction) %3/%4"
+
 class QtCamModePrivate {
 public:
   QtCamModePrivate(QtCamDevicePrivate *d) : id(-1), dev(d) {}
@@ -64,6 +66,31 @@ public:
     gst_encoding_target_unref(target);
 
     return profile;
+  }
+
+  void setCaps(const char *property, const QSize& resolution, const QPair<int, int> frameRate) {
+    if (!dev->cameraBin) {
+      return;
+    }
+
+    // TODO: allow proceeding without specifying a frame rate (maybe we can calculate it ?)
+    if (frameRate.first <= 0 || frameRate.second <= 0) {
+      return;
+    }
+
+    if (resolution.width() <= 0 || resolution.height() <= 0) {
+      return;
+    }
+
+    QString capsString = QString(CAPS)
+      .arg(resolution.width()).arg(resolution.height())
+      .arg(frameRate.first).arg(frameRate.second);
+
+    GstCaps *caps = gst_caps_from_string(capsString.toAscii());
+
+    g_object_set(dev->cameraBin, property, caps, NULL);
+
+    gst_caps_unref(caps);
   }
 
   int id;

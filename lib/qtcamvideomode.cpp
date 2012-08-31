@@ -53,10 +53,10 @@ bool QtCamVideoMode::canCapture() {
 }
 
 void QtCamVideoMode::applySettings() {
-  setCaps("viewfinder-caps", d_ptr->settings.captureResolution(),
+  d_ptr->setCaps("viewfinder-caps", d_ptr->settings.captureResolution(),
   	  d_ptr->settings.frameRate());
 
-  setCaps("video-capture-caps", d_ptr->settings.captureResolution(),
+  d_ptr->setCaps("video-capture-caps", d_ptr->settings.captureResolution(),
 	  d_ptr->settings.frameRate());
 
   setPreviewSize(d_ptr->settings.previewResolution());

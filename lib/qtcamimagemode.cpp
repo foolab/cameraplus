@@ -43,10 +43,11 @@ bool QtCamImageMode::canCapture() {
 }
 
 void QtCamImageMode::applySettings() {
-  setCaps("image-capture-caps", d_ptr->settings.captureResolution(),
-	  d_ptr->settings.frameRate());
-  setCaps("viewfinder-caps", d_ptr->settings.viewfinderResolution(),
-  	  d_ptr->settings.frameRate());
+  d_ptr->setCaps("image-capture-caps", d_ptr->settings.captureResolution(),
+		 d_ptr->settings.frameRate());
+  d_ptr->setCaps("viewfinder-caps", d_ptr->settings.viewfinderResolution(),
+		 d_ptr->settings.frameRate());
+
   setPreviewSize(d_ptr->settings.previewResolution());
 }
 

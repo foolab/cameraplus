@@ -10,8 +10,6 @@
 
 #define PREVIEW_CAPS "video/x-raw-rgb, width = (int) %1, height = (int) %2, bpp = (int) 32, depth = (int) 24, red_mask = (int) 65280, green_mask = (int) 16711680, blue_mask = (int) -16777216"
 
-#define CAPS "video/x-raw-yuv, width = (int) %1, height = (int) %2, framerate = (fraction) %3/%4"
-
 class PreviewImageHandler : public QtCamGStreamerMessageHandler {
 public:
   PreviewImageHandler(QtCamMode *m, QObject *parent = 0) :
@@ -159,33 +157,6 @@ bool QtCamMode::canCapture() {
 
 bool QtCamMode::isActive() {
   return d_ptr->dev->active == this;
-}
-
-void QtCamMode::setCaps(const char *property, const QSize& resolution,
-			const QPair<int, int> frameRate) {
-
-  if (!d_ptr->dev->cameraBin) {
-    return;
-  }
-
-  // TODO: allow proceeding without specifying a frame rate (maybe we can calculate it ?)
-  if (frameRate.first <= 0 || frameRate.second <= 0) {
-    return;
-  }
-
-  if (resolution.width() <= 0 || resolution.height() <= 0) {
-    return;
-  }
-
-  QString capsString = QString(CAPS)
-    .arg(resolution.width()).arg(resolution.height())
-    .arg(frameRate.first).arg(frameRate.second);
-
-  GstCaps *caps = gst_caps_from_string(capsString.toAscii());
-
-  g_object_set(d_ptr->dev->cameraBin, property, caps, NULL);
-
-  gst_caps_unref(caps);
 }
 
 void QtCamMode::setPreviewSize(const QSize& size) {

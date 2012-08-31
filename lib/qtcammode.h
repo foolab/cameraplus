@@ -42,7 +42,6 @@ protected:
   virtual void start() = 0;
   virtual void stop() = 0;
 
-  void setCaps(const char *property, const QSize& resolution, const QPair<int, int> frameRate);
   void setPreviewSize(const QSize& size);
 
   void setFileName(const QString& fileName);
