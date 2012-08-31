@@ -184,6 +184,9 @@ public:
   void resetCapabilities() {
     g_object_set(cameraBin, "zoom", 1.0, NULL);
     g_object_set(videoSource, "flash-mode", 0, NULL);
+
+    // TODO: should scene mode be manual or automatic ?
+    g_object_set(videoSource, "scene-mode", 0, NULL);
   }
 
   QString name;

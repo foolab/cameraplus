@@ -14,6 +14,7 @@ class QtCamImageMode;
 class QtCamMode;
 class QtCamGStreamerMessageListener;
 class QtCamMetaData;
+class QtCamCapability;
 
 class QtCamDevice : public QObject {
   Q_OBJECT
@@ -55,6 +56,8 @@ private:
   Q_PRIVATE_SLOT(d_ptr, void _d_stopping())
 
   friend class QtCamMetaData;
+  friend class QtCamCapability;
+
   QtCamDevicePrivate *d_ptr;
 };
 
