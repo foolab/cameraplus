@@ -46,4 +46,12 @@ CameraPage {
                 anchors.leftMargin: 20
         }
 
+        VideoSceneButton {
+                id: scene
+                visible: controlsVisible
+                anchors.top: torch.bottom
+                anchors.left: parent.left
+                anchors.topMargin: 10
+                anchors.leftMargin: 20
+        }
 }
