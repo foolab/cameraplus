@@ -37,7 +37,7 @@ CameraPage {
                 anchors.leftMargin: 20
         }
 
-        SceneButton {
+        ImageSceneButton {
                 id: scene
                 visible: capture.visible
                 anchors.top: flash.bottom
