@@ -55,4 +55,13 @@ CameraPage {
                 anchors.topMargin: 10
                 anchors.leftMargin: 20
         }
+
+        EvCompButton {
+                id: evComp
+                visible: capture.visible
+                anchors.top: scene.bottom
+                anchors.left: parent.left
+                anchors.topMargin: 10
+                anchors.leftMargin: 20
+        }
 }
