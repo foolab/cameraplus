@@ -18,10 +18,10 @@ public:
   QtCamImageSettings settings;
 };
 
-QtCamImageMode::QtCamImageMode(QtCamDevicePrivate *d, QObject *parent) :
-  QtCamMode(new QtCamImageModePrivate(d), "mode-image", "image-done", parent) {
+QtCamImageMode::QtCamImageMode(QtCamDevicePrivate *dev, QObject *parent) :
+  QtCamMode(new QtCamImageModePrivate(dev), "mode-image", "image-done", parent) {
 
-  d_ptr = (QtCamImageModePrivate *)QtCamMode::d_ptr;
+  d = (QtCamImageModePrivate *)d_ptr;
 
   QString name = d_ptr->dev->conf->imageEncodingProfileName();
   QString path = d_ptr->dev->conf->imageEncodingProfilePath();
@@ -35,7 +35,7 @@ QtCamImageMode::QtCamImageMode(QtCamDevicePrivate *d, QObject *parent) :
 }
 
 QtCamImageMode::~QtCamImageMode() {
-
+  d = 0;
 }
 
 bool QtCamImageMode::canCapture() {
@@ -43,12 +43,12 @@ bool QtCamImageMode::canCapture() {
 }
 
 void QtCamImageMode::applySettings() {
-  d_ptr->setCaps("image-capture-caps", d_ptr->settings.captureResolution(),
-		 d_ptr->settings.frameRate());
-  d_ptr->setCaps("viewfinder-caps", d_ptr->settings.viewfinderResolution(),
-		 d_ptr->settings.frameRate());
+  d_ptr->setCaps("image-capture-caps", d->settings.captureResolution(),
+		 d->settings.frameRate());
+  d_ptr->setCaps("viewfinder-caps", d->settings.viewfinderResolution(),
+		 d->settings.frameRate());
 
-  setPreviewSize(d_ptr->settings.previewResolution());
+  setPreviewSize(d->settings.previewResolution());
 }
 
 void QtCamImageMode::start() {
@@ -73,7 +73,7 @@ bool QtCamImageMode::capture(const QString& fileName) {
 }
 
 bool QtCamImageMode::setSettings(const QtCamImageSettings& settings) {
-  d_ptr->settings = settings;
+  d->settings = settings;
 
   if (!d_ptr->dev->q_ptr->isIdle()) {
     return false;

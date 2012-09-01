@@ -14,7 +14,7 @@ class QtCamImageMode : public QtCamMode {
   Q_OBJECT
 
 public:
-  QtCamImageMode(QtCamDevicePrivate *d, QObject *parent = 0);
+  QtCamImageMode(QtCamDevicePrivate *dev, QObject *parent = 0);
   ~QtCamImageMode();
 
   virtual bool canCapture();
@@ -31,7 +31,7 @@ protected:
   virtual void stop();
 
 private:
-  QtCamImageModePrivate *d_ptr;
+  QtCamImageModePrivate *d;
 };
 
 #endif /* QT_CAM_IMAGE_MODE_H */

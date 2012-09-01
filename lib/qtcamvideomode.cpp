@@ -25,10 +25,10 @@ public:
   QtCamVideoSettings settings;
 };
 
-QtCamVideoMode::QtCamVideoMode(QtCamDevicePrivate *d, QObject *parent) :
-  QtCamMode(new QtCamVideoModePrivate(d), "mode-video", "video-done", parent) {
+QtCamVideoMode::QtCamVideoMode(QtCamDevicePrivate *dev, QObject *parent) :
+  QtCamMode(new QtCamVideoModePrivate(dev), "mode-video", "video-done", parent) {
 
-  d_ptr = (QtCamVideoModePrivate *)QtCamMode::d_ptr;
+  d = (QtCamVideoModePrivate *)QtCamMode::d_ptr;
 
   QString name = d_ptr->dev->conf->videoEncodingProfileName();
   QString path = d_ptr->dev->conf->videoEncodingProfilePath();
@@ -45,7 +45,7 @@ QtCamVideoMode::QtCamVideoMode(QtCamDevicePrivate *d, QObject *parent) :
 }
 
 QtCamVideoMode::~QtCamVideoMode() {
-
+  d = 0;
 }
 
 bool QtCamVideoMode::canCapture() {
@@ -53,13 +53,13 @@ bool QtCamVideoMode::canCapture() {
 }
 
 void QtCamVideoMode::applySettings() {
-  d_ptr->setCaps("viewfinder-caps", d_ptr->settings.captureResolution(),
-  	  d_ptr->settings.frameRate());
+  d_ptr->setCaps("viewfinder-caps", d->settings.captureResolution(),
+  	  d->settings.frameRate());
 
-  d_ptr->setCaps("video-capture-caps", d_ptr->settings.captureResolution(),
-	  d_ptr->settings.frameRate());
+  d_ptr->setCaps("video-capture-caps", d->settings.captureResolution(),
+	  d->settings.frameRate());
 
-  setPreviewSize(d_ptr->settings.previewResolution());
+  setPreviewSize(d->settings.previewResolution());
 }
 
 void QtCamVideoMode::start() {
@@ -100,7 +100,7 @@ void QtCamVideoMode::stopRecording() {
 }
 
 bool QtCamVideoMode::setSettings(const QtCamVideoSettings& settings) {
-  d_ptr->settings = settings;
+  d->settings = settings;
 
   if (isRecording()) {
     return false;

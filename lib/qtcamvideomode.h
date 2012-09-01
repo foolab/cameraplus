@@ -16,7 +16,7 @@ class QtCamVideoMode : public QtCamMode {
   Q_PROPERTY(bool recording READ isRecording NOTIFY recordingStateChanged);
 
 public:
-  QtCamVideoMode(QtCamDevicePrivate *d, QObject *parent = 0);
+  QtCamVideoMode(QtCamDevicePrivate *dev, QObject *parent = 0);
   ~QtCamVideoMode();
 
   virtual bool canCapture();
@@ -40,9 +40,8 @@ protected:
   virtual void stop();
 
 private:
-  Q_PRIVATE_SLOT(d_ptr, void _d_idleStateChanged(bool));
-
-  QtCamVideoModePrivate *d_ptr;
+  QtCamVideoModePrivate *d;
+  Q_PRIVATE_SLOT(d, void _d_idleStateChanged(bool));
 };
 
 #endif /* QT_CAM_VIDEO_MODE_H */
