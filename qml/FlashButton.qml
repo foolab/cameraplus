@@ -3,12 +3,17 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
 
-MouseArea {
-        id: mouse
-        anchors.fill: parent
-        enabled: false
-        onClicked: enabled = !enabled;
-        onEnabledChanged: button.checked = enabled;
+Selector {
+        id: button
+
+        iconSource: flashIcon(flash.value);
+
+        Flash {
+                id: flash
+                camera: cam
+                // TODO: hardcoding
+                value: Flash.Auto
+        }
 
         function flashIcon(val) {
                 var x = row.children.length;
@@ -20,35 +25,10 @@ MouseArea {
                 }
         }
 
-        Timer {
-                interval: 2000
-                running: mouse.enabled
-                repeat: false
-                onTriggered: mouse.enabled = !mouse.enabled
-        }
-
-        Flash {
-                id: flash
-                camera: cam
-                // TODO: hardcoding
-                value: Flash.Auto
-        }
-
-        Button {
-                anchors.left: parent.left
-                id: button
-                width: 64
-                height: 64
-                opacity: 0.5
-                onClicked: mouse.enabled = !mouse.enabled;
-                checkable: true
-                iconSource: flashIcon(flash.value);
-        }
-
-        Row {
+        widget: Row {
                 id: row
-                height: mouse.enabled ? 64 : 0
-                width: mouse.enabled ? (children.length * height) +  (children.length - 1) * spacing : 0
+                height: button.checked ? 64 : 0
+                width: button.checked ? (children.length * height) +  (children.length - 1) * spacing : 0
                 anchors.left: button.right
                 anchors.leftMargin: 20
                 spacing: 10
@@ -63,7 +43,6 @@ MouseArea {
                         checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-flash-auto-pressed.png"
                         controller: flash
                         value: Flash.Auto
-                        fader: mouse
                 }
 
                 CheckButton {
@@ -71,7 +50,6 @@ MouseArea {
                         checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-flash-always-pressed.png"
                         controller: flash
                         value: Flash.On
-                        fader: mouse
                 }
 
                 CheckButton {
@@ -79,7 +57,6 @@ MouseArea {
                         checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-flash-off-pressed.png"
                         controller: flash
                         value: Flash.Off
-                        fader: mouse
                 }
 
                 CheckButton {
@@ -87,7 +64,6 @@ MouseArea {
                         checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-flash-red-eye-pressed.png"
                         controller: flash
                         value: Flash.RedEye
-                        fader: mouse
                 }
         }
 }
