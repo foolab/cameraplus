@@ -31,8 +31,6 @@ Selector {
                 id: row
                 height: button.checked ? 64 : 0
                 width: button.checked ? (children.length * height) +  (children.length - 1) * spacing : 0
-                anchors.left: button.right
-                anchors.leftMargin: 20
                 spacing: 10
 
                 Behavior on width {
