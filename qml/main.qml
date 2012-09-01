@@ -80,36 +80,6 @@ PageStackWindow {
                 }
         }
 
-        Button {
-                text: "select camera"
-                anchors.left: parent.left
-                anchors.bottom: parent.bottom
-                onClicked: sel.open();
-        }
-
-        SelectionDialog {
-                id: sel
-                titleText: "Select camera";
-                // http://forum.meego.com/showthread.php?t=3873
-                selectedIndex: 0
-                model: ListModel { id: model }
-
-                onAccepted: cam.deviceId = cam.deviceId = selectedIndex;
-
-                function populate() {
-                        var n = cam.deviceCount;
-                        var x;
-                        for (x = 0; x < n; x++) {
-                        var nm = cam.deviceName(x);
-                        console.log(nm);
-                        model.append({"name": nm});
-                        }
-                }
-
-                Component.onCompleted: populate();
-        }
-
-
         // TODO: hardcoding
         initialPage: ImagePage { cam: cam }
 }
