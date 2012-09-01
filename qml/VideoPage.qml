@@ -44,6 +44,7 @@ CameraPage {
                 anchors.left: parent.left
                 anchors.topMargin: 20
                 anchors.leftMargin: 20
+                opacity: 0.5
         }
 
         VideoSceneButton {
