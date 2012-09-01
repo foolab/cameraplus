@@ -10,8 +10,8 @@ Button {
         property QtObject fader: null
         property int value: -1
 
-        width: visible ? 64 : 0
-        height: visible ? 64 : 0
+        width: visible ? 56 : 0
+        height: visible ? 56 : 0
         iconSource: !visible ? "" : controller.value == value ? checkedIcon : normalIcon
         onClicked: { controller.value = value; close(); }
 }

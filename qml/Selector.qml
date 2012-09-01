@@ -5,8 +5,8 @@ import QtCamera 1.0
 
 Button {
         id: button
-        width: 64
-        height: 64
+        width: 56
+        height: 56
 
         opacity: 0.5
 
