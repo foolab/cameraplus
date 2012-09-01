@@ -8,6 +8,8 @@ Button {
         width: 64
         height: 64
 
+        opacity: 0.5
+
         property alias widget: __widget.children
         property bool timerConstraints: false
 
