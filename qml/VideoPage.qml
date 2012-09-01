@@ -49,7 +49,7 @@ CameraPage {
 
         VideoSceneButton {
                 id: scene
-                visible: controlsVisible
+                visible: controlsVisible && !videoMode.recording
                 anchors.top: torch.bottom
                 anchors.left: parent.left
                 anchors.topMargin: 10
