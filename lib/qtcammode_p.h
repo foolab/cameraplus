@@ -16,7 +16,7 @@ class DoneHandler;
 
 class QtCamModePrivate {
 public:
-  QtCamModePrivate(QtCamDevicePrivate *d) : id(-1), dev(d) {}
+  QtCamModePrivate(QtCamDevicePrivate *d) : id(-1), dev(d), night(false) {}
   virtual ~QtCamModePrivate() {}
 
   int modeId(const char *mode) {
@@ -97,6 +97,7 @@ public:
   QtCamDevicePrivate *dev;
   PreviewImageHandler *previewImageHandler;
   DoneHandler *doneHandler;
+  bool night;
 };
 
 #endif /* QT_CAM_MODE_P_H */
