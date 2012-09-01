@@ -58,7 +58,7 @@ CameraPage {
 
         EvCompButton {
                 id: evComp
-                visible: capture.visible
+                visible: controlsVisible
                 anchors.top: scene.bottom
                 anchors.left: parent.left
                 anchors.topMargin: 10
