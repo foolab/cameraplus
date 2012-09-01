@@ -19,7 +19,6 @@ Selector {
 
                 // TODO: hardcoding
                 value: slider.value
-                onValueChanged: console.log(value);
         }
 
         widget: Slider {
