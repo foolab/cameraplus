@@ -23,6 +23,7 @@ Selector {
 
         widget: Slider {
                 id: slider
+                width: 500
                 orientation: Qt.Horizontal
                 minimumValue: evComp.minimum
                 maximumValue: evComp.maximum
