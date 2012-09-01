@@ -36,4 +36,14 @@ CameraPage {
                 camera: cam
                 onPreviewAvailable: page.setPreview(preview);
         }
+
+        VideoTorchButton {
+                id: torch
+                visible: controlsVisible
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.topMargin: 20
+                anchors.leftMargin: 20
+        }
+
 }
