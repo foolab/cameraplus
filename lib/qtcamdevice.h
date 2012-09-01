@@ -57,6 +57,7 @@ private:
 
   friend class QtCamMetaData;
   friend class QtCamCapability;
+  friend class QtCamVideoTorch;
 
   QtCamDevicePrivate *d_ptr;
 };
