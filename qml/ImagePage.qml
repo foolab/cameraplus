@@ -46,19 +46,13 @@ CameraPage {
                 anchors.leftMargin: 20
         }
 
-        Selector {
+        EvCompButton {
                 id: evComp
                 visible: capture.visible
                 anchors.top: scene.bottom
                 anchors.left: parent.left
                 anchors.topMargin: 10
                 anchors.leftMargin: 20
-                timerConstraints: slider.pressed
-                widget: Slider {
-                        id: slider
-                        orientation: Qt.Horizontal
-//                        anchors.horizontalCenter: parent.horizontalCenter
-                }
         }
 
         // TODO: filenaming.
