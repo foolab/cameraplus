@@ -9,7 +9,7 @@ Button {
         height: 64
 
         property alias widget: __widget.children
-        property bool timerConstraints
+        property bool timerConstraints: false
 
         checkable: true
 
