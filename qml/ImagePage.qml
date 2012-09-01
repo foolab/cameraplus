@@ -41,18 +41,18 @@ CameraPage {
         SceneButton {
                 id: scene
                 visible: capture.visible
-                anchors.top: parent.top
+                anchors.top: flash.bottom
                 anchors.left: parent.left
-                anchors.topMargin: 20 + 64 + 10
+                anchors.topMargin: 10
                 anchors.leftMargin: 20
         }
 
         Selector {
                 id: evComp
                 visible: capture.visible
-                anchors.top: parent.top
+                anchors.top: scene.bottom
                 anchors.left: parent.left
-                anchors.topMargin: 20 + 64 + 10 + 64 + 10
+                anchors.topMargin: 10
                 anchors.leftMargin: 20
                 timerConstraints: slider.pressed
                 widget: Slider {
