@@ -6,6 +6,8 @@ import QtCamera 1.0
 Selector {
         id: button
 
+        property alias value: flash.value
+
         iconSource: flashIcon(flash.value);
 
         Flash {
