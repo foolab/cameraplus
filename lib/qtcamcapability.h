@@ -16,7 +16,7 @@ public:
   typedef enum {
     EvComp = (1 << 0),
     IsoSpeed = (1 << 1),
-    Wb = (1 << 2),
+    WhiteBalance = (1 << 2),
     ColourTone = (1 << 3),
     Scene = (1 << 4),
     Flash = (1 << 5),
