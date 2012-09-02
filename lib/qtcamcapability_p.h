@@ -58,16 +58,8 @@ public:
   }
 
   bool setIntValue(int val) {
-    int old = 0;
-
     if (!src) {
       return false;
-    }
-
-    intValue(&old);
-
-    if (old == val) {
-      return true;
     }
 
     g_object_set(src, prop.toAscii().data(), val, NULL);
@@ -86,16 +78,8 @@ public:
   }
 
   bool setFloatValue(qreal val) {
-    qreal old = 0;
-
     if (!src) {
       return false;
-    }
-
-    floatValue(&old);
-
-    if (qFuzzyCompare(old, val)) {
-      return true;
     }
 
     g_object_set(src, prop.toAscii().data(), val, NULL);
