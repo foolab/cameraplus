@@ -55,6 +55,18 @@ CameraPage {
                 anchors.leftMargin: 20
         }
 
+        Indicators {
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 20
+                anchors.left: parent.left
+                anchors.leftMargin: 20
+
+                onClicked: openFile("ImageSettingsPage.qml");
+//                Image {
+///                        
+//                }
+        }
+
         // TODO: filenaming.
         // TODO: metadata
 }
