@@ -10,7 +10,7 @@ Selector {
 
         iconSource: evComp.value == 0 ? "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-manual-exposure.png" : ""
         text: evComp.value == 0 ? "" : evComp.value.toFixed(1);
-        font.pixelSize: 23
+        font.pixelSize: 19
         timerConstraints: slider.pressed
 
         EvComp {
