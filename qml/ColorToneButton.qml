@@ -9,6 +9,8 @@ Selector {
 
         property alias value: ct.value
 
+        timerConstraints: true // Never trigger
+
         iconSource: ctIcon(ct.value);
 
         ColorTone {

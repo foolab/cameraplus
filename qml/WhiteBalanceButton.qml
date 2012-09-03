@@ -8,6 +8,8 @@ Selector {
 
         property alias value: wb.value
 
+        timerConstraints: true // Never trigger
+
         iconSource: wbIcon(wb.value);
 
         WhiteBalance {
