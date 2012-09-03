@@ -48,6 +48,7 @@ Selector {
                         checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-no-filter-selected.png"
                         controller: ct
                         value: ColorTone.Normal
+                        doClose: false
                 }
 
                 CheckButton {
@@ -55,6 +56,7 @@ Selector {
                         checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-filter-black-white-selected.png"
                         controller: ct
                         value: ColorTone.GrayScale
+                        doClose: false
                 }
 
                 CheckButton {
@@ -62,6 +64,7 @@ Selector {
                         checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-filter-sepia-selected.png"
                         controller: ct
                         value: ColorTone.Sepia
+                        doClose: false
                 }
 
                 CheckButton {
@@ -69,6 +72,7 @@ Selector {
                         checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-filter-vivid-selected.png"
                         controller: ct
                         value: ColorTone.Vivid
+                        doClose: false
                 }
 
                 CheckButton {
@@ -76,6 +80,7 @@ Selector {
                         checkedIcon: "/usr/share/themes//blanco/meegotouch/icons/icon-m-camera-filter-negative-selected.png"
                         controller: ct
                         value: ColorTone.Negative
+                        doClose: false
                 }
 
                 CheckButton {
@@ -83,6 +88,7 @@ Selector {
                         checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-filter-solarize-selected.png"
                         controller: ct
                         value: ColorTone.Solarize
+                        doClose: false
                 }
         }
 }

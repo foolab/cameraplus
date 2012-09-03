@@ -47,6 +47,7 @@ Selector {
                         checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-whitebalance-auto-selected.png"
                         controller: wb
                         value: WhiteBalance.Auto
+                        doClose: false
                 }
 
                 CheckButton {
@@ -54,6 +55,7 @@ Selector {
                         checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-whitebalance-cloudy-selected.png"
                         controller: wb
                         value: WhiteBalance.Cloudy
+                        doClose: false
                 }
 
                 CheckButton {
@@ -61,6 +63,7 @@ Selector {
                         checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-whitebalance-sunny-selected.png"
                         controller: wb
                         value: WhiteBalance.Sunset
+                        doClose: false
                 }
 
                 CheckButton {
@@ -68,6 +71,7 @@ Selector {
                         checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-whitebalance-tungsten-selected.png"
                         controller: wb
                         value: WhiteBalance.Tungsten
+                        doClose: false
                 }
 
                 CheckButton {
@@ -75,6 +79,7 @@ Selector {
                         checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-whitebalance-fluorescent-selected.png"
                         controller: wb
                         value: WhiteBalance.Flourescent
+                        doClose: false
                 }
 
         }
