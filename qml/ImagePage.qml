@@ -56,6 +56,7 @@ CameraPage {
         }
 
         Indicators {
+                visible: capture.visible
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 20
                 anchors.left: parent.left
