@@ -12,6 +12,7 @@ Button {
 
         property alias widget: __widget.children
         property bool timerConstraints: false
+        property alias title: label.text
 
         checkable: true
 
@@ -33,9 +34,18 @@ Button {
                 enabled: button.checked
                 onClicked: button.close();
 
+                Label {
+                        id: label
+                        y: button.y
+                        x: button.x + button.width + 20
+                        visible: button.checked
+                }
+
                 Item {
                         id: __widget
-                        y: button.y
+                        anchors.top: label.bottom
+                        anchors.topMargin: 10
+//                        y: button.y
                         x: button.x + button.width + 20
                         visible: button.checked
                 }

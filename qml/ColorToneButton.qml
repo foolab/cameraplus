@@ -13,6 +13,8 @@ Selector {
 
         iconSource: ctIcon(ct.value);
 
+        title: qsTr("Color filter");
+
         ColorTone {
                 id: ct
                 camera: cam

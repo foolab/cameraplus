@@ -10,6 +10,8 @@ Selector {
 
         iconSource: flashIcon(flash.value);
 
+        title: qsTr("Flash mode");
+
         Flash {
                 id: flash
                 camera: cam

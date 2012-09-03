@@ -10,6 +10,8 @@ Selector {
 
         iconSource: sceneIcon(scene.value);
 
+        title: qsTr("Scene mode");
+
         Scene {
                 id: scene
                 camera: cam

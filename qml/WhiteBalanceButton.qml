@@ -12,6 +12,8 @@ Selector {
 
         iconSource: wbIcon(wb.value);
 
+        title: qsTr("White balance mode");
+
         WhiteBalance {
                 id: wb
                 camera: cam

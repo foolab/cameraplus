@@ -13,6 +13,8 @@ Selector {
         font.pixelSize: 19
         timerConstraints: slider.pressed
 
+        title: qsTr("Exposure compensation");
+
         EvComp {
                 id: evComp
                 camera: cam
