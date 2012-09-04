@@ -51,8 +51,6 @@ PageStackWindow {
         platformStyle: PageStackWindowStyle {
                 // TODO: Hack
                 background: " "
-                portraitBackground: " "
-                landscapeBackground: " "
         }
 
         Camera {
