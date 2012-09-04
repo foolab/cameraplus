@@ -20,10 +20,6 @@ Page {
                 anchors.right: parent.right
                 anchors.rightMargin: 20
                 anchors.bottomMargin: 20
-                mode: cameraMode.mode
-                onModeChanged: {
-                        cameraMode.set(mode);
-                }
         }
 
         PreviewImage {
