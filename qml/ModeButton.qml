@@ -5,7 +5,7 @@ import QtCamera 1.0
 
 Rectangle {
         id: button
-        property int mode: Camera.ImageMode
+        property int mode: settings.mode
 
         color: "black"
         width: 60
@@ -31,7 +31,6 @@ Rectangle {
                         id: image
                         width: button.width
                         height: width
-//                        anchors.top: parent.top
                         property string released: "icon-m-viewfinder-camera.png"
                         property string active: "icon-m-viewfinder-camera-selected.png"
                         source: mouse.pressed ? "/usr/share/themes/blanco/meegotouch/icons/" + released : button.mode == 0 ? "/usr/share/themes/blanco/meegotouch/icons/" + active : "/usr/share/themes/blanco/meegotouch/icons/" + released
@@ -55,29 +54,24 @@ Rectangle {
                 drag.minimumY: 0
                 drag.maximumY: parent.height / 2
                 onReleased: {
+
                         if (!drag.active) {
-                        if (mode == 0) {
-                        mode = Camera.VideoMode;
-//                        highlighter.y = video.y;
-                        }
-                        else {
-                                mode = Camera.ImageMode;
-//                                highlighter.y = image.y;
-                        }
-                        return;
+                                if (mode == 0) {
+                                        settings.mode = Camera.VideoMode;
+                                }
+                                else {
+                                        settings.mode = Camera.ImageMode;
+                                }
+
+                                return;
                         }
 
-//                        var pos = 0;
                         if (mouse.y >= video.y) {
-                                mode = Camera.VideoMode;
-//                                pos = video.y;
+                                settings.mode = Camera.VideoMode;
                         }
                         else {
-                                mode = Camera.ImageMode;
-//                                pos = image.y;
+                                settings.mode = Camera.ImageMode;
                         }
-
-//                        highlighter.y = pos;
                 }
 
                 onPressed: {
@@ -94,40 +88,4 @@ Rectangle {
                         highlighter.y = y
                 }
         }
-
-/*
-        ListView {
-                anchors.fill: parent
-                interactive: false
-
-                model: ListModel {
-                        id: model
-                        ListElement {
-                                mode: 0
-                                released: "icon-m-viewfinder-camera.png"
-                                active: "icon-m-viewfinder-camera-selected.png"
-                        }
-
-                        ListElement {
-                                mode: 1
-                                released: "icon-m-camera-video-record.png"
-                                active: "icon-m-camera-video-selected.png"
-                        }
-                }
-
-                delegate: Rectangle {
-                        width: button.width
-                        height: button.width
-                        radius: parent.width
-                        smooth: true
-                        color: mouse.pressed ? "black" : button.mode == mode ? "white" : "black"
-                        Image {
-                                z: 10
-                                id: image
-                                source: mouse.pressed ? "/usr/share/themes/blanco/meegotouch/icons/" + released : button.mode == mode ? "/usr/share/themes/blanco/meegotouch/icons/" + active : "/usr/share/themes/blanco/meegotouch/icons/" + released
-                                anchors.fill: parent
-                        }
-                }
-        }
-               */
 }
