@@ -62,7 +62,7 @@ PageStackWindow {
                 anchors.fill: parent
 
                 // TODO: hardcoding
-                Component.onCompleted: { cam.deviceId = 0; }
+                Component.onCompleted: { cam.deviceId = 0; mode = settings.mode; }
 
                 // TODO: Hack
                 z: -1
