@@ -17,6 +17,11 @@ Slider {
                 value: slider.value
         }
 
+        Connections {
+                target: camera
+                onModeChanged: slider.value = zoom.minimum;
+        }
+
         orientation: Qt.Horizontal
         width: 500
         height: 50
