@@ -2,6 +2,7 @@
 import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
+import CameraPlus 1.0
 
 PageStackWindow {
         id: root
@@ -9,7 +10,20 @@ PageStackWindow {
         property alias dimmer: camDimmer
 
         showStatusBar: false
-        Component.onCompleted: theme.inverted = true;
+
+        Component.onCompleted: {
+                theme.inverted = true;
+                if (settings.mode == 0) {
+                        openFile("ImagePage.qml");
+                }
+                else {
+                        openFile("VideoPage.qml");
+                }
+        }
+
+        Settings {
+                id: settings
+        }
 
         // Stolen from https://qt.gitorious.org/qt-components/qt-components/blobs/master/examples/meego/QmlComponentGallery/qml/ListPage.qml
         function replacePage(file) {
@@ -27,7 +41,7 @@ PageStackWindow {
                 var component = Qt.createComponent(file)
 
                 if (component.status == Component.Ready) {
-                        pageStack.push(component);
+                        pageStack.push(component, {cam: cam});
                 }
                 else {
                         console.log("Error loading component:", component.errorString());
@@ -79,7 +93,4 @@ PageStackWindow {
                         }
                 }
         }
-
-        // TODO: hardcoding
-        initialPage: ImagePage { cam: cam }
 }
