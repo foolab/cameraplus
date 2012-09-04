@@ -15,12 +15,13 @@ CameraPage {
                 anchors.right: parent.right
                 anchors.rightMargin: 20
                 anchors.verticalCenter: parent.verticalCenter
-                iconSource: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-video-record.png"
+                iconSource: "image://theme/icon-m-camera-video-record"
                 width: 75
                 height: 75
                 opacity: 0.5
                 onClicked: {
                         if (!videoMode.recording) {
+                // TODO:
                                 videoMode.startRecording("/home/developer/foo.mp4");
                         }
                         else {

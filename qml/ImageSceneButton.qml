@@ -41,43 +41,43 @@ Selector {
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-scene-auto.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-scene-auto-selected.png"
+                        normalIcon: "image://theme/icon-m-camera-scene-auto"
+                        checkedIcon: "image://theme/icon-m-camera-scene-auto-selected"
                         controller: scene
                         value: Scene.Auto
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-scene-macro.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-scene-macro-selected.png"
+                        normalIcon: "image://theme/icon-m-camera-scene-macro"
+                        checkedIcon: "image://theme/icon-m-camera-scene-macro-selected"
                         controller: scene
                         value: Scene.Closeup
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-scene-landscape.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-scene-landscape-selected.png"
+                        normalIcon: "image://theme/icon-m-camera-scene-landscape"
+                        checkedIcon: "image://theme/icon-m-camera-scene-landscape-selected"
                         controller: scene
                         value: Scene.Landscape
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-scene-portrait.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-scene-portrait-selected.png"
+                        normalIcon: "image://theme/icon-m-camera-scene-portrait"
+                        checkedIcon: "image://theme/icon-m-camera-scene-portrait-selected"
                         controller: scene
                         value: Scene.Portrait
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-night.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-night-selected.png"
+                        normalIcon: "image://theme/icon-m-camera-night"
+                        checkedIcon: "image://theme/icon-m-camera-night-selected"
                         controller: scene
                         value: Scene.Night
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-scene-sports.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-scene-sports-selected.png"
+                        normalIcon: "image://theme/icon-m-camera-scene-sports"
+                        checkedIcon: "image://theme/icon-m-camera-scene-sports-selected"
                         controller: scene
                         value: Scene.Sport
                 }

@@ -41,29 +41,29 @@ Selector {
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-flash-auto.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-flash-auto-pressed.png"
+                        normalIcon: "image://theme/icon-m-camera-flash-auto"
+                        checkedIcon: "image://theme/icon-m-camera-flash-auto-pressed"
                         controller: flash
                         value: Flash.Auto
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-flash-always.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-flash-always-pressed.png"
+                        normalIcon: "image://theme/icon-m-camera-flash-always"
+                        checkedIcon: "image://theme/icon-m-camera-flash-always-pressed"
                         controller: flash
                         value: Flash.On
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-flash-off.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-flash-off-pressed.png"
+                        normalIcon: "image://theme/icon-m-camera-flash-off"
+                        checkedIcon: "image://theme/icon-m-camera-flash-off-pressed"
                         controller: flash
                         value: Flash.Off
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-flash-red-eye.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-flash-red-eye-pressed.png"
+                        normalIcon: "image://theme/icon-m-camera-flash-red-eye"
+                        checkedIcon: "image://theme/icon-m-camera-flash-red-eye-pressed"
                         controller: flash
                         value: Flash.RedEye
                 }

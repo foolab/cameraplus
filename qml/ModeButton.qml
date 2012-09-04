@@ -31,18 +31,18 @@ Rectangle {
                         id: image
                         width: button.width
                         height: width
-                        property string released: "icon-m-viewfinder-camera.png"
-                        property string active: "icon-m-viewfinder-camera-selected.png"
-                        source: mouse.pressed ? "/usr/share/themes/blanco/meegotouch/icons/" + released : button.mode == 0 ? "/usr/share/themes/blanco/meegotouch/icons/" + active : "/usr/share/themes/blanco/meegotouch/icons/" + released
+                        property string released: "icon-m-viewfinder-camera"
+                        property string active: "icon-m-viewfinder-camera-selected"
+                        source: mouse.pressed ? "image://theme/" + released : button.mode == 0 ? "image://theme/" + active : "image://theme/" + released
                 }
 
                 Image {
                         id: video
                         width: button.width
                         height: width
-                        property string released: "icon-m-camera-video-record.png"
-                        property string active: "icon-m-camera-video-selected.png"
-                        source: mouse.pressed ? "/usr/share/themes/blanco/meegotouch/icons/" + released : button.mode == 1 ? "/usr/share/themes/blanco/meegotouch/icons/" + active : "/usr/share/themes/blanco/meegotouch/icons/" + released
+                        property string released: "icon-m-camera-video-record"
+                        property string active: "icon-m-camera-video-selected"
+                        source: mouse.pressed ? "image://theme/" + released : button.mode == 1 ? "image://theme/" + active : "image://theme/" + released
                 }
         }
 

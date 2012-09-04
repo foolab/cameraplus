@@ -13,10 +13,11 @@ CameraPage {
                 anchors.right: parent.right
                 anchors.rightMargin: 20
                 anchors.verticalCenter: parent.verticalCenter
-                iconSource: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-shutter.png"
+                iconSource: "image://theme/icon-m-camera-shutter"
                 width: 75
                 height: 75
                 opacity: 0.5
+                // TODO:
                 onClicked: imageMode.capture("/home/developer/foo.png");
                 visible: imageMode.canCapture && !cameraMode.animationRunning && !previewAnimationRunning
         }

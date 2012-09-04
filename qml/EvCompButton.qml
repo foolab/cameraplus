@@ -8,7 +8,7 @@ Selector {
 
         property alias value: evComp.value
 
-        iconSource: evComp.value == 0 ? "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-manual-exposure.png" : ""
+        iconSource: evComp.value == 0 ? "image://theme/icon-m-camera-manual-exposure" : ""
         text: evComp.value == 0 ? "" : evComp.value.toFixed(1);
         font.pixelSize: 19
         timerConstraints: slider.pressed

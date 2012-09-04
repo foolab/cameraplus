@@ -41,15 +41,15 @@ Selector {
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-scene-auto.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-scene-auto-selected.png"
+                        normalIcon: "image://theme/icon-m-camera-scene-auto"
+                        checkedIcon: "image://theme/icon-m-camera-scene-auto-selected"
                         controller: scene
                         value: Scene.Auto
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-video-night.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-video-night-selected.png"
+                        normalIcon: "image://theme/icon-m-camera-video-night"
+                        checkedIcon: "image://theme/icon-m-camera-video-night-selected"
                         controller: scene
                         value: Scene.Night
                 }

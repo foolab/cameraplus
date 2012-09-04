@@ -9,7 +9,7 @@ Button {
         height: 56
         opacity: 0.5
 
-        iconSource: torch.on ? "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-torch-on.png" : "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-torch-off.png"
+        iconSource: torch.on ? "image://theme/icon-m-camera-torch-on" : "image://theme/icon-m-camera-torch-off"
         onClicked: torch.on = !torch.on
         VideoTorch {
                 id: torch

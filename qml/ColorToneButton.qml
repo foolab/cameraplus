@@ -44,48 +44,48 @@ Selector {
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-no-filter.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-no-filter-selected.png"
+                        normalIcon: "image://theme/icon-m-camera-no-filter"
+                        checkedIcon: "image://theme/icon-m-camera-no-filter-selected"
                         controller: ct
                         value: ColorTone.Normal
                         doClose: false
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-filter-black-white.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-filter-black-white-selected.png"
+                        normalIcon: "image://theme/icon-m-camera-filter-black-white"
+                        checkedIcon: "image://theme/icon-m-camera-filter-black-white-selected"
                         controller: ct
                         value: ColorTone.GrayScale
                         doClose: false
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-filter-sepia.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-filter-sepia-selected.png"
+                        normalIcon: "image://theme/icon-m-camera-filter-sepia"
+                        checkedIcon: "image://theme/icon-m-camera-filter-sepia-selected"
                         controller: ct
                         value: ColorTone.Sepia
                         doClose: false
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-filter-vivid.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-filter-vivid-selected.png"
+                        normalIcon: "image://theme/icon-m-camera-filter-vivid"
+                        checkedIcon: "image://theme/icon-m-camera-filter-vivid-selected"
                         controller: ct
                         value: ColorTone.Vivid
                         doClose: false
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes//blanco/meegotouch/icons/icon-m-camera-filter-negative.png"
-                        checkedIcon: "/usr/share/themes//blanco/meegotouch/icons/icon-m-camera-filter-negative-selected.png"
+                        normalIcon: "image://theme/icon-m-camera-filter-negative"
+                        checkedIcon: "image://theme/icon-m-camera-filter-negative-selected"
                         controller: ct
                         value: ColorTone.Negative
                         doClose: false
                 }
 
                 CheckButton {
-                        normalIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-filter-solarize.png"
-                        checkedIcon: "/usr/share/themes/blanco/meegotouch/icons/icon-m-camera-filter-solarize-selected.png"
+                        normalIcon: "image://theme/icon-m-camera-filter-solarize"
+                        checkedIcon: "image://theme/icon-m-camera-filter-solarize-selected"
                         controller: ct
                         value: ColorTone.Solarize
                         doClose: false
