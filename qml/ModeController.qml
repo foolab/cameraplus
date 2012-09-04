@@ -5,7 +5,7 @@ import QtCamera 1.0
 
 Item {
         id: controller
-        property int mode: Camera.ImageMode
+        property int mode: settings.mode
         property Camera cam: null
         property Item dimmer: null
         property alias animationRunning: animation.running
@@ -16,7 +16,6 @@ Item {
 
                 function setMode() {
                         cam.mode = mode;
-                        controller.mode = mode;
                 }
 
                 NumberAnimation { target: dimmer; property: "opacity"; from: 0; to: 1; duration: 250; alwaysRunToEnd: true }
@@ -28,13 +27,17 @@ Item {
                 NumberAnimation { target: dimmer; property: "opacity"; from: 1; to: 0; duration: 250; alwaysRunToEnd: true }
         }
 
+        onModeChanged: {
+                set(mode);
+        }
+
         function set(newMode) {
-                if (mode == newMode) {
+                if (cam.mode == newMode) {
                         return;
                 }
 
-                animation.start();
-
                 animation.mode = newMode;
+
+                animation.start();
         }
 }
