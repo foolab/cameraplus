@@ -80,6 +80,12 @@ PageStackWindow {
                 value: camera.mode == Camera.VideoMode ? settings.videoSceneMode : settings.imageSceneMode
         }
 
+        ColorTone {
+                id: colorToneController
+                camera: cam
+                value: camera.mode == Camera.VideoMode ? settings.videoColorFilter : settings.imageColorFilter
+        }
+
         ModeController {
                 id: cameraMode
                 cam: cam
