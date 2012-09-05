@@ -25,6 +25,8 @@ class Settings : public QObject {
   Q_PROPERTY(int videoWhiteBalance READ videoWhiteBalance WRITE setVideoWhiteBalance NOTIFY videoWhiteBalanceChanged);
   Q_PROPERTY(qreal videoEvComp READ videoEvComp WRITE setVideoEvComp NOTIFY videoEvCompChanged);
 
+  Q_PROPERTY(int imageFlashMode READ imageFlashMode WRITE setImageFlashMode NOTIFY imageFlashModeChanged);
+
 public:
   Settings(QObject *parent = 0);
   ~Settings();
@@ -68,10 +70,12 @@ public:
   qreal videoEvComp() const;
   void setVideoEvComp(qreal ev);
 
+  int imageFlashMode() const;
+  void setImageFlashMode(int mode);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
-
   void postCaptureTimeoutChanged();
   void useGpsChanged();
   void useGeotagsChanged();
@@ -83,6 +87,7 @@ signals:
   void videoColorFilterChanged();
   void videoWhiteBalanceChanged();
   void videoEvCompChanged();
+  void imageFlashModeChanged();
 
 private:
   QSettings *m_settings;

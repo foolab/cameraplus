@@ -12,6 +12,7 @@
 #define DEFAULT_COLOR_FILTER  0
 #define DEFAULT_WHITE_BALANCE 0
 #define DEFAULT_EV_COMP       0.0
+#define DEFAULT_FLASH_MODE    0
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -176,5 +177,17 @@ void Settings::setVideoEvComp(qreal ev) {
     m_settings->setValue("video/evComp", ev);
 
     emit videoEvCompChanged();
+  }
+}
+
+int Settings::imageFlashMode() const {
+  return m_settings->value("image/flashMode", DEFAULT_FLASH_MODE).toInt();
+}
+
+void Settings::setImageFlashMode(int mode) {
+  if (mode != imageFlashMode()) {
+    m_settings->setValue("image/flashMode", mode);
+
+    emit imageFlashModeChanged();
   }
 }
