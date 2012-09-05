@@ -6,18 +6,11 @@ import QtCamera 1.0
 Selector {
         id: button
 
-        property alias value: scene.value
+        property int value: settings.imageSceneMode
 
         iconSource: sceneIcon(scene.value);
 
         title: qsTr("Scene mode");
-
-        Scene {
-                id: scene
-                camera: cam
-                // TODO: hardcoding
-                value: Scene.Auto
-        }
 
         function sceneIcon(val) {
                 var x = row.children.length;
@@ -43,42 +36,48 @@ Selector {
                 CheckButton {
                         normalIcon: "image://theme/icon-m-camera-scene-auto"
                         checkedIcon: "image://theme/icon-m-camera-scene-auto-selected"
-                        controller: scene
+                        savedValue: settings.imageSceneMode
+                        onClicked: settings.imageSceneMode = value;
                         value: Scene.Auto
                 }
 
                 CheckButton {
                         normalIcon: "image://theme/icon-m-camera-scene-macro"
                         checkedIcon: "image://theme/icon-m-camera-scene-macro-selected"
-                        controller: scene
+                        savedValue: settings.imageSceneMode
+                        onClicked: settings.imageSceneMode = value;
                         value: Scene.Closeup
                 }
 
                 CheckButton {
                         normalIcon: "image://theme/icon-m-camera-scene-landscape"
                         checkedIcon: "image://theme/icon-m-camera-scene-landscape-selected"
-                        controller: scene
+                        savedValue: settings.imageSceneMode
+                        onClicked: settings.imageSceneMode = value;
                         value: Scene.Landscape
                 }
 
                 CheckButton {
                         normalIcon: "image://theme/icon-m-camera-scene-portrait"
                         checkedIcon: "image://theme/icon-m-camera-scene-portrait-selected"
-                        controller: scene
+                        savedValue: settings.imageSceneMode
+                        onClicked: settings.imageSceneMode = value;
                         value: Scene.Portrait
                 }
 
                 CheckButton {
                         normalIcon: "image://theme/icon-m-camera-night"
                         checkedIcon: "image://theme/icon-m-camera-night-selected"
-                        controller: scene
+                        savedValue: settings.imageSceneMode
+                        onClicked: settings.imageSceneMode = value;
                         value: Scene.Night
                 }
 
                 CheckButton {
                         normalIcon: "image://theme/icon-m-camera-scene-sports"
                         checkedIcon: "image://theme/icon-m-camera-scene-sports-selected"
-                        controller: scene
+                        savedValue: settings.imageSceneMode
+                        onClicked: settings.imageSceneMode = value;
                         value: Scene.Sport
                 }
         }

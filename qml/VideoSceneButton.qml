@@ -6,18 +6,11 @@ import QtCamera 1.0
 Selector {
         id: button
 
-        property alias value: scene.value
+        property int value: settings.videoSceneMode
 
         iconSource: sceneIcon(scene.value);
 
         title: qsTr("Scene mode");
-
-        Scene {
-                id: scene
-                camera: cam
-                // TODO: hardcoding
-                value: Scene.Auto
-        }
 
         function sceneIcon(val) {
                 var x = row.children.length;
@@ -43,14 +36,16 @@ Selector {
                 CheckButton {
                         normalIcon: "image://theme/icon-m-camera-scene-auto"
                         checkedIcon: "image://theme/icon-m-camera-scene-auto-selected"
-                        controller: scene
+                        savedValue: settings.videoSceneMode
+                        onClicked: settings.videoSceneMode = value;
                         value: Scene.Auto
                 }
 
                 CheckButton {
                         normalIcon: "image://theme/icon-m-camera-video-night"
                         checkedIcon: "image://theme/icon-m-camera-video-night-selected"
-                        controller: scene
+                        savedValue: settings.videoSceneMode
+                        onClicked: settings.videoSceneMode = value;
                         value: Scene.Night
                 }
         }

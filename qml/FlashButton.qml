@@ -15,8 +15,7 @@ Selector {
         Flash {
                 id: flash
                 camera: cam
-                // TODO: hardcoding
-                value: Flash.Auto
+                value: settings.imageFlashMode
         }
 
         function flashIcon(val) {
@@ -43,29 +42,33 @@ Selector {
                 CheckButton {
                         normalIcon: "image://theme/icon-m-camera-flash-auto"
                         checkedIcon: "image://theme/icon-m-camera-flash-auto-pressed"
-                        controller: flash
+                        onClicked: settings.imageFlashMode = value;
                         value: Flash.Auto
+                        savedValue: settings.imageFlashMode
                 }
 
                 CheckButton {
                         normalIcon: "image://theme/icon-m-camera-flash-always"
                         checkedIcon: "image://theme/icon-m-camera-flash-always-pressed"
-                        controller: flash
+                        onClicked: settings.imageFlashMode = value;
                         value: Flash.On
+                        savedValue: settings.imageFlashMode
                 }
 
                 CheckButton {
                         normalIcon: "image://theme/icon-m-camera-flash-off"
                         checkedIcon: "image://theme/icon-m-camera-flash-off-pressed"
-                        controller: flash
+                        onClicked: settings.imageFlashMode = value;
                         value: Flash.Off
+                        savedValue: settings.imageFlashMode
                 }
 
                 CheckButton {
                         normalIcon: "image://theme/icon-m-camera-flash-red-eye"
                         checkedIcon: "image://theme/icon-m-camera-flash-red-eye-pressed"
-                        controller: flash
+                        onClicked: settings.imageFlashMode = value;
                         value: Flash.RedEye
+                        savedValue: settings.imageFlashMode
                 }
         }
 }

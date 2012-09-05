@@ -74,6 +74,12 @@ PageStackWindow {
                 }
         }
 
+        Scene {
+                id: sceneController
+                camera: cam
+                value: camera.mode == Camera.VideoMode ? settings.videoSceneMode : settings.imageSceneMode
+        }
+
         ModeController {
                 id: cameraMode
                 cam: cam
