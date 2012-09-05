@@ -4,12 +4,15 @@
 #include <QDeclarativeEngine>
 #include <QtDeclarative>
 #include <QGLWidget>
+#include <X11/Xlib.h>
 
 #include "imports/plugin.h"
 
 #include "settings.h"
 
 Q_DECL_EXPORT int main(int argc, char *argv[]) {
+  XInitThreads();
+
   QApplication app(argc, argv);
 
   QDeclarativeView view;
