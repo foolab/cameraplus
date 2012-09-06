@@ -77,21 +77,19 @@ PageStackWindow {
         Scene {
                 id: sceneController
                 camera: cam
-                value: camera.mode == Camera.VideoMode ? settings.videoSceneMode : settings.imageSceneMode
+                value: ready ? camera.mode == Camera.VideoMode ? settings.videoSceneMode : settings.imageSceneMode : 0
         }
 
         ColorTone {
                 id: colorToneController
                 camera: cam
-                // TODO: not applied upon startup
-                value: camera.mode == Camera.VideoMode ? settings.videoColorFilter : settings.imageColorFilter
+                value: ready ? camera.mode == Camera.VideoMode ? settings.videoColorFilter : settings.imageColorFilter : 0
         }
 
         WhiteBalance {
                 id: whiteBalanceController
                 camera: cam
-                // TODO: not applied upon startup
-                value: camera.mode == Camera.VideoMode ? settings.videoWhiteBalance : settings.imageWhiteBalance
+                value: ready ? camera.mode == Camera.VideoMode ? settings.videoWhiteBalance : settings.imageWhiteBalance : 0
         }
 
         ModeController {
