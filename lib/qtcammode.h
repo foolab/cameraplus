@@ -47,8 +47,10 @@ protected:
   virtual void start() = 0;
   virtual void stop() = 0;
 
+  // TODO: move this from here
   void setPreviewSize(const QSize& size);
 
+  // TODO: move this from here
   void setFileName(const QString& fileName);
 
   QtCamModePrivate *d_ptr;
