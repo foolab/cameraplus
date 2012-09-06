@@ -13,9 +13,12 @@ Selector {
         title: qsTr("Flash mode");
 
         Flash {
+                // TODO: move this out of here.
                 id: flash
                 camera: cam
                 value: settings.imageFlashMode
+		// TODO: scene modes can change flash value. what to do here ?
+                onValueChanged: settings.imageFlashMode = value;
         }
 
         function flashIcon(val) {
