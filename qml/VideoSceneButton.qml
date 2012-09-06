@@ -2,6 +2,7 @@
 import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
+import "data.js" as Data
 
 Selector {
         id: button
@@ -34,16 +35,16 @@ Selector {
                 }
 
                 CheckButton {
-                        normalIcon: "image://theme/icon-m-camera-scene-auto"
-                        checkedIcon: "image://theme/icon-m-camera-scene-auto-selected"
+                        normalIcon: "image://theme/" + Data.vsmIcon(value);
+                        checkedIcon: "image://theme/" + Data.vsmSelectedIcon(value);
                         savedValue: settings.videoSceneMode
                         onClicked: settings.videoSceneMode = value;
                         value: Scene.Auto
                 }
 
                 CheckButton {
-                        normalIcon: "image://theme/icon-m-camera-video-night"
-                        checkedIcon: "image://theme/icon-m-camera-video-night-selected"
+                        normalIcon: "image://theme/" + Data.vsmIcon(value);
+                        checkedIcon: "image://theme/" + Data.vsmSelectedIcon(value);
                         savedValue: settings.videoSceneMode
                         onClicked: settings.videoSceneMode = value;
                         value: Scene.Night

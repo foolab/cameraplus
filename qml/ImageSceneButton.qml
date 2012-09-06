@@ -2,6 +2,7 @@
 import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
+import "data.js" as Data
 
 Selector {
         id: button
@@ -34,48 +35,48 @@ Selector {
                 }
 
                 CheckButton {
-                        normalIcon: "image://theme/icon-m-camera-scene-auto"
-                        checkedIcon: "image://theme/icon-m-camera-scene-auto-selected"
+                        normalIcon: "image://theme/" + Data.ismIcon(value);
+                        checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
                         savedValue: settings.imageSceneMode
                         onClicked: settings.imageSceneMode = value;
                         value: Scene.Auto
                 }
 
                 CheckButton {
-                        normalIcon: "image://theme/icon-m-camera-scene-macro"
-                        checkedIcon: "image://theme/icon-m-camera-scene-macro-selected"
+                        normalIcon: "image://theme/" + Data.ismIcon(value);
+                        checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
                         savedValue: settings.imageSceneMode
                         onClicked: settings.imageSceneMode = value;
                         value: Scene.Closeup
                 }
 
                 CheckButton {
-                        normalIcon: "image://theme/icon-m-camera-scene-landscape"
-                        checkedIcon: "image://theme/icon-m-camera-scene-landscape-selected"
+                        normalIcon: "image://theme/" + Data.ismIcon(value);
+                        checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
                         savedValue: settings.imageSceneMode
                         onClicked: settings.imageSceneMode = value;
                         value: Scene.Landscape
                 }
 
                 CheckButton {
-                        normalIcon: "image://theme/icon-m-camera-scene-portrait"
-                        checkedIcon: "image://theme/icon-m-camera-scene-portrait-selected"
+                        normalIcon: "image://theme/" + Data.ismIcon(value);
+                        checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
                         savedValue: settings.imageSceneMode
                         onClicked: settings.imageSceneMode = value;
                         value: Scene.Portrait
                 }
 
                 CheckButton {
-                        normalIcon: "image://theme/icon-m-camera-night"
-                        checkedIcon: "image://theme/icon-m-camera-night-selected"
+                        normalIcon: "image://theme/" + Data.ismIcon(value);
+                        checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
                         savedValue: settings.imageSceneMode
                         onClicked: settings.imageSceneMode = value;
                         value: Scene.Night
                 }
 
                 CheckButton {
-                        normalIcon: "image://theme/icon-m-camera-scene-sports"
-                        checkedIcon: "image://theme/icon-m-camera-scene-sports-selected"
+                        normalIcon: "image://theme/" + Data.ismIcon(value);
+                        checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
                         savedValue: settings.imageSceneMode
                         onClicked: settings.imageSceneMode = value;
                         value: Scene.Sport

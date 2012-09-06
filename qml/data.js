@@ -3,6 +3,7 @@
 // Shared between all QML components
 //.pragma library
 
+// White Balance
 var __wb = [
     [WhiteBalance.Auto, qsTr("Automatic"),
      "icon-m-camera-whitebalance-auto-selected", "icon-m-camera-whitebalance-auto"],
@@ -16,6 +17,7 @@ var __wb = [
      "icon-m-camera-whitebalance-tungsten-selected", "icon-m-camera-whitebalance-tungsten"],
 ];
 
+// Color Filter
 var __cf = [
     [ColorTone.Normal, qsTr("Off"),
      "icon-m-camera-no-filter-selected", "icon-m-camera-no-filter"],
@@ -29,6 +31,30 @@ var __cf = [
      "icon-m-camera-filter-negative-selected", "icon-m-camera-filter-negative"],
     [ColorTone.Solarize, qsTr("Solarize"),
      "icon-m-camera-filter-solarize-selected", "icon-m-camera-filter-solarize"]
+];
+
+// Image Scene Mode
+var __ism = [
+    [Scene.Auto, qsTr("Automatic"),
+     "icon-m-camera-scene-auto-selected", "icon-m-camera-scene-auto"],
+    [Scene.Closeup, qsTr("Macro"),
+     "icon-m-camera-scene-macro-selected", "icon-m-camera-scene-macro"],
+    [Scene.Landscape, qsTr("Landscape"),
+     "icon-m-camera-scene-landscape-selected", "icon-m-camera-scene-landscape"],
+    [Scene.Portrait, qsTr("Portrait"),
+     "icon-m-camera-scene-portrait-selected", "icon-m-camera-scene-portrait"],
+    [Scene.Night, qsTr("Night"),
+     "icon-m-camera-night-selected", "icon-m-camera-night"],
+    [Scene.Sport, qsTr("Sports"),
+     "icon-m-camera-scene-sports-selected", "icon-m-camera-scene-sports"]
+];
+
+// Video Scene Mode
+var __vsm = [
+    [Scene.Auto, qsTr("Automatic"),
+     "icon-m-camera-scene-auto-selected", "icon-m-camera-scene-auto"],
+    [Scene.Night, qsTr("Video at night"),
+     "icon-m-camera-video-night-selected", "icon-m-camera-video-night"]
 ];
 
 function filterData(val, data, item) {
@@ -63,4 +89,28 @@ function cfIcon(cf) {
 
 function cfName(cf) {
     return filterData(cf, __cf, 1);
+}
+
+function ismIcon(sm) {
+    return filterData(sm, __ism, 3);
+}
+
+function ismSelectedIcon(sm) {
+    return filterData(sm, __ism, 2);
+}
+
+function ismName(sm) {
+    return filterData(sm, __ism, 1);
+}
+
+function vsmIcon(sm) {
+    return filterData(sm, __vsm, 3);
+}
+
+function vsmSelectedIcon(sm) {
+    return filterData(sm, __vsm, 2);
+}
+
+function vsmName(sm) {
+    return filterData(sm, __vsm, 1);
 }
