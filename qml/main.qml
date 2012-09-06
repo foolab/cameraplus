@@ -83,7 +83,15 @@ PageStackWindow {
         ColorTone {
                 id: colorToneController
                 camera: cam
+                // TODO: not applied upon startup
                 value: camera.mode == Camera.VideoMode ? settings.videoColorFilter : settings.imageColorFilter
+        }
+
+        WhiteBalance {
+                id: whiteBalanceController
+                camera: cam
+                // TODO: not applied upon startup
+                value: camera.mode == Camera.VideoMode ? settings.videoWhiteBalance : settings.imageWhiteBalance
         }
 
         ModeController {
