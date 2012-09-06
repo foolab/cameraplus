@@ -2,6 +2,7 @@
 import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
+import "data.js" as Data
 
 Page {
         id: page
@@ -32,62 +33,62 @@ Page {
 
                         IconButton {
                                 width: parent.width / 6
-                                normalIcon: "image://theme/icon-m-camera-no-filter"
-                                checkedIcon: "image://theme/icon-m-camera-no-filter-selected"
+                                normalIcon: "image://theme/" + Data.cfIcon(value);
+                                checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
                                 value: ColorTone.Normal
                                 savedValue: settings.imageColorFilter
                                 onClicked: settings.imageColorFilter = value;
-                                text: qsTr("Off");
+                                text: Data.cfName(value);
                         }
 
                         IconButton {
                                 width: parent.width / 6
-                                normalIcon: "image://theme/icon-m-camera-filter-black-white"
-                                checkedIcon: "image://theme/icon-m-camera-filter-black-white-selected"
+                                normalIcon: "image://theme/" + Data.cfIcon(value);
+                                checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
                                 value: ColorTone.GrayScale
                                 savedValue: settings.imageColorFilter
                                 onClicked: settings.imageColorFilter = value;
-                                text: qsTr("Black & white");
+                                text: Data.cfName(value);
                         }
 
                         IconButton {
                                 width: parent.width / 6
-                                normalIcon: "image://theme/icon-m-camera-filter-sepia"
-                                checkedIcon: "image://theme/icon-m-camera-filter-sepia-selected"
+                                normalIcon: "image://theme/" + Data.cfIcon(value);
+                                checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
                                 value: ColorTone.Sepia
                                 savedValue: settings.imageColorFilter
                                 onClicked: settings.imageColorFilter = value;
-                                text: qsTr("Sepia");
+                                text: Data.cfName(value);
                         }
 
                         IconButton {
                                 width: parent.width / 6
-                                normalIcon: "image://theme/icon-m-camera-filter-vivid"
-                                checkedIcon: "image://theme/icon-m-camera-filter-vivid-selected"
+                                normalIcon: "image://theme/" + Data.cfIcon(value);
+                                checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
                                 value: ColorTone.Vivid
                                 savedValue: settings.imageColorFilter
                                 onClicked: settings.imageColorFilter = value;
-                                text: qsTr("Vivid");
+                                text: Data.cfName(value);
                         }
 
                         IconButton {
                                 width: parent.width / 6
-                                normalIcon: "image://theme/icon-m-camera-filter-negative"
-                                checkedIcon: "image://theme/icon-m-camera-filter-negative-selected"
+                                normalIcon: "image://theme/" + Data.cfIcon(value);
+                                checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
                                 value: ColorTone.Negative
                                 savedValue: settings.imageColorFilter
                                 onClicked: settings.imageColorFilter = value;
-                                text: qsTr("Negative");
+                                text: Data.cfName(value);
                         }
 
                         IconButton {
                                 width: parent.width / 6
-                                normalIcon: "image://theme/icon-m-camera-filter-solarize"
-                                checkedIcon: "image://theme/icon-m-camera-filter-solarize-selected"
+                                normalIcon: "image://theme/" + Data.cfIcon(value);
+                                checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
                                 value: ColorTone.Solarize
                                 savedValue: settings.imageColorFilter
                                 onClicked: settings.imageColorFilter = value;
-                                text: qsTr("Solarize");
+                                text: Data.cfName(value);
                         }
                 }
         }

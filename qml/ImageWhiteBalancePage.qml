@@ -2,6 +2,7 @@
 import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
+import "data.js" as Data
 
 Page {
         id: page
@@ -30,55 +31,54 @@ Page {
                         anchors.top: title.bottom
                         anchors.topMargin: 10
 
-
                         IconButton {
                                 width: parent.width / 5
-                                normalIcon: "image://theme/icon-m-camera-whitebalance-auto"
-                                checkedIcon: "image://theme/icon-m-camera-whitebalance-auto-selected"
+                                normalIcon: "image://theme/" + Data.wbIcon(value);
+                                checkedIcon: "image://theme/" + Data.wbSelectedIcon(value);
                                 value: WhiteBalance.Auto
                                 savedValue: settings.imageWhiteBalance
                                 onClicked: settings.imageWhiteBalance = value;
-                                text: qsTr("Automatic");
+                                text: Data.wbName(value);
                         }
 
                         IconButton {
                                 width: parent.width / 5
-                                normalIcon: "image://theme/icon-m-camera-whitebalance-sunny"
-                                checkedIcon: "image://theme/icon-m-camera-whitebalance-sunny-selected"
+                                normalIcon: "image://theme/" + Data.wbIcon(value);
+                                checkedIcon: "image://theme/" + Data.wbSelectedIcon(value);
                                 value: WhiteBalance.Sunset
                                 savedValue: settings.imageWhiteBalance
                                 onClicked: settings.imageWhiteBalance = value;
-                                text: qsTr("Sunset");
+                                text: Data.wbName(value);
                         }
 
                         IconButton {
                                 width: parent.width / 5
-                                normalIcon: "image://theme/icon-m-camera-whitebalance-cloudy"
-                                checkedIcon: "image://theme/icon-m-camera-whitebalance-cloudy-selected"
+                                normalIcon: "image://theme/" + Data.wbIcon(value);
+                                checkedIcon: "image://theme/" + Data.wbSelectedIcon(value);
                                 value: WhiteBalance.Cloudy
                                 savedValue: settings.imageWhiteBalance
                                 onClicked: settings.imageWhiteBalance = value;
-                                text: qsTr("Cloudy");
+                                text: Data.wbName(value);
                         }
 
                         IconButton {
                                 width: parent.width / 5
-                                normalIcon: "image://theme/icon-m-camera-whitebalance-fluorescent"
-                                checkedIcon: "image://theme/icon-m-camera-whitebalance-fluorescent-selected"
+                                normalIcon: "image://theme/" + Data.wbIcon(value);
+                                checkedIcon: "image://theme/" + Data.wbSelectedIcon(value);
                                 value: WhiteBalance.Flourescent
                                 savedValue: settings.imageWhiteBalance
                                 onClicked: settings.imageWhiteBalance = value;
-                                text: qsTr("Flourescent");
+                                text: Data.wbName(value);
                         }
 
                         IconButton {
                                 width: parent.width / 5
-                                normalIcon: "image://theme/icon-m-camera-whitebalance-tungsten"
-                                checkedIcon: "image://theme/icon-m-camera-whitebalance-tungsten-selected"
+                                normalIcon: "image://theme/" + Data.wbIcon(value);
+                                checkedIcon: "image://theme/" + Data.wbSelectedIcon(value);
                                 value: WhiteBalance.Tungsten
                                 savedValue: settings.imageWhiteBalance
                                 onClicked: settings.imageWhiteBalance = value;
-                                text: qsTr("Tungsten");
+                                text: Data.wbName(value);
                         }
                 }
         }
