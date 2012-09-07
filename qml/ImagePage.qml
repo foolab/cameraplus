@@ -26,7 +26,7 @@ CameraPage {
                 id: imageMode
                 camera: cam
                 onPreviewAvailable: page.setPreview(preview);
-                nightMode: sceneController.value == Scene.Night
+                nightMode: ready ? settings.imageSceneMode == Scene.Night : false
         }
 
         FlashButton {

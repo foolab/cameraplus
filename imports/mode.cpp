@@ -28,17 +28,21 @@ void Mode::setCamera(Camera *camera) {
 
   if (m_cam) {
     QObject::disconnect(m_cam, SIGNAL(deviceChanged()), this, SLOT(deviceChanged()));
+    QObject::disconnect(m_cam, SIGNAL(deviceChanged()), this, SIGNAL(isReadyChanged()));
   }
 
   m_cam = camera;
 
   if (m_cam) {
     QObject::connect(m_cam, SIGNAL(deviceChanged()), this, SLOT(deviceChanged()));
+    QObject::connect(m_cam, SIGNAL(deviceChanged()), this, SIGNAL(isReadyChanged()));
   }
 
   emit cameraChanged();
 
   deviceChanged();
+
+  emit isReadyChanged();
 }
 
 bool Mode::isActive() {
@@ -111,4 +115,8 @@ void Mode::setNightMode(bool night) {
 
 bool Mode::inNightMode() const {
   return m_mode ? m_mode->inNightMode() : false;
+}
+
+bool Mode::isReady() const {
+  return m_mode;
 }
