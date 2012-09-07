@@ -36,6 +36,7 @@ CameraPage {
                 id: videoMode
                 camera: cam
                 onPreviewAvailable: page.setPreview(preview);
+                nightMode: sceneController.value == Scene.Night
         }
 
         VideoTorchButton {
