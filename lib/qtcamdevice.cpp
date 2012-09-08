@@ -42,7 +42,6 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
   // TODO: filters
   // TODO: capabilities
   // TODO: custom properties for jifmux, mp4mux, audio encoder, video encoder, sink & video source
-  // color tune, scene modes
   d_ptr->listener = new QtCamGStreamerMessageListener(gst_element_get_bus(d_ptr->cameraBin),
 						      d_ptr, this);
 
