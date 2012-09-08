@@ -25,7 +25,8 @@ public:
     Aperture = (1 << 8),
     Eposure = (1 << 9),
     Shake = (1 << 10),
-    NoiseReduction = (1 << 11)
+    NoiseReduction = (1 << 11),
+    FlickerReduction = (1 << 12)
   } Capability;
 
   Q_DECLARE_FLAGS(Capabilities, Capability)
