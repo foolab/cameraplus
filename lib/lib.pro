@@ -17,7 +17,7 @@ HEADERS += qtcamconfig.h qtcamera.h qtcamscanner.h qtcamdevice.h qtcamviewfinder
            qtcamimagemode.h qtcamvideomode.h qtcammetadata.h qtcamcapability.h \
            qtcamzoom.h qtcamflash.h qtcamscene.h qtcamevcomp.h qtcamvideotorch.h \
            qtcamwhitebalance.h qtcamcolortone.h qtcamflickerreduction.h \
-           qtcamnoisereduction.h
+           qtcamnoisereduction.h qtcamiso.h
 
 SOURCES += qtcamconfig.cpp qtcamera.cpp qtcamscanner.cpp qtcamdevice.cpp qtcamviewfinder.cpp \
            qtcammode.cpp qtcamgstreamermessagehandler.cpp qtcamgstreamermessagelistener.cpp \
@@ -26,7 +26,7 @@ SOURCES += qtcamconfig.cpp qtcamera.cpp qtcamscanner.cpp qtcamdevice.cpp qtcamvi
            qtcamimagemode.cpp qtcamvideomode.cpp qtcammetadata.cpp qtcamcapability.cpp \
            qtcamzoom.cpp qtcamflash.cpp qtcamscene.cpp qtcamevcomp.cpp qtcamvideotorch.cpp \
            qtcamwhitebalance.cpp qtcamcolortone.cpp qtcamflickerreduction.cpp \
-           qtcamnoisereduction.cpp
+           qtcamnoisereduction.cpp qtcamiso.cpp
 
 HEADERS += qtcammode_p.h qtcamdevice_p.h qtcamcapability_p.h
 

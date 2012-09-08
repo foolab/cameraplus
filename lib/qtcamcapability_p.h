@@ -47,6 +47,26 @@ public:
     }
   }
 
+  bool uintValue(unsigned int *val) {
+    if (!src) {
+      return false;
+    }
+
+    g_object_get(src, prop.toAscii().data(), val, NULL);
+
+    return true;
+  }
+
+  bool setUintValue(unsigned int val) {
+    if (!src) {
+      return false;
+    }
+
+    g_object_set(src, prop.toAscii().data(), val, NULL);
+
+    return true;
+  }
+
   bool intValue(int *val) {
     if (!src) {
       return false;
