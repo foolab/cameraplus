@@ -128,8 +128,6 @@ public:
       return;
     }
 
-    qDebug() << "Setting caps" << property << gst_caps_to_string(caps);
-
     g_object_set(dev->cameraBin, property, caps, NULL);
 
     if (old) {
