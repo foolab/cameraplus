@@ -140,6 +140,26 @@ bool QtCamDevice::start() {
     return false;
   }
 
+  // We need to wait for startup to complet. There's a race condition somewhere in the pipeline.
+  // If we set the scene mode to night and update the resolution while starting up
+  // then subdevsrc2 barfs:
+  // streaming task paused, reason not-negotiated (-4)
+  GstState state;
+  if (err != GST_STATE_CHANGE_ASYNC) {
+    return true;
+  }
+
+  if (gst_element_get_state(d_ptr->cameraBin, &state, 0, GST_CLOCK_TIME_NONE)
+      != GST_STATE_CHANGE_SUCCESS) {
+    // We are seriously screwed up :(
+    return false;
+  }
+
+  if (state != GST_STATE_PLAYING) {
+    // Huh ? Is this even possible ??
+    return false;
+  }
+
   return true;
 }
 
