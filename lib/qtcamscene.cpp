@@ -31,6 +31,23 @@ QtCamScene::SceneMode QtCamScene::value() {
 }
 
 bool QtCamScene::setValue(const QtCamScene::SceneMode& mode) {
+  SceneMode old = value();
+
   // Scene mode is always forced in order to reset the other capabilities.
-  return d_ptr->setIntValue(mode, true);
+  bool ret = d_ptr->setIntValue(mode, true);
+
+  if (!ret) {
+    return ret;
+  }
+
+  if (!d_ptr->dev || !d_ptr->dev->activeMode() || old == mode) {
+    return ret;
+  }
+
+  if (old == Night || mode == Night) {
+    // We must ask the mode to reset the settings to use night mode resolution if needed.
+    d_ptr->dev->activeMode()->applySettings();
+  }
+
+  return ret;
 }
