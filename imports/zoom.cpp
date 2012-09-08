@@ -48,5 +48,3 @@ qreal Zoom::minimum() {
 qreal Zoom::maximum() {
   return m_zoom ? m_zoom->maximumValue() : 1.0;
 }
-
-

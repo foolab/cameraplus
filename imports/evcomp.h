@@ -1,3 +1,5 @@
+// -*- c++ -*-
+
 #ifndef EV_COMP_H
 #define EV_COMP_H
 

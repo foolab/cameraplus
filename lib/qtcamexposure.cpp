@@ -8,7 +8,7 @@
 QtCamExposure::QtCamExposure(QtCamDevice *dev, QObject *parent) :
   QtCamCapability(new QtCamCapabilityPrivate(dev, QtCamCapability::Exposure, "exposure"),
 		  parent) {
-  // TODO: QML
+
 }
 
 QtCamExposure::~QtCamExposure() {

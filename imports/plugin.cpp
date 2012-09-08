@@ -11,6 +11,11 @@
 #include "videotorch.h"
 #include "whitebalance.h"
 #include "colortone.h"
+#include "exposure.h"
+#include "aperture.h"
+#include "iso.h"
+#include "noisereduction.h"
+#include "flickerreduction.h"
 
 #include <QtDeclarative>
 
@@ -29,6 +34,12 @@ void Plugin::registerTypes(QDeclarativeEngine *engine) {
   qmlRegisterType<VideoTorch>(URI, MAJOR, MINOR, "VideoTorch");
   qmlRegisterType<WhiteBalance>(URI, MAJOR, MINOR, "WhiteBalance");
   qmlRegisterType<ColorTone>(URI, MAJOR, MINOR, "ColorTone");
+  qmlRegisterType<Exposure>(URI, MAJOR, MINOR, "Exposure");
+  qmlRegisterType<Aperture>(URI, MAJOR, MINOR, "Aperture");
+  qmlRegisterType<Iso>(URI, MAJOR, MINOR, "Iso");
+  qmlRegisterType<NoiseReduction>(URI, MAJOR, MINOR, "NoiseReduction");
+  qmlRegisterType<FlickerReduction>(URI, MAJOR, MINOR, "FlickerReduction");
+
   qmlRegisterType<Mode>();
   qmlRegisterType<Capability>();
 

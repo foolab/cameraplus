@@ -8,7 +8,7 @@
 QtCamAperture::QtCamAperture(QtCamDevice *dev, QObject *parent) :
   QtCamCapability(new QtCamCapabilityPrivate(dev, QtCamCapability::Aperture, "aperture"),
 		  parent) {
-  // TODO: QML
+
 }
 
 QtCamAperture::~QtCamAperture() {

@@ -8,7 +8,7 @@
 QtCamIso::QtCamIso(QtCamDevice *dev, QObject *parent) :
   QtCamCapability(new QtCamCapabilityPrivate(dev, QtCamCapability::IsoSpeed, "iso-speed"),
 		  parent) {
-  // TODO: QML
+
 }
 
 QtCamIso::~QtCamIso() {

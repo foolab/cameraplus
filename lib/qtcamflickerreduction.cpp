@@ -4,7 +4,7 @@
 QtCamFlickerReduction::QtCamFlickerReduction(QtCamDevice *dev, QObject *parent) :
   QtCamCapability(new QtCamCapabilityPrivate(dev, QtCamCapability::FlickerReduction,
 					     "flicker-mode"), parent) {
-  // TODO: QML
+
 }
 
 QtCamFlickerReduction::~QtCamFlickerReduction() {

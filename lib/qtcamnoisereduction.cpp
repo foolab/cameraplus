@@ -4,7 +4,7 @@
 QtCamNoiseReduction::QtCamNoiseReduction(QtCamDevice *dev, QObject *parent) :
   QtCamCapability(new QtCamCapabilityPrivate(dev, QtCamCapability::NoiseReduction,
 					     "noise-reduction"), parent) {
-  // TODO: QML
+
 }
 
 QtCamNoiseReduction::~QtCamNoiseReduction() {
