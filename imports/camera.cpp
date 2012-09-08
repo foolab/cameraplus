@@ -55,12 +55,6 @@ void Camera::setDeviceId(const QVariant& id) {
     return;
   }
 
-  if (m_dev) {
-    QObject::disconnect(m_dev, SIGNAL(runningStateChanged(bool)),
-			this, SIGNAL(runningStateChanged()));
-    QObject::disconnect(m_dev, SIGNAL(idleStateChanged(bool)), this, SIGNAL(idleStateChanged()));
-  }
-
   if (m_dev && m_dev->stop()) {
     delete m_dev;
   }
