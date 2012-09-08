@@ -69,13 +69,6 @@ void Camera::setDeviceId(const QVariant& id) {
 
   m_vf->setDevice(m_dev);
 
-  if (m_mode == Camera::VideoMode) {
-    m_dev->videoMode()->activate();
-  }
-  else {
-    m_dev->imageMode()->activate();
-  }
-
   QObject::connect(m_dev, SIGNAL(runningStateChanged(bool)),
 		      this, SIGNAL(runningStateChanged()));
   QObject::connect(m_dev, SIGNAL(idleStateChanged(bool)), this, SIGNAL(idleStateChanged()));
@@ -99,24 +92,18 @@ QtCamDevice *Camera::device() const {
 }
 
 void Camera::setMode(const Camera::CameraMode& mode) {
+  if (m_mode == mode) {
+    return;
+  }
+
   m_mode = mode;
 
   if (!m_dev) {
     return;
   }
 
-  Camera::CameraMode current = m_dev->activeMode() == m_dev->videoMode() ?
-    Camera::VideoMode : Camera::ImageMode;
-
-  if (current == mode) {
-    return;
-  }
-
-  if (mode == Camera::VideoMode) {
-    m_dev->videoMode()->activate();
-  }
-  else {
-    m_dev->imageMode()->activate();
+  if (m_dev->isRunning()) {
+    applyMode();
   }
 
   emit modeChanged();
@@ -127,7 +114,13 @@ Camera::CameraMode Camera::mode() {
 }
 
 bool Camera::start() {
-  return m_dev ? m_dev->start() : false;
+  if (!m_dev) {
+    return false;
+  }
+
+  applyMode();
+
+  return m_dev->start();
 }
 
 void Camera::stop() {
@@ -142,4 +135,13 @@ bool Camera::isIdle() {
 
 bool Camera::isRunning() {
   return m_dev ? m_dev->isRunning() : false;
+}
+
+void Camera::applyMode() {
+  if (m_mode == Camera::VideoMode && m_dev->activeMode() != m_dev->videoMode()) {
+    m_dev->videoMode()->activate();
+  }
+  else if (m_mode == Camera::ImageMode && m_dev->activeMode() != m_dev->imageMode()) {
+    m_dev->imageMode()->activate();
+  }
 }

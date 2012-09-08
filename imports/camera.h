@@ -63,6 +63,8 @@ protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
 
 private:
+  void applyMode();
+
   QtCamera *m_cam;
   QtCamDevice *m_dev;
   QVariant m_id;
