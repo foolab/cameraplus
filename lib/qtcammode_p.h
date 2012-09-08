@@ -8,15 +8,18 @@
 #include <gst/pbutils/encoding-profile.h>
 #include <gst/pbutils/encoding-target.h>
 
+#ifndef GST_USE_UNSTABLE_API
+#define GST_USE_UNSTABLE_API
+#endif /* GST_USE_UNSTABLE_API */
+#include <gst/interfaces/photography.h>
+
 class QtCamDevicePrivate;
 class PreviewImageHandler;
 class DoneHandler;
 
-#define CAPS "video/x-raw-yuv, width = (int) %1, height = (int) %2, framerate = (fraction) %3/%4"
-
 class QtCamModePrivate {
 public:
-  QtCamModePrivate(QtCamDevicePrivate *d) : id(-1), dev(d), night(false) {}
+  QtCamModePrivate(QtCamDevicePrivate *d) : id(-1), dev(d) {}
   virtual ~QtCamModePrivate() {}
 
   int modeId(const char *mode) {
@@ -68,13 +71,28 @@ public:
     return profile;
   }
 
-  void setCaps(const char *property, const QSize& resolution, const QPair<int, int> frameRate) {
+  void resetCaps(const char *property) {
     if (!dev->cameraBin) {
       return;
     }
 
-    // TODO: allow proceeding without specifying a frame rate (maybe we can calculate it ?)
-    if (frameRate.first <= 0 || frameRate.second <= 0) {
+    g_object_set(dev->cameraBin, property, NULL, NULL);
+  }
+
+  bool inNightMode() {
+    if (!dev->cameraBin) {
+      return false;
+    }
+
+    int val = 0;
+
+    g_object_get(dev->videoSource, "scene-mode", &val, NULL);
+
+    return val == GST_PHOTOGRAPHY_SCENE_MODE_NIGHT;
+  }
+
+  void setCaps(const char *property, const QSize& resolution, int fps) {
+    if (!dev->cameraBin) {
       return;
     }
 
@@ -82,22 +100,47 @@ public:
       return;
     }
 
-    QString capsString = QString(CAPS)
-      .arg(resolution.width()).arg(resolution.height())
-      .arg(frameRate.first).arg(frameRate.second);
+    GstCaps *caps = 0;
 
-    GstCaps *caps = gst_caps_from_string(capsString.toAscii());
+    if (fps <= 0) {
+      caps = gst_caps_new_simple("video/x-raw-yuv",
+				 "width", G_TYPE_INT, resolution.width(),
+				 "height", G_TYPE_INT, resolution.height(),
+				 NULL);
+    }
+    else {
+      caps = gst_caps_new_simple("video/x-raw-yuv",
+				 "width", G_TYPE_INT, resolution.width(),
+				 "height", G_TYPE_INT, resolution.height(),
+				 "framerate",
+				 GST_TYPE_FRACTION_RANGE, fps - 1, 1, fps + 1, 1,
+				 NULL);
+    }
+
+    GstCaps *old = 0;
+
+    g_object_get(dev->cameraBin, property, &old, NULL);
+
+    if (gst_caps_is_equal(caps, old)) {
+      gst_caps_unref(old);
+      gst_caps_unref(caps);
+
+      return;
+    }
+
+    qDebug() << "Setting caps" << property << gst_caps_to_string(caps);
 
     g_object_set(dev->cameraBin, property, caps, NULL);
 
-    gst_caps_unref(caps);
+    if (old) {
+      gst_caps_unref(old);
+    }
   }
 
   int id;
   QtCamDevicePrivate *dev;
   PreviewImageHandler *previewImageHandler;
   DoneHandler *doneHandler;
-  bool night;
 };
 
 #endif /* QT_CAM_MODE_P_H */

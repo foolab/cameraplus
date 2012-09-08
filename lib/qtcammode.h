@@ -16,7 +16,6 @@ class QtCamMode : public QObject {
 
   Q_PROPERTY(bool canCapture READ canCapture NOTIFY canCaptureChanged);
   Q_PROPERTY(bool active READ isActive NOTIFY activeChanged);
-  Q_PROPERTY(bool nightMode READ inNightMode WRITE setNightMode NOTIFY nightModeChanged);
 
 public:
   QtCamMode(QtCamModePrivate *d, const char *mode, const char *done, QObject *parent = 0);
@@ -30,9 +29,6 @@ public:
 
   virtual void applySettings() = 0;
 
-  void setNightMode(bool night);
-  bool inNightMode() const;
-
 public slots:
   void activate();
 
@@ -41,7 +37,6 @@ signals:
   void saved(const QString& fileName);
   void canCaptureChanged();
   void activeChanged();
-  void nightModeChanged();
 
 protected:
   virtual void start() = 0;

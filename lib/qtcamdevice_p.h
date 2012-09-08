@@ -43,6 +43,7 @@ public:
   }
 
   void createAndAddVideoSource() {
+    // TODO: rework this function
     GstElement *src, *wrapper;
     QString wrapperSrc = conf->wrapperVideoSource();
     QString prop = conf->wrapperVideoSourceProperty();

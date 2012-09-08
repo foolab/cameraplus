@@ -15,7 +15,6 @@ class Mode : public QObject {
   Q_PROPERTY(Camera* camera READ camera WRITE setCamera NOTIFY cameraChanged);
   Q_PROPERTY(bool canCapture READ canCapture NOTIFY canCaptureChanged);
   Q_PROPERTY(bool active READ isActive NOTIFY activeChanged);
-  Q_PROPERTY(bool nightMode READ inNightMode WRITE setNightMode NOTIFY nightModeChanged);
   Q_PROPERTY(bool ready READ isReady NOTIFY isReadyChanged);
 
 public:
@@ -29,9 +28,6 @@ public:
 
   bool canCapture();
 
-  void setNightMode(bool night);
-  bool inNightMode() const;
-
   bool isReady() const;
 
 signals:
@@ -40,7 +36,6 @@ signals:
   void activeChanged();
   void previewAvailable(const QString& preview, const QString& fileName);
   void saved(const QString& fileName);
-  void nightModeChanged();
   void isReadyChanged();
 
 private slots:

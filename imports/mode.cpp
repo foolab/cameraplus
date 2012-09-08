@@ -66,7 +66,6 @@ void Mode::deviceChanged() {
 			this, SIGNAL(canCaptureChanged()));
     QObject::disconnect(m_cam->device(), SIGNAL(runningStateChanged(bool)),
 			this, SIGNAL(canCaptureChanged()));
-    QObject::disconnect(m_mode, SIGNAL(nightModeChanged()), this, SIGNAL(nightModeChanged()));
 
     preChangeMode();
   }
@@ -88,7 +87,6 @@ void Mode::deviceChanged() {
     		     this, SIGNAL(canCaptureChanged()));
     QObject::connect(m_cam->device(), SIGNAL(runningStateChanged(bool)),
 		     this, SIGNAL(canCaptureChanged()));
-    QObject::connect(m_mode, SIGNAL(nightModeChanged()), this, SIGNAL(nightModeChanged()));
 
     postChangeMode();
   }
@@ -105,16 +103,6 @@ void Mode::gotPreview(const QImage& image, const QString& fileName) {
   ++m_seq;
 
   emit previewAvailable(url, fileName);
-}
-
-void Mode::setNightMode(bool night) {
-  if (m_mode) {
-    m_mode->setNightMode(night);
-  }
-}
-
-bool Mode::inNightMode() const {
-  return m_mode ? m_mode->inNightMode() : false;
 }
 
 bool Mode::isReady() const {

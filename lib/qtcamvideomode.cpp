@@ -53,15 +53,18 @@ bool QtCamVideoMode::canCapture() {
 }
 
 void QtCamVideoMode::applySettings() {
-  QPair<int, int> fps = d_ptr->night ? d->settings.nightFrameRate() : d->settings.frameRate();
+  bool night = d_ptr->inNightMode();
 
-  d_ptr->setCaps("viewfinder-caps", d->settings.captureResolution(),
-		 fps);
+  int fps = night ? d->settings.nightFrameRate() : d->settings.frameRate();
 
-  d_ptr->setCaps("video-capture-caps", d->settings.captureResolution(),
-		 fps);
+  d_ptr->setCaps("viewfinder-caps", d->settings.captureResolution(), fps);
+
+  d_ptr->setCaps("video-capture-caps", d->settings.captureResolution(), fps);
 
   setPreviewSize(d->settings.previewResolution());
+
+  // TODO:
+  //  d_ptr->resetCaps("image-capture-caps");
 }
 
 void QtCamVideoMode::start() {

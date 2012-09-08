@@ -182,16 +182,3 @@ void QtCamMode::setPreviewSize(const QSize& size) {
 void QtCamMode::setFileName(const QString& fileName) {
   d_ptr->doneHandler->fileName = fileName;
 }
-
-void QtCamMode::setNightMode(bool night) {
-  if (d_ptr->night != night) {
-    d_ptr->night = night;
-    applySettings();
-
-    emit nightModeChanged();
-  }
-}
-
-bool QtCamMode::inNightMode() const {
-  return d_ptr->night;
-}

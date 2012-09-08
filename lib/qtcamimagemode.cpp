@@ -43,14 +43,22 @@ bool QtCamImageMode::canCapture() {
 }
 
 void QtCamImageMode::applySettings() {
-  QPair<int, int> fps = d_ptr->night ? d->settings.nightFrameRate() : d->settings.frameRate();
+  bool night = d_ptr->inNightMode();
 
-  d_ptr->setCaps("image-capture-caps", d->settings.captureResolution(),
-		 d->settings.frameRate());
+  int fps = night ? d->settings.nightFrameRate() : d->settings.frameRate();
 
   d_ptr->setCaps("viewfinder-caps", d->settings.viewfinderResolution(), fps);
 
+  // FIXME:
+  // Ideally, we should query the image-capture-supported-caps and get a proper framerate
+  // as it seems that subdevsrc2 can only capture 15 FPS for at least the highest resolution
+  // we use. For now we will not set any FPS.
+  d_ptr->setCaps("image-capture-caps", d->settings.captureResolution(), -1);
+
   setPreviewSize(d->settings.previewResolution());
+
+  // TODO: ?
+  // d_ptr->resetCaps("video-capture-caps");
 }
 
 void QtCamImageMode::start() {

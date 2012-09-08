@@ -6,26 +6,21 @@ public:
   QString name;
   QSize capture;
   QSize preview;
-  int numerator;
-  int denominator;
-  int nightNumerator;
-  int nightDenominator;
+  int fps;
+  int nightFps;
 };
 
 QtCamVideoSettings::QtCamVideoSettings(const QString& id, const QString& name,
 				       const QSize& capture, const QSize& preview,
-				       int numerator, int denominator,
-				       int nightNumerator, int nightDenominator) :
+				       int fps, int nightFps) :
   d_ptr(new QtCamVideoSettingsPrivate) {
 
   d_ptr->id = id;
   d_ptr->name = name;
   d_ptr->capture = capture;
   d_ptr->preview = preview;
-  d_ptr->numerator = numerator;
-  d_ptr->denominator = denominator;
-  d_ptr->nightNumerator = nightNumerator;
-  d_ptr->nightDenominator = nightDenominator;
+  d_ptr->fps = fps;
+  d_ptr->nightFps = nightFps;
 }
 
 QtCamVideoSettings::QtCamVideoSettings(const QtCamVideoSettings& other) :
@@ -35,10 +30,8 @@ QtCamVideoSettings::QtCamVideoSettings(const QtCamVideoSettings& other) :
   d_ptr->name = other.d_ptr->name;
   d_ptr->capture = other.d_ptr->capture;
   d_ptr->preview = other.d_ptr->preview;
-  d_ptr->numerator = other.d_ptr->numerator;
-  d_ptr->denominator = other.d_ptr->denominator;
-  d_ptr->nightNumerator = other.d_ptr->nightNumerator;
-  d_ptr->nightDenominator = other.d_ptr->nightDenominator;
+  d_ptr->fps = other.d_ptr->fps;
+  d_ptr->nightFps = other.d_ptr->nightFps;
 }
 
 QtCamVideoSettings::~QtCamVideoSettings() {
@@ -51,10 +44,8 @@ QtCamVideoSettings& QtCamVideoSettings::operator=(const QtCamVideoSettings&
   d_ptr->name = other.d_ptr->name;
   d_ptr->capture = other.d_ptr->capture;
   d_ptr->preview = other.d_ptr->preview;
-  d_ptr->numerator = other.d_ptr->numerator;
-  d_ptr->denominator = other.d_ptr->denominator;
-  d_ptr->nightNumerator = other.d_ptr->nightNumerator;
-  d_ptr->nightDenominator = other.d_ptr->nightDenominator;
+  d_ptr->fps = other.d_ptr->fps;
+  d_ptr->nightFps = other.d_ptr->nightFps;
 
   return *this;
 }
@@ -75,10 +66,10 @@ QSize QtCamVideoSettings::previewResolution() const {
   return d_ptr->preview;
 }
 
-QPair<int, int> QtCamVideoSettings::frameRate() const {
-  return qMakePair<int, int>(d_ptr->numerator, d_ptr->denominator);
+int QtCamVideoSettings::frameRate() const {
+  return d_ptr->fps;
 }
 
-QPair<int, int> QtCamVideoSettings::nightFrameRate() const {
-  return qMakePair<int, int>(d_ptr->nightNumerator, d_ptr->nightDenominator);
+int QtCamVideoSettings::nightFrameRate() const {
+  return d_ptr->nightFps;
 }
