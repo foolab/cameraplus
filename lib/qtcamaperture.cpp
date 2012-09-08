@@ -1,6 +1,7 @@
 #include "qtcamaperture.h"
 #include "qtcamcapability_p.h"
 
+// TODO: hardcoded
 #define APERTURE_MIN 0
 #define APERTURE_MAX 255
 

@@ -1,6 +1,7 @@
 #include "qtcamevcomp.h"
 #include "qtcamcapability_p.h"
 
+// TODO: hardcoded
 #define EV_COMP_MIN -2.5
 #define EV_COMP_MAX +2.5
 

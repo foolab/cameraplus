@@ -1,6 +1,7 @@
 #include "qtcamexposure.h"
 #include "qtcamcapability_p.h"
 
+// TODO: hardcoded
 #define EXPOSURE_MIN 0
 #define EXPOSURE_MAX 4294967295u
 

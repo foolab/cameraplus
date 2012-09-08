@@ -1,6 +1,7 @@
 #include "qtcamiso.h"
 #include "qtcamcapability_p.h"
 
+// TODO: hardcoded
 #define ISO_MIN 0
 #define ISO_MAX 6400
 
