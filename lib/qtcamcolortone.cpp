@@ -37,5 +37,5 @@ QtCamColorTone::ColorToneMode QtCamColorTone::value() {
 }
 
 bool QtCamColorTone::setValue(const QtCamColorTone::ColorToneMode& mode) {
-  return d_ptr->setIntValue(mode);
+  return d_ptr->setIntValue(mode, false);
 }

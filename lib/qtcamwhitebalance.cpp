@@ -32,5 +32,5 @@ QtCamWhiteBalance::WhiteBalanceMode QtCamWhiteBalance::value() {
 }
 
 bool QtCamWhiteBalance::setValue(const QtCamWhiteBalance::WhiteBalanceMode& mode) {
-  return d_ptr->setIntValue(mode);
+  return d_ptr->setIntValue(mode, false);
 }

@@ -57,12 +57,22 @@ public:
     return true;
   }
 
-  bool setIntValue(int val) {
+  bool setIntValue(int val, bool force) {
     if (!src) {
       return false;
     }
 
-    g_object_set(src, prop.toAscii().data(), val, NULL);
+    if (force) {
+      g_object_set(src, prop.toAscii().data(), val, NULL);
+      return true;
+    }
+
+    int old = 0;
+    g_object_get(src, prop.toAscii().data(), &old, NULL);
+
+    if (old != val) {
+      g_object_set(src, prop.toAscii().data(), val, NULL);
+    }
 
     return true;
   }

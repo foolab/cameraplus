@@ -31,5 +31,6 @@ QtCamScene::SceneMode QtCamScene::value() {
 }
 
 bool QtCamScene::setValue(const QtCamScene::SceneMode& mode) {
-  return d_ptr->setIntValue(mode);
+  // Scene mode is always forced in order to reset the other capabilities.
+  return d_ptr->setIntValue(mode, true);
 }

@@ -29,5 +29,5 @@ QtCamFlash::FlashMode QtCamFlash::value() {
 }
 
 bool QtCamFlash::setValue(const QtCamFlash::FlashMode& mode) {
-  return d_ptr->setIntValue(mode);
+  return d_ptr->setIntValue(mode, false);
 }
