@@ -32,6 +32,15 @@ CameraPage {
                 visible: (videoMode.recording || videoMode.canCapture) && !cameraMode.animationRunning && !previewAnimationRunning
         }
 
+        Connections {
+                target: platformWindow
+                onActiveChanged: {
+                        if (!platformWindow.active && videoMode.recording) {
+                                videoMode.stopRecording();
+                        }
+                }
+        }
+
         VideoMode {
                 id: videoMode
                 camera: cam
