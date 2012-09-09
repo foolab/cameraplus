@@ -19,13 +19,29 @@ Page {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.bottom: toolBar.top
+                anchors.margins: 10
+                contentHeight: col.height
 
                 Column {
+                        id: col
+
                         width: parent.width
+                        spacing: 10
 
                         Label {
                                 // TODO:
                                 text: qsTr("Image settings");
+                        }
+
+                        SectionHeader {
+                                text: qsTr("Capture mode");
+                        }
+
+                        ButtonRow {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                Button { text: qsTr("Normal"); }
+                                Button { text: qsTr("Self timer"); }
+                                Button { text: qsTr("Fast capture"); }
                         }
 
                         Row {
@@ -48,6 +64,55 @@ Page {
                                         iconId: Data.cfSelectedIcon(settings.imageColorFilter);
                                         onClicked: openFile("ImageColorFilterPage.qml");
                                 }
+                        }
+
+                        SectionHeader {
+                                text: qsTr("Self timer");
+                        }
+
+                        ButtonRow {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                Button { text: qsTr("2 seconds"); }
+                                Button { text: qsTr("10 seconds"); }
+                        }
+
+                        SectionHeader {
+                                text: qsTr("Light sensitivity");
+                        }
+
+                        ButtonRow {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                Button { text: qsTr("Automatic"); }
+                                Button { text: qsTr("ISO 100"); }
+                                Button { text: qsTr("ISO 200"); }
+                                Button { text: qsTr("ISO 400"); }
+                                Button { text: qsTr("ISO 800"); }
+                        }
+
+                        SectionHeader {
+                                text: qsTr("Aspect ratio");
+                        }
+
+                        ButtonRow {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                Button { text: qsTr("16:9"); }
+                                Button { text: qsTr("4:3"); }
+                                Button { text: qsTr("3:2"); }
+                        }
+
+                        SectionHeader {
+                                text: qsTr("Resolution");
+                        }
+
+                        ButtonRow {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                Button {}
+                                Button {}
+                                Button {}
+                        }
+
+                        CameraSettings {
+                                anchors.horizontalCenter: parent.horizontalCenter
                         }
                 }
         }
