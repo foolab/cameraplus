@@ -29,7 +29,7 @@ CameraPage {
                         }
                 }
 
-                visible: (videoMode.recording || videoMode.canCapture) && !cameraMode.animationRunning && !previewAnimationRunning
+                visible: (videoMode.recording || videoMode.canCapture) && !cameraMode.animationRunning && !previewAnimationRunning && !standbyWidget.visible
         }
 
         Connections {
