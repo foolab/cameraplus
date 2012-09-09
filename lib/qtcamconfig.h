@@ -48,6 +48,9 @@ public:
   QString videoEncodingProfileName() const;
   QString videoEncodingProfilePath() const;
 
+  QString imageSuffix() const;
+  QString videoSuffix() const;
+
   QString audioCaptureCaps() const;
 
 private:

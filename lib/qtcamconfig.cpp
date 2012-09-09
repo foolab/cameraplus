@@ -163,3 +163,11 @@ QString QtCamConfig::videoEncodingProfilePath() const {
 QString QtCamConfig::audioCaptureCaps() const {
   return d_ptr->conf->value("audio-capture-caps/caps").toString();
 }
+
+QString QtCamConfig::imageSuffix() const {
+  return d_ptr->conf->value("image/extension").toString();
+}
+
+QString QtCamConfig::videoSuffix() const {
+  return d_ptr->conf->value("video/extension").toString();
+}

@@ -5,6 +5,9 @@
 #include "qtcamimagemode.h"
 #include "qtcamvideomode.h"
 #include "qtcamgraphicsviewfinder.h"
+#include "qtcamconfig.h"
+
+// TODO: a viewfinder class that inherits QDeclarativeItem
 
 Camera::Camera(QDeclarativeItem *parent) :
   QDeclarativeItem(parent),
@@ -144,4 +147,12 @@ void Camera::applyMode() {
   else if (m_mode == Camera::ImageMode && m_dev->activeMode() != m_dev->imageMode()) {
     m_dev->imageMode()->activate();
   }
+}
+
+QString Camera::imageSuffix() const {
+  return m_cam->config()->imageSuffix();
+}
+
+QString Camera::videoSuffix() const {
+  return m_cam->config()->videoSuffix();
 }

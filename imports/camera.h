@@ -18,6 +18,8 @@ class Camera : public QDeclarativeItem {
   Q_PROPERTY(CameraMode mode READ mode WRITE setMode NOTIFY modeChanged);
   Q_PROPERTY(bool idle READ isIdle NOTIFY idleStateChanged);
   Q_PROPERTY(bool running READ isRunning NOTIFY runningStateChanged);
+  Q_PROPERTY(QString imageSuffix READ imageSuffix CONSTANT);
+  Q_PROPERTY(QString videoSuffix READ videoSuffix CONSTANT);
   Q_ENUMS(CameraMode);
 
 public:
@@ -47,6 +49,9 @@ public:
 
   bool isIdle();
   bool isRunning();
+
+  QString imageSuffix() const;
+  QString videoSuffix() const;
 
 public slots:
   void stop();
