@@ -225,6 +225,8 @@ void QtCamViewfinderRendererMeeGo::paintFrame(QPainter *painter, int frame) {
     return;
   }
 
+  // TODO: sometimes there is an assertion.
+
   MeegoGstVideoTexture *sink = MEEGO_GST_VIDEO_TEXTURE(m_sink);
   if (!meego_gst_video_texture_acquire_frame(sink, frame)) {
     qDebug() << "Failed to acquire frame";

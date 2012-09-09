@@ -4,6 +4,18 @@ import com.nokia.meego 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
 
+// TODO: metadata creator name, gps, geotags
+// TODO: resolutions and aspect ratios
+// TODO: postcapture
+// TODO: file naming
+// TODO: battery low state
+// TODO: disk space
+// TODO: flash not ready
+// TODO: focus, caf, ...
+// TODO: indicators
+// TODO: portrait/landscape
+// TODO: record in a hidden directory and then copy the video to avoid tracker indexing it.
+
 PageStackWindow {
         id: root
 
