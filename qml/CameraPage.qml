@@ -14,7 +14,7 @@ Page {
                 id: standby
                 color: "black"
                 anchors.fill: parent
-                visible: !cam.running
+                visible: !platformWindow.active
                 Image {
                         source: "image://theme/icon-l-camera-standby"
                         anchors.centerIn: parent
