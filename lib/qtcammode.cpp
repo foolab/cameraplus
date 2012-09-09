@@ -153,7 +153,8 @@ void QtCamMode::deactivate() {
 }
 
 bool QtCamMode::canCapture() {
-  return d_ptr->dev->cameraBin && isActive() && d_ptr->dev->q_ptr->isRunning();
+  return d_ptr->dev->cameraBin && isActive() && d_ptr->dev->q_ptr->isRunning() &&
+    !d_ptr->dev->error;
 }
 
 bool QtCamMode::isActive() {
