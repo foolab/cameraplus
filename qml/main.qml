@@ -1,6 +1,7 @@
 // -*- qml -*-
 import QtQuick 1.1
 import com.nokia.meego 1.1
+import com.nokia.extras 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
 
@@ -30,6 +31,15 @@ PageStackWindow {
                 else {
                         openFile("VideoPage.qml");
                 }
+        }
+
+        function showError(msg) {
+                error.text = msg;
+                error.show();
+        }
+
+        InfoBanner {
+                id: error
         }
 
         Settings {
@@ -74,7 +84,9 @@ PageStackWindow {
                 target: platformWindow
                 onActiveChanged: {
                         if (platformWindow.active) {
-                                cam.start();
+                                if (!cam.start()) {
+                                        showError("Camera failed to start. Please restart the camera.");
+                                }
                         }
                         else {
                                 // This is a noop if camera is not idle so calling it will not hurt
