@@ -17,8 +17,12 @@ CameraPage {
                 width: 75
                 height: 75
                 opacity: 0.5
-                // TODO: Show an error if file is empty or starting fails.
-                onClicked: imageMode.capture(fileNaming.imageFileName());
+                onClicked: {
+                        if (!imageMode.capture(fileNaming.imageFileName())) {
+                                showError("Failed to capture image. Please restart the camera.");
+                        }
+                }
+
                 visible: imageMode.canCapture && !cameraMode.animationRunning && !previewAnimationRunning
         }
 

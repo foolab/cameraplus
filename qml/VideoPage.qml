@@ -21,8 +21,9 @@ CameraPage {
                 opacity: 0.5
                 onClicked: {
                         if (!videoMode.recording) {
-                                // TODO: Show an error if file is empty or starting fails.
-                                videoMode.startRecording(fileNaming.videoFileName());
+                                if (!videoMode.startRecording(fileNaming.videoFileName())) {
+                                        showError("Failed to record video. Please restart the camera.");
+                                }
                         }
                         else {
                                 videoMode.stopRecording();
