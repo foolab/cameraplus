@@ -7,7 +7,6 @@ import CameraPlus 1.0
 // TODO: metadata creator name, gps, geotags
 // TODO: resolutions and aspect ratios
 // TODO: postcapture
-// TODO: file naming
 // TODO: battery low state
 // TODO: disk space
 // TODO: flash not ready
@@ -35,6 +34,12 @@ PageStackWindow {
 
         Settings {
                 id: settings
+        }
+
+        FileNaming {
+                id: fileNaming
+                imageSuffix: cam.imageSuffix
+                videoSuffix: cam.videoSuffix
         }
 
         // Stolen from https://qt.gitorious.org/qt-components/qt-components/blobs/master/examples/meego/QmlComponentGallery/qml/ListPage.qml

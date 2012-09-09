@@ -12,5 +12,5 @@ PKGCONFIG = gstreamer-0.10 gstreamer-interfaces-0.10 gstreamer-video-0.10 gstrea
 
 LIBS +=  -L../imports/ -limports -L../lib/ -lqtcamera
 
-SOURCES += main.cpp settings.cpp
-HEADERS += settings.h
+SOURCES += main.cpp settings.cpp filenaming.cpp
+HEADERS += settings.h filenaming.h

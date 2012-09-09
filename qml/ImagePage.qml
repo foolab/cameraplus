@@ -17,8 +17,8 @@ CameraPage {
                 width: 75
                 height: 75
                 opacity: 0.5
-                // TODO:
-                onClicked: imageMode.capture("/home/developer/foo.png");
+                // TODO: Show an error if file is empty or starting fails.
+                onClicked: imageMode.capture(fileNaming.imageFileName());
                 visible: imageMode.canCapture && !cameraMode.animationRunning && !previewAnimationRunning
         }
 
