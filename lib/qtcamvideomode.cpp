@@ -49,7 +49,7 @@ QtCamVideoMode::~QtCamVideoMode() {
 }
 
 bool QtCamVideoMode::canCapture() {
-  return d_ptr->dev->q_ptr->isIdle();
+  return QtCamMode::canCapture() && d_ptr->dev->q_ptr->isIdle();
 }
 
 void QtCamVideoMode::applySettings() {
