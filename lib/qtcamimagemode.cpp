@@ -74,6 +74,10 @@ bool QtCamImageMode::capture(const QString& fileName) {
     return false;
   }
 
+  if (fileName.isEmpty()) {
+    return false;
+  }
+
   setFileName(fileName);
 
   g_object_set(d_ptr->dev->cameraBin, "location", fileName.toUtf8().data(), NULL);
