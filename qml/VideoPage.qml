@@ -44,7 +44,11 @@ CameraPage {
         VideoMode {
                 id: videoMode
                 camera: cam
-                onPreviewAvailable: page.setPreview(preview);
+                onPreviewAvailable: {
+                        if (!standbyWidget.visible) {
+                                page.setPreview(preview);
+                        }
+                }
         }
 
         VideoTorchButton {
