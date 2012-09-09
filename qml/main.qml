@@ -53,13 +53,30 @@ PageStackWindow {
                 background: " "
         }
 
+        Connections {
+                target: platformWindow
+                onActiveChanged: {
+                        if (platformWindow.active) {
+                                cam.start();
+                        }
+                        else {
+                                // TODO: only stop if idle.
+                                cam.stop();
+                        }
+                }
+        }
+
         Camera {
-                onDeviceIdChanged: cam.start();
+                onDeviceIdChanged: {
+                        if (platformWindow.active) {
+                                cam.start();
+                        }
+                }
 
                 id: cam
                 anchors.fill: parent
 
-                // TODO: hardcoding
+                // TODO: hardcoding device id
                 Component.onCompleted: { cam.deviceId = 0; mode = settings.mode; }
 
                 // TODO: Hack
