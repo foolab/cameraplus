@@ -6,7 +6,7 @@ import QtCamera 1.0
 CameraPage {
         id: page
 
-        controlsVisible: recording.visible
+        controlsVisible: recording.visible && cam.running && !standbyWidget.visible
 
         orientationLock: PageOrientation.LockLandscape
 

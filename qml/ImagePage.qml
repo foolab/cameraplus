@@ -6,7 +6,7 @@ import QtCamera 1.0
 CameraPage {
         id: page
 
-        controlsVisible: capture.visible
+        controlsVisible: capture.visible && cam.running && !standbyWidget.visible
 
         Button {
                 id: capture
@@ -30,7 +30,7 @@ CameraPage {
 
         FlashButton {
                 id: flash
-                visible: capture.visible
+                visible: controlsVisible
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.topMargin: 20
@@ -39,7 +39,7 @@ CameraPage {
 
         ImageSceneButton {
                 id: scene
-                visible: capture.visible
+                visible: controlsVisible
                 anchors.top: flash.bottom
                 anchors.left: parent.left
                 anchors.topMargin: 10
@@ -48,7 +48,7 @@ CameraPage {
 
         EvCompButton {
                 id: evComp
-                visible: capture.visible
+                visible: controlsVisible
                 anchors.top: scene.bottom
                 anchors.left: parent.left
                 anchors.topMargin: 10
@@ -56,7 +56,7 @@ CameraPage {
         }
 
         Indicators {
-                visible: capture.visible
+                visible: controlsVisible
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 20
                 anchors.left: parent.left

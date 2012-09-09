@@ -4,8 +4,25 @@ import com.nokia.meego 1.1
 import QtCamera 1.0
 
 Page {
+
+        property alias standbyWidget: standby
+
+        Rectangle {
+                // TODO: color
+                // TODO: fade out transition
+                // TODO: there is a toolbar visible on the first startup
+                id: standby
+                color: "black"
+                anchors.fill: parent
+                visible: !cam.running
+                Image {
+                        source: "image://theme/icon-l-camera-standby"
+                        anchors.centerIn: parent
+                }
+        }
+
         property Camera cam: null
-        property bool controlsVisible: true
+        property bool controlsVisible: cam.running && !standby.visible
 
         anchors.fill: parent
 
