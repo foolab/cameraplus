@@ -72,13 +72,19 @@ PageStackWindow {
                                 cam.start();
                         }
                         else {
-                                // TODO: only stop if idle.
+                                // This is a noop if camera is not idle so calling it will not hurt
                                 cam.stop();
                         }
                 }
         }
 
         Camera {
+                onIdleChanged: {
+                        if (idle && !platformWindow.active) {
+                                stop();
+                        }
+                }
+
                 onDeviceIdChanged: {
                         if (platformWindow.active) {
                                 cam.start();
