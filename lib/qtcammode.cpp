@@ -182,3 +182,7 @@ void QtCamMode::setPreviewSize(const QSize& size) {
 void QtCamMode::setFileName(const QString& fileName) {
   d_ptr->doneHandler->fileName = fileName;
 }
+
+QtCamDevice *QtCamMode::device() const {
+  return d_ptr->dev->q_ptr;
+}

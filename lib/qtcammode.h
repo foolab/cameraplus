@@ -10,6 +10,7 @@ class QtCamModePrivate;
 class QtCamDevicePrivate;
 class QSize;
 class QImage;
+class QtCamDevice;
 
 class QtCamMode : public QObject {
   Q_OBJECT
@@ -28,6 +29,8 @@ public:
   bool isActive();
 
   virtual void applySettings() = 0;
+
+  QtCamDevice *device() const;
 
 public slots:
   void activate();
