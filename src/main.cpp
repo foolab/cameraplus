@@ -10,6 +10,7 @@
 
 #include "settings.h"
 #include "filenaming.h"
+#import "quillitem.h"
 
 Q_DECL_EXPORT int main(int argc, char *argv[]) {
   XInitThreads();
@@ -24,6 +25,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   Plugin::registerTypes(view.engine());
   qmlRegisterType<Settings>("CameraPlus", 1, 0, "Settings");
   qmlRegisterType<FileNaming>("CameraPlus", 1, 0, "FileNaming");
+  qmlRegisterType<QuillItem>("CameraPlus", 1, 0, "QuillItem");
 
   QUrl sourceUrl = QUrl::fromLocalFile(QDir::currentPath() + "/main.qml");
   view.setSource(sourceUrl);

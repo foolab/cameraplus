@@ -72,6 +72,20 @@ CameraPage {
 //                }
         }
 
-        // TODO: filenaming.
+        Button {
+                id: cameraRoll
+                anchors.top: parent.top
+                anchors.right: parent.right
+                anchors.topMargin: 20
+                anchors.rightMargin: 20
+                width: 56
+                height: 56
+
+                opacity: 0.5
+                iconSource: "image://theme/icon-m-camera-roll"
+                onClicked: openFile("PostCapturePage.qml");
+                visible: controlsVisible
+        }
+
         // TODO: metadata
 }
