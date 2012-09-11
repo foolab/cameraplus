@@ -13,8 +13,8 @@ QuillItem::QuillItem(QDeclarativeItem *parent) :
   static bool init = false;
   if (!init) {
     Quill::setPreviewLevelCount(1);
-    Quill::setPreviewSize(0, QSize(864, 480)); // TODO:
-    Quill::setMinimumPreviewSize(0, QSize(864, 480)); // TODO:
+    Quill::setPreviewSize(0, QSize(854, 480)); // TODO:
+    Quill::setMinimumPreviewSize(0, QSize(854, 480)); // TODO:
     Quill::setThumbnailExtension("jpeg"); // TODO:
     Quill::setThumbnailFlavorName(0, "screen");
     Quill::setBackgroundRenderingColor(Qt::black);
@@ -30,12 +30,14 @@ QuillItem::~QuillItem() {
   delete m_file; m_file = 0;
 }
 
-QUrl QuillItem::source() const {
-  if (m_file) {
-    return QUrl::fromLocalFile(m_file->fileName());
-  }
+void QuillItem::componentComplete() {
+  QDeclarativeItem::componentComplete();
 
-  return QUrl();
+  recreate();
+}
+
+QUrl QuillItem::source() const {
+  return m_url;
 }
 
 void QuillItem::setSource(const QUrl& src) {
@@ -43,11 +45,39 @@ void QuillItem::setSource(const QUrl& src) {
     return;
   }
 
+  m_url = src;
+
+  if (isComponentComplete()) {
+    recreate();
+  }
+
+  emit sourceChanged();
+}
+
+QString QuillItem::mimeType() const {
+  return m_type;
+}
+
+void QuillItem::setMimeType(const QString& mime) {
+  if (mimeType() == mime) {
+    return;
+  }
+
+  m_type = mime;
+
+  if (isComponentComplete()) {
+    recreate();
+  }
+
+  emit mimeTypeChanged();
+}
+
+void QuillItem::recreate() {
   if (m_file) {
     m_file->deleteLater();
   }
 
-  m_file = new QuillFile(src.toLocalFile());
+  m_file = new QuillFile(m_url.toLocalFile(), m_type);
 
   QObject::connect(m_file, SIGNAL(error(QuillError)),
 	  this, SLOT(fileError()), Qt::QueuedConnection);
@@ -65,8 +95,6 @@ void QuillItem::setSource(const QUrl& src) {
   if (fileError()) {
     return;
   }
-
-  emit sourceChanged();
 }
 
 void QuillItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
@@ -93,8 +121,9 @@ bool QuillItem::fileError() {
   }
 
   QuillError err = m_file->error();
+
   if (err.errorCode() != QuillError::NoError) {
-    qWarning() << "Error loading file" << m_file->fileName() << err.errorData();
+    qWarning() << "Error loading file" << m_file->fileName() << err.errorCode();
 
     QMetaObject::invokeMethod(this, "error", Qt::QueuedConnection,
 			      Q_ARG(QString, err.errorData()));

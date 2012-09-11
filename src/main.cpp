@@ -10,7 +10,7 @@
 
 #include "settings.h"
 #include "filenaming.h"
-#import "quillitem.h"
+#include "quillitem.h"
 
 Q_DECL_EXPORT int main(int argc, char *argv[]) {
   XInitThreads();
