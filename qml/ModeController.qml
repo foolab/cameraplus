@@ -18,13 +18,18 @@ Item {
                         cam.mode = mode;
                 }
 
-                NumberAnimation { target: dimmer; property: "opacity"; from: 0; to: 1; duration: 250; alwaysRunToEnd: true }
+                NumberAnimation { target: dimmer; property: "opacity"; from: 0; to: 1; duration: 150; alwaysRunToEnd: true }
+
+                PauseAnimation { duration: 50 }
+
                 ParallelAnimation {
                         ScriptAction { script: animation.setMode(); }
-                        PauseAnimation { duration: 100 }
+                        PauseAnimation { duration: 200 }
                 }
 
-                NumberAnimation { target: dimmer; property: "opacity"; from: 1; to: 0; duration: 250; alwaysRunToEnd: true }
+                PauseAnimation { duration: 50 }
+
+                NumberAnimation { target: dimmer; property: "opacity"; from: 1; to: 0; duration: 150; alwaysRunToEnd: true }
         }
 
         onModeChanged: {
