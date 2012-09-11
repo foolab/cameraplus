@@ -14,7 +14,20 @@ import CameraPlus 1.0
 // TODO: focus, caf, ...
 // TODO: indicators
 // TODO: portrait/landscape
-// TODO: record in a hidden directory and then copy the video to avoid tracker indexing it.
+// TODO: record video in a hidden directory and then copy the video to avoid tracker indexing it.
+// TODO: stop viewfinder in postcapture and settings pages ?
+// TODO: mass storage
+// TODO: resource policy
+// TODO: prevent going to mass storage while recording and capturing
+// TODO: prevent screen dimming while recording
+// TODO: sounds
+// TODO: grid lines, face tracking
+// TODO: complete settings pages
+// TODO: stop camera properly when we get closed.
+// TODO: select primary/secondary camera.
+// TODO: disable debug builds.
+// TODO: seems start gets called when we are shutting down
+// TODO: seems start gets called twice when we are starting up if screen is locked or dimmed ?!
 
 PageStackWindow {
         id: root
@@ -103,6 +116,7 @@ PageStackWindow {
                 }
 
                 onDeviceIdChanged: {
+                        // TODO: is this needed ?
                         if (platformWindow.active) {
                                 cam.start();
                         }
