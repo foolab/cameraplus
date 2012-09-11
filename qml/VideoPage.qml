@@ -2,6 +2,7 @@
 import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
+import CameraPlus 1.0
 
 CameraPage {
         id: page
@@ -9,6 +10,10 @@ CameraPage {
         controlsVisible: recording.visible && cam.running && !standbyWidget.visible
 
         orientationLock: PageOrientation.LockLandscape
+
+        DisplayState {
+                inhibitDim: videoMode.recording
+        }
 
         Button {
                 id: recording

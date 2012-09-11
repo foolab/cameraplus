@@ -19,7 +19,6 @@ import CameraPlus 1.0
 // TODO: mass storage
 // TODO: resource policy
 // TODO: prevent going to mass storage while recording and capturing
-// TODO: prevent screen dimming while recording
 // TODO: sounds
 // TODO: grid lines, face tracking
 // TODO: complete settings pages

@@ -10,6 +10,7 @@
 #include "settings.h"
 #include "filenaming.h"
 #include "quillitem.h"
+#include "displaystate.h"
 
 Q_DECL_EXPORT int main(int argc, char *argv[]) {
   QApplication::setAttribute(Qt::AA_X11InitThreads, true);
@@ -24,6 +25,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<Settings>("CameraPlus", 1, 0, "Settings");
   qmlRegisterType<FileNaming>("CameraPlus", 1, 0, "FileNaming");
   qmlRegisterType<QuillItem>("CameraPlus", 1, 0, "QuillItem");
+  qmlRegisterType<DisplayState>("CameraPlus", 1, 0, "DisplayState");
 
   QUrl sourceUrl = QUrl::fromLocalFile(QDir::currentPath() + "/main.qml");
   view.setSource(sourceUrl);
