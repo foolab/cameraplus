@@ -16,7 +16,6 @@ import CameraPlus 1.0
 // TODO: portrait/landscape
 // TODO: record video in a hidden directory and then copy the video to avoid tracker indexing it.
 // TODO: stop viewfinder in postcapture and settings pages ?
-// TODO: mass storage
 // TODO: resource policy
 // TODO: prevent going to mass storage while recording and capturing
 // TODO: sounds
@@ -48,6 +47,10 @@ PageStackWindow {
         function showError(msg) {
                 error.text = msg;
                 error.show();
+        }
+
+        FSMonitor {
+                id: fileSystem
         }
 
         InfoBanner {

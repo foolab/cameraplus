@@ -18,8 +18,11 @@ CameraPage {
                 height: 75
                 opacity: 0.5
                 onClicked: {
-                        if (!imageMode.capture(fileNaming.imageFileName())) {
-                                showError("Failed to capture image. Please restart the camera.");
+                        if (!fileSystem.available) {
+                                showError(qsTr("Camera cannot capture images in mass storage mode."));
+                        }
+                        else if (!imageMode.capture(fileNaming.imageFileName())) {
+                                showError(qsTr("Failed to capture image. Please restart the camera."));
                         }
                 }
 

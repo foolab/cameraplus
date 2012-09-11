@@ -26,8 +26,11 @@ CameraPage {
                 opacity: 0.5
                 onClicked: {
                         if (!videoMode.recording) {
-                                if (!videoMode.startRecording(fileNaming.videoFileName())) {
-                                        showError("Failed to record video. Please restart the camera.");
+                                if (!fileSystem.available) {
+                                        showError(qsTr("Camera cannot record videos in mass storage mode."));
+                                }
+                                else if (!videoMode.startRecording(fileNaming.videoFileName())) {
+                                        showError(qsTr("Failed to record video. Please restart the camera."));
                                 }
                         }
                         else {
