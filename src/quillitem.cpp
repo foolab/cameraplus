@@ -22,6 +22,9 @@ QuillItem::QuillItem(QDeclarativeItem *parent) :
                      QDir::separator() + "quill" + QDir::separator() + "tmp");
     QDir().mkpath(tempPath);
     Quill::setTemporaryFilePath(tempPath);
+    Quill::setDBusThumbnailingEnabled(true);
+    Quill::setThumbnailCreationEnabled(true);
+
     init = true;
   }
 }
