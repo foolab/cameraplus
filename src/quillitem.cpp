@@ -6,7 +6,7 @@
 #include <QDir>
 
 QuillItem::QuillItem(QDeclarativeItem *parent) :
-  QDeclarativeItem(parent), m_file(0) {
+  QDeclarativeItem(parent), m_file(0), m_error(false) {
 
   setFlag(QGraphicsItem::ItemHasNoContents, false);
 
@@ -72,7 +72,16 @@ void QuillItem::setMimeType(const QString& mime) {
   emit mimeTypeChanged();
 }
 
+bool QuillItem::error() const {
+  return m_error;
+}
+
 void QuillItem::recreate() {
+  if (m_error) {
+    m_error = false;
+    emit errorChanged();
+  }
+
   if (m_file) {
     m_file->deleteLater();
   }
@@ -128,6 +137,13 @@ bool QuillItem::fileError() {
     QMetaObject::invokeMethod(this, "error", Qt::QueuedConnection,
 			      Q_ARG(QString, err.errorData()));
     m_file->deleteLater(); m_file = 0;
+
+    if (!m_error) {
+      m_error = true;
+
+      emit errorChanged();
+    }
+
     return true;
   }
 

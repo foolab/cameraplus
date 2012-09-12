@@ -55,15 +55,26 @@ Page {
                         width: view.width
                         height: view.height
 
+                        Label {
+                                width: view.width - 10
+                                height: view.height
+                                anchors.centerIn: parent
+                                visible: item.error
+                                text: qsTr("Failed to load preview");
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignHCenter
+                                font.pixelSize: 32
+                        }
+
                         QuillItem {
+                                id: item
                                 source: url
                                 mimeType: mime
                                 width: view.width - 10
                                 height: view.height
                                 anchors.centerIn: parent
-                                // TODO: does not work because of preloading
-                                //                        onError: showError(qsTr("Failed to load image"));
-                                }
+                                visible: !item.error
+                        }
                 }
         }
 
