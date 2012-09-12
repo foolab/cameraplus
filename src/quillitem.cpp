@@ -135,7 +135,8 @@ bool QuillItem::fileError() {
   QuillError err = m_file->error();
 
   if (err.errorCode() != QuillError::NoError) {
-    qWarning() << "Error loading file" << m_file->fileName() << err.errorCode();
+    qWarning() << "Error loading file" << m_file->fileName()
+	       << "Code" << err.errorCode() << "Source" << err.errorSource();
 
     QMetaObject::invokeMethod(this, "error", Qt::QueuedConnection,
 			      Q_ARG(QString, err.errorData()));
