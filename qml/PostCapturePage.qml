@@ -37,7 +37,7 @@ Page {
                 pathItemCount: 3
 
                 model: SparqlListModel {
-                        query: "SELECT nie:url(?urn) AS ?url tracker:id(?urn) AS ?trackerid nie:mimeType(?urn) AS ?mime WHERE { ?urn rdf:type nfo:Media .  ?urn nfo:equipment \"urn:equipment:Nokia:N950:\" ; tracker:available \"true\"^^xsd:boolean  }  ORDER BY DESC (?created)"
+                        query: "SELECT nie:url(?urn) AS ?url tracker:id(?urn) AS ?trackerid nie:mimeType(?urn) AS ?mime WHERE { ?urn rdf:type nfo:Media .  ?urn nfo:equipment \"urn:equipment:Nokia:N950:\" ; tracker:available \"true\"^^xsd:boolean  OPTIONAL { ?urn nie:contentCreated ?created }   }  ORDER BY DESC (?created)"
 
                         connection: SparqlConnection {
                                 id: connection
