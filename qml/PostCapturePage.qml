@@ -73,7 +73,6 @@ Page {
                                 width: view.width - 10
                                 height: view.height
                                 anchors.centerIn: parent
-                                visible: !item.error
                         }
                 }
         }
