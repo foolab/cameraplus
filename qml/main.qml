@@ -4,6 +4,7 @@ import com.nokia.meego 1.1
 import com.nokia.extras 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
+import QtMobility.systeminfo 1.2
 
 // TODO: metadata creator name, gps, geotags
 // TODO: resolutions and aspect ratios
@@ -47,6 +48,10 @@ PageStackWindow {
         function showError(msg) {
                 error.text = msg;
                 error.show();
+        }
+
+        DeviceInfo {
+                id: deviceInfo
         }
 
         FSMonitor {
