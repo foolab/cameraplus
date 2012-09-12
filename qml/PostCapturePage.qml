@@ -20,13 +20,21 @@ Page {
                 anchors.fill: parent
         }
 
-        ListView {
-                // TODO: ListView does not loop and seems one has to use PathView.
+        PathView {
                 id: view
                 anchors.fill: parent
-                orientation: ListView.Horizontal
-                snapMode: ListView.SnapOneItem
-                cacheBuffer: view.width * 2
+
+                path: Path {
+                        startX: - view.width
+                        startY: view.height / 2
+                        PathLine { x: view.width * 2; y: view.height / 2 }
+                }
+
+                flickDeceleration: 999999 // Insanely high value to prevent panning multiple images
+                preferredHighlightBegin: 0.5
+                preferredHighlightEnd: 0.5
+                highlightRangeMode: PathView.StrictlyEnforceRange
+                pathItemCount: 3
 
                 model: SparqlListModel {
                         query: "SELECT nie:url(?urn) AS ?url tracker:id(?urn) AS ?trackerid nie:mimeType(?urn) AS ?mime WHERE { ?urn rdf:type nfo:Media .  ?urn nfo:equipment \"urn:equipment:Nokia:N950:\" ; tracker:available \"true\"^^xsd:boolean  }  ORDER BY DESC (?created)"
