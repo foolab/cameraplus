@@ -56,7 +56,10 @@ CameraPage {
                 pathItemCount: 3
 
                 model: SparqlListModel {
-                        query: "SELECT nie:url(?urn) AS ?url tracker:id(?urn) AS ?trackerid nie:mimeType(?urn) AS ?mime WHERE { ?urn rdf:type nfo:Media .  ?urn nfo:equipment \"urn:equipment:" + deviceInfo.manufacturer + ":" + deviceInfo.model + ":\" ; tracker:available \"true\"^^xsd:boolean  OPTIONAL { ?urn nie:contentCreated ?created }   }  ORDER BY DESC (?created)"
+                        // This is the exact query used by Harmattan gallery.
+                        // Gallery prints it as part of its debugging when
+                        // passing -output-level debug ;-)
+                        query: "SELECT nie:url(?urn) AS ?url nfo:fileName(?urn) AS ?filename ?created nie:mimeType(?urn) AS ?mimetype ( EXISTS { ?urn nao:hasTag nao:predefined-tag-favorite . } ) AS ?favorite nfo:duration(?urn) AS ?duration ?urn \"false\"^^xsd:boolean AS ?isVirtual nfo:fileLastModified(?urn) as ?lastmod nfo:hasRegionOfInterest(?urn) as ?roi tracker:id(?urn) AS ?trackerid WHERE { ?urn rdf:type nfo:Visual ; tracker:available \"true\"^^xsd:boolean . OPTIONAL { ?urn nie:contentCreated ?created } . ?urn nfo:equipment \"urn:equipment:" + deviceInfo.manufacturer + ":" + deviceInfo.model + ":\" . } ORDER BY DESC (?created)"
 
                         connection: SparqlConnection {
                                 id: connection
@@ -91,7 +94,7 @@ CameraPage {
                         QuillItem {
                                 id: item
                                 source: url
-                                mimeType: mime
+                                mimeType: mimetype
                                 width: view.width - 10
                                 height: view.height
                                 anchors.centerIn: parent
