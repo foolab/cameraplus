@@ -50,6 +50,18 @@ PageStackWindow {
                 error.show();
         }
 
+        CameraResources {
+                id: resourcePolicy
+                onAcquiredChanged: {
+                        if (resourcePolicy.acquired) {
+                                // TODO:
+                        }
+                        else {
+                                // TODO: We need a way to force a stop.
+                        }
+                }
+        }
+
         DeviceInfo {
                 id: deviceInfo
         }
@@ -100,35 +112,15 @@ PageStackWindow {
                 background: " "
         }
 
-        Connections {
-                target: platformWindow
-                onActiveChanged: {
-                        if (platformWindow.active) {
-                                if (!cam.start()) {
-                                        showError("Camera failed to start. Please restart the camera.");
-                                }
-                        }
-                        else {
-                                // This is a noop if camera is not idle so calling it will not hurt
-                                cam.stop();
-                        }
-                }
-        }
-
         Camera {
-                onIdleChanged: {
-                        if (idle && !platformWindow.active) {
-                                stop();
-                        }
-                }
-
+/*
                 onDeviceIdChanged: {
                         // TODO: is this needed ?
                         if (platformWindow.active) {
                                 cam.start();
                         }
                 }
-
+*/
                 id: cam
                 anchors.fill: parent
 

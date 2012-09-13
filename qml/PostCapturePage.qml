@@ -11,9 +11,28 @@ import CameraPlus 1.0
 
 // TODO: this is really basic.
 
-Page {
+CameraPage {
         id: page
-        property Camera cam: null
+
+        controlsVisible: false
+        policyMode: CameraResources.PostCapture
+        needsPipeline: true
+
+        onStatusChanged: {
+                if (status == PageStatus.Active) {
+                        cam.stop();
+                }
+        }
+
+        Connections {
+                // Unlikely that we need this.
+                target: cam
+                onIdleChanged: {
+                        if (cam.idle && page.status == PageStatus.Active) {
+                                cam.stop();
+                        }
+                }
+        }
 
         Rectangle {
                 color: "black"
@@ -45,12 +64,15 @@ Page {
                                 onStatusChanged: checkStatus(status)
 
                                 function checkStatus(status) {
-                                        if (status == SparqlConnection.Error)
-                                        console.log("Error = "+connection.errorString());
+                                        if (status == SparqlConnection.Error) {
+                                                console.log("Error = "+connection.errorString());
+                                        }
                                 }
                         }
                 }
 
+                // TODO: tap post capture and then immediately back and you can see the error
+                // and the standby widget underneath it.
                 delegate: Item {
                         width: view.width
                         height: view.height
@@ -83,7 +105,7 @@ Page {
                 anchors.bottom: parent.bottom
                 tools: ToolBarLayout {
                         id: layout
-                        ToolIcon { iconId: "icon-m-toolbar-back"; onClicked: pageStack.pop(); }
+                        ToolIcon { iconId: "icon-m-toolbar-back"; onClicked: { cam.start(); pageStack.pop(); } }
                 }
         }
 }

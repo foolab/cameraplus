@@ -106,7 +106,8 @@ void QtCamViewfinderRendererMeeGo::resize(const QSizeF& size) {
 }
 
 void QtCamViewfinderRendererMeeGo::reset() {
-  // Nothing.
+  QMutexLocker locker(&m_frameMutex);
+  m_frame = -1;
 }
 
 GstElement *QtCamViewfinderRendererMeeGo::sinkElement() {

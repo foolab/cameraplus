@@ -2,11 +2,15 @@
 import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
+import CameraPlus 1.0
 import "data.js" as Data
 
-Page {
+CameraPage {
         id: page
-        property Camera cam: null
+
+        controlsVisible: false
+        policyMode: CameraResources.Image
+        needsPipeline: true
 
         Rectangle {
                 color: "black"

@@ -14,6 +14,7 @@ public:
 
   virtual GstElement *sinkElement() = 0;
   virtual bool setDevice(QtCamDevice *device) = 0;
+  virtual void stop() = 0;
 };
 
 #endif /* QT_CAM_VIEWFINDER_H */

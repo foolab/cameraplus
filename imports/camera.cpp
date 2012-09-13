@@ -126,10 +126,12 @@ bool Camera::start() {
   return m_dev->start();
 }
 
-void Camera::stop() {
+bool Camera::stop() {
   if (m_dev) {
-    m_dev->stop();
+    return m_dev->stop();
   }
+
+  return true;
 }
 
 bool Camera::isIdle() {

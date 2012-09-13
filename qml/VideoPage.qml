@@ -7,6 +7,8 @@ import CameraPlus 1.0
 CameraPage {
         id: page
 
+        policyMode: CameraResources.Video
+
         controlsVisible: recording.visible && cam.running && !standbyWidget.visible
 
         orientationLock: PageOrientation.LockLandscape
@@ -24,17 +26,43 @@ CameraPage {
                 width: 75
                 height: 75
                 opacity: 0.5
+
                 onClicked: {
-                        if (!videoMode.recording) {
-                                if (!fileSystem.available) {
-                                        showError(qsTr("Camera cannot record videos in mass storage mode."));
-                                }
-                                else if (!videoMode.startRecording(fileNaming.videoFileName())) {
-                                        showError(qsTr("Failed to record video. Please restart the camera."));
+                        if (!fileSystem.available) {
+                                showError(qsTr("Camera cannot record videos in mass storage mode."));
+                                return;
+                        }
+
+                        // We only toggle the mode to video recording so
+                        // policy can acquire the needed resources
+
+                        if (policyMode == CameraResources.Video) {
+                                policyMode = CameraResources.Recording;
+                        }
+                        else if (videoMode.recording) {
+                                // We just ask to stop video.
+                                videoMode.stopRecording();
+                        }
+                }
+
+                Connections {
+                        target: videoMode
+                        onRecordingChanged: {
+                                if (!videoMode.recording) {
+                                        policyMode = CameraResources.Video;
                                 }
                         }
-                        else {
-                                videoMode.stopRecording();
+                }
+
+                Connections {
+                        target: resourcePolicy
+                        onAcquiredChanged: {
+                                if (resourcePolicy.acquired && policyMode == CameraResources.Recording) {
+                                        if (!videoMode.startRecording(fileNaming.videoFileName())) {
+                                                showError(qsTr("Failed to record video. Please restart the camera."));
+                                                policyMode = CameraResources.Video
+}
+                                }
                         }
                 }
 

@@ -109,3 +109,7 @@ void QtCamGraphicsViewfinder::resizeEvent(QGraphicsSceneResizeEvent *event) {
 void QtCamGraphicsViewfinder::updateRequested() {
   update();
 }
+
+void QtCamGraphicsViewfinder::stop() {
+  d_ptr->resetBackend();
+}

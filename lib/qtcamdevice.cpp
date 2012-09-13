@@ -185,6 +185,8 @@ bool QtCamDevice::stop() {
     return false;
   }
 
+  d_ptr->viewfinder->stop();
+
   // First we go to ready:
   GstStateChangeReturn st = gst_element_set_state(d_ptr->cameraBin, GST_STATE_READY);
   if (st != GST_STATE_CHANGE_FAILURE) {

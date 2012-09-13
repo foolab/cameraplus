@@ -46,15 +46,13 @@ public:
   QtCamDevice *device() const;
 
   Q_INVOKABLE bool start();
+  Q_INVOKABLE bool stop();
 
   bool isIdle();
   bool isRunning();
 
   QString imageSuffix() const;
   QString videoSuffix() const;
-
-public slots:
-  void stop();
 
 signals:
   void deviceCountChanged();
