@@ -122,6 +122,8 @@ QList<ResourcePolicy::ResourceType> CameraResources::listSet() {
 void CameraResources::updateSet(const QList<ResourcePolicy::ResourceType>& required,
 				const QList<ResourcePolicy::ResourceType>& optional) {
 
+  bool isEmpty = m_set->resources().isEmpty();
+
   QList<ResourcePolicy::ResourceType> set = listSet();
 
   foreach (ResourceType r, set) {
@@ -138,5 +140,12 @@ void CameraResources::updateSet(const QList<ResourcePolicy::ResourceType>& requi
 
   // TODO: optional resources
 
-  m_set->update();
+  // Odd. If we don't do it that way then policy ignores our requests
+  // when we get minimized then maximized.
+  if (isEmpty) {
+    m_set->update();
+  }
+  else {
+    m_set->acquire();
+  }
 }
