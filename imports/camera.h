@@ -61,6 +61,7 @@ signals:
   void modeChanged();
   void idleStateChanged();
   void runningStateChanged();
+  void error(const QString& message, int code, const QString& debug);
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);

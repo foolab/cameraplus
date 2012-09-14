@@ -75,6 +75,8 @@ void Camera::setDeviceId(const QVariant& id) {
   QObject::connect(m_dev, SIGNAL(runningStateChanged(bool)),
 		      this, SIGNAL(runningStateChanged()));
   QObject::connect(m_dev, SIGNAL(idleStateChanged(bool)), this, SIGNAL(idleStateChanged()));
+  QObject::connect(m_dev, SIGNAL(error(const QString&, int, const QString&)),
+		   this, SIGNAL(error(const QString&, int, const QString&)));
 
   emit deviceIdChanged();
   emit deviceChanged();

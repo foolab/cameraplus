@@ -124,6 +124,12 @@ PageStackWindow {
                 id: cam
                 anchors.fill: parent
 
+                onError: {
+                        console.log("Camera error (" + code + "): " + message + " " + debug);
+                        showError(qsTr("Camera error. Please restart the application."));
+                        cam.stop();
+                }
+
                 // TODO: hardcoding device id
                 Component.onCompleted: { cam.deviceId = 0; mode = settings.mode; }
 
