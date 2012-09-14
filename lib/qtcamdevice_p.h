@@ -114,6 +114,10 @@ public:
 
     QMetaObject::invokeMethod(q_ptr, "error", Q_ARG(QString, message),
 			      Q_ARG(int, code), Q_ARG(QString, debug));
+
+    if (active) {
+      QMetaObject::invokeMethod(active, "canCaptureChanged", Qt::QueuedConnection);
+    }
   }
 
   void _d_stopped() {
