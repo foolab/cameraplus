@@ -98,6 +98,13 @@ CameraPage {
                                 width: view.width - 10
                                 height: view.height
                                 anchors.centerIn: parent
+
+                                MouseArea {
+                                        id: mouse
+                                        anchors.fill: parent
+                                        enabled: true
+                                        onClicked: toolBar.visible = !toolBar.visible
+                                }
                         }
                 }
         }
@@ -109,6 +116,28 @@ CameraPage {
                 tools: ToolBarLayout {
                         id: layout
                         ToolIcon { iconId: "icon-m-toolbar-back"; onClicked: { cam.start(); pageStack.pop(); } }
+                }
+        }
+
+        Rectangle {
+                // TODO: transitions
+                id: rect
+                anchors.top: parent.top
+                height: toolBar.height
+                width: parent.width
+                color: "black"
+                opacity: toolBar.opacity
+                visible: toolBar.visible
+                Row {
+                        anchors.fill: parent
+
+                        Label {
+
+                        }
+
+                        Label {
+
+                        }
                 }
         }
 }
