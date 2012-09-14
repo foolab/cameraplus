@@ -13,13 +13,13 @@ Page {
         property int policyMode: CameraResources.None
 
         Component.onCompleted: {
-                if (platformWindow.active && needsPipeline) {
+                if (Qt.application.active && needsPipeline) {
                         resourcePolicy.acquire(page.policyMode);
                 }
         }
 
         onStatusChanged: {
-                if (platformWindow.active && status == PageStatus.Activating) {
+                if (Qt.application.active && status == PageStatus.Activating) {
                         resourcePolicy.acquire(page.policyMode);
                 }
         }
@@ -32,13 +32,13 @@ Page {
 */
 
         onPolicyModeChanged: {
-                if (platformWindow.active) {
+                if (Qt.application.active) {
                         resourcePolicy.acquire(page.policyMode);
                 }
         }
 
         function handlePipeline() {
-                if (!platformWindow.active) {
+                if (!Qt.application.active) {
                         // TODO: force if we lost resources ?
                         cam.stop();
                 }
@@ -58,9 +58,9 @@ Page {
         }
 
         Connections {
-                target: platformWindow
+                target: Qt.application
                 onActiveChanged: {
-                        if (!platformWindow.active) {
+                        if (!Qt.application.active) {
                                 // This is a noop if camera is not
                                 // idle so calling it will not hurt
                                 if (cam.stop()) {
@@ -76,7 +76,7 @@ Page {
         Connections {
                 target: cam
                 onIdleChanged: {
-                        if (cam.idle && !platformWindow.active) {
+                        if (cam.idle && !Qt.application.active) {
                                 cam.stop();
                                 resourcePolicy.acquire(CameraResources.None);
                         }
@@ -95,7 +95,7 @@ Page {
                 id: standby
                 color: "black"
                 anchors.fill: parent
-                visible: !platformWindow.active || !cam.running || !resourcePolicy.acquired
+                visible: !Qt.application.active || !cam.running || !resourcePolicy.acquired
                 Image {
                         source: "image://theme/icon-l-camera-standby"
                         anchors.centerIn: parent

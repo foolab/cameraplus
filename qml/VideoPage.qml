@@ -70,9 +70,9 @@ CameraPage {
         }
 
         Connections {
-                target: platformWindow
+                target: Qt.application
                 onActiveChanged: {
-                        if (!platformWindow.active && videoMode.recording) {
+                        if (!Qt.application.active && videoMode.recording) {
                                 videoMode.stopRecording();
                         }
                 }

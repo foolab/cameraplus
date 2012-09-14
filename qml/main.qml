@@ -16,17 +16,16 @@ import QtMobility.systeminfo 1.2
 // TODO: indicators
 // TODO: portrait/landscape
 // TODO: record video in a hidden directory and then copy the video to avoid tracker indexing it.
-// TODO: stop viewfinder in postcapture and settings pages ?
-// TODO: resource policy
+// TODO: stop viewfinder in settings pages ?
 // TODO: prevent going to mass storage while recording and capturing
 // TODO: sounds
-// TODO: grid lines, face tracking
+// TODO: grid lines, face tracking, ambr
 // TODO: complete settings pages
 // TODO: stop camera properly when we get closed.
 // TODO: select primary/secondary camera.
 // TODO: disable debug builds.
-// TODO: seems start gets called when we are shutting down
-// TODO: seems start gets called twice when we are starting up if screen is locked or dimmed ?!
+// TODO: a way to get buffers to the application
+// TODO: fcam like functionality (precise control over capture parameters).
 
 PageStackWindow {
         id: root
