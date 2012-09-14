@@ -17,6 +17,7 @@
 #include "noisereduction.h"
 #include "flickerreduction.h"
 #include "mute.h"
+#include "metadata.h"
 
 #include <QtDeclarative>
 
@@ -41,6 +42,7 @@ void Plugin::registerTypes(QDeclarativeEngine *engine) {
   qmlRegisterType<NoiseReduction>(URI, MAJOR, MINOR, "NoiseReduction");
   qmlRegisterType<FlickerReduction>(URI, MAJOR, MINOR, "FlickerReduction");
   qmlRegisterType<Mute>(URI, MAJOR, MINOR, "Mute");
+  qmlRegisterType<MetaData>(URI, MAJOR, MINOR, "MetaData");
 
   qmlRegisterType<Mode>();
   qmlRegisterType<Capability>();
