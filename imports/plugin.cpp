@@ -16,6 +16,7 @@
 #include "iso.h"
 #include "noisereduction.h"
 #include "flickerreduction.h"
+#include "mute.h"
 
 #include <QtDeclarative>
 
@@ -39,6 +40,7 @@ void Plugin::registerTypes(QDeclarativeEngine *engine) {
   qmlRegisterType<Iso>(URI, MAJOR, MINOR, "Iso");
   qmlRegisterType<NoiseReduction>(URI, MAJOR, MINOR, "NoiseReduction");
   qmlRegisterType<FlickerReduction>(URI, MAJOR, MINOR, "FlickerReduction");
+  qmlRegisterType<Mute>(URI, MAJOR, MINOR, "Mute");
 
   qmlRegisterType<Mode>();
   qmlRegisterType<Capability>();

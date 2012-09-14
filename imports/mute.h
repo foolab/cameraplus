@@ -1,26 +1,26 @@
 // -*- c++ -*-
-#ifndef VIDEO_TORCH_H
-#define VIDEO_TORCH_H
+#ifndef MUTE_H
+#define MUTE_H
 
 #include <QObject>
 
 class Camera;
-class QtCamVideoTorch;
+class QtCamMute;
 
-class VideoTorch : public QObject {
+class Mute : public QObject {
   Q_OBJECT
   Q_PROPERTY(Camera* camera READ camera WRITE setCamera NOTIFY cameraChanged);
-  Q_PROPERTY(bool on READ isOn WRITE setOn NOTIFY stateChanged);
+  Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled NOTIFY stateChanged);
 
 public:
-  VideoTorch(QObject *parent = 0);
-  ~VideoTorch();
+  Mute(QObject *parent = 0);
+  ~Mute();
 
   Camera *camera();
   void setCamera(Camera *camera);
 
-  bool isOn() const;
-  void setOn(bool on);
+  bool isEnabled() const;
+  void setEnabled(bool enabled);
 
 signals:
   void stateChanged();
@@ -31,7 +31,7 @@ private slots:
 
 private:
   Camera *m_cam;
-  QtCamVideoTorch *m_torch;
+  QtCamMute *m_mute;
 };
 
-#endif /* VIDEO_TORCH_H */
+#endif /* MUTE_H */

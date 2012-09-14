@@ -58,6 +58,7 @@ private:
   friend class QtCamMetaData;
   friend class QtCamCapability;
   friend class QtCamVideoTorch;
+  friend class QtCamMute;
 
   QtCamDevicePrivate *d_ptr;
 };
