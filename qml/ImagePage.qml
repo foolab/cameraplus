@@ -28,7 +28,7 @@ CameraPage {
                         }
                 }
 
-                visible: imageMode.canCapture && !cameraMode.animationRunning && !previewAnimationRunning
+                visible: imageMode.canCapture && !cameraMode.animationRunning && !previewAnimationRunning && cam.running
         }
 
         ImageMode {
