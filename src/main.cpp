@@ -15,6 +15,7 @@
 #include "cameraresources.h"
 #include "compass.h"
 #include "orientation.h"
+#include "geocode.h"
 
 Q_DECL_EXPORT int main(int argc, char *argv[]) {
   QApplication::setAttribute(Qt::AA_X11InitThreads, true);
@@ -34,6 +35,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<CameraResources>("CameraPlus", 1, 0, "CameraResources");
   qmlRegisterType<Compass>("CameraPlus", 1, 0, "Compass");
   qmlRegisterType<Orientation>("CameraPlus", 1, 0, "Orientation");
+  qmlRegisterType<Geocode>("CameraPlus", 1, 0, "ReverseGeocode");
 
   QUrl sourceUrl = QUrl::fromLocalFile(QDir::currentPath() + "/main.qml");
   view.setSource(sourceUrl);
