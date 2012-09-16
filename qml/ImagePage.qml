@@ -22,8 +22,12 @@ CameraPage {
                 onClicked: {
                         if (!fileSystem.available) {
                                 showError(qsTr("Camera cannot capture images in mass storage mode."));
+                                return;
                         }
-                        else if (!imageMode.capture(fileNaming.imageFileName())) {
+
+                        metaData.setMetaData();
+
+                        if (!imageMode.capture(fileNaming.imageFileName())) {
                                 showError(qsTr("Failed to capture image. Please restart the camera."));
                         }
                 }

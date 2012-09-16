@@ -5,8 +5,8 @@ import com.nokia.extras 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
 import QtMobility.systeminfo 1.2
+import QtMobility.location 1.2
 
-// TODO: metadata creator name, gps, geotags
 // TODO: resolutions and aspect ratios
 // TODO: postcapture
 // TODO: battery low state
@@ -47,6 +47,50 @@ PageStackWindow {
         function showError(msg) {
                 error.text = msg;
                 error.show();
+        }
+
+        PositionSource {
+                id: positionSource
+                active: cam.running && settings.useGps
+                onPositionChanged: geocode.search(position.coordinate.longitude, position.coordinate.latitude);
+        }
+
+        MetaData {
+                id: metaData
+                camera: cam
+                manufacturer: deviceInfo.manufacturer
+                model: deviceInfo.model
+                country: geocode.country
+                city: geocode.city
+                suburb: geocode.suburb
+                longitude: positionSource.position.coordinate.longitude
+                longitudeValid: positionSource.position.longitudeValid && settings.useGps
+                latitude: positionSource.position.coordinate.latitude
+                latitudeValid: positionSource.position.latitudeValid && settings.useGps
+                elevation: positionSource.position.coordinate.altitude
+                elevationValid: positionSource.position.altitudeValid && settings.useGps
+                orientation: orientation.orientation
+                artist: settings.creatorName
+                captureDirection: compass.direction
+                captureDirectionValid: compass.directionValid
+                horizontalError: positionSource.position.horizontalAccuracy
+                horizontalErrorValid: positionSource.position.horizontalAccuracyValid && settings.useGps
+                dateTimeEnabled: true
+        }
+
+        Orientation {
+                id: orientation
+                active: cam.running
+        }
+
+        Compass {
+                id: compass
+                active: cam.running
+        }
+
+        ReverseGeocode {
+                id: geocode
+                active: cam.running && settings.useGps && settings.useGeotags
         }
 
         CameraResources {

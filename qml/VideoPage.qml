@@ -58,6 +58,7 @@ CameraPage {
                         target: resourcePolicy
                         onAcquiredChanged: {
                                 if (resourcePolicy.acquired && policyMode == CameraResources.Recording) {
+                                        metaData.setMetaData();
                                         if (!videoMode.startRecording(fileNaming.videoFileName())) {
                                                 showError(qsTr("Failed to record video. Please restart the camera."));
                                                 policyMode = CameraResources.Video
