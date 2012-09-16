@@ -212,6 +212,12 @@ PageStackWindow {
                 dimmer: root.dimmer
         }
 
+        Iso {
+                id: iso
+                camera: cam
+                value: ready ? settings.imageIso : 0
+        }
+
         Connections {
                 target: cam
                 onModeChanged: {

@@ -85,11 +85,35 @@ CameraPage {
 
                         ButtonRow {
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                Button { text: qsTr("Automatic"); }
-                                Button { text: qsTr("ISO 100"); }
-                                Button { text: qsTr("ISO 200"); }
-                                Button { text: qsTr("ISO 400"); }
-                                Button { text: qsTr("ISO 800"); }
+                                Button {
+                                        text: qsTr("Automatic");
+                                        checked: settings.imageIso == 0;
+                                        onClicked: settings.imageIso = 0;
+                                }
+
+                                Button {
+                                        text: qsTr("ISO 100");
+                                        checked: settings.imageIso == 100;
+                                        onClicked: settings.imageIso = 100;
+                                }
+
+                                Button {
+                                        text: qsTr("ISO 200");
+                                        checked: settings.imageIso == 200;
+                                        onClicked: settings.imageIso = 200;
+                                }
+
+                                Button {
+                                        text: qsTr("ISO 400");
+                                        checked: settings.imageIso == 400;
+                                        onClicked: settings.imageIso = 400;
+                                }
+
+                                Button {
+                                        text: qsTr("ISO 800");
+                                        checked: settings.imageIso == 800;
+                                        onClicked: settings.imageIso = 800;
+                                }
                         }
 
                         SectionHeader {

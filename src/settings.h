@@ -26,6 +26,7 @@ class Settings : public QObject {
   Q_PROPERTY(qreal videoEvComp READ videoEvComp WRITE setVideoEvComp NOTIFY videoEvCompChanged);
 
   Q_PROPERTY(int imageFlashMode READ imageFlashMode WRITE setImageFlashMode NOTIFY imageFlashModeChanged);
+  Q_PROPERTY(int imageIso READ imageIso WRITE setImageIso NOTIFY imageIsoChanged);
 
 public:
   Settings(QObject *parent = 0);
@@ -73,6 +74,9 @@ public:
   int imageFlashMode() const;
   void setImageFlashMode(int mode);
 
+  int imageIso() const;
+  void setImageIso(int iso);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
@@ -88,6 +92,7 @@ signals:
   void videoWhiteBalanceChanged();
   void videoEvCompChanged();
   void imageFlashModeChanged();
+  void imageIsoChanged();
 
 private:
   QSettings *m_settings;

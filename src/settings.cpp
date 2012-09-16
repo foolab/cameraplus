@@ -13,6 +13,7 @@
 #define DEFAULT_WHITE_BALANCE 0
 #define DEFAULT_EV_COMP       0.0
 #define DEFAULT_FLASH_MODE    0
+#define DEFAULT_IMAGE_ISO     0
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -189,5 +190,16 @@ void Settings::setImageFlashMode(int mode) {
     m_settings->setValue("image/flashMode", mode);
 
     emit imageFlashModeChanged();
+  }
+}
+
+int Settings::imageIso() const {
+  return m_settings->value("image/iso", DEFAULT_IMAGE_ISO).toInt();
+}
+
+void Settings::setImageIso(int iso) {
+  if (imageIso() != iso) {
+    m_settings->setValue("image/iso", iso);
+    emit imageIsoChanged();
   }
 }
