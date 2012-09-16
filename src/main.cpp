@@ -13,6 +13,8 @@
 #include "displaystate.h"
 #include "fsmonitor.h"
 #include "cameraresources.h"
+#include "compass.h"
+#include "orientation.h"
 
 Q_DECL_EXPORT int main(int argc, char *argv[]) {
   QApplication::setAttribute(Qt::AA_X11InitThreads, true);
@@ -30,6 +32,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<DisplayState>("CameraPlus", 1, 0, "DisplayState");
   qmlRegisterType<FSMonitor>("CameraPlus", 1, 0, "FSMonitor");
   qmlRegisterType<CameraResources>("CameraPlus", 1, 0, "CameraResources");
+  qmlRegisterType<Compass>("CameraPlus", 1, 0, "Compass");
+  qmlRegisterType<Orientation>("CameraPlus", 1, 0, "Orientation");
 
   QUrl sourceUrl = QUrl::fromLocalFile(QDir::currentPath() + "/main.qml");
   view.setSource(sourceUrl);
