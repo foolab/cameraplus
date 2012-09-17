@@ -3,13 +3,18 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
+import "data.js" as Data
 
+// TODO: video recording indicators.
+// TODO: stop recording when battery low
+// TODO: stop recording when disk is low
 CameraPage {
         id: page
 
         policyMode: CameraResources.Video
 
-        controlsVisible: recording.visible && cam.running && !standbyWidget.visible
+        controlsVisible: videoControlsVisible && !videoMode.recording
+        property bool videoControlsVisible: recording.visible && cam.running && !standbyWidget.visible
 
         orientationLock: PageOrientation.LockLandscape
 
@@ -91,7 +96,7 @@ CameraPage {
 
         VideoTorchButton {
                 id: torch
-                visible: controlsVisible
+                visible: videoControlsVisible
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.topMargin: 20
@@ -101,7 +106,7 @@ CameraPage {
 
         VideoSceneButton {
                 id: scene
-                visible: controlsVisible && !videoMode.recording
+                visible: controlsVisible
                 anchors.top: torch.bottom
                 anchors.left: parent.left
                 anchors.topMargin: 10
@@ -110,11 +115,69 @@ CameraPage {
 
         EvCompButton {
                 id: evComp
-                visible: controlsVisible
+                visible: videoControlsVisible
                 anchors.top: scene.bottom
                 anchors.left: parent.left
                 anchors.topMargin: 10
                 anchors.leftMargin: 20
+        }
+
+        MouseArea {
+                id: indicators
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 20
+                anchors.left: parent.left
+                anchors.leftMargin: 20
+                width: 48
+                height: col.height
+                onClicked: openFile("VideoSettingsPage.qml");
+                visible: controlsVisible
+
+                BorderImage {
+                        id: image
+                        anchors.fill: parent
+                        smooth: true
+                        source: indicators.pressed ? "image://theme/meegotouch-camera-settings-indicators-background-pressed" : "image://theme/meegotouch-camera-settings-indicators-background"
+                }
+
+                Column {
+                        id: col
+                        width: parent.width
+                        spacing: 5
+
+                        Indicator {
+                                id: resolutionIndicator
+                                // TODO:
+                        }
+
+                        Indicator {
+                                id: wbIndicator
+                                source: "image://theme/" + Data.wbIcon(settings.videoWhiteBalance) + "-screen"
+                                visible: settings.videoWhiteBalance != WhiteBalance.Auto
+                        }
+
+                        Indicator {
+                                id: cfIndicator
+                                source: "image://theme/" + Data.cfIcon(settings.videoColorFilter) + "-screen"
+                                visible: settings.videoColorFilter != ColorTone.Normal
+                        }
+
+                        Indicator {
+                                id: gpsIndicator
+                                visible: settings.useGps
+                                source: "image://theme/icon-m-camera-location"
+
+                                PropertyAnimation on opacity  {
+                                        easing.type: Easing.OutSine
+                                        loops: Animation.Infinite
+                                        from: 0.2
+                                        to: 1.0
+                                        duration: 1000
+                                        running: settings.useGps && !positionSource.position.longitudeValid
+                                        alwaysRunToEnd: true
+                                }
+                        }
+                }
         }
 
         Button {
