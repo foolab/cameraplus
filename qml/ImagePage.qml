@@ -69,55 +69,66 @@ CameraPage {
                 anchors.leftMargin: 20
         }
 
-        Indicators {
-                visible: controlsVisible
+        MouseArea {
+                id: indicators
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 20
                 anchors.left: parent.left
                 anchors.leftMargin: 20
-
+                width: 48
+                height: col.height
                 onClicked: openFile("ImageSettingsPage.qml");
+                visible: controlsVisible
 
-                Indicator {
-                        id: resolutionIndicator
-                        // TODO:
+                BorderImage {
+                        id: image
+                        anchors.fill: parent
+                        smooth: true
+                        source: indicators.pressed ? "image://theme/meegotouch-camera-settings-indicators-background-pressed" : "image://theme/meegotouch-camera-settings-indicators-background"
                 }
 
-                Indicator {
-                        id: wbIndicator
-                        anchors.top: resolutionIndicator.bottom
-                        source: "image://theme/" + Data.wbIcon(settings.imageWhiteBalance) + "-screen"
-                        visible: settings.imageWhiteBalance != WhiteBalance.Auto
-                }
+                Column {
+                        id: col
+                        width: parent.width
+                        spacing: 5
 
-                Indicator {
-                        id: cfIndicator
-                        anchors.top: wbIndicator.bottom
-                        source: "image://theme/" + Data.cfIcon(settings.imageColorFilter) + "-screen"
-                        visible: settings.imageColorFilter != ColorTone.Normal
-                }
+                        Indicator {
+                                id: resolutionIndicator
+                                // TODO:
+                        }
 
-                Indicator {
-                        id: isoIndicator
-                        visible: settings.imageIso != 0
-                        source: "image://theme/" + Data.isoIcon(settings.imageIso);
-                        anchors.top: cfIndicator.bottom
-                }
+                        Indicator {
+                                id: wbIndicator
+                                source: "image://theme/" + Data.wbIcon(settings.imageWhiteBalance) + "-screen"
+                                visible: settings.imageWhiteBalance != WhiteBalance.Auto
+                        }
 
-                Indicator {
-                        id: gpsIndicator
-                        anchors.top: isoIndicator.bottom
-                        visible: settings.useGps
-                        source: "image://theme/icon-m-camera-location"
+                        Indicator {
+                                id: cfIndicator
+                                source: "image://theme/" + Data.cfIcon(settings.imageColorFilter) + "-screen"
+                                visible: settings.imageColorFilter != ColorTone.Normal
+                        }
 
-                        PropertyAnimation on opacity  {
-                                easing.type: Easing.OutSine
-                                loops: Animation.Infinite
-                                from: 0.2
-                                to: 1.0
-                                duration: 1000
-                                running: settings.useGps && !positionSource.position.longitudeValid
-                                alwaysRunToEnd: true
+                        Indicator {
+                                id: isoIndicator
+                                visible: settings.imageIso != 0
+                                source: "image://theme/" + Data.isoIcon(settings.imageIso);
+                        }
+
+                        Indicator {
+                                id: gpsIndicator
+                                visible: settings.useGps
+                                source: "image://theme/icon-m-camera-location"
+
+                                PropertyAnimation on opacity  {
+                                        easing.type: Easing.OutSine
+                                        loops: Animation.Infinite
+                                        from: 0.2
+                                        to: 1.0
+                                        duration: 1000
+                                        running: settings.useGps && !positionSource.position.longitudeValid
+                                        alwaysRunToEnd: true
+                                }
                         }
                 }
         }
