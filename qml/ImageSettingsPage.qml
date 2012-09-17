@@ -42,6 +42,7 @@ CameraPage {
 
                         ButtonRow {
                                 anchors.horizontalCenter: parent.horizontalCenter
+                                // TODO:
                                 Button { text: qsTr("Normal"); }
                                 Button { text: qsTr("Self timer"); }
                                 Button { text: qsTr("Fast capture"); }
@@ -75,6 +76,7 @@ CameraPage {
 
                         ButtonRow {
                                 anchors.horizontalCenter: parent.horizontalCenter
+                                // TODO:
                                 Button { text: qsTr("2 seconds"); }
                                 Button { text: qsTr("10 seconds"); }
                         }
@@ -85,6 +87,7 @@ CameraPage {
 
                         ButtonRow {
                                 anchors.horizontalCenter: parent.horizontalCenter
+
                                 Button {
                                         text: qsTr("Automatic");
                                         checked: settings.imageIso == 0;
@@ -122,6 +125,7 @@ CameraPage {
 
                         ButtonRow {
                                 anchors.horizontalCenter: parent.horizontalCenter
+                                // TODO:
                                 Button { text: qsTr("16:9"); }
                                 Button { text: qsTr("4:3"); }
                                 Button { text: qsTr("3:2"); }
@@ -133,6 +137,7 @@ CameraPage {
 
                         ButtonRow {
                                 anchors.horizontalCenter: parent.horizontalCenter
+                                // TODO:
                                 Button {}
                                 Button {}
                                 Button {}
