@@ -3,6 +3,7 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
+import "data.js" as Data
 
 CameraPage {
         id: page
@@ -76,9 +77,56 @@ CameraPage {
                 anchors.leftMargin: 20
 
                 onClicked: openFile("ImageSettingsPage.qml");
-//                Image {
-///                        
+
+//                Label {
+                // TODO:
+                        // resolution
 //                }
+
+                Indicator {
+                        id: wbIndicator
+                        source: "image://theme/" + Data.wbIcon(settings.imageWhiteBalance) + "-screen"
+                        width: parent.width
+                        height: width
+                        visible: settings.imageWhiteBalance != WhiteBalance.Auto
+                }
+
+                Indicator {
+                        id: cfIndicator
+                        anchors.top: wbIndicator.bottom
+                        source: "image://theme/" + Data.cfIcon(settings.imageColorFilter) + "-screen"
+                        width: parent.width
+                        height: width
+                        visible: settings.imageColorFilter != ColorTone.Normal
+                }
+
+                Indicator {
+                        id: isoIndicator
+                        width: parent.width
+                        height: width
+                        visible: settings.imageIso != 0
+                        source: "image://theme/" + Data.isoIcon(settings.imageIso);
+                        anchors.top: cfIndicator.bottom
+                }
+
+                Indicator {
+                        id: gpsIndicator
+                        width: parent.width
+                        height: width
+                        anchors.top: isoIndicator.bottom
+                        visible: settings.useGps
+                        source: "image://theme/icon-m-camera-location"
+
+                        PropertyAnimation on opacity  {
+                                easing.type: Easing.OutSine
+                                loops: Animation.Infinite
+                                from: 0.2
+                                to: 1.0
+                                duration: 1000
+                                running: settings.useGps && !positionSource.position.longitudeValid
+                                alwaysRunToEnd: true
+                        }
+                }
         }
 
         Button {
@@ -95,6 +143,4 @@ CameraPage {
                 onClicked: openFile("PostCapturePage.qml");
                 visible: controlsVisible
         }
-
-        // TODO: metadata
 }

@@ -57,6 +57,14 @@ var __vsm = [
      "icon-m-camera-video-night-selected", "icon-m-camera-video-night"]
 ];
 
+var __iso = [
+    [0, "icon-m-camera-iso-auto"],
+    [100, "icon-m-camera-iso-100"],
+    [200, "icon-m-camera-iso-200"],
+    [400, "icon-m-camera-iso-400"],
+    [800, "icon-m-camera-iso-800"]
+];
+
 function filterData(val, data, item) {
     var x = 0;
     var i = data.length;
@@ -113,4 +121,16 @@ function vsmSelectedIcon(sm) {
 
 function vsmName(sm) {
     return filterData(sm, __vsm, 1);
+}
+
+function isoIcon(value) {
+    var x = 0;
+    var len = __iso.length;
+    for (x = 0; x < len; x++) {
+	if (__iso[x][0] == value) {
+	    return __iso[x][1];
+	}
+    }
+
+    return "";
 }

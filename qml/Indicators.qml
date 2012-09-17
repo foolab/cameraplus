@@ -2,8 +2,8 @@
 import QtQuick 1.1
 
 Item {
-        width: 56
-        height: 100
+        width: 48
+        height: 200
 
         signal clicked
 
