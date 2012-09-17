@@ -66,7 +66,7 @@ bool Settings::useGps() const {
 }
 
 void Settings::setUseGps(bool enable) {
-  if (enable == useGps()) {
+  if (enable != useGps()) {
     m_settings->setValue("camera/useGps", enable);
 
     emit useGpsChanged();
