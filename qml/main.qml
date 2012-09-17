@@ -130,27 +130,12 @@ PageStackWindow {
                 videoSuffix: cam.videoSuffix
         }
 
-        // Stolen from https://qt.gitorious.org/qt-components/qt-components/blobs/master/examples/meego/QmlComponentGallery/qml/ListPage.qml
         function replacePage(file) {
-                var component = Qt.createComponent(file)
-
-                if (component.status == Component.Ready) {
-                        pageStack.replace(component, {cam: cam}, true);
-                }
-                else {
-                        console.log("Error loading component:", component.errorString());
-                }
+                pageStack.replace(Qt.resolvedUrl(file), {cam: cam}, true);
         }
 
         function openFile(file) {
-                var component = Qt.createComponent(file)
-
-                if (component.status == Component.Ready) {
-                        pageStack.push(component, {cam: cam});
-                }
-                else {
-                        console.log("Error loading component:", component.errorString());
-                }
+                pageStack.push(Qt.resolvedUrl(file), {cam: cam});
         }
 
         platformStyle: PageStackWindowStyle {
