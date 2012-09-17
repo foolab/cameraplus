@@ -78,16 +78,15 @@ CameraPage {
 
                 onClicked: openFile("ImageSettingsPage.qml");
 
-//                Label {
-                // TODO:
-                        // resolution
-//                }
+                Indicator {
+                        id: resolutionIndicator
+                        // TODO:
+                }
 
                 Indicator {
                         id: wbIndicator
+                        anchors.top: resolutionIndicator.bottom
                         source: "image://theme/" + Data.wbIcon(settings.imageWhiteBalance) + "-screen"
-                        width: parent.width
-                        height: width
                         visible: settings.imageWhiteBalance != WhiteBalance.Auto
                 }
 
@@ -95,15 +94,11 @@ CameraPage {
                         id: cfIndicator
                         anchors.top: wbIndicator.bottom
                         source: "image://theme/" + Data.cfIcon(settings.imageColorFilter) + "-screen"
-                        width: parent.width
-                        height: width
                         visible: settings.imageColorFilter != ColorTone.Normal
                 }
 
                 Indicator {
                         id: isoIndicator
-                        width: parent.width
-                        height: width
                         visible: settings.imageIso != 0
                         source: "image://theme/" + Data.isoIcon(settings.imageIso);
                         anchors.top: cfIndicator.bottom
@@ -111,8 +106,6 @@ CameraPage {
 
                 Indicator {
                         id: gpsIndicator
-                        width: parent.width
-                        height: width
                         anchors.top: isoIndicator.bottom
                         visible: settings.useGps
                         source: "image://theme/icon-m-camera-location"
