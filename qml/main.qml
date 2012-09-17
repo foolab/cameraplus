@@ -51,7 +51,10 @@ PageStackWindow {
 
         PositionSource {
                 id: positionSource
-                active: cam.running && settings.useGps
+                active: settings.useGps
+                // TODO: we cannot bind to cam.running because camera will stop
+                // when the connection dialog pops up and we end up with an infinite loop
+                // active: cam.running && settings.useGps
                 onPositionChanged: geocode.search(position.coordinate.longitude, position.coordinate.latitude);
         }
 
