@@ -3,7 +3,7 @@
 #include <QStringList>
 #include <QDebug>
 
-#define CONFIGURATION_FILE                    "/etc/qtcamera.ini"
+#define CONFIGURATION_FILE                    "/etc/qtcamera/qtcamera.ini"
 
 class QtCamConfigPrivate {
 public:
