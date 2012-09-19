@@ -111,7 +111,7 @@ void QtCamVideoMode::stopRecording() {
 bool QtCamVideoMode::setSettings(const QtCamVideoSettings& settings) {
   d->settings = settings;
 
-  if (isRecording()) {
+  if (!d_ptr->dev->q_ptr->isRunning() || isRecording()) {
     return false;
   }
 

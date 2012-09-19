@@ -89,7 +89,7 @@ bool QtCamImageMode::capture(const QString& fileName) {
 bool QtCamImageMode::setSettings(const QtCamImageSettings& settings) {
   d->settings = settings;
 
-  if (!d_ptr->dev->q_ptr->isIdle()) {
+  if (!d_ptr->dev->q_ptr->isRunning() || !d_ptr->dev->q_ptr->isIdle()) {
     return false;
   }
 
