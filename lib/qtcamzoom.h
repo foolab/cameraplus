@@ -1,5 +1,8 @@
 // -*- c++ -*-
 
+#ifndef QT_CAM_ZOOM_H
+#define QT_CAM_ZOOM_H
+
 #include "qtcamcapability.h"
 
 class QtCamZoomPrivate;
@@ -16,3 +19,5 @@ public:
   qreal minimumValue();
   qreal maximumValue();
 };
+
+#endif /* QT_CAM_ZOOM_H */
