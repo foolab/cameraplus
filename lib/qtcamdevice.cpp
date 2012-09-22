@@ -29,6 +29,8 @@
 #include "qtcamimagemode.h"
 #include "qtcamvideomode.h"
 
+// TODO: we want the ability to change the image and video gep from the app.
+
 QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
 			 const QVariant& id, QObject *parent) :
   QObject(parent), d_ptr(new QtCamDevicePrivate) {

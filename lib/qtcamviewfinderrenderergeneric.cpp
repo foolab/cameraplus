@@ -130,6 +130,8 @@ void QtCamViewfinderRendererGeneric::on_gst_buffer(GstElement *element,
 						   GstBuffer *buf, GstPad *pad,
 						   QtCamViewfinderRendererGeneric *q) {
 
+  Q_UNUSED(element);
+
   q->m_mutex.lock();
 
   if (!q->m_elem) {
@@ -155,6 +157,8 @@ void QtCamViewfinderRendererGeneric::on_gst_buffer(GstElement *element,
 void QtCamViewfinderRendererGeneric::sink_notify(QtCamViewfinderRendererGeneric *q,
 						 GObject *object,
 						 gboolean is_last_ref) {
+
+  Q_UNUSED(object);
 
   if (is_last_ref) {
     g_object_remove_toggle_ref(G_OBJECT(q->m_elem), (GToggleNotify)sink_notify, q);

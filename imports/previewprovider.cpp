@@ -33,6 +33,8 @@ PreviewProvider::~PreviewProvider() {
 }
 
 QImage PreviewProvider::requestImage(const QString& id, QSize *size, const QSize& requestedSize) {
+  Q_UNUSED(id);
+
   QMutexLocker lock(&m_mutex);
 
   QImage res = m_image;

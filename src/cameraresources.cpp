@@ -142,6 +142,8 @@ QList<ResourcePolicy::ResourceType> CameraResources::listSet() {
 void CameraResources::updateSet(const QList<ResourcePolicy::ResourceType>& required,
 				const QList<ResourcePolicy::ResourceType>& optional) {
 
+  Q_UNUSED(optional);
+
   bool isEmpty = m_set->resources().isEmpty();
 
   QList<ResourcePolicy::ResourceType> set = listSet();

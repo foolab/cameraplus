@@ -35,12 +35,26 @@ FileNaming::~FileNaming() {
 
 }
 
+QString FileNaming::imageSuffix() const {
+  return m_image;
+}
+
 void FileNaming::setImageSuffix(const QString& suffix) {
-  m_image = suffix;
+  if (m_image != suffix) {
+    m_image = suffix;
+    emit imageSuffixChanged();
+  }
+}
+
+QString FileNaming::videoSuffix() const {
+  return m_video;
 }
 
 void FileNaming::setVideoSuffix(const QString& suffix) {
-  m_video = suffix;
+  if (m_video != suffix) {
+    m_video = suffix;
+    emit videoSuffixChanged();
+  }
 }
 
 QString FileNaming::imageFileName() {

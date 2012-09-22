@@ -28,18 +28,25 @@
 class FileNaming : public QObject {
   Q_OBJECT
 
-  Q_PROPERTY(QString imageSuffix WRITE setImageSuffix);
-  Q_PROPERTY(QString videoSuffix WRITE setVideoSuffix);
+  Q_PROPERTY(QString imageSuffix READ imageSuffix WRITE setImageSuffix NOTIFY imageSuffixChanged);
+  Q_PROPERTY(QString videoSuffix READ videoSuffix WRITE setVideoSuffix NOTIFY videoSuffixChanged);
 
 public:
   FileNaming(QObject *parent = 0);
   ~FileNaming();
 
+  QString imageSuffix() const;
   void setImageSuffix(const QString& suffix);
+
+  QString videoSuffix() const;
   void setVideoSuffix(const QString& suffix);
 
   Q_INVOKABLE QString imageFileName();
   Q_INVOKABLE QString videoFileName();
+
+signals:
+  void imageSuffixChanged();
+  void videoSuffixChanged();
 
 private:
   QString fileName(const QString& suffix);

@@ -183,6 +183,8 @@ void QtCamViewfinderRendererMeeGo::frame_ready(GstElement *sink, int frame,
 void QtCamViewfinderRendererMeeGo::sink_notify(QtCamViewfinderRendererMeeGo *q,
 					       GObject *object, gboolean is_last_ref) {
 
+  Q_UNUSED(object);
+
   if (is_last_ref) {
     g_signal_handler_disconnect(q->m_sink, q->m_id);
     g_object_remove_toggle_ref(G_OBJECT(q->m_sink), (GToggleNotify)sink_notify, q);

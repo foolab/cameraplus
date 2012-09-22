@@ -34,7 +34,6 @@ import QtMobility.location 1.2
 // TODO: disk space
 // TODO: flash not ready
 // TODO: focus, caf, ...
-// TODO: indicators
 // TODO: portrait/landscape
 // TODO: record video in a hidden directory and then copy the video to avoid tracker indexing it.
 // TODO: stop viewfinder in settings pages ?
