@@ -28,7 +28,6 @@ import CameraPlus 1.0
 import QtMobility.systeminfo 1.2
 import QtMobility.location 1.2
 
-// TODO: resolutions and aspect ratios
 // TODO: postcapture
 // TODO: battery low state
 // TODO: disk space

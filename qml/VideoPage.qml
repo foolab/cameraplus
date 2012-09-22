@@ -168,7 +168,7 @@ CameraPage {
 
                         Indicator {
                                 id: resolutionIndicator
-                                // TODO:
+                                source: "image://theme/" + Data.videoIcon(settings.videoResolution);
                         }
 
                         Indicator {

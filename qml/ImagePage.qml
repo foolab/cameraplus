@@ -115,7 +115,7 @@ CameraPage {
 
                         Indicator {
                                 id: resolutionIndicator
-                                // TODO:
+                                source: "image://theme/" + Data.imageIcon(settings.imageAspectRatio, settings.imageResolution);
                         }
 
                         Indicator {
