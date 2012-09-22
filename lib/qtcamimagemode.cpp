@@ -111,8 +111,14 @@ bool QtCamImageMode::capture(const QString& fileName) {
 
 bool QtCamImageMode::setResolution(const QtCamImageResolution& resolution) {
   d->resolution = resolution;
+  if (!d_ptr->dev->q_ptr->isRunning()) {
+    // We will return true here because setting the resolution on a non-running pipeline
+    // doesn't make much sense (Probably the only use case is as a kind of optimization only).
+    // We will set it anyway when the pipeline gets started.
+    return true;
+  }
 
-  if (!d_ptr->dev->q_ptr->isRunning() || !d_ptr->dev->q_ptr->isIdle()) {
+  if (!d_ptr->dev->q_ptr->isIdle()) {
     return false;
   }
 
