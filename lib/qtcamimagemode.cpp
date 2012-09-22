@@ -28,14 +28,17 @@ class QtCamImageModePrivate : public QtCamModePrivate {
 public:
   QtCamImageModePrivate(QtCamDevicePrivate *dev) :
   QtCamModePrivate(dev),
-  settings(dev->conf->defaultImageSettings()) {
+  settings(dev->conf->imageSettings(dev->id)),
+  resolution(settings->defaultResolution()) {
 
   }
 
   ~QtCamImageModePrivate() {
+    delete settings;
   }
 
-  QtCamImageSettings settings;
+  QtCamImageSettings *settings;
+  QtCamImageResolution resolution;
 };
 
 QtCamImageMode::QtCamImageMode(QtCamDevicePrivate *dev, QObject *parent) :
@@ -65,17 +68,17 @@ bool QtCamImageMode::canCapture() {
 void QtCamImageMode::applySettings() {
   bool night = d_ptr->inNightMode();
 
-  int fps = night ? d->settings.nightFrameRate() : d->settings.frameRate();
+  int fps = night ? d->resolution.nightFrameRate() : d->resolution.frameRate();
 
-  d_ptr->setCaps("viewfinder-caps", d->settings.viewfinderResolution(), fps);
+  d_ptr->setCaps("viewfinder-caps", d->resolution.viewfinderResolution(), fps);
 
   // FIXME:
   // Ideally, we should query the image-capture-supported-caps and get a proper framerate
   // as it seems that subdevsrc2 can only capture 15 FPS for at least the highest resolution
   // we use. For now we will not set any FPS.
-  d_ptr->setCaps("image-capture-caps", d->settings.captureResolution(), -1);
+  d_ptr->setCaps("image-capture-caps", d->resolution.captureResolution(), -1);
 
-  setPreviewSize(d->settings.previewResolution());
+  setPreviewSize(d->resolution.previewResolution());
 
   // TODO: ?
   // d_ptr->resetCaps("video-capture-caps");
@@ -106,8 +109,8 @@ bool QtCamImageMode::capture(const QString& fileName) {
   return true;
 }
 
-bool QtCamImageMode::setSettings(const QtCamImageSettings& settings) {
-  d->settings = settings;
+bool QtCamImageMode::setResolution(const QtCamImageResolution& resolution) {
+  d->resolution = resolution;
 
   if (!d_ptr->dev->q_ptr->isRunning() || !d_ptr->dev->q_ptr->isIdle()) {
     return false;
@@ -125,4 +128,8 @@ void QtCamImageMode::setProfile(GstEncodingProfile *profile) {
   }
 
   g_object_set(d_ptr->dev->cameraBin, "image-profile", profile, NULL);
+}
+
+QtCamImageSettings *QtCamImageMode::settings() const {
+  return d->settings;
 }

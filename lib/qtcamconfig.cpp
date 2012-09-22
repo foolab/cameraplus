@@ -36,6 +36,15 @@ public:
     return QSize(parts[0].toInt(), parts[1].toInt());
   }
 
+  QVariant readWithFallback(const QString& generic, const QString& specific, const QString& key) {
+    QString genericKey = QString("%1/%2").arg(generic).arg(key);
+    QString specificKey = QString("%1/%2").arg(specific).arg(key);
+
+    QVariant var = conf->value(genericKey);
+
+    return conf->value(specificKey, var);
+  }
+
   QSettings *conf;
 
   QList<QtCamImageSettings> imageSettings;
@@ -52,8 +61,6 @@ QtCamConfig::QtCamConfig(const QString& configPath, QObject *parent) :
   QObject(parent), d_ptr(new QtCamConfigPrivate) {
 
   d_ptr->conf = new QSettings(configPath, QSettings::IniFormat, this);
-
-  defaultImageSettings();
 }
 
 QtCamConfig::~QtCamConfig() {
@@ -92,76 +99,69 @@ QString QtCamConfig::wrapperVideoSourceProperty() const {
   return d_ptr->conf->value("wrapper-video-source/property").toString();
 }
 
-QtCamImageSettings QtCamConfig::defaultImageSettings() {
+QtCamImageSettings *QtCamConfig::imageSettings(const QVariant& id) {
+  QString generic = "image";
+  QString specific = QString("%1-%2").arg(generic).arg(id.toString());
 
-  QList<QtCamImageSettings> settings = imageSettings();
+  QString profileName = d_ptr->readWithFallback(generic, specific, "profile-name").toString();
+  QString profilePath = d_ptr->readWithFallback(generic, specific, "profile-path").toString();
+  QString suffix = d_ptr->readWithFallback(generic, specific, "extension").toString();
+  QStringList presets = d_ptr->readWithFallback(generic, specific, "presets").toStringList();
 
-  QString def = d_ptr->conf->value("image/default").toString();
-  foreach (const QtCamImageSettings& s, settings) {
-    if (s.id() == def) {
-      return s;
-    }
+  QList<QtCamImageResolution> resolutions;
+
+  foreach (const QString& preset, presets) {
+    d_ptr->conf->beginGroup(preset);
+
+    QString id = preset;
+    QString name = d_ptr->conf->value("name").toString();
+    QSize capture = d_ptr->readResolution("capture");
+    QSize preview = d_ptr->readResolution("preview");
+    QSize viewfinder = d_ptr->readResolution("viewfinder");
+    int fps = d_ptr->conf->value("fps").toInt();
+    int nightFps = d_ptr->conf->value("night").toInt();
+    int megaPixels = d_ptr->conf->value("megapixels").toInt();
+    QString aspectRatio = d_ptr->conf->value("aspectratio").toString();
+
+    d_ptr->conf->endGroup();
+
+    resolutions << QtCamImageResolution(id, name, capture, preview, viewfinder,
+					fps, nightFps, megaPixels, aspectRatio);
   }
 
-  // This will crash if no presets have been shipped but you deserve paying
-  // the price of shipping a broken configuration file.
-  return settings[0];
+  return new QtCamImageSettings(id.toString(), suffix, profileName, profilePath, resolutions);
 }
 
-QList<QtCamImageSettings> QtCamConfig::imageSettings() {
-  if (d_ptr->imageSettings.isEmpty()) {
-    QStringList presets = d_ptr->conf->value("image/presets").toStringList();
-    foreach (const QString& preset, presets) {
-      d_ptr->conf->beginGroup(preset);
+QtCamVideoSettings *QtCamConfig::videoSettings(const QVariant& id) {
+  QString generic = "video";
+  QString specific = QString("%1-%2").arg(generic).arg(id.toString());
 
-      d_ptr->imageSettings <<
-	QtCamImageSettings(preset, d_ptr->conf->value("name").toString(),
-			   d_ptr->readResolution("capture"),
-			   d_ptr->readResolution("preview"),
-			   d_ptr->readResolution("viewfinder"),
-			   d_ptr->conf->value("fps").toInt(),
-			   d_ptr->conf->value("night").toInt());
+  QString profileName = d_ptr->readWithFallback(generic, specific, "profile-name").toString();
+  QString profilePath = d_ptr->readWithFallback(generic, specific, "profile-path").toString();
+  QString suffix = d_ptr->readWithFallback(generic, specific, "extension").toString();
+  QStringList presets = d_ptr->readWithFallback(generic, specific, "presets").toStringList();
 
-      d_ptr->conf->endGroup();
-    }
+  QList<QtCamVideoResolution> resolutions;
+
+  foreach (const QString& preset, presets) {
+    d_ptr->conf->beginGroup(preset);
+
+    QString id = preset;
+    QString name = d_ptr->conf->value("name").toString();
+    QSize capture = d_ptr->readResolution("capture");
+    QSize preview = d_ptr->readResolution("preview");
+    int fps = d_ptr->conf->value("fps").toInt();
+    int nightFps = d_ptr->conf->value("night").toInt();
+    QString aspectRatio = d_ptr->conf->value("aspectratio").toString();
+    QString resolution = d_ptr->conf->value("resolution").toString();
+
+    d_ptr->conf->endGroup();
+
+    resolutions << QtCamVideoResolution(id, name, capture, preview,
+					fps, nightFps, aspectRatio, resolution);
   }
 
-  return d_ptr->imageSettings;
-}
-
-QtCamVideoSettings QtCamConfig::defaultVideoSettings() {
-  QList<QtCamVideoSettings> settings = videoSettings();
-
-  QString def = d_ptr->conf->value("video/default").toString();
-  foreach (const QtCamVideoSettings& s, settings) {
-    if (s.id() == def) {
-      return s;
-    }
-  }
-
-  // This will crash if no presets have been shipped but you deserve paying
-  // the price of shipping a broken configuration file.
-  return settings[0];
-}
-
-QList<QtCamVideoSettings> QtCamConfig::videoSettings() {
-  if (d_ptr->videoSettings.isEmpty()) {
-    QStringList presets = d_ptr->conf->value("video/presets").toStringList();
-    foreach (const QString& preset, presets) {
-      d_ptr->conf->beginGroup(preset);
-
-      d_ptr->videoSettings <<
-	QtCamVideoSettings(preset, d_ptr->conf->value("name").toString(),
-			   d_ptr->readResolution("capture"),
-			   d_ptr->readResolution("preview"),
-			   d_ptr->conf->value("fps").toInt(),
-			   d_ptr->conf->value("night").toInt());
-
-      d_ptr->conf->endGroup();
-    }
-  }
-
-  return d_ptr->videoSettings;
+  return new QtCamVideoSettings(id.toString(), suffix, profileName, profilePath, resolutions);
 }
 
 QString QtCamConfig::imageEncodingProfileName() const {

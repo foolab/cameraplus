@@ -26,20 +26,22 @@
 #include <QSize>
 #include <QPair>
 #include <QString>
+#include <QSharedDataPointer>
+#include <QStringList>
 
 class QtCamImageSettingsPrivate;
+class QtCamImageResolutionPrivate;
 
-class QtCamImageSettings {
+class QtCamImageResolution {
 public:
-  QtCamImageSettings(const QString& id, const QString& name, const QSize& capture,
-		     const QSize& preview, const QSize& viewfinder,
-		     int fps, int nightFps);
+  QtCamImageResolution(const QString& id, const QString& name, const QSize& capture,
+		       const QSize& preview, const QSize& viewfinder,
+		       int fps, int nightFps, int megaPixels, QString aspectRatio);
+  QtCamImageResolution(const QtCamImageResolution& other);
 
-  QtCamImageSettings(const QtCamImageSettings& other);
+  QtCamImageResolution& operator=(const QtCamImageResolution& other);
 
-  ~QtCamImageSettings();
-
-  QtCamImageSettings& operator=(const QtCamImageSettings& other);
+  ~QtCamImageResolution();
 
   QString id() const;
   QString name() const;
@@ -48,9 +50,34 @@ public:
   QSize previewResolution() const;
   int frameRate() const;
   int nightFrameRate() const;
+  int megaPixels() const;
+  QString aspectRatio() const;
 
 private:
-  QtCamImageSettingsPrivate *d_ptr;
+  QSharedDataPointer<QtCamImageResolutionPrivate> d_ptr;
+};
+
+class QtCamImageSettings {
+public:
+  QtCamImageSettings(const QString& id, const QString& suffix, const QString& profileName,
+		     const QString& profilePath, const QList<QtCamImageResolution>& resolutions);
+  QtCamImageSettings(const QtCamImageSettings& other);
+
+  QtCamImageSettings& operator=(const QtCamImageSettings& other);
+
+  ~QtCamImageSettings();
+
+  QString id() const;
+  QString suffix() const;
+  QString profileName() const;
+  QString profilePath() const;
+
+  QtCamImageResolution defaultResolution(const QString& aspectRatio = QString()) const;
+  QList<QtCamImageResolution> resolutions(const QString& aspectRatio = QString()) const;
+  QStringList aspectRatios() const;
+
+private:
+  QSharedDataPointer<QtCamImageSettingsPrivate> d_ptr;
 };
 
 #endif /* QT_CAM_IMAGE_SETTINGS_H */

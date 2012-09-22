@@ -56,11 +56,8 @@ public:
   QString wrapperVideoSource() const;
   QString wrapperVideoSourceProperty() const;
 
-  QtCamImageSettings defaultImageSettings();
-  QList<QtCamImageSettings> imageSettings();
-
-  QtCamVideoSettings defaultVideoSettings();
-  QList<QtCamVideoSettings> videoSettings();
+  QtCamImageSettings *imageSettings(const QVariant& id);
+  QtCamVideoSettings *videoSettings(const QVariant& id);
 
   QString imageEncodingProfileName() const;
   QString imageEncodingProfilePath() const;

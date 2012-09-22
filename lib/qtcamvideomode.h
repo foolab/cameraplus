@@ -28,6 +28,7 @@
 
 class QtCamDevicePrivate;
 class QtCamVideoModePrivate;
+class QtCamVideoResolution;
 class QtCamVideoSettings;
 
 class QtCamVideoMode : public QtCamMode {
@@ -45,9 +46,11 @@ public:
   bool isRecording();
   Q_INVOKABLE bool startRecording(const QString& fileName);
 
-  bool setSettings(const QtCamVideoSettings& settings);
+  bool setResolution(const QtCamVideoResolution& resolution);
 
   void setProfile(GstEncodingProfile *profile);
+
+  QtCamVideoSettings *settings();
 
 public slots:
   void stopRecording();

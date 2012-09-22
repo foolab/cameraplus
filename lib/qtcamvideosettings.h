@@ -26,20 +26,21 @@
 #include <QSize>
 #include <QPair>
 #include <QString>
+#include <QSharedDataPointer>
+#include <QStringList>
 
 class QtCamVideoSettingsPrivate;
+class QtCamVideoResolutionPrivate;
 
-class QtCamVideoSettings {
+class QtCamVideoResolution {
 public:
-  QtCamVideoSettings(const QString& id, const QString& name,
-		     const QSize& capture, const QSize& preview,
-		     int fps, int nightFps);
+  QtCamVideoResolution(const QString& id, const QString& name, const QSize& capture,
+		       const QSize& preview, int fps, int nightFps,
+		       const QString& aspectRatio, const QString& resolution);
+  QtCamVideoResolution(const QtCamVideoResolution& other);
+  QtCamVideoResolution& operator=(const QtCamVideoResolution& other);
 
-  QtCamVideoSettings(const QtCamVideoSettings& other);
-
-  ~QtCamVideoSettings();
-
-  QtCamVideoSettings& operator=(const QtCamVideoSettings& other);
+  ~QtCamVideoResolution();
 
   QString id() const;
   QString name() const;
@@ -47,9 +48,34 @@ public:
   QSize previewResolution() const;
   int frameRate() const;
   int nightFrameRate() const;
+  QString aspectRatio() const;
+  QString resolution() const;
 
 private:
-  QtCamVideoSettingsPrivate *d_ptr;
+  QSharedDataPointer<QtCamVideoResolutionPrivate> d_ptr;
+};
+
+class QtCamVideoSettings {
+public:
+  QtCamVideoSettings(const QString& id, const QString& suffix, const QString& profileName,
+		     const QString& profilePath, const QList<QtCamVideoResolution>& resolutions);
+  QtCamVideoSettings(const QtCamVideoSettings& other);
+
+  QtCamVideoSettings& operator=(const QtCamVideoSettings& other);
+
+  ~QtCamVideoSettings();
+
+  QString id() const;
+  QString suffix() const;
+  QString profileName() const;
+  QString profilePath() const;
+
+  QtCamVideoResolution defaultResolution(const QString& aspectRatio = QString()) const;
+  QList<QtCamVideoResolution> resolutions(const QString& aspectRatio = QString()) const;
+  QStringList aspectRatios() const;
+
+private:
+  QSharedDataPointer<QtCamVideoSettingsPrivate> d_ptr;
 };
 
 #endif /* QT_CAM_VIDEO_SETTINGS_H */

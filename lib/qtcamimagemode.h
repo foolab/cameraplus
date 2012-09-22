@@ -28,6 +28,7 @@
 
 class QtCamDevicePrivate;
 class QtCamImageModePrivate;
+class QtCamImageResolution;
 class QtCamImageSettings;
 
 class QtCamImageMode : public QtCamMode {
@@ -42,9 +43,11 @@ public:
 
   bool capture(const QString& fileName);
 
-  bool setSettings(const QtCamImageSettings& settings);
+  bool setResolution(const QtCamImageResolution& resolution);
 
   void setProfile(GstEncodingProfile *profile);
+
+  QtCamImageSettings *settings() const;
 
 protected:
   virtual void start();

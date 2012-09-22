@@ -29,11 +29,14 @@ class QtCamVideoModePrivate : public QtCamModePrivate {
 public:
   QtCamVideoModePrivate(QtCamDevicePrivate *dev) :
   QtCamModePrivate(dev),
-  settings(dev->conf->defaultVideoSettings()) {
+  settings(dev->conf->videoSettings(dev->id)),
+  resolution(settings->defaultResolution()) {
 
   }
 
-  ~QtCamVideoModePrivate() {}
+  ~QtCamVideoModePrivate() {
+    delete settings;
+  }
 
   void _d_idleStateChanged(bool isIdle) {
     if (isIdle && dev->active == dev->video) {
@@ -42,7 +45,8 @@ public:
     }
   }
 
-  QtCamVideoSettings settings;
+  QtCamVideoSettings *settings;
+  QtCamVideoResolution resolution;
 };
 
 QtCamVideoMode::QtCamVideoMode(QtCamDevicePrivate *dev, QObject *parent) :
@@ -75,13 +79,13 @@ bool QtCamVideoMode::canCapture() {
 void QtCamVideoMode::applySettings() {
   bool night = d_ptr->inNightMode();
 
-  int fps = night ? d->settings.nightFrameRate() : d->settings.frameRate();
+  int fps = night ? d->resolution.nightFrameRate() : d->resolution.frameRate();
 
-  d_ptr->setCaps("viewfinder-caps", d->settings.captureResolution(), fps);
+  d_ptr->setCaps("viewfinder-caps", d->resolution.captureResolution(), fps);
 
-  d_ptr->setCaps("video-capture-caps", d->settings.captureResolution(), fps);
+  d_ptr->setCaps("video-capture-caps", d->resolution.captureResolution(), fps);
 
-  setPreviewSize(d->settings.previewResolution());
+  setPreviewSize(d->resolution.previewResolution());
 
   // TODO:
   //  d_ptr->resetCaps("image-capture-caps");
@@ -128,8 +132,8 @@ void QtCamVideoMode::stopRecording() {
   }
 }
 
-bool QtCamVideoMode::setSettings(const QtCamVideoSettings& settings) {
-  d->settings = settings;
+bool QtCamVideoMode::setResolution(const QtCamVideoResolution& resolution) {
+  d->resolution = resolution;
 
   if (!d_ptr->dev->q_ptr->isRunning() || isRecording()) {
     return false;
@@ -147,6 +151,10 @@ void QtCamVideoMode::setProfile(GstEncodingProfile *profile) {
   }
 
   g_object_set(d_ptr->dev->cameraBin, "video-profile", profile, NULL);
+}
+
+QtCamVideoSettings *QtCamVideoMode::settings() {
+  return d->settings;
 }
 
 #include "moc_qtcamvideomode.cpp"

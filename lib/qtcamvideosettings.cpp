@@ -20,7 +20,7 @@
 
 #include "qtcamvideosettings.h"
 
-class QtCamVideoSettingsPrivate {
+class QtCamVideoResolutionPrivate : public QSharedData {
 public:
   QString id;
   QString name;
@@ -28,68 +28,164 @@ public:
   QSize preview;
   int fps;
   int nightFps;
+  QString aspectRatio;
+  QString resolution;
 };
 
-QtCamVideoSettings::QtCamVideoSettings(const QString& id, const QString& name,
-				       const QSize& capture, const QSize& preview,
-				       int fps, int nightFps) :
-  d_ptr(new QtCamVideoSettingsPrivate) {
+class QtCamVideoSettingsPrivate : public QSharedData {
+public:
+  QString id;
+  QString suffix;
+  QString profileName;
+  QString profilePath;
+  QList<QtCamVideoResolution> resolutions;
+};
 
+QtCamVideoResolution::QtCamVideoResolution(const QString& id, const QString& name,
+					   const QSize& capture, const QSize& preview,
+					   int fps, int nightFps,
+					   const QString& aspectRatio,
+					   const QString& resolution) :
+  d_ptr(new QtCamVideoResolutionPrivate) {
   d_ptr->id = id;
   d_ptr->name = name;
   d_ptr->capture = capture;
   d_ptr->preview = preview;
   d_ptr->fps = fps;
   d_ptr->nightFps = nightFps;
+  d_ptr->aspectRatio = aspectRatio;
+  d_ptr->resolution = resolution;
+}
+
+QtCamVideoResolution::QtCamVideoResolution(const QtCamVideoResolution& other) :
+  d_ptr(other.d_ptr) {
+
+}
+
+QtCamVideoResolution& QtCamVideoResolution::operator=(const QtCamVideoResolution& other) {
+  d_ptr = other.d_ptr;
+
+  return *this;
+}
+
+QtCamVideoResolution::~QtCamVideoResolution() {
+  // QSharedData will take care of reference counting.
+}
+
+QString QtCamVideoResolution::id() const {
+  return d_ptr->id;
+}
+
+QString QtCamVideoResolution::name() const {
+  return d_ptr->name;
+}
+
+QSize QtCamVideoResolution::captureResolution() const {
+  return d_ptr->capture;
+}
+
+QSize QtCamVideoResolution::previewResolution() const {
+  return d_ptr->preview;
+}
+
+int QtCamVideoResolution::frameRate() const {
+  return d_ptr->fps;
+}
+
+int QtCamVideoResolution::nightFrameRate() const {
+  return d_ptr->nightFps;
+}
+
+QString QtCamVideoResolution::aspectRatio() const {
+  return d_ptr->aspectRatio;
+}
+
+QString QtCamVideoResolution::resolution() const {
+  return d_ptr->resolution;
+}
+
+QtCamVideoSettings::QtCamVideoSettings(const QString& id, const QString& suffix,
+				       const QString& profileName,
+				       const QString& profilePath,
+				       const QList<QtCamVideoResolution>& resolutions) :
+  d_ptr(new QtCamVideoSettingsPrivate) {
+
+  d_ptr->id = id;
+  d_ptr->suffix = suffix;
+  d_ptr->profileName = profileName;
+  d_ptr->profilePath = profilePath;
+  d_ptr->resolutions = resolutions;
 }
 
 QtCamVideoSettings::QtCamVideoSettings(const QtCamVideoSettings& other) :
-  d_ptr(new QtCamVideoSettingsPrivate) {
+  d_ptr(other.d_ptr) {
 
-  d_ptr->id = other.d_ptr->id;
-  d_ptr->name = other.d_ptr->name;
-  d_ptr->capture = other.d_ptr->capture;
-  d_ptr->preview = other.d_ptr->preview;
-  d_ptr->fps = other.d_ptr->fps;
-  d_ptr->nightFps = other.d_ptr->nightFps;
+}
+
+QtCamVideoSettings& QtCamVideoSettings::operator=(const QtCamVideoSettings& other) {
+  d_ptr = other.d_ptr;
+
+  return *this;
 }
 
 QtCamVideoSettings::~QtCamVideoSettings() {
-  delete d_ptr;
-}
-
-QtCamVideoSettings& QtCamVideoSettings::operator=(const QtCamVideoSettings&
-								other) {
-  d_ptr->id = other.d_ptr->id;
-  d_ptr->name = other.d_ptr->name;
-  d_ptr->capture = other.d_ptr->capture;
-  d_ptr->preview = other.d_ptr->preview;
-  d_ptr->fps = other.d_ptr->fps;
-  d_ptr->nightFps = other.d_ptr->nightFps;
-
-  return *this;
+  // QSharedData will take care of reference counting.
 }
 
 QString QtCamVideoSettings::id() const {
   return d_ptr->id;
 }
 
-QString QtCamVideoSettings::name() const {
-  return d_ptr->name;
+QString QtCamVideoSettings::suffix() const {
+  return d_ptr->suffix;
 }
 
-QSize QtCamVideoSettings::captureResolution() const {
-  return d_ptr->capture;
+QString QtCamVideoSettings::profileName() const {
+  return d_ptr->profileName;
 }
 
-QSize QtCamVideoSettings::previewResolution() const {
-  return d_ptr->preview;
+QString QtCamVideoSettings::profilePath() const {
+  return d_ptr->profilePath;
 }
 
-int QtCamVideoSettings::frameRate() const {
-  return d_ptr->fps;
+QtCamVideoResolution QtCamVideoSettings::defaultResolution(const QString& aspectRatio) const {
+  if (aspectRatio.isEmpty()) {
+    return d_ptr->resolutions[0];
+  }
+
+  foreach (const QtCamVideoResolution& r, d_ptr->resolutions) {
+    if (r.aspectRatio() == aspectRatio) {
+      return r;
+    }
+  }
+
+  return d_ptr->resolutions[0];
 }
 
-int QtCamVideoSettings::nightFrameRate() const {
-  return d_ptr->nightFps;
+QList<QtCamVideoResolution> QtCamVideoSettings::resolutions(const QString& aspectRatio) const {
+  if (aspectRatio.isEmpty()) {
+    return d_ptr->resolutions;
+  }
+
+  QList<QtCamVideoResolution> res;
+
+  foreach (const QtCamVideoResolution& r, d_ptr->resolutions) {
+    if (r.aspectRatio() == aspectRatio) {
+      res << r;
+    }
+  }
+
+  return d_ptr->resolutions;
+}
+
+QStringList QtCamVideoSettings::aspectRatios() const {
+  QStringList aspects;
+
+  foreach (const QtCamVideoResolution& r, d_ptr->resolutions) {
+    if (aspects.indexOf(r.aspectRatio()) == -1) {
+      aspects << r.aspectRatio();
+    }
+  }
+
+  return aspects;
 }
