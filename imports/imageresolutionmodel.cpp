@@ -36,6 +36,8 @@ ImageResolutionModel::ImageResolutionModel(QtCamImageSettings *settings, QObject
   roles[AspectRatioRole] = "resolutionAspectRatio";
 
   setRoleNames(roles);
+
+  m_resolutions = m_settings->resolutions(m_aspectRatio);
 }
 
 ImageResolutionModel::~ImageResolutionModel() {
