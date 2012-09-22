@@ -179,14 +179,36 @@ PageStackWindow {
                 }
         }
 
+        VideoSettings {
+                id: videoSettings
+                camera: cam
+
+                function setVideoResolution() {
+                        if (!videoSettings.setResolution(settings.videoAspectRatio, settings.videoResolution)) {
+                                showError(qsTr("Failed to set required resolution"));
+                        }
+                }
+
+                onReadyChanged: {
+                        if (ready) {
+                                videoSettings.setVideoResolution();
+                        }
+                }
+        }
+
         Connections {
                 target: settings
+
                 onImageAspectRatioChanged: {
                         imageSettings.setImageResolution();
                 }
 
                 onImageResolutionChanged: {
                         imageSettings.setImageResolution();
+                }
+
+                onVideoResolutionChanged: {
+                        videoSettings.setVideoResolution();
                 }
         }
 
@@ -210,6 +232,9 @@ PageStackWindow {
 
                 // TODO: hardcoding device id
                 Component.onCompleted: { cam.deviceId = 0; mode = settings.mode; }
+                Component.onDestruction: {
+                console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                }
 
                 // TODO: Hack
                 z: -1

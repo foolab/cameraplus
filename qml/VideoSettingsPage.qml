@@ -79,6 +79,38 @@ CameraPage {
                                 }
                         }
 
+                        SectionHeader {
+                                text: qsTr("Resolution");
+                        }
+
+                        ButtonRow {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                exclusive: false
+
+                                Repeater {
+                                        id: resolutions
+
+                                        model: videoSettings.resolutions
+
+                                        function name(name, res) {
+                                                return name.charAt(0).toUpperCase() + name.slice(1) + " " + res;
+                                        }
+
+                                        delegate: Button {
+                                                text: resolutions.name(resolutionName, resolution);
+                                                checked: settings.videoResolution == resolutionName;
+                                                onClicked: {
+                                                        if (!cam.idle) {
+                                                                showError(qsTr("Camera is busy saving."));
+                                                                return;
+                                                        }
+
+                                                        settings.videoResolution = resolutionName;
+                                                }
+                                        }
+                                }
+                        }
+
                         CameraSettings {
                                 anchors.horizontalCenter: parent.horizontalCenter
                         }

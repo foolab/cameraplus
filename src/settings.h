@@ -51,6 +51,9 @@ class Settings : public QObject {
   Q_PROPERTY(QString imageAspectRatio READ imageAspectRatio WRITE setImageAspectRatio NOTIFY imageAspectRatioChanged);
   Q_PROPERTY(QString imageResolution READ imageResolution WRITE setImageResolution NOTIFY imageResolutionChanged);
 
+  Q_PROPERTY(QString videoAspectRatio READ videoAspectRatio WRITE setVideoAspectRatio NOTIFY videoAspectRatioChanged);
+  Q_PROPERTY(QString videoResolution READ videoResolution WRITE setVideoResolution NOTIFY videoResolutionChanged);
+
 public:
   Settings(QObject *parent = 0);
   ~Settings();
@@ -106,6 +109,12 @@ public:
   QString imageResolution() const;
   void setImageResolution(const QString& resolution);
 
+  QString videoAspectRatio() const;
+  void setVideoAspectRatio(const QString& aspectRatio);
+
+  QString videoResolution() const;
+  void setVideoResolution(const QString& resolution);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
@@ -124,6 +133,8 @@ signals:
   void imageIsoChanged();
   void imageAspectRatioChanged();
   void imageResolutionChanged();
+  void videoAspectRatioChanged();
+  void videoResolutionChanged();
 
 private:
   QSettings *m_settings;

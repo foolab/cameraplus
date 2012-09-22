@@ -36,6 +36,7 @@
 #define DEFAULT_IMAGE_ISO          0
 #define DEFAULT_IMAGE_RESOLUTION   "high"
 #define DEFAULT_IMAGE_ASPECT_RATIO "16:9"
+#define DEFAULT_VIDEO_RESOLUTION   "high"
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -245,5 +246,29 @@ void Settings::setImageResolution(const QString& resolution) {
   if (resolution != imageResolution()) {
     m_settings->setValue("image/resolution", resolution);
     emit imageResolutionChanged();
+  }
+}
+
+QString Settings::videoAspectRatio() const {
+  // This is not used for anything so we will return an empty string for now
+  // which will make the backend return all resolutions.
+
+  return QString();
+}
+
+void Settings::setVideoAspectRatio(const QString& aspectRatio) {
+  Q_UNUSED(aspectRatio);
+
+  // This is not used for anything so we will just ignore it.
+}
+
+QString Settings::videoResolution() const {
+  return m_settings->value("video/resolution", DEFAULT_VIDEO_RESOLUTION).toString();
+}
+
+void Settings::setVideoResolution(const QString& resolution) {
+  if (resolution != videoResolution()) {
+    m_settings->setValue("video/resolution", resolution);
+    emit videoResolutionChanged();
   }
 }
