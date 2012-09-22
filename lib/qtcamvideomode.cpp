@@ -135,7 +135,14 @@ void QtCamVideoMode::stopRecording() {
 bool QtCamVideoMode::setResolution(const QtCamVideoResolution& resolution) {
   d->resolution = resolution;
 
-  if (!d_ptr->dev->q_ptr->isRunning() || isRecording()) {
+  if (!d_ptr->dev->q_ptr->isRunning()) {
+    // We will return true here because setting the resolution on a non-running pipeline
+    // doesn't make much sense (Probably the only use case is as a kind of optimization only).
+    // We will set it anyway when the pipeline gets started.
+    return true;
+  }
+
+  if (isRecording()) {
     return false;
   }
 
