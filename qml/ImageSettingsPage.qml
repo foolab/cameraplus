@@ -161,6 +161,11 @@ CameraPage {
                                                 text: qsTr(modelData);
                                                 checked: settings.imageAspectRatio == modelData;
                                                 onClicked: {
+                                                        if (!cam.idle) {
+                                                                showError(qsTr("Camera is busy saving."));
+                                                                return;
+                                                        }
+
                                                         settings.imageAspectRatio = modelData;
                                                         imageSettings.resolutions.aspectRatio = modelData;
                                                 }
@@ -191,7 +196,14 @@ CameraPage {
                                                 property string aspectRatio: resolutionAspectRatio
                                                 text: resolutions.name(resolutionName, megaPixels);
                                                 checked: settings.imageResolution == resolutionName
-                                                onClicked: settings.imageResolution = resolutionName;
+                                                onClicked: {
+                                                        if (!cam.idle) {
+                                                                showError(qsTr("Camera is busy saving."));
+                                                                return;
+                                                        }
+
+                                                        settings.imageResolution = resolutionName;
+                                                }
                                         }
                                 }
                         }
