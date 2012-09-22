@@ -163,6 +163,11 @@ PageStackWindow {
                 background: " "
         }
 
+        ImageSettings {
+                id: imageSettings
+                camera: cam
+        }
+
         Camera {
 /*
                 onDeviceIdChanged: {

@@ -48,6 +48,9 @@ class Settings : public QObject {
   Q_PROPERTY(int imageFlashMode READ imageFlashMode WRITE setImageFlashMode NOTIFY imageFlashModeChanged);
   Q_PROPERTY(int imageIso READ imageIso WRITE setImageIso NOTIFY imageIsoChanged);
 
+  Q_PROPERTY(QString imageAspectRatio READ imageAspectRatio WRITE setImageAspectRatio NOTIFY imageAspectRatioChanged);
+  Q_PROPERTY(QString imageResolution READ imageResolution WRITE setImageResolution NOTIFY imageResolutionChanged);
+
 public:
   Settings(QObject *parent = 0);
   ~Settings();
@@ -97,6 +100,12 @@ public:
   int imageIso() const;
   void setImageIso(int iso);
 
+  QString imageAspectRatio() const;
+  void setImageAspectRatio(const QString& aspectRatio);
+
+  QString imageResolution() const;
+  void setImageResolution(const QString& resolution);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
@@ -113,6 +122,8 @@ signals:
   void videoEvCompChanged();
   void imageFlashModeChanged();
   void imageIsoChanged();
+  void imageAspectRatioChanged();
+  void imageResolutionChanged();
 
 private:
   QSettings *m_settings;

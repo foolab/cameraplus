@@ -146,10 +146,26 @@ CameraPage {
 
                         ButtonRow {
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                // TODO:
-                                Button { text: qsTr("16:9"); }
-                                Button { text: qsTr("4:3"); }
-                                Button { text: qsTr("3:2"); }
+                                exclusive: false
+                                onCheckedButtonChanged: {
+                                        // This is needed to initially setup the
+                                        // resolutions buttons
+                                        imageSettings.resolutions.aspectRatio = checkedButton.aspect;
+                                        settings.imageAspectRatio = imageSettings.resolutions.aspectRatio;
+                                }
+
+                                Repeater {
+                                        model: imageSettings.aspectRatios
+                                        delegate: Button {
+                                                property string aspect: modelData;
+                                                text: qsTr(modelData);
+                                                checked: settings.imageAspectRatio == modelData;
+                                                onClicked: {
+                                                        settings.imageAspectRatio = modelData;
+                                                        imageSettings.resolutions.aspectRatio = modelData;
+                                                }
+                                        }
+                                }
                         }
 
                         SectionHeader {
@@ -157,11 +173,27 @@ CameraPage {
                         }
 
                         ButtonRow {
+                                id: resolutionsRow
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                // TODO:
-                                Button {}
-                                Button {}
-                                Button {}
+                                exclusive: false
+
+                                Repeater {
+                                        id: resolutions
+                                        model: imageSettings.resolutions
+
+                                        // http://stackoverflow.com/questions/1026069/capitalize-the-first-letter-of-string-in-javascript
+                                        function name(name, mp) {
+                                                return name.charAt(0).toUpperCase() + name.slice(1) + " " + mp + " Mpx";
+                                        }
+
+                                        delegate: Button {
+                                                property string resolution: resolutionName
+                                                property string aspectRatio: resolutionAspectRatio
+                                                text: resolutions.name(resolutionName, megaPixels);
+                                                checked: settings.imageResolution == resolutionName
+                                                onClicked: settings.imageResolution = resolutionName;
+                                        }
+                                }
                         }
 
                         CameraSettings {

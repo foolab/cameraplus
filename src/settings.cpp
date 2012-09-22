@@ -24,16 +24,18 @@
 
 #define PATH QString("%1%2.config%2/cameraplus.conf").arg(QDir::homePath()).arg(QDir::separator())
 
-#define DEFAULT_MODE          0
-#define DEFAULT_SCENE_MODE    6 // Auto
-#define DEFAULT_TIMEOUT       0
-#define DEFAULT_USE_GPS       true
-#define DEFAULT_USE_GEOTAGS   true
-#define DEFAULT_COLOR_FILTER  0
-#define DEFAULT_WHITE_BALANCE 0
-#define DEFAULT_EV_COMP       0.0
-#define DEFAULT_FLASH_MODE    0
-#define DEFAULT_IMAGE_ISO     0
+#define DEFAULT_MODE               0
+#define DEFAULT_SCENE_MODE         6 // Auto
+#define DEFAULT_TIMEOUT            0
+#define DEFAULT_USE_GPS            true
+#define DEFAULT_USE_GEOTAGS        true
+#define DEFAULT_COLOR_FILTER       0
+#define DEFAULT_WHITE_BALANCE      0
+#define DEFAULT_EV_COMP            0.0
+#define DEFAULT_FLASH_MODE         0
+#define DEFAULT_IMAGE_ISO          0
+#define DEFAULT_IMAGE_RESOLUTION   "high"
+#define DEFAULT_IMAGE_ASPECT_RATIO "16:9"
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -221,5 +223,27 @@ void Settings::setImageIso(int iso) {
   if (imageIso() != iso) {
     m_settings->setValue("image/iso", iso);
     emit imageIsoChanged();
+  }
+}
+
+QString Settings::imageAspectRatio() const {
+  return m_settings->value("image/aspectRatio", DEFAULT_IMAGE_ASPECT_RATIO).toString();
+}
+
+void Settings::setImageAspectRatio(const QString& aspectRatio) {
+  if (aspectRatio != imageAspectRatio()) {
+    m_settings->setValue("image/aspectRatio", aspectRatio);
+    emit imageAspectRatioChanged();
+  }
+}
+
+QString Settings::imageResolution() const {
+  return m_settings->value("image/resolution", DEFAULT_IMAGE_RESOLUTION).toString();
+}
+
+void Settings::setImageResolution(const QString& resolution) {
+  if (resolution != imageResolution()) {
+    m_settings->setValue("image/resolution", resolution);
+    emit imageResolutionChanged();
   }
 }

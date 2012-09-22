@@ -175,7 +175,7 @@ QList<QtCamVideoResolution> QtCamVideoSettings::resolutions(const QString& aspec
     }
   }
 
-  return d_ptr->resolutions;
+  return res;
 }
 
 QStringList QtCamVideoSettings::aspectRatios() const {

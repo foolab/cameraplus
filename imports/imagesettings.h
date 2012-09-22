@@ -20,58 +20,48 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef MODE_H
-#define MODE_H
+#ifndef IMAGE_SETTINGS_H
+#define IMAGE_SETTINGS_H
 
 #include <QObject>
+#include <QStringList>
 
 class Camera;
-class QImage;
-class QtCamMode;
+class QtCamImageSettings;
+class ImageResolutionModel;
 
-class Mode : public QObject {
+class ImageSettings : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(Camera* camera READ camera WRITE setCamera NOTIFY cameraChanged);
-  Q_PROPERTY(bool canCapture READ canCapture NOTIFY canCaptureChanged);
-  Q_PROPERTY(bool active READ isActive NOTIFY activeChanged);
-  Q_PROPERTY(bool ready READ isReady NOTIFY isReadyChanged);
+  Q_PROPERTY(QString suffix READ suffix NOTIFY settingsChanged);
+  Q_PROPERTY(QStringList aspectRatios READ aspectRatios NOTIFY settingsChanged);
+  Q_PROPERTY(ImageResolutionModel *resolutions READ resolutions NOTIFY resolutionsChanged);
 
 public:
-  Mode(QObject *parent = 0);
-  virtual ~Mode();
+  ImageSettings(QObject *parent = 0);
+  ~ImageSettings();
+
+  QString suffix() const;
+  QStringList aspectRatios() const;
 
   Camera *camera();
-  virtual void setCamera(Camera *camera);
+  void setCamera(Camera *camera);
 
-  bool isActive();
-
-  bool canCapture();
-
-  bool isReady() const;
+  ImageResolutionModel *resolutions();
 
 signals:
+  void settingsChanged();
   void cameraChanged();
-  void canCaptureChanged();
-  void activeChanged();
-  void previewAvailable(const QString& preview, const QString& fileName);
-  void saved(const QString& fileName);
-  void isReadyChanged();
+  void resolutionsChanged();
 
 private slots:
-  void gotPreview(const QImage& image, const QString& fileName);
   void deviceChanged();
 
-protected:
-  virtual void preChangeMode() = 0;
-  virtual void postChangeMode() = 0;
-  virtual void changeMode() = 0;
-
-  Camera *m_cam;
-  QtCamMode *m_mode;
-
 private:
-  unsigned long long m_seq;
+  Camera *m_cam;
+  QtCamImageSettings *m_settings;
+  ImageResolutionModel *m_resolutions;
 };
 
-#endif /* MODE_H */
+#endif /* IMAGE_SETTINGS_H */

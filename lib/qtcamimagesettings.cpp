@@ -20,6 +20,7 @@
 
 #include "qtcamimagesettings.h"
 #include <QSharedData>
+#include <QDebug>
 
 class QtCamImageResolutionPrivate : public QSharedData {
 public:
@@ -181,7 +182,7 @@ QList<QtCamImageResolution> QtCamImageSettings::resolutions(const QString& aspec
     }
   }
 
-  return d_ptr->resolutions;
+  return res;
 }
 
 QStringList QtCamImageSettings::aspectRatios() const {

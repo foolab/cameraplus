@@ -38,6 +38,8 @@
 #include "flickerreduction.h"
 #include "mute.h"
 #include "metadata.h"
+#include "imagesettings.h"
+#include "imageresolutionmodel.h"
 
 #include <QtDeclarative>
 
@@ -63,7 +65,10 @@ void Plugin::registerTypes(QDeclarativeEngine *engine) {
   qmlRegisterType<FlickerReduction>(URI, MAJOR, MINOR, "FlickerReduction");
   qmlRegisterType<Mute>(URI, MAJOR, MINOR, "Mute");
   qmlRegisterType<MetaData>(URI, MAJOR, MINOR, "MetaData");
+  qmlRegisterType<ImageSettings>(URI, MAJOR, MINOR, "ImageSettings");
 
+  qmlRegisterUncreatableType<ImageResolutionModel>(URI, MAJOR, MINOR, "ImageResolutionModel",
+			  "ImageResolutionModel can be obtained from ImageSettings");
   qmlRegisterType<Mode>();
   qmlRegisterType<Capability>();
 
