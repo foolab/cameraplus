@@ -166,6 +166,28 @@ PageStackWindow {
         ImageSettings {
                 id: imageSettings
                 camera: cam
+                function setImageResolution() {
+                        if (!imageSettings.setResolution(settings.imageAspectRatio, settings.imageResolution)) {
+                        showError(qsTr("Failed to set required resolution"));
+                        }
+                }
+
+                onReadyChanged: {
+                        if (ready) {
+                                imageSettings.setImageResolution();
+                        }
+                }
+        }
+
+        Connections {
+                target: settings
+                onImageAspectRatioChanged: {
+                        imageSettings.setImageResolution();
+                }
+
+                onImageResolutionChanged: {
+                        imageSettings.setImageResolution();
+                }
         }
 
         Camera {

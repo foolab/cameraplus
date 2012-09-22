@@ -37,6 +37,7 @@ class ImageSettings : public QObject {
   Q_PROPERTY(QString suffix READ suffix NOTIFY settingsChanged);
   Q_PROPERTY(QStringList aspectRatios READ aspectRatios NOTIFY settingsChanged);
   Q_PROPERTY(ImageResolutionModel *resolutions READ resolutions NOTIFY resolutionsChanged);
+  Q_PROPERTY(bool ready READ isReady NOTIFY readyChanged);
 
 public:
   ImageSettings(QObject *parent = 0);
@@ -50,10 +51,15 @@ public:
 
   ImageResolutionModel *resolutions();
 
+  bool isReady() const;
+
+  Q_INVOKABLE bool setResolution(const QString& aspectRatio, const QString& resolution);
+
 signals:
   void settingsChanged();
   void cameraChanged();
   void resolutionsChanged();
+  void readyChanged();
 
 private slots:
   void deviceChanged();

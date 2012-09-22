@@ -74,6 +74,8 @@ void ImageSettings::deviceChanged() {
 
   emit settingsChanged();
 
+  emit readyChanged();
+
   delete m_resolutions;
   m_resolutions = 0;
 
@@ -91,4 +93,24 @@ ImageResolutionModel *ImageSettings::resolutions() {
   }
 
   return m_resolutions;
+}
+
+bool ImageSettings::isReady() const {
+  return m_settings;
+}
+
+bool ImageSettings::setResolution(const QString& aspectRatio, const QString& resolution) {
+  if (!isReady()) {
+    return false;
+  }
+
+  QList<QtCamImageResolution> res = m_settings->resolutions(aspectRatio);
+
+  foreach (const QtCamImageResolution& r, res) {
+    if (r.name() == resolution) {
+      return m_cam->device()->imageMode()->setResolution(r);
+    }
+  }
+
+  return false;
 }
