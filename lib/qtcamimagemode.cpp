@@ -80,8 +80,9 @@ void QtCamImageMode::applySettings() {
 
   setPreviewSize(d->resolution.previewResolution());
 
-  // TODO: ?
-  // d_ptr->resetCaps("video-capture-caps");
+  // If we don't reset the caps then: if we switch from video to image then we fail
+  // the next time we restart the pipeline.
+  d_ptr->resetCaps("video-capture-caps");
 }
 
 void QtCamImageMode::start() {

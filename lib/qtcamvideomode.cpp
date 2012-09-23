@@ -87,8 +87,8 @@ void QtCamVideoMode::applySettings() {
 
   setPreviewSize(d->resolution.previewResolution());
 
-  // TODO:
-  //  d_ptr->resetCaps("image-capture-caps");
+  // Not sure this is needed but just in case.
+  d_ptr->resetCaps("image-capture-caps");
 }
 
 void QtCamVideoMode::start() {
