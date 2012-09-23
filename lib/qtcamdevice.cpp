@@ -28,6 +28,7 @@
 #include "qtcammode.h"
 #include "qtcamimagemode.h"
 #include "qtcamvideomode.h"
+#include "qtcamnotifications.h"
 
 // TODO: we want the ability to change the image and video gep from the app.
 
@@ -81,6 +82,8 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
 
   d_ptr->image = new QtCamImageMode(d_ptr, this);
   d_ptr->video = new QtCamVideoMode(d_ptr, this);
+
+  d_ptr->notifications = new QtCamNotifications(this, this);
 }
 
 QtCamDevice::~QtCamDevice() {
@@ -275,6 +278,10 @@ QtCamConfig *QtCamDevice::config() const {
 
 QtCamGStreamerMessageListener *QtCamDevice::listener() const {
   return d_ptr->listener;
+}
+
+QtCamNotifications *QtCamDevice::notifications() const {
+  return d_ptr->notifications;
 }
 
 #include "moc_qtcamdevice.cpp"

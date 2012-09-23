@@ -26,6 +26,8 @@
 #include "qtcamvideomode.h"
 #include "qtcamgraphicsviewfinder.h"
 #include "qtcamconfig.h"
+#include "notifications.h"
+#include "notificationscontainer.h"
 
 // TODO: a viewfinder class that inherits QDeclarativeItem
 
@@ -34,7 +36,8 @@ Camera::Camera(QDeclarativeItem *parent) :
   m_cam(new QtCamera(this)),
   m_dev(0),
   m_vf(new QtCamGraphicsViewfinder(m_cam->config(), this)),
-  m_mode(Camera::ImageMode) {
+  m_mode(Camera::ImageMode),
+  m_notifications(new NotificationsContainer(this)) {
 
   // TODO:
 }
@@ -97,6 +100,8 @@ void Camera::setDeviceId(const QVariant& id) {
   QObject::connect(m_dev, SIGNAL(idleStateChanged(bool)), this, SIGNAL(idleStateChanged()));
   QObject::connect(m_dev, SIGNAL(error(const QString&, int, const QString&)),
 		   this, SIGNAL(error(const QString&, int, const QString&)));
+
+  m_notifications->setDevice(m_dev);
 
   emit deviceIdChanged();
   emit deviceChanged();
@@ -179,4 +184,14 @@ QString Camera::imageSuffix() const {
 
 QString Camera::videoSuffix() const {
   return m_cam->config()->videoSuffix();
+}
+
+Notifications *Camera::notifications() const {
+  return m_notifications->notifications();
+}
+
+void Camera::setNotifications(Notifications *notifications) {
+  if (m_notifications->setNotifications(notifications)) {
+    emit notificationsChanged();
+  }
 }

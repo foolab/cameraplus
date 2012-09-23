@@ -25,10 +25,13 @@
 
 #include <QDeclarativeItem>
 #include <QVariant>
+#include <QPointer>
 
 class QtCamera;
 class QtCamDevice;
 class QtCamGraphicsViewfinder;
+class Notifications;
+class NotificationsContainer;
 
 class Camera : public QDeclarativeItem {
   Q_OBJECT
@@ -40,6 +43,8 @@ class Camera : public QDeclarativeItem {
   Q_PROPERTY(bool running READ isRunning NOTIFY runningStateChanged);
   Q_PROPERTY(QString imageSuffix READ imageSuffix CONSTANT);
   Q_PROPERTY(QString videoSuffix READ videoSuffix CONSTANT);
+  Q_PROPERTY(Notifications *notifications READ notifications WRITE setNotifications NOTIFY notificationsChanged);
+
   Q_ENUMS(CameraMode);
 
 public:
@@ -74,6 +79,9 @@ public:
   QString imageSuffix() const;
   QString videoSuffix() const;
 
+  Notifications *notifications() const;
+  void setNotifications(Notifications *notifications);
+
 signals:
   void deviceCountChanged();
   void deviceIdChanged();
@@ -82,6 +90,7 @@ signals:
   void idleStateChanged();
   void runningStateChanged();
   void error(const QString& message, int code, const QString& debug);
+  void notificationsChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
@@ -94,6 +103,7 @@ private:
   QVariant m_id;
   QtCamGraphicsViewfinder *m_vf;
   CameraMode m_mode;
+  NotificationsContainer *m_notifications;
 };
 
 #endif /* CAMERA_H */

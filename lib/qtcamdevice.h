@@ -35,6 +35,7 @@ class QtCamMode;
 class QtCamGStreamerMessageListener;
 class QtCamMetaData;
 class QtCamCapability;
+class QtCamNotifications;
 
 class QtCamDevice : public QObject {
   Q_OBJECT
@@ -59,6 +60,8 @@ public:
 
   QtCamConfig *config() const;
   QtCamGStreamerMessageListener *listener() const;
+
+  QtCamNotifications *notifications() const;
 
 signals:
   void error(const QString& message, int code, const QString& debug);

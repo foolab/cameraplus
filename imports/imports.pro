@@ -14,10 +14,10 @@ HEADERS += plugin.h previewprovider.h camera.h mode.h imagemode.h videomode.h \
            capability.h zoom.h flash.h scene.h evcomp.h videotorch.h whitebalance.h \
            colortone.h exposure.h aperture.h iso.h noisereduction.h \
            flickerreduction.h mute.h metadata.h imagesettings.h imageresolutionmodel.h \
-           videosettings.h videoresolutionmodel.h
+           videosettings.h videoresolutionmodel.h notifications.h notificationscontainer.h
 
 SOURCES += plugin.cpp previewprovider.cpp camera.cpp mode.cpp imagemode.cpp videomode.cpp \
            capability.cpp zoom.cpp flash.cpp scene.cpp evcomp.cpp videotorch.cpp whitebalance.cpp \
            colortone.cpp exposure.cpp aperture.cpp iso.cpp noisereduction.cpp \
            flickerreduction.cpp mute.cpp metadata.cpp imagesettings.cpp imageresolutionmodel.cpp \
-           videosettings.cpp videoresolutionmodel.cpp
+           videosettings.cpp videoresolutionmodel.cpp notifications.cpp notificationscontainer.cpp

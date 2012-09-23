@@ -36,6 +36,10 @@ public:
       return 0;
     }
 
+#if 0
+    qDebug() << "Message" << gst_structure_get_name(s);
+#endif
+
     QList<QtCamGStreamerMessageHandler *> list =
       map.values(gst_structure_get_name(s));
 

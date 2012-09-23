@@ -24,6 +24,7 @@
 #include "qtcamdevice_p.h"
 #include "qtcamdevice.h"
 #include "qtcamvideosettings.h"
+#include "qtcamnotifications.h"
 
 class QtCamVideoModePrivate : public QtCamModePrivate {
 public:
@@ -64,6 +65,7 @@ QtCamVideoMode::QtCamVideoMode(QtCamDevicePrivate *dev, QObject *parent) :
     }
   }
 
+  // TODO: Use signals from QtCamNotifications instead ?
   QObject::connect(d_ptr->dev->q_ptr, SIGNAL(idleStateChanged(bool)),
 		   this, SLOT(_d_idleStateChanged(bool)));
 }
@@ -115,6 +117,8 @@ bool QtCamVideoMode::startRecording(const QString& fileName) {
   }
 
   setFileName(fileName);
+
+  QMetaObject::invokeMethod(d_ptr->dev->notifications, "videoRecordingStarted");
 
   g_object_set(d_ptr->dev->cameraBin, "location", fileName.toUtf8().data(), NULL);
   g_signal_emit_by_name(d_ptr->dev->cameraBin, "start-capture", NULL);

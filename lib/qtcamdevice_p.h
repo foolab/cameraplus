@@ -46,7 +46,8 @@ public:
     active(0),
     viewfinder(0),
     conf(0),
-    error(false) {
+    error(false),
+    notifications(0) {
 
   }
 
@@ -233,6 +234,7 @@ public:
   QtCamConfig *conf;
   QtCamGStreamerMessageListener *listener;
   bool error;
+  QtCamNotifications *notifications;
 };
 
 #endif /* QT_CAM_DEVICE_P_H */
