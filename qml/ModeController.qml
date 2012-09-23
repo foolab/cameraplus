@@ -58,6 +58,10 @@ Item {
         }
 
         function set(newMode) {
+                if (!cam) {
+                        return;
+                }
+
                 if (cam.mode == newMode) {
                         return;
                 }
