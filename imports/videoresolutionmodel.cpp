@@ -53,7 +53,7 @@ int VideoResolutionModel::rowCount(const QModelIndex& parent) const {
 }
 
 QVariant VideoResolutionModel::data(const QModelIndex& index, int role) const {
-  if (index.row() < 0 || index.row() > m_resolutions.size()) {
+  if (index.row() < 0 || index.row() >= m_resolutions.size()) {
     return QVariant();
   }
 
