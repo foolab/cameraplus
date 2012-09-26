@@ -105,22 +105,28 @@ void Sounds::reload() {
     m_ctx = 0;
   }
 
-  if (int code = ca_context_create(&m_ctx) != CA_SUCCESS) {
+  int code = CA_SUCCESS;
+
+  code = ca_context_create(&m_ctx);
+  if (code != CA_SUCCESS) {
     qWarning() << "Failed to create canberra context" << ca_strerror(code) << code;
     return;
   }
 
-  if (int code = ca_context_set_driver(m_ctx, "pulse") != CA_SUCCESS) {
+  code = ca_context_set_driver(m_ctx, "pulse");
+  if (code != CA_SUCCESS) {
     qWarning() << "Failed to set canberra driver to pulse audio" << ca_strerror(code) << code;
   }
 
-  if (int code = ca_context_change_props(m_ctx,
-					 CA_PROP_MEDIA_ROLE, "camera-sound-effect",
-					 NULL) != CA_SUCCESS) {
+  code = ca_context_change_props(m_ctx,
+				 CA_PROP_MEDIA_ROLE, "camera-sound-effect",
+				 NULL);
+  if (code != CA_SUCCESS) {
     qWarning() << "Failed to set context properties" << ca_strerror(code) << code;
   }
 
-  if (int code = ca_context_open(m_ctx) != CA_SUCCESS) {
+  code = ca_context_open(m_ctx);
+  if (code != CA_SUCCESS) {
     qWarning() << "Failed to open canberra context" << ca_strerror(code) << code;
     ca_context_destroy(m_ctx);
     m_ctx = 0;
@@ -138,21 +144,23 @@ void Sounds::cache(const QString& path, const char *id) {
     return;
   }
 
-  if (int code = ca_context_cache(m_ctx,
-				  CA_PROP_EVENT_ID, id,
-				  CA_PROP_MEDIA_FILENAME, path.toLocal8Bit().data(),
-				  CA_PROP_CANBERRA_CACHE_CONTROL, "permanent",
-				  NULL) != CA_SUCCESS) {
+  int code = ca_context_cache(m_ctx,
+			      CA_PROP_EVENT_ID, id,
+			      CA_PROP_MEDIA_FILENAME, path.toLocal8Bit().data(),
+			      CA_PROP_CANBERRA_CACHE_CONTROL, "permanent",
+			      NULL);
+  if (code != CA_SUCCESS) {
     qWarning() << "Failed to cache" << path << ca_strerror(code) << code;
   }
 }
 
 void Sounds::play(const char *id) {
-  if (int code = ca_context_play(m_ctx, 0,
-				 CA_PROP_CANBERRA_VOLUME, CANBERRA_FULL_VOLUME,
-				 CA_PROP_EVENT_ID, id,
-				 CA_PROP_MEDIA_ROLE, "camera-sound-effect",
-				 NULL) != CA_SUCCESS) {
+  int code = ca_context_play(m_ctx, 0,
+			     CA_PROP_CANBERRA_VOLUME, CANBERRA_FULL_VOLUME,
+			     CA_PROP_EVENT_ID, id,
+			     CA_PROP_MEDIA_ROLE, "camera-sound-effect",
+			     NULL);
+  if (code != CA_SUCCESS) {
     qDebug() << "Failed to play sound" << ca_strerror(code) << code;
   }
 }
@@ -185,7 +193,9 @@ void Sounds::playAndBlock(const char *id) {
 
   mutex.lock();
 
-  if (int code = ca_context_play_full(m_ctx, 0, p, ca_finish_callback, &data) != CA_SUCCESS) {
+  int code = ca_context_play_full(m_ctx, 0, p, ca_finish_callback, &data);
+
+  if (code != CA_SUCCESS) {
     qDebug() << "Failed to play sound" << ca_strerror(code) << code;
     mutex.unlock();
     ca_proplist_destroy(p);
