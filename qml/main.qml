@@ -37,7 +37,6 @@ import QtMobility.location 1.2
 // TODO: record video in a hidden directory and then copy the video to avoid tracker indexing it.
 // TODO: stop viewfinder in settings pages ?
 // TODO: prevent going to mass storage while recording and capturing
-// TODO: sounds
 // TODO: grid lines, face tracking, ambr
 // TODO: complete settings pages
 // TODO: stop camera properly when we get closed.
@@ -244,6 +243,10 @@ PageStackWindow {
                         anchors.fill: parent
                         opacity: 0
                         color: "black"
+                }
+
+                notifications: Sounds {
+                        id: sounds
                 }
         }
 

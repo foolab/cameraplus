@@ -28,6 +28,7 @@
 #include "qtcamconfig.h"
 #include "notifications.h"
 #include "notificationscontainer.h"
+#include "sounds.h"
 
 // TODO: a viewfinder class that inherits QDeclarativeItem
 
@@ -192,6 +193,12 @@ Notifications *Camera::notifications() const {
 
 void Camera::setNotifications(Notifications *notifications) {
   if (m_notifications->setNotifications(notifications)) {
+
+    if (Sounds *s = dynamic_cast<Sounds *>(notifications)) {
+      s->setConfig(m_cam->config());
+      s->reload();
+    }
+
     emit notificationsChanged();
   }
 }

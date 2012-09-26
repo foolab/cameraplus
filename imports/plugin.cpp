@@ -43,6 +43,7 @@
 #include "videosettings.h"
 #include "videoresolutionmodel.h"
 #include "notifications.h"
+#include "sounds.h"
 
 #include <QtDeclarative>
 
@@ -70,6 +71,7 @@ void Plugin::registerTypes(QDeclarativeEngine *engine) {
   qmlRegisterType<MetaData>(URI, MAJOR, MINOR, "MetaData");
   qmlRegisterType<ImageSettings>(URI, MAJOR, MINOR, "ImageSettings");
   qmlRegisterType<VideoSettings>(URI, MAJOR, MINOR, "VideoSettings");
+  qmlRegisterType<Sounds>(URI, MAJOR, MINOR, "Sounds");
   qmlRegisterInterface<Notifications>("Notifications");
 
   qmlRegisterUncreatableType<ImageResolutionModel>(URI, MAJOR, MINOR, "ImageResolutionModel",

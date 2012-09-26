@@ -191,3 +191,19 @@ QString QtCamConfig::imageSuffix() const {
 QString QtCamConfig::videoSuffix() const {
   return d_ptr->conf->value("video/extension").toString();
 }
+
+QString QtCamConfig::imageCaptureStartedSound() const {
+  return d_ptr->conf->value("sounds/imageCaptureStarted").toString();
+}
+
+QString QtCamConfig::imageCaptureEndedSound() const {
+  return d_ptr->conf->value("sounds/imageCaptureEnded").toString();
+}
+
+QString QtCamConfig::videoRecordingStartedSound() const {
+  return d_ptr->conf->value("sounds/videoRecordingStarted").toString();
+}
+
+QString QtCamConfig::videoRecordingEndedSound() const {
+  return d_ptr->conf->value("sounds/videoRecordingEnded").toString();
+}

@@ -70,6 +70,11 @@ public:
 
   QString audioCaptureCaps() const;
 
+  QString imageCaptureStartedSound() const;
+  QString imageCaptureEndedSound() const;
+  QString videoRecordingStartedSound() const;
+  QString videoRecordingEndedSound() const;
+
 private:
   QtCamConfigPrivate *d_ptr;
 };
