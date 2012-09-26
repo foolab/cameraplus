@@ -21,16 +21,20 @@
 #include "sounds.h"
 #include <QDebug>
 #include "qtcamconfig.h"
+#include <QMutex>
+#include <QWaitCondition>
 
 #define CAMERA_IMAGE_START_SOUND_ID "camera-image-start"
 #define CAMERA_IMAGE_END_SOUND_ID "camera-image-end"
 #define CAMERA_VIDEO_START_SOUND_ID "camera-video-start"
 #define CAMERA_VIDEO_STOP_SOUND_ID "camera-video-stop"
 
-// TODO: video start sound should block
-// TODO: video end sound should not appear in the video
+// Odd, volume has to be a char *
+#define CANBERRA_FULL_VOLUME "0.0"
+
 // TODO: monitor pulse audio death and re-upload our samples
 // TODO: if we are using headphones then sound volume might be loud. Detect and lower it.
+
 Sounds::Sounds(QObject *parent) :
   QObject(parent),
   m_muted(false),
@@ -73,7 +77,7 @@ void Sounds::videoRecordingStarted() {
     return;
   }
 
-  play(CAMERA_VIDEO_START_SOUND_ID);
+  playAndBlock(CAMERA_VIDEO_START_SOUND_ID);
 }
 
 void Sounds::videoRecordingEnded() {
@@ -145,10 +149,51 @@ void Sounds::cache(const QString& path, const char *id) {
 
 void Sounds::play(const char *id) {
   if (int code = ca_context_play(m_ctx, 0,
-				 CA_PROP_CANBERRA_VOLUME, "0.0", // Odd, volume has to be a char *
+				 CA_PROP_CANBERRA_VOLUME, CANBERRA_FULL_VOLUME,
 				 CA_PROP_EVENT_ID, id,
 				 CA_PROP_MEDIA_ROLE, "camera-sound-effect",
 				 NULL) != CA_SUCCESS) {
     qDebug() << "Failed to play sound" << ca_strerror(code) << code;
   }
+}
+
+void ca_finish_callback(ca_context *c, uint32_t id, int error_code, void *userdata) {
+  Q_UNUSED(c);
+  Q_UNUSED(id);
+  Q_UNUSED(error_code);
+
+  QPair<QMutex *, QWaitCondition *> *data =
+    static_cast<QPair<QMutex *, QWaitCondition *> *>(userdata);
+
+  data->second->wakeAll();
+}
+
+void Sounds::playAndBlock(const char *id) {
+  QMutex mutex;
+  QWaitCondition cond;
+  ca_proplist *p = 0;
+  if (ca_proplist_create(&p) != CA_SUCCESS) {
+    qDebug() << "Failed to create proplist";
+    return;
+  }
+
+  ca_proplist_sets(p, CA_PROP_CANBERRA_VOLUME, CANBERRA_FULL_VOLUME);
+  ca_proplist_sets(p, CA_PROP_EVENT_ID, id);
+  ca_proplist_sets(p, CA_PROP_MEDIA_ROLE, "camera-sound-effect");
+
+  QPair<QMutex *, QWaitCondition *> data = qMakePair<QMutex *, QWaitCondition *>(&mutex, &cond);
+
+  mutex.lock();
+
+  if (int code = ca_context_play_full(m_ctx, 0, p, ca_finish_callback, &data) != CA_SUCCESS) {
+    qDebug() << "Failed to play sound" << ca_strerror(code) << code;
+    mutex.unlock();
+    ca_proplist_destroy(p);
+
+    return;
+  }
+
+  cond.wait(&mutex);
+  ca_proplist_destroy(p);
+  mutex.unlock();
 }

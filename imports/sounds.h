@@ -56,6 +56,7 @@ signals:
 private:
   void cache(const QString& path, const char *id);
   void play(const char *id);
+  void playAndBlock(const char *id);
 
   bool m_muted;
   ca_context *m_ctx;
