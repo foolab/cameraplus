@@ -44,7 +44,14 @@ Camera::Camera(QDeclarativeItem *parent) :
 }
 
 Camera::~Camera() {
-  // TODO:
+  if (m_dev) {
+    // TODO: stop properly
+    m_dev->stop();
+    m_dev->deleteLater();
+    m_dev = 0;
+  }
+
+  // TODO: cleanup
 }
 
 void Camera::componentComplete() {
