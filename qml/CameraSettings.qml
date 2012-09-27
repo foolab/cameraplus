@@ -28,7 +28,7 @@ Column {
         spacing: 10
 
         Label {
-                // TODO:
+                font.pixelSize: 36
                 text: qsTr("Camera settings");
         }
 
