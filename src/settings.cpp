@@ -37,6 +37,7 @@
 #define DEFAULT_IMAGE_RESOLUTION   "high"
 #define DEFAULT_IMAGE_ASPECT_RATIO "16:9"
 #define DEFAULT_VIDEO_RESOLUTION   "high"
+#define DEFAULT_SOUND_ENABLED      true
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -270,5 +271,16 @@ void Settings::setVideoResolution(const QString& resolution) {
   if (resolution != videoResolution()) {
     m_settings->setValue("video/resolution", resolution);
     emit videoResolutionChanged();
+  }
+}
+
+bool Settings::isSoundEnabled() const {
+  return m_settings->value("camera/soundEnabled", DEFAULT_SOUND_ENABLED).toBool();
+}
+
+void Settings::setSoundEnabled(bool enabled) {
+  if (isSoundEnabled() != enabled) {
+    m_settings->setValue("camera/soundEnabled", enabled);
+    emit soundEnabledChanged();
   }
 }

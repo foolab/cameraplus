@@ -247,6 +247,7 @@ PageStackWindow {
 
                 notifications: Sounds {
                         id: sounds
+                        mute: !settings.soundEnabled
                 }
         }
 

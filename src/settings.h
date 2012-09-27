@@ -54,6 +54,8 @@ class Settings : public QObject {
   Q_PROPERTY(QString videoAspectRatio READ videoAspectRatio WRITE setVideoAspectRatio NOTIFY videoAspectRatioChanged);
   Q_PROPERTY(QString videoResolution READ videoResolution WRITE setVideoResolution NOTIFY videoResolutionChanged);
 
+  Q_PROPERTY(bool soundEnabled READ isSoundEnabled WRITE setSoundEnabled NOTIFY soundEnabledChanged);
+
 public:
   Settings(QObject *parent = 0);
   ~Settings();
@@ -115,6 +117,9 @@ public:
   QString videoResolution() const;
   void setVideoResolution(const QString& resolution);
 
+  bool isSoundEnabled() const;
+  void setSoundEnabled(bool enabled);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
@@ -135,6 +140,7 @@ signals:
   void imageResolutionChanged();
   void videoAspectRatioChanged();
   void videoResolutionChanged();
+  void soundEnabledChanged();
 
 private:
   QSettings *m_settings;

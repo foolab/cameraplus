@@ -77,6 +77,26 @@ Column {
 
         Item {
                 width: parent.width
+                height: Math.max(enableCameraSoundsLabel.height, enableCameraSounds.height);
+
+                Label {
+                        id: enableCameraSoundsLabel
+                        anchors.left: parent.left
+                        text: qsTr("Enable camera sounds");
+                }
+
+                Switch {
+                        id: enableCameraSounds
+                        anchors.right: parent.right
+                        // We have to do it that way because QML complains about a binding
+                        // loop for checked if we bind the checked property to the settings value.
+                        Component.onCompleted: checked = settings.soundEnabled;
+                        onCheckedChanged: settings.soundEnabled = checked;
+                }
+        }
+
+        Item {
+                width: parent.width
                 height: Math.max(useGpsLabel.height, useGps.height);
 
                 Label {
