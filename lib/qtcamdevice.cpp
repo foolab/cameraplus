@@ -94,6 +94,11 @@ QtCamDevice::~QtCamDevice() {
 
   delete d_ptr->image; d_ptr->image = 0;
   delete d_ptr->video; d_ptr->video = 0;
+
+  if (d_ptr->cameraBin) {
+    gst_object_unref(d_ptr->cameraBin);
+  }
+
   delete d_ptr; d_ptr = 0;
 }
 
