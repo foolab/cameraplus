@@ -26,9 +26,10 @@ import QtCamera 1.0
 import CameraPlus 1.0
 import "data.js" as Data
 
-// TODO: video recording indicators.
 // TODO: stop recording when battery low
 // TODO: stop recording when disk is low
+// TODO: stop recording after 1 hour
+
 CameraPage {
         id: page
 
@@ -214,5 +215,75 @@ CameraPage {
                 iconSource: "image://theme/icon-m-camera-roll"
                 onClicked: openFile("PostCapturePage.qml");
                 visible: controlsVisible && !videoMode.recording
+        }
+
+        Rectangle {
+                anchors.left: parent.left
+                anchors.bottom: parent.bottom
+                anchors.leftMargin: 20
+                anchors.bottomMargin: 20
+
+                visible: videoMode.recording
+
+                color: "black"
+                opacity: 0.5
+                width: 100
+                height: 30
+
+                Timer {
+                        id: recordingDuration
+
+                        property int duration: 0
+
+                        running: cam.running && videoMode.recording
+                        triggeredOnStart: true
+                        interval: 1000
+                        repeat: true
+
+                        onTriggered: {
+                                duration = duration + 1;
+                        }
+
+                        onRunningChanged: {
+                                if (!running) {
+                                        duration = 0;
+                                }
+                        }
+                }
+
+                Image {
+                        id: recordingIcon
+                        source: "image://theme/icon-m-camera-ongoing-recording"
+                        width: 20
+                        height: 20
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 5
+                        sourceSize.width: 20
+                        sourceSize.height: 20
+                }
+
+                Label {
+                        function formatDuration(dur) {
+                                var secs = parseInt(dur);
+                                var mins = Math.floor(secs / 60);
+                                var seconds = secs - (mins * 60);
+
+                                if (mins < 10) {
+                                        mins = "0" + mins;
+                                }
+
+                                if (seconds < 10) {
+                                        seconds = "0" + seconds;
+                                }
+
+                                return mins + ":" + seconds;
+                        }
+
+                        id: durationLabel
+                        text: formatDuration(recordingDuration.duration);
+                        anchors.left: recordingIcon.right
+                        anchors.leftMargin: 5
+                }
         }
 }
