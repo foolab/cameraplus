@@ -32,6 +32,8 @@ CameraPage {
         policyMode: CameraResources.Image
         controlsVisible: capture.visible && cam.running && !standbyWidget.visible
 
+        orientationLock: PageOrientation.LockLandscape
+
         Button {
                 id: capture
                 anchors.right: parent.right
