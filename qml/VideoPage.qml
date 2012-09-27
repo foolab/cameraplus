@@ -28,7 +28,6 @@ import "data.js" as Data
 
 // TODO: stop recording when battery low
 // TODO: stop recording when disk is low
-// TODO: stop recording after 1 hour
 
 CameraPage {
         id: page
@@ -54,7 +53,9 @@ CameraPage {
                 height: 75
                 opacity: 0.5
 
-                onClicked: {
+                onClicked: buttonClicked();
+
+                function buttonClicked() {
                         if (!fileSystem.available) {
                                 showError(qsTr("Camera cannot record videos in mass storage mode."));
                                 return;
@@ -242,6 +243,10 @@ CameraPage {
 
                         onTriggered: {
                                 duration = duration + 1;
+                                if (duration == 3600) {
+                                        videoMode.stopRecording();
+                                        showError(qsTr("Maximum recording time reached."));
+                                }
                         }
 
                         onRunningChanged: {
