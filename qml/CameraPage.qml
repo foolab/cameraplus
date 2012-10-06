@@ -24,6 +24,7 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
+import QtMobility.systeminfo 1.2
 
 Page {
         id: page
@@ -32,6 +33,8 @@ Page {
 
         property bool needsPipeline: true
         property int policyMode: CameraResources.None
+
+        signal batteryLow
 
         Component.onCompleted: {
                 if (Qt.application.active && needsPipeline) {
@@ -153,5 +156,37 @@ Page {
                 anchors.topMargin: 0
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: controlsVisible
+        }
+
+        function checkBattery() {
+                // We are fine if we are connected to the charger:
+                if (batteryMonitor.chargingState == BatteryInfo.Charging) {
+                        return true;
+                }
+
+                // If we have enough battery then we are fine:
+                if (batteryMonitor.batteryStatus > BatteryInfo.BatteryCritical) {
+                        return true;
+                }
+
+                return false;
+        }
+
+        BatteryInfo {
+                id: batteryMonitor
+                monitorChargingStateChanges: cam.running
+                monitorBatteryStatusChanges: cam.running
+
+                onChargingStateChanged: {
+                        if (!checkBattery()) {
+                                parent.batteryLow();
+                        }
+                }
+
+                onBatteryStatusChanged:  {
+                        if (!checkBattery()) {
+                                parent.batteryLow();
+                        }
+                }
         }
 }

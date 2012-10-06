@@ -26,7 +26,6 @@ import QtCamera 1.0
 import CameraPlus 1.0
 import "data.js" as Data
 
-// TODO: stop recording when battery low
 // TODO: stop recording when disk is low
 
 CameraPage {
@@ -41,6 +40,17 @@ CameraPage {
 
         DisplayState {
                 inhibitDim: videoMode.recording
+        }
+
+        onBatteryLow: {
+                if (!videoMode.recording) {
+                        return;
+                }
+
+                if (!checkBattery()) {
+                        videoMode.stopRecording();
+                        showError(qsTr("Not enough battery to record video."));
+                }
         }
 
         Button {
@@ -65,6 +75,11 @@ CameraPage {
                         // policy can acquire the needed resources
 
                         if (policyMode == CameraResources.Video) {
+                                if (!checkBattery()) {
+                                        showError(qsTr("Not enough battery to record video."));
+                                        return;
+                                }
+
                                 policyMode = CameraResources.Recording;
                         }
                         else if (videoMode.recording) {

@@ -44,6 +44,11 @@ CameraPage {
                 height: 75
                 opacity: 0.5
                 onClicked: {
+                        if (!checkBattery()) {
+                                showError(qsTr("Not enough battery to capture images."));
+                                return;
+                        }
+
                         if (!fileSystem.available) {
                                 showError(qsTr("Camera cannot capture images in mass storage mode."));
                                 return;
