@@ -68,6 +68,9 @@ PageStackWindow {
         }
 
         PositionSource {
+                // NOTE: The source will not reset the position when we lose the signal.
+                // This shouldn't be a big problem as we are course enough.
+                // If we ever need street level updates then this will be an issue.
                 id: positionSource
                 active: settings.useGps
                 // TODO: we cannot bind to cam.running because camera will stop
