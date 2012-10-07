@@ -242,7 +242,7 @@ CameraPage {
                 anchors.leftMargin: 20
                 anchors.bottomMargin: 20
 
-                visible: videoMode.recording
+                visible: videoControlsVisible && videoMode.recording
 
                 color: "black"
                 opacity: 0.5
