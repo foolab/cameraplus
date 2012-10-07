@@ -28,8 +28,6 @@
 #include <gst/video/video.h>
 #include <QImage>
 
-#define PREVIEW_CAPS "video/x-raw-rgb, width = (int) %1, height = (int) %2, bpp = (int) 32, depth = (int) 24, red_mask = (int) 65280, green_mask = (int) 16711680, blue_mask = (int) -16777216"
-
 class PreviewImageHandler : public QtCamGStreamerMessageHandler {
 public:
   PreviewImageHandler(QtCamMode *m, QObject *parent = 0) :
@@ -72,7 +70,7 @@ public:
 
     // We need to copy because GStreamer will free the buffer after we return
     // and since QImage doesn't copythe data by default we will end up with garbage.
-    // TODO: consider a QImage subclass that takes a GstBuffer reference
+    // There is no way to subclass QImage to prevent copying :|
     QImage cp = image.copy();
 
     QString fileName = QString::fromUtf8(file);
@@ -86,7 +84,7 @@ public:
 
 class DoneHandler : public QtCamGStreamerMessageHandler {
 public:
-  DoneHandler(QtCamMode *m, const char *done, QObject *parent = 0) :
+  DoneHandler(QtCamModePrivate *m, const char *done, QObject *parent = 0) :
     QtCamGStreamerMessageHandler(done, parent) {
     mode = m;
   }
@@ -96,23 +94,23 @@ public:
     if (gst_structure_has_field(s, "filename")) {
       const char *str = gst_structure_get_string(s, "filename");
       if (str) {
-	fileName = QString::fromUtf8(str);
+	mode->fileName = QString::fromUtf8(str);
       }
     }
 
-    QMetaObject::invokeMethod(mode, "saved", Q_ARG(QString, fileName));
+    QMetaObject::invokeMethod(mode->q_ptr, "saved", Q_ARG(QString, mode->fileName));
   }
 
-  QString fileName;
-  QtCamMode *mode;
+  QtCamModePrivate *mode;
 };
 
 QtCamMode::QtCamMode(QtCamModePrivate *d, const char *mode, const char *done, QObject *parent) :
   QObject(parent), d_ptr(d) {
 
+  d_ptr->q_ptr = this;
   d_ptr->id = d_ptr->modeId(mode);
   d_ptr->previewImageHandler = new PreviewImageHandler(this, this);
-  d_ptr->doneHandler = new DoneHandler(this, done, this);
+  d_ptr->doneHandler = new DoneHandler(d_ptr, done, this);
 }
 
 QtCamMode::~QtCamMode() {
@@ -136,9 +134,6 @@ void QtCamMode::activate() {
 
   // TODO: check that we can actually do it. Perhaps the pipeline is busy.
   g_object_set(d_ptr->dev->cameraBin, "mode", d_ptr->id, NULL);
-
-  // TODO: is that needed ?
-  //  d_ptr->dev->resetCapabilities();
 
   d_ptr->dev->listener->addHandler(d_ptr->previewImageHandler);
   d_ptr->dev->listener->addHandler(d_ptr->doneHandler);
@@ -179,29 +174,6 @@ bool QtCamMode::canCapture() {
 
 bool QtCamMode::isActive() {
   return d_ptr->dev->active == this;
-}
-
-void QtCamMode::setPreviewSize(const QSize& size) {
-  if (!d_ptr->dev->cameraBin) {
-    return;
-  }
-
-  if (size.width() <= 0 && size.height() <= 0) {
-    g_object_set(d_ptr->dev->cameraBin, "preview-caps", NULL, "post-previews", FALSE, NULL);
-  }
-  else {
-    QString preview = QString(PREVIEW_CAPS).arg(size.width()).arg(size.height());
-
-    GstCaps *caps = gst_caps_from_string(preview.toAscii());
-
-    g_object_set(d_ptr->dev->cameraBin, "preview-caps", caps, "post-previews", TRUE, NULL);
-
-    gst_caps_unref(caps);
-  }
-}
-
-void QtCamMode::setFileName(const QString& fileName) {
-  d_ptr->doneHandler->fileName = fileName;
 }
 
 QtCamDevice *QtCamMode::device() const {

@@ -33,6 +33,8 @@
 #endif /* GST_USE_UNSTABLE_API */
 #include <gst/interfaces/photography.h>
 
+#define PREVIEW_CAPS "video/x-raw-rgb, width = (int) %1, height = (int) %2, bpp = (int) 32, depth = (int) 24, red_mask = (int) 65280, green_mask = (int) 16711680, blue_mask = (int) -16777216"
+
 class QtCamDevicePrivate;
 class PreviewImageHandler;
 class DoneHandler;
@@ -57,7 +59,7 @@ public:
       return -1;
     }
 
-    GParamSpecEnum *e = (GParamSpecEnum *)pspec;
+    GParamSpecEnum *e = G_PARAM_SPEC_ENUM(pspec);
     GEnumClass *klass = e->enum_class;
 
     for (unsigned x = 0; x < klass->n_values; x++) {
@@ -155,10 +157,35 @@ public:
     }
   }
 
+  void setPreviewSize(const QSize& size) {
+    if (!dev->cameraBin) {
+      return;
+    }
+
+    if (size.width() <= 0 && size.height() <= 0) {
+      g_object_set(dev->cameraBin, "preview-caps", NULL, "post-previews", FALSE, NULL);
+    }
+    else {
+      QString preview = QString(PREVIEW_CAPS).arg(size.width()).arg(size.height());
+
+      GstCaps *caps = gst_caps_from_string(preview.toAscii());
+
+      g_object_set(dev->cameraBin, "preview-caps", caps, "post-previews", TRUE, NULL);
+
+      gst_caps_unref(caps);
+    }
+  }
+
+  void setFileName(const QString& file) {
+    fileName = file;
+  }
+
   int id;
+  QtCamMode *q_ptr;
   QtCamDevicePrivate *dev;
   PreviewImageHandler *previewImageHandler;
   DoneHandler *doneHandler;
+  QString fileName;
 };
 
 #endif /* QT_CAM_MODE_P_H */

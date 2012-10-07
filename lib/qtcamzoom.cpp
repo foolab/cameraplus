@@ -98,7 +98,7 @@ public:
 QtCamZoom::QtCamZoom(QtCamDevice *dev, QObject *parent) :
   QtCamCapability(new QtCamZoomPrivate(dev, this), parent) {
 
-  ((QtCamZoomPrivate *) d_ptr)->init();
+  dynamic_cast<QtCamZoomPrivate *>(d_ptr)->init();
 }
 
 QtCamZoom::~QtCamZoom() {
@@ -106,11 +106,11 @@ QtCamZoom::~QtCamZoom() {
 }
 
 qreal QtCamZoom::value() {
-  return ((QtCamZoomPrivate *) d_ptr)->zoom();
+  return dynamic_cast<QtCamZoomPrivate *>(d_ptr)->zoom();
 }
 
 bool QtCamZoom::setValue(qreal zoom) {
-  if (((QtCamZoomPrivate *) d_ptr)->setZoom(zoom)) {
+  if (dynamic_cast<QtCamZoomPrivate *>(d_ptr)->setZoom(zoom)) {
     emit valueChanged();
     return true;
   }
@@ -119,9 +119,10 @@ bool QtCamZoom::setValue(qreal zoom) {
 }
 
 qreal QtCamZoom::minimumValue() {
+  // TODO: hardcoded
   return 1.0;
 }
 
 qreal QtCamZoom::maximumValue() {
-  return ((QtCamZoomPrivate *) d_ptr)->maxZoom();
+  return dynamic_cast<QtCamZoomPrivate *>(d_ptr)->maxZoom();
 }

@@ -78,7 +78,7 @@ void QtCamImageMode::applySettings() {
   // we use. For now we will not set any FPS.
   d_ptr->setCaps("image-capture-caps", d->resolution.captureResolution(), -1);
 
-  setPreviewSize(d->resolution.previewResolution());
+  d_ptr->setPreviewSize(d->resolution.previewResolution());
 
   // If we don't reset the caps then: if we switch from video to image then we fail
   // the next time we restart the pipeline.
@@ -102,7 +102,7 @@ bool QtCamImageMode::capture(const QString& fileName) {
     return false;
   }
 
-  setFileName(fileName);
+  d_ptr->setFileName(fileName);
 
   g_object_set(d_ptr->dev->cameraBin, "location", fileName.toUtf8().data(), NULL);
   g_signal_emit_by_name(d_ptr->dev->cameraBin, "start-capture", NULL);

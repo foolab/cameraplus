@@ -119,7 +119,6 @@ public:
       break;
 
     default:
-      // TODO: other types
       break;
     }
   }

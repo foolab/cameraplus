@@ -65,7 +65,6 @@ QtCamVideoMode::QtCamVideoMode(QtCamDevicePrivate *dev, QObject *parent) :
     }
   }
 
-  // TODO: Use signals from QtCamNotifications instead ?
   QObject::connect(d_ptr->dev->q_ptr, SIGNAL(idleStateChanged(bool)),
 		   this, SLOT(_d_idleStateChanged(bool)));
 }
@@ -87,7 +86,7 @@ void QtCamVideoMode::applySettings() {
 
   d_ptr->setCaps("video-capture-caps", d->resolution.captureResolution(), fps);
 
-  setPreviewSize(d->resolution.previewResolution());
+  d_ptr->setPreviewSize(d->resolution.previewResolution());
 
   // Not sure this is needed but just in case.
   d_ptr->resetCaps("image-capture-caps");
@@ -116,7 +115,7 @@ bool QtCamVideoMode::startRecording(const QString& fileName) {
     return false;
   }
 
-  setFileName(fileName);
+  d_ptr->setFileName(fileName);
 
   QMetaObject::invokeMethod(d_ptr->dev->notifications, "videoRecordingStarted");
 

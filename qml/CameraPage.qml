@@ -113,9 +113,7 @@ Page {
         }
 
         Rectangle {
-                // TODO: color
                 // TODO: fade out transition
-                // TODO: there is a toolbar visible on the first startup
                 id: standby
                 color: "black"
                 anchors.fill: parent
