@@ -232,6 +232,7 @@ PageStackWindow {
                         console.log("Camera error (" + code + "): " + message + " " + debug);
                         showError(qsTr("Camera error. Please restart the application."));
                         cam.stop();
+                        resourcePolicy.acquire(CameraResources.None);
                 }
 
                 // TODO: hardcoding device id
