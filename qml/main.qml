@@ -52,11 +52,16 @@ PageStackWindow {
 
         Component.onCompleted: {
                 theme.inverted = true;
-                if (settings.mode == 0) {
-                        openFile("ImagePage.qml");
+                if (settings.mode == Camera.VideoMode) {
+                        // TODO: We will use replacePage for now.
+                        // If we use openPage() then we end up with 2 video pages
+                        // stacked on top of each other.
+                        // The first one is created when the camera mode gets
+                        // changed to video upon startup and this becomes the 2nd one.
+                        replacePage("VideoPage.qml");
                 }
                 else {
-                        openFile("VideoPage.qml");
+                        replacePage("ImagePage.qml");
                 }
         }
 
