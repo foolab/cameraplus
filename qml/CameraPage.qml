@@ -158,6 +158,10 @@ Page {
                 visible: controlsVisible
         }
 
+        function checkDiskSpace() {
+                return fileSystem.hasFreeSpace(fileNaming.path);
+        }
+
         function checkBattery() {
                 // We are fine if we are connected to the charger:
                 if (batteryMonitor.chargingState == BatteryInfo.Charging) {

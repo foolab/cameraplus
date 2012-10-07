@@ -96,3 +96,7 @@ QString FileNaming::fileName(const QString& suffix) {
 
   return name;
 }
+
+QString FileNaming::path() const {
+  return PATH;
+}

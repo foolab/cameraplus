@@ -20,6 +20,10 @@
 
 #include "fsmonitor.h"
 #include <qmusbmode.h>
+#include <sys/statvfs.h>
+#include <cstdio>
+
+#define MIN_SPACE 100 * 1024 * 1024 // 100 MB
 
 FSMonitor::FSMonitor(QObject *parent) :
   QObject(parent), m_mode(new MeeGo::QmUSBMode(this)) {
@@ -50,4 +54,15 @@ void FSMonitor::setAvailable(bool available) {
 void FSMonitor::modeChanged() {
   setAvailable(m_mode->mountStatus(MeeGo::QmUSBMode::DocumentDirectoryMount)
 	       .testFlag(MeeGo::QmUSBMode::ReadWriteMount));
+}
+
+bool FSMonitor::hasFreeSpace(const QString& path) {
+  struct statvfs buf;
+
+  if (statvfs(path.toLocal8Bit().data(), &buf) == -1) {
+    std::perror("statvfs");
+    return false;
+  }
+
+  return (buf.f_bsize * buf.f_bavail >= MIN_SPACE);
 }

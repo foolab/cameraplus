@@ -26,8 +26,6 @@ import QtCamera 1.0
 import CameraPlus 1.0
 import "data.js" as Data
 
-// TODO: stop recording when disk is low
-
 CameraPage {
         id: page
 
@@ -77,6 +75,11 @@ CameraPage {
                         if (policyMode == CameraResources.Video) {
                                 if (!checkBattery()) {
                                         showError(qsTr("Not enough battery to record video."));
+                                        return;
+                                }
+
+                                if (!checkDiskSpace()) {
+                                        showError(qsTr("Not enough space to record video."));
                                         return;
                                 }
 
@@ -261,6 +264,10 @@ CameraPage {
                                 if (duration == 3600) {
                                         videoMode.stopRecording();
                                         showError(qsTr("Maximum recording time reached."));
+                                }
+                                else if (!checkDiskSpace()) {
+                                        videoMode.stopRecording();
+                                        showError(qsTr("Not enough space to continue recording."));
                                 }
                         }
 

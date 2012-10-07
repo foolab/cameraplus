@@ -41,6 +41,8 @@ public:
 
   void setAvailable(bool available);
 
+  Q_INVOKABLE bool hasFreeSpace(const QString& path);
+
 signals:
   void availabilityChanged();
 

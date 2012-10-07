@@ -29,7 +29,6 @@ import QtMobility.systeminfo 1.2
 import QtMobility.location 1.2
 
 // TODO: postcapture
-// TODO: disk space
 // TODO: flash not ready
 // TODO: focus, caf, ...
 // TODO: portrait/landscape

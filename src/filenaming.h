@@ -30,6 +30,7 @@ class FileNaming : public QObject {
 
   Q_PROPERTY(QString imageSuffix READ imageSuffix WRITE setImageSuffix NOTIFY imageSuffixChanged);
   Q_PROPERTY(QString videoSuffix READ videoSuffix WRITE setVideoSuffix NOTIFY videoSuffixChanged);
+  Q_PROPERTY(QString path READ path CONSTANT);
 
 public:
   FileNaming(QObject *parent = 0);
@@ -43,6 +44,8 @@ public:
 
   Q_INVOKABLE QString imageFileName();
   Q_INVOKABLE QString videoFileName();
+
+  QString path() const;
 
 signals:
   void imageSuffixChanged();
