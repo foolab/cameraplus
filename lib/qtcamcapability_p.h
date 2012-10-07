@@ -54,6 +54,14 @@ public:
 
   }
 
+  GParamSpec *paramSpec() {
+    if (!src || prop.isEmpty()) {
+      return 0;
+    }
+
+    return g_object_class_find_property(G_OBJECT_GET_CLASS(src), prop.toUtf8().constData());
+  }
+
   void startMonitoring() {
     if (src) {
       QString p = QString("notify::%1").arg(prop);

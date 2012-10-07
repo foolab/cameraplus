@@ -20,10 +20,7 @@
 
 #include "qtcamevcomp.h"
 #include "qtcamcapability_p.h"
-
-// TODO: hardcoded
-#define EV_COMP_MIN -2.5
-#define EV_COMP_MAX +2.5
+#include <QDebug>
 
 QtCamEvComp::QtCamEvComp(QtCamDevice *dev, QObject *parent) :
   QtCamCapability(new QtCamCapabilityPrivate(dev, QtCamCapability::EvComp, "ev-compensation"),
@@ -36,11 +33,9 @@ QtCamEvComp::~QtCamEvComp() {
 }
 
 qreal QtCamEvComp::value() {
-  qreal val = 0.0;
+  qreal val = defaultValue();
 
-  if (!d_ptr->floatValue(&val)) {
-    return 0.0;
-  }
+  d_ptr->floatValue(&val);
 
   return val;
 }
@@ -50,9 +45,31 @@ bool QtCamEvComp::setValue(qreal val) {
 }
 
 qreal QtCamEvComp::minimumValue() {
-  return EV_COMP_MIN;
+  GParamSpec *p = d_ptr->paramSpec();
+
+  if (p && G_IS_PARAM_SPEC_FLOAT(p)) {
+    return G_PARAM_SPEC_FLOAT(p)->minimum;
+  }
+
+  return 0;
 }
 
 qreal QtCamEvComp::maximumValue() {
-  return EV_COMP_MAX;
+  GParamSpec *p = d_ptr->paramSpec();
+
+  if (p && G_IS_PARAM_SPEC_FLOAT(p)) {
+    return G_PARAM_SPEC_FLOAT(p)->maximum;
+  }
+
+  return 0;
+}
+
+qreal QtCamEvComp::defaultValue() {
+  GParamSpec *p = d_ptr->paramSpec();
+
+  if (p && G_IS_PARAM_SPEC_FLOAT(p)) {
+    return G_PARAM_SPEC_FLOAT(p)->default_value;
+  }
+
+  return 0;
 }

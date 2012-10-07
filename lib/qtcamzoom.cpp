@@ -119,7 +119,15 @@ bool QtCamZoom::setValue(qreal zoom) {
 }
 
 qreal QtCamZoom::minimumValue() {
-  // TODO: hardcoded
+  if (!d_ptr->bin) {
+    return 1.0;
+  }
+
+  GParamSpec *pspec = g_object_class_find_property(G_OBJECT_GET_CLASS(d_ptr->bin), "max-zoom");
+  if (pspec && G_IS_PARAM_SPEC_FLOAT(pspec)) {
+    return G_PARAM_SPEC_FLOAT(pspec)->minimum;
+  }
+
   return 1.0;
 }
 

@@ -21,10 +21,6 @@
 #include "qtcamaperture.h"
 #include "qtcamcapability_p.h"
 
-// TODO: hardcoded
-#define APERTURE_MIN 0
-#define APERTURE_MAX 255
-
 QtCamAperture::QtCamAperture(QtCamDevice *dev, QObject *parent) :
   QtCamCapability(new QtCamCapabilityPrivate(dev, QtCamCapability::Aperture, "aperture"),
 		  parent) {
@@ -36,11 +32,9 @@ QtCamAperture::~QtCamAperture() {
 }
 
 unsigned int QtCamAperture::value() {
-  unsigned int val = 0;
+  unsigned int val = defaultValue();
 
-  if (!d_ptr->uintValue(&val)) {
-    return 0;
-  }
+  d_ptr->uintValue(&val);
 
   return val;
 }
@@ -50,9 +44,31 @@ bool QtCamAperture::setValue(unsigned int val) {
 }
 
 unsigned int QtCamAperture::minimumValue() {
-  return APERTURE_MIN;
+  GParamSpec *p = d_ptr->paramSpec();
+
+  if (p && G_IS_PARAM_SPEC_UINT(p)) {
+    return G_PARAM_SPEC_UINT(p)->minimum;
+  }
+
+  return 0;
 }
 
 unsigned int QtCamAperture::maximumValue() {
-  return APERTURE_MAX;
+  GParamSpec *p = d_ptr->paramSpec();
+
+  if (p && G_IS_PARAM_SPEC_UINT(p)) {
+    return G_PARAM_SPEC_UINT(p)->maximum;
+  }
+
+  return 0;
+}
+
+unsigned int QtCamAperture::defaultValue() {
+  GParamSpec *p = d_ptr->paramSpec();
+
+  if (p && G_IS_PARAM_SPEC_UINT(p)) {
+    return G_PARAM_SPEC_UINT(p)->default_value;
+  }
+
+  return 0;
 }

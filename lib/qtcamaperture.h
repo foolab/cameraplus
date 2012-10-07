@@ -32,6 +32,8 @@ public:
   QtCamAperture(QtCamDevice *dev, QObject *parent = 0);
   ~QtCamAperture();
 
+  unsigned int defaultValue();
+
   unsigned int value();
   bool setValue(unsigned int val);
 

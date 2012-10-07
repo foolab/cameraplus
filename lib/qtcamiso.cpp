@@ -21,10 +21,6 @@
 #include "qtcamiso.h"
 #include "qtcamcapability_p.h"
 
-// TODO: hardcoded
-#define ISO_MIN 0
-#define ISO_MAX 6400
-
 QtCamIso::QtCamIso(QtCamDevice *dev, QObject *parent) :
   QtCamCapability(new QtCamCapabilityPrivate(dev, QtCamCapability::IsoSpeed, "iso-speed"),
 		  parent) {
@@ -36,11 +32,9 @@ QtCamIso::~QtCamIso() {
 }
 
 unsigned int QtCamIso::value() {
-  unsigned int val = 0;
+  unsigned int val = defaultValue();
 
-  if (!d_ptr->uintValue(&val)) {
-    return 0;
-  }
+  d_ptr->uintValue(&val);
 
   return val;
 }
@@ -50,9 +44,31 @@ bool QtCamIso::setValue(unsigned int val) {
 }
 
 unsigned int QtCamIso::minimumValue() {
-  return ISO_MIN;
+  GParamSpec *p = d_ptr->paramSpec();
+
+  if (p && G_IS_PARAM_SPEC_UINT(p)) {
+    return G_PARAM_SPEC_UINT(p)->minimum;
+  }
+
+  return 0;
 }
 
 unsigned int QtCamIso::maximumValue() {
-  return ISO_MAX;
+  GParamSpec *p = d_ptr->paramSpec();
+
+  if (p && G_IS_PARAM_SPEC_UINT(p)) {
+    return G_PARAM_SPEC_UINT(p)->maximum;
+  }
+
+  return 0;
+}
+
+unsigned int QtCamIso::defaultValue() {
+  GParamSpec *p = d_ptr->paramSpec();
+
+  if (p && G_IS_PARAM_SPEC_UINT(p)) {
+    return G_PARAM_SPEC_UINT(p)->default_value;
+  }
+
+  return 0;
 }

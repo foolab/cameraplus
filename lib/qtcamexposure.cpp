@@ -21,10 +21,6 @@
 #include "qtcamexposure.h"
 #include "qtcamcapability_p.h"
 
-// TODO: hardcoded
-#define EXPOSURE_MIN 0
-#define EXPOSURE_MAX 4294967295u
-
 QtCamExposure::QtCamExposure(QtCamDevice *dev, QObject *parent) :
   QtCamCapability(new QtCamCapabilityPrivate(dev, QtCamCapability::Exposure, "exposure"),
 		  parent) {
@@ -36,11 +32,9 @@ QtCamExposure::~QtCamExposure() {
 }
 
 unsigned int QtCamExposure::value() {
-  unsigned int val = 0;
+  unsigned int val = defaultValue();
 
-  if (!d_ptr->uintValue(&val)) {
-    return 0;
-  }
+  d_ptr->uintValue(&val);
 
   return val;
 }
@@ -50,9 +44,31 @@ bool QtCamExposure::setValue(unsigned int val) {
 }
 
 unsigned int QtCamExposure::minimumValue() {
-  return EXPOSURE_MIN;
+  GParamSpec *p = d_ptr->paramSpec();
+
+  if (p && G_IS_PARAM_SPEC_UINT(p)) {
+    return G_PARAM_SPEC_UINT(p)->minimum;
+  }
+
+  return 0;
 }
 
 unsigned int QtCamExposure::maximumValue() {
-  return EXPOSURE_MAX;
+  GParamSpec *p = d_ptr->paramSpec();
+
+  if (p && G_IS_PARAM_SPEC_UINT(p)) {
+    return G_PARAM_SPEC_UINT(p)->maximum;
+  }
+
+  return 0;
+}
+
+unsigned int QtCamExposure::defaultValue() {
+  GParamSpec *p = d_ptr->paramSpec();
+
+  if (p && G_IS_PARAM_SPEC_UINT(p)) {
+    return G_PARAM_SPEC_UINT(p)->default_value;
+  }
+
+  return 0;
 }

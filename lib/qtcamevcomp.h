@@ -32,6 +32,8 @@ public:
   QtCamEvComp(QtCamDevice *dev, QObject *parent = 0);
   ~QtCamEvComp();
 
+  qreal defaultValue();
+
   qreal value();
   bool setValue(qreal val);
 
