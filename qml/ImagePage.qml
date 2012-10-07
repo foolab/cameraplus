@@ -59,6 +59,11 @@ CameraPage {
                                 return;
                         }
 
+                        if (!mountProtector.lock()) {
+                                showError(qsTr("Failed to lock images directory."));
+                                return;
+                        }
+
                         metaData.setMetaData();
 
                         if (!imageMode.capture(fileNaming.imageFileName())) {
@@ -73,6 +78,7 @@ CameraPage {
                 id: imageMode
                 camera: cam
                 onPreviewAvailable: page.setPreview(preview);
+                onSaved: mountProtector.unlock();
         }
 
         FlashButton {

@@ -34,7 +34,6 @@ import QtMobility.location 1.2
 // TODO: portrait/landscape
 // TODO: record video in a hidden directory and then copy the video to avoid tracker indexing it.
 // TODO: stop viewfinder in settings pages ?
-// TODO: prevent going to mass storage while recording and capturing
 // TODO: grid lines, face tracking, ambr
 // TODO: complete settings pages
 // TODO: stop camera properly when we get closed.
@@ -154,6 +153,11 @@ PageStackWindow {
                 videoSuffix: cam.videoSuffix
         }
 
+        MountProtector {
+                id: mountProtector
+                path: fileNaming.path
+        }
+
         function replacePage(file) {
                 pageStack.replace(Qt.resolvedUrl(file), {cam: cam}, true);
         }
@@ -233,6 +237,13 @@ PageStackWindow {
                         showError(qsTr("Camera error. Please restart the application."));
                         cam.stop();
                         resourcePolicy.acquire(CameraResources.None);
+                        mountProtector.unlock();
+                }
+
+                onRunningChanged: {
+                        if (!cam.running) {
+                                mountProtector.unlock();
+                        }
                 }
 
                 // TODO: hardcoding device id

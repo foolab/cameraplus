@@ -105,6 +105,14 @@ CameraPage {
                         onAcquiredChanged: {
                                 if (resourcePolicy.acquired && policyMode == CameraResources.Recording) {
                                         metaData.setMetaData();
+
+                                        if (!mountProtector.lock()) {
+                                                showError(qsTr("Failed to lock images directory."));
+                                                policyMode = CameraResources.Video
+                                                return;
+                                        }
+
+
                                         if (!videoMode.startRecording(fileNaming.videoFileName())) {
                                                 showError(qsTr("Failed to record video. Please restart the camera."));
                                                 policyMode = CameraResources.Video
@@ -133,6 +141,8 @@ CameraPage {
                                 page.setPreview(preview);
                         }
                 }
+
+                onSaved: mountProtector.unlock();
         }
 
         VideoTorchButton {
