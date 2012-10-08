@@ -24,6 +24,7 @@
 #include <QDeclarativeEngine>
 #include <QtDeclarative>
 #include <QGLWidget>
+#include <QuillFile>
 
 #include "imports/plugin.h"
 
@@ -38,9 +39,28 @@
 #include "geocode.h"
 #include "mountprotector.h"
 
+static void initQuill() {
+  // TODO: All these are hardcoded.
+  Quill::setPreviewLevelCount(1);
+  Quill::setPreviewSize(0, QSize(854, 480));
+  Quill::setMinimumPreviewSize(0, QSize(854, 480));
+  Quill::setThumbnailExtension("jpeg");
+  Quill::setThumbnailFlavorName(0, "screen");
+  Quill::setBackgroundRenderingColor(Qt::black);
+  QString tempPath(QDir::homePath() +  QDir::separator() + ".config" +
+		   QDir::separator() + "quill" + QDir::separator() + "tmp");
+  QDir().mkpath(tempPath);
+  Quill::setTemporaryFilePath(tempPath);
+  Quill::setDBusThumbnailingEnabled(true);
+  Quill::setThumbnailCreationEnabled(true);
+}
+
 Q_DECL_EXPORT int main(int argc, char *argv[]) {
   QApplication::setAttribute(Qt::AA_X11InitThreads, true);
   QApplication app(argc, argv);
+
+  // Let's initialize Quill:
+  initQuill();
 
   QDeclarativeView view;
   view.setViewport(new QGLWidget);
@@ -66,4 +86,4 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
 
   int ret = app.exec();
   return ret;
-};
+}

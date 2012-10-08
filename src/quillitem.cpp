@@ -29,24 +29,6 @@ QuillItem::QuillItem(QDeclarativeItem *parent) :
   QDeclarativeItem(parent), m_file(0), m_error(false) {
 
   setFlag(QGraphicsItem::ItemHasNoContents, false);
-
-  static bool init = false;
-  if (!init) {
-    Quill::setPreviewLevelCount(1);
-    Quill::setPreviewSize(0, QSize(854, 480)); // TODO:
-    Quill::setMinimumPreviewSize(0, QSize(854, 480)); // TODO:
-    Quill::setThumbnailExtension("jpeg"); // TODO:
-    Quill::setThumbnailFlavorName(0, "screen");
-    Quill::setBackgroundRenderingColor(Qt::black);
-    QString tempPath(QDir::homePath() +  QDir::separator() + ".config" +
-                     QDir::separator() + "quill" + QDir::separator() + "tmp");
-    QDir().mkpath(tempPath);
-    Quill::setTemporaryFilePath(tempPath);
-    Quill::setDBusThumbnailingEnabled(true);
-    Quill::setThumbnailCreationEnabled(true);
-
-    init = true;
-  }
 }
 
 QuillItem::~QuillItem() {
