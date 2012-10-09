@@ -30,20 +30,9 @@ Selector {
 
         property int value: settings.imageSceneMode
 
-        iconSource: sceneIcon(scene.value);
+        iconSource: "image://theme/" + Data.ismIcon(scene.value);
 
         title: qsTr("Scene mode");
-
-        function sceneIcon(val) {
-                // TODO: use the js functions.
-                var x = row.children.length;
-                var i = 0;
-                for (i = 0; i < x; i++) {
-                        if (row.children[i].value == val) {
-                                return row.children[i].normalIcon;
-                        }
-                }
-        }
 
         widget: Row {
                 id: row
