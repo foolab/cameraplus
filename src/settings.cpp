@@ -116,9 +116,9 @@ int Settings::imageSceneMode() const {
 void Settings::setImageSceneMode(int mode) {
   if (mode != imageSceneMode()) {
     m_settings->setValue("image/sceneMode", mode);
-
-    emit imageSceneModeChanged();
   }
+
+  emit imageSceneModeChanged();
 }
 
 int Settings::imageColorFilter() const {
@@ -164,9 +164,9 @@ int Settings::videoSceneMode() const {
 void Settings::setVideoSceneMode(int mode) {
   if (mode != videoSceneMode()) {
     m_settings->setValue("video/sceneMode", mode);
-
-    emit videoSceneModeChanged();
   }
+
+  emit videoSceneModeChanged();
 }
 
 int Settings::videoColorFilter() const {
