@@ -35,7 +35,7 @@ public:
   VideoMode(QObject *parent = 0);
   ~VideoMode();
 
-  Q_INVOKABLE bool startRecording(const QString& fileName);
+  Q_INVOKABLE bool startRecording(const QString& fileName, const QString& tmpFileName);
 
   bool isRecording();
 

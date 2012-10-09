@@ -179,6 +179,9 @@ public:
   void setFileName(const QString& file) {
     fileName = file;
   }
+  void setTempFileName(const QString& file) {
+    tempFileName = file;
+  }
 
   int id;
   QtCamMode *q_ptr;
@@ -186,6 +189,7 @@ public:
   PreviewImageHandler *previewImageHandler;
   DoneHandler *doneHandler;
   QString fileName;
+  QString tempFileName;
 };
 
 #endif /* QT_CAM_MODE_P_H */

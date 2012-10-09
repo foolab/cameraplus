@@ -25,6 +25,7 @@
 #include <QFile>
 
 #define PATH QString("%1%2MyDocs%2cameraplus%2").arg(QDir::homePath()).arg(QDir::separator())
+#define TEMP_PATH QString("%1%2MyDocs%2.cameraplus%2").arg(QDir::homePath()).arg(QDir::separator())
 
 FileNaming::FileNaming(QObject *parent) :
   QObject(parent) {
@@ -99,4 +100,13 @@ QString FileNaming::fileName(const QString& suffix) {
 
 QString FileNaming::path() const {
   return PATH;
+}
+
+QString FileNaming::temporaryVideoFileName() {
+  if (!QDir::root().mkpath(TEMP_PATH)) {
+    qWarning() << "Failed to create temporary path" << TEMP_PATH;
+    return QString();
+  }
+
+  return QString("%1.cameraplus_video.tmp").arg(TEMP_PATH);
 }

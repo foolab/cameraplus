@@ -44,6 +44,7 @@ public:
 
   Q_INVOKABLE QString imageFileName();
   Q_INVOKABLE QString videoFileName();
+  Q_INVOKABLE QString temporaryVideoFileName();
 
   QString path() const;
 

@@ -44,7 +44,8 @@ public:
   virtual void applySettings();
 
   bool isRecording();
-  Q_INVOKABLE bool startRecording(const QString& fileName);
+
+  bool startRecording(const QString& fileName, const QString& tmpFileName = QString());
 
   bool setResolution(const QtCamVideoResolution& resolution);
 

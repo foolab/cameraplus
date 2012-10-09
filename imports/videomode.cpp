@@ -34,8 +34,8 @@ VideoMode::~VideoMode() {
 }
 
 
-bool VideoMode::startRecording(const QString& fileName) {
-  return m_video ? m_video->startRecording(fileName) : false;
+bool VideoMode::startRecording(const QString& fileName, const QString& tmpFileName) {
+  return m_video ? m_video->startRecording(fileName, tmpFileName) : false;
 }
 
 void VideoMode::stopRecording() {

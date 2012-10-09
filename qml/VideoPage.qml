@@ -113,7 +113,8 @@ CameraPage {
                                         }
 
 
-                                        if (!videoMode.startRecording(fileNaming.videoFileName())) {
+                                        if (!videoMode.startRecording(fileNaming.videoFileName(),
+                                             fileNaming.temporaryVideoFileName())) {
                                                 showError(qsTr("Failed to record video. Please restart the camera."));
                                                 policyMode = CameraResources.Video
 }

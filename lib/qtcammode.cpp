@@ -27,6 +27,7 @@
 #include "qtcamgstreamermessagelistener.h"
 #include <gst/video/video.h>
 #include <QImage>
+#include <QFile>
 
 class PreviewImageHandler : public QtCamGStreamerMessageHandler {
 public:
@@ -94,7 +95,18 @@ public:
     if (gst_structure_has_field(s, "filename")) {
       const char *str = gst_structure_get_string(s, "filename");
       if (str) {
-	mode->fileName = QString::fromUtf8(str);
+	mode->tempFileName = QString::fromUtf8(str);
+      }
+    }
+
+    if (mode->fileName.isEmpty()) {
+      mode->fileName = mode->tempFileName;
+    }
+
+    if (!mode->tempFileName.isEmpty() && !mode->fileName.isEmpty() &&
+	mode->tempFileName != mode->fileName) {
+      if (!QFile::rename(mode->tempFileName, mode->fileName)) {
+	qCritical() << "Failed to rename" << mode->tempFileName << "to" << mode->fileName;
       }
     }
 

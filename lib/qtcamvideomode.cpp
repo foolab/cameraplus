@@ -106,7 +106,7 @@ bool QtCamVideoMode::isRecording() {
   return !d_ptr->dev->q_ptr->isIdle();
 }
 
-bool QtCamVideoMode::startRecording(const QString& fileName) {
+bool QtCamVideoMode::startRecording(const QString& fileName, const QString& tmpFileName) {
   if (!canCapture() || isRecording()) {
     return false;
   }
@@ -116,10 +116,13 @@ bool QtCamVideoMode::startRecording(const QString& fileName) {
   }
 
   d_ptr->setFileName(fileName);
+  d_ptr->setTempFileName(tmpFileName);
+
+  QString file = tmpFileName.isEmpty() ? fileName : tmpFileName;
 
   QMetaObject::invokeMethod(d_ptr->dev->notifications, "videoRecordingStarted");
 
-  g_object_set(d_ptr->dev->cameraBin, "location", fileName.toUtf8().data(), NULL);
+  g_object_set(d_ptr->dev->cameraBin, "location", file.toUtf8().data(), NULL);
   g_signal_emit_by_name(d_ptr->dev->cameraBin, "start-capture", NULL);
 
   emit recordingStateChanged();
