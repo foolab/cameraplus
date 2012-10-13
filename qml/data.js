@@ -77,6 +77,14 @@ var __vsm = [
      "icon-m-camera-video-night-selected", "icon-m-camera-video-night"]
 ];
 
+var __flash = [
+    [Flash.Auto,"icon-m-camera-flash-auto-pressed", "icon-m-camera-flash-auto"],
+    [Flash.On, "icon-m-camera-flash-always-pressed", "icon-m-camera-flash-always"],
+    [Flash.Off, "icon-m-camera-flash-off-pressed", "icon-m-camera-flash-off"],
+    [Flash.RedEye, "icon-m-camera-flash-red-eye-pressed", "icon-m-camera-flash-red-eye"]
+];
+
+// ISO
 var __iso = [
     [0, "icon-m-camera-iso-auto"],
     [100, "icon-m-camera-iso-100"],
@@ -85,6 +93,7 @@ var __iso = [
     [800, "icon-m-camera-iso-800"]
 ];
 
+// Image resolutions
 var __image = [
     ["3:2", "low", "icon-m-camera-resolution-3m"],
     ["3:2", "medium", "icon-m-camera-resolution-6m"],
@@ -97,6 +106,7 @@ var __image = [
     ["16:9", "high", "icon-m-camera-resolution-7m"]
 ];
 
+// Video resolutions
 var __video = [
     ["low", "icon-m-camera-video-low-resolution"],
     ["medium", "icon-m-camera-video-fine-resolution"],
@@ -187,4 +197,12 @@ function imageIcon(aspect, res) {
 
 function videoIcon(res) {
     return filterData(res, __video, 1);
+}
+
+function flashIcon(val) {
+    return filterData(val, __flash, 2);
+}
+
+function flashPressedIcon(val) {
+    return filterData(val, __flash, 1);
 }

@@ -40,6 +40,8 @@ import QtMobility.location 1.2
 // TODO: disable debug builds.
 // TODO: a way to get buffers to the application
 // TODO: fcam like functionality (precise control over capture parameters).
+// TODO: changing scene mode doesn't affect the existing properties ?
+// TODO: upon startup all properties don't load correct values.
 
 PageStackWindow {
         id: root
