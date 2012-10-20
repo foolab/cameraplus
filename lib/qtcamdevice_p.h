@@ -47,7 +47,8 @@ public:
     viewfinder(0),
     conf(0),
     error(false),
-    notifications(0) {
+    notifications(0),
+    stopping(false) {
 
   }
 
@@ -131,6 +132,11 @@ public:
   }
 
   void _d_error(const QString& message, int code, const QString& debug) {
+    if (stopping) {
+      // TODO: is it wise to ignore errors while stopping??
+      return;
+    }
+
     error = true;
 
     QMetaObject::invokeMethod(q_ptr, "error", Q_ARG(QString, message),
@@ -235,6 +241,7 @@ public:
   QtCamGStreamerMessageListener *listener;
   bool error;
   QtCamNotifications *notifications;
+  bool stopping;
 };
 
 #endif /* QT_CAM_DEVICE_P_H */
