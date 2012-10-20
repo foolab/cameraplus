@@ -36,15 +36,21 @@ Page {
 
         signal batteryLow
 
+        function updatePolicy() {
+                if (!resourcePolicy.acquire(page.policyMode)) {
+                        cam.stop(force);
+                }
+        }
+
         Component.onCompleted: {
                 if (Qt.application.active && needsPipeline) {
-                        resourcePolicy.acquire(page.policyMode);
+                        updatePolicy();
                 }
         }
 
         onStatusChanged: {
                 if (Qt.application.active && status == PageStatus.Activating) {
-                        resourcePolicy.acquire(page.policyMode);
+                        updatePolicy();
                 }
         }
 /*
@@ -57,22 +63,27 @@ Page {
 
         onPolicyModeChanged: {
                 if (Qt.application.active) {
-                        resourcePolicy.acquire(page.policyMode);
+                        updatePolicy();
                 }
         }
 
         function handlePipeline() {
-                if (!Qt.application.active) {
-                        // TODO: force if we lost resources ?
+                var acquired = resourcePolicy.acquired;
+                if (!acquired) {
+                        cam.stop(true);
+                        showError(qsTr("Resources lost. Stopping camera."));
+                }
+                else if (!Qt.application.active && !acquired) {
+                        cam.stop(true);
+                        showError(qsTr("Resources lost. Stopping camera."));
+                }
+                else if (!Qt.application.active) {
                         cam.stop();
                 }
-                else if (resourcePolicy.acquired && page.needsPipeline && !cam.running) {
-                        // TODO: error
-                        cam.start();
-                }
-                else if (!resourcePolicy.acquired) {
-                        // TODO: force
-                        cam.stop();
+                else if (acquired && page.needsPipeline && !cam.running) {
+                        if (!cam.start()) {
+                                showError(qsTr("Failed to start camera. Please restart the application."));
+                        }
                 }
         }
 
@@ -92,7 +103,7 @@ Page {
                                 }
                         }
                         else if (page.needsPipeline) {
-                                resourcePolicy.acquire(page.policyMode);
+                                updatePolicy();
                         }
                 }
         }

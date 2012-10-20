@@ -35,7 +35,6 @@ import QtMobility.location 1.2
 // TODO: stop viewfinder in settings pages ?
 // TODO: grid lines, face tracking, ambr
 // TODO: complete settings pages
-// TODO: stop camera properly when we get closed.
 // TODO: select primary/secondary camera.
 // TODO: disable debug builds.
 // TODO: a way to get buffers to the application
@@ -122,14 +121,6 @@ PageStackWindow {
 
         CameraResources {
                 id: resourcePolicy
-                onAcquiredChanged: {
-                        if (resourcePolicy.acquired) {
-                                // TODO:
-                        }
-                        else {
-                                // TODO: We need a way to force a stop.
-                        }
-                }
         }
 
         DeviceInfo {
@@ -249,9 +240,7 @@ PageStackWindow {
 
                 // TODO: hardcoding device id
                 Component.onCompleted: { cam.deviceId = 0; mode = settings.mode; }
-                Component.onDestruction: {
-                console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                }
+                Component.onDestruction: cam.stop();
 
                 // TODO: Hack
                 z: -1

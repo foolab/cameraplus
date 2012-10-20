@@ -24,14 +24,18 @@
 #define CAMERA_RESOURCES_H
 
 #include <QObject>
+#include <QThread>
 #include <policy/resource-set.h>
+class CameraResourcesWorker;
 
 class CameraResources : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(bool acquired READ acquired NOTIFY acquiredChanged);
+  Q_PROPERTY(bool hijacked READ hijacked NOTIFY hijackedChanged);
 
   Q_ENUMS(Mode);
+  Q_ENUMS(ResourceType);
 
 public:
   typedef enum {
@@ -42,33 +46,79 @@ public:
     PostCapture,
   } Mode;
 
+  typedef enum {
+    AudioPlaybackType = ResourcePolicy::AudioPlaybackType,
+    VideoPlaybackType = ResourcePolicy::VideoPlaybackType,
+    AudioRecorderType = ResourcePolicy::AudioRecorderType,
+    VideoRecorderType = ResourcePolicy::VideoRecorderType,
+    ScaleButtonType = ResourcePolicy::ScaleButtonType,
+    SnapButtonType = ResourcePolicy::SnapButtonType,
+    LensCoverType = ResourcePolicy::LensCoverType,
+  } ResourceType;
+
   CameraResources(QObject *parent = 0);
   ~CameraResources();
 
-  bool acquired() const;
+  Q_INVOKABLE bool acquire(const Mode& mode);
 
-public slots:
-  void acquire(const Mode& mode);
+  Q_INVOKABLE bool isResourceGranted(const ResourceType& resource);
+
+  bool acquired() const;
+  bool hijacked() const;
 
 signals:
   void acquiredChanged();
+  void hijackedChanged();
+
+private:
+  CameraResourcesWorker *m_worker;
+  QThread m_thread;
+};
+
+class CameraResourcesWorker : public QObject {
+  Q_OBJECT
+
+public:
+  CameraResourcesWorker(QObject *parent = 0);
+  ~CameraResourcesWorker();
+
+public slots:
+  void acquire(bool *ok, const CameraResources::Mode& mode);
+  void acquired(bool *ok);
+  void hijacked(bool *ok);
+  void isResourceGranted(bool *ok, const CameraResources::ResourceType& resource);
+
+signals:
+  void acquiredChanged();
+  void hijackedChanged();
 
 private slots:
+  void init();
+
   void resourcesReleased();
   void lostResources();
   void resourcesGranted(const QList<ResourcePolicy::ResourceType>& optional);
-  void updateOK();
+  void resourcesDenied();
 
 private:
-  void updateSet(const QList<ResourcePolicy::ResourceType>& required,
+  bool release();
+
+  bool updateSet(const QList<ResourcePolicy::ResourceType>& required,
 		 const QList<ResourcePolicy::ResourceType>& optional =
 		 QList<ResourcePolicy::ResourceType>());
 
   QList<ResourcePolicy::ResourceType> listSet();
 
+  void setAcquired(bool acquired);
+  void setHijacked(bool hijacked);
+
   ResourcePolicy::ResourceSet *m_set;
-  Mode m_mode;
+
+  CameraResources::Mode m_mode;
+  QMutex m_mutex;
   bool m_acquired;
+  bool m_acquiring;
+  bool m_hijacked;
 };
 
 #endif /* CAMERA_RESOURCES_H */
