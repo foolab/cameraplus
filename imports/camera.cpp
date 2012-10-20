@@ -45,8 +45,7 @@ Camera::Camera(QDeclarativeItem *parent) :
 
 Camera::~Camera() {
   if (m_dev) {
-    // TODO: stop properly
-    m_dev->stop();
+    m_dev->stop(true);
     m_dev->deleteLater();
     m_dev = 0;
   }
@@ -89,7 +88,7 @@ void Camera::setDeviceId(const QVariant& id) {
     return;
   }
 
-  if (m_dev && m_dev->stop()) {
+  if (m_dev && m_dev->stop(false)) {
     delete m_dev;
   }
   else if (m_dev) {
@@ -161,9 +160,9 @@ bool Camera::start() {
   return m_dev->start();
 }
 
-bool Camera::stop() {
+bool Camera::stop(bool force) {
   if (m_dev) {
-    return m_dev->stop();
+    return m_dev->stop(force);
   }
 
   return true;

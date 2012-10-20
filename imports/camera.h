@@ -71,7 +71,7 @@ public:
   QtCamDevice *device() const;
 
   Q_INVOKABLE bool start();
-  Q_INVOKABLE bool stop();
+  Q_INVOKABLE bool stop(bool force = false);
 
   bool isIdle();
   bool isRunning();
