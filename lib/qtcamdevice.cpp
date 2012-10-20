@@ -84,7 +84,7 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
 }
 
 QtCamDevice::~QtCamDevice() {
-  stop();
+  stop(true);
 
   d_ptr->image->deactivate();
   d_ptr->video->deactivate();
@@ -189,7 +189,7 @@ bool QtCamDevice::start() {
   return true;
 }
 
-bool QtCamDevice::stop() {
+bool QtCamDevice::stop(bool force) {
   if (!d_ptr->cameraBin) {
     return true;
   }
@@ -209,7 +209,9 @@ bool QtCamDevice::stop() {
   }
 
   if (!isIdle()) {
-    return false;
+    if (!force) {
+      return false;
+    }
   }
 
   d_ptr->viewfinder->stop();
