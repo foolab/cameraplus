@@ -69,6 +69,7 @@ public:
 signals:
   void acquiredChanged();
   void hijackedChanged();
+  void updated();
 
 private:
   CameraResourcesWorker *m_worker;
@@ -91,6 +92,7 @@ public slots:
 signals:
   void acquiredChanged();
   void hijackedChanged();
+  void updated();
 
 private slots:
   void init();

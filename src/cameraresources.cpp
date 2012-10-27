@@ -22,6 +22,8 @@
 #include <dbusconnectioneventloop.h>
 #include <QDebug>
 
+// TODO: video recording ?
+// TODO: more resources ?
 CameraResources::CameraResources(QObject *parent) :
   QObject(parent),
   m_worker(new CameraResourcesWorker) {
@@ -38,6 +40,7 @@ CameraResources::CameraResources(QObject *parent) :
 
   QObject::connect(m_worker, SIGNAL(acquiredChanged()), this, SIGNAL(acquiredChanged()));
   QObject::connect(m_worker, SIGNAL(hijackedChanged()), this, SIGNAL(hijackedChanged()));
+  QObject::connect(m_worker, SIGNAL(updated()), this, SLOT(updated()));
 }
 
 CameraResources::~CameraResources() {
@@ -131,6 +134,13 @@ void CameraResourcesWorker::lostResources() {
 
 void CameraResourcesWorker::resourcesGranted(const QList<ResourcePolicy::ResourceType>& optional) {
   Q_UNUSED(optional);
+
+  if (!m_acquiring) {
+    // This can happen when:
+    // 1) We lose/gain optional resources.
+    // 2) A higher priority application releases resources back.
+    emit updated();
+  }
 
   m_acquiring = false;
 
