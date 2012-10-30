@@ -1,0 +1,82 @@
+// -*- c++ -*-
+
+/*!
+ * This file is part of CameraPlus.
+ *
+ * Copyright (C) 2012 Mohammed Sameer <msameer@foolab.org>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
+#ifndef QT_CAM_CAF_P_H
+#define QT_CAM_CAF_P_H
+
+#include "qtcamcaf.h"
+#include "qtcamgstreamermessagehandler.h"
+#include "qtcamgstreamermessagelistener.h"
+#include "qtcamdevice.h"
+#include <QDebug>
+#ifndef GST_USE_UNSTABLE_API
+#define GST_USE_UNSTABLE_API
+#endif /* GST_USE_UNSTABLE_API */
+#include <gst/interfaces/photography.h>
+
+class QtCamCafPrivate : public QObject {
+  Q_OBJECT
+
+public:
+  QtCamCafPrivate(QtCamDevice *device, QtCamCaf *q, QObject *parent = 0) :
+    QObject(parent),
+    dev(device),
+    q_ptr(q),
+    status(QtCamCaf::None) {
+
+    handler = new QtCamGStreamerMessageHandler("caf-update", this);
+
+    QObject::connect(handler, SIGNAL(messageSent(GstMessage *)),
+		     this, SLOT(handleMessage(GstMessage *)));
+
+    dev->listener()->addHandler(handler);
+  }
+
+  ~QtCamCafPrivate() {
+    dev->listener()->removeHandler(handler);
+    delete handler; handler = 0;
+    dev = 0;
+    q_ptr = 0;
+  }
+
+public slots:
+  void handleMessage(GstMessage *message) {
+    const GstStructure *s = gst_message_get_structure(message);
+    int st = GST_PHOTOGRAPHY_FOCUS_STATUS_NONE;
+
+    if (gst_structure_get_int(s, "status", &st)) {
+      if (status != st) {
+	status = (QtCamCaf::Status) st;
+
+	emit q_ptr->statusChanged();
+      }
+    }
+  }
+
+public:
+  QtCamDevice *dev;
+  QtCamCaf *q_ptr;
+  QtCamCaf::Status status;
+  QtCamGStreamerMessageHandler *handler;
+};
+
+#endif /* QT_CAM_CAF_P_H */

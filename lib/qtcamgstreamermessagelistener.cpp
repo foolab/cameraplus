@@ -40,8 +40,7 @@ public:
     qDebug() << "Message" << gst_structure_get_name(s);
 #endif
 
-    QList<QtCamGStreamerMessageHandler *> list =
-      map.values(gst_structure_get_name(s));
+    QList<QtCamGStreamerMessageHandler *> list = map.values(gst_structure_get_name(s));
 
     foreach (QtCamGStreamerMessageHandler *handler, list) {
       handler->handleMessage(message);
