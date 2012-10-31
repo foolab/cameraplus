@@ -37,6 +37,7 @@
 #include "noisereduction.h"
 #include "flickerreduction.h"
 #include "focus.h"
+#include "autofocus.h"
 #include "mute.h"
 #include "metadata.h"
 #include "imagesettings.h"
@@ -69,6 +70,7 @@ void Plugin::registerTypes(QDeclarativeEngine *engine) {
   qmlRegisterType<NoiseReduction>(URI, MAJOR, MINOR, "NoiseReduction");
   qmlRegisterType<FlickerReduction>(URI, MAJOR, MINOR, "FlickerReduction");
   qmlRegisterType<Focus>(URI, MAJOR, MINOR, "Focus");
+  qmlRegisterType<AutoFocus>(URI, MAJOR, MINOR, "AutoFocus");
   qmlRegisterType<Mute>(URI, MAJOR, MINOR, "Mute");
   qmlRegisterType<MetaData>(URI, MAJOR, MINOR, "MetaData");
   qmlRegisterType<ImageSettings>(URI, MAJOR, MINOR, "ImageSettings");
