@@ -82,6 +82,7 @@ private:
   friend class QtCamCapability;
   friend class QtCamVideoTorch;
   friend class QtCamMute;
+  friend class QtCamAutoFocusPrivate;
 
   QtCamDevicePrivate *d_ptr;
 };

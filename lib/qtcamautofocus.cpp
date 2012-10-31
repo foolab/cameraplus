@@ -1,5 +1,3 @@
-// -*- c++ -*-
-
 /*!
  * This file is part of CameraPlus.
  *
@@ -20,39 +18,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef QT_CAM_CAF_H
-#define QT_CAM_CAF_H
+#include "qtcamautofocus.h"
+#include "qtcamautofocus_p.h"
 
-#include <QObject>
+QtCamAutoFocus::QtCamAutoFocus(QtCamDevice *dev, QObject *parent) :
+  QObject(parent),
+  d_ptr(new QtCamAutoFocusPrivate(dev, this, this)) {
 
-class QtCamDevice;
-class QtCamCafPrivate;
+}
 
-class QtCamCaf : public QObject {
-  Q_OBJECT
-  Q_PROPERTY(Status status READ status NOTIFY statusChanged);
-  Q_ENUMS(Status);
+QtCamAutoFocus::~QtCamAutoFocus() {
+  delete d_ptr; d_ptr = 0;
+}
 
-  friend class QtCamCafPrivate;
+QtCamAutoFocus::Status QtCamAutoFocus::status() {
+  return d_ptr->status;
+}
 
-public:
-  typedef enum {
-    None = 0,
-    Running = 1,
-    Fail = 2,
-    Success = 3,
-  } Status;
+bool QtCamAutoFocus::start() {
+  return d_ptr->setEnabled(true);
+}
 
-  QtCamCaf(QtCamDevice *dev, QObject *parent = 0);
-  ~QtCamCaf();
-
-  Status status();
-
-signals:
-  void statusChanged();
-
-private:
-  QtCamCafPrivate *d_ptr;
-};
-
-#endif /* QT_CAM_CAF_H */
+bool QtCamAutoFocus::stop() {
+  return d_ptr->setEnabled(false);
+}

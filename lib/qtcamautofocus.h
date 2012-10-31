@@ -20,20 +20,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef QT_CAM_CAF_H
-#define QT_CAM_CAF_H
+#ifndef QT_CAM_AUTO_FOCUS_H
+#define QT_CAM_AUTO_FOCUS_H
 
 #include <QObject>
 
 class QtCamDevice;
-class QtCamCafPrivate;
+class QtCamAutoFocusPrivate;
 
-class QtCamCaf : public QObject {
+class QtCamAutoFocus : public QObject {
   Q_OBJECT
   Q_PROPERTY(Status status READ status NOTIFY statusChanged);
   Q_ENUMS(Status);
 
-  friend class QtCamCafPrivate;
+  friend class QtCamAutoFocusPrivate;
 
 public:
   typedef enum {
@@ -43,16 +43,19 @@ public:
     Success = 3,
   } Status;
 
-  QtCamCaf(QtCamDevice *dev, QObject *parent = 0);
-  ~QtCamCaf();
+  QtCamAutoFocus(QtCamDevice *dev, QObject *parent = 0);
+  ~QtCamAutoFocus();
 
   Status status();
+
+  bool start();
+  bool stop();
 
 signals:
   void statusChanged();
 
 private:
-  QtCamCafPrivate *d_ptr;
+  QtCamAutoFocusPrivate *d_ptr;
 };
 
-#endif /* QT_CAM_CAF_H */
+#endif /* QT_CAM_AUTO_FOCUS_H */
