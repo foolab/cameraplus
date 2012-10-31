@@ -31,6 +31,7 @@ class QtCamAutoFocusPrivate;
 class QtCamAutoFocus : public QObject {
   Q_OBJECT
   Q_PROPERTY(Status status READ status NOTIFY statusChanged);
+  Q_PROPERTY(Status cafStatus READ cafStatus NOTIFY cafStatusChanged);
   Q_ENUMS(Status);
 
   friend class QtCamAutoFocusPrivate;
@@ -47,12 +48,14 @@ public:
   ~QtCamAutoFocus();
 
   Status status();
+  Status cafStatus();
 
-  bool start();
-  bool stop();
+  bool startAutoFocus();
+  bool stopAutoFocus();
 
 signals:
   void statusChanged();
+  void cafStatusChanged();
 
 private:
   QtCamAutoFocusPrivate *d_ptr;

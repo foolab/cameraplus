@@ -35,10 +35,14 @@ QtCamAutoFocus::Status QtCamAutoFocus::status() {
   return d_ptr->status;
 }
 
-bool QtCamAutoFocus::start() {
+QtCamAutoFocus::Status QtCamAutoFocus::cafStatus() {
+  return d_ptr->cafStatus;
+}
+
+bool QtCamAutoFocus::startAutoFocus() {
   return d_ptr->setEnabled(true);
 }
 
-bool QtCamAutoFocus::stop() {
+bool QtCamAutoFocus::stopAutoFocus() {
   return d_ptr->setEnabled(false);
 }

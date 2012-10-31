@@ -44,7 +44,8 @@ public:
     QObject(parent),
     dev(device),
     q_ptr(q),
-    status(QtCamAutoFocus::None) {
+    status(QtCamAutoFocus::None),
+    cafStatus(QtCamAutoFocus::None) {
 
     handler = new QtCamGStreamerMessageHandler(GST_PHOTOGRAPHY_AUTOFOCUS_DONE, this);
 
@@ -52,6 +53,13 @@ public:
 		     this, SLOT(handleMessage(GstMessage *)));
 
     dev->listener()->addHandler(handler);
+
+    cafHandler = new QtCamGStreamerMessageHandler("caf-update", this);
+
+    QObject::connect(cafHandler, SIGNAL(messageSent(GstMessage *)),
+		     this, SLOT(handleCafMessage(GstMessage *)));
+
+    dev->listener()->addHandler(cafHandler);
   }
 
   ~QtCamAutoFocusPrivate() {
@@ -80,26 +88,43 @@ public:
     return true;
   }
 
-public slots:
-  void handleMessage(GstMessage *message) {
+  bool setStatus(QtCamAutoFocus::Status *status, GstMessage *message) {
     const GstStructure *s = gst_message_get_structure(message);
     int st = GST_PHOTOGRAPHY_FOCUS_STATUS_NONE;
 
     if (gst_structure_get_int(s, "status", &st)) {
-      if (status != st) {
-	status = (QtCamAutoFocus::Status) st;
-
-	// TODO: focus-window-rows, focus-window-columns, focus-windows and the rest
-	emit q_ptr->statusChanged();
+      if (*status != st) {
+	*status = (QtCamAutoFocus::Status) st;
+	return true;
       }
+    }
+
+    return false;
+  }
+
+public slots:
+  void handleMessage(GstMessage *message) {
+    if (setStatus(&status, message)) {
+      // TODO: focus-window-rows, focus-window-columns, focus-windows and the rest
+      emit q_ptr->statusChanged();
+    }
+  }
+
+  void handleCafMessage(GstMessage *message) {
+    if (setStatus(&cafStatus, message)) {
+      emit q_ptr->cafStatusChanged();
     }
   }
 
 public:
   QtCamDevice *dev;
   QtCamAutoFocus *q_ptr;
+
   QtCamAutoFocus::Status status;
+  QtCamAutoFocus::Status cafStatus;
+
   QtCamGStreamerMessageHandler *handler;
+  QtCamGStreamerMessageHandler *cafHandler;
 };
 
 #endif /* QT_CAM_AUTO_FOCUS_P_H */
