@@ -69,6 +69,12 @@ PageStackWindow {
                 error.show();
         }
 
+        function resetCamera(deviceId, mode) {
+                if (!cam.reset(deviceId, mode)) {
+                        showError(qsTr("Failed to set camera device and mode. Please restart the application."));
+                }
+        }
+
         PositionSource {
                 // NOTE: The source will not reset the position when we lose the signal.
                 // This shouldn't be a big problem as we are course enough.
@@ -239,7 +245,7 @@ PageStackWindow {
                 }
 
                 // TODO: hardcoding device id
-                Component.onCompleted: { cam.deviceId = 0; mode = settings.mode; }
+                Component.onCompleted: { root.resetCamera(0, settings.mode); }
                 Component.onDestruction: cam.stop();
 
                 // TODO: Hack
@@ -263,6 +269,7 @@ PageStackWindow {
                 id: sceneController
                 camera: cam
                 value: ready ? camera.mode == Camera.VideoMode ? settings.videoSceneMode : settings.imageSceneMode : 0
+                onValueChanged: console.log("New scene value " + value);
         }
 
         ColorTone {

@@ -44,7 +44,7 @@ Rectangle {
                 height: parent.width
                 color: mouse.pressed ? "lightblue" : "white"
                 radius: parent.width
-                y: mode == 1 ? video.y : image.y
+                y: mode == Camera.VideoMode ? video.y : image.y
         }
 
         Column {
@@ -54,7 +54,7 @@ Rectangle {
                         height: width
                         property string released: "icon-m-viewfinder-camera"
                         property string active: "icon-m-viewfinder-camera-selected"
-                        source: mouse.pressed ? "image://theme/" + released : button.mode == 0 ? "image://theme/" + active : "image://theme/" + released
+                        source: mouse.pressed ? "image://theme/" + released : button.mode == Camera.ImageMode ? "image://theme/" + active : "image://theme/" + released
                 }
 
                 Image {
@@ -63,7 +63,7 @@ Rectangle {
                         height: width
                         property string released: "icon-m-camera-video-record"
                         property string active: "icon-m-camera-video-selected"
-                        source: mouse.pressed ? "image://theme/" + released : button.mode == 1 ? "image://theme/" + active : "image://theme/" + released
+                        source: mouse.pressed ? "image://theme/" + released : button.mode == Camera.VideoMode ? "image://theme/" + active : "image://theme/" + released
                 }
         }
 
@@ -77,10 +77,10 @@ Rectangle {
                 onReleased: {
 
                         if (!drag.active) {
-                                if (mode == 0) {
+                                if (mode == Camera.ImageMode) {
                                         settings.mode = Camera.VideoMode;
                                 }
-                                else {
+                                else if (mode == Camera.VideoMode) {
                                         settings.mode = Camera.ImageMode;
                                 }
 

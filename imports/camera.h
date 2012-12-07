@@ -37,8 +37,8 @@ class Camera : public QDeclarativeItem {
   Q_OBJECT
 
   Q_PROPERTY(int deviceCount READ deviceCount NOTIFY deviceCountChanged)
-  Q_PROPERTY(QVariant deviceId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged);
-  Q_PROPERTY(CameraMode mode READ mode WRITE setMode NOTIFY modeChanged);
+  Q_PROPERTY(QVariant deviceId READ deviceId NOTIFY deviceIdChanged);
+  Q_PROPERTY(CameraMode mode READ mode NOTIFY modeChanged);
   Q_PROPERTY(bool idle READ isIdle NOTIFY idleStateChanged);
   Q_PROPERTY(bool running READ isRunning NOTIFY runningStateChanged);
   Q_PROPERTY(QString imageSuffix READ imageSuffix CONSTANT);
@@ -49,6 +49,7 @@ class Camera : public QDeclarativeItem {
 
 public:
   typedef enum {
+    UnknownMode,
     ImageMode,
     VideoMode
   } CameraMode;
@@ -62,10 +63,10 @@ public:
   Q_INVOKABLE QString deviceName(int index) const;
   Q_INVOKABLE QVariant deviceId(int index) const;
 
-  void setDeviceId(const QVariant& id);
+  Q_INVOKABLE bool reset(const QVariant& deviceId, const CameraMode& mode);
+
   QVariant deviceId() const;
 
-  void setMode(const CameraMode& mode);
   CameraMode mode();
 
   QtCamDevice *device() const;
@@ -96,7 +97,9 @@ protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
 
 private:
-  void applyMode();
+  bool applyMode();
+  bool setDeviceId(const QVariant& deviceId);
+  bool setMode(const CameraMode& mode);
 
   QtCamera *m_cam;
   QtCamDevice *m_dev;

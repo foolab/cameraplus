@@ -29,6 +29,7 @@
 #include "notifications.h"
 #include "notificationscontainer.h"
 #include "sounds.h"
+#include <QDeclarativeInfo>
 
 // TODO: a viewfinder class that inherits QDeclarativeItem
 
@@ -37,7 +38,7 @@ Camera::Camera(QDeclarativeItem *parent) :
   m_cam(new QtCamera(this)),
   m_dev(0),
   m_vf(new QtCamGraphicsViewfinder(m_cam->config(), this)),
-  m_mode(Camera::ImageMode),
+  m_mode(Camera::UnknownMode),
   m_notifications(new NotificationsContainer(this)) {
 
   // TODO:
@@ -56,12 +57,6 @@ Camera::~Camera() {
 void Camera::componentComplete() {
   QDeclarativeItem::componentComplete();
 
-  if (m_id.isValid()) {
-    QVariant oldId = m_id;
-    m_id = QVariant();
-    setDeviceId(oldId);
-  }
-
   emit deviceCountChanged();
 }
 
@@ -77,28 +72,52 @@ QVariant Camera::deviceId(int index) const {
   return m_cam->devices().at(index).second;
 }
 
-void Camera::setDeviceId(const QVariant& id) {
-  if (id == m_id) {
-    return;
+bool Camera::reset(const QVariant& deviceId, const CameraMode& mode) {
+  if (mode == Camera::UnknownMode) {
+    qmlInfo(this) << "Cannot set mode to unknown";
+    return false;
   }
 
   if (!isComponentComplete()) {
-    m_id = id;
-    emit deviceIdChanged();
-    return;
+    qmlInfo(this) << "Component is still not ready";
+    return false;
+  }
+
+  QVariant oldId = m_id;
+  Camera::CameraMode oldMode = m_mode;
+
+  if (setDeviceId(deviceId) && setMode(mode)) {
+    if (oldId != m_id) {
+      emit deviceIdChanged();
+      emit deviceChanged();
+    }
+
+    if (oldMode != m_mode) {
+      emit modeChanged();
+    }
+
+    return true;
+  }
+
+  return false;
+}
+
+bool Camera::setDeviceId(const QVariant& deviceId) {
+  if (deviceId == m_id) {
+    return true;
   }
 
   if (m_dev && m_dev->stop(false)) {
     delete m_dev;
   }
   else if (m_dev) {
-    qWarning() << "Failed to stop device";
-    return;
+    qmlInfo(this) << "Failed to stop device";
+    return false;
   }
 
-  m_dev = m_cam->device(id, this);
+  m_dev = m_cam->device(deviceId, this);
 
-  m_id = id;
+  m_id = deviceId;
 
   m_vf->setDevice(m_dev);
 
@@ -110,8 +129,7 @@ void Camera::setDeviceId(const QVariant& id) {
 
   m_notifications->setDevice(m_dev);
 
-  emit deviceIdChanged();
-  emit deviceChanged();
+  return true;
 }
 
 QVariant Camera::deviceId() const {
@@ -128,22 +146,22 @@ QtCamDevice *Camera::device() const {
   return m_dev;
 }
 
-void Camera::setMode(const Camera::CameraMode& mode) {
+bool Camera::setMode(const Camera::CameraMode& mode) {
   if (m_mode == mode) {
-    return;
+    return true;
+  }
+
+  if (!m_dev) {
+    return false;
   }
 
   m_mode = mode;
-
-  if (!m_dev) {
-    return;
-  }
 
   if (m_dev->isRunning()) {
     applyMode();
   }
 
-  emit modeChanged();
+  return true;
 }
 
 Camera::CameraMode Camera::mode() {
@@ -155,7 +173,9 @@ bool Camera::start() {
     return false;
   }
 
-  applyMode();
+  if (!applyMode()) {
+    return false;
+  }
 
   return m_dev->start();
 }
@@ -176,13 +196,19 @@ bool Camera::isRunning() {
   return m_dev ? m_dev->isRunning() : false;
 }
 
-void Camera::applyMode() {
+bool Camera::applyMode() {
+  if (m_mode == Camera::UnknownMode) {
+    return false;
+  }
+
   if (m_mode == Camera::VideoMode && m_dev->activeMode() != m_dev->videoMode()) {
     m_dev->videoMode()->activate();
   }
   else if (m_mode == Camera::ImageMode && m_dev->activeMode() != m_dev->imageMode()) {
     m_dev->imageMode()->activate();
   }
+
+  return true;
 }
 
 QString Camera::imageSuffix() const {

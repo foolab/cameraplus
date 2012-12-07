@@ -33,10 +33,10 @@ Item {
 
         SequentialAnimation {
                 id: animation
-                property int mode: 0
+                property int mode: Camera.UnknownMode
 
                 function setMode() {
-                        cam.mode = mode;
+                        root.resetCamera(cam.deviceId, mode);
                 }
 
                 NumberAnimation { target: dimmer; property: "opacity"; from: 0; to: 1; duration: 150; alwaysRunToEnd: true }
