@@ -51,6 +51,8 @@ PageStackWindow {
 
         Component.onCompleted: {
                 theme.inverted = true;
+                // TODO: hardcoding device id
+                root.resetCamera(0, settings.mode);
         }
 
         function showError(msg) {
@@ -233,8 +235,6 @@ PageStackWindow {
                         }
                 }
 
-                // TODO: hardcoding device id
-                Component.onCompleted: { root.resetCamera(0, settings.mode); }
                 Component.onDestruction: cam.stop();
 
                 // TODO: Hack
