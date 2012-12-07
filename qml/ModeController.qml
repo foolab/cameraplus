@@ -54,19 +54,11 @@ Item {
         }
 
         onModeChanged: {
-                set(mode);
-        }
-
-        function set(newMode) {
-                if (!cam) {
+                if (!cam || cam.mode == mode) {
                         return;
                 }
 
-                if (cam.mode == newMode) {
-                        return;
-                }
-
-                animation.mode = newMode;
+                animation.mode = mode;
 
                 animation.start();
         }

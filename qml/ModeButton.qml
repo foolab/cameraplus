@@ -75,7 +75,6 @@ Rectangle {
                 drag.minimumY: 0
                 drag.maximumY: parent.height / 2
                 onReleased: {
-
                         if (!drag.active) {
                                 if (mode == Camera.ImageMode) {
                                         settings.mode = Camera.VideoMode;
