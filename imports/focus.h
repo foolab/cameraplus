@@ -23,10 +23,12 @@
 #ifndef FOCUS_H
 #define FOCUS_H
 
-#include "capability.h"
+#include <QObject>
 #include "qtcamfocus.h"
 
-class Focus : public Capability {
+class QtCamDevice;
+
+class Focus : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(FocusMode value READ value WRITE setValue NOTIFY valueChanged);
@@ -45,7 +47,7 @@ public:
     Sport = QtCamFocus::Sport,
   } FocusMode;
 
-  Focus(QObject *parent = 0);
+  Focus(QtCamDevice *dev, QObject *parent = 0);
   ~Focus();
 
   FocusMode value();
@@ -55,8 +57,6 @@ signals:
   void valueChanged();
 
 private:
-  virtual void deviceChanged();
-
   QtCamFocus *m_f;
 };
 

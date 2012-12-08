@@ -28,9 +28,7 @@ import "data.js" as Data
 Selector {
         id: button
 
-        property int value: settings.imageSceneMode
-
-        iconSource: "image://theme/" + Data.ismIcon(scene.value);
+        iconSource: "image://theme/" + Data.ismIcon(settings.imageSceneMode);
 
         title: qsTr("Scene mode");
 

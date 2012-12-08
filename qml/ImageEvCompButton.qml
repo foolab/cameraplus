@@ -27,31 +27,22 @@ import QtCamera 1.0
 Selector {
         id: button
 
-        property alias value: evComp.value
-
-        iconSource: evComp.value == 0 ? "image://theme/icon-m-camera-manual-exposure" : ""
-        text: evComp.value == 0 ? "" : evComp.value.toFixed(1);
+        iconSource: settings.imageEvComp == 0 ? "image://theme/icon-m-camera-manual-exposure" : ""
+        text: settings.imageEvComp == 0 ? "" : settings.imageEvComp.toFixed(1);
         font.pixelSize: 19
         timerConstraints: slider.pressed
 
         title: qsTr("Exposure compensation");
 
-        EvComp {
-                id: evComp
-                camera: cam
-
-                // TODO: hardcoding
-                value: slider.value
-        }
-
         widget: Slider {
                 id: slider
                 width: 500
                 orientation: Qt.Horizontal
-                minimumValue: evComp.minimum
-                maximumValue: evComp.maximum
-                value: evComp.value
+                minimumValue: cam.evComp.minimum
+                maximumValue: cam.evComp.maximum
+                value: settings.imageEvComp
                 stepSize: 0.1
-                Component.onCompleted: { slider.value = evComp.value; }
+                onValueChanged: settings.imageEvComp = value;
+                Component.onCompleted: { slider.value = settings.imageEvComp; }
         }
 }

@@ -19,39 +19,22 @@
  */
 
 #include "focus.h"
-#include "camera.h"
 
-Focus::Focus(QObject *parent) :
-  Capability(parent),
-  m_f(0) {
+Focus::Focus(QtCamDevice *dev, QObject *parent) :
+  QObject(parent),
+  m_f(new QtCamFocus(dev, this)) {
 
+  QObject::connect(m_f, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
 }
 
 Focus::~Focus() {
-  if (m_f) {
-    delete m_f; m_f = 0;
-  }
-}
-
-void Focus::deviceChanged() {
-  if (m_f) {
-    delete m_f; m_f = 0;
-  }
-
-  if (m_cam->device()) {
-    m_f = new QtCamFocus(m_cam->device(), this);
-    QObject::connect(m_f, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
-  }
-
-  emit valueChanged();
+  delete m_f; m_f = 0;
 }
 
 Focus::FocusMode Focus::value() {
-  return m_f ? (FocusMode)m_f->value() : Focus::Auto;
+  return (FocusMode)m_f->value();
 }
 
 void Focus::setValue(const Focus::FocusMode& mode) {
-  if (m_f) {
-    m_f->setValue((QtCamFocus::FocusMode)mode);
-  }
+  m_f->setValue((QtCamFocus::FocusMode)mode);
 }

@@ -23,10 +23,12 @@
 #ifndef FLASH_H
 #define FLASH_H
 
-#include "capability.h"
+#include <QObject>
 #include "qtcamflash.h"
 
-class Flash : public Capability {
+class QtCamDevice;
+
+class Flash : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(FlashMode value READ value WRITE setValue NOTIFY valueChanged);
@@ -41,7 +43,7 @@ public:
     RedEye = QtCamFlash::RedEye
   } FlashMode;
 
-  Flash(QObject *parent = 0);
+  Flash(QtCamDevice *dev, QObject *parent = 0);
   ~Flash();
 
   FlashMode value();
@@ -51,8 +53,6 @@ signals:
   void valueChanged();
 
 private:
-  virtual void deviceChanged();
-
   QtCamFlash *m_flash;
 };
 

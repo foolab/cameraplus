@@ -39,8 +39,6 @@ import QtMobility.location 1.2
 // TODO: disable debug builds.
 // TODO: a way to get buffers to the application
 // TODO: fcam like functionality (precise control over capture parameters).
-// TODO: changing scene mode doesn't affect the existing properties ?
-// TODO: upon startup all properties don't load correct values.
 
 PageStackWindow {
         id: root
@@ -252,37 +250,111 @@ PageStackWindow {
                         id: sounds
                         mute: !settings.soundEnabled
                 }
+
         }
 
-        Scene {
-                id: sceneController
-                camera: cam
-                value: ready ? camera.mode == Camera.VideoMode ? settings.videoSceneMode : settings.imageSceneMode : 0
-                onValueChanged: console.log("New scene value " + value);
+        Binding {
+                target: cam.flash
+                property: "value"
+                when: cam.mode == Camera.ImageMode
+                value: settings.imageFlashMode
         }
 
-        ColorTone {
-                id: colorToneController
-                camera: cam
-                value: ready ? camera.mode == Camera.VideoMode ? settings.videoColorFilter : settings.imageColorFilter : 0
+        Binding {
+                target: settings
+                property: "imageFlashMode"
+                when: cam.mode == Camera.ImageMode
+                value: cam.flash.value
         }
 
-        WhiteBalance {
-                id: whiteBalanceController
-                camera: cam
-                value: ready ? camera.mode == Camera.VideoMode ? settings.videoWhiteBalance : settings.imageWhiteBalance : 0
+        Binding {
+                target: cam.scene
+                property: "value"
+                when: cam.mode == Camera.VideoMode
+                value: settings.videoSceneMode
+        }
+
+        Binding {
+                target: cam.scene
+                property: "value"
+                when: cam.mode == Camera.ImageMode
+                value: settings.imageSceneMode
+        }
+
+        Binding {
+                target: cam.evComp
+                property: "value"
+                when: cam.mode == Camera.ImageMode
+                value: settings.imageEvComp
+        }
+
+        Binding {
+                target: cam.evComp
+                property: "value"
+                when: cam.mode == Camera.VideoMode
+                value: settings.videoEvComp
+        }
+
+        Binding {
+                target: settings
+                property: "imageEvComp"
+                when: cam.mode == Camera.ImageMode
+                value: cam.evComp.value
+        }
+
+        Binding {
+                target: settings
+                property: "videoEvComp"
+                when: cam.mode == Camera.VideoMode
+                value: cam.evComp.value
+        }
+
+        Binding {
+                target: cam.whiteBalance
+                property: "value"
+                when: cam.mode == Camera.ImageMode
+                value: settings.imageWhiteBalance
+        }
+
+        Binding {
+                target: cam.whiteBalance
+                property: "value"
+                when: cam.mode == Camera.VideoMode
+                value: settings.videoWhiteBalance
+        }
+
+        Binding {
+                target: cam.colorTone
+                property: "value"
+                when: cam.mode == Camera.ImageMode
+                value: settings.imageColorFilter
+        }
+
+        Binding {
+                target: cam.colorTone
+                property: "value"
+                when: cam.mode == Camera.VideoMode
+                value: settings.videoColorFilter
+        }
+
+        Binding {
+                target: cam.iso
+                property: "value"
+                when: cam.mode == Camera.ImageMode
+                value: settings.imageIso
+        }
+
+        Binding {
+                target: settings
+                property: "imageIso"
+                when: cam.mode == Camera.ImageMode
+                value: cam.iso.value
         }
 
         ModeController {
                 id: cameraMode
                 cam: cam
                 dimmer: root.dimmer
-        }
-
-        Iso {
-                id: iso
-                camera: cam
-                value: ready ? settings.imageIso : 0
         }
 
         Connections {

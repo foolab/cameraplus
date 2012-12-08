@@ -23,11 +23,12 @@
 #ifndef EV_COMP_H
 #define EV_COMP_H
 
-#include "capability.h"
+#include <QObject>
 
 class QtCamEvComp;
+class QtCamDevice;
 
-class EvComp : public Capability {
+class EvComp : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(qreal value READ value WRITE setValue NOTIFY valueChanged);
@@ -35,7 +36,7 @@ class EvComp : public Capability {
   Q_PROPERTY(qreal maximum READ maximum NOTIFY maximunmChanged);
 
 public:
-  EvComp(QObject *parent = 0);
+  EvComp(QtCamDevice *dev, QObject *parent = 0);
   ~EvComp();
 
   qreal value();
@@ -50,8 +51,6 @@ signals:
   void maximunmChanged();
 
 private:
-  virtual void deviceChanged();
-
   QtCamEvComp *m_evComp;
 };
 

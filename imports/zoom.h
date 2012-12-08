@@ -23,11 +23,12 @@
 #ifndef ZOOM_H
 #define ZOOM_H
 
-#include "capability.h"
+#include <QObject>
 
 class QtCamZoom;
+class QtCamDevice;
 
-class Zoom : public Capability {
+class Zoom : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(qreal value READ value WRITE setValue NOTIFY valueChanged);
@@ -35,7 +36,7 @@ class Zoom : public Capability {
   Q_PROPERTY(qreal maximum READ maximum NOTIFY maximunmChanged);
 
 public:
-  Zoom(QObject *parent = 0);
+  Zoom(QtCamDevice *dev, QObject *parent = 0);
   ~Zoom();
 
   qreal value();
@@ -50,8 +51,6 @@ signals:
   void maximunmChanged();
 
 private:
-  virtual void deviceChanged();
-
   QtCamZoom *m_zoom;
 };
 

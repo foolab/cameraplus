@@ -23,10 +23,12 @@
 #ifndef COLOR_TONE_H
 #define COLOR_TONE_H
 
-#include "capability.h"
+#include <QObject>
 #include "qtcamcolortone.h"
 
-class ColorTone : public Capability {
+class QtCamDevice;
+
+class ColorTone : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(ColorToneMode value READ value WRITE setValue NOTIFY valueChanged);
@@ -48,7 +50,7 @@ public:
     SkinWhite = QtCamColorTone::SkinWhite,
   } ColorToneMode;
 
-  ColorTone(QObject *parent = 0);
+  ColorTone(QtCamDevice *dev, QObject *parent = 0);
   ~ColorTone();
 
   ColorToneMode value();
@@ -58,8 +60,6 @@ signals:
   void valueChanged();
 
 private:
-  virtual void deviceChanged();
-
   QtCamColorTone *m_color;
 };
 

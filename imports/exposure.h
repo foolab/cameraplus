@@ -23,11 +23,12 @@
 #ifndef EXPOSURE_H
 #define EXPOSURE_H
 
-#include "capability.h"
+#include <QObject>
 
 class QtCamExposure;
+class QtCamDevice;
 
-class Exposure : public Capability {
+class Exposure : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(unsigned int value READ value WRITE setValue NOTIFY valueChanged);
@@ -35,7 +36,7 @@ class Exposure : public Capability {
   Q_PROPERTY(unsigned int maximum READ maximum NOTIFY maximunmChanged);
 
 public:
-  Exposure(QObject *parent = 0);
+  Exposure(QtCamDevice *dev, QObject *parent = 0);
   ~Exposure();
 
   unsigned int value();
@@ -50,8 +51,6 @@ signals:
   void maximunmChanged();
 
 private:
-  virtual void deviceChanged();
-
   QtCamExposure *m_exposure;
 };
 

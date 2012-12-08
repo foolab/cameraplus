@@ -23,10 +23,12 @@
 #ifndef WHITE_BALANCE_H
 #define WHITE_BALANCE_H
 
-#include "capability.h"
+#include <QObject>
 #include "qtcamwhitebalance.h"
 
-class WhiteBalance : public Capability {
+class QtCamDevice;
+
+class WhiteBalance : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(WhiteBalanceMode value READ value WRITE setValue NOTIFY valueChanged);
@@ -42,7 +44,7 @@ public:
     Flourescent = QtCamWhiteBalance::Flourescent
   } WhiteBalanceMode;
 
-  WhiteBalance(QObject *parent = 0);
+  WhiteBalance(QtCamDevice *dev, QObject *parent = 0);
   ~WhiteBalance();
 
   WhiteBalanceMode value();
@@ -52,8 +54,6 @@ signals:
   void valueChanged();
 
 private:
-  virtual void deviceChanged();
-
   QtCamWhiteBalance *m_wb;
 };
 

@@ -19,39 +19,22 @@
  */
 
 #include "flash.h"
-#include "camera.h"
 
-Flash::Flash(QObject *parent) :
-  Capability(parent),
-  m_flash(0) {
+Flash::Flash(QtCamDevice *dev, QObject *parent) :
+  QObject(parent),
+  m_flash(new QtCamFlash(dev, this)) {
 
+  QObject::connect(m_flash, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
 }
 
 Flash::~Flash() {
-  if (m_flash) {
-    delete m_flash; m_flash = 0;
-  }
-}
-
-void Flash::deviceChanged() {
-  if (m_flash) {
-    delete m_flash; m_flash = 0;
-  }
-
-  if (m_cam->device()) {
-    m_flash = new QtCamFlash(m_cam->device(), this);
-    QObject::connect(m_flash, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
-  }
-
-  emit valueChanged();
+  delete m_flash; m_flash = 0;
 }
 
 Flash::FlashMode Flash::value() {
-  return m_flash ? (FlashMode)m_flash->value() : Flash::Auto;
+  return (FlashMode)m_flash->value();
 }
 
 void Flash::setValue(const Flash::FlashMode& mode) {
-  if (m_flash) {
-    m_flash->setValue((QtCamFlash::FlashMode)mode);
-  }
+  m_flash->setValue((QtCamFlash::FlashMode)mode);
 }

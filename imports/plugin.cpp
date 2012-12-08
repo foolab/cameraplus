@@ -23,7 +23,6 @@
 #include "videomode.h"
 #include "camera.h"
 #include "previewprovider.h"
-#include "capability.h"
 #include "zoom.h"
 #include "flash.h"
 #include "scene.h"
@@ -57,21 +56,24 @@ void Plugin::registerTypes(QDeclarativeEngine *engine) {
   qmlRegisterType<Camera>(URI, MAJOR, MINOR, "Camera");
   qmlRegisterType<ImageMode>(URI, MAJOR, MINOR, "ImageMode");
   qmlRegisterType<VideoMode>(URI, MAJOR, MINOR, "VideoMode");
-  qmlRegisterType<Zoom>(URI, MAJOR, MINOR, "Zoom");
-  qmlRegisterType<Flash>(URI, MAJOR, MINOR, "Flash");
-  qmlRegisterType<Scene>(URI, MAJOR, MINOR, "Scene");
-  qmlRegisterType<EvComp>(URI, MAJOR, MINOR, "EvComp");
-  qmlRegisterType<VideoTorch>(URI, MAJOR, MINOR, "VideoTorch");
-  qmlRegisterType<WhiteBalance>(URI, MAJOR, MINOR, "WhiteBalance");
-  qmlRegisterType<ColorTone>(URI, MAJOR, MINOR, "ColorTone");
-  qmlRegisterType<Exposure>(URI, MAJOR, MINOR, "Exposure");
-  qmlRegisterType<Aperture>(URI, MAJOR, MINOR, "Aperture");
-  qmlRegisterType<Iso>(URI, MAJOR, MINOR, "Iso");
-  qmlRegisterType<NoiseReduction>(URI, MAJOR, MINOR, "NoiseReduction");
-  qmlRegisterType<FlickerReduction>(URI, MAJOR, MINOR, "FlickerReduction");
-  qmlRegisterType<Focus>(URI, MAJOR, MINOR, "Focus");
-  qmlRegisterType<AutoFocus>(URI, MAJOR, MINOR, "AutoFocus");
+
+  qmlRegisterUncreatableType<Zoom>(URI, MAJOR, MINOR, "Zoom", QObject::tr("Cannot create separate instance of Zoom"));
+  qmlRegisterUncreatableType<Flash>(URI, MAJOR, MINOR, "Flash", QObject::tr("Cannot create separate instance of Flash"));
+  qmlRegisterUncreatableType<Scene>(URI, MAJOR, MINOR, "Scene", QObject::tr("Cannot create separate instance of Scene"));
+  qmlRegisterUncreatableType<EvComp>(URI, MAJOR, MINOR, "EvComp", QObject::tr("Cannot create separate instance of EvComp"));
+  qmlRegisterUncreatableType<WhiteBalance>(URI, MAJOR, MINOR, "WhiteBalance", QObject::tr("Cannot create separate instance of WhiteBalance"));
+  qmlRegisterUncreatableType<ColorTone>(URI, MAJOR, MINOR, "ColorTone", QObject::tr("Cannot create separate instance of ColorTone"));
+  qmlRegisterUncreatableType<Exposure>(URI, MAJOR, MINOR, "Exposure", QObject::tr("Cannot create separate instance of Exposure"));
+  qmlRegisterUncreatableType<Aperture>(URI, MAJOR, MINOR, "Aperture", QObject::tr("Cannot create separate instance of Iso"));
+  qmlRegisterUncreatableType<Iso>(URI, MAJOR, MINOR, "Iso", QObject::tr("Cannot create separate instance of Iso"));
+  qmlRegisterUncreatableType<NoiseReduction>(URI, MAJOR, MINOR, "NoiseReduction", QObject::tr("Cannot create separate instance of NoiseReduction"));
+  qmlRegisterUncreatableType<FlickerReduction>(URI, MAJOR, MINOR, "FlickerReduction", QObject::tr("Cannot create separate instance of FlickerReduction"));
+  qmlRegisterUncreatableType<Focus>(URI, MAJOR, MINOR, "Focus", QObject::tr("Cannot create separate instance of Focus"));
+  qmlRegisterUncreatableType<AutoFocus>(URI, MAJOR, MINOR, "AutoFocus", QObject::tr("Cannot create separate instance of AutoFocus"));
+
   qmlRegisterType<Mute>(URI, MAJOR, MINOR, "Mute");
+  qmlRegisterType<VideoTorch>(URI, MAJOR, MINOR, "VideoTorch");
+
   qmlRegisterType<MetaData>(URI, MAJOR, MINOR, "MetaData");
   qmlRegisterType<ImageSettings>(URI, MAJOR, MINOR, "ImageSettings");
   qmlRegisterType<VideoSettings>(URI, MAJOR, MINOR, "VideoSettings");
@@ -84,7 +86,6 @@ void Plugin::registerTypes(QDeclarativeEngine *engine) {
 			  "VideoResolutionModel can be obtained from VideoSettings");
 
   qmlRegisterType<Mode>();
-  qmlRegisterType<Capability>();
 
   engine->addImageProvider("preview", new PreviewProvider);
 }

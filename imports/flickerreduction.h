@@ -23,10 +23,12 @@
 #ifndef FLICKER_REDUCTION_H
 #define FLICKER_REDUCTION_H
 
-#include "capability.h"
+#include <QObject>
 #include "qtcamflickerreduction.h"
 
-class FlickerReduction : public Capability {
+class QtCamDevice;
+
+class FlickerReduction : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(FlickerReductionMode value READ value WRITE setValue NOTIFY valueChanged);
@@ -40,7 +42,7 @@ public:
     Auto = QtCamFlickerReduction::Auto
   } FlickerReductionMode;
 
-  FlickerReduction(QObject *parent = 0);
+  FlickerReduction(QtCamDevice *dev, QObject *parent = 0);
   ~FlickerReduction();
 
   FlickerReductionMode value();
@@ -50,8 +52,6 @@ signals:
   void valueChanged();
 
 private:
-  virtual void deviceChanged();
-
   QtCamFlickerReduction *m_fr;
 };
 

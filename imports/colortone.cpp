@@ -19,39 +19,22 @@
  */
 
 #include "colortone.h"
-#include "camera.h"
 
-ColorTone::ColorTone(QObject *parent) :
-  Capability(parent),
-  m_color(0) {
+ColorTone::ColorTone(QtCamDevice *dev, QObject *parent) :
+  QObject(parent),
+  m_color(new QtCamColorTone(dev, this)) {
 
+  QObject::connect(m_color, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
 }
 
 ColorTone::~ColorTone() {
-  if (m_color) {
-    delete m_color; m_color = 0;
-  }
-}
-
-void ColorTone::deviceChanged() {
-  if (m_color) {
-    delete m_color; m_color = 0;
-  }
-
-  if (m_cam->device()) {
-    m_color = new QtCamColorTone(m_cam->device(), this);
-    QObject::connect(m_color, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
-  }
-
-  emit valueChanged();
+  delete m_color; m_color = 0;
 }
 
 ColorTone::ColorToneMode ColorTone::value() {
-  return m_color ? (ColorToneMode)m_color->value() : ColorTone::Normal;
+  return (ColorToneMode)m_color->value();
 }
 
 void ColorTone::setValue(const ColorTone::ColorToneMode& mode) {
-  if (m_color) {
-    m_color->setValue((QtCamColorTone::ColorToneMode)mode);
-  }
+  m_color->setValue((QtCamColorTone::ColorToneMode)mode);
 }

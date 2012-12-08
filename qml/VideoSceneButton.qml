@@ -28,9 +28,7 @@ import "data.js" as Data
 Selector {
         id: button
 
-        property int value: settings.videoSceneMode
-
-        iconSource: sceneIcon(scene.value);
+        iconSource: sceneIcon(settings.videoSceneMode);
 
         title: qsTr("Scene mode");
 

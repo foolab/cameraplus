@@ -19,52 +19,33 @@
  */
 
 #include "aperture.h"
-#include "camera.h"
 #include "qtcamaperture.h"
 
-Aperture::Aperture(QObject *parent) :
-  Capability(parent),
-  m_aperture(0) {
+Aperture::Aperture(QtCamDevice *dev, QObject *parent) :
+  QObject(parent),
+  m_aperture(new QtCamAperture(dev, this)) {
 
+  QObject::connect(m_aperture, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
+  QObject::connect(m_aperture, SIGNAL(minimumValueChanged()), this, SIGNAL(minimumChanged()));
+  QObject::connect(m_aperture, SIGNAL(maximumValueChanged()), this, SIGNAL(maximunmChanged()));
 }
 
 Aperture::~Aperture() {
-  if (m_aperture) {
-    delete m_aperture; m_aperture = 0;
-  }
-}
-
-void Aperture::deviceChanged() {
-  if (m_aperture) {
-    delete m_aperture; m_aperture = 0;
-  }
-
-  if (m_cam->device()) {
-    m_aperture = new QtCamAperture(m_cam->device(), this);
-    QObject::connect(m_aperture, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
-    QObject::connect(m_aperture, SIGNAL(minimumValueChanged()), this, SIGNAL(minimumChanged()));
-    QObject::connect(m_aperture, SIGNAL(maximumValueChanged()), this, SIGNAL(maximunmChanged()));
-  }
-
-  emit valueChanged();
-  emit minimumChanged();
-  emit maximunmChanged();
+  delete m_aperture; m_aperture = 0;
 }
 
 unsigned int Aperture::value() {
-  return m_aperture ? m_aperture->value() : 0;
+  return m_aperture->value();
 }
 
 void Aperture::setValue(unsigned int val) {
-  if (m_aperture) {
-    m_aperture->setValue(val);
-  }
+  m_aperture->setValue(val);
 }
 
 unsigned int Aperture::minimum() {
-  return m_aperture ? m_aperture->minimumValue() : 0;
+  return m_aperture->minimumValue();
 }
 
 unsigned int Aperture::maximum() {
-  return m_aperture ? m_aperture->maximumValue() : 0;
+  return m_aperture->maximumValue();
 }

@@ -23,10 +23,12 @@
 #ifndef AUTO_FOCUS_H
 #define AUTO_FOCUS_H
 
-#include "capability.h"
+#include <QObject>
 #include "qtcamautofocus.h"
 
-class AutoFocus : public Capability {
+class QtCamDevice;
+
+class AutoFocus : public QObject {
   Q_OBJECT
   Q_PROPERTY(Status status READ status NOTIFY valueChanged);
   Q_PROPERTY(Status cafStatus READ cafStatus NOTIFY cafValueChanged);
@@ -40,7 +42,7 @@ public:
     Success = QtCamAutoFocus::Success,
   } Status;
 
-  AutoFocus(QObject *parent = 0);
+  AutoFocus(QtCamDevice *dev, QObject *parent = 0);
   ~AutoFocus();
 
   Q_INVOKABLE bool startAutoFocus();
@@ -54,8 +56,6 @@ signals:
   void cafValueChanged();
 
 private:
-  virtual void deviceChanged();
-
   QtCamAutoFocus *m_af;
 };
 

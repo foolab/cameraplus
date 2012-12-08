@@ -31,6 +31,20 @@
 #include "sounds.h"
 #include <QDeclarativeInfo>
 
+#include "zoom.h"
+#include "flash.h"
+#include "scene.h"
+#include "evcomp.h"
+#include "whitebalance.h"
+#include "colortone.h"
+#include "iso.h"
+#include "exposure.h"
+#include "aperture.h"
+#include "noisereduction.h"
+#include "flickerreduction.h"
+#include "focus.h"
+#include "autofocus.h"
+
 // TODO: a viewfinder class that inherits QDeclarativeItem
 
 Camera::Camera(QDeclarativeItem *parent) :
@@ -39,7 +53,21 @@ Camera::Camera(QDeclarativeItem *parent) :
   m_dev(0),
   m_vf(new QtCamGraphicsViewfinder(m_cam->config(), this)),
   m_mode(Camera::UnknownMode),
-  m_notifications(new NotificationsContainer(this)) {
+  m_notifications(new NotificationsContainer(this)),
+  m_zoom(0),
+  m_flash(0),
+  m_scene(0),
+  m_evComp(0),
+  m_whiteBalance(0),
+  m_colorTone(0),
+  m_iso(0),
+  m_exposure(0),
+  m_aperture(0),
+  m_noiseReduction(0),
+  m_flickerReduction(0),
+  m_focus(0),
+  m_autoFocus(0) {
+
 
   // TODO:
 }
@@ -50,6 +78,20 @@ Camera::~Camera() {
     m_dev->deleteLater();
     m_dev = 0;
   }
+
+  delete m_zoom;
+  delete m_flash;
+  delete m_scene;
+  delete m_evComp;
+  delete m_whiteBalance;
+  delete m_colorTone;
+  delete m_iso;
+  delete m_exposure;
+  delete m_aperture;
+  delete m_noiseReduction;
+  delete m_flickerReduction;
+  delete m_focus;
+  delete m_autoFocus;
 
   // TODO: cleanup
 }
@@ -90,6 +132,8 @@ bool Camera::reset(const QVariant& deviceId, const CameraMode& mode) {
     if (oldId != m_id) {
       emit deviceIdChanged();
       emit deviceChanged();
+
+      resetCapabilities();
     }
 
     if (oldMode != m_mode) {
@@ -233,4 +277,112 @@ void Camera::setNotifications(Notifications *notifications) {
 
     emit notificationsChanged();
   }
+}
+
+void Camera::resetCapabilities() {
+  QtCamDevice *dev = device();
+
+  delete m_zoom;
+  m_zoom = new Zoom(dev, this);
+  emit zoomChanged();
+
+  delete m_flash;
+  m_flash = new Flash(dev, this);
+  emit flashChanged();
+
+  delete m_scene;
+  m_scene = new Scene(dev, this);
+  emit sceneChanged();
+
+  delete m_evComp;
+  m_evComp = new EvComp(dev, this);
+  emit evCompChanged();
+
+  delete m_whiteBalance;
+  m_whiteBalance = new WhiteBalance(dev, this);
+  emit whiteBalanceChanged();
+
+  delete m_colorTone;
+  m_colorTone = new ColorTone(dev, this);
+  emit colorToneChanged();
+
+  delete m_iso;
+  m_iso = new Iso(dev, this);
+  emit isoChanged();
+
+  delete m_exposure;
+  m_exposure = new Exposure(dev, this);
+  emit exposureChanged();
+
+  delete m_aperture;
+  m_aperture = new Aperture(dev, this);
+  emit apertureChanged();
+
+  delete m_noiseReduction;
+  m_noiseReduction = new NoiseReduction(dev, this);
+  emit noiseReductionChanged();
+
+  delete m_flickerReduction;
+  m_flickerReduction = new FlickerReduction(dev, this);
+  emit flickerReductionChanged();
+
+  delete m_focus;
+  m_focus = new Focus(dev, this);
+  emit focusChanged();
+
+  delete m_autoFocus;
+  m_autoFocus = new AutoFocus(dev, this);
+  emit autoFocusChanged();
+}
+
+Zoom *Camera::zoom() const {
+  return m_zoom;
+}
+
+Flash *Camera::flash() const {
+  return m_flash;
+}
+
+Scene *Camera::scene() const {
+  return m_scene;
+}
+
+EvComp *Camera::evComp() const {
+  return m_evComp;
+}
+
+WhiteBalance *Camera::whiteBalance() const {
+  return m_whiteBalance;
+}
+
+ColorTone *Camera::colorTone() const {
+  return m_colorTone;
+}
+
+Iso *Camera::iso() const {
+  return m_iso;
+}
+
+Exposure *Camera::exposure() const {
+  return m_exposure;
+}
+
+Aperture *Camera::aperture() const {
+  return m_aperture;
+}
+
+NoiseReduction *Camera::noiseReduction() const {
+  return m_noiseReduction;
+}
+
+FlickerReduction *Camera::flickerReduction() const {
+  return m_flickerReduction;
+}
+
+Focus *Camera::focus() const {
+  return m_focus;
+}
+
+AutoFocus *Camera::autoFocus() const {
+  return m_autoFocus;
 }

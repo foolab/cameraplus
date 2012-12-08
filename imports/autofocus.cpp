@@ -19,54 +19,31 @@
  */
 
 #include "autofocus.h"
-#include "camera.h"
 
-AutoFocus::AutoFocus(QObject *parent) :
-  Capability(parent),
-  m_af(0) {
+AutoFocus::AutoFocus(QtCamDevice *dev, QObject *parent) :
+  QObject(parent),
+  m_af(new QtCamAutoFocus(dev, this)) {
 
+  QObject::connect(m_af, SIGNAL(statusChanged()), this, SIGNAL(valueChanged()));
+  QObject::connect(m_af, SIGNAL(cafStatusChanged()), this, SIGNAL(cafValueChanged()));
 }
+
 AutoFocus::~AutoFocus() {
-  if (m_af) {
-    delete m_af; m_af = 0;
-  }
-}
-
-void AutoFocus::deviceChanged() {
-  if (m_af) {
-    delete m_af; m_af = 0;
-  }
-
-  if (m_cam->device()) {
-    m_af = new QtCamAutoFocus(m_cam->device(), this);
-    QObject::connect(m_af, SIGNAL(statusChanged()), this, SIGNAL(valueChanged()));
-    QObject::connect(m_af, SIGNAL(cafStatusChanged()), this, SIGNAL(cafValueChanged()));
-  }
-
-  emit valueChanged();
-  emit cafValueChanged();
+  delete m_af; m_af = 0;
 }
 
 AutoFocus::Status AutoFocus::status() {
-  return m_af ? (AutoFocus::Status)m_af->status() : AutoFocus::None;
+  return (AutoFocus::Status)m_af->status();
 }
 
 AutoFocus::Status AutoFocus::cafStatus() {
-  return m_af ? (AutoFocus::Status)m_af->cafStatus() : AutoFocus::None;
+  return (AutoFocus::Status)m_af->cafStatus();
 }
 
 bool AutoFocus::startAutoFocus() {
-  if (m_af) {
-    return m_af->startAutoFocus();
-  }
-
-  return false;
+  return m_af->startAutoFocus();
 }
 
 bool AutoFocus::stopAutoFocus() {
-  if (m_af) {
-    return m_af->stopAutoFocus();
-  }
-
-  return false;
+  return m_af->stopAutoFocus();
 }

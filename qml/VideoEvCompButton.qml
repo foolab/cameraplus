@@ -1,3 +1,5 @@
+// -*- qml -*-
+
 /*!
  * This file is part of CameraPlus.
  *
@@ -18,23 +20,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "whitebalance.h"
+import QtQuick 1.1
+import com.nokia.meego 1.1
+import QtCamera 1.0
 
-WhiteBalance::WhiteBalance(QtCamDevice *dev, QObject *parent) :
-  QObject(parent),
-  m_wb(new QtCamWhiteBalance(dev, this)) {
+Selector {
+        id: button
 
-  QObject::connect(m_wb, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
-}
+        iconSource: settings.videoEvComp == 0 ? "image://theme/icon-m-camera-manual-exposure" : ""
+        text: settings.videoEvComp == 0 ? "" : settings.videoEvComp.toFixed(1);
+        font.pixelSize: 19
+        timerConstraints: slider.pressed
 
-WhiteBalance::~WhiteBalance() {
-  delete m_wb; m_wb = 0;
-}
+        title: qsTr("Exposure compensation");
 
-WhiteBalance::WhiteBalanceMode WhiteBalance::value() {
-  return (WhiteBalanceMode)m_wb->value();
-}
-
-void WhiteBalance::setValue(const WhiteBalance::WhiteBalanceMode& mode) {
-  m_wb->setValue((QtCamWhiteBalance::WhiteBalanceMode)mode);
+        widget: Slider {
+                id: slider
+                width: 500
+                orientation: Qt.Horizontal
+                minimumValue: cam.evComp.minimum
+                maximumValue: cam.evComp.maximum
+                value: settings.videoEvComp
+                stepSize: 0.1
+                onValueChanged: settings.videoEvComp = value;
+                Component.onCompleted: { slider.value = settings.videoEvComp; }
+        }
 }

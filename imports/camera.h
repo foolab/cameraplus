@@ -32,6 +32,19 @@ class QtCamDevice;
 class QtCamGraphicsViewfinder;
 class Notifications;
 class NotificationsContainer;
+class Zoom;
+class Flash;
+class Scene;
+class EvComp;
+class WhiteBalance;
+class ColorTone;
+class Iso;
+class Exposure;
+class Aperture;
+class NoiseReduction;
+class FlickerReduction;
+class Focus;
+class AutoFocus;
 
 class Camera : public QDeclarativeItem {
   Q_OBJECT
@@ -44,6 +57,20 @@ class Camera : public QDeclarativeItem {
   Q_PROPERTY(QString imageSuffix READ imageSuffix CONSTANT);
   Q_PROPERTY(QString videoSuffix READ videoSuffix CONSTANT);
   Q_PROPERTY(Notifications *notifications READ notifications WRITE setNotifications NOTIFY notificationsChanged);
+
+  Q_PROPERTY(Zoom *zoom READ zoom NOTIFY zoomChanged);
+  Q_PROPERTY(Flash *flash READ flash NOTIFY flashChanged);
+  Q_PROPERTY(Scene *scene READ scene NOTIFY sceneChanged);
+  Q_PROPERTY(EvComp *evComp READ evComp NOTIFY evCompChanged);
+  Q_PROPERTY(WhiteBalance *whiteBalance READ whiteBalance NOTIFY whiteBalanceChanged);
+  Q_PROPERTY(ColorTone *colorTone READ colorTone NOTIFY colorToneChanged);
+  Q_PROPERTY(Iso *iso READ iso NOTIFY isoChanged);
+  Q_PROPERTY(Exposure *exposure READ exposure NOTIFY exposureChanged);
+  Q_PROPERTY(Aperture *aperture READ aperture NOTIFY apertureChanged);
+  Q_PROPERTY(NoiseReduction *noiseReduction READ noiseReduction NOTIFY noiseReductionChanged);
+  Q_PROPERTY(FlickerReduction *flickerReduction READ flickerReduction NOTIFY flickerReductionChanged);
+  Q_PROPERTY(Focus *focus READ focus NOTIFY focusChanged);
+  Q_PROPERTY(AutoFocus *autoFocus READ autoFocus NOTIFY autoFocusChanged);
 
   Q_ENUMS(CameraMode);
 
@@ -83,6 +110,20 @@ public:
   Notifications *notifications() const;
   void setNotifications(Notifications *notifications);
 
+  Zoom *zoom() const;
+  Flash *flash() const;
+  Scene *scene() const;
+  EvComp *evComp() const;
+  WhiteBalance *whiteBalance() const;
+  ColorTone *colorTone() const;
+  Iso *iso() const;
+  Exposure *exposure() const;
+  Aperture *aperture() const;
+  NoiseReduction *noiseReduction() const;
+  FlickerReduction *flickerReduction() const;
+  Focus *focus() const;
+  AutoFocus *autoFocus() const;
+
 signals:
   void deviceCountChanged();
   void deviceIdChanged();
@@ -93,6 +134,20 @@ signals:
   void error(const QString& message, int code, const QString& debug);
   void notificationsChanged();
 
+  void zoomChanged();
+  void flashChanged();
+  void sceneChanged();
+  void evCompChanged();
+  void whiteBalanceChanged();
+  void colorToneChanged();
+  void isoChanged();
+  void exposureChanged();
+  void apertureChanged();
+  void noiseReductionChanged();
+  void flickerReductionChanged();
+  void focusChanged();
+  void autoFocusChanged();
+
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
 
@@ -101,12 +156,28 @@ private:
   bool setDeviceId(const QVariant& deviceId);
   bool setMode(const CameraMode& mode);
 
+  void resetCapabilities();
+
   QtCamera *m_cam;
   QtCamDevice *m_dev;
   QVariant m_id;
   QtCamGraphicsViewfinder *m_vf;
   CameraMode m_mode;
   NotificationsContainer *m_notifications;
+
+  Zoom *m_zoom;
+  Flash *m_flash;
+  Scene *m_scene;
+  EvComp *m_evComp;
+  WhiteBalance *m_whiteBalance;
+  ColorTone *m_colorTone;
+  Iso *m_iso;
+  Exposure *m_exposure;
+  Aperture *m_aperture;
+  NoiseReduction *m_noiseReduction;
+  FlickerReduction *m_flickerReduction;
+  Focus *m_focus;
+  AutoFocus *m_autoFocus;
 };
 
 #endif /* CAMERA_H */

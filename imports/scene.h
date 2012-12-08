@@ -23,10 +23,12 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "capability.h"
+#include <QObject>
 #include "qtcamscene.h"
 
-class Scene : public Capability {
+class QtCamDevice;
+
+class Scene : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(SceneMode value READ value WRITE setValue NOTIFY valueChanged);
@@ -43,18 +45,16 @@ public:
     Auto = QtCamScene::Auto
   } SceneMode;
 
-  Scene(QObject *parent = 0);
+  Scene(QtCamDevice *dev, QObject *parent = 0);
   ~Scene();
 
-  SceneMode value();
+  SceneMode value() const;
   void setValue(const SceneMode& mode);
 
 signals:
   void valueChanged();
 
 private:
-  virtual void deviceChanged();
-
   QtCamScene *m_scene;
 };
 

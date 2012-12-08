@@ -23,11 +23,12 @@
 #ifndef ISO_H
 #define ISO_H
 
-#include "capability.h"
+#include <QObject>
 
 class QtCamIso;
+class QtCamDevice;
 
-class Iso : public Capability {
+class Iso : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(unsigned int value READ value WRITE setValue NOTIFY valueChanged);
@@ -35,7 +36,7 @@ class Iso : public Capability {
   Q_PROPERTY(unsigned int maximum READ maximum NOTIFY maximunmChanged);
 
 public:
-  Iso(QObject *parent = 0);
+  Iso(QtCamDevice *dev, QObject *parent = 0);
   ~Iso();
 
   unsigned int value();
@@ -50,8 +51,6 @@ signals:
   void maximunmChanged();
 
 private:
-  virtual void deviceChanged();
-
   QtCamIso *m_iso;
 };
 

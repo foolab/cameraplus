@@ -26,29 +26,31 @@ import QtCamera 1.0
 
 Slider {
         id: slider
-        property alias camera: zoom.camera
+        property Camera camera: null
+
         platformStyle: SliderStyle {
                 // HACK
                 handleBackground: " "
                 handleBackgroundPressed: " "
         }
 
-        Zoom {
-                id: zoom
+        Binding {
+                target: camera.zoom
+                property: "value"
                 value: slider.value
         }
 
         Connections {
                 target: camera
-                onModeChanged: slider.value = zoom.minimum;
+                onModeChanged: slider.value = camera.zoom.minimum;
         }
 
         orientation: Qt.Horizontal
         width: 500
         height: 50
         stepSize:0.1
-        minimumValue: zoom.minimum
-        maximumValue: zoom.maximum
+        minimumValue: camera.zoom.minimum
+        maximumValue: camera.zoom.maximum
 
         state: "hidden"
         states: [
