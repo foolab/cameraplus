@@ -66,16 +66,16 @@ CameraPage {
                 anchors.fill: parent
 
                 path: Path {
-                        startX: -view.width
+                        startX: 0
                         startY: view.height / 2
-                        PathLine { x: view.width * 2; y: view.height / 2 }
+                        PathLine { x: view.width; y: view.height / 2 }
                 }
 
                 flickDeceleration: 999999 // Insanely high value to prevent panning multiple images
                 preferredHighlightBegin: 0.5
                 preferredHighlightEnd: 0.5
                 highlightRangeMode: PathView.StrictlyEnforceRange
-                pathItemCount: 3
+                pathItemCount: 1
 
                 model: SparqlListModel {
                         // This is the exact query used by Harmattan gallery.
