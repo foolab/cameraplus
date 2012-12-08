@@ -31,6 +31,7 @@ import CameraPlus 1.0
 // N9QmlPhotoPicker https://github.com/petrumotrescu/N9QmlPhotoPicker
 
 // TODO: this is really basic.
+// TODO: Seems losing resources in post capture will not be recovered from.
 
 CameraPage {
         id: page
@@ -95,37 +96,7 @@ CameraPage {
                         }
                 }
 
-                delegate: Item {
-                        width: view.width
-                        height: view.height
-
-                        Label {
-                                width: view.width - 10
-                                height: view.height
-                                anchors.centerIn: parent
-                                visible: item.error && page.status == PageStatus.Active
-                                text: qsTr("Failed to load preview");
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignHCenter
-                                font.pixelSize: 32
-                        }
-
-                        QuillItem {
-                                id: item
-                                source: url
-                                mimeType: mimetype
-                                width: view.width - 10
-                                height: view.height
-                                anchors.centerIn: parent
-
-                                MouseArea {
-                                        id: mouse
-                                        anchors.fill: parent
-                                        enabled: true
-                                        onClicked: toolBar.visible = !toolBar.visible
-                                }
-                        }
-                }
+                delegate: PostCaptureItem {}
         }
 
         ToolBar {
