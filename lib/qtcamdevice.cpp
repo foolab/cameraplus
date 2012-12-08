@@ -217,8 +217,6 @@ bool QtCamDevice::stop(bool force) {
     }
   }
 
-  d_ptr->viewfinder->stop();
-
   d_ptr->stopping = true;
 
   // First we go to ready:
@@ -230,6 +228,8 @@ bool QtCamDevice::stop(bool force) {
 
   // Now to NULL
   gst_element_set_state(d_ptr->cameraBin, GST_STATE_NULL);
+
+  d_ptr->viewfinder->stop();
 
   d_ptr->stopping = false;
 
