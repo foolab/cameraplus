@@ -197,6 +197,9 @@ bool QtCamDevice::stop(bool force) {
   if (d_ptr->error) {
     gst_element_set_state(d_ptr->cameraBin, GST_STATE_NULL);
     d_ptr->error = false;
+
+    d_ptr->viewfinder->stop();
+
     return true;
   }
 
