@@ -65,7 +65,7 @@ CameraPage {
                 anchors.fill: parent
 
                 path: Path {
-                        startX: - view.width
+                        startX: -view.width
                         startY: view.height / 2
                         PathLine { x: view.width * 2; y: view.height / 2 }
                 }
@@ -95,8 +95,6 @@ CameraPage {
                         }
                 }
 
-                // TODO: tap post capture and then immediately back and you can see the error
-                // and the standby widget underneath it.
                 delegate: Item {
                         width: view.width
                         height: view.height
@@ -105,7 +103,7 @@ CameraPage {
                                 width: view.width - 10
                                 height: view.height
                                 anchors.centerIn: parent
-                                visible: item.error
+                                visible: item.error && page.status == PageStatus.Active
                                 text: qsTr("Failed to load preview");
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignHCenter
