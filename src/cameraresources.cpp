@@ -40,7 +40,7 @@ CameraResources::CameraResources(QObject *parent) :
 
   QObject::connect(m_worker, SIGNAL(acquiredChanged()), this, SIGNAL(acquiredChanged()));
   QObject::connect(m_worker, SIGNAL(hijackedChanged()), this, SIGNAL(hijackedChanged()));
-  QObject::connect(m_worker, SIGNAL(updated()), this, SLOT(updated()));
+  QObject::connect(m_worker, SIGNAL(updated()), this, SIGNAL(updated()));
 }
 
 CameraResources::~CameraResources() {
