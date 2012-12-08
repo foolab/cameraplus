@@ -20,20 +20,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef QT_CAM_MUTE_H
-#define QT_CAM_MUTE_H
+#ifndef QT_CAM_VIDEO_MUTE_H
+#define QT_CAM_VIDEO_MUTE_H
 
 #include <QObject>
 
 class QtCamDevice;
-class QtCamMutePrivate;
+class QtCamVideoMutePrivate;
 
-class QtCamMute : public QObject {
+class QtCamVideoMute : public QObject {
   Q_OBJECT
 
 public:
-  QtCamMute(QtCamDevice *dev, QObject *parent = 0);
-  ~QtCamMute();
+  QtCamVideoMute(QtCamDevice *dev, QObject *parent = 0);
+  ~QtCamVideoMute();
 
   void setEnabled(bool enabled);
   bool isEnabled() const;
@@ -42,7 +42,7 @@ signals:
   void stateChanged();
 
 private:
-  QtCamMutePrivate *d_ptr;
+  QtCamVideoMutePrivate *d_ptr;
 };
 
-#endif /* QT_CAM_MUTE_H */
+#endif /* QT_CAM_VIDEO_MUTE_H */

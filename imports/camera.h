@@ -45,6 +45,8 @@ class NoiseReduction;
 class FlickerReduction;
 class Focus;
 class AutoFocus;
+class VideoMute;
+class VideoTorch;
 
 class Camera : public QDeclarativeItem {
   Q_OBJECT
@@ -71,6 +73,9 @@ class Camera : public QDeclarativeItem {
   Q_PROPERTY(FlickerReduction *flickerReduction READ flickerReduction NOTIFY flickerReductionChanged);
   Q_PROPERTY(Focus *focus READ focus NOTIFY focusChanged);
   Q_PROPERTY(AutoFocus *autoFocus READ autoFocus NOTIFY autoFocusChanged);
+
+  Q_PROPERTY(VideoMute *videoMute READ videoMute NOTIFY videoMuteChanged);
+  Q_PROPERTY(VideoTorch *videoTorch READ videoTorch NOTIFY videoTorchChanged);
 
   Q_ENUMS(CameraMode);
 
@@ -124,6 +129,9 @@ public:
   Focus *focus() const;
   AutoFocus *autoFocus() const;
 
+  VideoMute *videoMute() const;
+  VideoTorch *videoTorch() const;
+
 signals:
   void deviceCountChanged();
   void deviceIdChanged();
@@ -147,6 +155,9 @@ signals:
   void flickerReductionChanged();
   void focusChanged();
   void autoFocusChanged();
+
+  void videoMuteChanged();
+  void videoTorchChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
@@ -178,6 +189,9 @@ private:
   FlickerReduction *m_flickerReduction;
   Focus *m_focus;
   AutoFocus *m_autoFocus;
+
+  VideoMute *m_videoMute;
+  VideoTorch *m_videoTorch;
 };
 
 #endif /* CAMERA_H */

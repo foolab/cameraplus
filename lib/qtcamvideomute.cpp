@@ -18,14 +18,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "qtcammute.h"
+#include "qtcamvideomute.h"
 #include "qtcamdevice.h"
 #include "qtcamdevice_p.h"
 #include <QPointer>
 
-class QtCamMutePrivate {
+class QtCamVideoMutePrivate {
 public:
-  static void mute_notify(GObject *gobject, GParamSpec *pspec, QtCamMute *q) {
+  static void mute_notify(GObject *gobject, GParamSpec *pspec, QtCamVideoMute *q) {
     Q_UNUSED(gobject);
     Q_UNUSED(pspec);
 
@@ -36,8 +36,8 @@ public:
   gulong handler;
 };
 
-QtCamMute::QtCamMute(QtCamDevice *dev, QObject *parent) :
-  QObject(parent), d_ptr(new QtCamMutePrivate) {
+QtCamVideoMute::QtCamVideoMute(QtCamDevice *dev, QObject *parent) :
+  QObject(parent), d_ptr(new QtCamVideoMutePrivate) {
 
   d_ptr->dev = dev;
   d_ptr->handler = 0;
@@ -45,11 +45,11 @@ QtCamMute::QtCamMute(QtCamDevice *dev, QObject *parent) :
   if (d_ptr->dev->d_ptr->cameraBin) {
     d_ptr->handler = g_signal_connect(d_ptr->dev->d_ptr->cameraBin,
 				      "notify::mute",
-				      G_CALLBACK(QtCamMutePrivate::mute_notify), this);
+				      G_CALLBACK(QtCamVideoMutePrivate::mute_notify), this);
   }
 }
 
-QtCamMute::~QtCamMute() {
+QtCamVideoMute::~QtCamVideoMute() {
   if (d_ptr->dev && d_ptr->handler) {
     g_signal_handler_disconnect(d_ptr->dev->d_ptr->cameraBin, d_ptr->handler);
   }
@@ -57,7 +57,7 @@ QtCamMute::~QtCamMute() {
   delete d_ptr; d_ptr = 0;
 }
 
-void QtCamMute::setEnabled(bool enabled) {
+void QtCamVideoMute::setEnabled(bool enabled) {
   gboolean val = enabled ? TRUE : FALSE;
 
   if (d_ptr->dev->d_ptr->cameraBin) {
@@ -65,7 +65,7 @@ void QtCamMute::setEnabled(bool enabled) {
   }
 }
 
-bool QtCamMute::isEnabled() const {
+bool QtCamVideoMute::isEnabled() const {
   gboolean val = FALSE;
 
   if (d_ptr->dev->d_ptr->cameraBin) {

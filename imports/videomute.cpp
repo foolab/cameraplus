@@ -1,5 +1,3 @@
-// -*- c++ -*-
-
 /*!
  * This file is part of CameraPlus.
  *
@@ -20,39 +18,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef MUTE_H
-#define MUTE_H
+#include "videomute.h"
+#include "qtcamvideomute.h"
 
-#include <QObject>
+VideoMute::VideoMute(QtCamDevice *dev, QObject *parent) :
+  QObject(parent),
+  m_mute(new QtCamVideoMute(dev, this)) {
 
-class Camera;
-class QtCamMute;
+  QObject::connect(m_mute, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
+}
 
-class Mute : public QObject {
-  Q_OBJECT
-  Q_PROPERTY(Camera* camera READ camera WRITE setCamera NOTIFY cameraChanged);
-  Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled NOTIFY stateChanged);
+VideoMute::~VideoMute() {
+  delete m_mute; m_mute = 0;
+}
 
-public:
-  Mute(QObject *parent = 0);
-  ~Mute();
+bool VideoMute::isEnabled() const {
+  return m_mute->isEnabled();
+}
 
-  Camera *camera();
-  void setCamera(Camera *camera);
-
-  bool isEnabled() const;
-  void setEnabled(bool enabled);
-
-signals:
-  void stateChanged();
-  void cameraChanged();
-
-private slots:
-  void deviceChanged();
-
-private:
-  Camera *m_cam;
-  QtCamMute *m_mute;
-};
-
-#endif /* MUTE_H */
+void VideoMute::setEnabled(bool enabled) {
+  m_mute->setEnabled(enabled);
+}

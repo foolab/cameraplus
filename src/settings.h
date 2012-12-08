@@ -55,6 +55,7 @@ class Settings : public QObject {
   Q_PROPERTY(QString videoResolution READ videoResolution WRITE setVideoResolution NOTIFY videoResolutionChanged);
 
   Q_PROPERTY(bool soundEnabled READ isSoundEnabled WRITE setSoundEnabled NOTIFY soundEnabledChanged);
+  Q_PROPERTY(bool videoTorchOn READ isVideoTorchOn WRITE setVideoTorchOn NOTIFY videoTorchOnChanged);
 
 public:
   Settings(QObject *parent = 0);
@@ -120,6 +121,9 @@ public:
   bool isSoundEnabled() const;
   void setSoundEnabled(bool enabled);
 
+  bool isVideoTorchOn() const;
+  void setVideoTorchOn(bool on);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
@@ -141,6 +145,7 @@ signals:
   void videoAspectRatioChanged();
   void videoResolutionChanged();
   void soundEnabledChanged();
+  void videoTorchOnChanged();
 
 private:
   QSettings *m_settings;

@@ -45,6 +45,9 @@
 #include "focus.h"
 #include "autofocus.h"
 
+#include "videomute.h"
+#include "videotorch.h"
+
 // TODO: a viewfinder class that inherits QDeclarativeItem
 
 Camera::Camera(QDeclarativeItem *parent) :
@@ -66,8 +69,9 @@ Camera::Camera(QDeclarativeItem *parent) :
   m_noiseReduction(0),
   m_flickerReduction(0),
   m_focus(0),
-  m_autoFocus(0) {
-
+  m_autoFocus(0),
+  m_videoMute(0),
+  m_videoTorch(0) {
 
   // TODO:
 }
@@ -92,7 +96,8 @@ Camera::~Camera() {
   delete m_flickerReduction;
   delete m_focus;
   delete m_autoFocus;
-
+  delete m_videoMute;
+  delete m_videoTorch;
   // TODO: cleanup
 }
 
@@ -333,6 +338,14 @@ void Camera::resetCapabilities() {
   delete m_autoFocus;
   m_autoFocus = new AutoFocus(dev, this);
   emit autoFocusChanged();
+
+  delete m_videoMute;
+  m_videoMute = new VideoMute(dev, this);
+  emit videoMuteChanged();
+
+  delete m_videoTorch;
+  m_videoTorch = new VideoTorch(dev, this);
+  emit videoTorchChanged();
 }
 
 Zoom *Camera::zoom() const {
@@ -385,4 +398,12 @@ Focus *Camera::focus() const {
 
 AutoFocus *Camera::autoFocus() const {
   return m_autoFocus;
+}
+
+VideoMute *Camera::videoMute() const {
+  return m_videoMute;
+}
+
+VideoTorch *Camera::videoTorch() const {
+return m_videoTorch;
 }

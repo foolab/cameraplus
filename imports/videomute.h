@@ -1,4 +1,4 @@
-// -*- qml -*-
+// -*- c++ -*-
 
 /*!
  * This file is part of CameraPlus.
@@ -20,24 +20,30 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-import QtQuick 1.1
-import com.nokia.meego 1.1
-import QtCamera 1.0
+#ifndef VIDEO_MUTE_H
+#define VIDEO_MUTE_H
 
-Button {
-        id: button
-        width: 56
-        height: 56
-        opacity: 0.5
+#include <QObject>
 
-        property Camera camera: null
+class QtCamVideoMute;
+class QtCamDevice;
 
-        iconSource: settings.videoTorchOn ? "image://theme/icon-m-camera-torch-on" : "image://theme/icon-m-camera-torch-off"
-        onClicked: settings.videoTorchOn = !settings.videoTorchOn
+class VideoMute : public QObject {
+  Q_OBJECT
+  Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled NOTIFY stateChanged);
 
-        Binding {
-                target: camera.videoTorch
-                property: "on"
-                value: settings.videoTorchOn
-        }
-}
+public:
+  VideoMute(QtCamDevice *dev, QObject *parent = 0);
+  ~VideoMute();
+
+  bool isEnabled() const;
+  void setEnabled(bool enabled);
+
+signals:
+  void stateChanged();
+
+private:
+  QtCamVideoMute *m_mute;
+};
+
+#endif /* VIDEO_MUTE_H */

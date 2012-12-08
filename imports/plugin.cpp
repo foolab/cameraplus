@@ -37,7 +37,7 @@
 #include "flickerreduction.h"
 #include "focus.h"
 #include "autofocus.h"
-#include "mute.h"
+#include "videomute.h"
 #include "metadata.h"
 #include "imagesettings.h"
 #include "imageresolutionmodel.h"
@@ -71,8 +71,8 @@ void Plugin::registerTypes(QDeclarativeEngine *engine) {
   qmlRegisterUncreatableType<Focus>(URI, MAJOR, MINOR, "Focus", QObject::tr("Cannot create separate instance of Focus"));
   qmlRegisterUncreatableType<AutoFocus>(URI, MAJOR, MINOR, "AutoFocus", QObject::tr("Cannot create separate instance of AutoFocus"));
 
-  qmlRegisterType<Mute>(URI, MAJOR, MINOR, "Mute");
-  qmlRegisterType<VideoTorch>(URI, MAJOR, MINOR, "VideoTorch");
+  qmlRegisterUncreatableType<VideoMute>(URI, MAJOR, MINOR, "VideoMute", QObject::tr("Cannot create separate instance of VideoMute"));
+  qmlRegisterUncreatableType<VideoTorch>(URI, MAJOR, MINOR, "VideoTorch", QObject::tr("Cannot create separate instance of VideoTorch"));
 
   qmlRegisterType<MetaData>(URI, MAJOR, MINOR, "MetaData");
   qmlRegisterType<ImageSettings>(URI, MAJOR, MINOR, "ImageSettings");

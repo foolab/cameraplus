@@ -38,6 +38,7 @@
 #define DEFAULT_IMAGE_ASPECT_RATIO "16:9"
 #define DEFAULT_VIDEO_RESOLUTION   "high"
 #define DEFAULT_SOUND_ENABLED      true
+#define DEFAULT_VIDEO_TORCH_ON     false
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -282,5 +283,16 @@ void Settings::setSoundEnabled(bool enabled) {
   if (isSoundEnabled() != enabled) {
     m_settings->setValue("camera/soundEnabled", enabled);
     emit soundEnabledChanged();
+  }
+}
+
+bool Settings::isVideoTorchOn() const {
+  return m_settings->value("video/torchOn", DEFAULT_VIDEO_TORCH_ON).toBool();
+}
+
+void Settings::setVideoTorchOn(bool on) {
+  if (isVideoTorchOn() != on) {
+    m_settings->setValue("video/torchOn", on);
+    emit videoTorchOnChanged();
   }
 }

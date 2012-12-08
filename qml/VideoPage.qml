@@ -148,6 +148,7 @@ CameraPage {
 
         VideoTorchButton {
                 id: torch
+                camera: cam
                 visible: videoControlsVisible
                 anchors.top: parent.top
                 anchors.left: parent.left
