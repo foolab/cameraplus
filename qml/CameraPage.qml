@@ -40,6 +40,9 @@ Page {
                 if (!resourcePolicy.acquire(page.policyMode)) {
                         cam.stop(force);
                 }
+                else {
+                        handlePipeline();
+                }
         }
 
         Component.onCompleted: {
