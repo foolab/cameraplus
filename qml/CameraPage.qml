@@ -132,7 +132,7 @@ Page {
                 id: standby
                 color: "black"
                 anchors.fill: parent
-                visible: !Qt.application.active || !cam.running || !resourcePolicy.acquired
+                visible: page.status == PageStatus.Active && (!Qt.application.active || !cam.running || !resourcePolicy.acquired)
                 Image {
                         source: "image://theme/icon-l-camera-standby"
                         anchors.centerIn: parent
