@@ -25,32 +25,46 @@ import com.nokia.meego 1.1
 import CameraPlus 1.0
 
 Item {
-        width: PathView.view.width
-        height: PathView.view.height
+        id: item
+        property bool isImage: mimetype.toLowerCase().search("video") < 0
+        property bool error: false
+        property bool currentItem: PathView.isCurrentItem
+        onCurrentItemChanged: {
+                if (currentItem) {
+                        page.currentItem = item
+                }
+        }
+
+        function stop() {
+                if (loader.item) {
+                        loader.item.stop();
+                }
+        }
 
         Label {
                 anchors.fill: parent
-                visible: item.error && page.status == PageStatus.Active
+                visible: (loader.status == Loader.Error || item.error) && page.status == PageStatus.Active
                 text: qsTr("Failed to load preview");
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: 32
         }
 
-        QuillItem {
-                id: item
-                source: url
-                mimeType: mimetype
-                width: view.width - 10
-                height: view.height
-                anchors.centerIn: parent
-                visible: page.status == PageStatus.Activating || page.status == PageStatus.Active
+        Loader {
+                id: loader
+                anchors.fill: parent
+                source: isImage ? Qt.resolvedUrl("PostCaptureImage.qml") : Qt.resolvedUrl("PostCaptureVideo.qml")
+        }
 
-                MouseArea {
-                        id: mouse
-                        anchors.fill: parent
-                        enabled: true
-                        onClicked: toolBar.visible = !toolBar.visible
-                }
+        Binding {
+                target: loader.item
+                value: page.status == PageStatus.Activating || page.status == PageStatus.Active
+                property: "visible"
+        }
+
+        Binding {
+                target: item
+                value: loader.item ? loader.item.error : false
+                property: "error"
         }
 }

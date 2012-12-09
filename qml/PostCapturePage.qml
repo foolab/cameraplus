@@ -36,9 +36,20 @@ import CameraPlus 1.0
 CameraPage {
         id: page
 
+        property Item currentItem: null
+        property Item previousItem: null
+
         controlsVisible: false
         policyMode: CameraResources.PostCapture
         needsPipeline: true
+
+        onCurrentItemChanged: {
+                if (previousItem) {
+                        previousItem.stop();
+                }
+
+                previousItem = currentItem
+        }
 
         onStatusChanged: {
                 if (status == PageStatus.Active) {
@@ -59,6 +70,12 @@ CameraPage {
         Rectangle {
                 color: "black"
                 anchors.fill: parent
+        }
+
+        function stop() {
+                if (currentItem) {
+                        currentItem.stop();
+                }
         }
 
         PathView {
@@ -96,7 +113,10 @@ CameraPage {
                         }
                 }
 
-                delegate: PostCaptureItem {}
+                delegate: PostCaptureItem {
+                        width: view.width - 10
+                        height: view.height
+                }
         }
 
         ToolBar {
@@ -105,7 +125,7 @@ CameraPage {
                 anchors.bottom: parent.bottom
                 tools: ToolBarLayout {
                         id: layout
-                        ToolIcon { iconId: "icon-m-toolbar-back"; onClicked: { cam.start(); pageStack.pop(); } }
+                        ToolIcon { iconId: "icon-m-toolbar-back"; onClicked: { page.stop(); pageStack.pop(); } }
                 }
         }
 
