@@ -22,8 +22,6 @@
 #include <dbusconnectioneventloop.h>
 #include <QDebug>
 
-// TODO: video recording ?
-// TODO: more resources ?
 CameraResources::CameraResources(QObject *parent) :
   QObject(parent),
   m_worker(new CameraResourcesWorker) {
