@@ -31,24 +31,26 @@ CameraPage {
 
         policyMode: CameraResources.Video
 
-        controlsVisible: videoControlsVisible && !videoMode.recording
-        property bool videoControlsVisible: recording.visible && cam.running && !standbyWidget.visible
-
+        controlsVisible: cam.running && !videoMode.recording && videoMode.canCapture && !cameraMode.animationRunning && !previewAnimationRunning && !standbyWidget.visible
         orientationLock: PageOrientation.LockLandscape
 
-        DisplayState {
-                inhibitDim: videoMode.recording
-        }
-
-        onBatteryLow: {
-                if (!videoMode.recording) {
+        function startRecording() {
+                if (!fileSystem.available) {
+                        showError(qsTr("Camera cannot record videos in mass storage mode."));
                         return;
                 }
 
                 if (!checkBattery()) {
-                        videoMode.stopRecording();
                         showError(qsTr("Not enough battery to record video."));
+                        return;
                 }
+
+                if (!checkDiskSpace()) {
+                        showError(qsTr("Not enough space to record video."));
+                        return;
+                }
+
+                openFileNow("RecordingPage.qml");
         }
 
         Button {
@@ -61,77 +63,9 @@ CameraPage {
                 height: 75
                 opacity: 0.5
 
-                onClicked: buttonClicked();
+                onClicked: startRecording();
 
-                function buttonClicked() {
-                        if (!fileSystem.available) {
-                                showError(qsTr("Camera cannot record videos in mass storage mode."));
-                                return;
-                        }
-
-                        // We only toggle the mode to video recording so
-                        // policy can acquire the needed resources
-
-                        if (policyMode == CameraResources.Video) {
-                                if (!checkBattery()) {
-                                        showError(qsTr("Not enough battery to record video."));
-                                        return;
-                                }
-
-                                if (!checkDiskSpace()) {
-                                        showError(qsTr("Not enough space to record video."));
-                                        return;
-                                }
-
-                                policyMode = CameraResources.Recording;
-                        }
-                        else if (videoMode.recording) {
-                                // We just ask to stop video.
-                                videoMode.stopRecording();
-                        }
-                }
-
-                Connections {
-                        target: videoMode
-                        onRecordingChanged: {
-                                if (!videoMode.recording) {
-                                        policyMode = CameraResources.Video;
-                                }
-                        }
-                }
-
-                Connections {
-                        target: resourcePolicy
-                        onAcquiredChanged: {
-                                if (resourcePolicy.acquired && policyMode == CameraResources.Recording) {
-                                        metaData.setMetaData();
-
-                                        if (!mountProtector.lock()) {
-                                                showError(qsTr("Failed to lock images directory."));
-                                                policyMode = CameraResources.Video
-                                                return;
-                                        }
-
-
-                                        if (!videoMode.startRecording(fileNaming.videoFileName(),
-                                             fileNaming.temporaryVideoFileName())) {
-                                                showError(qsTr("Failed to record video. Please restart the camera."));
-                                                policyMode = CameraResources.Video
-}
-                                }
-                        }
-                }
-
-                visible: (videoMode.recording || videoMode.canCapture) && !cameraMode.animationRunning && !previewAnimationRunning && !standbyWidget.visible
-        }
-
-        Connections {
-                target: Qt.application
-                onActiveChanged: {
-                        if (!Qt.application.active && videoMode.recording) {
-                                videoMode.stopRecording();
-                        }
-                }
+                visible: controlsVisible
         }
 
         VideoMode {
@@ -142,14 +76,12 @@ CameraPage {
                                 page.setPreview(preview);
                         }
                 }
-
-                onSaved: mountProtector.unlock();
         }
 
         VideoTorchButton {
                 id: torch
                 camera: cam
-                visible: videoControlsVisible
+                visible: controlsVisible
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.topMargin: 20
@@ -168,7 +100,7 @@ CameraPage {
 
         VideoEvCompButton {
                 id: evComp
-                visible: videoControlsVisible
+                visible: controlsVisible
                 anchors.top: scene.bottom
                 anchors.left: parent.left
                 anchors.topMargin: 10
@@ -245,84 +177,6 @@ CameraPage {
                 opacity: 0.5
                 iconSource: "image://theme/icon-m-camera-roll"
                 onClicked: openFile("PostCapturePage.qml");
-                visible: controlsVisible && !videoMode.recording
-        }
-
-        Rectangle {
-                anchors.left: parent.left
-                anchors.bottom: parent.bottom
-                anchors.leftMargin: 20
-                anchors.bottomMargin: 20
-
-                visible: videoControlsVisible && videoMode.recording
-
-                color: "black"
-                opacity: 0.5
-                width: 100
-                height: 30
-
-                Timer {
-                        id: recordingDuration
-
-                        property int duration: 0
-
-                        running: cam.running && videoMode.recording
-                        triggeredOnStart: true
-                        interval: 1000
-                        repeat: true
-
-                        onTriggered: {
-                                duration = duration + 1;
-                                if (duration == 3600) {
-                                        videoMode.stopRecording();
-                                        showError(qsTr("Maximum recording time reached."));
-                                }
-                                else if (!checkDiskSpace()) {
-                                        videoMode.stopRecording();
-                                        showError(qsTr("Not enough space to continue recording."));
-                                }
-                        }
-
-                        onRunningChanged: {
-                                if (!running) {
-                                        duration = 0;
-                                }
-                        }
-                }
-
-                Image {
-                        id: recordingIcon
-                        source: "image://theme/icon-m-camera-ongoing-recording"
-                        width: 20
-                        height: 20
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.left: parent.left
-                        anchors.leftMargin: 5
-                        sourceSize.width: 20
-                        sourceSize.height: 20
-                }
-
-                Label {
-                        function formatDuration(dur) {
-                                var secs = parseInt(dur);
-                                var mins = Math.floor(secs / 60);
-                                var seconds = secs - (mins * 60);
-
-                                if (mins < 10) {
-                                        mins = "0" + mins;
-                                }
-
-                                if (seconds < 10) {
-                                        seconds = "0" + seconds;
-                                }
-
-                                return mins + ":" + seconds;
-                        }
-
-                        id: durationLabel
-                        text: formatDuration(recordingDuration.duration);
-                        anchors.left: recordingIcon.right
-                        anchors.leftMargin: 5
-                }
+                visible: controlsVisible
         }
 }

@@ -154,6 +154,10 @@ PageStackWindow {
                 pageStack.push(Qt.resolvedUrl(file), {cam: cam});
         }
 
+        function openFileNow(file) {
+                pageStack.push(Qt.resolvedUrl(file), {cam: cam}, true);
+        }
+
         platformStyle: PageStackWindowStyle {
                 // TODO: Hack
                 background: " "

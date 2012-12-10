@@ -34,6 +34,15 @@ Page {
         property bool needsPipeline: true
         property int policyMode: CameraResources.None
 
+        property Camera cam: null
+        property bool controlsVisible: cam.running && !standby.visible
+        property bool zoomVisible: true
+        property bool modesVisible: true
+
+        anchors.fill: parent
+
+        property alias previewAnimationRunning: preview.animationRunning
+
         signal batteryLow
 
         function updatePolicy() {
@@ -139,13 +148,6 @@ Page {
                 }
         }
 
-        property Camera cam: null
-        property bool controlsVisible: cam.running && !standby.visible
-
-        anchors.fill: parent
-
-        property alias previewAnimationRunning: preview.animationRunning
-
         function setPreview(image) {
                 preview.setPreview(image);
         }
@@ -155,7 +157,7 @@ Page {
                 anchors.right: parent.right
                 anchors.rightMargin: 20
                 anchors.bottomMargin: 20
-                visible: controlsVisible
+                visible: controlsVisible && modesVisible
         }
 
         PreviewImage {
@@ -168,7 +170,7 @@ Page {
                 anchors.top: parent.top
                 anchors.topMargin: 0
                 anchors.horizontalCenter: parent.horizontalCenter
-                visible: controlsVisible
+                visible: controlsVisible && zoomVisible
         }
 
         function checkDiskSpace() {
