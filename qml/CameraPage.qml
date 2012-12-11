@@ -47,7 +47,7 @@ Page {
 
         function updatePolicy() {
                 if (!resourcePolicy.acquire(page.policyMode)) {
-                        cam.stop(force);
+                        cam.stop(true);
                 }
                 else {
                         handlePipeline();
@@ -57,6 +57,9 @@ Page {
         Component.onCompleted: {
                 if (Qt.application.active && needsPipeline) {
                         updatePolicy();
+                }
+                else if (!needsPipeline) {
+                        cam.stop();
                 }
         }
 
