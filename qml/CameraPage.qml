@@ -38,6 +38,7 @@ Page {
         property bool controlsVisible: cam.running && !standby.visible
         property bool zoomVisible: true
         property bool modesVisible: true
+        property bool standbyVisible: true
 
         anchors.fill: parent
 
@@ -144,7 +145,7 @@ Page {
                 id: standby
                 color: "black"
                 anchors.fill: parent
-                visible: page.status == PageStatus.Active && (!Qt.application.active || !cam.running || !resourcePolicy.acquired)
+                visible: standbyVisible && page.status == PageStatus.Active && (!Qt.application.active || !cam.running || !resourcePolicy.acquired)
                 Image {
                         source: "image://theme/icon-l-camera-standby"
                         anchors.centerIn: parent

@@ -29,6 +29,17 @@ Item {
         property bool isImage: mimetype.toLowerCase().search("video") < 0
         property bool error: false
 
+        property bool isCurrentItem: PathView.isCurrentItem
+        onIsCurrentItemChanged: page.currentItem = item;
+
+        property string fileName: filename
+
+        function startPlayback() {
+                openFileNow("VideoPlayerPage.qml");
+                pageStack.currentPage.source = url;
+                pageStack.currentPage.play();
+        }
+
         Label {
                 anchors.fill: parent
                 visible: image.error && page.status == PageStatus.Active
@@ -50,6 +61,14 @@ Item {
                         anchors.fill: parent
                         enabled: true
                         onClicked: toolBar.visible = !toolBar.visible
+                }
+
+                ToolIcon {
+                        id: playIcon
+                        anchors.centerIn: parent
+                        iconSource: "image://theme/icon-s-music-video-play"
+                        visible: !isImage
+                        onClicked: startPlayback();
                 }
         }
 }

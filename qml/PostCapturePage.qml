@@ -40,15 +40,11 @@ CameraPage {
         policyMode: CameraResources.PostCapture
         needsPipeline: false
 
+        property Item currentItem: null
+
         Rectangle {
                 color: "black"
                 anchors.fill: parent
-        }
-
-        function stop() {
-                if (currentItem) {
-                        currentItem.stop();
-                }
         }
 
         PathView {
@@ -111,11 +107,14 @@ CameraPage {
                 color: "black"
                 opacity: toolBar.opacity
                 visible: toolBar.visible
+
                 Row {
                         anchors.fill: parent
+                        anchors.leftMargin: 10
 
                         Label {
-
+                                text: currentItem ? currentItem.fileName : ""
+                                verticalAlignment: Text.AlignVCenter
                         }
 
                         Label {
