@@ -24,7 +24,7 @@
 
 #define PATH QString("%1%2.config%2/cameraplus.conf").arg(QDir::homePath()).arg(QDir::separator())
 
-#define DEFAULT_MODE               0
+#define DEFAULT_MODE               1
 #define DEFAULT_SCENE_MODE         6 // Auto
 #define DEFAULT_TIMEOUT            0
 #define DEFAULT_USE_GPS            true
