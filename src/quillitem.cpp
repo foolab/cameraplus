@@ -37,51 +37,9 @@ QuillItem::~QuillItem() {
 
 void QuillItem::componentComplete() {
   QDeclarativeItem::componentComplete();
-
-  recreate();
 }
 
-QUrl QuillItem::source() const {
-  return m_url;
-}
-
-void QuillItem::setSource(const QUrl& src) {
-  if (src == source()) {
-    return;
-  }
-
-  m_url = src;
-
-  if (isComponentComplete()) {
-    recreate();
-  }
-
-  emit sourceChanged();
-}
-
-QString QuillItem::mimeType() const {
-  return m_type;
-}
-
-void QuillItem::setMimeType(const QString& mime) {
-  if (mimeType() == mime) {
-    return;
-  }
-
-  m_type = mime;
-
-  if (isComponentComplete()) {
-    recreate();
-  }
-
-  emit mimeTypeChanged();
-}
-
-bool QuillItem::error() const {
-  return m_error;
-}
-
-void QuillItem::recreate() {
+void QuillItem::initialize(const QUrl& url, const QString& mimeType) {
   if (m_error) {
     m_error = false;
     emit errorChanged();
@@ -91,12 +49,12 @@ void QuillItem::recreate() {
     m_file->deleteLater();
   }
 
-  m_file = new QuillFile(m_url.toLocalFile(), m_type);
+  m_file = new QuillFile(url.toLocalFile(), mimeType);
 
   QObject::connect(m_file, SIGNAL(error(QuillError)),
-	  this, SLOT(fileError()), Qt::QueuedConnection);
+		   this, SLOT(fileError()), Qt::QueuedConnection);
   QObject::connect(m_file, SIGNAL(imageAvailable(QuillImageList)),
-	  this, SLOT(fileLoaded()), Qt::QueuedConnection);
+		   this, SLOT(fileLoaded()), Qt::QueuedConnection);
   QObject::connect(m_file, SIGNAL(removed()),
 		   m_file, SLOT(deleteLater()), Qt::QueuedConnection);
 
@@ -111,21 +69,41 @@ void QuillItem::recreate() {
   }
 }
 
+bool QuillItem::error() const {
+  return m_error;
+}
+
 void QuillItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
   Q_UNUSED(widget);
+
+  QRectF rect = boundingRect();
+  painter->fillRect(rect, Qt::black);
 
   if (!m_file) {
     return;
   }
 
-  QImage image = m_file->image(0);
+  if (m_image.isNull()) {
+    return;
+  }
 
-  if (!image.isNull()) {
-    painter->drawImage(option->rect, image);
+  QPoint pos((rect.width() - m_image.width()) / 2, (rect.height() - m_image.height()) / 2);
+  if (!m_image.isNull()) {
+    painter->drawImage(pos, m_image);
   }
 }
 
+void QuillItem::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
+  // TODO: rotation animation looks weird
+  QDeclarativeItem::geometryChanged(newGeometry, oldGeometry);
+
+  m_image = QImage();
+
+  updateImage();
+}
+
 void QuillItem::fileLoaded() {
+  updateImage();
   update();
 }
 
@@ -142,6 +120,7 @@ bool QuillItem::fileError() {
 
     QMetaObject::invokeMethod(this, "error", Qt::QueuedConnection,
 			      Q_ARG(QString, err.errorData()));
+
     m_file->deleteLater(); m_file = 0;
 
     if (!m_error) {
@@ -154,4 +133,19 @@ bool QuillItem::fileError() {
   }
 
   return false;
+}
+
+void QuillItem::updateImage() {
+  if (!m_file) {
+    return;
+  }
+
+  QImage image = m_file->image(0);
+
+  if (image.isNull()) {
+    return;
+  }
+
+  m_image = image.scaled(boundingRect().size().toSize(),
+			 Qt::KeepAspectRatio, Qt::SmoothTransformation);
 }

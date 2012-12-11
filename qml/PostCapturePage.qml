@@ -36,36 +36,9 @@ import CameraPlus 1.0
 CameraPage {
         id: page
 
-        property Item currentItem: null
-        property Item previousItem: null
-
         controlsVisible: false
         policyMode: CameraResources.PostCapture
-        needsPipeline: true
-
-        onCurrentItemChanged: {
-                if (previousItem) {
-                        previousItem.stop();
-                }
-
-                previousItem = currentItem
-        }
-
-        onStatusChanged: {
-                if (status == PageStatus.Active) {
-                        cam.stop();
-                }
-        }
-
-        Connections {
-                // Unlikely that we need this.
-                target: cam
-                onIdleChanged: {
-                        if (cam.idle && page.status == PageStatus.Active) {
-                                cam.stop();
-                        }
-                }
-        }
+        needsPipeline: false
 
         Rectangle {
                 color: "black"
@@ -83,16 +56,16 @@ CameraPage {
                 anchors.fill: parent
 
                 path: Path {
-                        startX: 0
+                        startX: - view.width
                         startY: view.height / 2
-                        PathLine { x: view.width; y: view.height / 2 }
+                        PathLine { x: view.width * 2; y: view.height / 2 }
                 }
 
                 flickDeceleration: 999999 // Insanely high value to prevent panning multiple images
                 preferredHighlightBegin: 0.5
                 preferredHighlightEnd: 0.5
                 highlightRangeMode: PathView.StrictlyEnforceRange
-                pathItemCount: 1
+                pathItemCount: 3
 
                 model: SparqlListModel {
                         // This is the exact query used by Harmattan gallery.
@@ -125,7 +98,7 @@ CameraPage {
                 anchors.bottom: parent.bottom
                 tools: ToolBarLayout {
                         id: layout
-                        ToolIcon { iconId: "icon-m-toolbar-back"; onClicked: { page.stop(); pageStack.pop(); } }
+                        ToolIcon { iconId: "icon-m-toolbar-back"; onClicked: { pageStack.pop(); } }
                 }
         }
 

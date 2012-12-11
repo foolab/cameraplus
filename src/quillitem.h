@@ -30,19 +30,11 @@ class QuillFile;
 class QuillItem : public QDeclarativeItem {
   Q_OBJECT
 
-  Q_PROPERTY(QUrl source READ source WRITE setSource NOTIFY sourceChanged);
-  Q_PROPERTY(QString mimeType READ mimeType WRITE setMimeType NOTIFY mimeTypeChanged);
   Q_PROPERTY(bool error READ error NOTIFY errorChanged);
 
 public:
   QuillItem(QDeclarativeItem *parent = 0);
   ~QuillItem();
-
-  QUrl source() const;
-  void setSource(const QUrl& src);
-
-  QString mimeType() const;
-  void setMimeType(const QString& mime);
 
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
@@ -50,11 +42,17 @@ public:
 
   bool error() const;
 
+public slots:
+  void initialize(const QUrl& url, const QString& mimeType);
+
 signals:
   void sourceChanged();
   void error(const QString& err);
   void mimeTypeChanged();
   void errorChanged();
+
+protected:
+  void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
 
 private slots:
   void fileLoaded();
@@ -62,11 +60,13 @@ private slots:
 
 private:
   void recreate();
+  void updateImage();
 
   QuillFile *m_file;
   QUrl m_url;
   QString m_type;
   bool m_error;
+  QImage m_image;
 };
 
 #endif /* QUILL_ITEM_H */

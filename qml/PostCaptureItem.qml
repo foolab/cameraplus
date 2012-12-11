@@ -28,43 +28,28 @@ Item {
         id: item
         property bool isImage: mimetype.toLowerCase().search("video") < 0
         property bool error: false
-        property bool currentItem: PathView.isCurrentItem
-        onCurrentItemChanged: {
-                if (currentItem) {
-                        page.currentItem = item
-                }
-        }
-
-        function stop() {
-                if (loader.item) {
-                        loader.item.stop();
-                }
-        }
 
         Label {
                 anchors.fill: parent
-                visible: (loader.status == Loader.Error || item.error) && page.status == PageStatus.Active
+                visible: image.error && page.status == PageStatus.Active
                 text: qsTr("Failed to load preview");
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: 32
         }
 
-        Loader {
-                id: loader
+        QuillItem {
+                id: image
                 anchors.fill: parent
-                source: isImage ? Qt.resolvedUrl("PostCaptureImage.qml") : Qt.resolvedUrl("PostCaptureVideo.qml")
-        }
+                visible: page.status == PageStatus.Activating || page.status == PageStatus.Active
 
-        Binding {
-                target: loader.item
-                value: page.status == PageStatus.Activating || page.status == PageStatus.Active
-                property: "visible"
-        }
+                Component.onCompleted: initialize(url, mimetype);
 
-        Binding {
-                target: item
-                value: loader.item ? loader.item.error : false
-                property: "error"
+                MouseArea {
+                        id: mouse
+                        anchors.fill: parent
+                        enabled: true
+                        onClicked: toolBar.visible = !toolBar.visible
+                }
         }
 }
