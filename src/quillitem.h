@@ -38,8 +38,6 @@ public:
 
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
-  virtual void componentComplete();
-
   bool error() const;
 
 public slots:
@@ -51,9 +49,6 @@ signals:
   void mimeTypeChanged();
   void errorChanged();
 
-protected:
-  void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
-
 private slots:
   void fileLoaded();
   bool fileError();
@@ -63,10 +58,7 @@ private:
   void updateImage();
 
   QuillFile *m_file;
-  QUrl m_url;
-  QString m_type;
   bool m_error;
-  QImage m_image;
 };
 
 #endif /* QUILL_ITEM_H */

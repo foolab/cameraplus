@@ -35,10 +35,6 @@ QuillItem::~QuillItem() {
   delete m_file; m_file = 0;
 }
 
-void QuillItem::componentComplete() {
-  QDeclarativeItem::componentComplete();
-}
-
 void QuillItem::initialize(const QUrl& url, const QString& mimeType) {
   if (m_error) {
     m_error = false;
@@ -75,6 +71,7 @@ bool QuillItem::error() const {
 
 void QuillItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
   Q_UNUSED(widget);
+  Q_UNUSED(option);
 
   QRectF rect = boundingRect();
   painter->fillRect(rect, Qt::black);
@@ -83,27 +80,23 @@ void QuillItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     return;
   }
 
-  if (m_image.isNull()) {
+  QImage image = m_file->image(0);
+
+  if (image.isNull()) {
     return;
   }
 
-  QPoint pos((rect.width() - m_image.width()) / 2, (rect.height() - m_image.height()) / 2);
-  if (!m_image.isNull()) {
-    painter->drawImage(pos, m_image);
-  }
-}
+  QSizeF imageSize = QSizeF(image.size());
+  QSizeF widgetSize = rect.size();
+  imageSize.scale(widgetSize, Qt::KeepAspectRatio);
 
-void QuillItem::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
-  // TODO: rotation animation looks weird
-  QDeclarativeItem::geometryChanged(newGeometry, oldGeometry);
+  QPointF pos = QPointF(widgetSize.width() - imageSize.width(),
+			widgetSize.height() - imageSize.height()) / 2;
 
-  m_image = QImage();
-
-  updateImage();
+  painter->drawImage(QRectF(pos, imageSize), image, QRect(0, 0, image.width(), image.height()));
 }
 
 void QuillItem::fileLoaded() {
-  updateImage();
   update();
 }
 
@@ -133,19 +126,4 @@ bool QuillItem::fileError() {
   }
 
   return false;
-}
-
-void QuillItem::updateImage() {
-  if (!m_file) {
-    return;
-  }
-
-  QImage image = m_file->image(0);
-
-  if (image.isNull()) {
-    return;
-  }
-
-  m_image = image.scaled(boundingRect().size().toSize(),
-			 Qt::KeepAspectRatio, Qt::SmoothTransformation);
 }
