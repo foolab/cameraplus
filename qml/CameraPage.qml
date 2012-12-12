@@ -85,7 +85,9 @@ Page {
 
         function handlePipeline() {
                 var acquired = resourcePolicy.acquired;
-                if (!acquired) {
+                var hijacked = resourcePolicy.hijacked;
+
+                if (hijacked) {
                         cam.stop(true);
                         showError(qsTr("Resources lost. Stopping camera."));
                 }
@@ -105,6 +107,7 @@ Page {
 
         Connections {
                 target: resourcePolicy
+                onHijackedChanged: handlePipeline();
                 onAcquiredChanged: handlePipeline();
         }
 
