@@ -148,7 +148,6 @@ CameraPage {
                         property int duration: 0
 
                         running: videoMode.recording
-                        triggeredOnStart: true
                         interval: 1000
                         repeat: true
 
@@ -161,12 +160,6 @@ CameraPage {
                                 else if (!checkDiskSpace()) {
                                         page.stopRecording();
                                         showError(qsTr("Not enough space to continue recording."));
-                                }
-                        }
-
-                        onRunningChanged: {
-                                if (!running) {
-                                        duration = 0;
                                 }
                         }
                 }
@@ -185,7 +178,7 @@ CameraPage {
 
                 Label {
                         function formatDuration(dur) {
-                                var secs = parseInt(duration);
+                                var secs = parseInt(recordingDuration.duration);
                                 var minutes = Math.floor(secs / 60);
                                 var seconds = secs - (minutes * 60);
 
