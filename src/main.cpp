@@ -38,6 +38,7 @@
 #include "orientation.h"
 #include "geocode.h"
 #include "mountprotector.h"
+#include "trackerstore.h"
 
 static void initQuill() {
   // TODO: All these are hardcoded.
@@ -78,6 +79,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<Orientation>("CameraPlus", 1, 0, "Orientation");
   qmlRegisterType<Geocode>("CameraPlus", 1, 0, "ReverseGeocode");
   qmlRegisterType<MountProtector>("CameraPlus", 1, 0, "MountProtector");
+  qmlRegisterType<TrackerStore>("CameraPlus", 1, 0, "TrackerStore");
 
   QUrl sourceUrl = QUrl::fromLocalFile(QDir::currentPath() + "/main.qml");
   view.setSource(sourceUrl);

@@ -70,10 +70,7 @@ CameraPage {
                 pathItemCount: 3
 
                 model: SparqlListModel {
-                        // This is the exact query used by Harmattan gallery.
-                        // Gallery prints it as part of its debugging when
-                        // passing -output-level debug ;-)
-                        query: "SELECT nie:url(?urn) AS ?url nfo:fileName(?urn) AS ?filename ?created nie:mimeType(?urn) AS ?mimetype ( EXISTS { ?urn nao:hasTag nao:predefined-tag-favorite . } ) AS ?favorite nfo:duration(?urn) AS ?duration ?urn \"false\"^^xsd:boolean AS ?isVirtual nfo:fileLastModified(?urn) as ?lastmod nfo:hasRegionOfInterest(?urn) as ?roi tracker:id(?urn) AS ?trackerid WHERE { ?urn rdf:type nfo:Visual ; tracker:available \"true\"^^xsd:boolean . OPTIONAL { ?urn nie:contentCreated ?created } . ?urn nfo:equipment \"urn:equipment:" + deviceInfo.manufacturer + ":" + deviceInfo.model + ":\" . } ORDER BY DESC (?created)"
+                        query: "SELECT nie:url(?urn) AS ?url nie:title(?urn) AS ?title nfo:fileName(?urn) AS ?filename ?created nie:mimeType(?urn) AS ?mimetype ( EXISTS { ?urn nao:hasTag nao:predefined-tag-favorite . } ) AS ?favorite nfo:fileLastModified(?urn) as ?lastmod tracker:id(?urn) AS ?trackerid WHERE { ?urn rdf:type nfo:Visual ; tracker:available \"true\"^^xsd:boolean . OPTIONAL { ?urn nie:contentCreated ?created } . ?urn nfo:equipment \"urn:equipment:" + deviceInfo.manufacturer + ":" + deviceInfo.model + ":\" . } ORDER BY DESC (?created)"
 
                         connection: SparqlConnection {
                                 id: connection
@@ -112,8 +109,7 @@ CameraPage {
 
                 tools: ToolBarLayout {
                         Label {
-                                id: filename
-                                text: currentItem ? currentItem.fileName : ""
+                                text: currentItem ? currentItem.itemTitle : ""
                                 anchors.top: parent.top
                                 anchors.bottom: parent.bottom
                                 anchors.left: parent.left

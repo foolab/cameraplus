@@ -356,6 +356,13 @@ PageStackWindow {
                 value: cam.iso.value
         }
 
+        TrackerStore {
+                id: trackerStore
+                active: cam.running
+                manufacturer: deviceInfo.manufacturer
+                model: deviceInfo.model
+        }
+
         ModeController {
                 id: cameraMode
                 cam: cam

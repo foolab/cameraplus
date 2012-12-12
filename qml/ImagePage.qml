@@ -66,9 +66,13 @@ CameraPage {
 
                         metaData.setMetaData();
 
-                        if (!imageMode.capture(fileNaming.imageFileName())) {
+                        var fileName = fileNaming.imageFileName();
+                        if (!imageMode.capture(fileName)) {
                                 showError(qsTr("Failed to capture image. Please restart the camera."));
+                                return;
                         }
+
+                        trackerStore.storeImage(fileName);
                 }
 
                 visible: imageMode.canCapture && !cameraMode.animationRunning && !previewAnimationRunning && cam.running

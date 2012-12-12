@@ -58,6 +58,8 @@ CameraPage {
                         pageStack.pop(undefined, true);
                         mountProtector.unlock();
                 }
+
+                trackerStore.storeVideo(file);
         }
 
         function stopRecording() {

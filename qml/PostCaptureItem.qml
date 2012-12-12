@@ -34,6 +34,7 @@ Item {
 
         property string fileName: filename
         property string creationDate: created
+        property string itemTitle: title
 
         function startPlayback() {
                 openFileNow("VideoPlayerPage.qml");
