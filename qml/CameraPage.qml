@@ -92,8 +92,8 @@ Page {
                         showError(qsTr("Resources lost. Stopping camera."));
                 }
                 else if (!Qt.application.active && !acquired) {
+                        // I don't think this is needed
                         cam.stop(true);
-                        showError(qsTr("Resources lost. Stopping camera."));
                 }
                 else if (!Qt.application.active) {
                         cam.stop();

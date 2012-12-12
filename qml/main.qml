@@ -34,7 +34,6 @@ import QtMobility.location 1.2
 // TODO: portrait/landscape
 // TODO: stop viewfinder in settings pages ?
 // TODO: grid lines, face tracking, ambr
-// TODO: complete settings pages
 // TODO: select primary/secondary camera.
 // TODO: disable debug builds.
 // TODO: a way to get buffers to the application
