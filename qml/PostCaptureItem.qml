@@ -33,6 +33,7 @@ Item {
         onIsCurrentItemChanged: page.currentItem = item;
 
         property string fileName: filename
+        property string creationDate: created
 
         function startPlayback() {
                 openFileNow("VideoPlayerPage.qml");

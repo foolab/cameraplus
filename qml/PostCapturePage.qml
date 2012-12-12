@@ -30,7 +30,6 @@ import CameraPlus 1.0
 // Most of the ideas (and some code) for loading and displaying images are stolen from
 // N9QmlPhotoPicker https://github.com/petrumotrescu/N9QmlPhotoPicker
 
-// TODO: this is really basic.
 // TODO: Seems losing resources in post capture will not be recovered from.
 
 CameraPage {
@@ -41,6 +40,13 @@ CameraPage {
         needsPipeline: false
 
         property Item currentItem: null
+
+        function parseDate(str) {
+                var parts = str.split('T');
+                var dates = parts[0].split('-');
+                var times = parts[1].split(':');
+                return new Date(dates[0], dates[1], dates[2], times[0], times[1], times[2]);
+        }
 
         Rectangle {
                 color: "black"
@@ -76,7 +82,8 @@ CameraPage {
 
                                 function checkStatus(status) {
                                         if (status == SparqlConnection.Error) {
-                                                console.log("Error = "+connection.errorString());
+                                                // TODO: report error
+                                                console.log("Error = " + connection.errorString());
                                         }
                                 }
                         }
@@ -98,27 +105,29 @@ CameraPage {
                 }
         }
 
-        Rectangle {
-                // TODO: transitions
-                id: rect
-                anchors.top: parent.top
-                height: toolBar.height
-                width: parent.width
-                color: "black"
+        ToolBar {
                 opacity: toolBar.opacity
+                anchors.top: parent.top
                 visible: toolBar.visible
 
-                Row {
-                        anchors.fill: parent
-                        anchors.leftMargin: 10
-
+                tools: ToolBarLayout {
                         Label {
+                                id: filename
                                 text: currentItem ? currentItem.fileName : ""
+                                anchors.top: parent.top
+                                anchors.bottom: parent.bottom
+                                anchors.left: parent.left
+                                font.bold: true
                                 verticalAlignment: Text.AlignVCenter
                         }
 
                         Label {
-
+                                text: currentItem ? Qt.formatDateTime(parseDate(currentItem.creationDate)) : ""
+                                font.bold: true
+                                anchors.top: parent.top
+                                anchors.bottom: parent.bottom
+                                anchors.right: parent.right
+                                verticalAlignment: Text.AlignVCenter
                         }
                 }
         }
