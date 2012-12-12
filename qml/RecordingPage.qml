@@ -28,6 +28,7 @@ import "data.js" as Data
 
 // TODO: on error ?
 // TODO: resources lost?
+// TODO: closing camera in the middle of recording will hang camera
 CameraPage {
         id: page
         modesVisible: false
