@@ -60,15 +60,22 @@ Item {
 
         function stopCamera() {
                 console.log("stop");
-                camera.stop(false);
+                if (camera.stop(false)) {
+                        console.log("stopped");
+                }
+                else {
+                        console.log("didn't stop");
+                }
+
                 policy.acquire(CameraResources.None);
+                console.log("acquired none");
         }
 
         function forceStopCamera() {
-                // We don't release resources here so we can get them back when they become available
+                // We don't release resources here so we can get them back
+                // when they become available
                 console.log("force");
                 camera.stop(true);
-                showError(qsTr("Resources lost. Stopping camera."));
         }
 
         state: "off"

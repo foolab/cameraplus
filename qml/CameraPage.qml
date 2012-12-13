@@ -61,8 +61,20 @@ Page {
                 visible: standbyVisible && page.status == PageStatus.Active && pipelineManager.showStandBy
 
                 Image {
+                        id: icon
                         source: "image://theme/icon-l-camera-standby"
                         anchors.centerIn: parent
+                }
+
+                Label {
+                        anchors.top: icon.bottom
+                        anchors.right: parent.right
+                        anchors.left: parent.left
+                        text: qsTr("Resources lost")
+                        color: "white"
+                        font.pixelSize: 36
+                        horizontalAlignment: Text.AlignHCenter
+                        visible: pipelineManager.state == "policyLost"
                 }
         }
 
