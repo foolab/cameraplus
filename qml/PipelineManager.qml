@@ -24,9 +24,6 @@ import QtQuick 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
 
-// TODO: cleanup debug output
-// TODO: losing resources will freeze camera somehow.
-
 Item {
         id: handler
 
@@ -46,7 +43,6 @@ Item {
         }
 
         function startCamera() {
-                console.log("start");
                 if (!policy.acquire(currentPage.policyMode)) {
                         console.log("Failed to acquire policy resources");
                         camera.stop(true);
@@ -59,28 +55,19 @@ Item {
         }
 
         function stopCamera() {
-                console.log("stop");
-                if (camera.stop(false)) {
-                        console.log("stopped");
-                }
-                else {
-                        console.log("didn't stop");
-                }
-
+                camera.stop(false);
                 policy.acquire(CameraResources.None);
-                console.log("acquired none");
         }
 
         function forceStopCamera() {
                 // We don't release resources here so we can get them back
                 // when they become available
-                console.log("force");
                 camera.stop(true);
         }
 
         state: "off"
 
-        onStateChanged: console.log("New state " + handler.state);
+//        onStateChanged: console.log("New state " + handler.state);
 
         states: [
         State {
