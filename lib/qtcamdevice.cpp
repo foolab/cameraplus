@@ -217,8 +217,6 @@ bool QtCamDevice::stop(bool force) {
     }
   }
 
-  d_ptr->stopping = true;
-
   // First we go to ready:
   GstStateChangeReturn st = gst_element_set_state(d_ptr->cameraBin, GST_STATE_READY);
   if (st != GST_STATE_CHANGE_FAILURE) {
@@ -230,8 +228,6 @@ bool QtCamDevice::stop(bool force) {
   gst_element_set_state(d_ptr->cameraBin, GST_STATE_NULL);
 
   d_ptr->viewfinder->stop();
-
-  d_ptr->stopping = false;
 
   return true;
 }
