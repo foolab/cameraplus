@@ -47,98 +47,8 @@ Page {
         signal batteryLow
 
         function updatePolicy() {
-                if (!resourcePolicy.acquire(page.policyMode)) {
-                        cam.stop(true);
-                }
-                else {
-                        handlePipeline();
-                }
-        }
-
-        Component.onCompleted: {
-                if (Qt.application.active && needsPipeline) {
-                        updatePolicy();
-                }
-                else if (!needsPipeline) {
-                        cam.stop();
-                }
-        }
-
-        onStatusChanged: {
-                if (Qt.application.active && status == PageStatus.Activating) {
-                        updatePolicy();
-                }
-        }
-/*
-        onStatusChanged: {
-                if (status == PageStatus.Active && !page.needsPipeline) {
-                        cam.stop();
-                }
-        }
-*/
-
-        onPolicyModeChanged: {
-                if (Qt.application.active) {
-                        updatePolicy();
-                }
-        }
-
-        function handlePipeline() {
-                var acquired = resourcePolicy.acquired;
-                var hijacked = resourcePolicy.hijacked;
-
-                if (hijacked) {
-                        cam.stop(true);
-                        showError(qsTr("Resources lost. Stopping camera."));
-                }
-                else if (!Qt.application.active && !acquired) {
-                        // I don't think this is needed
-                        cam.stop(true);
-                }
-                else if (!Qt.application.active) {
-                        cam.stop();
-                }
-                else if (acquired && page.needsPipeline && !cam.running) {
-                        if (!cam.start()) {
-                                showError(qsTr("Failed to start camera. Please restart the application."));
-                        }
-                }
-        }
-
-        Connections {
-                target: resourcePolicy
-                onHijackedChanged: handlePipeline();
-                onAcquiredChanged: handlePipeline();
-        }
-
-        Connections {
-                target: Qt.application
-                onActiveChanged: {
-                        if (!Qt.application.active) {
-                                // This is a noop if camera is not
-                                // idle so calling it will not hurt
-                                if (cam.stop()) {
-                                        resourcePolicy.acquire(CameraResources.None);
-                                }
-                        }
-                        else if (page.needsPipeline) {
-                                updatePolicy();
-                        }
-                }
-        }
-
-        Connections {
-                target: cam
-                onIdleChanged: {
-                        if (cam.idle && !Qt.application.active) {
-                                cam.stop();
-                                resourcePolicy.acquire(CameraResources.None);
-                        }
-/*
-                        else if (cam.idle && !page.needsPipeline) {
-                                cam.stop();
-                        }
-*/
+                if (needsPipeline && Qt.application.active && status == PageStatus.Active) {
+                        pipelineManager.reset();
                 }
         }
 
@@ -148,7 +58,8 @@ Page {
                 id: standby
                 color: "black"
                 anchors.fill: parent
-                visible: standbyVisible && page.status == PageStatus.Active && (!Qt.application.active || !cam.running || !resourcePolicy.acquired)
+                visible: standbyVisible && page.status == PageStatus.Active && pipelineManager.showStandBy
+
                 Image {
                         source: "image://theme/icon-l-camera-standby"
                         anchors.centerIn: parent

@@ -114,8 +114,9 @@ PageStackWindow {
                 active: cam.running && settings.useGps && settings.useGeotags
         }
 
-        CameraResources {
-                id: resourcePolicy
+        PipelineManager {
+                id: pipelineManager
+                camera: cam
         }
 
         DeviceInfo {
