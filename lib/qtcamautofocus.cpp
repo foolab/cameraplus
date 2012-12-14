@@ -46,3 +46,11 @@ bool QtCamAutoFocus::startAutoFocus() {
 bool QtCamAutoFocus::stopAutoFocus() {
   return d_ptr->setEnabled(false);
 }
+
+bool QtCamAutoFocus::canFocus(const QtCamScene::SceneMode& mode) {
+  if (mode == QtCamScene::Landscape || mode == QtCamScene::Sport) {
+    return false;
+  }
+
+  return true;
+}

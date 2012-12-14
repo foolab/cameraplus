@@ -19,6 +19,7 @@
  */
 
 #include "autofocus.h"
+#include "qtcamscene.h"
 
 AutoFocus::AutoFocus(QtCamDevice *dev, QObject *parent) :
   QObject(parent),
@@ -46,4 +47,8 @@ bool AutoFocus::startAutoFocus() {
 
 bool AutoFocus::stopAutoFocus() {
   return m_af->stopAutoFocus();
+}
+
+bool AutoFocus::canFocus(int sceneMode) {
+  return m_af->canFocus((QtCamScene::SceneMode)sceneMode);
 }

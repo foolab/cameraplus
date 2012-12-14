@@ -47,6 +47,7 @@ public:
 
   Q_INVOKABLE bool startAutoFocus();
   Q_INVOKABLE bool stopAutoFocus();
+  Q_INVOKABLE bool canFocus(int sceneMode);
 
   Status status();
   Status cafStatus();

@@ -54,7 +54,7 @@ Page {
         }
 
         FocusReticle {
-                visible: controlsVisible && focusReticleVisible
+                visible: controlsVisible && focusReticleVisible && cam.autoFocus.canFocus(cam.scene.value);
                 id: focusReticle
                 cafStatus: cam.autoFocus.cafStatus
                 status: cam.autoFocus.status

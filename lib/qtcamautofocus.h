@@ -24,6 +24,7 @@
 #define QT_CAM_AUTO_FOCUS_H
 
 #include <QObject>
+#include "qtcamscene.h"
 
 class QtCamDevice;
 class QtCamAutoFocusPrivate;
@@ -52,6 +53,8 @@ public:
 
   bool startAutoFocus();
   bool stopAutoFocus();
+
+  bool canFocus(const QtCamScene::SceneMode& mode);
 
 signals:
   void statusChanged();
