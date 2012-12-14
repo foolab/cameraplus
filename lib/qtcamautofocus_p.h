@@ -28,7 +28,7 @@
 #include "qtcamgstreamermessagelistener.h"
 #include "qtcamdevice.h"
 #include "qtcamdevice_p.h"
-
+#include <QPointer>
 #include <QDebug>
 
 #ifndef GST_USE_UNSTABLE_API
@@ -63,8 +63,11 @@ public:
   }
 
   ~QtCamAutoFocusPrivate() {
-    dev->listener()->removeHandler(handler);
-    delete handler; handler = 0;
+    if (dev && dev->listener()) {
+      dev->listener()->removeHandler(handler);
+      delete handler; handler = 0;
+    }
+
     dev = 0;
     q_ptr = 0;
   }
@@ -126,7 +129,7 @@ public slots:
   }
 
 public:
-  QtCamDevice *dev;
+  QPointer<QtCamDevice> dev;
   QtCamAutoFocus *q_ptr;
 
   QtCamAutoFocus::Status status;
