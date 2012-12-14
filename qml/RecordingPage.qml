@@ -29,15 +29,23 @@ import "data.js" as Data
 // TODO: on error ?
 // TODO: resources lost?
 // TODO: closing camera in the middle of recording will hang camera
+// TODO: optional resources?
+
 CameraPage {
         id: page
         modesVisible: false
 
-        Component.onCompleted: startRecording();
         Component.onDestruction: videoMode.stopRecording();
 
+        onStatusChanged: {
+                if (page.status == PageStatus.Active) {
+                        startRecording();
+                }
+        }
+
         function startRecording() {
-                if (!resourcePolicy.acquired || resourcePolicy.hijacked) {
+                if (!pipelineManager.acquired || pipelineManager.hijacked) {
+                        showError(qsTr("Failed to acquire needed resources."));
                         pageStack.pop(undefined, true);
                         return;
                 }
@@ -59,6 +67,7 @@ CameraPage {
                         mountProtector.unlock();
                 }
 
+                // TODO: sometimes this fails (fast stop after start).
                 trackerStore.storeVideo(file);
         }
 

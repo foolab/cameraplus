@@ -22,6 +22,9 @@
 #include <dbusconnectioneventloop.h>
 #include <QDebug>
 
+//#define APPLICATION_CLASS "camera"
+#define APPLICATION_CLASS "camera"
+
 CameraResources::CameraResources(QObject *parent) :
   QObject(parent),
   m_worker(new CameraResourcesWorker) {
@@ -102,7 +105,7 @@ CameraResourcesWorker::~CameraResourcesWorker() {
 }
 
 void CameraResourcesWorker::init() {
-  m_set = new ResourcePolicy::ResourceSet("camera", this);
+  m_set = new ResourcePolicy::ResourceSet(APPLICATION_CLASS, this);
   m_set->setAlwaysReply();
 
   QObject::connect(m_set, SIGNAL(resourcesReleased()), this, SLOT(resourcesReleased()));
@@ -261,7 +264,7 @@ bool CameraResourcesWorker::updateSet(const QList<ResourcePolicy::ResourceType>&
   if (m_set->contains(ResourcePolicy::AudioPlaybackType)) {
     bool isOptional = m_set->resource(ResourcePolicy::AudioPlaybackType)->isOptional();
 
-    ResourcePolicy::AudioResource *audio = new ResourcePolicy::AudioResource("camera");
+    ResourcePolicy::AudioResource *audio = new ResourcePolicy::AudioResource(APPLICATION_CLASS);
     audio->setProcessID(QCoreApplication::applicationPid());
     audio->setOptional(isOptional);
     m_set->addResourceObject(audio);

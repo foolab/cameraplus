@@ -29,11 +29,14 @@ Item {
 
         property bool showStandBy: state != "on"
 
+        property alias acquired: policy.acquired
+        property alias hijacked: policy.hijacked
+
         property Camera camera: null
         property Item currentPage: pageStack.currentPage
 
         onCurrentPageChanged: {
-                if (state == "on") {
+                if (state == "on" || state == "policyLost") {
                         startCamera();
                 }
         }
@@ -45,7 +48,6 @@ Item {
         function startCamera() {
                 if (!policy.acquire(currentPage.policyMode)) {
                         console.log("Failed to acquire policy resources");
-                        camera.stop(true);
                         return;
                 }
 
