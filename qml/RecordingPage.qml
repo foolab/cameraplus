@@ -93,7 +93,7 @@ CameraPage {
                 }
         }
 
-        Button {
+        CaptureButton {
                 id: recording
                 anchors.right: parent.right
                 anchors.rightMargin: 20

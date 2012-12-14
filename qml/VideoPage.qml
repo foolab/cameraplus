@@ -53,7 +53,7 @@ CameraPage {
                 openFileNow("RecordingPage.qml");
         }
 
-        Button {
+        CaptureButton {
                 id: recording
                 anchors.right: parent.right
                 anchors.rightMargin: 20

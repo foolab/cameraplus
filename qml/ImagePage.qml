@@ -66,7 +66,7 @@ CameraPage {
                 trackerStore.storeImage(fileName);
         }
 
-        Button {
+        CaptureButton {
                 id: capture
                 anchors.right: parent.right
                 anchors.rightMargin: 20
