@@ -85,6 +85,15 @@ public:
 
     gst_photography_set_autofocus(photo, enabled ? TRUE : FALSE);
 
+    if (enabled) {
+      status = QtCamAutoFocus::Running;
+      emit q_ptr->statusChanged();
+    }
+    else {
+      status = QtCamAutoFocus::None;
+      emit q_ptr->statusChanged();
+    }
+
     return true;
   }
 
