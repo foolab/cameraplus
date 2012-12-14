@@ -24,8 +24,8 @@
 
 #define OUTER_WIDTH  4
 #define INNER_WIDTH  2
-#define OUTER_LENGTH 50
-#define INNER_LENGTH 49
+#define OUTER_LENGTH 30
+#define INNER_LENGTH 29
 
 FocusRectangle::FocusRectangle(QDeclarativeItem *parent) :
   QDeclarativeItem(parent),
