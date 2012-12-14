@@ -34,6 +34,38 @@ CameraPage {
 
         orientationLock: PageOrientation.LockLandscape
 
+        function captureImage() {
+                if (!checkBattery()) {
+                        showError(qsTr("Not enough battery to capture images."));
+                        return;
+                }
+
+                if (!checkDiskSpace()) {
+                        showError(qsTr("Not enough space to capture images."));
+                        return;
+                }
+
+                if (!fileSystem.available) {
+                        showError(qsTr("Camera cannot capture images in mass storage mode."));
+                        return;
+                }
+
+                if (!mountProtector.lock()) {
+                        showError(qsTr("Failed to lock images directory."));
+                        return;
+                }
+
+                metaData.setMetaData();
+
+                var fileName = fileNaming.imageFileName();
+                if (!imageMode.capture(fileName)) {
+                        showError(qsTr("Failed to capture image. Please restart the camera."));
+                        return;
+                }
+
+                trackerStore.storeImage(fileName);
+        }
+
         Button {
                 id: capture
                 anchors.right: parent.right
@@ -43,38 +75,7 @@ CameraPage {
                 width: 75
                 height: 75
                 opacity: 0.5
-                onClicked: {
-                        if (!checkBattery()) {
-                                showError(qsTr("Not enough battery to capture images."));
-                                return;
-                        }
-
-                        if (!checkDiskSpace()) {
-                                showError(qsTr("Not enough space to capture images."));
-                                return;
-                        }
-
-                        if (!fileSystem.available) {
-                                showError(qsTr("Camera cannot capture images in mass storage mode."));
-                                return;
-                        }
-
-                        if (!mountProtector.lock()) {
-                                showError(qsTr("Failed to lock images directory."));
-                                return;
-                        }
-
-                        metaData.setMetaData();
-
-                        var fileName = fileNaming.imageFileName();
-                        if (!imageMode.capture(fileName)) {
-                                showError(qsTr("Failed to capture image. Please restart the camera."));
-                                return;
-                        }
-
-                        trackerStore.storeImage(fileName);
-                }
-
+                onClicked: captureImage();
                 visible: imageMode.canCapture && !cameraMode.animationRunning && !previewAnimationRunning && cam.running
         }
 
