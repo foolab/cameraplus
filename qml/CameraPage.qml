@@ -39,6 +39,7 @@ Page {
         property bool zoomVisible: true
         property bool modesVisible: true
         property bool standbyVisible: true
+        property bool focusReticleVisible: true
 
         anchors.fill: parent
 
@@ -50,6 +51,12 @@ Page {
                 if (needsPipeline && Qt.application.active && status == PageStatus.Active) {
                         pipelineManager.reset();
                 }
+        }
+
+        FocusReticle {
+                visible: controlsVisible && focusReticleVisible
+                id: focusReticle
+                autoFocusStatus: cam.autoFocus.cafStatus
         }
 
         Rectangle {

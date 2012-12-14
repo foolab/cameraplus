@@ -39,6 +39,7 @@
 #include "geocode.h"
 #include "mountprotector.h"
 #include "trackerstore.h"
+#include "focusrectangle.h"
 
 static void initQuill() {
   // TODO: All these are hardcoded.
@@ -80,6 +81,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<Geocode>("CameraPlus", 1, 0, "ReverseGeocode");
   qmlRegisterType<MountProtector>("CameraPlus", 1, 0, "MountProtector");
   qmlRegisterType<TrackerStore>("CameraPlus", 1, 0, "TrackerStore");
+  qmlRegisterType<FocusRectangle>("CameraPlus", 1, 0, "FocusRectangle");
 
   QUrl sourceUrl = QUrl::fromLocalFile(QDir::currentPath() + "/main.qml");
   view.setSource(sourceUrl);
