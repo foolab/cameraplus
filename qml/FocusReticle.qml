@@ -26,10 +26,26 @@ import CameraPlus 1.0
 
 Item {
         anchors.fill: parent
-        property int autoFocusStatus: AutoFocus.None
+        property int cafStatus: AutoFocus.None
+        property int status: AutoFocus.None
 
-        function predictColor(status) {
+        onStatusChanged: {
+                if (status != AutoFocus.Running) {
+                        reticle.visible = true;
+                }
+        }
+
+        function predictColor(caf, status) {
                 if (status == AutoFocus.Success) {
+                        return "steelblue";
+                }
+                else if (status == AutoFocus.Fail) {
+                        return "red";
+                }
+                else if (status == AutoFocus.Running) {
+                        return "white";
+                }
+                else if (caf == AutoFocus.Success) {
                         return "steelblue";
                 }
                 else {
@@ -38,10 +54,18 @@ Item {
         }
 
         FocusRectangle {
-                clip: true
+                id: reticle
                 width: 250
                 height: 150
                 anchors.centerIn: parent
-                color: predictColor(autoFocusStatus);
+                color: predictColor(cafStatus, status);
+        }
+
+        Timer {
+                interval: 500
+                running: status == AutoFocus.Running
+                triggeredOnStart: true
+                repeat: true
+                onTriggered: reticle.visible = !reticle.visible
         }
 }

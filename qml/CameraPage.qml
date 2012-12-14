@@ -56,7 +56,8 @@ Page {
         FocusReticle {
                 visible: controlsVisible && focusReticleVisible
                 id: focusReticle
-                autoFocusStatus: cam.autoFocus.cafStatus
+                cafStatus: cam.autoFocus.cafStatus
+                status: cam.autoFocus.status
         }
 
         Rectangle {
