@@ -89,7 +89,11 @@ CameraPage {
                         interval: 200
                         running: capture.pressed
                         repeat: false
-                        onTriggered: cam.autoFocus.startAutoFocus();
+                        onTriggered: {
+                                if (cam.autoFocus.cafStatus != AutoFocus.Success) {
+                                        cam.autoFocus.startAutoFocus();
+                                }
+                        }
                 }
         }
 
