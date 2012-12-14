@@ -77,12 +77,26 @@ CameraPage {
                 opacity: 0.5
                 onClicked: captureImage();
                 visible: imageMode.canCapture && !cameraMode.animationRunning && !previewAnimationRunning && cam.running
+
+                onExited: {
+                        if (mouseX <= 0 || mouseY <= 0 || mouseX > width || mouseY > height) {
+                                // Release outside the button:
+                                cam.autoFocus.stopAutoFocus();
+                        }
+                }
+
+                Timer {
+                        interval: 200
+                        running: capture.pressed
+                        repeat: false
+                        onTriggered: cam.autoFocus.startAutoFocus();
+                }
         }
 
         ImageMode {
                 id: imageMode
                 camera: cam
-                onPreviewAvailable: page.setPreview(preview);
+                onPreviewAvailable: { page.setPreview(preview); cam.autoFocus.stopAutoFocus(); }
                 onSaved: mountProtector.unlock();
         }
 
