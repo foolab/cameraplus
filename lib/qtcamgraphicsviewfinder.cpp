@@ -38,6 +38,7 @@ public:
 
       renderer->resize(q_ptr->size());
       QObject::connect(renderer, SIGNAL(updateRequested()), q_ptr, SLOT(updateRequested()));
+      QObject::connect(renderer, SIGNAL(renderAreaChanged()), q_ptr, SIGNAL(renderAreaChanged()));
     }
   }
 
@@ -133,4 +134,12 @@ void QtCamGraphicsViewfinder::updateRequested() {
 
 void QtCamGraphicsViewfinder::stop() {
   d_ptr->resetBackend();
+}
+
+QRectF QtCamGraphicsViewfinder::renderArea() const {
+  if (!d_ptr->renderer) {
+    return QRectF();
+  }
+
+  return d_ptr->renderer->renderArea();
 }

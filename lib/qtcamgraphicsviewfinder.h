@@ -43,6 +43,11 @@ public:
   virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 		     QWidget *widget = 0);
 
+  QRectF renderArea() const;
+
+signals:
+  void renderAreaChanged();
+
 protected:
   void resizeEvent(QGraphicsSceneResizeEvent *event);
 

@@ -39,6 +39,7 @@ public:
   virtual void resize(const QSizeF& size);
   virtual void reset();
   virtual GstElement *sinkElement();
+  QRectF renderArea();
 
 private:
   static void on_gst_buffer(GstElement *element, GstBuffer *buf, GstPad *pad,

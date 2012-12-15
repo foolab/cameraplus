@@ -44,6 +44,8 @@ public:
   virtual void reset();
   virtual GstElement *sinkElement();
 
+  QRectF renderArea();
+
 private slots:
   void setVideoSize(const QSizeF& size);
 
@@ -56,7 +58,6 @@ private:
   void createProgram();
   void paintFrame(QPainter *painter, int frame);
   void calculateCoords();
-  QRectF renderArea();
 
   QtCamConfig *m_conf;
   GstElement *m_sink;

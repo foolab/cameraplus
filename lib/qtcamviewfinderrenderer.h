@@ -25,6 +25,7 @@
 
 #include <QObject>
 #include <gst/gst.h>
+#include <QRectF>
 
 class QtCamConfig;
 class QMetaObject;
@@ -45,11 +46,14 @@ public:
   virtual void reset() = 0;
   virtual GstElement *sinkElement() = 0;
 
+  virtual QRectF renderArea() = 0;
+
 protected:
   QtCamViewfinderRenderer(QtCamConfig *config, QObject *parent = 0);
 
 signals:
   void updateRequested();
+  void renderAreaChanged();
 };
 
 #define QT_CAM_VIEWFINDER_RENDERER(key, klass) \

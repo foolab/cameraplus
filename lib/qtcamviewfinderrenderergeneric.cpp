@@ -126,6 +126,11 @@ GstElement *QtCamViewfinderRendererGeneric::sinkElement() {
   return m_elem;
 }
 
+QRectF QtCamViewfinderRendererGeneric::renderArea() {
+  // TODO: calculate this and emit renderAreaChanged() signal when needed
+  return QRectF();
+}
+
 void QtCamViewfinderRendererGeneric::on_gst_buffer(GstElement *element,
 						   GstBuffer *buf, GstPad *pad,
 						   QtCamViewfinderRendererGeneric *q) {

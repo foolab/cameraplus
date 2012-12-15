@@ -48,8 +48,6 @@
 #include "videomute.h"
 #include "videotorch.h"
 
-// TODO: a viewfinder class that inherits QDeclarativeItem
-
 Camera::Camera(QDeclarativeItem *parent) :
   QDeclarativeItem(parent),
   m_cam(new QtCamera(this)),
@@ -73,7 +71,7 @@ Camera::Camera(QDeclarativeItem *parent) :
   m_videoMute(0),
   m_videoTorch(0) {
 
-  // TODO:
+  QObject::connect(m_vf, SIGNAL(renderAreaChanged()), this, SIGNAL(renderAreaChanged()));
 }
 
 Camera::~Camera() {
@@ -282,6 +280,10 @@ void Camera::setNotifications(Notifications *notifications) {
 
     emit notificationsChanged();
   }
+}
+
+QRectF Camera::renderArea() const {
+  return m_vf->renderArea();
 }
 
 void Camera::resetCapabilities() {

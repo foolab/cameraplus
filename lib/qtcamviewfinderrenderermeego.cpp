@@ -123,6 +123,8 @@ void QtCamViewfinderRendererMeeGo::resize(const QSizeF& size) {
   // TODO: this will destroy everything
   // but we need a way to reset the viewport and the transformation matrix only.
   m_needsInit = true;
+
+  emit renderAreaChanged();
 }
 
 void QtCamViewfinderRendererMeeGo::reset() {
@@ -341,4 +343,6 @@ void QtCamViewfinderRendererMeeGo::setVideoSize(const QSizeF& size) {
   calculateCoords();
 
   m_needsInit = true;
+
+  emit renderAreaChanged();
 }
