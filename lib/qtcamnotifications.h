@@ -31,6 +31,8 @@ class QtCamDevice;
 class QtCamNotifications : public QObject {
   Q_OBJECT
 
+  friend class QtCamNotificationsPrivate;
+
 public:
   QtCamNotifications(QtCamDevice *dev, QObject *parent = 0);
   ~QtCamNotifications();
@@ -44,7 +46,11 @@ signals:
   void videoRecordingStarted();
   void videoRecordingEnded();
 
+  void autoFocusAcquired();
+
 private:
+  Q_PRIVATE_SLOT(d_ptr, void autoFocusStatusChanged());
+
   QtCamNotificationsPrivate *d_ptr;
 };
 

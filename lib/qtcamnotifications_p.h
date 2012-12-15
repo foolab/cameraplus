@@ -20,22 +20,35 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef NOTIFICATIONS_H
-#define NOTIFICATIONS_H
+#ifndef QT_CAM_NOTIFICATIONS_P_H
+#define QT_CAM_NOTIFICATIONS_P_H
 
-#include <QObject>
+#include <QPointer>
+#include "qtcamautofocus.h"
+#include "qtcamgstreamermessagehandler.h"
+#include "qtcamgstreamermessagelistener.h"
+#include "qtcamnotifications.h"
 
-class Notifications {
+class QtCamNotificationsPrivate : public QObject {
+  Q_OBJECT
+
 public:
-  Notifications();
-  virtual ~Notifications();
+  QtCamDevice *dev;
+  QPointer<QtCamGStreamerMessageHandler> imageStart;
+  QPointer<QtCamGStreamerMessageHandler> imageEnd;
 
-  virtual void imageCaptureStarted() = 0;
-  virtual void imageCaptureEnded() = 0;
-  virtual void videoRecordingStarted() = 0;
-  virtual void videoRecordingEnded() = 0;
-  virtual void autoFocusAcquired() = 0;
+  QPointer<QtCamGStreamerMessageHandler> videoDone;
+  QPointer<QtCamGStreamerMessageListener> listener;
+  QPointer<QtCamAutoFocus> af;
+
+  QtCamNotifications *q_ptr;
+
+public slots:
+  void autoFocusStatusChanged() {
+    if (af->status() == QtCamAutoFocus::Success) {
+      emit q_ptr->autoFocusAcquired();
+    }
+  }
 };
-Q_DECLARE_INTERFACE(Notifications, "org.foolab.qml.CameraPlus/1.0");
 
-#endif /* NOTIFICATIONS_H */
+#endif /* QT_CAM_NOTIFICATIONS_P_H */

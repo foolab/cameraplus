@@ -42,6 +42,7 @@ void NotificationsContainer::setDevice(QtCamDevice *dev) {
     QObject::disconnect(n, SIGNAL(imageCaptureEnded()), this, SLOT(imageCaptureEnded()));
     QObject::disconnect(n, SIGNAL(videoRecordingStarted()), this, SLOT(videoRecordingStarted()));
     QObject::disconnect(n, SIGNAL(videoRecordingEnded()), this, SLOT(videoRecordingEnded()));
+    QObject::disconnect(n, SIGNAL(autoFocusAcquired()), this, SLOT(autoFocusAcquired()));
   }
 
   m_dev = dev;
@@ -56,6 +57,8 @@ void NotificationsContainer::setDevice(QtCamDevice *dev) {
 		     this, SLOT(videoRecordingStarted()), Qt::DirectConnection);
     QObject::connect(n, SIGNAL(videoRecordingEnded()),
 		     this, SLOT(videoRecordingEnded()), Qt::DirectConnection);
+    QObject::connect(n, SIGNAL(autoFocusAcquired()),
+		     this, SLOT(autoFocusAcquired()), Qt::DirectConnection);
   }
 }
 
@@ -103,5 +106,13 @@ void NotificationsContainer::videoRecordingEnded() {
 
   if (m_notifications) {
     m_notifications->videoRecordingEnded();
+  }
+}
+
+void NotificationsContainer::autoFocusAcquired() {
+  QMutexLocker l(&m_mutex);
+
+  if (m_notifications) {
+    m_notifications->autoFocusAcquired();
   }
 }

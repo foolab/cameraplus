@@ -19,29 +19,21 @@
  */
 
 #include "qtcamnotifications.h"
-#include "qtcamgstreamermessagehandler.h"
-#include "qtcamgstreamermessagelistener.h"
+#include "qtcamnotifications_p.h"
 #include "qtcamdevice.h"
-#include <QPointer>
-
-class QtCamNotificationsPrivate {
-public:
-  QtCamDevice *dev;
-  QPointer<QtCamGStreamerMessageHandler> imageStart;
-  QPointer<QtCamGStreamerMessageHandler> imageEnd;
-
-  QPointer<QtCamGStreamerMessageHandler> videoDone;
-  QPointer<QtCamGStreamerMessageListener> listener;
-};
 
 QtCamNotifications::QtCamNotifications(QtCamDevice *dev, QObject *parent) :
   QObject(parent), d_ptr(new QtCamNotificationsPrivate) {
+
+  d_ptr->q_ptr = this;
   d_ptr->dev = dev;
 
   d_ptr->listener = dev->listener();
   d_ptr->imageStart = new QtCamGStreamerMessageHandler("photo-capture-start", this);
   d_ptr->imageEnd = new QtCamGStreamerMessageHandler("photo-capture-end", this);
   d_ptr->videoDone = new QtCamGStreamerMessageHandler("video-done", this);
+
+  d_ptr->af = new QtCamAutoFocus(dev, this);
 
   if (d_ptr->listener) {
     d_ptr->listener->addSyncHandler(d_ptr->imageStart);
@@ -57,6 +49,8 @@ QtCamNotifications::QtCamNotifications(QtCamDevice *dev, QObject *parent) :
 
   QObject::connect(d_ptr->videoDone, SIGNAL(messageSent(GstMessage *)),
 		   this, SIGNAL(videoRecordingEnded()), Qt::DirectConnection);
+
+  QObject::connect(d_ptr->af, SIGNAL(statusChanged()), this, SLOT(autoFocusStatusChanged()));
 }
 
 QtCamNotifications::~QtCamNotifications() {
@@ -69,5 +63,9 @@ QtCamNotifications::~QtCamNotifications() {
   delete d_ptr->imageStart.data();
   delete d_ptr->imageEnd.data();
 
+  delete d_ptr->af;
+
   delete d_ptr; d_ptr = 0;
 }
+
+#include "moc_qtcamnotifications.cpp"

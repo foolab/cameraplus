@@ -103,7 +103,6 @@ public:
   bool setStatus(QtCamAutoFocus::Status *status, GstMessage *message) {
     const GstStructure *s = gst_message_get_structure(message);
     int st = GST_PHOTOGRAPHY_FOCUS_STATUS_NONE;
-
     if (gst_structure_get_int(s, "status", &st)) {
       if (*status != st) {
 	*status = (QtCamAutoFocus::Status) st;

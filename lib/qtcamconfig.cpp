@@ -207,3 +207,7 @@ QString QtCamConfig::videoRecordingStartedSound() const {
 QString QtCamConfig::videoRecordingEndedSound() const {
   return d_ptr->conf->value("sounds/videoRecordingEnded").toString();
 }
+
+QString QtCamConfig::autoFocusAcquiredSound() const {
+  return d_ptr->conf->value("sounds/autoFocusAcquired").toString();
+}

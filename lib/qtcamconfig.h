@@ -74,6 +74,7 @@ public:
   QString imageCaptureEndedSound() const;
   QString videoRecordingStartedSound() const;
   QString videoRecordingEndedSound() const;
+  QString autoFocusAcquiredSound() const;
 
 private:
   QtCamConfigPrivate *d_ptr;

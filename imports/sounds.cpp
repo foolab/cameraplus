@@ -24,10 +24,11 @@
 #include <QMutex>
 #include <QWaitCondition>
 
-#define CAMERA_IMAGE_START_SOUND_ID "camera-image-start"
-#define CAMERA_IMAGE_END_SOUND_ID "camera-image-end"
-#define CAMERA_VIDEO_START_SOUND_ID "camera-video-start"
-#define CAMERA_VIDEO_STOP_SOUND_ID "camera-video-stop"
+#define CAMERA_IMAGE_START_SOUND_ID  "camera-image-start"
+#define CAMERA_IMAGE_END_SOUND_ID    "camera-image-end"
+#define CAMERA_VIDEO_START_SOUND_ID  "camera-video-start"
+#define CAMERA_VIDEO_STOP_SOUND_ID   "camera-video-stop"
+#define CAMERA_FOCUS_SOUND_ID        "camera-focus"
 
 // Odd, volume has to be a char *
 #define CANBERRA_FULL_VOLUME "0.0"
@@ -88,6 +89,14 @@ void Sounds::videoRecordingEnded() {
   play(CAMERA_VIDEO_STOP_SOUND_ID);
 }
 
+void Sounds::autoFocusAcquired() {
+  if (isMuted() || !m_ctx) {
+    return;
+  }
+
+  play(CAMERA_FOCUS_SOUND_ID);
+}
+
 bool Sounds::isMuted() const {
   return m_muted;
 }
@@ -137,6 +146,7 @@ void Sounds::reload() {
   cache(m_conf->imageCaptureEndedSound(), CAMERA_IMAGE_END_SOUND_ID);
   cache(m_conf->videoRecordingStartedSound(), CAMERA_VIDEO_START_SOUND_ID);
   cache(m_conf->videoRecordingEndedSound(), CAMERA_VIDEO_STOP_SOUND_ID);
+  cache(m_conf->autoFocusAcquiredSound(), CAMERA_FOCUS_SOUND_ID);
 }
 
 void Sounds::cache(const QString& path, const char *id) {

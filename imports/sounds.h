@@ -43,6 +43,7 @@ public:
   void imageCaptureEnded();
   void videoRecordingStarted();
   void videoRecordingEnded();
+  void autoFocusAcquired();
 
   bool isMuted() const;
   void setMuted(bool mute);
