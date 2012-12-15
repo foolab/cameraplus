@@ -49,7 +49,7 @@ signals:
   void autoFocusAcquired();
 
 private:
-  Q_PRIVATE_SLOT(d_ptr, void autoFocusStatusChanged());
+  Q_PRIVATE_SLOT(d_ptr, void autoFocusStatusChanged(GstMessage *));
 
   QtCamNotificationsPrivate *d_ptr;
 };

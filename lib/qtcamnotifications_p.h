@@ -24,10 +24,13 @@
 #define QT_CAM_NOTIFICATIONS_P_H
 
 #include <QPointer>
-#include "qtcamautofocus.h"
 #include "qtcamgstreamermessagehandler.h"
 #include "qtcamgstreamermessagelistener.h"
 #include "qtcamnotifications.h"
+#ifndef GST_USE_UNSTABLE_API
+#define GST_USE_UNSTABLE_API
+#endif /* GST_USE_UNSTABLE_API */
+#include <gst/interfaces/photography.h>
 
 class QtCamNotificationsPrivate : public QObject {
   Q_OBJECT
@@ -38,15 +41,25 @@ public:
   QPointer<QtCamGStreamerMessageHandler> imageEnd;
 
   QPointer<QtCamGStreamerMessageHandler> videoDone;
+
+  QPointer<QtCamGStreamerMessageHandler> af;
+
   QPointer<QtCamGStreamerMessageListener> listener;
-  QPointer<QtCamAutoFocus> af;
 
   QtCamNotifications *q_ptr;
 
 public slots:
-  void autoFocusStatusChanged() {
-    if (af->status() == QtCamAutoFocus::Success) {
-      emit q_ptr->autoFocusAcquired();
+  void autoFocusStatusChanged(GstMessage *message) {
+    if (!message || !gst_message_get_structure(message)) {
+      return;
+    }
+
+    const GstStructure *s = gst_message_get_structure(message);
+    int st = GST_PHOTOGRAPHY_FOCUS_STATUS_NONE;
+    if (gst_structure_get_int(s, "status", &st)) {
+      if (st == GST_PHOTOGRAPHY_FOCUS_STATUS_SUCCESS) {
+	emit q_ptr->autoFocusAcquired();
+      }
     }
   }
 };

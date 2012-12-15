@@ -21,6 +21,10 @@
 #include "qtcamnotifications.h"
 #include "qtcamnotifications_p.h"
 #include "qtcamdevice.h"
+#ifndef GST_USE_UNSTABLE_API
+#define GST_USE_UNSTABLE_API
+#endif /* GST_USE_UNSTABLE_API */
+#include <gst/interfaces/photography.h>
 
 QtCamNotifications::QtCamNotifications(QtCamDevice *dev, QObject *parent) :
   QObject(parent), d_ptr(new QtCamNotificationsPrivate) {
@@ -32,13 +36,13 @@ QtCamNotifications::QtCamNotifications(QtCamDevice *dev, QObject *parent) :
   d_ptr->imageStart = new QtCamGStreamerMessageHandler("photo-capture-start", this);
   d_ptr->imageEnd = new QtCamGStreamerMessageHandler("photo-capture-end", this);
   d_ptr->videoDone = new QtCamGStreamerMessageHandler("video-done", this);
-
-  d_ptr->af = new QtCamAutoFocus(dev, this);
+  d_ptr->af = new QtCamGStreamerMessageHandler(GST_PHOTOGRAPHY_AUTOFOCUS_DONE, this);
 
   if (d_ptr->listener) {
     d_ptr->listener->addSyncHandler(d_ptr->imageStart);
     d_ptr->listener->addHandler(d_ptr->imageEnd);
     d_ptr->listener->addHandler(d_ptr->videoDone);
+    d_ptr->listener->addHandler(d_ptr->af);
   }
 
   QObject::connect(d_ptr->imageStart, SIGNAL(messageSent(GstMessage *)),
@@ -50,7 +54,8 @@ QtCamNotifications::QtCamNotifications(QtCamDevice *dev, QObject *parent) :
   QObject::connect(d_ptr->videoDone, SIGNAL(messageSent(GstMessage *)),
 		   this, SIGNAL(videoRecordingEnded()), Qt::DirectConnection);
 
-  QObject::connect(d_ptr->af, SIGNAL(statusChanged()), this, SLOT(autoFocusStatusChanged()));
+  QObject::connect(d_ptr->af, SIGNAL(messageSent(GstMessage *)),
+		   this, SLOT(autoFocusStatusChanged(GstMessage *)));
 }
 
 QtCamNotifications::~QtCamNotifications() {
@@ -58,12 +63,13 @@ QtCamNotifications::~QtCamNotifications() {
     d_ptr->listener->removeSyncHandler(d_ptr->imageStart);
     d_ptr->listener->removeHandler(d_ptr->imageEnd);
     d_ptr->listener->removeHandler(d_ptr->videoDone);
+    d_ptr->listener->removeHandler(d_ptr->af);
   }
 
   delete d_ptr->imageStart.data();
   delete d_ptr->imageEnd.data();
-
-  delete d_ptr->af;
+  delete d_ptr->videoDone.data();
+  delete d_ptr->af.data();
 
   delete d_ptr; d_ptr = 0;
 }
