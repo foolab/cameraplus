@@ -62,6 +62,7 @@ QtCamGraphicsViewfinder::QtCamGraphicsViewfinder(QtCamConfig *config, QGraphicsI
 }
 
 QtCamGraphicsViewfinder::~QtCamGraphicsViewfinder() {
+  delete d_ptr->renderer;
   delete d_ptr; d_ptr = 0;
 }
 
