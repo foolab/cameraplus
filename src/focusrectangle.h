@@ -48,8 +48,7 @@ signals:
 private:
   QColor m_color;
 
-  QPainterPath m_inner;
-  QPainterPath m_outer;
+  QPainterPath m_path;
 };
 
 #endif /* FOCUS_RECTANGLE_H */

@@ -22,10 +22,8 @@
 #include <QPainter>
 #include <QDebug>
 
-#define OUTER_WIDTH  4
-#define INNER_WIDTH  2
-#define OUTER_LENGTH 30
-#define INNER_LENGTH 29
+#define WIDTH  4
+#define LENGTH 30
 
 FocusRectangle::FocusRectangle(QDeclarativeItem *parent) :
   QDeclarativeItem(parent),
@@ -58,11 +56,11 @@ void FocusRectangle::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 
   painter->save();
 
-  painter->setPen(QPen(QBrush(Qt::black), OUTER_WIDTH));
-  painter->drawPath(m_outer);
+  painter->setPen(QPen(QBrush(Qt::black), WIDTH));
+  painter->drawPath(m_path);
 
-  painter->setPen(QPen(QBrush(m_color), INNER_WIDTH));
-  painter->drawPath(m_inner);
+  painter->setPen(QPen(QBrush(m_color), WIDTH - 2));
+  painter->drawPath(m_path);
 
   painter->restore();
 }
@@ -73,45 +71,25 @@ void FocusRectangle::geometryChanged( const QRectF& newGeometry, const QRectF& o
   qreal w = width();
   qreal h = height();
 
-  // Outer:
+  qreal offset = WIDTH / 2;
+
   // top left:
-  m_outer = QPainterPath(QPointF(0, OUTER_LENGTH));
-  m_outer.lineTo(0, 0);
-  m_outer.lineTo(OUTER_LENGTH, 0);
+  m_path = QPainterPath(QPointF(offset, LENGTH - offset));
+  m_path.lineTo(offset, offset);
+  m_path.lineTo(LENGTH - offset, offset);
 
   // top right:
-  m_outer.moveTo(w - OUTER_LENGTH, 0);
-  m_outer.lineTo(w, 0);
-  m_outer.lineTo(w, OUTER_LENGTH);
+  m_path.moveTo(w - LENGTH + offset, offset);
+  m_path.lineTo(w - offset, offset);
+  m_path.lineTo(w - offset, LENGTH - offset);
 
   // bottom right:
-  m_outer.moveTo(w, h - OUTER_LENGTH);
-  m_outer.lineTo(w, h);
-  m_outer.lineTo(w - OUTER_LENGTH, h);
+  m_path.moveTo(w - offset, h - LENGTH + offset);
+  m_path.lineTo(w - offset, h - offset);
+  m_path.lineTo(w - LENGTH + offset, h - offset);
 
   // bottom left:
-  m_outer.moveTo(OUTER_LENGTH, h);
-  m_outer.lineTo(0, h);
-  m_outer.lineTo(0, h - OUTER_LENGTH);
-
-  // Inner:
-  // top left:
-  m_inner = QPainterPath(QPointF(0, INNER_LENGTH));
-  m_inner.lineTo(0, 0);
-  m_inner.lineTo(INNER_LENGTH, 0);
-
-  // top right:
-  m_inner.moveTo(w - INNER_LENGTH, 0);
-  m_inner.lineTo(w, 0);
-  m_inner.lineTo(w, INNER_LENGTH);
-
-  // bottom right:
-  m_inner.moveTo(w, h - INNER_LENGTH);
-  m_inner.lineTo(w, h);
-  m_inner.lineTo(w - INNER_LENGTH, h);
-
-  // bottom left:
-  m_inner.moveTo(INNER_LENGTH, h);
-  m_inner.lineTo(0, h);
-  m_inner.lineTo(0, h - INNER_LENGTH);
+  m_path.moveTo(LENGTH - offset, h - offset);
+  m_path.lineTo(offset, h - offset);
+  m_path.lineTo(offset, h - LENGTH + offset);
 }
