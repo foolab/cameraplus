@@ -159,6 +159,7 @@ PageStackWindow {
         }
 
         platformStyle: PageStackWindowStyle {
+                cornersVisible: false
                 // TODO: Hack
                 background: " "
         }
