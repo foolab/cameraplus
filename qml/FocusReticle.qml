@@ -24,10 +24,25 @@ import QtQuick 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
 
-Item {
-        anchors.fill: parent
+// TODO: keep reticle within bounds
+// TODO: move reticle within bounds if resolution changes
+
+MouseArea {
         property int cafStatus: AutoFocus.None
         property int status: AutoFocus.None
+        property variant topLeft: mapFromItem(cam, cam.renderArea.x, cam.renderArea.y)
+        property variant bottomRight: mapFromItem(cam, cam.renderArea.x + cam.renderArea.width, cam.renderArea.y + cam.renderArea.height)
+        id: mouse
+
+        // A 100x100 central "rectangle"
+        property variant centerRect: Qt.rect((mouse.width / 2 - 50), (mouse.height / 2) - 50, 100, 100);
+
+        property alias touchMode: reticle.touchMode
+
+        x: topLeft.x
+        y: topLeft.y
+        width: bottomRight.x - topLeft.x
+        height: bottomRight.y - topLeft.y
 
         onStatusChanged: {
                 if (status != AutoFocus.Running) {
@@ -53,12 +68,56 @@ Item {
                 }
         }
 
+        function moveRect(x, y) {
+                // TODO: don't put reticle outside area
+                x = x - (reticle.width / 2)
+                y = y - (reticle.height / 2)
+
+                reticle.x = x;
+                reticle.y = y;
+        }
+
+        function moveToCenterIfNeeded(x, y) {
+                if (x >= centerRect.x && y >= centerRect.y &&
+                    x <= centerRect.x + centerRect.width &&
+                    y <= centerRect.y + centerRect.height) {
+                        reticle.x = reticle.center.x
+                        reticle.y = reticle.center.y
+                }
+        }
+
+        onPressed: moveRect(mouse.x, mouse.y);
+        onPositionChanged: moveRect(mouse.x, mouse.y);
+
+        onReleased: moveToCenterIfNeeded(mouse.x, mouse.y);
+
+        onXChanged: {
+                // TODO:
+//                moveRect(reticle.x, reticle.y);
+        }
+
         FocusRectangle {
                 id: reticle
+                property variant center: Qt.point((mouse.width - width) / 2, (mouse.height - height) / 2);
+                property bool touchMode: !(reticle.x == center.x && reticle.y == center.y)
+
+                scale: mouse.pressed ? 0.6 :  touchMode ? 0.8 : 1.0
+
                 width: 250
                 height: 150
-                anchors.centerIn: parent
+                x: center.x
+                y: center.y
+
                 color: predictColor(cafStatus, status);
+
+                onXChanged: {
+                        if (mouse.pressed) {
+                                return;
+                        }
+
+//                        console.log(x);
+//                        console.log(x);
+                }
         }
 
         Timer {

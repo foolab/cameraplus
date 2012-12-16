@@ -30,7 +30,7 @@ import QtMobility.location 1.2
 
 // TODO: postcapture
 // TODO: flash not ready
-// TODO: focus, caf, ...
+// TODO: touch focus
 // TODO: portrait/landscape
 // TODO: stop viewfinder in settings pages ?
 // TODO: grid lines, face tracking, ambr
