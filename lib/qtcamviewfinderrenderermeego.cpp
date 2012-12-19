@@ -200,7 +200,7 @@ void QtCamViewfinderRendererMeeGo::sink_caps_changed(GObject *obj, GParamSpec *p
   Q_UNUSED(pspec);
 
   int width, height;
-  if (obj && gst_video_get_size  (GST_PAD(obj), &width, &height)) {
+  if (obj && gst_video_get_size(GST_PAD(obj), &width, &height)) {
     QMetaObject::invokeMethod(q, "setVideoSize", Qt::QueuedConnection,
 			      Q_ARG(QSizeF, QSizeF(width, height)));
   }
@@ -331,6 +331,10 @@ QRectF QtCamViewfinderRendererMeeGo::renderArea() {
   return m_renderArea;
 }
 
+QSizeF QtCamViewfinderRendererMeeGo::videoResolution() {
+  return m_videoSize;
+}
+
 void QtCamViewfinderRendererMeeGo::setVideoSize(const QSizeF& size) {
   if (size == m_videoSize) {
     return;
@@ -345,4 +349,5 @@ void QtCamViewfinderRendererMeeGo::setVideoSize(const QSizeF& size) {
   m_needsInit = true;
 
   emit renderAreaChanged();
+  emit videoResolution();
 }

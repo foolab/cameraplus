@@ -128,6 +128,10 @@ bool QtCamDevice::setViewfinder(QtCamViewfinder *viewfinder) {
   return true;
 }
 
+QtCamViewfinder *QtCamDevice::viewfinder() const {
+  return d_ptr->viewfinder;
+}
+
 bool QtCamDevice::start() {
   if (d_ptr->error) {
     qWarning() << "Pipeline must be stopped first because of an error.";

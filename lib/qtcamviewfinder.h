@@ -24,6 +24,7 @@
 #define QT_CAM_VIEWFINDER_H
 
 #include <gst/gst.h>
+#include <QRectF>
 
 class QtCamDevice;
 
@@ -35,6 +36,9 @@ public:
   virtual GstElement *sinkElement() = 0;
   virtual bool setDevice(QtCamDevice *device) = 0;
   virtual void stop() = 0;
+
+  virtual QRectF renderArea() const = 0;
+  virtual QSizeF videoResolution() const = 0;
 };
 
 #endif /* QT_CAM_VIEWFINDER_H */

@@ -47,6 +47,7 @@ public:
   virtual GstElement *sinkElement() = 0;
 
   virtual QRectF renderArea() = 0;
+  virtual QSizeF videoResolution() = 0;
 
 protected:
   QtCamViewfinderRenderer(QtCamConfig *config, QObject *parent = 0);
@@ -54,6 +55,7 @@ protected:
 signals:
   void updateRequested();
   void renderAreaChanged();
+  void videoResolutionChanged();
 };
 
 #define QT_CAM_VIEWFINDER_RENDERER(key, klass) \

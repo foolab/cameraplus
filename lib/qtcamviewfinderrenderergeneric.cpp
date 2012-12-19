@@ -131,6 +131,12 @@ QRectF QtCamViewfinderRendererGeneric::renderArea() {
   return QRectF();
 }
 
+QSizeF QtCamViewfinderRendererGeneric::videoResolution() {
+  // TODO:
+
+  return QSizeF();
+}
+
 void QtCamViewfinderRendererGeneric::on_gst_buffer(GstElement *element,
 						   GstBuffer *buf, GstPad *pad,
 						   QtCamViewfinderRendererGeneric *q) {

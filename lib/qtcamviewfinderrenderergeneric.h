@@ -40,6 +40,7 @@ public:
   virtual void reset();
   virtual GstElement *sinkElement();
   QRectF renderArea();
+  QSizeF videoResolution();
 
 private:
   static void on_gst_buffer(GstElement *element, GstBuffer *buf, GstPad *pad,

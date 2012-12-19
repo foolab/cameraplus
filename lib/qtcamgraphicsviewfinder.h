@@ -44,9 +44,11 @@ public:
 		     QWidget *widget = 0);
 
   QRectF renderArea() const;
+  QSizeF videoResolution() const;
 
 signals:
   void renderAreaChanged();
+  void videoResolutionChanged();
 
 protected:
   void resizeEvent(QGraphicsSceneResizeEvent *event);

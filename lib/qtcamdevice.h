@@ -45,6 +45,8 @@ public:
   ~QtCamDevice();
 
   bool setViewfinder(QtCamViewfinder *viewfinder);
+  QtCamViewfinder *viewfinder() const;
+
   bool start();
   bool stop(bool force);
   bool isRunning();

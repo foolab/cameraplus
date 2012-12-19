@@ -28,6 +28,7 @@
 
 class QtCamDevice;
 class QtCamAutoFocusPrivate;
+class QRectF;
 
 class QtCamAutoFocus : public QObject {
   Q_OBJECT
@@ -55,6 +56,8 @@ public:
   bool stopAutoFocus();
 
   bool canFocus(const QtCamScene::SceneMode& mode);
+
+  void setRegionOfInterest(const QRectF& roi);
 
 signals:
   void statusChanged();

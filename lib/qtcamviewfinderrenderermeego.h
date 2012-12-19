@@ -45,6 +45,7 @@ public:
   virtual GstElement *sinkElement();
 
   QRectF renderArea();
+  QSizeF videoResolution();
 
 private slots:
   void setVideoSize(const QSizeF& size);

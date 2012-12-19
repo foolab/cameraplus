@@ -39,6 +39,7 @@ public:
       renderer->resize(q_ptr->size());
       QObject::connect(renderer, SIGNAL(updateRequested()), q_ptr, SLOT(updateRequested()));
       QObject::connect(renderer, SIGNAL(renderAreaChanged()), q_ptr, SIGNAL(renderAreaChanged()));
+      QObject::connect(renderer, SIGNAL(videoResolutionChanged()), q_ptr, SIGNAL(videoResolutionChanged()));
     }
   }
 
@@ -142,4 +143,12 @@ QRectF QtCamGraphicsViewfinder::renderArea() const {
   }
 
   return d_ptr->renderer->renderArea();
+}
+
+QSizeF QtCamGraphicsViewfinder::videoResolution() const {
+  if (!d_ptr->renderer) {
+    return QSizeF();
+  }
+
+  return d_ptr->renderer->videoResolution();
 }
