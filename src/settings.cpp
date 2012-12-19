@@ -151,7 +151,7 @@ qreal Settings::imageEvComp() const {
 }
 
 void Settings::setImageEvComp(qreal ev) {
-  if (ev != imageEvComp()) {
+  if (!qFuzzyCompare(ev, imageEvComp())) {
     m_settings->setValue("image/evComp", ev);
 
     emit imageEvCompChanged();
@@ -199,7 +199,7 @@ qreal Settings::videoEvComp() const {
 }
 
 void Settings::setVideoEvComp(qreal ev) {
-  if (ev != videoEvComp()) {
+  if (!qFuzzyCompare(ev, videoEvComp())) {
     m_settings->setValue("video/evComp", ev);
 
     emit videoEvCompChanged();
