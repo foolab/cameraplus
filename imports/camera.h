@@ -61,6 +61,7 @@ class Camera : public QDeclarativeItem {
   Q_PROPERTY(Notifications *notifications READ notifications WRITE setNotifications NOTIFY notificationsChanged);
 
   Q_PROPERTY(QRectF renderArea READ renderArea NOTIFY renderAreaChanged);
+  Q_PROPERTY(QSizeF videoResolution READ videoResolution NOTIFY videoResolutionChanged);
 
   Q_PROPERTY(Zoom *zoom READ zoom NOTIFY zoomChanged);
   Q_PROPERTY(Flash *flash READ flash NOTIFY flashChanged);
@@ -135,6 +136,7 @@ public:
   VideoTorch *videoTorch() const;
 
   QRectF renderArea() const;
+  QSizeF videoResolution() const;
 
 signals:
   void deviceCountChanged();
@@ -146,6 +148,7 @@ signals:
   void error(const QString& message, int code, const QString& debug);
   void notificationsChanged();
   void renderAreaChanged();
+  void videoResolutionChanged();
 
   void zoomChanged();
   void flashChanged();

@@ -52,6 +52,9 @@ public:
   Status status();
   Status cafStatus();
 
+public slots:
+  void setRegionOfInterest(const QRectF& roi);
+
 signals:
   void valueChanged();
   void cafValueChanged();

@@ -30,6 +30,7 @@ import "data.js" as Data
 // TODO: resources lost?
 // TODO: closing camera in the middle of recording will hang camera
 // TODO: optional resources?
+// TODO: get touch focus settings from VideoPage
 
 CameraPage {
         id: page

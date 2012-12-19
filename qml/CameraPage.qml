@@ -53,6 +53,12 @@ Page {
                 }
         }
 
+        onStatusChanged: {
+                if (status == PageStatus.Active) {
+                        focusReticle.setRegionOfInterest();
+                }
+        }
+
         FocusReticle {
                 visible: controlsVisible && focusReticleVisible && cam.autoFocus.canFocus(cam.scene.value);
                 id: focusReticle

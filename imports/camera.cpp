@@ -72,6 +72,7 @@ Camera::Camera(QDeclarativeItem *parent) :
   m_videoTorch(0) {
 
   QObject::connect(m_vf, SIGNAL(renderAreaChanged()), this, SIGNAL(renderAreaChanged()));
+  QObject::connect(m_vf, SIGNAL(videoResolutionChanged()), this, SIGNAL(videoResolutionChanged()));
 }
 
 Camera::~Camera() {
@@ -284,6 +285,10 @@ void Camera::setNotifications(Notifications *notifications) {
 
 QRectF Camera::renderArea() const {
   return m_vf->renderArea();
+}
+
+QSizeF Camera::videoResolution() const {
+  return m_vf->videoResolution();
 }
 
 void Camera::resetCapabilities() {

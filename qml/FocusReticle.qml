@@ -24,14 +24,10 @@ import QtQuick 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
 
-// TODO: keep reticle within bounds
-// TODO: move reticle within bounds if resolution changes
-
+// TODO: I've seen the reticle color changing to red while dragging it but failed to reproduce :(
 MouseArea {
         property int cafStatus: AutoFocus.None
         property int status: AutoFocus.None
-        property variant topLeft: mapFromItem(cam, cam.renderArea.x, cam.renderArea.y)
-        property variant bottomRight: mapFromItem(cam, cam.renderArea.x + cam.renderArea.width, cam.renderArea.y + cam.renderArea.height)
         id: mouse
 
         // A 100x100 central "rectangle"
@@ -39,10 +35,37 @@ MouseArea {
 
         property alias touchMode: reticle.touchMode
 
-        x: topLeft.x
-        y: topLeft.y
-        width: bottomRight.x - topLeft.x
-        height: bottomRight.y - topLeft.y
+        x: cam.renderArea.x
+        y: cam.renderArea.y
+        width: cam.renderArea.width
+        height: cam.renderArea.height
+
+        // Changing mode (which implies changing pages) will not reset ROI thus we do it here
+        Component.onCompleted: cam.autoFocus.setRegionOfInterest(Qt.rect(0, 0, 0, 0));
+
+/*
+        // This is for debugging
+        Rectangle {
+                color: "blue"
+                opacity: 0.2
+                anchors.fill: parent
+        }
+
+        Rectangle {
+                color: "red"
+                opacity: 0.4
+                x: centerRect.x
+                y: centerRect.y
+                width: centerRect.width
+                height: centerRect.height
+        }
+*/
+        drag.target: reticle
+        drag.axis: Drag.XandYAxis
+        drag.minimumX: 0 - (0.1 * reticle.width)
+        drag.minimumY: 0 - (0.1 * reticle.height)
+        drag.maximumX: width - reticle.width + (0.1 * reticle.width)
+        drag.maximumY: height - reticle.height + (0.1 * reticle.height)
 
         onStatusChanged: {
                 if (status != AutoFocus.Running) {
@@ -68,13 +91,13 @@ MouseArea {
                 }
         }
 
-        function moveRect(x, y) {
-                // TODO: don't put reticle outside area
-                x = x - (reticle.width / 2)
-                y = y - (reticle.height / 2)
-
-                reticle.x = x;
-                reticle.y = y;
+        function moveReticle(x, y) {
+                var xPos = x - ((reticle.width * 1) / 2);
+                var yPos = y - ((reticle.height * 1) / 2);
+                x = Math.min(Math.max(xPos, drag.minimumX), drag.maximumX);
+                y = Math.min(Math.max(yPos, drag.minimumY), drag.maximumY);
+                reticle.x = xPos;
+                reticle.y = yPos;
         }
 
         function moveToCenterIfNeeded(x, y) {
@@ -86,14 +109,41 @@ MouseArea {
                 }
         }
 
-        onPressed: moveRect(mouse.x, mouse.y);
-        onPositionChanged: moveRect(mouse.x, mouse.y);
+        function setRegionOfInterest() {
+                if (!reticle.touchMode) {
+                        cam.autoFocus.setRegionOfInterest(Qt.rect(0, 0, 0, 0));
+                        return;
+                }
 
-        onReleased: moveToCenterIfNeeded(mouse.x, mouse.y);
+                // take into account scale:
+                var x = reticle.x + (reticle.width * 0.1);
+                var y = reticle.y + (reticle.height * 0.1);
 
-        onXChanged: {
-                // TODO:
-//                moveRect(reticle.x, reticle.y);
+                var width = reticle.width * 0.8;
+                var height = reticle.height * 0.8;
+
+                // in terms of video resolution:
+                x = (cam.videoResolution.width * x) / mouse.width;
+                width = (cam.videoResolution.width * width) / mouse.width;
+                y = (cam.videoResolution.height * y) / mouse.height;
+                height = (cam.videoResolution.height * height) / mouse.height;
+
+                // Translate to normalized coordinates (1x1 square) as expected by our C++ backend
+                x = x / cam.videoResolution.width;
+                width = width / cam.videoResolution.width;
+                y = y / cam.videoResolution.height;
+                height = height / cam.videoResolution.height;
+
+                cam.autoFocus.setRegionOfInterest(Qt.rect(x, y, width, height));
+        }
+
+        onReleased: {
+                moveToCenterIfNeeded(mouse.x, mouse.y);
+                setRegionOfInterest();
+        }
+
+        onPressed: {
+                moveReticle(mouse.x, mouse.y);
         }
 
         FocusRectangle {
@@ -101,7 +151,7 @@ MouseArea {
                 property variant center: Qt.point((mouse.width - width) / 2, (mouse.height - height) / 2);
                 property bool touchMode: !(reticle.x == center.x && reticle.y == center.y)
 
-                scale: mouse.pressed ? 0.6 :  touchMode ? 0.8 : 1.0
+                scale: mouse.pressed ? 0.6 : touchMode ? 0.8 : 1.0
 
                 width: 250
                 height: 150
@@ -109,15 +159,6 @@ MouseArea {
                 y: center.y
 
                 color: predictColor(cafStatus, status);
-
-                onXChanged: {
-                        if (mouse.pressed) {
-                                return;
-                        }
-
-//                        console.log(x);
-//                        console.log(x);
-                }
         }
 
         Timer {
