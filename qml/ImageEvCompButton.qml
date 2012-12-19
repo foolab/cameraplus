@@ -42,7 +42,7 @@ Selector {
                 maximumValue: cam.evComp.maximum
                 value: settings.imageEvComp
                 stepSize: 0.1
-                onValueChanged: settings.imageEvComp = value;
-                Component.onCompleted: { slider.value = settings.imageEvComp; }
+                onValueChanged: settings.imageEvComp = value.toFixed(1);
+                Component.onCompleted: { slider.value = settings.imageEvComp.toFixed(1); }
         }
 }
