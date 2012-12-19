@@ -94,8 +94,8 @@ MouseArea {
         function moveReticle(x, y) {
                 var xPos = x - ((reticle.width * 1) / 2);
                 var yPos = y - ((reticle.height * 1) / 2);
-                x = Math.min(Math.max(xPos, drag.minimumX), drag.maximumX);
-                y = Math.min(Math.max(yPos, drag.minimumY), drag.maximumY);
+                xPos = Math.min(Math.max(xPos, drag.minimumX), drag.maximumX);
+                yPos = Math.min(Math.max(yPos, drag.minimumY), drag.maximumY);
                 reticle.x = xPos;
                 reticle.y = yPos;
         }
