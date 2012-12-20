@@ -76,7 +76,7 @@ CameraPage {
                 height: 75
                 opacity: 0.5
                 onClicked: captureImage();
-                visible: imageMode.canCapture && !cameraMode.animationRunning && !previewAnimationRunning && cam.running
+                visible: imageMode.canCapture && !cameraMode.animationRunning && !previewAnimationRunning && cam.running && !standbyWidget.visible
 
                 onExited: {
                         if (mouseX <= 0 || mouseY <= 0 || mouseX > width || mouseY > height) {
