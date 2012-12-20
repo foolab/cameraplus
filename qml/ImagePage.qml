@@ -100,7 +100,14 @@ CameraPage {
         ImageMode {
                 id: imageMode
                 camera: cam
-                onPreviewAvailable: { page.setPreview(preview); cam.autoFocus.stopAutoFocus(); }
+                onPreviewAvailable: {
+                        if (!standbyWidget.visible) {
+                                page.setPreview(preview);
+                        }
+
+                        cam.autoFocus.stopAutoFocus();
+                }
+
                 onSaved: mountProtector.unlock();
         }
 
