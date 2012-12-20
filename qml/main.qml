@@ -159,8 +159,8 @@ PageStackWindow {
 
         platformStyle: PageStackWindowStyle {
                 cornersVisible: false
-                // TODO: Hack
-                background: " "
+                background: ""
+                backgroundColor: "transparent"
         }
 
         ImageSettings {
@@ -247,7 +247,7 @@ PageStackWindow {
 
                 Component.onDestruction: cam.stop();
 
-                // TODO: Hack
+                // We need to show viewfinder below pages.
                 z: -1
 
                 Rectangle {
