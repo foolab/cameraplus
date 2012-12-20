@@ -30,11 +30,9 @@
 #define SCANNER_TYPE_V4L2                     "v4l2"
 #define SCANNER_TYPE_ENUM                     "enum"
 
-// TODO: kill those
-//#define RENDERER_TYPE_GL_SINK                 "glsink"
-//#define RENDERER_TYPE_X_OVERLAY               "xoverlay"
 #define RENDERER_TYPE_MEEGO                   "meego"
 #define RENDERER_TYPE_GENERIC                 "generic"
+
 class QtCamConfigPrivate;
 
 class QtCamConfig : public QObject {
