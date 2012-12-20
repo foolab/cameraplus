@@ -30,7 +30,6 @@ import QtMobility.location 1.2
 
 // TODO: postcapture
 // TODO: flash not ready
-// TODO: touch focus
 // TODO: portrait/landscape
 // TODO: stop viewfinder in settings pages ?
 // TODO: grid lines, face tracking, ambr
@@ -214,6 +213,17 @@ PageStackWindow {
         }
 
         Camera {
+                id: cam
+                anchors.fill: parent
+
+                FocusReticle {
+                        id: focusReticle
+                        cam: cam
+                        visible: pageStack.currentPage && pageStack.currentPage.controlsVisible && pageStack.currentPage.focusReticleVisible && cam && cam.autoFocus.canFocus(cam.scene.value);
+                        cafStatus: cam ? cam.autoFocus.cafStatus : -1
+                        status: cam ? cam.autoFocus.status : -1
+        }
+
 /*
                 onDeviceIdChanged: {
                         // TODO: is this needed ?
@@ -222,9 +232,6 @@ PageStackWindow {
                         }
                 }
 */
-                id: cam
-                anchors.fill: parent
-
                 onError: {
                         console.log("Camera error (" + code + "): " + message + " " + debug);
                         showError(qsTr("Camera error. Please restart the application."));

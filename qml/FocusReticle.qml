@@ -25,9 +25,14 @@ import QtCamera 1.0
 import CameraPlus 1.0
 
 // TODO: I've seen the reticle color changing to red while dragging it but failed to reproduce :(
+// TODO: animate move
+// TODO: hide all controls when we are focusing
+// TODO: hide all controls when we are dragging
+
 MouseArea {
         property int cafStatus: AutoFocus.None
         property int status: AutoFocus.None
+        property Camera cam: null
         id: mouse
 
         // A 100x100 central "rectangle"
@@ -35,14 +40,30 @@ MouseArea {
 
         property alias touchMode: reticle.touchMode
 
-        x: cam.renderArea.x
-        y: cam.renderArea.y
-        width: cam.renderArea.width
-        height: cam.renderArea.height
+        x: cam ? cam.renderArea.x : 0
+        y: cam ? cam.renderArea.y : 0
+        width: cam ? cam.renderArea.width : 0
+        height: cam ? cam.renderArea.height : 0
 
-        // Changing mode (which implies changing pages) will not reset ROI thus we do it here
-        Component.onCompleted: cam.autoFocus.setRegionOfInterest(Qt.rect(0, 0, 0, 0));
+        Connections {
+                target: settings
+                // Changing mode (which implies changing pages) will not reset ROI
+                // thus we do it here
+                onModeChanged: {
+                        moveToCenter();
+                        cam.autoFocus.setRegionOfInterest(Qt.rect(0, 0, 0, 0));
+                }
+        }
 
+        Connections {
+                target: cam
+                onRunningChanged: {
+                        if (!cam.running) {
+                                moveToCenter();
+                                cam.autoFocus.setRegionOfInterest(Qt.rect(0, 0, 0, 0));
+                        }
+                }
+        }
 /*
         // This is for debugging
         Rectangle {
@@ -89,6 +110,11 @@ MouseArea {
                 else {
                         return "white";
                 }
+        }
+
+        function moveToCenter() {
+                reticle.x = reticle.center.x;
+                reticle.y = reticle.center.y;
         }
 
         function moveReticle(x, y) {

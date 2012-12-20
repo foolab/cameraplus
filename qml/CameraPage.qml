@@ -59,13 +59,6 @@ Page {
                 }
         }
 
-        FocusReticle {
-                visible: controlsVisible && focusReticleVisible && cam.autoFocus.canFocus(cam.scene.value);
-                id: focusReticle
-                cafStatus: cam.autoFocus.cafStatus
-                status: cam.autoFocus.status
-        }
-
         Rectangle {
                 // TODO: fade out transition
                 // TODO: there is a toolbar visible on the first startup
