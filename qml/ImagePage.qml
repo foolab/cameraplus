@@ -168,7 +168,7 @@ CameraPage {
 
                         Indicator {
                                 id: wbIndicator
-                                source: "image://theme/" + Data.wbIcon(settings.imageWhiteBalance) + "-screen"
+                                source: visible ? "image://theme/" + Data.wbIcon(settings.imageWhiteBalance) + "-screen" : ""
                                 visible: settings.imageWhiteBalance != WhiteBalance.Auto
                         }
 

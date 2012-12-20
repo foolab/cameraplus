@@ -137,7 +137,7 @@ CameraPage {
 
                         Indicator {
                                 id: wbIndicator
-                                source: "image://theme/" + Data.wbIcon(settings.videoWhiteBalance) + "-screen"
+                                source: visible ? "image://theme/" + Data.wbIcon(settings.videoWhiteBalance) + "-screen" : ""
                                 visible: settings.videoWhiteBalance != WhiteBalance.Auto
                         }
 
