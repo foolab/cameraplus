@@ -25,8 +25,6 @@
 
 #include "qtcamcapability.h"
 
-class QtCamZoomPrivate;
-
 class QtCamZoom : public QtCamCapability {
   Q_OBJECT
 
