@@ -29,9 +29,8 @@ Slider {
         property Camera camera: null
 
         platformStyle: SliderStyle {
-                // HACK
-                handleBackground: " "
-                handleBackgroundPressed: " "
+                handleBackground: ""
+                handleBackgroundPressed: ""
         }
 
         Binding {
