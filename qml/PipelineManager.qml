@@ -57,8 +57,9 @@ Item {
         }
 
         function stopCamera() {
-                camera.stop(false);
-                policy.acquire(CameraResources.None);
+                if (camera.stop(false)) {
+                        policy.acquire(CameraResources.None);
+                }
         }
 
         function forceStopCamera() {
