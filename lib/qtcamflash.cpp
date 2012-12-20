@@ -20,10 +20,19 @@
 
 #include "qtcamflash.h"
 #include "qtcamcapability_p.h"
+#include "qtcamflash_p.h"
 
 QtCamFlash::QtCamFlash(QtCamDevice *dev, QObject *parent) :
-  QtCamCapability(new QtCamCapabilityPrivate(dev, QtCamCapability::Flash, "flash-mode"), parent) {
+  QtCamCapability(new QtCamFlashPrivate(dev, parent), parent) {
 
+  QtCamFlashPrivate *pvt = dynamic_cast<QtCamFlashPrivate *>(d_ptr);
+
+  // We get a weird crash if we pass this as parent to QtCamFlashPrivate
+  pvt->setParent(this);
+
+  QObject::connect(pvt, SIGNAL(flashReadyChanged()), this, SIGNAL(flashReadyChanged()));
+
+  pvt->init();
 }
 
 QtCamFlash::~QtCamFlash() {
@@ -50,4 +59,8 @@ QtCamFlash::FlashMode QtCamFlash::value() {
 
 bool QtCamFlash::setValue(const QtCamFlash::FlashMode& mode) {
   return d_ptr->setIntValue(mode, false);
+}
+
+bool QtCamFlash::isReady() const {
+  return dynamic_cast<QtCamFlashPrivate *>(d_ptr)->isReady();
 }

@@ -29,7 +29,7 @@ import QtMobility.systeminfo 1.2
 import QtMobility.location 1.2
 
 // TODO: postcapture
-// TODO: flash not ready
+// TODO: flash not ready (battery low or flash not ready message)
 // TODO: portrait/landscape
 // TODO: stop viewfinder in settings pages ?
 // TODO: grid lines, face tracking, ambr

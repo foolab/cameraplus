@@ -25,6 +25,7 @@ Flash::Flash(QtCamDevice *dev, QObject *parent) :
   m_flash(new QtCamFlash(dev, this)) {
 
   QObject::connect(m_flash, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
+  QObject::connect(m_flash, SIGNAL(flashReadyChanged()), this, SIGNAL(readyChanged()));
 }
 
 Flash::~Flash() {
@@ -37,4 +38,8 @@ Flash::FlashMode Flash::value() {
 
 void Flash::setValue(const Flash::FlashMode& mode) {
   m_flash->setValue((QtCamFlash::FlashMode)mode);
+}
+
+bool Flash::isReady() const {
+  return m_flash->isReady();
 }

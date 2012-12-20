@@ -32,6 +32,7 @@ class Flash : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(FlashMode value READ value WRITE setValue NOTIFY valueChanged);
+  Q_PROPERTY(bool ready READ isReady NOTIFY readyChanged);
   Q_ENUMS(FlashMode);
 
 public:
@@ -49,8 +50,11 @@ public:
   FlashMode value();
   void setValue(const FlashMode& mode);
 
+  bool isReady() const;
+
 signals:
   void valueChanged();
+  void readyChanged();
 
 private:
   QtCamFlash *m_flash;

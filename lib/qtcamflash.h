@@ -42,6 +42,12 @@ public:
 
   FlashMode value();
   bool setValue(const FlashMode& mode);
+
+  bool isReady() const;
+
+signals:
+  void flashReadyChanged();
+
 };
 
 #endif /* QT_CAM_FLASH_H */

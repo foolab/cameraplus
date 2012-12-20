@@ -30,7 +30,8 @@ SOURCES += qtcamconfig.cpp qtcamera.cpp qtcamscanner.cpp qtcamdevice.cpp qtcamvi
            qtcamnoisereduction.cpp qtcamiso.cpp qtcamaperture.cpp qtcamexposure.cpp \
            qtcamvideomute.cpp qtcamnotifications.cpp qtcamfocus.cpp qtcamautofocus.cpp
 
-HEADERS += qtcammode_p.h qtcamdevice_p.h qtcamcapability_p.h qtcamautofocus_p.h qtcamnotifications_p.h
+HEADERS += qtcammode_p.h qtcamdevice_p.h qtcamcapability_p.h qtcamautofocus_p.h \
+           qtcamnotifications_p.h qtcamflash_p.h
 
 LIBS += -lgstphotography-0.10
 

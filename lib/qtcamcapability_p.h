@@ -24,6 +24,7 @@
 #define QT_CAM_CAPABILITY_P_H
 
 #include <gst/gst.h>
+#include "qtcamcapability.h"
 #include "qtcamdevice.h"
 #include "qtcamdevice_p.h"
 
