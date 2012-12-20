@@ -92,7 +92,6 @@ Item {
 
         transitions: [
         Transition {
-                from: "on"
                 to: "off"
                 ScriptAction {
                         script: stopCamera();
