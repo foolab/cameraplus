@@ -1,4 +1,4 @@
-// -*- qml -*-
+// -*- c++ -*-
 
 /*!
  * This file is part of CameraPlus.
@@ -20,10 +20,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-import QtQuick 1.1
+#ifndef QT_CAM_ANALYSIS_BIN_H
+#define QT_CAM_ANALYSIS_BIN_H
 
-QtObject {
-        property string normalIcon: ""
-        property string checkedIcon: ""
-        property int value: -1
-}
+#include <gst/gst.h>
+#include <QList>
+
+GstElement *qt_cam_analysis_bin_create(QList<GstElement *>& children, const char *name);
+GstElement *qt_cam_analysis_bin_create(GstElement *child, const char *name);
+
+#endif /* QT_CAM_ANALYSIS_BIN_H */
