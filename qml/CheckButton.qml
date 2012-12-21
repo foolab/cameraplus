@@ -27,7 +27,6 @@ Button {
         id: button
         property string normalIcon: ""
         property string checkedIcon: ""
-        property QtObject fader: null
         property int value: -1
         property bool doClose: true
         property int savedValue: -1
