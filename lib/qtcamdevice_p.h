@@ -65,50 +65,38 @@ public:
     return elem;
   }
 
-  void createAndAddVideoSource() {
-    // TODO: rework this function
-    GstElement *src, *wrapper;
-    QString wrapperSrc = conf->wrapperVideoSource();
-    QString prop = conf->wrapperVideoSourceProperty();
+  void createAndAddVideoSourceAndWrapper() {
+    videoSource = gst_element_factory_make(conf->videoSource().toUtf8().constData(),
+					   "QtCameraVideoSrc");
+    wrapperVideoSource = gst_element_factory_make(conf->wrapperVideoSource().toUtf8().constData(),
+						  "QCameraWrapperVideoSrc");
 
-    if (!prop.isEmpty() && !wrapperSrc.isEmpty()) {
-      wrapper = gst_element_factory_make(wrapperSrc.toAscii(), "QCameraWrapperVideoSrc");
-      if (!wrapper) {
-	qCritical() << "Failed to create wrapper source" << wrapperSrc;
-	return;
-      }
+    if (wrapperVideoSource && videoSource) {
+      g_object_set(wrapperVideoSource, conf->wrapperVideoSourceProperty().toUtf8().constData(),
+		   videoSource, NULL);
+      g_object_set(cameraBin, "camera-source", wrapperVideoSource, NULL);
     }
-
-    src = gst_element_factory_make(conf->videoSource().toAscii(),
-					       "QtCameraVideoSrc");
-    if (!src) {
-      qCritical() << "Failed to create video source";
-      if (wrapper) {
-	gst_object_unref(wrapper);
-      }
-      return;
+    else if (wrapperVideoSource) {
+      qWarning() << "Failed to create video source";
+      g_object_set(cameraBin, "camera-source", wrapperVideoSource, NULL);
     }
-
-    if (wrapper) {
-      g_object_set(wrapper, prop.toAscii(), src, NULL);
-      g_object_set(cameraBin, "camera-source", wrapper, NULL);
-    }
-
-    videoSource = src;
-    wrapperVideoSource = wrapper;
-
-    if (!id.isValid() || id.isNull()) {
-      return;
-    }
-
-    if (conf->deviceScannerType() == SCANNER_TYPE_ENUM) {
-      int dev = id.toInt();
-      g_object_set(src, conf->deviceScannerProperty().toAscii().data(), dev, NULL);
+    else if (videoSource) {
+      qWarning() << "Failed to create wrapper source";
+      g_object_set(cameraBin, "camera-source", videoSource, NULL);
     }
     else {
-      QString dev = id.toString();
-      g_object_set(src, conf->deviceScannerProperty().toAscii().data(),
-		   dev.toAscii().data(), NULL);
+      qWarning() << "Failed to create both video and wrapper sources";
+    }
+  }
+
+  void createAndAddVideoSource() {
+    videoSource = gst_element_factory_make(conf->videoSource().toUtf8().constData(),
+					   "QtCameraVideoSrc");
+    if (!videoSource) {
+      qCritical() << "Failed to create video source";
+    }
+    else {
+      g_object_set(cameraBin, "camera-source", videoSource, NULL);
     }
   }
 

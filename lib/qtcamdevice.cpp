@@ -56,7 +56,13 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
   d_ptr->propertySetter = new QtCamPropertySetter(d_ptr);
 
   d_ptr->createAndAddElement(d_ptr->conf->audioSource(), "audio-source", "QtCameraAudioSrc");
-  d_ptr->createAndAddVideoSource();
+  if (!d_ptr->conf->wrapperVideoSource().isEmpty() &&
+      !d_ptr->conf->wrapperVideoSourceProperty().isEmpty()) {
+    d_ptr->createAndAddVideoSourceAndWrapper();
+  }
+  else {
+    d_ptr->createAndAddVideoSource();
+  }
 
   int flags =
     0x00000001 /* no-audio-conversion - Do not use audio conversion elements */
