@@ -30,6 +30,7 @@
 #include "qtcamvideomode.h"
 #include "qtcamnotifications.h"
 #include "gst/gstcopy.h"
+#include "qtcampropertysetter.h"
 
 QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
 			 const QVariant& id, QObject *parent) :
@@ -52,6 +53,8 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
     return;
   }
 
+  d_ptr->propertySetter = new QtCamPropertySetter(d_ptr);
+
   d_ptr->createAndAddElement(d_ptr->conf->audioSource(), "audio-source", "QtCameraAudioSrc");
   d_ptr->createAndAddVideoSource();
 
@@ -66,10 +69,6 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
   d_ptr->setAudioCaptureCaps();
   d_ptr->addViewfinderFilters();
 
-  // TODO: audio bitrate
-  // TODO: video bitrate
-
-  // TODO: custom properties for jifmux, mp4mux, audio encoder, video encoder, sink & video source
   d_ptr->listener = new QtCamGStreamerMessageListener(gst_element_get_bus(d_ptr->cameraBin),
 						      d_ptr, this);
 
@@ -99,6 +98,8 @@ QtCamDevice::~QtCamDevice() {
 
   delete d_ptr->image; d_ptr->image = 0;
   delete d_ptr->video; d_ptr->video = 0;
+
+  delete d_ptr->propertySetter;
 
   if (d_ptr->cameraBin) {
     gst_object_unref(d_ptr->cameraBin);

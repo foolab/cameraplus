@@ -35,6 +35,7 @@ class QtCamGStreamerMessageListener;
 class QtCamMode;
 class QtCamImageMode;
 class QtCamVideoMode;
+class QtCamPropertySetter;
 
 class QtCamDevicePrivate {
 public:
@@ -270,6 +271,7 @@ public:
   QtCamGStreamerMessageListener *listener;
   bool error;
   QtCamNotifications *notifications;
+  QtCamPropertySetter *propertySetter;
 };
 
 #endif /* QT_CAM_DEVICE_P_H */
