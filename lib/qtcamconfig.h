@@ -26,6 +26,7 @@
 #include <QObject>
 #include "qtcamimagesettings.h"
 #include "qtcamvideosettings.h"
+#include <QStringList>
 
 #define SCANNER_TYPE_V4L2                     "v4l2"
 #define SCANNER_TYPE_ENUM                     "enum"
@@ -73,6 +74,8 @@ public:
   QString videoRecordingStartedSound() const;
   QString videoRecordingEndedSound() const;
   QString autoFocusAcquiredSound() const;
+
+  QStringList viewfinderFilters() const;
 
 private:
   QtCamConfigPrivate *d_ptr;

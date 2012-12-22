@@ -29,6 +29,7 @@
 #include "qtcamviewfinder.h"
 #include "qtcamdevice.h"
 #include "qtcammode.h"
+#include "qtcamanalysisbin.h"
 
 class QtCamGStreamerMessageListener;
 class QtCamMode;
@@ -176,6 +177,10 @@ public:
     }
   }
 
+  void addViewfinderFilters() {
+    addElements("viewfinder-filter", conf->viewfinderFilters());
+  }
+
   bool isWrapperReady() {
     if (!wrapperVideoSource) {
       return false;
@@ -205,6 +210,36 @@ public:
 
     QMetaObject::invokeMethod(d->q_ptr, "idleStateChanged", Qt::QueuedConnection,
 			      Q_ARG(bool, d->q_ptr->isIdle()));
+  }
+
+  void addElements(const char *prop, const QStringList& elements) {
+    QList<GstElement *> list;
+
+    if (elements.isEmpty()) {
+      return;
+    }
+
+    foreach (const QString& element, elements) {
+      GstElement *elem = gst_element_factory_make(element.toUtf8().constData(), NULL);
+      if (!elem) {
+	qWarning() << "Failed to create element" << element;
+      }
+      else {
+	list << elem;
+      }
+    }
+
+    if (list.isEmpty()) {
+      return;
+    }
+
+    GstElement *bin = qt_cam_analysis_bin_create(list, prop);
+    if (!bin) {
+      qWarning() << "Failed to create bin for" << prop;
+      return;
+    }
+
+    g_object_set(cameraBin, prop, bin, NULL);
   }
 
 #if 0

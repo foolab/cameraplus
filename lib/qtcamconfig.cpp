@@ -211,3 +211,7 @@ QString QtCamConfig::videoRecordingEndedSound() const {
 QString QtCamConfig::autoFocusAcquiredSound() const {
   return d_ptr->conf->value("sounds/autoFocusAcquired").toString();
 }
+
+QStringList QtCamConfig::viewfinderFilters() const {
+  return d_ptr->conf->value("viewfinder-filters/elements").toStringList();
+}

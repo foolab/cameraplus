@@ -64,10 +64,11 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
   g_object_set(d_ptr->cameraBin, "flags", flags, NULL);
 
   d_ptr->setAudioCaptureCaps();
+  d_ptr->addViewfinderFilters();
 
   // TODO: audio bitrate
   // TODO: video bitrate
-  // TODO: filters
+
   // TODO: custom properties for jifmux, mp4mux, audio encoder, video encoder, sink & video source
   d_ptr->listener = new QtCamGStreamerMessageListener(gst_element_get_bus(d_ptr->cameraBin),
 						      d_ptr, this);
