@@ -243,16 +243,6 @@ public:
     g_object_set(cameraBin, prop, bin, NULL);
   }
 
-#if 0
-  void resetCapabilities() {
-    g_object_set(cameraBin, "zoom", 1.0, NULL);
-    g_object_set(videoSource, "flash-mode", 0, NULL);
-
-    // TODO: should scene mode be manual or automatic ?
-    g_object_set(videoSource, "scene-mode", 0, NULL);
-  }
-#endif
-
   QString name;
   QVariant id;
 
