@@ -126,7 +126,6 @@ public:
 public slots:
   void handleMessage(GstMessage *message) {
     if (setStatus(&status, message)) {
-      // TODO: focus-window-rows, focus-window-columns, focus-windows and the rest
       emit q_ptr->statusChanged();
     }
   }
