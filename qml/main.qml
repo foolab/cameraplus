@@ -32,7 +32,7 @@ import QtMobility.location 1.2
 // TODO: flash not ready (battery low or flash not ready message)
 // TODO: portrait/landscape
 // TODO: stop viewfinder in settings pages ?
-// TODO: grid lines, face tracking, ambr
+// TODO: grid lines, face tracking
 // TODO: select primary/secondary camera.
 // TODO: disable debug builds.
 // TODO: a way to get buffers to the application
