@@ -26,7 +26,24 @@
 #include <gst/gst.h>
 #include <QList>
 
-GstElement *qt_cam_analysis_bin_create(QList<GstElement *>& children, const char *name);
-GstElement *qt_cam_analysis_bin_create(GstElement *child, const char *name);
+class QtCamAnalysisBinPrivate;
+class QStringList;
+
+class QtCamAnalysisBin {
+public:
+  ~QtCamAnalysisBin();
+
+  static QtCamAnalysisBin *create(const QStringList& factories, const char *name);
+
+  void setBlocked(bool blocked);
+  bool isBlocked() const;
+
+  GstElement *bin();
+
+private:
+  QtCamAnalysisBin(QtCamAnalysisBinPrivate *d);
+
+  QtCamAnalysisBinPrivate *d_ptr;
+};
 
 #endif /* QT_CAM_ANALYSIS_BIN_H */

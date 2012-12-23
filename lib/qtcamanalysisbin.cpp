@@ -19,11 +19,105 @@
  */
 
 #include "qtcamanalysisbin.h"
+#include <QStringList>
 #include <QDebug>
 
 #define FACTORY_NAME(x) gst_plugin_feature_get_name(GST_PLUGIN_FEATURE(gst_element_get_factory(x)))
 
-GstElement *qt_cam_analysis_bin_create(QList<GstElement *>& children, const char *name) {
+static GstElement *qt_cam_analysis_bin_create(QList<GstElement *>& children,
+					      const char *name, GstPad **queuePad);
+static GstElement *qt_cam_analysis_bin_create(GstElement *child,
+					      const char *name, GstPad **queuePad);
+
+class QtCamAnalysisBinPrivate {
+public:
+  QtCamAnalysisBinPrivate() :
+    bin(0),
+    probe(0),
+    queuePad(0) {
+
+  }
+
+  static gboolean block_buffers(GstPad *pad, GstMiniObject *o) {
+    Q_UNUSED(pad);
+    Q_UNUSED(o);
+
+    // Drop data
+    return FALSE;
+  }
+
+  GstElement *bin;
+  gulong probe;
+  GstPad *queuePad;
+};
+
+QtCamAnalysisBin::QtCamAnalysisBin(QtCamAnalysisBinPrivate *d) :
+  d_ptr(d) {
+  gst_object_ref(d_ptr->bin);
+}
+
+QtCamAnalysisBin::~QtCamAnalysisBin() {
+  setBlocked(false);
+  gst_object_unref(GST_OBJECT(d_ptr->queuePad));
+  gst_object_unref(d_ptr->bin);
+  delete d_ptr; d_ptr = 0;
+}
+
+void QtCamAnalysisBin::setBlocked(bool blocked) {
+  if (blocked == isBlocked()) {
+    return;
+  }
+
+  if (blocked) {
+    d_ptr->probe = gst_pad_add_buffer_probe(d_ptr->queuePad,
+					    G_CALLBACK(QtCamAnalysisBinPrivate::block_buffers),
+					    d_ptr);
+  }
+  else {
+    gst_pad_remove_data_probe(d_ptr->queuePad, d_ptr->probe);
+    d_ptr->probe = 0;
+  }
+}
+
+bool QtCamAnalysisBin::isBlocked() const {
+  return d_ptr->probe != 0;
+}
+
+GstElement *QtCamAnalysisBin::bin() {
+  return d_ptr->bin;
+}
+
+QtCamAnalysisBin *QtCamAnalysisBin::create(const QStringList& factories, const char *name) {
+  QList<GstElement *> elements;
+  if (factories.isEmpty()) {
+    return 0;
+  }
+
+  foreach (const QString& factory, factories) {
+    GstElement *element = gst_element_factory_make(factory.toUtf8().constData(), NULL);
+    if (!element) {
+      qWarning() << "Failed to create element" << factory;
+      continue;
+    }
+
+    elements << element;
+  }
+
+  GstPad *pad = 0;
+  GstElement *bin = qt_cam_analysis_bin_create(elements, name, &pad);
+  if (!bin) {
+    return 0;
+  }
+
+  QtCamAnalysisBinPrivate *d = new QtCamAnalysisBinPrivate;
+  d->bin = bin;
+  d->queuePad = pad;
+
+  return new QtCamAnalysisBin(d);
+}
+
+GstElement *qt_cam_analysis_bin_create(QList<GstElement *>& children,
+				       const char *name, GstPad **queuePad) {
   GstElement *bin = 0;
 
   QList<GstElement *> added;
@@ -33,10 +127,10 @@ GstElement *qt_cam_analysis_bin_create(QList<GstElement *>& children, const char
   }
 
   if (children.size() == 1) {
-    return qt_cam_analysis_bin_create(children.takeFirst(), name);
+    return qt_cam_analysis_bin_create(children.takeFirst(), name, queuePad);
   }
 
-  bin = gst_bin_new("analysis_bin_bin");
+  bin = gst_bin_new("analysis-bin-bin");
 
   while (!children.isEmpty()) {
     GstElement *elem = children.takeFirst();
@@ -67,7 +161,7 @@ GstElement *qt_cam_analysis_bin_create(QList<GstElement *>& children, const char
   gst_element_add_pad(bin, gst_ghost_pad_new("src", pad));
   gst_object_unref(GST_OBJECT(pad));
 
-  return qt_cam_analysis_bin_create(bin, name);
+  return qt_cam_analysis_bin_create(bin, name, queuePad);
 }
 
 /*
@@ -75,7 +169,7 @@ GstElement *qt_cam_analysis_bin_create(QList<GstElement *>& children, const char
  * tee -
  *       -- queue -- copy -- filters -- fakesink
  */
-GstElement *qt_cam_analysis_bin_create(GstElement *child, const char *name) {
+GstElement *qt_cam_analysis_bin_create(GstElement *child, const char *name, GstPad **queuePad) {
   GstPad *pad = 0;
 
   GstElement *bin = gst_bin_new(name);
@@ -115,6 +209,8 @@ GstElement *qt_cam_analysis_bin_create(GstElement *child, const char *name) {
   pad = gst_element_get_static_pad(tee, "src0");
   g_object_set(tee, "alloc-pad", pad, NULL);
   gst_object_unref(GST_OBJECT(pad));
+
+  *queuePad = gst_element_get_static_pad(queue, "src");
 
   return bin;
 

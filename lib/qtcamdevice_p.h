@@ -29,13 +29,13 @@
 #include "qtcamviewfinder.h"
 #include "qtcamdevice.h"
 #include "qtcammode.h"
-#include "qtcamanalysisbin.h"
 
 class QtCamGStreamerMessageListener;
 class QtCamMode;
 class QtCamImageMode;
 class QtCamVideoMode;
 class QtCamPropertySetter;
+class QtCamAnalysisBin;
 
 class QtCamDevicePrivate {
 public:
@@ -166,10 +166,6 @@ public:
     }
   }
 
-  void addViewfinderFilters() {
-    addElements("viewfinder-filter", conf->viewfinderFilters());
-  }
-
   bool isWrapperReady() {
     if (!wrapperVideoSource) {
       return false;
@@ -201,36 +197,6 @@ public:
 			      Q_ARG(bool, d->q_ptr->isIdle()));
   }
 
-  void addElements(const char *prop, const QStringList& elements) {
-    QList<GstElement *> list;
-
-    if (elements.isEmpty()) {
-      return;
-    }
-
-    foreach (const QString& element, elements) {
-      GstElement *elem = gst_element_factory_make(element.toUtf8().constData(), NULL);
-      if (!elem) {
-	qWarning() << "Failed to create element" << element;
-      }
-      else {
-	list << elem;
-      }
-    }
-
-    if (list.isEmpty()) {
-      return;
-    }
-
-    GstElement *bin = qt_cam_analysis_bin_create(list, prop);
-    if (!bin) {
-      qWarning() << "Failed to create bin for" << prop;
-      return;
-    }
-
-    g_object_set(cameraBin, prop, bin, NULL);
-  }
-
   QString name;
   QVariant id;
 
@@ -250,6 +216,7 @@ public:
   bool error;
   QtCamNotifications *notifications;
   QtCamPropertySetter *propertySetter;
+  QtCamAnalysisBin *viewfinderFilters;
 };
 
 #endif /* QT_CAM_DEVICE_P_H */

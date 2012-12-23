@@ -31,6 +31,7 @@
 #include "qtcamnotifications.h"
 #include "gst/gstcopy.h"
 #include "qtcampropertysetter.h"
+#include "qtcamanalysisbin.h"
 
 QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
 			 const QVariant& id, QObject *parent) :
@@ -73,7 +74,18 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
   g_object_set(d_ptr->cameraBin, "flags", flags, NULL);
 
   d_ptr->setAudioCaptureCaps();
-  d_ptr->addViewfinderFilters();
+
+  QStringList viewfinderFilters = d_ptr->conf->viewfinderFilters();
+  if (!viewfinderFilters.isEmpty()) {
+    d_ptr->viewfinderFilters =
+      QtCamAnalysisBin::create(viewfinderFilters, "QtCamViewfinderFilters");
+
+    if (!d_ptr->viewfinderFilters) {
+      qWarning() << "Failed to create viewfinder filters";
+    }
+  }
+
+  g_object_set(d_ptr->cameraBin, "viewfinder-filter", d_ptr->viewfinderFilters->bin(), NULL);
 
   d_ptr->listener = new QtCamGStreamerMessageListener(gst_element_get_bus(d_ptr->cameraBin),
 						      d_ptr, this);
@@ -106,6 +118,8 @@ QtCamDevice::~QtCamDevice() {
   delete d_ptr->video; d_ptr->video = 0;
 
   delete d_ptr->propertySetter;
+
+  delete d_ptr->viewfinderFilters;
 
   if (d_ptr->cameraBin) {
     gst_object_unref(d_ptr->cameraBin);
