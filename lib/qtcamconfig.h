@@ -49,8 +49,11 @@ public:
   QString deviceScannerProperty() const;
 
   QString videoSource() const;
+
   QString viewfinderSink() const;
   QString viewfinderRenderer() const;
+  bool viewfinderUseFence() const;
+
   QString audioSource() const;
   QString wrapperVideoSource() const;
   QString wrapperVideoSourceProperty() const;

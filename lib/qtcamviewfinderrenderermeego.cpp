@@ -25,13 +25,20 @@
 #include "qtcamconfig.h"
 #include <QX11Info>
 #include <QGLContext>
-#include <EGL/egl.h>
 #include <QGLShaderProgram>
 #include <gst/interfaces/meegovideotexture.h>
 
 QT_CAM_VIEWFINDER_RENDERER(RENDERER_TYPE_MEEGO, QtCamViewfinderRendererMeeGo);
 
 #define GL_TEXTURE_EXTERNAL_OES                  0x8060
+
+typedef void *EGLSyncKHR;
+#define EGL_SYNC_FENCE_KHR                       0x30F9
+
+typedef EGLSyncKHR(EGLAPIENTRYP _PFNEGLCREATESYNCKHRPROC)(EGLDisplay dpy, EGLenum type,
+							  const EGLint *attrib_list);
+
+_PFNEGLCREATESYNCKHRPROC eglCreateSyncKHR = 0;
 
 static const QString FRAGMENT_SHADER = ""
     "#extension GL_OES_EGL_image_external: enable\n"
@@ -56,7 +63,7 @@ static const QString VERTEX_SHADER = ""
   "";
 
 QtCamViewfinderRendererMeeGo::QtCamViewfinderRendererMeeGo(QtCamConfig *config,
-							       QObject *parent) :
+							   QObject *parent) :
   QtCamViewfinderRenderer(config, parent),
   m_conf(config),
   m_sink(0),
@@ -95,6 +102,15 @@ void QtCamViewfinderRendererMeeGo::paint(QPainter *painter) {
 
   if (m_needsInit) {
     calculateProjectionMatrix(painter->viewport());
+
+    if (!eglCreateSyncKHR && m_conf->viewfinderUseFence()) {
+      eglCreateSyncKHR = (_PFNEGLCREATESYNCKHRPROC)eglGetProcAddress("eglCreateSyncKHR");
+
+      if (!eglCreateSyncKHR) {
+	qWarning() << "eglCreateSyncKHR not found. Fences disabled";
+      }
+    }
+
     m_needsInit = false;
   }
 
@@ -120,7 +136,7 @@ void QtCamViewfinderRendererMeeGo::resize(const QSizeF& size) {
 
   calculateCoords();
 
-  // TODO: this will destroy everything
+  // This will destroy everything
   // but we need a way to reset the viewport and the transformation matrix only.
   m_needsInit = true;
 
@@ -155,10 +171,10 @@ GstElement *QtCamViewfinderRendererMeeGo::sinkElement() {
   Display *d = QX11Info::display();
   g_object_set(G_OBJECT(m_sink), "x-display", d, "use-framebuffer-memory", TRUE, NULL);
 
-  EGLDisplay dpy = eglGetDisplay((EGLNativeDisplayType)d);
+  m_dpy = eglGetDisplay((EGLNativeDisplayType)d);
   EGLContext context = eglGetCurrentContext();
 
-  g_object_set(G_OBJECT(m_sink), "egl-display", dpy, "egl-context", context, NULL);
+  g_object_set(G_OBJECT(m_sink), "egl-display", m_dpy, "egl-context", context, NULL);
 
   m_id = g_signal_connect(G_OBJECT(m_sink), "frame-ready", G_CALLBACK(frame_ready), this);
 
@@ -246,6 +262,8 @@ void QtCamViewfinderRendererMeeGo::createProgram() {
 }
 
 void QtCamViewfinderRendererMeeGo::paintFrame(QPainter *painter, int frame) {
+  EGLSyncKHR sync = 0;
+
   if (frame == -1) {
     return;
   }
@@ -284,9 +302,11 @@ void QtCamViewfinderRendererMeeGo::paintFrame(QPainter *painter, int frame) {
 
   m_program->release();
 
-  // We are not using fences.
-  // TODO: make it configurable.
-  meego_gst_video_texture_release_frame(sink, frame, 0);
+  if (eglCreateSyncKHR) {
+    sync = eglCreateSyncKHR(m_dpy, EGL_SYNC_FENCE_KHR, NULL);
+  }
+
+  meego_gst_video_texture_release_frame(sink, frame, sync);
 }
 
 void QtCamViewfinderRendererMeeGo::calculateCoords() {

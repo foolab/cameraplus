@@ -28,6 +28,7 @@
 #include <QMutex>
 #include <QMatrix4x4>
 #include <GLES2/gl2.h>
+#include <EGL/egl.h>
 
 class QGLShaderProgram;
 
@@ -74,6 +75,7 @@ private:
   QSizeF m_size;
   QSizeF m_videoSize;
   QRectF m_renderArea;
+  EGLDisplay m_dpy;
 };
 
 #endif /* QT_CAM_VIEWFINDER_RENDERER_MEEGO_H */

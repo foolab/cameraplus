@@ -87,6 +87,10 @@ QString QtCamConfig::viewfinderRenderer() const {
   return d_ptr->conf->value("viewfinder-sink/renderer").toString();
 }
 
+bool QtCamConfig::viewfinderUseFence() const {
+  return d_ptr->conf->value("viewfinder-sink/use-fence").toBool();
+}
+
 QString QtCamConfig::audioSource() const {
   return d_ptr->element("audio-source");
 }
