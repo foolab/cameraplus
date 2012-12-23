@@ -23,6 +23,8 @@
 #include "qtcamconfig.h"
 #include <QMutex>
 #include <QWaitCondition>
+#include <QDBusServiceWatcher>
+#include <QDBusConnection>
 
 #define CAMERA_IMAGE_START_SOUND_ID  "camera-image-start"
 #define CAMERA_IMAGE_END_SOUND_ID    "camera-image-end"
@@ -33,14 +35,21 @@
 // Odd, volume has to be a char *
 #define CANBERRA_FULL_VOLUME "0.0"
 
-// TODO: monitor pulse audio death and re-upload our samples
 // TODO: if we are using headphones then sound volume might be loud. Detect and lower it.
 
 Sounds::Sounds(QObject *parent) :
   QObject(parent),
   m_muted(false),
   m_ctx(0),
-  m_conf(0) {
+  m_conf(0),
+  m_watcher(new QDBusServiceWatcher("org.pulseaudio.Server",
+				    QDBusConnection::systemBus(),
+				    QDBusServiceWatcher::WatchForOwnerChange)) {
+
+  QObject::connect(m_watcher,
+		   SIGNAL(serviceOwnerChanged(const QString&, const QString&, const QString&)),
+		   this,
+		   SLOT(serviceOwnerChanged(const QString&, const QString&, const QString&)));
 
   // No idea why but canberra will not cache without that!!!
   setenv("CANBERRA_EVENT_LOOKUP", "1", 1);
@@ -55,6 +64,23 @@ Sounds::~Sounds() {
 
 void Sounds::setConfig(QtCamConfig *conf) {
   m_conf = conf;
+}
+
+void Sounds::serviceOwnerChanged(const QString& serviceName, const QString& oldOwner,
+				 const QString& newOwner) {
+  Q_UNUSED(serviceName);
+  Q_UNUSED(oldOwner);
+
+  if (newOwner.isEmpty()) {
+    // pulse died:
+    if (m_ctx) {
+      ca_context_destroy(m_ctx);
+      m_ctx = 0;
+    }
+  }
+  else if (!newOwner.isEmpty()) {
+    reload();
+  }
 }
 
 void Sounds::imageCaptureStarted() {
@@ -165,6 +191,11 @@ void Sounds::cache(const QString& path, const char *id) {
 }
 
 void Sounds::play(const char *id) {
+  if (!m_ctx) {
+    qWarning() << "Not connected to pulse audio";
+    return;
+  }
+
   int code = ca_context_play(m_ctx, 0,
 			     CA_PROP_CANBERRA_VOLUME, CANBERRA_FULL_VOLUME,
 			     CA_PROP_EVENT_ID, id,

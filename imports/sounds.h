@@ -28,6 +28,7 @@
 #include <canberra.h>
 
 class QtCamConfig;
+class QDBusServiceWatcher;
 
 class Sounds : public QObject, public Notifications {
   Q_OBJECT
@@ -54,6 +55,10 @@ public:
 signals:
   void muteChanged();
 
+private slots:
+  void serviceOwnerChanged(const QString& serviceName, const QString& oldOwner,
+			   const QString& newOwner);
+
 private:
   void cache(const QString& path, const char *id);
   void play(const char *id);
@@ -62,6 +67,7 @@ private:
   bool m_muted;
   ca_context *m_ctx;
   QtCamConfig *m_conf;
+  QDBusServiceWatcher *m_watcher;
 };
 
 #endif /* SOUNDS_H */
