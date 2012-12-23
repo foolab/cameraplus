@@ -24,6 +24,7 @@
 #define MOUNT_PROTECTOR_H
 
 #include <QObject>
+class QTemporaryFile;
 
 class MountProtector : public QObject {
   Q_OBJECT
@@ -46,8 +47,8 @@ signals:
   void pathChanged();
 
 private:
-  int m_fd;
   QString m_path;
+  QTemporaryFile *m_file;
 };
 
 #endif /* MOUNT_PROTECTOR_H */

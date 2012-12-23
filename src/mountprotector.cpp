@@ -20,10 +20,11 @@
 
 #include "mountprotector.h"
 #include <QDir>
-#include <QDebug>
+#include <QTemporaryFile>
+#include <QDeclarativeInfo>
 
 MountProtector::MountProtector(QObject *parent) :
-  QObject(parent), m_fd(-1) {
+  QObject(parent), m_file(0) {
 
 }
 
@@ -43,7 +44,7 @@ void MountProtector::setPath(const QString& path) {
 }
 
 bool MountProtector::lock() {
-  if (m_fd != -1) {
+  if (m_file) {
     return true;
   }
 
@@ -52,11 +53,12 @@ bool MountProtector::lock() {
   }
 
   QString path = QString("%1%2.cameraplus_tmp_XXXXXX").arg(m_path).arg(QDir::separator());
-
-  m_fd = mkstemp(path.toLocal8Bit().data());
-
-  if (m_fd == -1) {
-    perror("mkstemp");
+  m_file = new QTemporaryFile(path);
+  m_file->setAutoRemove(true);
+  if (!m_file->open()) {
+    qmlInfo(this) << "Failed to lock" << m_file->errorString();
+    delete m_file;
+    m_file = 0;
     return false;
   }
 
@@ -64,8 +66,8 @@ bool MountProtector::lock() {
 }
 
 void MountProtector::unlock() {
-  if (m_fd != -1) {
-    close(m_fd);
-    m_fd = -1;
+  if (m_file) {
+    delete m_file;
+    m_file = 0;
   }
 }
