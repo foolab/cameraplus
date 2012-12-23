@@ -41,8 +41,6 @@ Page {
         property bool standbyVisible: true
         property bool focusReticleVisible: true
 
-        anchors.fill: parent
-
         property alias previewAnimationRunning: preview.animationRunning
 
         signal batteryLow
