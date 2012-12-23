@@ -45,12 +45,6 @@ Page {
 
         signal batteryLow
 
-        function updatePolicy() {
-                if (needsPipeline && Qt.application.active && status == PageStatus.Active) {
-                        pipelineManager.reset();
-                }
-        }
-
         onStatusChanged: {
                 if (status == PageStatus.Active) {
                         focusReticle.setRegionOfInterest();
