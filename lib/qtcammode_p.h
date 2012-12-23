@@ -25,6 +25,7 @@
 
 #include <QSize>
 #include "qtcamdevice_p.h"
+#include "qtcamanalysisbin.h"
 #include <gst/pbutils/encoding-profile.h>
 #include <gst/pbutils/encoding-target.h>
 
@@ -181,6 +182,18 @@ public:
   }
   void setTempFileName(const QString& file) {
     tempFileName = file;
+  }
+
+  void enableViewfinderFilters() {
+    if (dev->viewfinderFilters) {
+      dev->viewfinderFilters->setBlocked(false);
+    }
+  }
+
+  void disableViewfinderFilters() {
+    if (dev->viewfinderFilters) {
+      dev->viewfinderFilters->setBlocked(true);
+    }
   }
 
   int id;

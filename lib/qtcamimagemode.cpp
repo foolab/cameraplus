@@ -86,7 +86,7 @@ void QtCamImageMode::applySettings() {
 }
 
 void QtCamImageMode::start() {
-  // Nothing
+  d_ptr->enableViewfinderFilters();
 }
 
 void QtCamImageMode::stop() {

@@ -93,7 +93,7 @@ void QtCamVideoMode::applySettings() {
 }
 
 void QtCamVideoMode::start() {
-  // Nothing
+  d_ptr->disableViewfinderFilters();
 }
 
 void QtCamVideoMode::stop() {
