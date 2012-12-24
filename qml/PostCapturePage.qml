@@ -30,7 +30,6 @@ import CameraPlus 1.0
 // Most of the ideas (and some code) for loading and displaying images are stolen from
 // N9QmlPhotoPicker https://github.com/petrumotrescu/N9QmlPhotoPicker
 
-// TODO: standby not shown
 // TODO: losing resources while playback won't show an error
 
 CameraPage {
@@ -39,6 +38,7 @@ CameraPage {
         controlsVisible: false
         policyMode: CameraResources.PostCapture
         needsPipeline: false
+        standbyVisible: !Qt.application.active
 
         property Item currentItem: null
 

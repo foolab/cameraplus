@@ -32,6 +32,7 @@ CameraPage {
         controlsVisible: false
         policyMode: CameraResources.Image
         needsPipeline: false
+        standbyVisible: !Qt.application.active
 
         Rectangle {
                 color: "black"
