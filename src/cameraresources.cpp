@@ -45,8 +45,12 @@ CameraResources::CameraResources(QObject *parent) :
 }
 
 CameraResources::~CameraResources() {
-  m_thread.quit();
-  m_thread.wait();
+  acquire(CameraResources::None);
+  m_thread.exit(0);
+
+  while (m_thread.isRunning()) {
+    m_thread.wait(10);
+  }
 
   delete m_worker;
   m_worker = 0;
@@ -99,9 +103,7 @@ CameraResourcesWorker::CameraResourcesWorker(QObject *parent) :
 }
 
 CameraResourcesWorker::~CameraResourcesWorker() {
-  bool ok;
 
-  acquire(&ok, CameraResources::None);
 }
 
 void CameraResourcesWorker::init() {

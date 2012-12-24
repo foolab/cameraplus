@@ -28,7 +28,6 @@ import "data.js" as Data
 
 // TODO: on error ?
 // TODO: losing resources in the middle of recording will produce corrupted video
-// TODO: closing camera in the middle of recording will hang camera
 // TODO: optional resources?
 
 CameraPage {
