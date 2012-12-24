@@ -62,7 +62,7 @@ Page {
                 color: "black"
                 anchors.fill: parent
                 visible: standbyVisible && page.status == PageStatus.Active && pipelineManager.showStandBy
-
+                z: 1
                 Image {
                         id: icon
                         source: "image://theme/icon-l-camera-standby"
