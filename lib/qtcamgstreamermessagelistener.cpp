@@ -65,7 +65,9 @@ public:
       QMetaObject::invokeMethod(q_ptr, "error", Q_ARG(QString, err->message),
 				Q_ARG(int, err->code), Q_ARG(QString, debug));
 
+#if 0
       qDebug() << "Error" << err->message << ":" << debug;
+#endif
 
       g_error_free(err);
       g_free(debug);
