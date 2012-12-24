@@ -28,10 +28,18 @@ Image {
         id: image
         anchors.fill: parent
         property alias animationRunning: animation.running
+        opacity: 0
+        z: 1
 
-        visible: false
+        visible: opacity != 0
+
         cache: false
         fillMode: Image.PreserveAspectFit
+
+        MouseArea {
+                anchors.fill: parent
+                enabled: parent.visible
+        }
 
         SequentialAnimation {
                 id: animation
