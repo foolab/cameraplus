@@ -25,7 +25,6 @@ import QtCamera 1.0
 import CameraPlus 1.0
 
 // TODO: I've seen the reticle color changing to red while dragging it but failed to reproduce :(
-// TODO: animate move
 // TODO: hide all controls when we are focusing
 // TODO: hide all controls when we are dragging
 
@@ -58,9 +57,8 @@ MouseArea {
         Connections {
                 target: cam
                 onRunningChanged: {
-                        if (!cam.running) {
-                                moveToCenter();
-                                cam.autoFocus.setRegionOfInterest(Qt.rect(0, 0, 0, 0));
+                        if (cam.running) {
+                                setRegionOfInterest();
                         }
                 }
         }
@@ -113,8 +111,8 @@ MouseArea {
         }
 
         function moveToCenter() {
-                reticle.x = reticle.center.x;
-                reticle.y = reticle.center.y;
+                reticle.anchors.centerIn = reticle.parent;
+                reticle.touchMode = false;
         }
 
         function moveReticle(x, y) {
@@ -124,19 +122,25 @@ MouseArea {
                 yPos = Math.min(Math.max(yPos, drag.minimumY), drag.maximumY);
                 reticle.x = xPos;
                 reticle.y = yPos;
+                reticle.anchors.centerIn = undefined;
+                reticle.touchMode = true;
         }
 
         function moveToCenterIfNeeded(x, y) {
                 if (x >= centerRect.x && y >= centerRect.y &&
                     x <= centerRect.x + centerRect.width &&
                     y <= centerRect.y + centerRect.height) {
-                        reticle.x = reticle.center.x
-                        reticle.y = reticle.center.y
+                        moveToCenter();
+                }
+                else {
+                        reticle.anchors.centerIn = undefined;
+                        reticle.touchMode = true;
                 }
         }
 
         function setRegionOfInterest() {
                 if (!reticle.touchMode) {
+//                        console.log("resetting ROI");
                         cam.autoFocus.setRegionOfInterest(Qt.rect(0, 0, 0, 0));
                         return;
                 }
@@ -160,6 +164,7 @@ MouseArea {
                 y = y / cam.videoResolution.height;
                 height = height / cam.videoResolution.height;
 
+//                console.log("Setting ROI to: " + x + " " + y);
                 cam.autoFocus.setRegionOfInterest(Qt.rect(x, y, width, height));
         }
 
@@ -169,22 +174,35 @@ MouseArea {
         }
 
         onPressed: {
+                reticle.anchors.centerIn = undefined;
                 moveReticle(mouse.x, mouse.y);
         }
 
         FocusRectangle {
                 id: reticle
                 property variant center: Qt.point((mouse.width - width) / 2, (mouse.height - height) / 2);
-                property bool touchMode: !(reticle.x == center.x && reticle.y == center.y)
+                property bool touchMode: false
 
                 scale: mouse.pressed ? 0.6 : touchMode ? 0.8 : 1.0
 
                 width: 250
                 height: 150
-                x: center.x
-                y: center.y
+
+                anchors.centerIn: parent
 
                 color: predictColor(cafStatus, status);
+
+                Behavior on x {
+                        PropertyAnimation { duration: 100; }
+                }
+
+                Behavior on y {
+                        PropertyAnimation { duration: 100; }
+                }
+
+                Behavior on scale {
+                        PropertyAnimation { duration: 100; }
+                }
         }
 
         Timer {
