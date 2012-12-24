@@ -29,8 +29,6 @@ import QtMobility.systeminfo 1.2
 Page {
         id: page
 
-        property alias standbyWidget: standby
-
         property bool needsPipeline: true
         property int policyMode: CameraResources.None
 

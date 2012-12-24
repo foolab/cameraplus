@@ -30,7 +30,7 @@ CameraPage {
         id: page
 
         policyMode: CameraResources.Image
-        controlsVisible: capture.visible && cam.running && !standbyWidget.visible
+        controlsVisible: capture.visible
 
         orientationLock: PageOrientation.LockLandscape
 
@@ -76,7 +76,7 @@ CameraPage {
                 height: 75
                 opacity: 0.5
                 onClicked: captureImage();
-                visible: imageMode.canCapture && !cameraMode.animationRunning && !previewAnimationRunning && cam.running && !standbyWidget.visible
+                visible: imageMode.canCapture && !cameraMode.animationRunning && !previewAnimationRunning && cam.running
 
                 onExited: {
                         if (mouseX <= 0 || mouseY <= 0 || mouseX > width || mouseY > height) {
@@ -101,10 +101,7 @@ CameraPage {
                 id: imageMode
                 camera: cam
                 onPreviewAvailable: {
-                        if (!standbyWidget.visible) {
-                                page.setPreview(preview);
-                        }
-
+                        page.setPreview(preview);
                         cam.autoFocus.stopAutoFocus();
                 }
 

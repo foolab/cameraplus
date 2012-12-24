@@ -82,7 +82,7 @@ CameraPage {
 
         policyMode: CameraResources.Recording
 
-        controlsVisible: cam.running && videoMode.recording && !cameraMode.animationRunning && !previewAnimationRunning && !standbyWidget.visible
+        controlsVisible: cam.running && videoMode.recording && !cameraMode.animationRunning && !previewAnimationRunning
 
         orientationLock: PageOrientation.LockLandscape
 

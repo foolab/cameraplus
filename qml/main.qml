@@ -233,6 +233,7 @@ PageStackWindow {
                 }
 */
                 onError: {
+// TODO: seems we freeze here somehow
                         console.log("Camera error (" + code + "): " + message + " " + debug);
                         showError(qsTr("Camera error. Please restart the application."));
                         cam.stop();

@@ -31,7 +31,7 @@ CameraPage {
 
         policyMode: CameraResources.Video
 
-        controlsVisible: cam.running && !videoMode.recording && videoMode.canCapture && !cameraMode.animationRunning && !previewAnimationRunning && !standbyWidget.visible
+        controlsVisible: cam.running && !videoMode.recording && videoMode.canCapture && !cameraMode.animationRunning && !previewAnimationRunning
         orientationLock: PageOrientation.LockLandscape
 
         function startRecording() {
@@ -72,9 +72,7 @@ CameraPage {
                 id: videoMode
                 camera: cam
                 onPreviewAvailable: {
-                        if (!standbyWidget.visible) {
-                                page.setPreview(preview);
-                        }
+                        page.setPreview(preview);
                 }
         }
 
