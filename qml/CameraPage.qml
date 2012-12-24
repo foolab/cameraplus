@@ -61,6 +61,11 @@ Page {
                 anchors.fill: parent
                 visible: standbyVisible && page.status == PageStatus.Active && pipelineManager.showStandBy
                 z: 1
+                MouseArea {
+                        anchors.fill: parent
+                        enabled: parent.visible
+                }
+
                 Image {
                         id: icon
                         source: "image://theme/icon-l-camera-standby"
