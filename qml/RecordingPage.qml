@@ -33,8 +33,20 @@ import "data.js" as Data
 CameraPage {
         id: page
         modesVisible: false
+        property bool error: false
+
+        policyMode: CameraResources.Recording
+
+        controlsVisible: cam.running && videoMode.recording && !cameraMode.animationRunning && !previewAnimationRunning && !error
+
+        orientationLock: PageOrientation.LockLandscape
 
         function policyLost() {
+                page.stopRecording();
+        }
+
+        function cameraError() {
+                error = true;
                 page.stopRecording();
         }
 
@@ -76,14 +88,10 @@ CameraPage {
 
         function stopRecording() {
                 mountProtector.unlock();
-                pageStack.pop(undefined, true);
+                // Something is fishy here but if there is an error
+                // and we use immediate mode then the page never gets destroyed.
+                pageStack.pop(undefined, error ? false : true);
         }
-
-        policyMode: CameraResources.Recording
-
-        controlsVisible: cam.running && videoMode.recording && !cameraMode.animationRunning && !previewAnimationRunning
-
-        orientationLock: PageOrientation.LockLandscape
 
         DisplayState {
                 inhibitDim: true

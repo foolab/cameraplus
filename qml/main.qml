@@ -233,11 +233,21 @@ PageStackWindow {
                 }
 */
                 onError: {
-// TODO: seems we freeze here somehow
+                        if (pipelineManager.error) {
+                                // Ignore any subsequent errors.
+                                // Killing pulseaudio while recording will lead to an
+                                // infinite supply of errors which will break the UI
+                                // if we show a banner for each.
+                                return;
+                        }
+
+                        pipelineManager.error = true;
+                        pageStack.currentPage.cameraError();
                         console.log("Camera error (" + code + "): " + message + " " + debug);
                         showError(qsTr("Camera error. Please restart the application."));
-                        cam.stop();
-                        mountProtector.unlock();
+
+                        // We cannot stop camera here. Seems there is a race condition somewhere
+                        // which leads to a freeze if we do so.
                 }
 
                 onRunningChanged: {

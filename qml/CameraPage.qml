@@ -43,6 +43,10 @@ Page {
 
         signal batteryLow
 
+        function cameraError() {
+                // Nothing
+        }
+
         function policyLost() {
                 // Nothing
         }

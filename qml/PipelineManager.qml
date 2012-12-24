@@ -36,6 +36,7 @@ Item {
 
         property Camera camera: null
         property Item currentPage: pageStack.currentPage
+        property bool error: false
 
         onCurrentPageChanged: {
                 if (state == "on" || state == "policyLost") {
@@ -48,6 +49,10 @@ Item {
         }
 
         function startCamera() {
+                if (error) {
+                        return;
+                }
+
                 if (!policy.acquire(currentPage.policyMode)) {
                         console.log("Failed to acquire policy resources");
                         return;
@@ -61,6 +66,7 @@ Item {
         function stopCamera() {
                 if (camera.stop(false)) {
                         policy.acquire(CameraResources.None);
+                        error = false;
                 }
         }
 
@@ -69,6 +75,7 @@ Item {
                 // when they become available
                 pageStack.currentPage.policyLost();
                 camera.stop(true);
+                error = false;
         }
 
         state: "off"

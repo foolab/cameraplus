@@ -34,6 +34,10 @@ CameraPage {
 
         orientationLock: PageOrientation.LockLandscape
 
+        function cameraError() {
+                mountProtector.unlock();
+        }
+
         function captureImage() {
                 if (!checkBattery()) {
                         showError(qsTr("Not enough battery to capture images."));
