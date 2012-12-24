@@ -27,13 +27,17 @@ import CameraPlus 1.0
 import "data.js" as Data
 
 // TODO: on error ?
-// TODO: resources lost?
+// TODO: losing resources in the middle of recording will produce corrupted video
 // TODO: closing camera in the middle of recording will hang camera
 // TODO: optional resources?
 
 CameraPage {
         id: page
         modesVisible: false
+
+        function policyLost() {
+                page.stopRecording();
+        }
 
         Component.onDestruction: videoMode.stopRecording();
 

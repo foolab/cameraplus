@@ -65,6 +65,7 @@ Item {
         function forceStopCamera() {
                 // We don't release resources here so we can get them back
                 // when they become available
+                pageStack.currentPage.policyLost();
                 camera.stop(true);
         }
 

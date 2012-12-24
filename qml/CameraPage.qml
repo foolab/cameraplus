@@ -45,6 +45,10 @@ Page {
 
         signal batteryLow
 
+        function policyLost() {
+                // Nothing
+        }
+
         onStatusChanged: {
                 if (status == PageStatus.Active) {
                         focusReticle.setRegionOfInterest();
