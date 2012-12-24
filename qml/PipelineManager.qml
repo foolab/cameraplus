@@ -24,6 +24,8 @@ import QtQuick 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
 
+// TODO: if a page doesn't need the pipeline then we will release its resources :(
+
 Item {
         id: handler
 

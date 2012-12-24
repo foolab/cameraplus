@@ -30,7 +30,8 @@ import CameraPlus 1.0
 // Most of the ideas (and some code) for loading and displaying images are stolen from
 // N9QmlPhotoPicker https://github.com/petrumotrescu/N9QmlPhotoPicker
 
-// TODO: Seems losing resources in post capture will not be recovered from.
+// TODO: standby not shown
+// TODO: losing resources while playback won't show an error
 
 CameraPage {
         id: page
