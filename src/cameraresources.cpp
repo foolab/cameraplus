@@ -22,7 +22,6 @@
 #include <dbusconnectioneventloop.h>
 #include <QDebug>
 
-//#define APPLICATION_CLASS "camera"
 #define APPLICATION_CLASS "camera"
 
 CameraResources::CameraResources(QObject *parent) :
