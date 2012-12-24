@@ -60,7 +60,7 @@ Page {
                 color: "black"
                 anchors.fill: parent
                 visible: standbyVisible && page.status == PageStatus.Active && pipelineManager.showStandBy
-                z: 1
+                z: 2
                 MouseArea {
                         anchors.fill: parent
                         enabled: parent.visible
