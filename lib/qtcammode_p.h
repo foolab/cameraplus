@@ -180,6 +180,7 @@ public:
   void setFileName(const QString& file) {
     fileName = file;
   }
+
   void setTempFileName(const QString& file) {
     tempFileName = file;
   }

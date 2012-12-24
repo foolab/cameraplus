@@ -91,26 +91,27 @@ public:
   }
 
   virtual void handleMessage(GstMessage *message) {
-    const GstStructure *s = gst_message_get_structure(message);
-    if (gst_structure_has_field(s, "filename")) {
-      const char *str = gst_structure_get_string(s, "filename");
-      if (str) {
-	mode->tempFileName = QString::fromUtf8(str);
-      }
-    }
-
-    if (mode->fileName.isEmpty()) {
-      mode->fileName = mode->tempFileName;
-    }
-
-    if (!mode->tempFileName.isEmpty() && !mode->fileName.isEmpty() &&
-	mode->tempFileName != mode->fileName) {
+    // If we have a temp file then we rename it:
+    if (!mode->tempFileName.isEmpty() && !mode->fileName.isEmpty()) {
       if (!QFile::rename(mode->tempFileName, mode->fileName)) {
 	qCritical() << "Failed to rename" << mode->tempFileName << "to" << mode->fileName;
       }
     }
 
-    QMetaObject::invokeMethod(mode->q_ptr, "saved", Q_ARG(QString, mode->fileName));
+    QString fileName;
+    const GstStructure *s = gst_message_get_structure(message);
+    if (gst_structure_has_field(s, "filename")) {
+      const char *str = gst_structure_get_string(s, "filename");
+      if (str) {
+	fileName = QString::fromUtf8(str);
+      }
+    }
+
+    if (fileName.isEmpty()) {
+      fileName = mode->fileName;
+    }
+
+    QMetaObject::invokeMethod(mode->q_ptr, "saved", Q_ARG(QString, fileName));
   }
 
   QtCamModePrivate *mode;
