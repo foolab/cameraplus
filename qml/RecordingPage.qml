@@ -26,7 +26,6 @@ import QtCamera 1.0
 import CameraPlus 1.0
 import "data.js" as Data
 
-// TODO: on error ?
 // TODO: losing resources in the middle of recording will produce corrupted video
 // TODO: optional resources?
 
