@@ -50,5 +50,6 @@ Item {
                         switchOff: ""
                         thumb: settings.mode == Camera.VideoMode ? "image://theme/icon-m-camera-video" : "image://theme/icon-m-viewfinder-camera"
                 }
+
         }
 }
