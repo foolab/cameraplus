@@ -30,6 +30,5 @@ Image {
         anchors.topMargin: 5
         anchors.bottomMargin: 5
 
-        width: parent.width - 10
         height: width
 }

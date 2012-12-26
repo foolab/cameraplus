@@ -24,12 +24,8 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
 
-Button {
+ToolIcon {
         id: button
-        width: 56
-        height: 56
-        opacity: 0.5
-
         property Camera camera: null
 
         iconSource: settings.videoTorchOn ? "image://theme/icon-m-camera-torch-on" : "image://theme/icon-m-camera-torch-off"

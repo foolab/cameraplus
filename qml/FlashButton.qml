@@ -25,54 +25,43 @@ import com.nokia.meego 1.1
 import QtCamera 1.0
 import "data.js" as Data
 
-Selector {
+ToolIcon {
         id: button
 
         iconSource: "image://theme/" + Data.flashIcon(settings.imageFlashMode)
 
-        title: qsTr("Flash mode");
-
-        widget: Row {
-                id: row
-                height: button.checked ? 64 : 0
-                width: button.checked ? (children.length * height) +  (children.length - 1) * spacing : 0
-                spacing: 10
-
-                Behavior on width {
-                        // TODO: seems animation is not working
-                        PropertyAnimation { duration: 250; }
-                }
-
+        property list<Item> items: [
+                Label {
+                        height: parent ? parent.height : 0
+                        text: qsTr("Flash");
+                        verticalAlignment: Text.AlignVCenter
+                },
                 CheckButton {
                         normalIcon: "image://theme/" + Data.flashIcon(value)
                         checkedIcon: "image://theme/" + Data.flashPressedIcon(value)
                         onClicked: settings.imageFlashMode = value;
                         value: Flash.Auto
                         savedValue: settings.imageFlashMode
-                }
-
+                },
                 CheckButton {
                         normalIcon: "image://theme/" + Data.flashIcon(value)
                         checkedIcon: "image://theme/" + Data.flashPressedIcon(value)
                         onClicked: settings.imageFlashMode = value;
                         value: Flash.On
                         savedValue: settings.imageFlashMode
-                }
-
+                },
                 CheckButton {
                         normalIcon: "image://theme/" + Data.flashIcon(value)
                         checkedIcon: "image://theme/" + Data.flashPressedIcon(value)
                         onClicked: settings.imageFlashMode = value;
                         value: Flash.Off
                         savedValue: settings.imageFlashMode
-                }
-
+                },
                 CheckButton {
                         normalIcon: "image://theme/" + Data.flashIcon(value)
                         checkedIcon: "image://theme/" + Data.flashPressedIcon(value)
                         onClicked: settings.imageFlashMode = value;
                         value: Flash.RedEye
                         savedValue: settings.imageFlashMode
-                }
-        }
+                }]
 }

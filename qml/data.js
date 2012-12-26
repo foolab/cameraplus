@@ -78,10 +78,10 @@ var __vsm = [
 ];
 
 var __flash = [
-    [Flash.Auto,"icon-m-camera-flash-auto-pressed", "icon-m-camera-flash-auto"],
-    [Flash.On, "icon-m-camera-flash-always-pressed", "icon-m-camera-flash-always"],
-    [Flash.Off, "icon-m-camera-flash-off-pressed", "icon-m-camera-flash-off"],
-    [Flash.RedEye, "icon-m-camera-flash-red-eye-pressed", "icon-m-camera-flash-red-eye"]
+    [Flash.Auto,"icon-m-camera-flash-auto-selected", "icon-m-camera-flash-auto"],
+    [Flash.On, "icon-m-camera-flash-always-selected", "icon-m-camera-flash-always"],
+    [Flash.Off, "icon-m-camera-flash-off-selected", "icon-m-camera-flash-off"],
+    [Flash.RedEye, "icon-m-camera-flash-red-eye-selected", "icon-m-camera-flash-red-eye"]
 ];
 
 // ISO

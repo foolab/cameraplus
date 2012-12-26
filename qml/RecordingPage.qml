@@ -131,30 +131,63 @@ CameraPage {
                 camera: cam
         }
 
-        VideoTorchButton {
-                id: torch
-                camera: cam
-                visible: controlsVisible
+        Rectangle {
                 anchors.top: parent.top
-                anchors.left: parent.left
                 anchors.topMargin: 20
-                anchors.leftMargin: 20
-                opacity: 0.5
-        }
-
-        VideoEvCompButton {
-                id: evComp
-                visible: controlsVisible
-                anchors.top: torch.bottom
                 anchors.left: parent.left
-                anchors.topMargin: 10
                 anchors.leftMargin: 20
+                width: 48
+                height: col.height
+                color: "black"
+                border.color: "gray"
+                radius: 20
+                opacity: 0.5
+                visible: controlsVisible
+
+                Column {
+                        id: col
+                        width: parent.width
+                        spacing: 5
+
+                        Indicator {
+                                id: resolutionIndicator
+                                source: "image://theme/" + Data.videoIcon(settings.videoResolution);
+                        }
+
+                        Indicator {
+                                id: wbIndicator
+                                source: visible ? "image://theme/" + Data.wbIcon(settings.videoWhiteBalance) + "-screen" : ""
+                                visible: settings.videoWhiteBalance != WhiteBalance.Auto
+                        }
+
+                        Indicator {
+                                id: cfIndicator
+                                source: "image://theme/" + Data.cfIcon(settings.videoColorFilter) + "-screen"
+                                visible: settings.videoColorFilter != ColorTone.Normal
+                        }
+
+                        Indicator {
+                                id: gpsIndicator
+                                visible: settings.useGps
+                                source: "image://theme/icon-m-camera-location"
+
+                                PropertyAnimation on opacity  {
+                                        easing.type: Easing.OutSine
+                                        loops: Animation.Infinite
+                                        from: 0.2
+                                        to: 1.0
+                                        duration: 1000
+                                        running: settings.useGps && !positionSource.position.longitudeValid
+                                        alwaysRunToEnd: true
+                                }
+                        }
+                }
         }
 
         Rectangle {
-                anchors.left: parent.left
                 anchors.bottom: parent.bottom
-                anchors.leftMargin: 20
+                anchors.right: parent.right
+                anchors.rightMargin: 20
                 anchors.bottomMargin: 20
 
                 visible: controlsVisible
@@ -215,5 +248,37 @@ CameraPage {
                         anchors.left: recordingIcon.right
                         anchors.leftMargin: 5
                 }
+        }
+
+        CameraToolBar {
+                id: toolBar
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 20
+                anchors.left: parent.left
+                anchors.leftMargin: 20
+                opacity: 0.5
+                targetWidth: parent.width - (anchors.leftMargin * 2) - (66 * 1.5)
+                visible: controlsVisible
+                expanded: settings.showToolBar
+                onExpandedChanged: settings.showToolBar = expanded;
+
+                items: [
+                VideoTorchButton {
+                        camera: cam
+                },
+                VideoEvCompButton {
+                        onClicked: toolBar.push(items);
+                },
+                VideoWhiteBalanceButton {
+                        onClicked: toolBar.push(items);
+                },
+                VideoColorFilterButton {
+                        onClicked: toolBar.push(items);
+                },
+                ToolIcon {
+                        iconSource: "image://theme/icon-m-toolbar-view-menu-white"
+                        onClicked: openFile("VideoSettingsPage.qml");
+                }
+                ]
         }
 }

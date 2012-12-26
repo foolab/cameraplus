@@ -24,25 +24,34 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
 
-Selector {
+ToolIcon {
         id: button
 
         iconSource: settings.videoEvComp == 0 ? "image://theme/icon-m-camera-manual-exposure" : ""
-        text: settings.videoEvComp == 0 ? "" : settings.videoEvComp.toFixed(1);
-        font.pixelSize: 19
-        timerConstraints: slider.pressed
 
-        title: qsTr("Exposure compensation");
-
-        widget: Slider {
-                id: slider
-                width: 500
-                orientation: Qt.Horizontal
-                minimumValue: cam.evComp.minimum
-                maximumValue: cam.evComp.maximum
-                value: settings.videoEvComp
-                stepSize: 0.1
-                onValueChanged: settings.videoEvComp = value.toFixed(1);
-                Component.onCompleted: { slider.value = settings.videoEvComp.toFixed(1); }
+        Label {
+                anchors.fill: parent
+                verticalAlignment: Text.AlignVCenter
+                visible: settings.videoEvComp != 0
+                text: settings.videoEvComp == 0 ? "" : settings.videoEvComp.toFixed(1);
         }
+
+        property list<Item> items: [
+                Label {
+                        height: parent ? parent.height : 0
+                        text: qsTr("EV");
+                        verticalAlignment: Text.AlignVCenter
+                },
+                Slider {
+                        id: slider
+                        width: 500
+                        orientation: Qt.Horizontal
+                        minimumValue: cam.evComp.minimum
+                        maximumValue: cam.evComp.maximum
+                        value: settings.videoEvComp
+                        valueIndicatorVisible: true
+                        stepSize: 0.1
+                        onValueChanged: settings.videoEvComp = value.toFixed(1);
+                        Component.onCompleted: { slider.value = settings.videoEvComp.toFixed(1); }
+                }]
 }

@@ -57,6 +57,8 @@ class Settings : public QObject {
   Q_PROPERTY(bool soundEnabled READ isSoundEnabled WRITE setSoundEnabled NOTIFY soundEnabledChanged);
   Q_PROPERTY(bool videoTorchOn READ isVideoTorchOn WRITE setVideoTorchOn NOTIFY videoTorchOnChanged);
 
+  Q_PROPERTY(bool showToolBar READ isToolBarShown WRITE setToolBarShown NOTIFY toolBarShownChanged);
+
 public:
   Settings(QObject *parent = 0);
   ~Settings();
@@ -124,6 +126,9 @@ public:
   bool isVideoTorchOn() const;
   void setVideoTorchOn(bool on);
 
+  bool isToolBarShown() const;
+  void setToolBarShown(bool shown);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
@@ -146,6 +151,7 @@ signals:
   void videoResolutionChanged();
   void soundEnabledChanged();
   void videoTorchOnChanged();
+  void toolBarShownChanged();
 
 private:
   QSettings *m_settings;

@@ -25,70 +25,57 @@ import com.nokia.meego 1.1
 import QtCamera 1.0
 import "data.js" as Data
 
-Selector {
+ToolIcon {
         id: button
 
         iconSource: "image://theme/" + Data.ismIcon(settings.imageSceneMode);
 
-        title: qsTr("Scene mode");
-
-        widget: Row {
-                id: row
-                height: button.checked ? 64 : 0
-                width: button.checked ? (children.length * height) +  (children.length - 1) * spacing : 0
-                spacing: 10
-
-                Behavior on width {
-                        // TODO: seems animation is not working
-                        PropertyAnimation { duration: 250; }
-                }
-
+        property list<Item> items: [
+                Label {
+                        height: parent ? parent.height : 0
+                        text: qsTr("Scene");
+                        verticalAlignment: Text.AlignVCenter
+                },
                 CheckButton {
                         normalIcon: "image://theme/" + Data.ismIcon(value);
                         checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
                         savedValue: settings.imageSceneMode
                         onClicked: settings.imageSceneMode = value;
                         value: Scene.Auto
-                }
-
+                },
                 CheckButton {
                         normalIcon: "image://theme/" + Data.ismIcon(value);
                         checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
                         savedValue: settings.imageSceneMode
                         onClicked: settings.imageSceneMode = value;
                         value: Scene.Closeup
-                }
-
+                },
                 CheckButton {
                         normalIcon: "image://theme/" + Data.ismIcon(value);
                         checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
                         savedValue: settings.imageSceneMode
                         onClicked: settings.imageSceneMode = value;
                         value: Scene.Landscape
-                }
-
+                },
                 CheckButton {
                         normalIcon: "image://theme/" + Data.ismIcon(value);
                         checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
                         savedValue: settings.imageSceneMode
                         onClicked: settings.imageSceneMode = value;
                         value: Scene.Portrait
-                }
-
+                },
                 CheckButton {
                         normalIcon: "image://theme/" + Data.ismIcon(value);
                         checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
                         savedValue: settings.imageSceneMode
                         onClicked: settings.imageSceneMode = value;
                         value: Scene.Night
-                }
-
+                },
                 CheckButton {
                         normalIcon: "image://theme/" + Data.ismIcon(value);
                         checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
                         savedValue: settings.imageSceneMode
                         onClicked: settings.imageSceneMode = value;
                         value: Scene.Sport
-                }
-        }
+                }]
 }

@@ -58,28 +58,6 @@ CameraPage {
                                 text: qsTr("Video settings");
                         }
 
-                        Row {
-                                width: parent.width
-
-                                ListItem {
-                                        id: wb
-                                        width: parent.width / 2
-                                        title: qsTr("White balance");
-                                        subtitle: Data.wbName(settings.videoWhiteBalance);
-                                        iconId: Data.wbSelectedIcon(settings.videoWhiteBalance);
-                                        onClicked: openFile("VideoWhiteBalancePage.qml");
-                                }
-
-                                ListItem {
-                                        id: cf
-                                        width: parent.width / 2
-                                        title: qsTr("Color filter");
-                                        subtitle: Data.cfName(settings.videoColorFilter);
-                                        iconId: Data.cfSelectedIcon(settings.videoColorFilter);
-                                        onClicked: openFile("VideoColorFilterPage.qml");
-                                }
-                        }
-
                         SectionHeader {
                                 text: qsTr("Resolution");
                         }

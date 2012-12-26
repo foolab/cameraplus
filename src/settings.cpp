@@ -39,6 +39,7 @@
 #define DEFAULT_VIDEO_RESOLUTION   "high"
 #define DEFAULT_SOUND_ENABLED      true
 #define DEFAULT_VIDEO_TORCH_ON     false
+#define DEFAULT_SHOW_TOOL_BAR      false
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -294,5 +295,17 @@ void Settings::setVideoTorchOn(bool on) {
   if (isVideoTorchOn() != on) {
     m_settings->setValue("video/torchOn", on);
     emit videoTorchOnChanged();
+  }
+}
+
+bool Settings::isToolBarShown() const {
+  return m_settings->value("camera/showToolBar", DEFAULT_SHOW_TOOL_BAR).toBool();
+}
+
+void Settings::setToolBarShown(bool shown) {
+  if (isToolBarShown() != shown) {
+    m_settings->setValue("camera/showToolBar", shown);
+
+    emit toolBarShownChanged();
   }
 }

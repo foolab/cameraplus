@@ -57,7 +57,7 @@ CameraPage {
                                 font.pixelSize: 36
                                 text: qsTr("Image settings");
                         }
-
+/*
                         SectionHeader {
                                 text: qsTr("Capture mode");
                         }
@@ -69,29 +69,8 @@ CameraPage {
                                 Button { text: qsTr("Self timer"); }
                                 Button { text: qsTr("Fast capture"); }
                         }
-
-                        Row {
-                                width: parent.width
-
-                                ListItem {
-                                        id: wb
-                                        width: parent.width / 2
-                                        title: qsTr("White balance");
-                                        subtitle: Data.wbName(settings.imageWhiteBalance);
-                                        iconId: Data.wbSelectedIcon(settings.imageWhiteBalance);
-                                        onClicked: openFile("ImageWhiteBalancePage.qml");
-                                }
-
-                                ListItem {
-                                        id: cf
-                                        width: parent.width / 2
-                                        title: qsTr("Color filter");
-                                        subtitle: Data.cfName(settings.imageColorFilter);
-                                        iconId: Data.cfSelectedIcon(settings.imageColorFilter);
-                                        onClicked: openFile("ImageColorFilterPage.qml");
-                                }
-                        }
-
+*/
+/*
                         SectionHeader {
                                 text: qsTr("Self timer");
                         }
@@ -102,7 +81,7 @@ CameraPage {
                                 Button { text: qsTr("2 seconds"); }
                                 Button { text: qsTr("10 seconds"); }
                         }
-
+*/
                         SectionHeader {
                                 text: qsTr("Light sensitivity");
                         }

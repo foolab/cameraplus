@@ -26,12 +26,13 @@ import com.nokia.meego 1.1
 Column {
         id: col
         spacing: 10
+        width: parent.width
 
         Label {
                 font.pixelSize: 36
                 text: qsTr("Camera settings");
         }
-
+/*
         SectionHeader {
                 text: qsTr("Show captured content");
         }
@@ -63,7 +64,7 @@ Column {
                         onClicked: settings.postCaptureTimeout = -1;
                 }
         }
-
+*/
         SectionHeader {
                 text: qsTr("Creator name");
         }

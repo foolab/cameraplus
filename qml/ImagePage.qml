@@ -112,50 +112,19 @@ CameraPage {
                 onSaved: mountProtector.unlock();
         }
 
-        FlashButton {
-                id: flash
-                visible: controlsVisible
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.topMargin: 20
-                anchors.leftMargin: 20
-        }
-
-        ImageSceneButton {
-                id: scene
-                visible: controlsVisible
-                anchors.top: flash.bottom
-                anchors.left: parent.left
-                anchors.topMargin: 10
-                anchors.leftMargin: 20
-        }
-
-        ImageEvCompButton {
-                id: evComp
-                visible: controlsVisible
-                anchors.top: scene.bottom
-                anchors.left: parent.left
-                anchors.topMargin: 10
-                anchors.leftMargin: 20
-        }
-
-        MouseArea {
+        Rectangle {
                 id: indicators
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 20
+                anchors.top: parent.top
+                anchors.topMargin: 20
                 anchors.left: parent.left
                 anchors.leftMargin: 20
                 width: 48
                 height: col.height
-                onClicked: openFile("ImageSettingsPage.qml");
+                color: "black"
+                border.color: "gray"
+                radius: 20
+                opacity: 0.5
                 visible: controlsVisible
-
-                BorderImage {
-                        id: image
-                        anchors.fill: parent
-                        smooth: true
-                        source: indicators.pressed ? "image://theme/meegotouch-camera-settings-indicators-background-pressed" : "image://theme/meegotouch-camera-settings-indicators-background"
-                }
 
                 Column {
                         id: col
@@ -216,5 +185,40 @@ CameraPage {
                 iconSource: "image://theme/icon-m-camera-roll"
                 onClicked: openFile("PostCapturePage.qml");
                 visible: controlsVisible
+        }
+
+        CameraToolBar {
+                id: toolBar
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 20
+                anchors.left: parent.left
+                anchors.leftMargin: 20
+                opacity: 0.5
+                targetWidth: parent.width - (anchors.leftMargin * 2) - (66 * 1.5)
+                visible: controlsVisible
+                expanded: settings.showToolBar
+                onExpandedChanged: settings.showToolBar = expanded;
+
+                items: [
+                FlashButton {
+                        onClicked: toolBar.push(items);
+                },
+                ImageSceneButton {
+                        onClicked: toolBar.push(items);
+                },
+                ImageEvCompButton {
+                        onClicked: toolBar.push(items);
+                },
+                ImageWhiteBalanceButton {
+                        onClicked: toolBar.push(items);
+                },
+                ImageColorFilterButton {
+                        onClicked: toolBar.push(items);
+                },
+                ToolIcon {
+                        iconSource: "image://theme/icon-m-toolbar-view-menu-white"
+                        onClicked: openFile("ImageSettingsPage.qml");
+                }
+                ]
         }
 }
