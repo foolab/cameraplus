@@ -405,6 +405,6 @@ PageStackWindow {
 
         Standby {
                 policyLost: pipelineManager.state == "policyLost"
-                show: pageStack.currentPage.standbyVisible && pageStack.currentPage.status == PageStatus.Active && pipelineManager.showStandBy
+                show: !pageStack.currentPage || (pageStack.currentPage.standbyVisible && pageStack.currentPage.status == PageStatus.Active && pipelineManager.showStandBy)
         }
 }
