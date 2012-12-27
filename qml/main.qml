@@ -36,7 +36,6 @@ import QtMobility.location 1.2
 // TODO: disable debug builds.
 // TODO: a way to get buffers to the application
 // TODO: fcam like functionality (precise control over capture parameters).
-// TODO: mute video sound
 
 PageStackWindow {
         id: root
@@ -371,6 +370,12 @@ PageStackWindow {
                 property: "imageIso"
                 when: cam.mode == Camera.ImageMode
                 value: cam.iso.value
+        }
+
+        Binding {
+                target: cam.videoMute
+                property: "enabled"
+                value: settings.videoMuted
         }
 
         TrackerStore {

@@ -40,6 +40,7 @@
 #define DEFAULT_SOUND_ENABLED      true
 #define DEFAULT_VIDEO_TORCH_ON     false
 #define DEFAULT_SHOW_TOOL_BAR      false
+#define DEFAULT_VIDEO_MUTE         false
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -309,3 +310,15 @@ void Settings::setToolBarShown(bool shown) {
     emit toolBarShownChanged();
   }
 }
+
+bool Settings::isVideoMuted() const {
+  return m_settings->value("video/mute", DEFAULT_VIDEO_MUTE).toBool();
+}
+
+void Settings::setVideoMuted(bool muted) {
+  if (isVideoMuted() != muted) {
+    m_settings->setValue("video/mute", muted);
+    emit videoMutedChanged();
+  }
+}
+

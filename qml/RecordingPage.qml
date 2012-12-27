@@ -275,6 +275,8 @@ CameraPage {
                 VideoColorFilterButton {
                         onClicked: toolBar.push(items);
                 },
+                VideoMuteButton {
+                },
                 ToolIcon {
                         iconSource: "image://theme/icon-m-toolbar-view-menu-white"
                         onClicked: openFile("VideoSettingsPage.qml");
