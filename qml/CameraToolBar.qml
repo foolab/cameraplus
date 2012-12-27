@@ -74,12 +74,6 @@ Rectangle {
         onWidthChanged: Layout.layout();
         onTargetWidthChanged: Layout.layout();
 
-        Component.onCompleted: {
-                if (tools.expanded) {
-                        tools.push(tools.items);
-                }
-        }
-
         function push(items) {
                 return Layout.push(items);
         }
