@@ -220,7 +220,7 @@ PageStackWindow {
                         visible: pageStack.currentPage && pageStack.currentPage.controlsVisible && pageStack.currentPage.focusReticleVisible && cam && cam.autoFocus.canFocus(cam.scene.value);
                         cafStatus: cam ? cam.autoFocus.cafStatus : -1
                         status: cam ? cam.autoFocus.status : -1
-        }
+                }
 
 /*
                 onDeviceIdChanged: {
