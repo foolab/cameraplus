@@ -65,37 +65,6 @@ Page {
                 }
         }
 
-        Rectangle {
-                // TODO: fade out transition
-                // TODO: there is a toolbar visible on the first startup
-                id: standby
-                color: "black"
-                anchors.fill: parent
-                visible: standbyVisible && page.status == PageStatus.Active && pipelineManager.showStandBy
-                z: 2
-                MouseArea {
-                        anchors.fill: parent
-                        enabled: parent.visible
-                }
-
-                Image {
-                        id: icon
-                        source: "image://theme/icon-l-camera-standby"
-                        anchors.centerIn: parent
-                }
-
-                Label {
-                        anchors.top: icon.bottom
-                        anchors.right: parent.right
-                        anchors.left: parent.left
-                        text: qsTr("Resources lost")
-                        color: "white"
-                        font.pixelSize: 36
-                        horizontalAlignment: Text.AlignHCenter
-                        visible: pipelineManager.state == "policyLost"
-                }
-        }
-
         function setPreview(image) {
                 preview.setPreview(image);
         }
