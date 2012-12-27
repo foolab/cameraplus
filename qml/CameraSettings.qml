@@ -31,8 +31,10 @@ Column {
         Label {
                 font.pixelSize: 36
                 text: qsTr("Camera settings");
+                width: parent.width
         }
 /*
+// TODO:
         SectionHeader {
                 text: qsTr("Show captured content");
         }
@@ -67,6 +69,7 @@ Column {
 */
         SectionHeader {
                 text: qsTr("Creator name");
+                width: parent.width
         }
 
         TextField {
