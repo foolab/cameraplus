@@ -53,6 +53,7 @@ public:
   QtCamConfig *conf;
   QtCamDevice *dev;
   QtCamGraphicsViewfinder *q_ptr;
+  bool enabled;
 };
 
 QtCamGraphicsViewfinder::QtCamGraphicsViewfinder(QtCamConfig *config, QGraphicsItem *parent) :
@@ -61,6 +62,7 @@ QtCamGraphicsViewfinder::QtCamGraphicsViewfinder(QtCamConfig *config, QGraphicsI
   d_ptr->dev = 0;
   d_ptr->renderer = 0;
   d_ptr->q_ptr = this;
+  d_ptr->enabled = true;
 }
 
 QtCamGraphicsViewfinder::~QtCamGraphicsViewfinder() {
@@ -112,7 +114,7 @@ void QtCamGraphicsViewfinder::paint(QPainter *painter, const QStyleOptionGraphic
 
   painter->fillRect(boundingRect(), Qt::black);
 
-  if (!d_ptr->renderer) {
+  if (!d_ptr->renderer || !d_ptr->enabled) {
     return;
   }
 
@@ -130,11 +132,15 @@ void QtCamGraphicsViewfinder::resizeEvent(QGraphicsSceneResizeEvent *event) {
 }
 
 void QtCamGraphicsViewfinder::updateRequested() {
-  update();
+  if (d_ptr->enabled) {
+    update();
+  }
 }
 
 void QtCamGraphicsViewfinder::stop() {
   d_ptr->resetBackend();
+
+  setRenderingEnabled(true);
 }
 
 QRectF QtCamGraphicsViewfinder::renderArea() const {
@@ -151,4 +157,16 @@ QSizeF QtCamGraphicsViewfinder::videoResolution() const {
   }
 
   return d_ptr->renderer->videoResolution();
+}
+
+bool QtCamGraphicsViewfinder::isRenderingEnabled() const {
+  return d_ptr->enabled;
+}
+
+void QtCamGraphicsViewfinder::setRenderingEnabled(bool enabled) {
+  if (d_ptr->enabled != enabled) {
+    d_ptr->enabled = enabled;
+
+    emit renderingEnabledChanged();
+  }
 }

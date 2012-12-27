@@ -46,9 +46,13 @@ public:
   QRectF renderArea() const;
   QSizeF videoResolution() const;
 
+  bool isRenderingEnabled() const;
+  void setRenderingEnabled(bool enabled);
+
 signals:
   void renderAreaChanged();
   void videoResolutionChanged();
+  void renderingEnabledChanged();
 
 protected:
   void resizeEvent(QGraphicsSceneResizeEvent *event);

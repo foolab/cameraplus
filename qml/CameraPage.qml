@@ -38,6 +38,7 @@ Page {
         property bool modesVisible: true
         property bool standbyVisible: true
         property bool focusReticleVisible: true
+        property bool enableViewfinder: true
 
         property alias previewAnimationRunning: preview.animationRunning
 
@@ -52,8 +53,15 @@ Page {
         }
 
         onStatusChanged: {
-                if (status == PageStatus.Active) {
+                if (status == PageStatus.Activating && enableViewfinder) {
+                        cam.renderingEnabled = true;
+                }
+                else if (status == PageStatus.Active) {
                         focusReticle.setRegionOfInterest();
+
+                        if (!enableViewfinder) {
+                                cam.renderingEnabled = false;
+                        }
                 }
         }
 

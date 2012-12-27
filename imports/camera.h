@@ -80,6 +80,8 @@ class Camera : public QDeclarativeItem {
   Q_PROPERTY(VideoMute *videoMute READ videoMute NOTIFY videoMuteChanged);
   Q_PROPERTY(VideoTorch *videoTorch READ videoTorch NOTIFY videoTorchChanged);
 
+  Q_PROPERTY(bool renderingEnabled READ isRenderingEnabled WRITE setRenderingEnabled NOTIFY renderingEnabledChanged);
+
   Q_ENUMS(CameraMode);
 
 public:
@@ -138,6 +140,9 @@ public:
   QRectF renderArea() const;
   QSizeF videoResolution() const;
 
+  bool isRenderingEnabled() const;
+  void setRenderingEnabled(bool enabled);
+
 signals:
   void deviceCountChanged();
   void deviceIdChanged();
@@ -166,6 +171,7 @@ signals:
 
   void videoMuteChanged();
   void videoTorchChanged();
+  void renderingEnabledChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);

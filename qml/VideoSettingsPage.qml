@@ -31,7 +31,7 @@ CameraPage {
         id: page
         controlsVisible: false
         policyMode: CameraResources.Video
-        needsPipeline: false
+        enableViewfinder: false
         standbyVisible: !Qt.application.active
 
         Rectangle {

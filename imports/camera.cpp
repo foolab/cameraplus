@@ -73,6 +73,7 @@ Camera::Camera(QDeclarativeItem *parent) :
 
   QObject::connect(m_vf, SIGNAL(renderAreaChanged()), this, SIGNAL(renderAreaChanged()));
   QObject::connect(m_vf, SIGNAL(videoResolutionChanged()), this, SIGNAL(videoResolutionChanged()));
+  QObject::connect(m_vf, SIGNAL(renderingEnabledChanged()), this, SIGNAL(renderingEnabledChanged()));
 }
 
 Camera::~Camera() {
@@ -412,5 +413,13 @@ VideoMute *Camera::videoMute() const {
 }
 
 VideoTorch *Camera::videoTorch() const {
-return m_videoTorch;
+  return m_videoTorch;
+}
+
+bool Camera::isRenderingEnabled() const {
+  return m_vf->isRenderingEnabled();
+}
+
+void Camera::setRenderingEnabled(bool enabled) {
+  m_vf->setRenderingEnabled(enabled);
 }
