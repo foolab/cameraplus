@@ -46,7 +46,8 @@ public:
   Q_INVOKABLE QString videoFileName();
   Q_INVOKABLE QString temporaryVideoFileName();
 
-  QString path() const;
+  QString path();
+  QString temporaryPath();
 
 signals:
   void imageSuffixChanged();
@@ -54,9 +55,12 @@ signals:
 
 private:
   QString fileName(const QString& suffix);
+  QString canonicalPath(const QString& path);
 
   QString m_image;
   QString m_video;
+  QString m_path;
+  QString m_temp;
 };
 
 #endif /* FILE_NAMING_H */

@@ -71,13 +71,13 @@ QString FileNaming::fileName(const QString& suffix) {
     return QString();
   }
 
-  if (!QDir::root().mkpath(PATH)) {
-    qWarning() << "Failed to create" << PATH;
+  QString path = FileNaming::path();
+  if (path.isEmpty()) {
     return QString();
   }
 
   // Shamelessly stolen from Aura
-  QDir dir(PATH);
+  QDir dir(path);
   QString date = QDate::currentDate().toString("yyyyMMdd");
 
   QStringList filters(QString("*%1_*").arg(date));
@@ -92,21 +92,53 @@ QString FileNaming::fileName(const QString& suffix) {
 
   ++index;
 
-  QString name = QString("%1%2_%3.%4").arg(PATH).arg(date).arg(QString().sprintf("%03i", index)).
+  QString name = QString("%1%2_%3.%4").arg(path).arg(date).arg(QString().sprintf("%03i", index)).
     arg(suffix);
 
   return name;
 }
 
-QString FileNaming::path() const {
-  return PATH;
+QString FileNaming::path() {
+  if (m_path.isEmpty()) {
+    m_path = canonicalPath(PATH);
+  }
+
+  return m_path;
 }
 
-QString FileNaming::temporaryVideoFileName() {
-  if (!QDir::root().mkpath(TEMP_PATH)) {
-    qWarning() << "Failed to create temporary path" << TEMP_PATH;
+QString FileNaming::temporaryPath() {
+  if (m_temp.isEmpty()) {
+    m_temp = canonicalPath(TEMP_PATH);
+  }
+
+  return m_temp;
+}
+
+QString FileNaming::canonicalPath(const QString& path) {
+  if (!QDir::root().mkpath(path)) {
+    qWarning() << "Failed to create path" << path;
     return QString();
   }
 
-  return QString("%1.cameraplus_video.tmp").arg(TEMP_PATH);
+  QString newPath = QFileInfo(path).canonicalFilePath();
+
+  if (newPath.isEmpty()) {
+    return newPath;
+  }
+
+  if (!newPath.endsWith(QDir::separator())) {
+    newPath.append(QDir::separator());
+  }
+
+  return newPath;
+}
+
+QString FileNaming::temporaryVideoFileName() {
+  QString path = temporaryPath();
+
+  if (path.isEmpty()) {
+    return path;
+  }
+
+  return QString("%1.cameraplus_video.tmp").arg(path);
 }
