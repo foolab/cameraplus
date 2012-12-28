@@ -24,7 +24,6 @@
 #define TRACKER_STORE_H
 
 #include <QObject>
-#include <QHash>
 
 class QSparqlConnection;
 
@@ -58,8 +57,6 @@ signals:
 
 private:
   bool execQuery(const QString& query, const QString& path);
-
-  QHash<QString, QString> m_mime;
 
   QSparqlConnection *m_connection;
   QString m_manufacturer;

@@ -28,22 +28,20 @@
 #include <QSparqlError>
 #include <QDebug>
 #include <QDateTime>
-#include <QFileInfo>
 
 #define BEGIN_IMAGE "INSERT { _:x a nfo:Image, nmm:Photo"
 #define BEGIN_VIDEO "INSERT { _:x a nfo:Video, nmm:Video"
-#define QUERY_END ", nie:DataObject, nie:InformationElement, nfo:Media, nfo:Visual ; nie:url ?:file_url ; nfo:equipment ?:equipment^^xsd:string ; nie:contentCreated ?:contentCreated ; nie:mimeType ?:mimeType . }"
+#define QUERY_END ", nie:DataObject, nie:InformationElement, nfo:Media, nfo:Visual ; nie:url ?:file_url ; nfo:equipment ?:equipment^^xsd:string ; nie:contentCreated ?:contentCreated . }"
 
 #define IMAGE_QUERY BEGIN_IMAGE QUERY_END
 #define VIDEO_QUERY BEGIN_VIDEO QUERY_END
+
+// TODO: mime type
 
 TrackerStore::TrackerStore(QObject *parent) :
   QObject(parent),
   m_connection(0) {
 
-  // This needs to be extended.
-  m_mime.insert("jpg", "image/jpeg");
-  m_mime.insert("mp4", "video/mp4");
 }
 
 TrackerStore::~TrackerStore() {
@@ -103,15 +101,12 @@ bool TrackerStore::execQuery(const QString& query, const QString& path) {
   }
 
   QString equipment = QString("urn:equipment:%1:%2:").arg(m_manufacturer).arg(m_model);
-  QString ext = QFileInfo(path).completeSuffix();
-  QString mime = m_mime.contains(ext) ? m_mime[ext] : QString();
 
   QSparqlQuery q(query, QSparqlQuery::InsertStatement);
   q.bindValue("file_url", QUrl::fromLocalFile(path));
   q.bindValue("equipment", equipment);
   q.bindValue("contentCreated", dateTime.toString(Qt::ISODate) +
 		  "." + QString().sprintf("%.3d", dateTime.time().msec()));
-  q.bindValue("mimeType", mime);
 
   QScopedPointer<QSparqlResult> r(m_connection->syncExec(q));
 
