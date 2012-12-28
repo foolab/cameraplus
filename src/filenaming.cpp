@@ -20,15 +20,15 @@
 
 #include "filenaming.h"
 #include <QDir>
-#include <QDebug>
 #include <QDate>
 #include <QFile>
+#include <QDeclarativeInfo>
 
 #define PATH QString("%1%2MyDocs%2cameraplus%2").arg(QDir::homePath()).arg(QDir::separator())
 #define TEMP_PATH QString("%1%2MyDocs%2.cameraplus%2").arg(QDir::homePath()).arg(QDir::separator())
 
 FileNaming::FileNaming(QObject *parent) :
-  QObject(parent) {
+  QObject(parent), m_index(-1) {
 
 }
 
@@ -67,33 +67,43 @@ QString FileNaming::videoFileName() {
 }
 
 QString FileNaming::fileName(const QString& suffix) {
+  QString path = FileNaming::path();
+  QString date = QDate::currentDate().toString("yyyyMMdd");
+  QDir dir(path);
+
   if (suffix.isEmpty()) {
     return QString();
   }
 
-  QString path = FileNaming::path();
   if (path.isEmpty()) {
     return QString();
   }
 
-  // Shamelessly stolen from Aura
-  QDir dir(path);
-  QString date = QDate::currentDate().toString("yyyyMMdd");
-
-  QStringList filters(QString("*%1_*").arg(date));
-  QStringList entries = dir.entryList(filters, QDir::Files, QDir::Name);
-
-  int index = 0;
-
-  if (!entries.isEmpty()) {
-    QString name = QFile(entries.last()).fileName();
-    index = name.section('_', 1, 1).section('.', 0, 0).toInt();
+  if (date != m_date) {
+    m_index = -1;
+    m_date = date;
   }
 
-  ++index;
+  if (m_index == -1) {
+    QStringList filters(QString("*%1_*").arg(date));
+    QStringList entries = dir.entryList(filters, QDir::Files, QDir::Name);
+    if (entries.isEmpty()) {
+      m_index = 0;
+    }
+    else {
+      QString name = QFile(entries.last()).fileName();
+      m_index = name.section('_', 1, 1).section('.', 0, 0).toInt();
+    }
+  }
 
-  QString name = QString("%1%2_%3.%4").arg(path).arg(date).arg(QString().sprintf("%03i", index)).
+  ++m_index;
+
+  QString name = QString("%1%2_%3.%4").arg(path).arg(date).arg(QString().sprintf("%03i", m_index)).
     arg(suffix);
+
+  if (QFile(name).exists()) {
+    return QString();
+  }
 
   return name;
 }
@@ -116,7 +126,7 @@ QString FileNaming::temporaryPath() {
 
 QString FileNaming::canonicalPath(const QString& path) {
   if (!QDir::root().mkpath(path)) {
-    qWarning() << "Failed to create path" << path;
+    qmlInfo(this) << "Failed to create path" << path;
     return QString();
   }
 

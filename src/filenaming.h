@@ -61,6 +61,9 @@ private:
   QString m_video;
   QString m_path;
   QString m_temp;
+
+  QString m_date;
+  int m_index;
 };
 
 #endif /* FILE_NAMING_H */
