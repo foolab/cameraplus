@@ -29,7 +29,7 @@ import CameraPlus 1.0
 // TODO: losing resources while playback won't show an error
 // TODO: show something if we have no files.
 // TODO: favorites
-// TODO: menu
+
 CameraPage {
         id: page
 
@@ -46,6 +46,31 @@ CameraPage {
                 var dates = parts[0].split('-');
                 var times = parts[1].split(':');
                 return new Date(dates[0], dates[1], dates[2], times[0], times[1], times[2]);
+        }
+
+
+        function launchGallery() {
+                if (!gallery.launch()) {
+                        showError(qsTr("Failed to launch gallery"));
+                }
+        }
+
+        function showInGallery() {
+                if (!available) {
+                        return;
+                }
+
+                if (!gallery.show(currentItem.itemUrl)) {
+                        showError(qsTr("Failed to launch gallery"));
+                }
+        }
+
+        Menu {
+                id: menu
+                MenuLayout {
+                        MenuItem {text: qsTr("Captures in gallery"); onClicked: launchGallery(); }
+                        MenuItem {text: qsTr("View in gallery"); enabled: available; onClicked: showInGallery(); }
+                }
         }
 
         function deleteCurrentItem() {
@@ -86,6 +111,10 @@ CameraPage {
 
         ShareHelper {
                 id: share
+        }
+
+        GalleryHelper {
+                id: gallery
         }
 
         Rectangle {
@@ -142,7 +171,7 @@ CameraPage {
                         ToolIcon { iconId: available ? "icon-m-toolbar-favorite-mark-white" : "icon-m-toolbar-favorite-mark-dimmed-white"}
                         ToolIcon { iconId: available ? "icon-m-toolbar-share-white" : "icon-m-toolbar-share-dimmed-white"; onClicked: shareCurrentItem(); }
                         ToolIcon { iconId: available ? "icon-m-toolbar-delete-white" : "icon-m-toolbar-delete-dimmed-white"; onClicked: deleteCurrentItem(); }
-                        ToolIcon { iconId: "icon-m-toolbar-view-menu-white" }
+                        ToolIcon { iconId: "icon-m-toolbar-view-menu-white"; onClicked: menu.open(); }
                 }
         }
 
