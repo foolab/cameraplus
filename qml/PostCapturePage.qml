@@ -63,7 +63,14 @@ CameraPage {
                 acceptButtonText: qsTr("Yes");
                 rejectButtonText: qsTr("No");
                 onAccepted: {
-                        // TODO: delete file, remove from model and move to next item
+                        // TODO: Remove from model and move to next item
+                        if (!remove.remove(currentItem.itemUrl)) {
+                                showError(qsTr("Failed to delete item"));
+                        }
+                }
+
+                DeleteHelper {
+                        id: remove
                 }
         }
 
