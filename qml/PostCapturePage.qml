@@ -29,7 +29,6 @@ import CameraPlus 1.0
 // TODO: losing resources while playback won't show an error
 // TODO: show something if we have no files.
 // TODO: favorites
-// TODO: share
 // TODO: menu
 CameraPage {
         id: page
@@ -66,6 +65,18 @@ CameraPage {
                 onAccepted: {
                         // TODO: delete file, remove from model and move to next item
                 }
+        }
+
+        function shareCurrentItem() {
+                if (!available) {
+                        return;
+                }
+
+                share.share(currentItem.itemUrl);
+        }
+
+        ShareHelper {
+                id: share
         }
 
         Rectangle {
@@ -120,7 +131,7 @@ CameraPage {
                         id: layout
                         ToolIcon { iconId: "icon-m-toolbar-back-white"; onClicked: { pageStack.pop(); } }
                         ToolIcon { iconId: available ? "icon-m-toolbar-favorite-mark-white" : "icon-m-toolbar-favorite-mark-dimmed-white"}
-                        ToolIcon { iconId: available ? "icon-m-toolbar-share-white" : "icon-m-toolbar-share-dimmed-white" }
+                        ToolIcon { iconId: available ? "icon-m-toolbar-share-white" : "icon-m-toolbar-share-dimmed-white"; onClicked: shareCurrentItem(); }
                         ToolIcon { iconId: available ? "icon-m-toolbar-delete-white" : "icon-m-toolbar-delete-dimmed-white"; onClicked: deleteCurrentItem(); }
                         ToolIcon { iconId: "icon-m-toolbar-view-menu-white" }
                 }

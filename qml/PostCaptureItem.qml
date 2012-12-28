@@ -36,6 +36,7 @@ Item {
         property string creationDate: created
         property string itemTitle: title
         property bool itemAvailable: available
+        property url itemUrl: url
 
         function startPlayback() {
                 openFileNow("VideoPlayerPage.qml");
