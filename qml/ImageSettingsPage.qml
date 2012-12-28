@@ -199,7 +199,7 @@ CameraPage {
                 anchors.bottom: parent.bottom
                 tools: ToolBarLayout {
                         id: layout
-                        ToolIcon { iconId: "icon-m-toolbar-back"; onClicked: pageStack.pop(); }
+                        ToolIcon { iconId: "icon-m-toolbar-back-white"; onClicked: pageStack.pop(); }
                 }
         }
 }
