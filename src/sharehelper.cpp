@@ -19,23 +19,28 @@
  */
 
 #include "sharehelper.h"
-#include <QDBusInterface>
+#include <maemo-meegotouch-interfaces/shareuiinterface.h>
 #include <QStringList>
 #include <QUrl>
 #include <QDeclarativeInfo>
 
 ShareHelper::ShareHelper(QObject *parent) :
-  QObject(parent) {
+  QObject(parent),
+  m_iface(new ShareUiInterface) {
 
 }
 
 ShareHelper::~ShareHelper() {
-
+  delete m_iface;
 }
 
-void ShareHelper::share(const QUrl& path) {
-  QDBusInterface iface("com.nokia.ShareUi", "/", "com.nokia.maemo.meegotouch.ShareUiInterface",
-		       QDBusConnection::sessionBus());
+bool ShareHelper::share(const QUrl& path) {
+  if (!m_iface->isValid()) {
+    qmlInfo(this) << "Failed to get share interface";
+    return false;
+  }
 
-  iface.call("share", QStringList() << path.toLocalFile());
+  m_iface->share(QStringList() << path.toLocalFile());
+
+  return true;
 }

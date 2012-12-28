@@ -79,7 +79,9 @@ CameraPage {
                         return;
                 }
 
-                share.share(currentItem.itemUrl);
+                if (!share.share(currentItem.itemUrl)) {
+                                showError(qsTr("Failed to launch share service"));
+                }
         }
 
         ShareHelper {

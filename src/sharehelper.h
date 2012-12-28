@@ -26,6 +26,7 @@
 #include <QObject>
 
 class QUrl;
+class ShareUiInterface;
 
 class ShareHelper : public QObject {
   Q_OBJECT
@@ -34,8 +35,10 @@ public:
   ShareHelper(QObject *parent = 0);
   ~ShareHelper();
 
-public slots:
-  void share(const QUrl& path);
+  Q_INVOKABLE bool share(const QUrl& path);
+
+private:
+  ShareUiInterface *m_iface;
 };
 
 #endif /* SHARE_HELPER_H */
