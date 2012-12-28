@@ -26,7 +26,7 @@ import CameraPlus 1.0
 
 Item {
         id: item
-        property bool isImage: mimetype.toLowerCase().search("video") < 0
+        property bool isVideo: type.search("nmm#Video") > 0
         property bool error: false
 
         property bool isCurrentItem: PathView.isCurrentItem
@@ -35,6 +35,7 @@ Item {
         property string fileName: filename
         property string creationDate: created
         property string itemTitle: title
+        property bool itemAvailable: available
 
         function startPlayback() {
                 openFileNow("VideoPlayerPage.qml");
@@ -69,7 +70,7 @@ Item {
                         id: playIcon
                         anchors.centerIn: parent
                         iconSource: "image://theme/icon-s-music-video-play"
-                        visible: !isImage
+                        visible: isVideo
                         onClicked: startPlayback();
                 }
         }

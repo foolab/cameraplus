@@ -26,12 +26,11 @@ import QtCamera 1.0
 import QtSparql 1.0
 import CameraPlus 1.0
 
-// QML QtGallery stuff is crap.
-// Most of the ideas (and some code) for loading and displaying images are stolen from
-// N9QmlPhotoPicker https://github.com/petrumotrescu/N9QmlPhotoPicker
-
 // TODO: losing resources while playback won't show an error
-
+// TODO: show something if we have no files.
+// TODO: favorites
+// TODO: share
+// TODO: menu
 CameraPage {
         id: page
 
@@ -41,12 +40,32 @@ CameraPage {
         standbyVisible: !Qt.application.active
 
         property Item currentItem: null
+        property bool available: currentItem ? currentItem.itemAvailable : false
 
         function parseDate(str) {
                 var parts = str.split('T');
                 var dates = parts[0].split('-');
                 var times = parts[1].split(':');
                 return new Date(dates[0], dates[1], dates[2], times[0], times[1], times[2]);
+        }
+
+        function deleteCurrentItem() {
+                if (!available) {
+                        return;
+                }
+
+                deleteDialog.message = currentItem.fileName;
+                deleteDialog.open();
+        }
+
+        QueryDialog {
+                id: deleteDialog
+                titleText: qsTr("Delete item?");
+                acceptButtonText: qsTr("Yes");
+                rejectButtonText: qsTr("No");
+                onAccepted: {
+                        // TODO: delete file, remove from model and move to next item
+                }
         }
 
         Rectangle {
@@ -71,7 +90,7 @@ CameraPage {
                 pathItemCount: 3
 
                 model: SparqlListModel {
-                        query: "SELECT nie:url(?urn) AS ?url nie:title(?urn) AS ?title nfo:fileName(?urn) AS ?filename ?created nie:mimeType(?urn) AS ?mimetype ( EXISTS { ?urn nao:hasTag nao:predefined-tag-favorite . } ) AS ?favorite nfo:fileLastModified(?urn) as ?lastmod tracker:id(?urn) AS ?trackerid WHERE { ?urn rdf:type nfo:Visual ; tracker:available \"true\"^^xsd:boolean . OPTIONAL { ?urn nie:contentCreated ?created } . ?urn nfo:equipment \"urn:equipment:" + deviceInfo.manufacturer + ":" + deviceInfo.model + ":\" . } ORDER BY DESC (?created)"
+                        query: 'SELECT rdf:type(?urn) AS ?type nie:url(?urn) AS ?url nie:contentCreated(?urn) AS ?created nie:title(?urn) AS ?title nfo:fileName(?urn) AS ?filename nie:mimeType(?urn) AS ?mimetype tracker:available(?urn) AS ?available nfo:fileLastModified(?urn) as ?lastmod tracker:id(?urn) AS ?trackerid  (EXISTS { ?urn nao:hasTag nao:predefined-tag-favorite }) AS ?favorite WHERE { ?urn nfo:equipment "urn:equipment:' + deviceInfo.manufacturer + ':' + deviceInfo.model + ':" .  {?urn a nfo:Video} UNION {?urn a nfo:Image}} ORDER BY DESC(?created)'
 
                         connection: SparqlConnection {
                                 id: connection
@@ -99,7 +118,11 @@ CameraPage {
                 anchors.bottom: parent.bottom
                 tools: ToolBarLayout {
                         id: layout
-                        ToolIcon { iconId: "icon-m-toolbar-back"; onClicked: { pageStack.pop(); } }
+                        ToolIcon { iconId: "icon-m-toolbar-back-white"; onClicked: { pageStack.pop(); } }
+                        ToolIcon { iconId: available ? "icon-m-toolbar-favorite-mark-white" : "icon-m-toolbar-favorite-mark-dimmed-white"}
+                        ToolIcon { iconId: available ? "icon-m-toolbar-share-white" : "icon-m-toolbar-share-dimmed-white" }
+                        ToolIcon { iconId: available ? "icon-m-toolbar-delete-white" : "icon-m-toolbar-delete-dimmed-white"; onClicked: deleteCurrentItem(); }
+                        ToolIcon { iconId: "icon-m-toolbar-view-menu-white" }
                 }
         }
 
