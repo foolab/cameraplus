@@ -36,7 +36,8 @@
 #define IMAGE_QUERY BEGIN_IMAGE QUERY_END
 #define VIDEO_QUERY BEGIN_VIDEO QUERY_END
 
-// TODO: mime type
+#define ADD_FAVORITE_QUERY "INSERT { ?u nao:hasTag nao:predefined-tag-favorite . } WHERE {?u nie:url <file://%1> . }"
+#define REMOVE_FAVORITE_QUERY "DELETE { ?u nao:hasTag nao:predefined-tag-favorite . } WHERE {?u nie:url <file://%1> . }"
 
 TrackerStore::TrackerStore(QObject *parent) :
   QObject(parent),
@@ -108,6 +109,26 @@ bool TrackerStore::execQuery(const QString& query, const QString& path) {
   q.bindValue("contentCreated", dateTime.toString(Qt::ISODate) +
 		  "." + QString().sprintf("%.3d", dateTime.time().msec()));
 
+  return exec(q);
+}
+
+bool TrackerStore::addToFavorites(const QUrl& url) {
+  QString query = QString(ADD_FAVORITE_QUERY).arg(url.toLocalFile());
+
+  QSparqlQuery q(query, QSparqlQuery::InsertStatement);
+
+  return exec(q);
+}
+
+bool TrackerStore::removeFromFavorites(const QUrl& url) {
+  QString query = QString(REMOVE_FAVORITE_QUERY).arg(url.toLocalFile());
+
+  QSparqlQuery q(query, QSparqlQuery::DeleteStatement);
+
+  return exec(q);
+}
+
+bool TrackerStore::exec(QSparqlQuery& q) {
   QScopedPointer<QSparqlResult> r(m_connection->syncExec(q));
 
   if (!r->hasError()) {

@@ -104,6 +104,29 @@ CameraPage {
                 }
         }
 
+        function addOrRemoveFavorite() {
+                if (!available) {
+                        return;
+                }
+
+                if (currentItem.itemData.favorite) {
+                        if (!trackerStore.removeFromFavorites(currentItem.itemData.url)) {
+                                showError(qsTr("Failed to remove favorite"));
+                        }
+                        else {
+                                currentItem.itemData.favorite = false;
+                        }
+                }
+                else {
+                        if (!trackerStore.addToFavorites(currentItem.itemData.url)) {
+                                showError(qsTr("Failed to add favorite"));
+                        }
+                        else {
+                                currentItem.itemData.favorite = true;
+                        }
+                }
+        }
+
         ShareHelper {
                 id: share
         }
@@ -164,7 +187,7 @@ CameraPage {
                 tools: ToolBarLayout {
                         id: layout
                         ToolIcon { iconId: "icon-m-toolbar-back-white"; onClicked: { pageStack.pop(); } }
-                        ToolIcon { iconId: available ? "icon-m-toolbar-favorite-mark-white" : "icon-m-toolbar-favorite-mark-dimmed-white"}
+                        ToolIcon { iconId: !available ? "icon-m-toolbar-favorite-mark-dimmed-white" : currentItem.itemData.favorite ? "icon-m-toolbar-favorite-mark-white" : "icon-m-toolbar-favorite-unmark-white"; onClicked: addOrRemoveFavorite(); }
                         ToolIcon { iconId: available ? "icon-m-toolbar-share-white" : "icon-m-toolbar-share-dimmed-white"; onClicked: shareCurrentItem(); }
                         ToolIcon { iconId: available ? "icon-m-toolbar-delete-white" : "icon-m-toolbar-delete-dimmed-white"; onClicked: deleteCurrentItem(); }
                         ToolIcon { iconId: "icon-m-toolbar-view-menu-white"; onClicked: menu.open(); }

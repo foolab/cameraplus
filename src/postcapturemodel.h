@@ -100,7 +100,7 @@ class PostCaptureModelItem : public QObject {
   Q_PROPERTY(bool available READ available NOTIFY availableChanged);
   Q_PROPERTY(QString lastModified READ lastModified NOTIFY lastModifiedChanged);
   Q_PROPERTY(unsigned trackerId READ trackerId CONSTANT);
-  Q_PROPERTY(bool favorite READ favorite NOTIFY favoriteChanged);
+  Q_PROPERTY(bool favorite READ favorite WRITE setFavorite NOTIFY favoriteChanged);
 
 public:
   PostCaptureModelItem(const QSparqlResultRow& row, QObject *parent = 0);
@@ -120,6 +120,8 @@ public:
   bool available() const;
   QString lastModified() const;
   unsigned trackerId() const;
+
+  void setFavorite(bool add);
   bool favorite() const;
 
 signals:

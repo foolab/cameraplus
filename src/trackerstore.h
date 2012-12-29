@@ -26,6 +26,8 @@
 #include <QObject>
 
 class QSparqlConnection;
+class QUrl;
+class QSparqlQuery;
 
 class TrackerStore : public QObject {
   Q_OBJECT
@@ -50,6 +52,9 @@ public:
   QString model() const;
   void setModel(const QString& model);
 
+  Q_INVOKABLE bool addToFavorites(const QUrl& url);
+  Q_INVOKABLE bool removeFromFavorites(const QUrl& url);
+
 signals:
   void activeChanged();
   void manufacturerChanged();
@@ -57,6 +62,7 @@ signals:
 
 private:
   bool execQuery(const QString& query, const QString& path);
+  bool exec(QSparqlQuery& q);
 
   QSparqlConnection *m_connection;
   QString m_manufacturer;

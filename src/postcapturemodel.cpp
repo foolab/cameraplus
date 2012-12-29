@@ -246,13 +246,18 @@ void PostCaptureModel::graphUpdated(const QString& className, const QList<Quad>&
   // We will just assume tracker:available has changed and that's it.
   // We are not really interested in the rest of properties.
 
-  Q_UNUSED(deleted);
-
   if (!(className == QLatin1String(PHOTO_CLASS) || className == QLatin1String(VIDEO_CLASS))) {
     return;
   }
 
   QList<int> items;
+
+  for (int x = 0; x < deleted.size(); x++) {
+    Quad q = deleted[x];
+    if (m_hash.contains(q.subject) && items.indexOf(q.subject) == -1) {
+      items << q.subject;
+    }
+  }
 
   for (int x = 0; x < inserted.size(); x++) {
     Quad q = inserted[x];
@@ -315,7 +320,15 @@ unsigned PostCaptureModelItem::trackerId() const {
 }
 
 bool PostCaptureModelItem::favorite() const {
-  return value("favorite").toBool();
+  return value("favorite", false).toBool();
+}
+
+void PostCaptureModelItem::setFavorite(bool add) {
+  if (favorite() != add) {
+    m_data["favorite"] = add;
+
+    emit favoriteChanged();
+  }
 }
 
 QString PostCaptureModelItem::formatDateTime(const QDateTime& dt) const {
@@ -324,6 +337,13 @@ QString PostCaptureModelItem::formatDateTime(const QDateTime& dt) const {
 
 void PostCaptureModelItem::update(PostCaptureModelItem *other) {
   // We will only update available, favorite and title:
+#if 0
+  qDebug() << "i" << trackerId() << other->trackerId()  << "\n"
+	   << "a" << available() << other->available() << "\n"
+	   << "t" << title() << other->title() << "\n"
+	   << "f" << favorite() << other->favorite();
+#endif
+
   if (available() != other->available()) {
     m_data["available"] = other->available();
     emit availableChanged();
