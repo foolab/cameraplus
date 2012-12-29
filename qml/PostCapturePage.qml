@@ -179,43 +179,68 @@ CameraPage {
                 }
         }
 
-        ToolBar {
+        CameraToolBar {
                 id: toolBar
-                opacity: 0.8
+                expanded: true
+                manualBack: true
                 anchors.bottom: parent.bottom
-                tools: ToolBarLayout {
-                        id: layout
-                        ToolIcon { iconId: "icon-m-toolbar-back-white"; onClicked: { pageStack.pop(); } }
-                        ToolIcon { iconId: !available ? "icon-m-toolbar-favorite-mark-dimmed-white" : currentItem.itemData.favorite ? "icon-m-toolbar-favorite-mark-white" : "icon-m-toolbar-favorite-unmark-white"; onClicked: addOrRemoveFavorite(); }
-                        ToolIcon { iconId: available ? "icon-m-toolbar-share-white" : "icon-m-toolbar-share-dimmed-white"; onClicked: shareCurrentItem(); }
-                        ToolIcon { iconId: available ? "icon-m-toolbar-delete-white" : "icon-m-toolbar-delete-dimmed-white"; onClicked: deleteCurrentItem(); }
-                        ToolIcon { iconId: "icon-m-toolbar-view-menu-white"; onClicked: menu.open(); }
+                anchors.bottomMargin: show ? 20 : -1 * (height + 20)
+                anchors.left: parent.left
+                anchors.leftMargin: 20
+                opacity: 0.8
+
+                property bool show: true
+
+                onClicked: pageStack.pop();
+
+                Behavior on anchors.bottomMargin {
+                        PropertyAnimation { duration: 200; }
                 }
+
+                items: [
+                        ToolIcon { iconId: !available ? "icon-m-toolbar-favorite-mark-dimmed-white" : currentItem.itemData.favorite ? "icon-m-toolbar-favorite-mark-white" : "icon-m-toolbar-favorite-unmark-white"; onClicked: addOrRemoveFavorite(); },
+                        ToolIcon { iconId: available ? "icon-m-toolbar-share-white" : "icon-m-toolbar-share-dimmed-white"; onClicked: shareCurrentItem(); },
+                        ToolIcon { iconId: available ? "icon-m-toolbar-delete-white" : "icon-m-toolbar-delete-dimmed-white"; onClicked: deleteCurrentItem(); },
+                        ToolIcon { iconId: "icon-m-toolbar-view-menu-white"; onClicked: menu.open(); }
+                ]
         }
 
-        ToolBar {
+        Rectangle {
                 opacity: toolBar.opacity
                 anchors.top: parent.top
+                anchors.topMargin: toolBar.show ? 20 : -1 * (height + 20)
+                anchors.left: parent.left
+                anchors.leftMargin: 20
+                anchors.right: parent.right
+                anchors.rightMargin: 20
                 visible: toolBar.visible
+                height: toolBar.height
+                color: toolBar.color
+                border.color: toolBar.border.color
+                radius: toolBar.radius
 
-                tools: ToolBarLayout {
-                        Label {
-                                text: currentItem ? currentItem.itemData.title : ""
-                                anchors.top: parent.top
-                                anchors.bottom: parent.bottom
-                                anchors.left: parent.left
-                                font.bold: true
-                                verticalAlignment: Text.AlignVCenter
-                        }
+                Behavior on anchors.topMargin {
+                        PropertyAnimation { duration: 200; }
+                }
 
-                        Label {
-                                text: currentItem ? currentItem.itemData.created : ""
-                                font.bold: true
-                                anchors.top: parent.top
-                                anchors.bottom: parent.bottom
-                                anchors.right: parent.right
-                                verticalAlignment: Text.AlignVCenter
-                        }
+                Label {
+                        text: currentItem ? currentItem.itemData.title : ""
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.left: parent.left
+                        anchors.leftMargin: 20
+                        font.bold: true
+                        verticalAlignment: Text.AlignVCenter
+                }
+
+                Label {
+                        text: currentItem ? currentItem.itemData.created : ""
+                        font.bold: true
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.right: parent.right
+                        anchors.rightMargin: 20
+                        verticalAlignment: Text.AlignVCenter
                 }
         }
 }

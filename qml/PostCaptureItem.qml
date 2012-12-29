@@ -62,7 +62,7 @@ Item {
                         id: mouse
                         anchors.fill: parent
                         enabled: true
-                        onClicked: toolBar.visible = !toolBar.visible
+                        onClicked: toolBar.show = !toolBar.show
                 }
 
                 ToolIcon {
