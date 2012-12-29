@@ -38,7 +38,7 @@ Item {
 
         function startPlayback() {
                 openFileNow("VideoPlayerPage.qml");
-                pageStack.currentPage.source = url;
+                pageStack.currentPage.source = itemData.url;
                 pageStack.currentPage.play();
         }
 
