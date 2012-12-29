@@ -81,7 +81,6 @@ CameraPage {
                         mountProtector.unlock();
                 }
 
-                // TODO: sometimes this fails (fast stop after start).
                 trackerStore.storeVideo(file);
         }
 

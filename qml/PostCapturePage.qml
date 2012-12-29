@@ -26,7 +26,6 @@ import QtCamera 1.0
 import CameraPlus 1.0
 
 // TODO: losing resources while playback won't show an error
-// TODO: favorites
 // TODO: mass storage mode interaction
 
 CameraPage {

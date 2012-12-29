@@ -28,7 +28,6 @@ import CameraPlus 1.0
 import QtMobility.systeminfo 1.2
 import QtMobility.location 1.2
 
-// TODO: postcapture
 // TODO: flash not ready (battery low or flash not ready message)
 // TODO: portrait/landscape
 // TODO: grid lines, face tracking
