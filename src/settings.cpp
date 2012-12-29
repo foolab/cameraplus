@@ -26,7 +26,6 @@
 
 #define DEFAULT_MODE               1
 #define DEFAULT_SCENE_MODE         6 // Auto
-#define DEFAULT_TIMEOUT            0
 #define DEFAULT_USE_GPS            true
 #define DEFAULT_USE_GEOTAGS        true
 #define DEFAULT_COLOR_FILTER       0
@@ -73,18 +72,6 @@ void Settings::setCreatorName(const QString& name) {
     m_settings->setValue("camera/creatorName", name);
 
     emit creatorNameChanged();
-  }
-}
-
-int Settings::postCaptureTimeout() const {
-  return m_settings->value("camera/postCaptureTimeout", DEFAULT_TIMEOUT).toInt();
-}
-
-void Settings::setPostCaptureTimeout(int timeout) {
-  if (timeout != postCaptureTimeout()) {
-    m_settings->setValue("camera/postCaptureTimeout", timeout);
-
-    emit postCaptureTimeoutChanged();
   }
 }
 

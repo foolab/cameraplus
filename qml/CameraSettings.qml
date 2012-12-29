@@ -33,40 +33,7 @@ Column {
                 text: qsTr("Camera settings");
                 width: parent.width
         }
-/*
-// TODO:
-        SectionHeader {
-                text: qsTr("Show captured content");
-        }
 
-        ButtonRow {
-                anchors.horizontalCenter: parent.horizontalCenter
-
-                Button {
-                        text: qsTr("Disabled");
-                        checked: settings.postCaptureTimeout == 0;
-                        onClicked: settings.postCaptureTimeout = 0;
-                }
-
-                Button {
-                        text: qsTr("2 seconds");
-                        checked: settings.postCaptureTimeout == 2;
-                        onClicked: settings.postCaptureTimeout = 2;
-                }
-
-                Button {
-                        text: qsTr("5 seconds");
-                        checked: settings.postCaptureTimeout == 10;
-                        onClicked: settings.postCaptureTimeout = 10;
-                }
-
-                Button {
-                        text: qsTr("No timeout");
-                        checked: settings.postCaptureTimeout == -1;
-                        onClicked: settings.postCaptureTimeout = -1;
-                }
-        }
-*/
         SectionHeader {
                 text: qsTr("Creator name");
                 width: parent.width

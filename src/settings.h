@@ -32,7 +32,6 @@ class Settings : public QObject {
 
   Q_PROPERTY(int mode READ mode WRITE setMode NOTIFY modeChanged);
   Q_PROPERTY(QString creatorName READ creatorName WRITE setCreatorName NOTIFY creatorNameChanged);
-  Q_PROPERTY(int postCaptureTimeout READ postCaptureTimeout WRITE setPostCaptureTimeout NOTIFY postCaptureTimeoutChanged);
   Q_PROPERTY(bool useGps READ useGps WRITE setUseGps NOTIFY useGpsChanged);
   Q_PROPERTY(bool useGeotags READ useGeotags WRITE setUseGeotags NOTIFY useGeotagsChanged);
   Q_PROPERTY(int imageSceneMode READ imageSceneMode WRITE setImageSceneMode NOTIFY imageSceneModeChanged);
@@ -69,9 +68,6 @@ public:
 
   QString creatorName() const;
   void setCreatorName(const QString& name);
-
-  int postCaptureTimeout() const;
-  void setPostCaptureTimeout(int timeout);
 
   bool useGps() const;
   void setUseGps(bool enable);
@@ -136,7 +132,6 @@ public:
 signals:
   void modeChanged();
   void creatorNameChanged();
-  void postCaptureTimeoutChanged();
   void useGpsChanged();
   void useGeotagsChanged();
   void imageSceneModeChanged();
