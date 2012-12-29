@@ -28,6 +28,7 @@ import CameraPlus 1.0
 CameraPage {
         id: page
 
+        property bool popTwice: false
         controlsVisible: false
         policyMode: CameraResources.PostCapture
         needsPipeline: false
@@ -39,14 +40,35 @@ CameraPage {
         }
 
         MouseArea {
-                anchors.fill: parent
-                onClicked: toolBar.visible = !toolBar.visible
+                anchors.top: parent.top
+                anchors.bottom: toolBar.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                onClicked: toolBar.show = !toolBar.show
         }
 
 		Video {
                 id: video
                 anchors.fill: parent
-                onStopped: pageStack.pop(undefined, true);
+
+                function toggle() {
+                        if (!video.paused) {
+                                video.pause();
+                        }
+                        else {
+                                video.play();
+                        }
+                }
+
+                onStopped: {
+                        source = "";
+                        pageStack.pop(undefined, true);
+
+                        if (page.popTwice) {
+                                pageStack.pop(undefined);
+                        }
+                }
 		}
 
         Connections {
@@ -58,23 +80,38 @@ CameraPage {
                 }
         }
 
-        ToolBar {
+        CameraToolBar {
                 id: toolBar
-                opacity: 0.8
+
+                property bool show: true
+
+                manualBack: true
+                expanded: true
                 anchors.bottom: parent.bottom
-                tools: ToolBarLayout {
-                        id: layout
+                anchors.bottomMargin: show ? 20 : -1 * (height + 20)
+                anchors.left: parent.left
+                anchors.leftMargin: 20
+                opacity: 0.5
 
-                        ToolIcon { iconId: "icon-m-toolbar-mediacontrol-stop-white"; onClicked: { video.stop(); } }
+                Behavior on anchors.bottomMargin {
+                        PropertyAnimation { duration: 200; }
+                }
 
+                onClicked: {
+                        page.popTwice = true;
+                        video.stop();
+                }
+
+                items: [
+                        ToolIcon { iconId: "icon-m-toolbar-mediacontrol-stop-white"; onClicked: { video.stop(); } },
                         Slider {
                                 id: slider
                                 height: toolBar.height
+                                anchors.verticalCenter: parent.verticalCenter
 
                                 platformStyle: SliderStyle {
-                                        // HACK
-                                        handleBackground: " "
-                                        handleBackgroundPressed: " "
+                                        handleBackground: ""
+                                        handleBackgroundPressed: ""
                                 }
 
                                 minimumValue: 0
@@ -87,20 +124,11 @@ CameraPage {
                                                 video.position = slider.value;
                                         }
                                 }
-                        }
-
+                        },
                         ToolIcon {
                                 id: control
-                                iconId: !video.paused ? "icon-m-toolbar-mediacontrol-pause-white" : "icon-m-toolbar-mediacontrol-play-white"
-                                onClicked: {
-                                        if (!video.paused) {
-                                                video.pause();
-                                        }
-                                        else {
-                                                video.play();
-                                        }
-                                }
+                                iconId: !video.paused ? "icon-m-toolbar-mediacontrol-pause-white" : "icon-m-toolbar-mediacontrol-play-white"; onClicked: video.toggle();
                         }
-                }
+                ]
         }
 }
