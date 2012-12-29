@@ -30,6 +30,8 @@ Rectangle {
         property list<Item> items
         property int targetWidth: parent.width - (2 * anchors.leftMargin)
         property alias menuWidth: menu.width
+        property bool manualBack: false
+        signal clicked
 
         height: menu.height
         width: expanded ? targetWidth : menu.width
@@ -47,6 +49,11 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
                 iconSource: "image://theme/icon-m-toolbar-back-white"
                 onClicked: {
+                        if (tools.manualBack) {
+                                tools.clicked();
+                                return;
+                        }
+
                         if (!expanded) {
                                 expanded = true;
                         }
