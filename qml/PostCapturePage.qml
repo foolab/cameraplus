@@ -23,12 +23,11 @@
 import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
-import QtSparql 1.0
 import CameraPlus 1.0
 
 // TODO: losing resources while playback won't show an error
-// TODO: show something if we have no files.
 // TODO: favorites
+// TODO: mass storage mode interaction
 
 CameraPage {
         id: page
@@ -39,15 +38,9 @@ CameraPage {
         standbyVisible: !Qt.application.active
 
         property Item currentItem: null
-        property bool available: currentItem ? currentItem.itemAvailable : false
+        property bool available: currentItem ? currentItem.itemData.available : false
 
-        function parseDate(str) {
-                var parts = str.split('T');
-                var dates = parts[0].split('-');
-                var times = parts[1].split(':');
-                return new Date(dates[0], dates[1], dates[2], times[0], times[1], times[2]);
-        }
-
+        Component.onCompleted: postCaptureModel.reload();
 
         function launchGallery() {
                 if (!gallery.launch()) {
@@ -78,7 +71,7 @@ CameraPage {
                         return;
                 }
 
-                deleteDialog.message = currentItem.fileName;
+                deleteDialog.message = currentItem.itemData.fileName;
                 deleteDialog.open();
         }
 
@@ -88,9 +81,11 @@ CameraPage {
                 acceptButtonText: qsTr("Yes");
                 rejectButtonText: qsTr("No");
                 onAccepted: {
-                        // TODO: Remove from model and move to next item
-                        if (!remove.remove(currentItem.itemUrl)) {
+                        if (!remove.remove(currentItem.itemData.url)) {
                                 showError(qsTr("Failed to delete item"));
+                        }
+                        else {
+                                postCaptureModel.remove(currentItem.itemData);
                         }
                 }
 
@@ -104,7 +99,7 @@ CameraPage {
                         return;
                 }
 
-                if (!share.share(currentItem.itemUrl)) {
+                if (!share.share(currentItem.itemData.url)) {
                                 showError(qsTr("Failed to launch share service"));
                 }
         }
@@ -138,21 +133,22 @@ CameraPage {
                 highlightRangeMode: PathView.StrictlyEnforceRange
                 pathItemCount: 3
 
-                model: SparqlListModel {
-                        query: 'SELECT rdf:type(?urn) AS ?type nie:url(?urn) AS ?url nie:contentCreated(?urn) AS ?created nie:title(?urn) AS ?title nfo:fileName(?urn) AS ?filename nie:mimeType(?urn) AS ?mimetype tracker:available(?urn) AS ?available nfo:fileLastModified(?urn) as ?lastmod tracker:id(?urn) AS ?trackerid  (EXISTS { ?urn nao:hasTag nao:predefined-tag-favorite }) AS ?favorite WHERE { ?urn nfo:equipment "urn:equipment:' + deviceInfo.manufacturer + ':' + deviceInfo.model + ':" .  {?urn a nfo:Video} UNION {?urn a nfo:Image}} ORDER BY DESC(?created)'
-
-                        connection: SparqlConnection {
-                                id: connection
-                                driver: "QTRACKER_DIRECT"
-                                onStatusChanged: checkStatus(status)
-
-                                function checkStatus(status) {
-                                        if (status == SparqlConnection.Error) {
-                                                // TODO: report error
-                                                console.log("Error = " + connection.errorString());
-                                        }
-                                }
+                model: PostCaptureModel {
+                        id: postCaptureModel
+                        manufacturer: deviceInfo.manufacturer
+                        model: deviceInfo.model
+                        onError: {
+                                console.log("Error populating model " + msg);
+                                showError(qsTr("Failed to load captures"));
                         }
+                }
+
+                Label {
+                        // TODO: Hide this when we have no items
+                        text: qsTr("No captures available");
+                        anchors.centerIn: parent
+                        font.pixelSize: 36
+                        visible: currentItem == null
                 }
 
                 delegate: PostCaptureItem {
@@ -182,7 +178,7 @@ CameraPage {
 
                 tools: ToolBarLayout {
                         Label {
-                                text: currentItem ? currentItem.itemTitle : ""
+                                text: currentItem ? currentItem.itemData.title : ""
                                 anchors.top: parent.top
                                 anchors.bottom: parent.bottom
                                 anchors.left: parent.left
@@ -191,7 +187,7 @@ CameraPage {
                         }
 
                         Label {
-                                text: currentItem ? Qt.formatDateTime(parseDate(currentItem.creationDate)) : ""
+                                text: currentItem ? currentItem.itemData.created : ""
                                 font.bold: true
                                 anchors.top: parent.top
                                 anchors.bottom: parent.bottom

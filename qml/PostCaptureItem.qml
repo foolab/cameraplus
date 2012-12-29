@@ -25,18 +25,16 @@ import com.nokia.meego 1.1
 import CameraPlus 1.0
 
 Item {
-        id: item
-        property bool isVideo: type.search("nmm#Video") > 0
+        id: postCaptureItem
+        property bool isVideo: itemData.type.search("nmm#Video") > 0
         property bool error: false
-
+        property variant itemData: item
         property bool isCurrentItem: PathView.isCurrentItem
-        onIsCurrentItemChanged: page.currentItem = item;
-
-        property string fileName: filename
-        property string creationDate: created
-        property string itemTitle: title
-        property bool itemAvailable: available
-        property url itemUrl: url
+        onIsCurrentItemChanged: {
+                if (isCurrentItem) {
+                        page.currentItem = postCaptureItem;
+                }
+        }
 
         function startPlayback() {
                 openFileNow("VideoPlayerPage.qml");
@@ -58,7 +56,7 @@ Item {
                 anchors.fill: parent
                 visible: page.status == PageStatus.Activating || page.status == PageStatus.Active
 
-                Component.onCompleted: initialize(url, mimetype);
+                Component.onCompleted: initialize(itemData.url, itemData.mimetype);
 
                 MouseArea {
                         id: mouse

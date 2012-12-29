@@ -43,6 +43,7 @@
 #include "sharehelper.h"
 #include "deletehelper.h"
 #include "galleryhelper.h"
+#include "postcapturemodel.h"
 
 static void initQuill() {
   // TODO: All these are hardcoded.
@@ -88,6 +89,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<ShareHelper>("CameraPlus", 1, 0, "ShareHelper");
   qmlRegisterType<DeleteHelper>("CameraPlus", 1, 0, "DeleteHelper");
   qmlRegisterType<GalleryHelper>("CameraPlus", 1, 0, "GalleryHelper");
+  qmlRegisterType<PostCaptureModel>("CameraPlus", 1, 0, "PostCaptureModel");
 
   QUrl sourceUrl = QUrl::fromLocalFile(QDir::currentPath() + "/main.qml");
   view.setSource(sourceUrl);
