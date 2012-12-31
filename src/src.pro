@@ -24,3 +24,5 @@ HEADERS += settings.h filenaming.h quillitem.h displaystate.h fsmonitor.h \
            cameraresources.h compass.h orientation.h geocode.h mountprotector.h \
            trackerstore.h focusrectangle.h sharehelper.h deletehelper.h galleryhelper.h \
            postcapturemodel.h
+
+RESOURCES += ../qml/qml.qrc

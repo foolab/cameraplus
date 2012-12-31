@@ -91,8 +91,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<GalleryHelper>("CameraPlus", 1, 0, "GalleryHelper");
   qmlRegisterType<PostCaptureModel>("CameraPlus", 1, 0, "PostCaptureModel");
 
-  QUrl sourceUrl = QUrl::fromLocalFile(QDir::currentPath() + "/main.qml");
-  view.setSource(sourceUrl);
+  view.setSource(QUrl("qrc:/qml/main.qml"));
 
   view.showFullScreen();
 
