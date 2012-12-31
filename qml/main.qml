@@ -24,13 +24,9 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 import com.nokia.extras 1.1
 import QtCamera 1.0
-import QtMobility.systeminfo 1.2
-import QtMobility.location 1.2
-
-// TODO: this has to be below QtMobility.systeminfo
-// We define an element called BatteryInfo which conflicts with the one defined by QtMobility
-// Thus we have to be the last so our element can be used instead of the one from QtMobility
 import CameraPlus 1.0
+import QtMobility.systeminfo 1.2 as Qtm
+import QtMobility.location 1.2
 
 // TODO: flash not ready (battery low or flash not ready message)
 // TODO: portrait/landscape
@@ -119,7 +115,7 @@ PageStackWindow {
                 camera: cam
         }
 
-        DeviceInfo {
+        Qtm.DeviceInfo {
                 id: deviceInfo
         }
 
