@@ -44,6 +44,7 @@
 #include "deletehelper.h"
 #include "galleryhelper.h"
 #include "postcapturemodel.h"
+#include "batteryinfo.h"
 
 static void initQuill() {
   // TODO: All these are hardcoded.
@@ -90,6 +91,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<DeleteHelper>("CameraPlus", 1, 0, "DeleteHelper");
   qmlRegisterType<GalleryHelper>("CameraPlus", 1, 0, "GalleryHelper");
   qmlRegisterType<PostCaptureModel>("CameraPlus", 1, 0, "PostCaptureModel");
+  qmlRegisterType<BatteryInfo>("CameraPlus", 1, 0, "BatteryInfo");
 
   view.setSource(QUrl("qrc:/qml/main.qml"));
 

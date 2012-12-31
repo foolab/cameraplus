@@ -24,9 +24,13 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 import com.nokia.extras 1.1
 import QtCamera 1.0
-import CameraPlus 1.0
 import QtMobility.systeminfo 1.2
 import QtMobility.location 1.2
+
+// TODO: this has to be below QtMobility.systeminfo
+// We define an element called BatteryInfo which conflicts with the one defined by QtMobility
+// Thus we have to be the last so our element can be used instead of the one from QtMobility
+import CameraPlus 1.0
 
 // TODO: flash not ready (battery low or flash not ready message)
 // TODO: portrait/landscape
@@ -142,6 +146,25 @@ PageStackWindow {
                 path: fileNaming.path
         }
 
+        BatteryInfo {
+                id: batteryMonitor
+                active: cam.running
+
+                function check() {
+                        if (!checkBattery()) {
+                                pageStack.currentPage.batteryLow();
+                        }
+                }
+
+                onChargingChanged: {
+                        batteryMonitor.check();
+                }
+
+                onCriticalChanged: {
+                        batteryMonitor.check();
+                }
+        }
+
         function replacePage(file) {
                 pageStack.replace(Qt.resolvedUrl(file), {cam: cam, dimmer: root.dimmer}, true);
         }
@@ -152,6 +175,20 @@ PageStackWindow {
 
         function openFileNow(file) {
                 pageStack.push(Qt.resolvedUrl(file), {cam: cam, dimmer: root.dimmer}, true);
+        }
+
+        function checkBattery() {
+                // We are fine if we are connected to the charger:
+                if (batteryMonitor.charging) {
+                        return true;
+                }
+
+                // If we have enough battery then we are fine:
+                if (!batteryMonitor.critical) {
+                        return true;
+                }
+
+                return false;
         }
 
         platformStyle: PageStackWindowStyle {

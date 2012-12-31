@@ -24,7 +24,6 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
-import QtMobility.systeminfo 1.2
 
 Page {
         id: page
@@ -94,38 +93,5 @@ Page {
 
         function checkDiskSpace() {
                 return fileSystem.hasFreeSpace(fileNaming.path);
-        }
-
-        function checkBattery() {
-                // We are fine if we are connected to the charger:
-                if (batteryMonitor.chargingState == BatteryInfo.Charging) {
-                        return true;
-                }
-
-                // If we have enough battery then we are fine:
-                if (batteryMonitor.batteryStatus > BatteryInfo.BatteryCritical) {
-                        return true;
-                }
-
-                return false;
-        }
-
-        BatteryInfo {
-                // TODO: replace this
-                id: batteryMonitor
-                monitorChargingStateChanges: cam.running
-                monitorBatteryStatusChanges: cam.running
-
-                onChargingStateChanged: {
-                        if (!checkBattery()) {
-                                parent.batteryLow();
-                        }
-                }
-
-                onBatteryStatusChanged:  {
-                        if (!checkBattery()) {
-                                parent.batteryLow();
-                        }
-                }
         }
 }
