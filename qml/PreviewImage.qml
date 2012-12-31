@@ -28,7 +28,7 @@ Image {
         id: image
         anchors.fill: parent
         property alias animationRunning: animation.running
-        opacity: 0
+        opacity: visible ? 1 : 0
         z: 1
 
         visible: opacity != 0
@@ -48,8 +48,8 @@ Image {
         }
 
         function setPreview(preview) {
-                animation.start();
                 image.source = preview;
-                image.visible = true;
+                image.opacity = 1;
+                animation.start();
         }
 }
