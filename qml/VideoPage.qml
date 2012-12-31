@@ -31,7 +31,7 @@ CameraPage {
 
         policyMode: CameraResources.Video
 
-        controlsVisible: cam.running && !videoMode.recording && videoMode.canCapture && !cameraMode.animationRunning && !previewAnimationRunning
+        controlsVisible: cam.running && !videoMode.recording && videoMode.canCapture && !cameraMode.busy && dimmer.opacity == 0.0 && !previewAnimationRunning
         orientationLock: PageOrientation.LockLandscape
 
         function startRecording() {

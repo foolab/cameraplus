@@ -33,6 +33,8 @@ Page {
         property int policyMode: CameraResources.None
 
         property Camera cam: null
+        property Item dimmer: null
+
         property bool controlsVisible: cam.running && !standby.visible
         property bool zoomVisible: true
         property bool modesVisible: true
@@ -109,6 +111,7 @@ Page {
         }
 
         BatteryInfo {
+                // TODO: replace this
                 id: batteryMonitor
                 monitorChargingStateChanges: cam.running
                 monitorBatteryStatusChanges: cam.running

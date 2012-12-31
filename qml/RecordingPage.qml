@@ -36,7 +36,7 @@ CameraPage {
 
         policyMode: CameraResources.Recording
 
-        controlsVisible: cam.running && videoMode.recording && !cameraMode.animationRunning && !previewAnimationRunning && !error
+        controlsVisible: cam.running && videoMode.recording && !error
 
         orientationLock: PageOrientation.LockLandscape
 

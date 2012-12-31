@@ -143,15 +143,15 @@ PageStackWindow {
         }
 
         function replacePage(file) {
-                pageStack.replace(Qt.resolvedUrl(file), {cam: cam}, true);
+                pageStack.replace(Qt.resolvedUrl(file), {cam: cam, dimmer: root.dimmer}, true);
         }
 
         function openFile(file) {
-                pageStack.push(Qt.resolvedUrl(file), {cam: cam});
+                pageStack.push(Qt.resolvedUrl(file), {cam: cam, dimmer: root.dimmer});
         }
 
         function openFileNow(file) {
-                pageStack.push(Qt.resolvedUrl(file), {cam: cam}, true);
+                pageStack.push(Qt.resolvedUrl(file), {cam: cam, dimmer: root.dimmer}, true);
         }
 
         platformStyle: PageStackWindowStyle {
@@ -259,11 +259,15 @@ PageStackWindow {
                 z: -1
 
                 Rectangle {
+                        property bool dimmed: false
                         id: camDimmer
                         z: 1
                         anchors.fill: parent
-                        opacity: 0
+                        opacity: dimmed ? 1.0 : 0.0
                         color: "black"
+                        Behavior on opacity {
+                                PropertyAnimation { duration: 150 }
+                        }
                 }
 
                 notifications: Sounds {
