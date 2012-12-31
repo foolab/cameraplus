@@ -24,7 +24,6 @@ import QtQuick 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
 
-// TODO: I've seen the reticle color changing to red while dragging it but failed to reproduce :(
 // TODO: hide all controls when we are focusing
 // TODO: hide all controls when we are dragging
 

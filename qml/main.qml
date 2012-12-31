@@ -35,6 +35,7 @@ import QtMobility.location 1.2
 // TODO: disable debug builds.
 // TODO: a way to get buffers to the application
 // TODO: fcam like functionality (precise control over capture parameters).
+// TODO: timer, fast capture
 
 PageStackWindow {
         id: root
