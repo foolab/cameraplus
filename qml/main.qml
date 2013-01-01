@@ -25,7 +25,6 @@ import com.nokia.meego 1.1
 import com.nokia.extras 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
-import QtMobility.systeminfo 1.2 as Qtm
 import QtMobility.location 1.2
 
 // TODO: flash not ready (battery low or flash not ready message)
@@ -116,7 +115,7 @@ PageStackWindow {
                 camera: cam
         }
 
-        Qtm.DeviceInfo {
+        DeviceInfo {
                 id: deviceInfo
         }
 

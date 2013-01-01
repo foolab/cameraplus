@@ -46,6 +46,7 @@
 #include "postcapturemodel.h"
 #include "batteryinfo.h"
 #include "gridlines.h"
+#include "deviceinfo.h"
 
 static void initQuill() {
   // TODO: All these are hardcoded.
@@ -94,6 +95,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<PostCaptureModel>("CameraPlus", 1, 0, "PostCaptureModel");
   qmlRegisterType<BatteryInfo>("CameraPlus", 1, 0, "BatteryInfo");
   qmlRegisterType<GridLines>("CameraPlus", 1, 0, "GridLines");
+  qmlRegisterType<DeviceInfo>("CameraPlus", 1, 0, "DeviceInfo");
 
   view.setSource(QUrl("qrc:/qml/main.qml"));
 
