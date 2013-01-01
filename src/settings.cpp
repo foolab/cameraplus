@@ -40,6 +40,7 @@
 #define DEFAULT_VIDEO_TORCH_ON     false
 #define DEFAULT_SHOW_TOOL_BAR      false
 #define DEFAULT_VIDEO_MUTE         false
+#define DEFAULT_GRID_ENABLED       false
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -309,3 +310,13 @@ void Settings::setVideoMuted(bool muted) {
   }
 }
 
+bool Settings::isGridEnabled() const {
+  return m_settings->value("camera/gridEnabled", DEFAULT_GRID_ENABLED).toBool();
+}
+
+void Settings::setGridEnabled(bool enabled) {
+  if (enabled != isGridEnabled()) {
+    m_settings->setValue("camera/gridEnabled", enabled);
+    emit gridEnabledChanged();
+  }
+}

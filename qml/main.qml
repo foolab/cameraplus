@@ -30,7 +30,7 @@ import QtMobility.location 1.2
 
 // TODO: flash not ready (battery low or flash not ready message)
 // TODO: portrait/landscape
-// TODO: grid lines, face tracking
+// TODO: face tracking
 // TODO: select primary/secondary camera.
 // TODO: disable debug builds.
 // TODO: a way to get buffers to the application
@@ -246,6 +246,14 @@ PageStackWindow {
         Camera {
                 id: cam
                 anchors.fill: parent
+
+                GridLines {
+                        x: cam.renderArea.x
+                        y: cam.renderArea.y
+                        width: cam.renderArea.width
+                        height: cam.renderArea.height
+                        visible: settings.gridEnabled
+                }
 
                 FocusReticle {
                         id: focusReticle

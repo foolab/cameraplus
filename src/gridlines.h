@@ -20,35 +20,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef FOCUS_RECTANGLE_H
-#define FOCUS_RECTANGLE_H
+#ifndef GRID_LINES_H
+#define GRID_LINES_H
 
 #include <QDeclarativeItem>
 
-class FocusRectangle : public QDeclarativeItem {
+class GridLines : public QDeclarativeItem {
   Q_OBJECT
 
-  Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged);
-
 public:
-  FocusRectangle(QDeclarativeItem *parent = 0);
-  ~FocusRectangle();
-
-  QColor color() const;
-  void setColor(const QColor& color);
+  GridLines(QDeclarativeItem *parent = 0);
+  ~GridLines();
 
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
 
-signals:
-  void colorChanged();
-
 private:
-  QColor m_color;
-
-  QPainterPath m_path;
+  QLineF m_lines[4];
 };
 
-#endif /* FOCUS_RECTANGLE_H */
+#endif /* GRID_LINES_H */

@@ -59,6 +59,8 @@ class Settings : public QObject {
   Q_PROPERTY(bool showToolBar READ isToolBarShown WRITE setToolBarShown NOTIFY toolBarShownChanged);
   Q_PROPERTY(bool videoMuted READ isVideoMuted WRITE setVideoMuted NOTIFY videoMutedChanged);
 
+  Q_PROPERTY(bool gridEnabled READ isGridEnabled WRITE setGridEnabled NOTIFY gridEnabledChanged);
+
 public:
   Settings(QObject *parent = 0);
   ~Settings();
@@ -129,6 +131,9 @@ public:
   bool isVideoMuted() const;
   void setVideoMuted(bool muted);
 
+  bool isGridEnabled() const;
+  void setGridEnabled(bool enabled);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
@@ -152,6 +157,7 @@ signals:
   void videoTorchOnChanged();
   void toolBarShownChanged();
   void videoMutedChanged();
+  void gridEnabledChanged();
 
 private:
   QSettings *m_settings;

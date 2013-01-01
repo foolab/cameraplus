@@ -34,6 +34,26 @@ Column {
                 width: parent.width
         }
 
+        Item {
+                width: parent.width
+                height: Math.max(showGridLinesLabel.height, showGridLines.height);
+
+                Label {
+                        id: showGridLinesLabel
+                        anchors.left: parent.left
+                        text: qsTr("Show grid lines");
+                }
+
+                Switch {
+                        id: showGridLines
+                        anchors.right: parent.right
+                        // We have to do it that way because QML complains about a binding
+                        // loop for checked if we bind the checked property to the settings value.
+                        Component.onCompleted: checked = settings.gridEnabled;
+                        onCheckedChanged: settings.gridEnabled = checked;
+                }
+        }
+
         SectionHeader {
                 text: qsTr("Creator name");
                 width: parent.width
