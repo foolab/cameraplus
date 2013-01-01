@@ -188,24 +188,21 @@ void CameraResourcesWorker::acquire(bool *ok, const CameraResources::Mode& mode)
     *ok = updateSet(QList<ResourcePolicy::ResourceType>()
 		    << ResourcePolicy::VideoPlaybackType
 		    << ResourcePolicy::VideoRecorderType
-		    << ResourcePolicy::ScaleButtonType
-		    << ResourcePolicy::SnapButtonType);
+		    << ResourcePolicy::ScaleButtonType);
     break;
 
   case CameraResources::Video:
     *ok = updateSet(QList<ResourcePolicy::ResourceType>()
 		    << ResourcePolicy::VideoPlaybackType
 		    << ResourcePolicy::VideoRecorderType
-		    << ResourcePolicy::ScaleButtonType
-		    << ResourcePolicy::SnapButtonType);
+		    << ResourcePolicy::ScaleButtonType);
     break;
 
   case CameraResources::Recording:
     *ok = updateSet(QList<ResourcePolicy::ResourceType>()
 		    << ResourcePolicy::VideoPlaybackType
 		    << ResourcePolicy::VideoRecorderType
-		    << ResourcePolicy::ScaleButtonType
-		    << ResourcePolicy::SnapButtonType,
+		    << ResourcePolicy::ScaleButtonType,
 		    QList<ResourcePolicy::ResourceType>()
 		    << ResourcePolicy::AudioRecorderType
 		    << ResourcePolicy::AudioPlaybackType);
