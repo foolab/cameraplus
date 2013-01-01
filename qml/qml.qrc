@@ -24,6 +24,7 @@
 	<file>ImageEvCompButton.qml</file>
 	<file>ImageWhiteBalanceButton.qml</file>
 	<file>ImageColorFilterButton.qml</file>
+	<file>ImageIsoButton.qml</file>
 	<file>PreviewImage.qml</file>
 	<file>CheckButton.qml</file>
 	<file>VideoTorchButton.qml</file>

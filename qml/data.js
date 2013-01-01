@@ -172,15 +172,7 @@ function vsmName(sm) {
 }
 
 function isoIcon(value) {
-    var x = 0;
-    var len = __iso.length;
-    for (x = 0; x < len; x++) {
-	if (__iso[x][0] == value) {
-	    return __iso[x][1];
-	}
-    }
-
-    return "";
+    return filterData(value, __iso, 1);
 }
 
 function imageIcon(aspect, res) {

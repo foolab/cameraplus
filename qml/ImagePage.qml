@@ -215,6 +215,9 @@ CameraPage {
                 ImageColorFilterButton {
                         onClicked: toolBar.push(items);
                 },
+                ImageIsoButton {
+                        onClicked: toolBar.push(items);
+                },
                 ToolIcon {
                         iconSource: "image://theme/icon-m-toolbar-view-menu-white"
                         onClicked: openFile("ImageSettingsPage.qml");
