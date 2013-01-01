@@ -28,13 +28,8 @@ import CameraPlus 1.0
 import QtMobility.location 1.2
 
 // TODO: flash not ready (battery low or flash not ready message)
-// TODO: portrait/landscape
 // TODO: face tracking
-// TODO: select primary/secondary camera.
 // TODO: disable debug builds.
-// TODO: a way to get buffers to the application
-// TODO: fcam like functionality (precise control over capture parameters).
-// TODO: timer, fast capture
 
 PageStackWindow {
         id: root

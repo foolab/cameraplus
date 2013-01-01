@@ -1,0 +1,13 @@
+Missing big features:
+* fast capture
+* timer
+* panorama
+* HDR
+* front camera
+* fcam like functionality for QtCamera (precise control over frame parameters)
+* Zoom images in post capture
+* portrait mode for image and video modes.
+* Plugins:
+  - Get hold of viewfinder frames to analyze them and render whatever to the screen
+  - A way to add GStreamer elements to viewfinder filters and draw to the screen
+  - A way to define "submodes" for stuff like panorama or HDR.

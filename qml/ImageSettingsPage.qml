@@ -58,31 +58,7 @@ CameraPage {
                                 font.pixelSize: 36
                                 text: qsTr("Image settings");
                         }
-/*
-                        SectionHeader {
-                                text: qsTr("Capture mode");
-                        }
 
-                        ButtonRow {
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                // TODO:
-                                Button { text: qsTr("Normal"); }
-                                Button { text: qsTr("Self timer"); }
-                                Button { text: qsTr("Fast capture"); }
-                        }
-*/
-/*
-                        SectionHeader {
-                                text: qsTr("Self timer");
-                        }
-
-                        ButtonRow {
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                // TODO:
-                                Button { text: qsTr("2 seconds"); }
-                                Button { text: qsTr("10 seconds"); }
-                        }
-*/
                         SectionHeader {
                                 text: qsTr("Aspect ratio");
                         }
