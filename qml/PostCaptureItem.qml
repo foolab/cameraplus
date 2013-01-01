@@ -54,7 +54,10 @@ Item {
 
         QuillItem {
                 id: image
-                anchors.fill: parent
+                width: parent.width - 10
+                height: parent.height
+                anchors.centerIn: parent
+
                 visible: page.status == PageStatus.Activating || page.status == PageStatus.Active
 
                 Component.onCompleted: initialize(itemData.url, itemData.mimetype);

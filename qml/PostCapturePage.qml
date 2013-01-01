@@ -149,7 +149,9 @@ CameraPage {
                         PathLine { x: view.width * 2; y: view.height / 2 }
                 }
 
-                flickDeceleration: 999999 // Insanely high value to prevent panning multiple images
+                // Insanely high value to prevent panning multiple images
+                flickDeceleration: 999999
+
                 preferredHighlightBegin: 0.5
                 preferredHighlightEnd: 0.5
                 highlightRangeMode: PathView.StrictlyEnforceRange
@@ -174,7 +176,7 @@ CameraPage {
                 }
 
                 delegate: PostCaptureItem {
-                        width: view.width - 10
+                        width: view.width
                         height: view.height
                 }
         }
