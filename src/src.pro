@@ -6,7 +6,7 @@ INCLUDEPATH += . ../
 QT += declarative opengl dbus
 
 CONFIG += link_pkgconfig debug static mobility qtsparql galleryinterface-maemo-meegotouch \
-          shareuiinterface-maemo-meegotouch
+          shareuiinterface-maemo-meegotouch qmljsdebug
 
 MOBILITY += location systeminfo
 
@@ -26,3 +26,8 @@ HEADERS += settings.h filenaming.h quillitem.h displaystate.h fsmonitor.h \
            postcapturemodel.h batteryinfo.h gridlines.h deviceinfo.h
 
 RESOURCES += ../qml/qml.qrc
+
+contains(CONFIG, qmljsdebug) {
+    message("Enabling QML/JS Debugging")
+    include(../qmljsdebugger/qmljsdebugger-src.pri)
+}

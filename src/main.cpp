@@ -48,6 +48,10 @@
 #include "gridlines.h"
 #include "deviceinfo.h"
 
+#ifdef QMLJSDEBUGGER
+#include "qt_private/qdeclarativedebughelper_p.h"
+#endif /* QMLJSDEBUGGER */
+
 static void initQuill() {
   // TODO: All these are hardcoded.
   Quill::setPreviewLevelCount(1);
@@ -67,6 +71,10 @@ static void initQuill() {
 Q_DECL_EXPORT int main(int argc, char *argv[]) {
   QApplication::setAttribute(Qt::AA_X11InitThreads, true);
   QApplication app(argc, argv);
+
+#ifdef QMLJSDEBUGGER
+  QDeclarativeDebugHelper::enableDebugging();
+#endif /* QMLJSDEBUGGER */
 
   // Let's initialize Quill:
   initQuill();
