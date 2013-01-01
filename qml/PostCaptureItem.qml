@@ -24,6 +24,7 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 import CameraPlus 1.0
 
+// TODO: pinch zoom
 Item {
         id: postCaptureItem
         property bool isVideo: itemData.type.search("nmm#Video") > 0
