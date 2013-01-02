@@ -29,5 +29,6 @@ RESOURCES += ../qml/qml.qrc
 
 contains(CONFIG, qmljsdebug) {
     message("Enabling QML/JS Debugging")
+    QT += script
     include(../qmljsdebugger/qmljsdebugger-src.pri)
 }
