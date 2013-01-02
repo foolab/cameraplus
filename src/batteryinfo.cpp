@@ -68,11 +68,17 @@ void BatteryInfo::setActive(bool active) {
     return;
   }
 
-  m_battery = new MeeGo::QmBattery(this);
-  QObject::connect(m_battery, SIGNAL(batteryStateChanged(MeeGo::QmBattery::BatteryState)),
-		   this, SIGNAL(chargingChanged()));
-  QObject::connect(m_battery, SIGNAL(chargingStateChanged(MeeGo::QmBattery::ChargingState)),
-		   this, SIGNAL(chargingChanged()));
+  if (!active) {
+    m_battery->deleteLater();
+    m_battery = 0;
+  }
+  else {
+    m_battery = new MeeGo::QmBattery(this);
+    QObject::connect(m_battery, SIGNAL(batteryStateChanged(MeeGo::QmBattery::BatteryState)),
+		     this, SIGNAL(chargingChanged()));
+    QObject::connect(m_battery, SIGNAL(chargingStateChanged(MeeGo::QmBattery::ChargingState)),
+		     this, SIGNAL(chargingChanged()));
+  }
 
   emit activeChanged();
 }
