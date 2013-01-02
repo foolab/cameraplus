@@ -26,7 +26,7 @@
 #include <QGLWidget>
 #include <QuillFile>
 
-#include "imports/plugin.h"
+#include "declarative/plugin.h"
 
 #include "settings.h"
 #include "filenaming.h"

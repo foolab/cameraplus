@@ -1,4 +1,4 @@
 TEMPLATE = subdirs
 CONFIG += ordered
-SUBDIRS = lib imports src
+SUBDIRS = lib declarative src
 

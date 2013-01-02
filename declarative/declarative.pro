@@ -1,5 +1,5 @@
 TEMPLATE = lib
-TARGET = imports
+TARGET = declarativeqtcamera
 DEPENDPATH += . ../lib/
 INCLUDEPATH += . ../lib/
 
