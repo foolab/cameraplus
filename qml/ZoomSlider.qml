@@ -46,13 +46,15 @@ Slider {
 
         Connections {
                 target: keys
-                // TODO: state change for slider to "visible"
+
                 onVolumeUpPressed: {
                         slider.value = Math.min(slider.value + slider.stepSize, slider.maximumValue);
+                        hackTimer.running = true;
                 }
 
                 onVolumeDownPressed: {
                         slider.value = Math.max(slider.value - slider.stepSize, slider.minimumValue);
+                        hackTimer.running = true;
                 }
         }
 
@@ -67,7 +69,7 @@ Slider {
         states: [
         State {
                 name: "visible"
-                when: slider.pressed
+                when: slider.pressed || hackTimer.running
                 PropertyChanges { target: slider; opacity: 1.0 }
         },
         State {
@@ -82,5 +84,10 @@ Slider {
                         PauseAnimation { duration: 2000 }
                         NumberAnimation { target: slider; property: "opacity"; duration: 250 }
                 }
+        }
+
+        Timer {
+                id: hackTimer
+                interval: 1
         }
 }
