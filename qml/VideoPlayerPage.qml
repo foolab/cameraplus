@@ -48,6 +48,13 @@ CameraPage {
                 onClicked: toolBar.show = !toolBar.show
         }
 
+        Timer {
+                id: hideTimer
+                running: toolBar.show
+                interval: 3000
+                onTriggered: toolBar.show = false;
+        }
+
 		Video {
                 id: video
                 anchors.fill: parent
@@ -80,7 +87,6 @@ CameraPage {
                 }
         }
 
-        // TODO: auto-hide this
         CameraToolBar {
                 id: toolBar
 
@@ -124,11 +130,17 @@ CameraPage {
                                         if (!slider.pressed) {
                                                 video.position = slider.value;
                                         }
+
+                                        hideTimer.restart();
                                 }
                         },
                         ToolIcon {
                                 id: control
-                                iconId: !video.paused ? "icon-m-toolbar-mediacontrol-pause-white" : "icon-m-toolbar-mediacontrol-play-white"; onClicked: video.toggle();
+                                iconId: !video.paused ? "icon-m-toolbar-mediacontrol-pause-white" : "icon-m-toolbar-mediacontrol-play-white"
+                                onClicked: {
+                                        video.toggle();
+                                        hideTimer.restart();
+                                }
                         }
                 ]
         }
