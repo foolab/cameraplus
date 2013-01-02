@@ -47,6 +47,7 @@
 #include "batteryinfo.h"
 #include "gridlines.h"
 #include "deviceinfo.h"
+#include "devicekeys.h"
 
 #ifdef QMLJSDEBUGGER
 #include "qt_private/qdeclarativedebughelper_p.h"
@@ -104,6 +105,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<BatteryInfo>("CameraPlus", 1, 0, "BatteryInfo");
   qmlRegisterType<GridLines>("CameraPlus", 1, 0, "GridLines");
   qmlRegisterType<DeviceInfo>("CameraPlus", 1, 0, "DeviceInfo");
+  qmlRegisterType<DeviceKeys>("CameraPlus", 1, 0, "DeviceKeys");
 
   view.setSource(QUrl("qrc:/qml/main.qml"));
 

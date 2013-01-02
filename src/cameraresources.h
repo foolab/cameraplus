@@ -34,6 +34,7 @@ class CameraResources : public QObject {
 
   Q_PROPERTY(bool acquired READ acquired NOTIFY acquiredChanged);
   Q_PROPERTY(bool hijacked READ hijacked NOTIFY hijackedChanged);
+  Q_PROPERTY(bool scaleAcquired READ isScaleAcquired NOTIFY scaleAcquisitionChanged);
 
   Q_ENUMS(Mode);
   Q_ENUMS(ResourceType);
@@ -47,32 +48,24 @@ public:
     PostCapture,
   } Mode;
 
-  typedef enum {
-    AudioPlaybackType = ResourcePolicy::AudioPlaybackType,
-    VideoPlaybackType = ResourcePolicy::VideoPlaybackType,
-    AudioRecorderType = ResourcePolicy::AudioRecorderType,
-    VideoRecorderType = ResourcePolicy::VideoRecorderType,
-    ScaleButtonType = ResourcePolicy::ScaleButtonType,
-    SnapButtonType = ResourcePolicy::SnapButtonType,
-    LensCoverType = ResourcePolicy::LensCoverType,
-  } ResourceType;
-
   CameraResources(QObject *parent = 0);
   ~CameraResources();
 
   Q_INVOKABLE bool acquire(const Mode& mode);
 
-  Q_INVOKABLE bool isResourceGranted(const ResourceType& resource);
-
   bool acquired() const;
   bool hijacked() const;
+  bool isScaleAcquired() const;
 
 signals:
   void acquiredChanged();
   void hijackedChanged();
   void updated();
+  void scaleAcquisitionChanged();
 
 private:
+  bool isResourceGranted(const ResourcePolicy::ResourceType& resource) const;
+
   CameraResourcesWorker *m_worker;
   QThread m_thread;
 };
@@ -88,7 +81,7 @@ public slots:
   void acquire(bool *ok, const CameraResources::Mode& mode);
   void acquired(bool *ok);
   void hijacked(bool *ok);
-  void isResourceGranted(bool *ok, const CameraResources::ResourceType& resource);
+  void isResourceGranted(bool *ok, int resource);
 
 signals:
   void acquiredChanged();

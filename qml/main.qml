@@ -446,4 +446,9 @@ PageStackWindow {
                 policyLost: pipelineManager.state == "policyLost"
                 show: !pageStack.currentPage || (pageStack.currentPage.standbyVisible && pageStack.currentPage.status == PageStatus.Active && pipelineManager.showStandBy)
         }
+
+        DeviceKeys {
+                id: keys
+                active: Qt.application.active && pipelineManager.scaleAcquired
+        }
 }

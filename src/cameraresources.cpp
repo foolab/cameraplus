@@ -35,12 +35,14 @@ CameraResources::CameraResources(QObject *parent) :
   m_thread.start();
 
   qRegisterMetaType<CameraResources::Mode>("CameraResources::Mode");
-  qRegisterMetaType<CameraResources::ResourceType>("CameraResources::ResourceType");
   qRegisterMetaType<bool *>("bool *");
 
   QObject::connect(m_worker, SIGNAL(acquiredChanged()), this, SIGNAL(acquiredChanged()));
   QObject::connect(m_worker, SIGNAL(hijackedChanged()), this, SIGNAL(hijackedChanged()));
   QObject::connect(m_worker, SIGNAL(updated()), this, SIGNAL(updated()));
+  QObject::connect(m_worker, SIGNAL(acquiredChanged()), this, SIGNAL(scaleAcquisitionChanged()));
+  QObject::connect(m_worker, SIGNAL(hijackedChanged()), this, SIGNAL(scaleAcquisitionChanged()));
+  QObject::connect(m_worker, SIGNAL(updated()), this, SIGNAL(scaleAcquisitionChanged()));
 }
 
 CameraResources::~CameraResources() {
@@ -55,11 +57,11 @@ CameraResources::~CameraResources() {
   m_worker = 0;
 }
 
-bool CameraResources::isResourceGranted(const ResourceType& resource) {
+bool CameraResources::isResourceGranted(const ResourcePolicy::ResourceType& resource) const {
   bool ok = false;
 
   QMetaObject::invokeMethod(m_worker, "isResourceGranted", Qt::BlockingQueuedConnection,
-			    Q_ARG(bool *, &ok), Q_ARG(CameraResources::ResourceType, resource));
+			    Q_ARG(bool *, &ok), Q_ARG(int, resource));
 
   return ok;
 }
@@ -89,6 +91,10 @@ bool CameraResources::hijacked() const {
 			    Q_ARG(bool *, &ok));
 
   return ok;
+}
+
+bool CameraResources::isScaleAcquired() const {
+  return isResourceGranted(ResourcePolicy::ScaleButtonType);
 }
 
 CameraResourcesWorker::CameraResourcesWorker(QObject *parent) :
@@ -310,8 +316,7 @@ void CameraResourcesWorker::setHijacked(bool hijacked) {
   }
 }
 
-void CameraResourcesWorker::isResourceGranted(bool *ok,
-					      const CameraResources::ResourceType& resource) {
+void CameraResourcesWorker::isResourceGranted(bool *ok, int resource) {
 
   ResourcePolicy::ResourceType rt = (ResourcePolicy::ResourceType)resource;
 

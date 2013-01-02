@@ -33,6 +33,7 @@ Item {
 
         property alias acquired: policy.acquired
         property alias hijacked: policy.hijacked
+        property alias scaleAcquired: policy.scaleAcquired
 
         property Camera camera: null
         property Item currentPage: pageStack.currentPage

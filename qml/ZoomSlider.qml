@@ -44,6 +44,18 @@ Slider {
                 onModeChanged: slider.value = camera.zoom.minimum;
         }
 
+        Connections {
+                target: keys
+                // TODO: state change for slider to "visible"
+                onVolumeUpPressed: {
+                        slider.value = Math.min(slider.value + slider.stepSize, slider.maximumValue);
+                }
+
+                onVolumeDownPressed: {
+                        slider.value = Math.max(slider.value - slider.stepSize, slider.minimumValue);
+                }
+        }
+
         orientation: Qt.Horizontal
         width: 500
         height: 50

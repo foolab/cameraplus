@@ -80,6 +80,7 @@ CameraPage {
                 }
         }
 
+        // TODO: auto-hide this
         CameraToolBar {
                 id: toolBar
 
