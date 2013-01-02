@@ -26,6 +26,7 @@
 #include <QObject>
 #include <QThread>
 #include <policy/resource-set.h>
+
 class CameraResourcesWorker;
 
 class CameraResources : public QObject {
@@ -117,7 +118,6 @@ private:
   ResourcePolicy::ResourceSet *m_set;
 
   CameraResources::Mode m_mode;
-  QMutex m_mutex;
   bool m_acquired;
   bool m_acquiring;
   bool m_hijacked;
