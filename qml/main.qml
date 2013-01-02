@@ -257,14 +257,6 @@ PageStackWindow {
                         status: cam ? cam.autoFocus.status : -1
                 }
 
-/*
-                onDeviceIdChanged: {
-                        // TODO: is this needed ?
-                        if (platformWindow.active) {
-                                cam.start();
-                        }
-                }
-*/
                 onError: {
                         if (pipelineManager.error) {
                                 // Ignore any subsequent errors.
