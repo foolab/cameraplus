@@ -58,7 +58,13 @@ void TrackerStore::setActive(bool active) {
     return;
   }
 
-  m_connection = new QSparqlConnection("QTRACKER_DIRECT", QSparqlConnectionOptions(), this);
+  if (active) {
+    m_connection = new QSparqlConnection("QTRACKER_DIRECT", QSparqlConnectionOptions(), this);
+  }
+  else {
+    m_connection->deleteLater();
+    m_connection = 0;
+  }
 
   emit activeChanged();
 }
