@@ -25,6 +25,8 @@ import com.nokia.meego 1.1
 import QtMultimediaKit 1.1
 import CameraPlus 1.0
 
+// TODO: error reporting
+
 CameraPage {
         id: page
 

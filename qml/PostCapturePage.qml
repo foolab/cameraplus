@@ -181,6 +181,7 @@ CameraPage {
                 }
         }
 
+        // TODO: autohide
         CameraToolBar {
                 id: toolBar
                 expanded: true
