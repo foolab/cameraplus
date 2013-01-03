@@ -59,6 +59,8 @@ CameraPage {
 
         Menu {
                 id: menu
+                onStatusChanged: page.restartTimer();
+
                 MenuLayout {
                         MenuItem {text: qsTr("Captures in gallery"); onClicked: launchGallery(); }
                         MenuItem {text: qsTr("View in gallery"); enabled: available; onClicked: showInGallery(); }
@@ -79,6 +81,9 @@ CameraPage {
                 titleText: qsTr("Delete item?");
                 acceptButtonText: qsTr("Yes");
                 rejectButtonText: qsTr("No");
+
+                onStatusChanged: page.restartTimer();
+
                 onAccepted: {
                         if (!remove.remove(currentItem.itemData.url)) {
                                 showError(qsTr("Failed to delete item"));
@@ -178,10 +183,20 @@ CameraPage {
                 delegate: PostCaptureItem {
                         width: view.width
                         height: view.height
+                        onClicked: hideTimer.running = !hideTimer.running;
                 }
         }
 
-        // TODO: autohide
+        function restartTimer() {
+                hideTimer.running = true;
+        }
+
+        Timer {
+                id: hideTimer
+                running: false
+                interval: 3000
+        }
+
         CameraToolBar {
                 id: toolBar
                 expanded: true
@@ -192,7 +207,7 @@ CameraPage {
                 anchors.leftMargin: 20
                 opacity: 0.8
 
-                property bool show: true
+                property bool show: deleteDialog.status == DialogStatus.Open || deleteDialog.status == DialogStatus.Opening || hideTimer.running || menu.status == DialogStatus.Open || menu.status == DialogStatus.Opening
 
                 onClicked: pageStack.pop();
 
@@ -201,10 +216,10 @@ CameraPage {
                 }
 
                 items: [
-                        ToolIcon { iconId: !available ? "icon-m-toolbar-favorite-mark-dimmed-white" : currentItem.itemData.favorite ? "icon-m-toolbar-favorite-mark-white" : "icon-m-toolbar-favorite-unmark-white"; onClicked: addOrRemoveFavorite(); },
-                        ToolIcon { iconId: available ? "icon-m-toolbar-share-white" : "icon-m-toolbar-share-dimmed-white"; onClicked: shareCurrentItem(); },
-                        ToolIcon { iconId: available ? "icon-m-toolbar-delete-white" : "icon-m-toolbar-delete-dimmed-white"; onClicked: deleteCurrentItem(); },
-                        ToolIcon { iconId: "icon-m-toolbar-view-menu-white"; onClicked: menu.open(); }
+                        ToolIcon { iconId: !available ? "icon-m-toolbar-favorite-mark-dimmed-white" : currentItem.itemData.favorite ? "icon-m-toolbar-favorite-mark-white" : "icon-m-toolbar-favorite-unmark-white"; onClicked: { addOrRemoveFavorite(); page.restartTimer(); } },
+                        ToolIcon { iconId: available ? "icon-m-toolbar-share-white" : "icon-m-toolbar-share-dimmed-white"; onClicked: { shareCurrentItem(); page.restartTimer(); } },
+                        ToolIcon { iconId: available ? "icon-m-toolbar-delete-white" : "icon-m-toolbar-delete-dimmed-white"; onClicked: { deleteCurrentItem(); page.restartTimer(); } },
+                        ToolIcon { iconId: "icon-m-toolbar-view-menu-white"; onClicked: { menu.open(); page.restartTimer(); } }
                 ]
         }
 

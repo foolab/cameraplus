@@ -30,6 +30,8 @@ Item {
         property bool error: false
         property variant itemData: item
         property bool isCurrentItem: PathView.isCurrentItem
+        signal clicked
+
         onIsCurrentItemChanged: {
                 if (isCurrentItem) {
                         page.currentItem = postCaptureItem;
@@ -65,7 +67,7 @@ Item {
                         id: mouse
                         anchors.fill: parent
                         enabled: true
-                        onClicked: toolBar.show = !toolBar.show
+                        onClicked: postCaptureItem.clicked();
                 }
 
                 ToolIcon {
