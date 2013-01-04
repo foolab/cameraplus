@@ -37,6 +37,7 @@ CameraPage {
         standbyVisible: false
 
         property alias source: video.source
+
         function play() {
                 video.play();
         }
@@ -66,7 +67,7 @@ CameraPage {
                                 video.pause();
                         }
                         else {
-                                video.play();
+                                page.play();
                         }
                 }
 
