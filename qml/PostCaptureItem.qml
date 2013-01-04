@@ -27,7 +27,7 @@ import CameraPlus 1.0
 Item {
         id: postCaptureItem
         property bool isVideo: itemData.type.search("nmm#Video") > 0
-        property bool error: false
+        property alias error: image.error
         property variant itemData: item
         property bool isCurrentItem: PathView.isCurrentItem
         signal clicked
@@ -59,7 +59,7 @@ Item {
                 height: parent.height
                 anchors.centerIn: parent
 
-                visible: page.status == PageStatus.Activating || page.status == PageStatus.Active
+                visible: page.status == PageStatus.Activating || page.status == PageStatus.Active && !error
 
                 Component.onCompleted: initialize(itemData.url, itemData.mimetype);
 
