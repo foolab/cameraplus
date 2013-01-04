@@ -44,13 +44,13 @@ CameraPage {
                         return;
                 }
 
-                if (!checkDiskSpace()) {
-                        showError(qsTr("Not enough space to capture images."));
+                if (!fileSystem.available) {
+                        showError(qsTr("Camera cannot capture images in mass storage mode."));
                         return;
                 }
 
-                if (!fileSystem.available) {
-                        showError(qsTr("Camera cannot capture images in mass storage mode."));
+                if (!checkDiskSpace()) {
+                        showError(qsTr("Not enough space to capture images."));
                         return;
                 }
 
