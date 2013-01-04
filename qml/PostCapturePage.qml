@@ -26,7 +26,6 @@ import QtCamera 1.0
 import CameraPlus 1.0
 
 // TODO: losing resources while playback won't show an error
-// TODO: mass storage mode interaction
 
 CameraPage {
         id: page
@@ -207,7 +206,7 @@ CameraPage {
                 anchors.leftMargin: 20
                 opacity: 0.8
 
-                property bool show: deleteDialog.status == DialogStatus.Open || deleteDialog.status == DialogStatus.Opening || hideTimer.running || menu.status == DialogStatus.Open || menu.status == DialogStatus.Opening
+                property bool show: deleteDialog.status == DialogStatus.Open || deleteDialog.status == DialogStatus.Opening || hideTimer.running || menu.status == DialogStatus.Open || menu.status == DialogStatus.Opening || (currentItem && currentItem.error)
 
                 onClicked: pageStack.pop();
 
