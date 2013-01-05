@@ -40,7 +40,7 @@ public:
   bool isRecording();
 
 public slots:
-  void stopRecording();
+  void stopRecording(bool sync);
 
 signals:
   void recordingStateChanged();

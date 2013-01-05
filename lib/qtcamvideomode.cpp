@@ -25,6 +25,7 @@
 #include "qtcamdevice.h"
 #include "qtcamvideosettings.h"
 #include "qtcamnotifications.h"
+#include "qtcamgstreamermessagelistener.h"
 
 class QtCamVideoModePrivate : public QtCamModePrivate {
 public:
@@ -98,7 +99,7 @@ void QtCamVideoMode::start() {
 
 void QtCamVideoMode::stop() {
   if (isRecording()) {
-    stopRecording();
+    stopRecording(true);
   }
 }
 
@@ -132,9 +133,16 @@ bool QtCamVideoMode::startRecording(const QString& fileName, const QString& tmpF
   return true;
 }
 
-void QtCamVideoMode::stopRecording() {
+void QtCamVideoMode::stopRecording(bool sync) {
   if (isRecording()) {
     g_signal_emit_by_name(d_ptr->dev->cameraBin, "stop-capture", NULL);
+
+    if (sync) {
+      GstMessage *msg = d_ptr->dev->listener->waitForMessage(QLatin1String("video-done"));
+      if (msg) {
+	gst_message_unref(msg);
+      }
+    }
   }
 }
 

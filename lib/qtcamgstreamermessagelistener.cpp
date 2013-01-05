@@ -243,3 +243,27 @@ void QtCamGStreamerMessageListener::flushMessages() {
     gst_message_unref(message);
   }
 }
+
+GstMessage *QtCamGStreamerMessageListener::waitForMessage(const QLatin1String& name) {
+  GstMessage *message = 0;
+
+  while (!message) {
+    message = gst_bus_timed_pop_filtered(d_ptr->bus, GST_CLOCK_TIME_NONE, GST_MESSAGE_ELEMENT);
+    if (!message) {
+      // Hmmm, what to do here??
+      continue;
+    }
+
+    d_ptr->handleMessage(message);
+    const GstStructure *s = gst_message_get_structure(message);
+    const gchar *n = s ? gst_structure_get_name(s) : 0;
+    if (s && n && n == name) {
+      return message;
+    }
+
+    gst_message_unref(message);
+    message = 0;
+  }
+
+  return 0;
+}

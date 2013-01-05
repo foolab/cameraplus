@@ -38,9 +38,9 @@ bool VideoMode::startRecording(const QString& fileName, const QString& tmpFileNa
   return m_video ? m_video->startRecording(fileName, tmpFileName) : false;
 }
 
-void VideoMode::stopRecording() {
+void VideoMode::stopRecording(bool sync) {
   if (m_video) {
-    m_video->stopRecording();
+    m_video->stopRecording(sync);
   }
 }
 

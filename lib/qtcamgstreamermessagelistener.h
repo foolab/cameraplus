@@ -44,6 +44,8 @@ public:
 
   void flushMessages();
 
+  GstMessage *waitForMessage(const QLatin1String& name);
+
 signals:
   void error(const QString& message, int code, const QString& debug);
   void started();
