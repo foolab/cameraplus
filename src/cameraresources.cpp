@@ -217,9 +217,7 @@ void CameraResourcesWorker::acquire(bool *ok, const CameraResources::Mode& mode)
     break;
 
   case CameraResources::PostCapture:
-    *ok = updateSet(QList<ResourcePolicy::ResourceType>(),
-		    QList<ResourcePolicy::ResourceType>()
-		    << ResourcePolicy::ScaleButtonType);
+    *ok = release();
     break;
 
   default:
