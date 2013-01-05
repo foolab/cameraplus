@@ -45,7 +45,6 @@ public:
     Image,
     Video,
     Recording,
-    PostCapture,
   } Mode;
 
   CameraResources(QObject *parent = 0);

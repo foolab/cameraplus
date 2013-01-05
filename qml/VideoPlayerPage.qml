@@ -32,8 +32,7 @@ CameraPage {
 
         property bool popTwice: false
         controlsVisible: false
-        policyMode: CameraResources.PostCapture
-        needsPipeline: false
+        policyMode: CameraResources.None
         standbyVisible: false
 
         property alias source: video.source

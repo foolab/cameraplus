@@ -216,10 +216,6 @@ void CameraResourcesWorker::acquire(bool *ok, const CameraResources::Mode& mode)
 		    << ResourcePolicy::AudioPlaybackType);
     break;
 
-  case CameraResources::PostCapture:
-    *ok = release();
-    break;
-
   default:
     qWarning() << "Unknown mode" << mode;
 

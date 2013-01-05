@@ -28,7 +28,6 @@ import CameraPlus 1.0
 Page {
         id: page
 
-        property bool needsPipeline: true
         property int policyMode: CameraResources.None
 
         property Camera cam: null

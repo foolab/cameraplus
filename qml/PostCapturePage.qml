@@ -25,14 +25,11 @@ import com.nokia.meego 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
 
-// TODO: losing resources while playback won't show an error
-
 CameraPage {
         id: page
 
         controlsVisible: false
-        policyMode: CameraResources.PostCapture
-        needsPipeline: false
+        policyMode: CameraResources.None
         standbyVisible: !Qt.application.active
 
         property Item currentItem: null

@@ -24,8 +24,6 @@ import QtQuick 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
 
-// TODO: if a page doesn't need the pipeline then we will release its resources :(
-
 Item {
         id: handler
 
@@ -86,11 +84,11 @@ Item {
         states: [
         State {
                 name: "on"
-                when: Qt.application.active && currentPage && currentPage.needsPipeline && !policy.hijacked
+                when: Qt.application.active && currentPage && currentPage.policyMode != CameraResources.None && !policy.hijacked
         },
         State {
                 name: "off"
-                when: (!Qt.application.active && camera.idle) || (currentPage && !currentPage.needsPipeline && camera.idle)
+                when: (!Qt.application.active && camera.idle) || (currentPage && currentPage.policyMode == CameraResources.None && camera.idle)
         },
         State {
                 name: "policyLost"
