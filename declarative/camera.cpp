@@ -78,6 +78,10 @@ Camera::Camera(QDeclarativeItem *parent) :
 
 Camera::~Camera() {
   if (m_dev) {
+    if (m_dev->activeMode()) {
+      m_dev->activeMode()->deactivate();
+    }
+
     m_dev->stop(true);
     m_dev->deleteLater();
     m_dev = 0;
