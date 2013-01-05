@@ -90,7 +90,7 @@ Item {
         },
         State {
                 name: "off"
-                when: (!Qt.application.active && camera.idle) || (currentPage && !currentPage.needsPipeline)
+                when: (!Qt.application.active && camera.idle) || (currentPage && !currentPage.needsPipeline && camera.idle)
         },
         State {
                 name: "policyLost"
