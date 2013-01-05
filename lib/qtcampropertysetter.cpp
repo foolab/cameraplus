@@ -23,7 +23,7 @@
 #include <QSettings>
 #include <QDebug>
 
-#define PROPERTIES_FILE                       "/etc/qtcamera/properties.ini"
+#define PROPERTIES_FILE                       DATA_DIR"/properties.ini"
 
 class QtCamPropertySetterPrivate {
 public:

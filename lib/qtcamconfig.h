@@ -34,6 +34,10 @@
 #define RENDERER_TYPE_MEEGO                   "meego"
 #define RENDERER_TYPE_GENERIC                 "generic"
 
+#ifndef DATA_DIR
+#define DATA_DIR                              "/usr/share/qtcamera/config/"
+#endif /* DATA_DIR */
+
 class QtCamConfigPrivate;
 
 class QtCamConfig : public QObject {
