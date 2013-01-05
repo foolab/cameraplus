@@ -24,6 +24,8 @@
 #define QT_CAM_MODE_P_H
 
 #include <QSize>
+#include <QFileInfo>
+#include <QDir>
 #include "qtcamdevice_p.h"
 #include "qtcamanalysisbin.h"
 #include <gst/pbutils/encoding-profile.h>
@@ -74,8 +76,17 @@ public:
 
   GstEncodingProfile *loadProfile(const QString& path, const QString& name) {
     GError *error = NULL;
+    QString targetPath;
+    QFileInfo info(path);
+    if (!info.isAbsolute()) {
+      targetPath = QDir(DATA_DIR).absoluteFilePath(path);
+    }
+    else {
+      targetPath = info.filePath();
+    }
 
-    GstEncodingTarget *target = gst_encoding_target_load_from_file(path.toUtf8().data(), &error);
+    GstEncodingTarget *target = gst_encoding_target_load_from_file(targetPath.toUtf8().constData(),
+								   &error);
     if (!target) {
       qCritical() << "Failed to load encoding target from" << path << error->message;
       g_error_free(error);
