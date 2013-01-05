@@ -26,7 +26,6 @@ import QtCamera 1.0
 import CameraPlus 1.0
 import "data.js" as Data
 
-// TODO: losing resources in the middle of recording will produce corrupted video
 // TODO: optional resources?
 
 CameraPage {
@@ -48,8 +47,6 @@ CameraPage {
                 error = true;
                 page.stopRecording();
         }
-
-        Component.onDestruction: videoMode.stopRecording();
 
         onStatusChanged: {
                 if (page.status == PageStatus.Active) {
@@ -85,6 +82,7 @@ CameraPage {
         }
 
         function stopRecording() {
+                videoMode.stopRecording(true);
                 mountProtector.unlock();
                 // Something is fishy here but if there is an error
                 // and we use immediate mode then the page never gets destroyed.
