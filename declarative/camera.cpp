@@ -102,7 +102,6 @@ Camera::~Camera() {
   delete m_autoFocus;
   delete m_videoMute;
   delete m_videoTorch;
-  // TODO: cleanup
 }
 
 void Camera::componentComplete() {
