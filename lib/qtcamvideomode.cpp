@@ -55,18 +55,11 @@ public:
 class VideoDoneHandler : public DoneHandler {
 public:
   VideoDoneHandler(QtCamModePrivate *d, QObject *parent = 0) :
-    DoneHandler(d, "video-done", parent) {}
+    DoneHandler(d, "video-done", parent), m_done(false) {}
 
   virtual void handleMessage(GstMessage *message) {
     DoneHandler::handleMessage(message);
-
     wake();
-  }
-
-  void wake() {
-    lock();
-    m_cond.wakeOne();
-    unlock();
   }
 
   void lock() {
@@ -81,7 +74,23 @@ public:
     m_cond.wait(&m_mutex);
   }
 
+  void reset() {
+    m_done = false;
+  }
+
+  bool isDone() {
+    return m_done;
+  }
+
 private:
+  void wake() {
+    lock();
+    m_done = true;
+    m_cond.wakeOne();
+    unlock();
+  }
+
+  bool m_done;
   QMutex m_mutex;
   QWaitCondition m_cond;
 };
@@ -163,6 +172,9 @@ bool QtCamVideoMode::startRecording(const QString& fileName, const QString& tmpF
   g_object_set(d_ptr->dev->cameraBin, "location", file.toUtf8().data(), NULL);
   g_signal_emit_by_name(d_ptr->dev->cameraBin, "start-capture", NULL);
 
+  VideoDoneHandler *handler = dynamic_cast<VideoDoneHandler *>(d_ptr->doneHandler);
+  handler->reset();
+
   emit recordingStateChanged();
 
   emit canCaptureChanged();
@@ -175,6 +187,11 @@ void QtCamVideoMode::stopRecording(bool sync) {
     VideoDoneHandler *handler = dynamic_cast<VideoDoneHandler *>(d_ptr->doneHandler);
     if (sync) {
       handler->lock();
+
+      if (handler->isDone()) {
+	handler->unlock();
+	return;
+      }
     }
 
     g_signal_emit_by_name(d_ptr->dev->cameraBin, "stop-capture", NULL);
