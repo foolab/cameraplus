@@ -39,7 +39,7 @@ class QtCamMode : public QObject {
   Q_PROPERTY(bool active READ isActive NOTIFY activeChanged);
 
 public:
-  QtCamMode(QtCamModePrivate *d, const char *mode, const char *done, QObject *parent = 0);
+  QtCamMode(QtCamModePrivate *d, const char *mode, QObject *parent = 0);
   virtual ~QtCamMode();
 
   void deactivate();

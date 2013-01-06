@@ -30,6 +30,7 @@
 #include "qtcamanalysisbin.h"
 #include <gst/pbutils/encoding-profile.h>
 #include <gst/pbutils/encoding-target.h>
+#include "qtcamgstreamermessagehandler.h"
 
 #ifndef GST_USE_UNSTABLE_API
 #define GST_USE_UNSTABLE_API
@@ -46,6 +47,10 @@ class QtCamModePrivate {
 public:
   QtCamModePrivate(QtCamDevicePrivate *d) : id(-1), dev(d) {}
   virtual ~QtCamModePrivate() {}
+
+  void init(DoneHandler *handler) {
+    doneHandler = handler;
+  }
 
   int modeId(const char *mode) {
     if (!dev->cameraBin) {
@@ -215,6 +220,43 @@ public:
   DoneHandler *doneHandler;
   QString fileName;
   QString tempFileName;
+};
+
+class DoneHandler : public QtCamGStreamerMessageHandler {
+public:
+  DoneHandler(QtCamModePrivate *m, const char *done, QObject *parent = 0) :
+    QtCamGStreamerMessageHandler(done, parent) {
+    mode = m;
+  }
+
+  virtual ~DoneHandler() { }
+
+  virtual void handleMessage(GstMessage *message) {
+    // If we have a temp file then we rename it:
+    if (!mode->tempFileName.isEmpty() && !mode->fileName.isEmpty()) {
+      if (!QFile::rename(mode->tempFileName, mode->fileName)) {
+	qCritical() << "Failed to rename" << mode->tempFileName << "to" << mode->fileName;
+      }
+    }
+
+    QString fileName;
+    const GstStructure *s = gst_message_get_structure(message);
+    if (gst_structure_has_field(s, "filename")) {
+      const char *str = gst_structure_get_string(s, "filename");
+      if (str) {
+	fileName = QString::fromUtf8(str);
+      }
+    }
+
+    if (fileName.isEmpty()) {
+      fileName = mode->fileName;
+    }
+
+    QMetaObject::invokeMethod(mode->q_ptr, "saved", Qt::QueuedConnection,
+			      Q_ARG(QString, fileName));
+  }
+
+  QtCamModePrivate *mode;
 };
 
 #endif /* QT_CAM_MODE_P_H */

@@ -179,8 +179,10 @@ GstBusSyncReply sync_handler(GstBus *bus, GstMessage *message, gpointer data) {
     static_cast<QtCamGStreamerMessageListenerPrivate *>(data);
 
   if (d_ptr->handleSyncMessage(message)) {
-    gst_message_unref(message);
-    return GST_BUS_DROP;
+    // We need to pass the message.
+    // Issue is we have 2 video-done handlers, a sync and an async.
+    // If we drop the message then the async handler will never see it :|
+    return GST_BUS_PASS;
   }
 
   return GST_BUS_PASS;
@@ -242,28 +244,4 @@ void QtCamGStreamerMessageListener::flushMessages() {
     d_ptr->handleMessage(message);
     gst_message_unref(message);
   }
-}
-
-GstMessage *QtCamGStreamerMessageListener::waitForMessage(const QLatin1String& name) {
-  GstMessage *message = 0;
-
-  while (!message) {
-    message = gst_bus_timed_pop_filtered(d_ptr->bus, GST_CLOCK_TIME_NONE, GST_MESSAGE_ELEMENT);
-    if (!message) {
-      // Hmmm, what to do here??
-      continue;
-    }
-
-    d_ptr->handleMessage(message);
-    const GstStructure *s = gst_message_get_structure(message);
-    const gchar *n = s ? gst_structure_get_name(s) : 0;
-    if (s && n && n == name) {
-      return message;
-    }
-
-    gst_message_unref(message);
-    message = 0;
-  }
-
-  return 0;
 }

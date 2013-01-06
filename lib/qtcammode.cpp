@@ -23,7 +23,6 @@
 #include "qtcamdevice_p.h"
 #include "qtcamdevice.h"
 #include <QDebug>
-#include "qtcamgstreamermessagehandler.h"
 #include "qtcamgstreamermessagelistener.h"
 #include <gst/video/video.h>
 #include <QImage>
@@ -83,47 +82,13 @@ public:
   QtCamMode *mode;
 };
 
-class DoneHandler : public QtCamGStreamerMessageHandler {
-public:
-  DoneHandler(QtCamModePrivate *m, const char *done, QObject *parent = 0) :
-    QtCamGStreamerMessageHandler(done, parent) {
-    mode = m;
-  }
-
-  virtual void handleMessage(GstMessage *message) {
-    // If we have a temp file then we rename it:
-    if (!mode->tempFileName.isEmpty() && !mode->fileName.isEmpty()) {
-      if (!QFile::rename(mode->tempFileName, mode->fileName)) {
-	qCritical() << "Failed to rename" << mode->tempFileName << "to" << mode->fileName;
-      }
-    }
-
-    QString fileName;
-    const GstStructure *s = gst_message_get_structure(message);
-    if (gst_structure_has_field(s, "filename")) {
-      const char *str = gst_structure_get_string(s, "filename");
-      if (str) {
-	fileName = QString::fromUtf8(str);
-      }
-    }
-
-    if (fileName.isEmpty()) {
-      fileName = mode->fileName;
-    }
-
-    QMetaObject::invokeMethod(mode->q_ptr, "saved", Q_ARG(QString, fileName));
-  }
-
-  QtCamModePrivate *mode;
-};
-
-QtCamMode::QtCamMode(QtCamModePrivate *d, const char *mode, const char *done, QObject *parent) :
+QtCamMode::QtCamMode(QtCamModePrivate *d, const char *mode, QObject *parent) :
   QObject(parent), d_ptr(d) {
 
   d_ptr->q_ptr = this;
   d_ptr->id = d_ptr->modeId(mode);
   d_ptr->previewImageHandler = new PreviewImageHandler(this, this);
-  d_ptr->doneHandler = new DoneHandler(d_ptr, done, this);
+  d_ptr->doneHandler = 0;
 }
 
 QtCamMode::~QtCamMode() {
@@ -149,7 +114,10 @@ void QtCamMode::activate() {
   g_object_set(d_ptr->dev->cameraBin, "mode", d_ptr->id, NULL);
 
   d_ptr->dev->listener->addHandler(d_ptr->previewImageHandler);
-  d_ptr->dev->listener->addHandler(d_ptr->doneHandler);
+
+  // This has to be sync. VideoDoneHandler will lock a mutex that is already
+  // locked from the main thread.
+  d_ptr->dev->listener->addSyncHandler(d_ptr->doneHandler);
 
   start();
 
@@ -166,7 +134,7 @@ void QtCamMode::deactivate() {
   }
 
   d_ptr->dev->listener->removeHandler(d_ptr->previewImageHandler);
-  d_ptr->dev->listener->removeHandler(d_ptr->doneHandler);
+  d_ptr->dev->listener->removeSyncHandler(d_ptr->doneHandler);
 
   d_ptr->previewImageHandler->setParent(this);
   d_ptr->doneHandler->setParent(this);

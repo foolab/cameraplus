@@ -25,7 +25,8 @@
 #include "qtcamdevice.h"
 #include "qtcamvideosettings.h"
 #include "qtcamnotifications.h"
-#include "qtcamgstreamermessagelistener.h"
+#include <QMutex>
+#include <QWaitCondition>
 
 class QtCamVideoModePrivate : public QtCamModePrivate {
 public:
@@ -51,8 +52,44 @@ public:
   QtCamVideoResolution resolution;
 };
 
+class VideoDoneHandler : public DoneHandler {
+public:
+  VideoDoneHandler(QtCamModePrivate *d, QObject *parent = 0) :
+    DoneHandler(d, "video-done", parent) {}
+
+  virtual void handleMessage(GstMessage *message) {
+    DoneHandler::handleMessage(message);
+
+    wake();
+  }
+
+  void wake() {
+    lock();
+    m_cond.wakeOne();
+    unlock();
+  }
+
+  void lock() {
+    m_mutex.lock();
+  }
+
+  void unlock() {
+    m_mutex.unlock();
+  }
+
+  void wait() {
+    m_cond.wait(&m_mutex);
+  }
+
+private:
+  QMutex m_mutex;
+  QWaitCondition m_cond;
+};
+
 QtCamVideoMode::QtCamVideoMode(QtCamDevicePrivate *dev, QObject *parent) :
-  QtCamMode(new QtCamVideoModePrivate(dev), "mode-video", "video-done", parent) {
+  QtCamMode(new QtCamVideoModePrivate(dev), "mode-video", parent) {
+
+  d_ptr->init(new VideoDoneHandler(d_ptr, this));
 
   d = (QtCamVideoModePrivate *)QtCamMode::d_ptr;
 
@@ -135,13 +172,16 @@ bool QtCamVideoMode::startRecording(const QString& fileName, const QString& tmpF
 
 void QtCamVideoMode::stopRecording(bool sync) {
   if (isRecording()) {
+    VideoDoneHandler *handler = dynamic_cast<VideoDoneHandler *>(d_ptr->doneHandler);
+    if (sync) {
+      handler->lock();
+    }
+
     g_signal_emit_by_name(d_ptr->dev->cameraBin, "stop-capture", NULL);
 
     if (sync) {
-      GstMessage *msg = d_ptr->dev->listener->waitForMessage(QLatin1String("video-done"));
-      if (msg) {
-	gst_message_unref(msg);
-      }
+      handler->wait();
+      handler->unlock();
     }
   }
 }

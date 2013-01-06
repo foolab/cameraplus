@@ -42,7 +42,9 @@ public:
 };
 
 QtCamImageMode::QtCamImageMode(QtCamDevicePrivate *dev, QObject *parent) :
-  QtCamMode(new QtCamImageModePrivate(dev), "mode-image", "image-done", parent) {
+  QtCamMode(new QtCamImageModePrivate(dev), "mode-image", parent) {
+
+  d_ptr->init(new DoneHandler(d_ptr, "image-done", this));
 
   d = (QtCamImageModePrivate *)d_ptr;
 
