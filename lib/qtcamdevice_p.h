@@ -49,7 +49,8 @@ public:
     viewfinder(0),
     conf(0),
     error(false),
-    notifications(0) {
+    notifications(0),
+    viewfinderFilters(0) {
 
   }
 
