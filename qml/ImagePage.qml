@@ -220,8 +220,12 @@ CameraPage {
                 },
                 ToolIcon {
                         iconSource: "image://theme/icon-m-toolbar-view-menu-white"
-                        onClicked: openFile("ImageSettingsPage.qml");
+                        onClicked: imageSettingsDialog.open();
                 }
                 ]
+        }
+
+        ImageSettingsDialog {
+                id: imageSettingsDialog
         }
 }
