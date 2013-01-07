@@ -45,10 +45,10 @@ Item {
                 }
 
                 platformStyle: SwitchStyle {
-                        thumbPressed: settings.mode == Camera.VideoMode ? "image://theme/icon-m-viewfinder-camera" : "image://theme/icon-m-camera-video"
+                        thumbPressed: settings.mode == Camera.VideoMode ? "image://theme/icon-m-camera-video" : "image://theme/icon-m-viewfinder-camera"
                         switchOn: ""
                         switchOff: ""
-                        thumb: settings.mode == Camera.VideoMode ? "image://theme/icon-m-camera-video" : "image://theme/icon-m-viewfinder-camera"
+                        thumb: settings.mode == Camera.VideoMode ? "image://theme/icon-m-viewfinder-camera" : "image://theme/icon-m-camera-video"
                 }
 
         }
