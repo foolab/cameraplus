@@ -88,6 +88,18 @@ public:
     else {
       qWarning() << "Failed to create both video and wrapper sources";
     }
+
+    if (videoSource) {
+      if (conf->deviceScannerType() == SCANNER_TYPE_ENUM) {
+	int dev = id.toInt();
+	g_object_set(videoSource, conf->deviceScannerProperty().toAscii().constData(), dev, NULL);
+      }
+      else {
+	QString dev = id.toString();
+	g_object_set(videoSource, conf->deviceScannerProperty().toAscii().constData(),
+		     dev.toAscii().constData(), NULL);
+      }
+    }
   }
 
   void createAndAddVideoSource() {
