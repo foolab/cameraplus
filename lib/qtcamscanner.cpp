@@ -82,7 +82,7 @@ void QtCamScannerPrivate::scanV4l2() {
     struct v4l2_capability cap;
     memset(&cap, 0x0, sizeof(cap));
 
-    int fd = open(dev.toLocal8Bit().data(), O_RDONLY);
+    int fd = open(dev.toLocal8Bit().constData(), O_RDONLY);
     if (fd == -1) {
       continue;
     }
