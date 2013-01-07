@@ -83,9 +83,10 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
     if (!d_ptr->viewfinderFilters) {
       qWarning() << "Failed to create viewfinder filters";
     }
+    else {
+      g_object_set(d_ptr->cameraBin, "viewfinder-filter", d_ptr->viewfinderFilters->bin(), NULL);
+    }
   }
-
-  g_object_set(d_ptr->cameraBin, "viewfinder-filter", d_ptr->viewfinderFilters->bin(), NULL);
 
   d_ptr->listener = new QtCamGStreamerMessageListener(gst_element_get_bus(d_ptr->cameraBin),
 						      d_ptr, this);
