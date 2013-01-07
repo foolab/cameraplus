@@ -101,7 +101,7 @@ public:
   }
 
   bool setViewfinderSink() {
-    GstElement *sink;
+    GstElement *sink = 0;
     g_object_get(cameraBin, "viewfinder-sink", &sink, NULL);
 
     if (sink) {
