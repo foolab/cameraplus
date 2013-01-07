@@ -62,6 +62,7 @@ Slider {
         width: 500
         height: 50
         stepSize:0.1
+        value: camera.zoom.value
         minimumValue: camera.zoom.minimum
         maximumValue: camera.zoom.maximum
 
