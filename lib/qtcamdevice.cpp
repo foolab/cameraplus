@@ -65,6 +65,8 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
     d_ptr->createAndAddVideoSource();
   }
 
+  d_ptr->setDevicePoperty();
+
   int flags =
     0x00000001 /* no-audio-conversion - Do not use audio conversion elements */
     | 0x00000002 /* no-video-conversion - Do not use video conversion elements */
