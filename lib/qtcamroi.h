@@ -20,48 +20,37 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef QT_CAM_AUTO_FOCUS_H
-#define QT_CAM_AUTO_FOCUS_H
+#ifndef QT_CAM_ROI_H
+#define QT_CAM_ROI_H
 
 #include <QObject>
-#include "qtcamscene.h"
 
 class QtCamDevice;
-class QtCamAutoFocusPrivate;
+class QtCamRoiPrivate;
+class QRectF;
 
-class QtCamAutoFocus : public QObject {
+class QtCamRoi : public QObject {
   Q_OBJECT
-  Q_PROPERTY(Status status READ status NOTIFY statusChanged);
-  Q_PROPERTY(Status cafStatus READ cafStatus NOTIFY cafStatusChanged);
-  Q_ENUMS(Status);
-
-  friend class QtCamAutoFocusPrivate;
+  friend class QtCamRoiPrivate;
 
 public:
-  typedef enum {
-    None = 0,
-    Running = 1,
-    Fail = 2,
-    Success = 3,
-  } Status;
+  QtCamRoi(QtCamDevice *dev, QObject *parent = 0);
+  ~QtCamRoi();
 
-  QtCamAutoFocus(QtCamDevice *dev, QObject *parent = 0);
-  ~QtCamAutoFocus();
+  void setRegionOfInterest(const QRectF& roi);
+  void resetRegionOfInterest();
 
-  Status status();
-  Status cafStatus();
+  void setEnabled(bool enabled);
 
-  bool startAutoFocus();
-  bool stopAutoFocus();
-
-  bool canFocus(const QtCamScene::SceneMode& mode);
+  bool isEnabled();
 
 signals:
-  void statusChanged();
-  void cafStatusChanged();
+  void regionsOfInterestUpdated(const QList<QRectF>& regions,
+				const QRectF& primary,
+				const QList<QRectF>& rest);
 
 private:
-  QtCamAutoFocusPrivate *d_ptr;
+  QtCamRoiPrivate *d_ptr;
 };
 
-#endif /* QT_CAM_AUTO_FOCUS_H */
+#endif /* QT_CAM_ROI_H */

@@ -54,14 +54,14 @@ public:
 
 	gst_object_unref(elem);
 	break;
+
       case GST_ITERATOR_RESYNC:
 	gst_iterator_resync(iter);
 	break;
+
       case GST_ITERATOR_ERROR:
-	done = TRUE;
-	break;
       case GST_ITERATOR_DONE:
-	done = TRUE;
+	done = true;
 	break;
       }
     }

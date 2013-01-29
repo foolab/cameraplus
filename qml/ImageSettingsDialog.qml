@@ -125,6 +125,26 @@ Dialog {
                                         }
                                 }
 
+                                Item {
+                                        width: parent.width
+                                        height: Math.max(enableFaceDetectionLabel.height, enableFaceDetection.height);
+
+                                        Label {
+                                                id: enableFaceDetectionLabel
+                                                anchors.left: parent.left
+                                                text: qsTr("Enable face detection");
+                                        }
+
+                                        Switch {
+                                                id: enableFaceDetection
+                                                anchors.right: parent.right
+                                                // We have to do it that way because QML complains about a binding
+                                                // loop for checked if we bind the checked property to the settings value.
+                                                Component.onCompleted: checked = settings.faceDetectionEnabled;
+                                                onCheckedChanged: settings.faceDetectionEnabled = checked;
+                                        }
+                                }
+
                                 CameraSettings {
                                         anchors.horizontalCenter: parent.horizontalCenter
                                 }

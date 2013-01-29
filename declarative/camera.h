@@ -45,6 +45,7 @@ class NoiseReduction;
 class FlickerReduction;
 class Focus;
 class AutoFocus;
+class Roi;
 class VideoMute;
 class VideoTorch;
 
@@ -76,6 +77,7 @@ class Camera : public QDeclarativeItem {
   Q_PROPERTY(FlickerReduction *flickerReduction READ flickerReduction NOTIFY flickerReductionChanged);
   Q_PROPERTY(Focus *focus READ focus NOTIFY focusChanged);
   Q_PROPERTY(AutoFocus *autoFocus READ autoFocus NOTIFY autoFocusChanged);
+  Q_PROPERTY(Roi *roi READ roi NOTIFY roiChanged);
 
   Q_PROPERTY(VideoMute *videoMute READ videoMute NOTIFY videoMuteChanged);
   Q_PROPERTY(VideoTorch *videoTorch READ videoTorch NOTIFY videoTorchChanged);
@@ -133,6 +135,7 @@ public:
   FlickerReduction *flickerReduction() const;
   Focus *focus() const;
   AutoFocus *autoFocus() const;
+  Roi *roi() const;
 
   VideoMute *videoMute() const;
   VideoTorch *videoTorch() const;
@@ -168,6 +171,7 @@ signals:
   void flickerReductionChanged();
   void focusChanged();
   void autoFocusChanged();
+  void roiChanged();
 
   void videoMuteChanged();
   void videoTorchChanged();
@@ -203,6 +207,7 @@ private:
   FlickerReduction *m_flickerReduction;
   Focus *m_focus;
   AutoFocus *m_autoFocus;
+  Roi *m_roi;
 
   VideoMute *m_videoMute;
   VideoTorch *m_videoTorch;

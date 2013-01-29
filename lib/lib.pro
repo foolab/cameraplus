@@ -19,7 +19,7 @@ HEADERS += qtcamconfig.h qtcamera.h qtcamscanner.h qtcamdevice.h qtcamviewfinder
            qtcamwhitebalance.h qtcamcolortone.h qtcamflickerreduction.h \
            qtcamnoisereduction.h qtcamiso.h qtcamaperture.h qtcamexposure.h \
            qtcamvideomute.h qtcamnotifications.h qtcamfocus.h qtcamautofocus.h \
-           qtcamanalysisbin.h qtcampropertysetter.h
+           qtcamanalysisbin.h qtcampropertysetter.h qtcamroi.h
 
 SOURCES += qtcamconfig.cpp qtcamera.cpp qtcamscanner.cpp qtcamdevice.cpp qtcamviewfinder.cpp \
            qtcammode.cpp qtcamgstreamermessagehandler.cpp qtcamgstreamermessagelistener.cpp \
@@ -30,10 +30,10 @@ SOURCES += qtcamconfig.cpp qtcamera.cpp qtcamscanner.cpp qtcamdevice.cpp qtcamvi
            qtcamwhitebalance.cpp qtcamcolortone.cpp qtcamflickerreduction.cpp \
            qtcamnoisereduction.cpp qtcamiso.cpp qtcamaperture.cpp qtcamexposure.cpp \
            qtcamvideomute.cpp qtcamnotifications.cpp qtcamfocus.cpp qtcamautofocus.cpp \
-           qtcamanalysisbin.cpp qtcampropertysetter.cpp
+           qtcamanalysisbin.cpp qtcampropertysetter.cpp qtcamroi.cpp
 
 HEADERS += qtcammode_p.h qtcamdevice_p.h qtcamcapability_p.h qtcamautofocus_p.h \
-           qtcamnotifications_p.h qtcamflash_p.h
+           qtcamnotifications_p.h qtcamflash_p.h qtcamroi_p.h
 
 LIBS += -lgstphotography-0.10
 

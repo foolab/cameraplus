@@ -28,6 +28,7 @@
 
 class QtCamAnalysisBinPrivate;
 class QStringList;
+class QString;
 
 class QtCamAnalysisBin {
 public:
@@ -39,6 +40,8 @@ public:
   bool isBlocked() const;
 
   GstElement *bin();
+
+  QList<GstElement *> lookup(const QString& factory);
 
 private:
   QtCamAnalysisBin(QtCamAnalysisBinPrivate *d);

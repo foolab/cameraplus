@@ -49,7 +49,7 @@ MouseArea {
                 // thus we do it here
                 onModeChanged: {
                         moveToCenter();
-                        cam.autoFocus.setRegionOfInterest(Qt.rect(0, 0, 0, 0));
+                        cam.roi.resetRegionOfInterest();
                 }
         }
 
@@ -140,7 +140,7 @@ MouseArea {
         function setRegionOfInterest() {
                 if (!reticle.touchMode) {
 //                        console.log("resetting ROI");
-                        cam.autoFocus.setRegionOfInterest(Qt.rect(0, 0, 0, 0));
+                        cam.roi.resetRegionOfInterest();
                         return;
                 }
 
@@ -164,7 +164,7 @@ MouseArea {
                 height = height / cam.videoResolution.height;
 
 //                console.log("Setting ROI to: " + x + " " + y);
-                cam.autoFocus.setRegionOfInterest(Qt.rect(x, y, width, height));
+                cam.roi.setRegionOfInterest(Qt.rect(x, y, width, height));
         }
 
         onReleased: {

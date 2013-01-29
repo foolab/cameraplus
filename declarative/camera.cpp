@@ -44,6 +44,7 @@
 #include "flickerreduction.h"
 #include "focus.h"
 #include "autofocus.h"
+#include "roi.h"
 
 #include "videomute.h"
 #include "videotorch.h"
@@ -68,6 +69,7 @@ Camera::Camera(QDeclarativeItem *parent) :
   m_flickerReduction(0),
   m_focus(0),
   m_autoFocus(0),
+  m_roi(0),
   m_videoMute(0),
   m_videoTorch(0) {
 
@@ -100,6 +102,7 @@ Camera::~Camera() {
   delete m_flickerReduction;
   delete m_focus;
   delete m_autoFocus;
+  delete m_roi;
   delete m_videoMute;
   delete m_videoTorch;
 }
@@ -350,6 +353,10 @@ void Camera::resetCapabilities() {
   m_autoFocus = new AutoFocus(dev, this);
   emit autoFocusChanged();
 
+  delete m_roi;
+  m_roi = new Roi(dev, this);
+  emit roiChanged();
+
   delete m_videoMute;
   m_videoMute = new VideoMute(dev, this);
   emit videoMuteChanged();
@@ -409,6 +416,10 @@ Focus *Camera::focus() const {
 
 AutoFocus *Camera::autoFocus() const {
   return m_autoFocus;
+}
+
+Roi *Camera::roi() const {
+  return m_roi;
 }
 
 VideoMute *Camera::videoMute() const {

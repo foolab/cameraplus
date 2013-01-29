@@ -169,6 +169,13 @@ CameraPage {
                                         alwaysRunToEnd: true
                                 }
                         }
+
+                        Indicator {
+                                id: faceDetectionIndicator
+                                visible: settings.faceDetectionEnabled
+                                source: "image://theme/icon-m-camera-face-detection-screen"
+                        }
+
                 }
         }
 

@@ -219,3 +219,19 @@ QString QtCamConfig::autoFocusAcquiredSound() const {
 QStringList QtCamConfig::viewfinderFilters() const {
   return d_ptr->conf->value("viewfinder-filters/elements").toStringList();
 }
+
+QString QtCamConfig::roiElement() const {
+  return d_ptr->conf->value("roi/element").toString();
+}
+
+QString QtCamConfig::roiMessageName() const {
+  return d_ptr->conf->value("roi/message").toString();
+}
+
+QString QtCamConfig::roiEnableProperty() const {
+  return d_ptr->conf->value("roi/enable").toString();
+}
+
+QString QtCamConfig::roiMessage() const {
+  return d_ptr->conf->value("roi/message").toString();
+}

@@ -52,7 +52,3 @@ bool AutoFocus::stopAutoFocus() {
 bool AutoFocus::canFocus(int sceneMode) {
   return m_af->canFocus((QtCamScene::SceneMode)sceneMode);
 }
-
-void AutoFocus::setRegionOfInterest(const QRectF& roi) {
-  return m_af->setRegionOfInterest(roi);
-}

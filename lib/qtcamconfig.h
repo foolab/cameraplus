@@ -84,6 +84,11 @@ public:
 
   QStringList viewfinderFilters() const;
 
+  QString roiElement() const;
+  QString roiMessageName() const;
+  QString roiEnableProperty() const;
+  QString roiMessage() const;
+
 private:
   QtCamConfigPrivate *d_ptr;
 };

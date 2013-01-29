@@ -24,23 +24,24 @@
 
 #define PATH QString("%1%2.config%2/cameraplus.conf").arg(QDir::homePath()).arg(QDir::separator())
 
-#define DEFAULT_MODE               1
-#define DEFAULT_SCENE_MODE         6 // Auto
-#define DEFAULT_USE_GPS            true
-#define DEFAULT_USE_GEOTAGS        true
-#define DEFAULT_COLOR_FILTER       0
-#define DEFAULT_WHITE_BALANCE      0
-#define DEFAULT_EV_COMP            0.0
-#define DEFAULT_FLASH_MODE         0
-#define DEFAULT_IMAGE_ISO          0
-#define DEFAULT_IMAGE_RESOLUTION   "high"
-#define DEFAULT_IMAGE_ASPECT_RATIO "16:9"
-#define DEFAULT_VIDEO_RESOLUTION   "high"
-#define DEFAULT_SOUND_ENABLED      true
-#define DEFAULT_VIDEO_TORCH_ON     false
-#define DEFAULT_SHOW_TOOL_BAR      false
-#define DEFAULT_VIDEO_MUTE         false
-#define DEFAULT_GRID_ENABLED       false
+#define DEFAULT_MODE                    1
+#define DEFAULT_SCENE_MODE              6 // Auto
+#define DEFAULT_USE_GPS                 true
+#define DEFAULT_USE_GEOTAGS             true
+#define DEFAULT_COLOR_FILTER            0
+#define DEFAULT_WHITE_BALANCE           0
+#define DEFAULT_EV_COMP                 0.0
+#define DEFAULT_FLASH_MODE              0
+#define DEFAULT_IMAGE_ISO               0
+#define DEFAULT_IMAGE_RESOLUTION        "high"
+#define DEFAULT_IMAGE_ASPECT_RATIO      "16:9"
+#define DEFAULT_VIDEO_RESOLUTION        "high"
+#define DEFAULT_SOUND_ENABLED           true
+#define DEFAULT_VIDEO_TORCH_ON          false
+#define DEFAULT_SHOW_TOOL_BAR           false
+#define DEFAULT_VIDEO_MUTE              false
+#define DEFAULT_GRID_ENABLED            false
+#define DEFAULT_FACE_DETECTION_ENABLED  true
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -318,5 +319,16 @@ void Settings::setGridEnabled(bool enabled) {
   if (enabled != isGridEnabled()) {
     m_settings->setValue("camera/gridEnabled", enabled);
     emit gridEnabledChanged();
+  }
+}
+
+bool Settings::isFaceDetectionEnabled() const {
+  return m_settings->value("image/faceDetectionEnabled", DEFAULT_FACE_DETECTION_ENABLED).toBool();
+}
+
+void Settings::setFaceDetectionEnabled(bool enabled) {
+  if (isFaceDetectionEnabled() != enabled) {
+    m_settings->setValue("image/faceDetectionEnabled", enabled);
+    emit faceDetectionEnabledChanged();
   }
 }

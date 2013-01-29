@@ -113,16 +113,6 @@ public:
     return false;
   }
 
-  bool sendEventToSource(GstEvent *event) {
-    if (!dev->d_ptr->videoSource) {
-      qWarning() << "No video source";
-      gst_event_unref(event);
-      return false;
-    }
-
-    return gst_element_send_event(dev->d_ptr->videoSource, event) == TRUE ? true : false;
-  }
-
 public slots:
   void handleMessage(GstMessage *message) {
     if (setStatus(&status, message)) {

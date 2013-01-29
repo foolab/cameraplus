@@ -61,6 +61,8 @@ class Settings : public QObject {
 
   Q_PROPERTY(bool gridEnabled READ isGridEnabled WRITE setGridEnabled NOTIFY gridEnabledChanged);
 
+  Q_PROPERTY(bool faceDetectionEnabled READ isFaceDetectionEnabled WRITE setFaceDetectionEnabled NOTIFY faceDetectionEnabledChanged);
+
 public:
   Settings(QObject *parent = 0);
   ~Settings();
@@ -134,6 +136,9 @@ public:
   bool isGridEnabled() const;
   void setGridEnabled(bool enabled);
 
+  bool isFaceDetectionEnabled() const;
+  void setFaceDetectionEnabled(bool enabled);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
@@ -158,6 +163,7 @@ signals:
   void toolBarShownChanged();
   void videoMutedChanged();
   void gridEnabledChanged();
+  void faceDetectionEnabledChanged();
 
 private:
   QSettings *m_settings;

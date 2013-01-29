@@ -21,13 +21,14 @@
 #include "qtcamanalysisbin.h"
 #include <QStringList>
 #include <QDebug>
+#include <QHash>
 
 #define FACTORY_NAME(x) gst_plugin_feature_get_name(GST_PLUGIN_FEATURE(gst_element_get_factory(x)))
 
-static GstElement *qt_cam_analysis_bin_create(QList<GstElement *>& children,
-					      const char *name, GstPad **queuePad);
-static GstElement *qt_cam_analysis_bin_create(GstElement *child,
-					      const char *name, GstPad **queuePad);
+static QtCamAnalysisBinPrivate *qt_cam_analysis_bin_create(const QStringList& factories,
+							   const char *name);
+static QtCamAnalysisBinPrivate *qt_cam_analysis_bin_create(GstElement *child,
+							   const char *name);
 
 class QtCamAnalysisBinPrivate {
 public:
@@ -49,6 +50,7 @@ public:
   GstElement *bin;
   gulong probe;
   GstPad *queuePad;
+  QMultiHash<QString, GstElement *> elements;
 };
 
 QtCamAnalysisBin::QtCamAnalysisBin(QtCamAnalysisBinPrivate *d) :
@@ -57,6 +59,8 @@ QtCamAnalysisBin::QtCamAnalysisBin(QtCamAnalysisBinPrivate *d) :
 }
 
 QtCamAnalysisBin::~QtCamAnalysisBin() {
+  d_ptr->elements.clear();
+
   setBlocked(false);
   gst_object_unref(GST_OBJECT(d_ptr->queuePad));
   gst_object_unref(d_ptr->bin);
@@ -93,6 +97,27 @@ QtCamAnalysisBin *QtCamAnalysisBin::create(const QStringList& factories, const c
     return 0;
   }
 
+  QtCamAnalysisBinPrivate *d = qt_cam_analysis_bin_create(factories, name);
+  if (!d) {
+    return 0;
+  }
+
+  return new QtCamAnalysisBin(d);
+}
+
+QtCamAnalysisBinPrivate *qt_cam_analysis_bin_create(const QStringList& factories,
+						    const char *name) {
+
+  if (factories.isEmpty()) {
+    return 0;
+  }
+
+  GstElement *bin = 0;
+  QHash<QString, GstElement *> elements;
+  QList<GstElement *> added;
+
+  bin = gst_bin_new("analysis-bin-bin");
+
   foreach (const QString& factory, factories) {
     GstElement *element = gst_element_factory_make(factory.toUtf8().constData(), NULL);
     if (!element) {
@@ -100,56 +125,23 @@ QtCamAnalysisBin *QtCamAnalysisBin::create(const QStringList& factories, const c
       continue;
     }
 
-    elements << element;
-  }
-
-  GstPad *pad = 0;
-  GstElement *bin = qt_cam_analysis_bin_create(elements, name, &pad);
-  if (!bin) {
-    return 0;
-  }
-
-  QtCamAnalysisBinPrivate *d = new QtCamAnalysisBinPrivate;
-  d->bin = bin;
-  d->queuePad = pad;
-
-  return new QtCamAnalysisBin(d);
-}
-
-GstElement *qt_cam_analysis_bin_create(QList<GstElement *>& children,
-				       const char *name, GstPad **queuePad) {
-  GstElement *bin = 0;
-
-  QList<GstElement *> added;
-
-  if (children.isEmpty()) {
-    return 0;
-  }
-
-  if (children.size() == 1) {
-    return qt_cam_analysis_bin_create(children.takeFirst(), name, queuePad);
-  }
-
-  bin = gst_bin_new("analysis-bin-bin");
-
-  while (!children.isEmpty()) {
-    GstElement *elem = children.takeFirst();
-
-    if (!gst_bin_add(GST_BIN(bin), elem)) {
-      qWarning() << "Failed to add element" << FACTORY_NAME(elem) << "to bin";
-      gst_object_unref(elem);
+    if (!gst_bin_add(GST_BIN(bin), element)) {
+      qWarning() << "Failed to add element" << factory << "to bin";
+      gst_object_unref(element);
     }
-    else {
-      added << elem;
-    }
+
+    elements.insert(factory, element);
+    added << element;
   }
 
-  for (int x = 1; x < added.count(); x++) {
-    GstElement *elem = added[x];
-    GstElement *prev = added[x - 1];
+  if (added.size() > 1) {
+    for (int x = 1; x < added.count(); x++) {
+      GstElement *elem = added[x];
+      GstElement *prev = added[x - 1];
 
-    if (!gst_element_link(prev, elem)) {
-      qWarning() << "Failed to link" << FACTORY_NAME(prev) << "and" << FACTORY_NAME(elem);
+      if (!gst_element_link(prev, elem)) {
+	qWarning() << "Failed to link" << FACTORY_NAME(prev) << "and" << FACTORY_NAME(elem);
+      }
     }
   }
 
@@ -161,7 +153,14 @@ GstElement *qt_cam_analysis_bin_create(QList<GstElement *>& children,
   gst_element_add_pad(bin, gst_ghost_pad_new("src", pad));
   gst_object_unref(GST_OBJECT(pad));
 
-  return qt_cam_analysis_bin_create(bin, name, queuePad);
+  QtCamAnalysisBinPrivate *d = qt_cam_analysis_bin_create(bin, name);
+  if (!d) {
+    return 0;
+  }
+
+  d->elements = elements;
+
+  return d;
 }
 
 /*
@@ -169,8 +168,10 @@ GstElement *qt_cam_analysis_bin_create(QList<GstElement *>& children,
  * tee -
  *       -- queue -- copy -- filters -- fakesink
  */
-GstElement *qt_cam_analysis_bin_create(GstElement *child, const char *name, GstPad **queuePad) {
+QtCamAnalysisBinPrivate *qt_cam_analysis_bin_create(GstElement *child, const char *name) {
   GstPad *pad = 0;
+  GstPad *queuePad = 0;
+  QtCamAnalysisBinPrivate *d = 0;
 
   GstElement *bin = gst_bin_new(name);
 
@@ -210,9 +211,12 @@ GstElement *qt_cam_analysis_bin_create(GstElement *child, const char *name, GstP
   g_object_set(tee, "alloc-pad", pad, NULL);
   gst_object_unref(GST_OBJECT(pad));
 
-  *queuePad = gst_element_get_static_pad(queue, "src");
+  queuePad = gst_element_get_static_pad(queue, "src");
 
-  return bin;
+  d = new QtCamAnalysisBinPrivate;
+  d->queuePad = queuePad;
+  d->bin = bin;
+  return d;
 
  free_and_out:
   if (bin) {
@@ -243,4 +247,12 @@ GstElement *qt_cam_analysis_bin_create(GstElement *child, const char *name, GstP
   }
 
   return 0;
+}
+
+QList<GstElement *> QtCamAnalysisBin::lookup(const QString& factory) {
+  if (d_ptr->elements.contains(factory)) {
+    return d_ptr->elements.values(factory);
+  }
+
+  return QList<GstElement *>();
 }
