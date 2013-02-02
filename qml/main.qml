@@ -411,6 +411,13 @@ PageStackWindow {
                 value: settings.videoMuted
         }
 
+        Binding {
+                target: cam.roi
+                property: "enabled"
+                value: settings.faceDetectionEnabled && !focusReticle.pressed && !focusReticle.touchMode && cam.mode == Camera.ImageMode
+        }
+
+
         TrackerStore {
                 id: trackerStore
                 active: cam.running

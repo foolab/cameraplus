@@ -28,67 +28,85 @@ import CameraPlus 1.0
 // TODO: hide all controls when we are dragging
 
 MouseArea {
-        property int cafStatus: AutoFocus.None
-        property int status: AutoFocus.None
-        property Camera cam: null
         id: mouse
-
-        // A 100x100 central "rectangle"
-        property variant centerRect: Qt.rect((mouse.width / 2 - 50), (mouse.height / 2) - 50, 100, 100);
-
-        property alias touchMode: reticle.touchMode
-
         x: cam ? cam.renderArea.x : 0
         y: cam ? cam.renderArea.y : 0
         width: cam ? cam.renderArea.width : 0
         height: cam ? cam.renderArea.height : 0
+        drag.minimumX: 0
+        drag.minimumY: 0
+        drag.maximumX: width - reticle.width
+        drag.maximumY: height - reticle.height
 
-        Connections {
-                target: settings
-                // Changing mode (which implies changing pages) will not reset ROI
-                // thus we do it here
-                onModeChanged: {
-                        moveToCenter();
+        property int cafStatus: AutoFocus.None
+        property int status: AutoFocus.None
+        property Camera cam
+        property bool touchMode
+
+        property variant touchPoint: Qt.point(mouse.width / 2, mouse.height / 2)
+
+        // A 100x100 central "rectangle"
+        property variant centerRect: Qt.rect((mouse.width / 2 - 50), (mouse.height / 2) - 50, 100, 100);
+
+        // ROI:
+        property variant primaryRoiRect: Qt.rect(0, 0, 0, 0);
+        property variant roiRects
+        property variant allRoiRects
+        property bool roiMode: allRoiRects != null && allRoiRects.length > 0 && !touchMode && !pressed
+
+        onPressed: calculateTouchPoint(mouse.x, mouse.y);
+        onReleased: calculateTouchPoint(mouse.x, mouse.y);
+        onPositionChanged: calculateTouchPoint(mouse.x, mouse.y);
+
+        function resetReticle() {
+                calculateTouchPoint(centerRect.x, centerRect.y)
+        }
+
+        function setRegionOfInterest() {
+                if (!cam) {
+//                        console.log("Cannot set ROI without camera object");
+                        return;
+                }
+
+                if (mouse.pressed) {
+//                        console.log("Will not set ROI while pressed");
+                        return;
+                }
+
+                if (!touchMode && !roiMode) {
+//                        console.log("resetting ROI");
                         cam.roi.resetRegionOfInterest();
+                        return;
                 }
+
+// TODO: rework this and move to unnormalized coordinates
+                // in terms of video resolution:
+                var rx = (cam.videoResolution.width * reticle.x) / mouse.width;
+                var rwidth = (cam.videoResolution.width * reticle.width) / mouse.width;
+                var ry = (cam.videoResolution.height * reticle.y) / mouse.height;
+                var rheight = (cam.videoResolution.height * reticle.height) / mouse.height;
+
+                // Translate to normalized coordinates (1x1 square) as expected by our C++ backend
+                rx = rx / cam.videoResolution.width;
+                rwidth = rwidth / cam.videoResolution.width;
+                ry = ry / cam.videoResolution.height;
+                rheight = rheight / cam.videoResolution.height;
+
+//                console.log("Setting ROI to: " + rx + "x" + ry);
+                cam.roi.setRegionOfInterest(Qt.rect(rx, ry, rwidth, rheight));
         }
 
-        Connections {
-                target: cam
-                onRunningChanged: {
-                        if (cam.running) {
-                                setRegionOfInterest();
-                        }
+        function calculateTouchPoint(x, y) {
+                if (x >= centerRect.x && y >= centerRect.y &&
+                    x <= centerRect.x + centerRect.width &&
+                    y <= centerRect.y + centerRect.height) {
+                        touchMode = false;
+                        touchPoint = Qt.point(mouse.width / 2, mouse.height / 2)
+                        return;
                 }
-        }
-/*
-        // This is for debugging
-        Rectangle {
-                color: "blue"
-                opacity: 0.2
-                anchors.fill: parent
-        }
 
-        Rectangle {
-                color: "red"
-                opacity: 0.4
-                x: centerRect.x
-                y: centerRect.y
-                width: centerRect.width
-                height: centerRect.height
-        }
-*/
-        drag.target: reticle
-        drag.axis: Drag.XandYAxis
-        drag.minimumX: 0 - (0.1 * reticle.width)
-        drag.minimumY: 0 - (0.1 * reticle.height)
-        drag.maximumX: width - reticle.width + (0.1 * reticle.width)
-        drag.maximumY: height - reticle.height + (0.1 * reticle.height)
-
-        onStatusChanged: {
-                if (status != AutoFocus.Running) {
-                        reticle.visible = true;
-                }
+                touchMode = true;
+                touchPoint = Qt.point(x, y)
         }
 
         function predictColor(caf, status) {
@@ -109,106 +127,109 @@ MouseArea {
                 }
         }
 
-        function moveToCenter() {
-                reticle.anchors.centerIn = reticle.parent;
-                reticle.touchMode = false;
-        }
+        Repeater {
+                anchors.fill: parent
+                model: roiMode ? roiRects : 0
 
-        function moveReticle(x, y) {
-                var xPos = x - ((reticle.width * 1) / 2);
-                var yPos = y - ((reticle.height * 1) / 2);
-                xPos = Math.min(Math.max(xPos, drag.minimumX), drag.maximumX);
-                yPos = Math.min(Math.max(yPos, drag.minimumY), drag.maximumY);
-                reticle.x = xPos;
-                reticle.y = yPos;
-                reticle.anchors.centerIn = undefined;
-                reticle.touchMode = true;
-        }
-
-        function moveToCenterIfNeeded(x, y) {
-                if (x >= centerRect.x && y >= centerRect.y &&
-                    x <= centerRect.x + centerRect.width &&
-                    y <= centerRect.y + centerRect.height) {
-                        moveToCenter();
+                delegate: Rectangle {
+                        x: modelData.x
+                        y: modelData.y
+                        width: modelData.width
+                        height: modelData.height
+                        color: "transparent"
+                        border.color: "gray"
+                        border.width: 2
                 }
-                else {
-                        reticle.anchors.centerIn = undefined;
-                        reticle.touchMode = true;
-                }
-        }
-
-        function setRegionOfInterest() {
-                if (!reticle.touchMode) {
-//                        console.log("resetting ROI");
-                        cam.roi.resetRegionOfInterest();
-                        return;
-                }
-
-                // take into account scale:
-                var x = reticle.x + (reticle.width * 0.1);
-                var y = reticle.y + (reticle.height * 0.1);
-
-                var width = reticle.width * 0.8;
-                var height = reticle.height * 0.8;
-
-                // in terms of video resolution:
-                x = (cam.videoResolution.width * x) / mouse.width;
-                width = (cam.videoResolution.width * width) / mouse.width;
-                y = (cam.videoResolution.height * y) / mouse.height;
-                height = (cam.videoResolution.height * height) / mouse.height;
-
-                // Translate to normalized coordinates (1x1 square) as expected by our C++ backend
-                x = x / cam.videoResolution.width;
-                width = width / cam.videoResolution.width;
-                y = y / cam.videoResolution.height;
-                height = height / cam.videoResolution.height;
-
-//                console.log("Setting ROI to: " + x + " " + y);
-                cam.roi.setRegionOfInterest(Qt.rect(x, y, width, height));
-        }
-
-        onReleased: {
-                moveToCenterIfNeeded(mouse.x, mouse.y);
-                setRegionOfInterest();
-        }
-
-        onPressed: {
-                reticle.anchors.centerIn = undefined;
-                moveReticle(mouse.x, mouse.y);
         }
 
         FocusRectangle {
                 id: reticle
-                property variant center: Qt.point((mouse.width - width) / 2, (mouse.height - height) / 2);
-                property bool touchMode: false
-
-                scale: mouse.pressed ? 0.6 : touchMode ? 0.8 : 1.0
-
-                width: 250
-                height: 150
-
-                anchors.centerIn: parent
+                width: mouse.pressed ? 150 : mouse.touchMode ? 200 : roiMode ? primaryRoiRect.width : 250
+                height: mouse.pressed ? 90 : mouse.touchMode ? 120 : roiMode ? primaryRoiRect.height : 150
+                x: Math.min(Math.max(mouse.touchPoint.x - (width / 2), drag.minimumX), drag.maximumX);
+                y: Math.min(Math.max(mouse.touchPoint.y - (height / 2), drag.minimumY), drag.maximumY);
 
                 color: predictColor(cafStatus, status);
 
+                onXChanged: setRegionOfInterest();
+                onYChanged: setRegionOfInterest();
+/*
                 Behavior on x {
                         PropertyAnimation { duration: 100; }
+                        enabled: !mouse.pressed
                 }
 
                 Behavior on y {
                         PropertyAnimation { duration: 100; }
+                        enabled: !mouse.pressed
                 }
-
-                Behavior on scale {
+*/
+                Behavior on width {
                         PropertyAnimation { duration: 100; }
                 }
+
+                Behavior on height {
+                        PropertyAnimation { duration: 100; }
+                }
+
         }
 
+        Connections {
+                target: settings
+                // Changing mode (which implies changing pages) will not reset ROI
+                // thus we do it here
+                onModeChanged: resetReticle();
+        }
+
+        Connections {
+                target: cam
+                onRunningChanged: resetReticle()
+                onVideoResolutionChanged: resetReticle()
+        }
+
+        Connections {
+                target: cam.roi
+                onRegionsChanged: {
+                        allRoiRects = regions;
+                        primaryRoiRect = primary;
+                        roiRects = rest;
+
+                        if (regions.length == 0) {
+                                resetReticle();
+                                return;
+                        }
+
+                        touchPoint = Qt.point(primary.x + (reticle.width / 2),
+                                              primary.y + (reticle.height / 2));
+                }
+        }
+/*
+        // This is for debugging
+        Rectangle {
+                color: "blue"
+                opacity: 0.2
+                anchors.fill: parent
+        }
+
+        Rectangle {
+                color: "red"
+                opacity: 0.4
+                x: centerRect.x
+                y: centerRect.y
+                width: centerRect.width
+                height: centerRect.height
+        }
+*/
         Timer {
                 interval: 500
                 running: status == AutoFocus.Running
                 triggeredOnStart: true
                 repeat: true
                 onTriggered: reticle.visible = !reticle.visible
+                onRunningChanged: {
+                        if (!running) {
+                                reticle.visible = true;
+                        }
+                }
         }
 }

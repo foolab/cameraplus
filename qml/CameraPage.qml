@@ -57,7 +57,7 @@ Page {
                         cam.renderingEnabled = true;
                 }
                 else if (status == PageStatus.Active) {
-                        focusReticle.setRegionOfInterest();
+                        focusReticle.resetReticle();
 
                         if (!enableViewfinder) {
                                 cam.renderingEnabled = false;
