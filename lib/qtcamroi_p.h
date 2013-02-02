@@ -119,7 +119,7 @@ public:
       }
     }
 
-    return -1;
+    return index;
   }
 
 public slots:
