@@ -367,5 +367,5 @@ void QtCamViewfinderRendererMeeGo::setVideoSize(const QSizeF& size) {
   m_needsInit = true;
 
   emit renderAreaChanged();
-  emit videoResolution();
+  emit videoResolutionChanged();
 }
