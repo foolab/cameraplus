@@ -5,8 +5,8 @@ INCLUDEPATH += . ../
 
 QT += declarative opengl dbus
 
-CONFIG += link_pkgconfig debug static mobility qtsparql galleryinterface-maemo-meegotouch \
-          shareuiinterface-maemo-meegotouch qmljsdebug
+CONFIG += link_pkgconfig mobility qtsparql galleryinterface-maemo-meegotouch \
+          shareuiinterface-maemo-meegotouch
 
 MOBILITY += location systeminfo
 

@@ -28,8 +28,6 @@ import CameraPlus 1.0
 import QtMobility.location 1.2
 
 // TODO: flash not ready (battery low or flash not ready message)
-// TODO: face tracking
-// TODO: disable debug builds.
 
 PageStackWindow {
         id: root
