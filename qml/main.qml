@@ -241,6 +241,8 @@ PageStackWindow {
                 id: cam
                 anchors.fill: parent
 
+                onRoiChanged: roi.normalize = false;
+
                 GridLines {
                         x: cam.renderArea.x
                         y: cam.renderArea.y

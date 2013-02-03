@@ -122,3 +122,7 @@ bool QtCamRoi::isEnabled() {
 
   return val == TRUE;
 }
+
+QtCamDevice *QtCamRoi::device() {
+  return d_ptr->dev;
+}

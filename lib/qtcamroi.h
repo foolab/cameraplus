@@ -44,6 +44,8 @@ public:
 
   bool isEnabled();
 
+  QtCamDevice *device();
+
 signals:
   void regionsOfInterestUpdated(const QList<QRectF>& regions,
 				const QRectF& primary,

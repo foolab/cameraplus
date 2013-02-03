@@ -34,6 +34,7 @@ class Roi : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled NOTIFY enabledChanged);
+  Q_PROPERTY(bool normalize READ normalize WRITE setNormalize NOTIFY normalizeChanged);
 
 public:
   Roi(QtCamDevice *device, QObject *parent = 0);
@@ -44,12 +45,16 @@ public:
 
   QList<QRectF> regions();
 
+  bool normalize() const;
+  void setNormalize(bool normalize);
+
 public slots:
   void setRegionOfInterest(const QRectF& region);
   void resetRegionOfInterest();
 
 signals:
   void enabledChanged();
+  void normalizeChanged();
   void regionsChanged(const QVariantList& regions, const QVariant& primary,
 		      const QVariantList& rest);
 
@@ -58,9 +63,8 @@ private slots:
 			    const QList<QRectF>& rest);
 
 private:
-  QVariantList variantList(const QList<QRectF>& rects);
-
   QtCamRoi *m_roi;
+  bool m_normalize;
 };
 
 #endif /* ROI_H */
