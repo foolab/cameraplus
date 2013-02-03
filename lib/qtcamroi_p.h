@@ -178,7 +178,7 @@ private slots:
       rects << rect;
     }
 
-    int index = primaryRegion(QRectF(0, 0, width, height), rects);
+    int index = primaryRegion(QRectF(0, 0, 1, 1), rects);
 
     QList<QRectF> rest(rects);
     QRectF primary = index == -1 ? QRectF() : rest.takeAt(index);
