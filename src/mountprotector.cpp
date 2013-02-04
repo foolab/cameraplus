@@ -62,6 +62,10 @@ bool MountProtector::lock() {
     return false;
   }
 
+  if (!QFile::remove(m_file->fileName())) {
+    qmlInfo(this) << "Failed to remove temporarily file" << m_file->fileName();
+  }
+
   return true;
 }
 
