@@ -10,8 +10,7 @@ CONFIG += link_pkgconfig mobility qtsparql galleryinterface-maemo-meegotouch \
 
 MOBILITY += location systeminfo
 
-PKGCONFIG = gstreamer-0.10 gstreamer-interfaces-0.10 gstreamer-video-0.10 gstreamer-tag-0.10 \
-            gstreamer-pbutils-0.10 meego-gstreamer-interfaces-0.10 quill qmsystem2 libresourceqt1
+PKGCONFIG = quill qmsystem2 libresourceqt1
 
 SOURCES += main.cpp settings.cpp filenaming.cpp quillitem.cpp displaystate.cpp fsmonitor.cpp \
            cameraresources.cpp compass.cpp orientation.cpp geocode.cpp mountprotector.cpp \
