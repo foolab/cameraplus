@@ -3,7 +3,7 @@ TARGET = declarativeqtcamera
 DEPENDPATH += . ../lib/
 INCLUDEPATH += . ../lib/
 
-CONFIG += link_pkgconfig
+CONFIG += link_pkgconfig plugin
 
 PKGCONFIG = gstreamer-pbutils-0.10 libcanberra
 
