@@ -8,6 +8,8 @@ CONFIG += link_pkgconfig
 PKGCONFIG = gstreamer-0.10 gstreamer-interfaces-0.10 gstreamer-video-0.10 gstreamer-tag-0.10 \
             gstreamer-pbutils-0.10 meego-gstreamer-interfaces-0.10 libcanberra
 
+LIBS += -L../lib/ -lqtcamera
+
 QT += declarative dbus
 
 HEADERS += plugin.h previewprovider.h camera.h mode.h imagemode.h videomode.h \

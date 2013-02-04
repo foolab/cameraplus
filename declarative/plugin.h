@@ -23,11 +23,17 @@
 #ifndef PLUGIN_H
 #define PLUGIN_H
 
-class QDeclarativeEngine;
+#include <QDeclarativeExtensionPlugin>
 
-class Plugin {
+class Plugin : public QDeclarativeExtensionPlugin {
+  Q_OBJECT
+
 public:
-  static void registerTypes(QDeclarativeEngine *engine);
+  Plugin(QObject *parent = 0);
+  ~Plugin();
+
+  void initializeEngine(QDeclarativeEngine *engine, const char *uri);
+  void registerTypes(const char *uri);
 };
 
 #endif /* PLUGIN_H */

@@ -26,8 +26,6 @@
 #include <QGLWidget>
 #include <QuillFile>
 
-#include "declarative/plugin.h"
-
 #include "settings.h"
 #include "filenaming.h"
 #include "quillitem.h"
@@ -85,7 +83,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
   view.setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
-  Plugin::registerTypes(view.engine());
   qmlRegisterType<Settings>("CameraPlus", 1, 0, "Settings");
   qmlRegisterType<FileNaming>("CameraPlus", 1, 0, "FileNaming");
   qmlRegisterType<QuillItem>("CameraPlus", 1, 0, "QuillItem");
