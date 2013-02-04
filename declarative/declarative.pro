@@ -5,8 +5,7 @@ INCLUDEPATH += . ../lib/
 
 CONFIG += link_pkgconfig
 
-PKGCONFIG = gstreamer-0.10 gstreamer-interfaces-0.10 gstreamer-video-0.10 gstreamer-tag-0.10 \
-            gstreamer-pbutils-0.10 meego-gstreamer-interfaces-0.10 libcanberra
+PKGCONFIG = gstreamer-pbutils-0.10 libcanberra
 
 LIBS += -L../lib/ -lqtcamera
 
