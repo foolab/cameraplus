@@ -29,3 +29,6 @@ contains(CONFIG, qmljsdebug) {
     QT += script
     include(../qmljsdebugger/qmljsdebugger-src.pri)
 }
+
+target.path = /usr/bin/
+INSTALLS += target

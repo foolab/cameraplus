@@ -44,3 +44,6 @@ isEqual(MEEGO_EDITION, harmattan) {
 SOURCES += qtcamviewfinderrenderermeego.cpp
 HEADERS += qtcamviewfinderrenderermeego.h
 }
+
+target.path = /usr/lib/
+INSTALLS += target

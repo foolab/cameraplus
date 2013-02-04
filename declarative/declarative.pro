@@ -28,3 +28,10 @@ SOURCES += plugin.cpp previewprovider.cpp camera.cpp mode.cpp imagemode.cpp vide
            roi.cpp
 
 HEADERS += declarativeqtcameranotifications.h
+
+PLUGIN_IMPORT_PATH = QtCamera
+target.path = $$[QT_INSTALL_IMPORTS]/$$PLUGIN_IMPORT_PATH
+
+qml.files = qmldir
+qml.path = $$[QT_INSTALL_IMPORTS]/$$PLUGIN_IMPORT_PATH
+INSTALLS += target qml
