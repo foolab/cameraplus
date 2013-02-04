@@ -21,7 +21,7 @@
 #include "notificationscontainer.h"
 #include "qtcamdevice.h"
 #include "qtcamnotifications.h"
-#include "notifications.h"
+#include "declarativeqtcameranotifications.h"
 
 NotificationsContainer::NotificationsContainer(QObject *parent) :
   QObject(parent), m_dev(0), m_notifications(0) {
@@ -62,11 +62,11 @@ void NotificationsContainer::setDevice(QtCamDevice *dev) {
   }
 }
 
-Notifications *NotificationsContainer::notifications() const {
+DeclarativeQtCameraNotifications *NotificationsContainer::notifications() const {
   return m_notifications;
 }
 
-bool NotificationsContainer::setNotifications(Notifications *notifications) {
+bool NotificationsContainer::setNotifications(DeclarativeQtCameraNotifications *notifications) {
   QMutexLocker lock(&m_mutex);
 
   if (m_notifications != notifications) {

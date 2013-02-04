@@ -26,7 +26,7 @@
 #include "qtcamvideomode.h"
 #include "qtcamgraphicsviewfinder.h"
 #include "qtcamconfig.h"
-#include "notifications.h"
+#include "declarativeqtcameranotifications.h"
 #include "notificationscontainer.h"
 #include "sounds.h"
 #include <QDeclarativeInfo>
@@ -274,11 +274,11 @@ QString Camera::videoSuffix() const {
   return m_cam->config()->videoSuffix();
 }
 
-Notifications *Camera::notifications() const {
+DeclarativeQtCameraNotifications *Camera::notifications() const {
   return m_notifications->notifications();
 }
 
-void Camera::setNotifications(Notifications *notifications) {
+void Camera::setNotifications(DeclarativeQtCameraNotifications *notifications) {
   if (m_notifications->setNotifications(notifications)) {
 
     if (Sounds *s = dynamic_cast<Sounds *>(notifications)) {

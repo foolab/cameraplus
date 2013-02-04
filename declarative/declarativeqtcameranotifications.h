@@ -20,15 +20,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef NOTIFICATIONS_H
-#define NOTIFICATIONS_H
+#ifndef DECLARATIVE_QT_CAMERA_NOTIFICATIONS_H
+#define DECLARATIVE_QT_CAMERA_NOTIFICATIONS_H
 
 #include <QObject>
 
-class Notifications {
+class DeclarativeQtCameraNotifications {
 public:
-  Notifications();
-  virtual ~Notifications();
+  DeclarativeQtCameraNotifications() {}
+  virtual ~DeclarativeQtCameraNotifications() {}
 
   virtual void imageCaptureStarted() = 0;
   virtual void imageCaptureEnded() = 0;
@@ -36,6 +36,6 @@ public:
   virtual void videoRecordingEnded() = 0;
   virtual void autoFocusAcquired() = 0;
 };
-Q_DECLARE_INTERFACE(Notifications, "org.foolab.qml.CameraPlus/1.0");
+Q_DECLARE_INTERFACE(DeclarativeQtCameraNotifications, "org.foolab.qml.CameraPlus.Notifications/1.0");
 
-#endif /* NOTIFICATIONS_H */
+#endif /* DECLARATIVE_QT_CAMERA_NOTIFICATIONS_H */

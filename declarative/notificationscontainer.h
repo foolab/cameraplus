@@ -28,7 +28,7 @@
 #include <QMutex>
 
 class QtCamDevice;
-class Notifications;
+class DeclarativeQtCameraNotifications;
 
 class NotificationsContainer : public QObject {
   Q_OBJECT
@@ -38,8 +38,8 @@ public:
   ~NotificationsContainer();
 
   void setDevice(QtCamDevice *dev);
-  Notifications *notifications() const;
-  bool setNotifications(Notifications *notifications);
+  DeclarativeQtCameraNotifications *notifications() const;
+  bool setNotifications(DeclarativeQtCameraNotifications *notifications);
 
 private slots:
   void imageCaptureStarted();
@@ -50,7 +50,7 @@ private slots:
 
 private:
   QPointer<QtCamDevice> m_dev;
-  Notifications *m_notifications;
+  DeclarativeQtCameraNotifications *m_notifications;
   QMutex m_mutex;
 };
 

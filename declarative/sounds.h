@@ -24,15 +24,15 @@
 #define SOUNDS_H
 
 #include <QObject>
-#include "notifications.h"
+#include "declarativeqtcameranotifications.h"
 #include <canberra.h>
 
 class QtCamConfig;
 class QDBusServiceWatcher;
 
-class Sounds : public QObject, public Notifications {
+class Sounds : public QObject, public DeclarativeQtCameraNotifications {
   Q_OBJECT
-  Q_INTERFACES(Notifications);
+  Q_INTERFACES(DeclarativeQtCameraNotifications);
 
   Q_PROPERTY(bool mute READ isMuted WRITE setMuted NOTIFY muteChanged);
 
