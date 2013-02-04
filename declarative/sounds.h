@@ -29,6 +29,7 @@
 
 class QtCamConfig;
 class QDBusServiceWatcher;
+class ContextProperty;
 
 class Sounds : public QObject, public DeclarativeQtCameraNotifications {
   Q_OBJECT
@@ -58,6 +59,7 @@ signals:
 private slots:
   void serviceOwnerChanged(const QString& serviceName, const QString& oldOwner,
 			   const QString& newOwner);
+  void audioConnectionChanged();
 
 private:
   void cache(const QString& path, const char *id);
@@ -68,6 +70,8 @@ private:
   ca_context *m_ctx;
   QtCamConfig *m_conf;
   QDBusServiceWatcher *m_watcher;
+  ContextProperty *m_audioRoute;
+  QString m_volume;
 };
 
 #endif /* SOUNDS_H */

@@ -25,6 +25,7 @@
 #include <QWaitCondition>
 #include <QDBusServiceWatcher>
 #include <QDBusConnection>
+#include <contextsubscriber/contextproperty.h>
 
 #define CAMERA_IMAGE_START_SOUND_ID  "camera-image-start"
 #define CAMERA_IMAGE_END_SOUND_ID    "camera-image-end"
@@ -33,9 +34,10 @@
 #define CAMERA_FOCUS_SOUND_ID        "camera-focus"
 
 // Odd, volume has to be a char *
-#define CANBERRA_FULL_VOLUME "0.0"
-
-// TODO: if we are using headphones then sound volume might be loud. Detect and lower it.
+#define CANBERRA_FULL_VOLUME         "0.0"
+#define CANBERRA_HEADSET_VOLUME      "-24.0"
+#define AUDIO_ROUTE_PROPERTY         "/com/nokia/policy/audio_route"
+#define AUDIO_ROUTE_SPEAKERS         "ihf"
 
 Sounds::Sounds(QObject *parent) :
   QObject(parent),
@@ -53,6 +55,11 @@ Sounds::Sounds(QObject *parent) :
 
   // No idea why but canberra will not cache without that!!!
   setenv("CANBERRA_EVENT_LOOKUP", "1", 1);
+
+  m_audioRoute = new ContextProperty(AUDIO_ROUTE_PROPERTY, this);
+  QObject::connect(m_audioRoute, SIGNAL(valueChanged()), this, SLOT(audioConnectionChanged()));
+  m_audioRoute->waitForSubscription(true);
+  audioConnectionChanged();
 }
 
 Sounds::~Sounds() {
@@ -197,7 +204,7 @@ void Sounds::play(const char *id) {
   }
 
   int code = ca_context_play(m_ctx, 0,
-			     CA_PROP_CANBERRA_VOLUME, CANBERRA_FULL_VOLUME,
+			     CA_PROP_CANBERRA_VOLUME, m_volume.toAscii().constData(),
 			     CA_PROP_EVENT_ID, id,
 			     CA_PROP_MEDIA_ROLE, "camera-sound-effect",
 			     NULL);
@@ -247,4 +254,12 @@ void Sounds::playAndBlock(const char *id) {
   cond.wait(&mutex);
   ca_proplist_destroy(p);
   mutex.unlock();
+}
+
+void Sounds::audioConnectionChanged() {
+  if (m_audioRoute->value().toString() != AUDIO_ROUTE_SPEAKERS) {
+    m_volume = CANBERRA_HEADSET_VOLUME;
+  } else {
+    m_volume = CANBERRA_FULL_VOLUME;
+  }
 }
