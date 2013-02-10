@@ -23,7 +23,6 @@
 import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
-import "ImageSettingsDialog.js" as Util
 
 Dialog {
         id: dialog
@@ -70,59 +69,8 @@ Dialog {
                                         text: qsTr("Image settings");
                                 }
 
-                                SectionHeader {
-                                        text: qsTr("Aspect ratio");
-                                }
-
-                                ButtonRow {
-                                        id: aspectRatioRow
+                                ImageResolutionSettings {
                                         width: parent.width
-
-                                        exclusive: false
-                                        onCheckedButtonChanged: {
-                                                // This is needed to initially setup the
-                                                // resolutions buttons
-                                                Util.resetAspectRatio(aspectRatioRow);
-                                        }
-
-                                        Repeater {
-                                                model: imageSettings.aspectRatios
-                                                delegate: Button {
-                                                        property string aspect: modelData;
-                                                        text: qsTr(modelData);
-                                                        checked: settings.imageAspectRatio == modelData;
-                                                        onClicked: Util.setAspectRatio(modelData);
-                                                }
-                                        }
-                                }
-
-                                SectionHeader {
-                                        text: qsTr("Resolution");
-                                }
-
-                                ButtonRow {
-                                        id: resolutionsRow
-                                        width: parent.width
-
-                                        exclusive: false
-
-                                        Repeater {
-                                                id: resolutions
-                                                model: imageSettings.resolutions
-
-                                                // http://stackoverflow.com/questions/1026069/capitalize-the-first-letter-of-string-in-javascript
-                                                function name(name, mp) {
-                                                        return name.charAt(0).toUpperCase() + name.slice(1) + " " + mp + " Mpx";
-                                                }
-
-                                                delegate: Button {
-                                                        property string resolution: resolutionName
-                                                        property string aspectRatio: resolutionAspectRatio
-                                                        text: resolutions.name(resolutionName, megaPixels);
-                                                        checked: settings.imageResolution == resolutionName
-                                                        onClicked: Util.setResolution(resolutionName);
-                                                }
-                                        }
                                 }
 
                                 TextSwitch {

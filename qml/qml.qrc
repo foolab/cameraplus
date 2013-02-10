@@ -39,6 +39,7 @@
 	<file>TextSwitch.qml</file>
 	<file>ImageSettingsDialog.qml</file>
 	<file>ImageSettingsDialog.js</file>
+	<file>ImageResolutionSettings.qml</file>
 	<file>VideoSettingsDialog.qml</file>
 	<file>VideoSettingsDialog.js</file>
     </qresource>
