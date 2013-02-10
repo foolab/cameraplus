@@ -34,24 +34,14 @@ Column {
                 width: parent.width
         }
 
-        Item {
-                width: parent.width
-                height: Math.max(showGridLinesLabel.height, showGridLines.height);
+        TextSwitch {
+                text: qsTr("Show grid lines");
 
-                Label {
-                        id: showGridLinesLabel
-                        anchors.left: parent.left
-                        text: qsTr("Show grid lines");
-                }
+                // We have to do it that way because QML complains about a binding
+                // loop for checked if we bind the checked property to the settings value.
+                Component.onCompleted: checked = settings.gridEnabled;
 
-                Switch {
-                        id: showGridLines
-                        anchors.right: parent.right
-                        // We have to do it that way because QML complains about a binding
-                        // loop for checked if we bind the checked property to the settings value.
-                        Component.onCompleted: checked = settings.gridEnabled;
-                        onCheckedChanged: settings.gridEnabled = checked;
-                }
+                onCheckedChanged: settings.gridEnabled = checked;
         }
 
         SectionHeader {
@@ -66,66 +56,34 @@ Column {
                 onTextChanged: settings.creatorName = text;
         }
 
-        Item {
-                width: parent.width
-                height: Math.max(enableCameraSoundsLabel.height, enableCameraSounds.height);
+        TextSwitch {
+                text: qsTr("Enable camera sounds");
 
-                Label {
-                        id: enableCameraSoundsLabel
-                        anchors.left: parent.left
-                        text: qsTr("Enable camera sounds");
-                }
-
-                Switch {
-                        id: enableCameraSounds
-                        anchors.right: parent.right
-                        // We have to do it that way because QML complains about a binding
-                        // loop for checked if we bind the checked property to the settings value.
-                        Component.onCompleted: checked = settings.soundEnabled;
-                        onCheckedChanged: settings.soundEnabled = checked;
-                }
+                // We have to do it that way because QML complains about a binding
+                // loop for checked if we bind the checked property to the settings value.
+                Component.onCompleted: checked = settings.soundEnabled;
+                onCheckedChanged: settings.soundEnabled = checked;
         }
 
-        Item {
-                width: parent.width
-                height: Math.max(useGpsLabel.height, useGps.height);
+        TextSwitch {
+                id: useGps
+                text: qsTr("Use GPS");
 
-                Label {
-                        id: useGpsLabel
-                        anchors.left: parent.left
-                        text: qsTr("Use GPS");
-                }
-
-                Switch {
-                        id: useGps
-                        anchors.right: parent.right
-                        // We have to do it that way because QML complains about a binding
-                        // loop for checked if we bind the checked property to the settings value.
-                        Component.onCompleted: checked = settings.useGps;
-                        onCheckedChanged: settings.useGps = checked;
-                }
+                // We have to do it that way because QML complains about a binding
+                // loop for checked if we bind the checked property to the settings value.
+                Component.onCompleted: checked = settings.useGps;
+                onCheckedChanged: settings.useGps = checked;
         }
 
-        Item {
-                width: parent.width
-                height: Math.max(useGeotagsLabel.height, useGeotags.height);
-
+        TextSwitch {
                 // TODO: transition when hiding/showing and we should scroll a bit to show it
                 visible: useGps.checked
 
-                Label {
-                        id: useGeotagsLabel
-                        anchors.left: parent.left
-                        text: qsTr("Use geotags");
-                }
+                text: qsTr("Use geotags");
 
-                Switch {
-                        id: useGeotags
-                        anchors.right: parent.right
-                        // We have to do it that way because QML complains about a binding
-                        // loop for checked if we bind the checked property to the settings value.
-                        Component.onCompleted: checked = settings.useGeotags;
-                        onCheckedChanged: settings.useGeotags = checked;
-                }
+                // We have to do it that way because QML complains about a binding
+                // loop for checked if we bind the checked property to the settings value.
+                Component.onCompleted: checked = settings.useGeotags;
+                onCheckedChanged: settings.useGeotags = checked;
         }
 }

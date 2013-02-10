@@ -36,6 +36,7 @@
 	<file>VideoMuteButton.qml</file>
 	<file>VideoPlayerPage.qml</file>
 	<file>SectionHeader.qml</file>
+	<file>TextSwitch.qml</file>
 	<file>ImageSettingsDialog.qml</file>
 	<file>ImageSettingsDialog.js</file>
 	<file>VideoSettingsDialog.qml</file>
