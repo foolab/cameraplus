@@ -42,5 +42,6 @@
 	<file>ImageResolutionSettings.qml</file>
 	<file>VideoSettingsDialog.qml</file>
 	<file>VideoSettingsDialog.js</file>
+	<file>VideoResolutionSettings.qml</file>
     </qresource>
 </RCC>

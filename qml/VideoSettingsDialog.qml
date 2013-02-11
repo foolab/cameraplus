@@ -23,7 +23,6 @@
 import QtQuick 1.1
 import com.nokia.meego 1.1
 import QtCamera 1.0
-import "VideoSettingsDialog.js" as Util
 
 Dialog {
         id: dialog
@@ -71,30 +70,8 @@ Dialog {
                                         text: qsTr("Video settings");
                                 }
 
-                                SectionHeader {
-                                        text: qsTr("Resolution");
-                                }
-
-                                ButtonRow {
+                                VideoResolutionSettings {
                                         width: parent.width
-
-                                        exclusive: false
-
-                                        Repeater {
-                                                id: resolutions
-
-                                                model: videoSettings.resolutions
-
-                                                function name(name, res) {
-                                                        return name.charAt(0).toUpperCase() + name.slice(1) + " " + res;
-                                                }
-
-                                                delegate: Button {
-                                                        text: resolutions.name(resolutionName, resolution);
-                                                        checked: settings.videoResolution == resolutionName;
-                                                        onClicked: Util.setResolution(resolutionName);
-                                                }
-                                        }
                                 }
 
                                 CameraSettings {
