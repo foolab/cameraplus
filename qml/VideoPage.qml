@@ -34,6 +34,8 @@ CameraPage {
         controlsVisible: cam.running && !videoMode.recording && videoMode.canCapture && !cameraMode.busy && dimmer.opacity == 0.0 && !previewAnimationRunning
         orientationLock: PageOrientation.LockLandscape
 
+        property Item settingsDialog: null
+
         function startRecording() {
                 if (!fileSystem.available) {
                         showError(qsTr("Camera cannot record videos in mass storage mode."));
@@ -176,12 +178,22 @@ CameraPage {
                 },
                 ToolIcon {
                         iconSource: "image://theme/icon-m-toolbar-view-menu-white"
-                        onClicked: videoSettingsDialog.open();
+                        onClicked: openSettings();
                 }
                 ]
         }
 
-        VideoSettingsDialog {
+        function openSettings() {
+                if (!settingsDialog) {
+                        settingsDialog = videoSettingsDialog.createObject(page);
+                }
+
+                settingsDialog.open();
+        }
+
+        Component {
                 id: videoSettingsDialog
+
+                VideoSettingsDialog { }
         }
 }
