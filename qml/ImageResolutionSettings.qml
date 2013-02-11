@@ -67,15 +67,10 @@ Column {
                         id: resolutions
                         model: imageSettings.resolutions
 
-                        // http://stackoverflow.com/questions/1026069/capitalize-the-first-letter-of-string-in-javascript
-                        function name(name, mp) {
-                                return name.charAt(0).toUpperCase() + name.slice(1) + " " + mp + " Mpx";
-                        }
-
                         delegate: Button {
                                 property string resolution: resolutionName
                                 property string aspectRatio: resolutionAspectRatio
-                                text: resolutions.name(resolutionName, megaPixels);
+                                text: qsTr("%1 Mpx").arg(megaPixels);
                                 checked: settings.imageResolution == resolutionName
                                 onClicked: Util.setResolution(resolutionName);
                         }
