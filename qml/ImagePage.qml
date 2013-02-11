@@ -34,6 +34,8 @@ CameraPage {
 
         orientationLock: PageOrientation.LockLandscape
 
+        property Item settingsDialog: null
+
         function cameraError() {
                 mountProtector.unlock();
         }
@@ -227,12 +229,27 @@ CameraPage {
                 },
                 ToolIcon {
                         iconSource: "image://theme/icon-m-toolbar-view-menu-white"
-                        onClicked: imageSettingsDialog.open();
+                        onClicked: openSettings();
                 }
                 ]
         }
 
-        ImageSettingsDialog {
+        function openSettings() {
+                var roiEnabled = cam.roi.enabled;
+                cam.roi.enabled = false;
+
+                if (!settingsDialog) {
+                        settingsDialog = imageSettingsDialog.createObject(page);
+                }
+
+                settingsDialog.open();
+
+                cam.roi.enabled = roiEnabled;
+        }
+
+        Component {
                 id: imageSettingsDialog
+
+                ImageSettingsDialog { }
         }
 }
