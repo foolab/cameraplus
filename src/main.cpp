@@ -79,9 +79,11 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   initQuill();
 
   QDeclarativeView view;
+  view.setAttribute(Qt::WA_NoSystemBackground);
   view.setViewport(new QGLWidget);
   view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
   view.setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+  view.viewport()->setAttribute(Qt::WA_NoSystemBackground);
 
   qmlRegisterType<Settings>("CameraPlus", 1, 0, "Settings");
   qmlRegisterType<FileNaming>("CameraPlus", 1, 0, "FileNaming");
