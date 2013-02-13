@@ -33,7 +33,7 @@ Column {
 
         ButtonRow {
                 width: parent.width
-
+                enabled: cam.idle
                 exclusive: false
 
                 Repeater {
@@ -48,14 +48,7 @@ Column {
                         delegate: Button {
                                 text: resolutions.name(resolutionName, resolution);
                                 checked: settings.videoResolution == resolutionName;
-                                onClicked: {
-                                        if (!cam.idle) {
-                                                showError(qsTr("Camera is busy saving."));
-                                                return;
-                                        }
-
-                                        settings.videoResolution = resolutionName;
-                                }
+                                onClicked: settings.videoResolution = resolutionName;
                         }
                 }
         }
