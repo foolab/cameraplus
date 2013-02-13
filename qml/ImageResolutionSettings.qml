@@ -70,7 +70,8 @@ Column {
                         delegate: Button {
                                 property string resolution: resolutionName
                                 property string aspectRatio: resolutionAspectRatio
-                                text: qsTr("%1 Mpx").arg(megaPixels);
+                                font.capitalization: Font.Capitalize
+                                text: qsTr("%1 %2 Mpx").arg(resolutionName).arg(megaPixels);
                                 checked: settings.imageResolution == resolutionName
                                 onClicked: Util.setResolution(resolutionName);
                         }

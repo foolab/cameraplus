@@ -41,12 +41,9 @@ Column {
 
                         model: videoSettings.resolutions
 
-                        function name(name, res) {
-                                return name.charAt(0).toUpperCase() + name.slice(1) + " " + res;
-                        }
-
                         delegate: Button {
-                                text: resolutions.name(resolutionName, resolution);
+                                font.capitalization: Font.Capitalize
+                                text: qsTr("%1 %2").arg(resolutionName).arg(resolution);
                                 checked: settings.videoResolution == resolutionName;
                                 onClicked: settings.videoResolution = resolutionName;
                         }
