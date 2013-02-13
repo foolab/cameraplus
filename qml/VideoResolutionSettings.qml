@@ -22,7 +22,6 @@
 
 import QtQuick 1.1
 import com.nokia.meego 1.1
-import "VideoSettingsDialog.js" as Util
 
 Column {
         spacing: 10
@@ -49,7 +48,14 @@ Column {
                         delegate: Button {
                                 text: resolutions.name(resolutionName, resolution);
                                 checked: settings.videoResolution == resolutionName;
-                                onClicked: Util.setResolution(resolutionName);
+                                onClicked: {
+                                        if (!cam.idle) {
+                                                showError(qsTr("Camera is busy saving."));
+                                                return;
+                                        }
+
+                                        settings.videoResolution = resolutionName;
+                                }
                         }
                 }
         }
