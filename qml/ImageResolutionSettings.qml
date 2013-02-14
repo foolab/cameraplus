@@ -22,7 +22,6 @@
 
 import QtQuick 1.1
 import com.nokia.meego 1.1
-import "ImageSettingsDialog.js" as Util
 
 Column {
         spacing: 10
@@ -34,21 +33,15 @@ Column {
         ButtonRow {
                 id: aspectRatioRow
                 width: parent.width
-
+                enabled: cam.idle
                 exclusive: false
-                onCheckedButtonChanged: {
-                        // This is needed to initially setup the
-                        // resolutions buttons
-                        Util.resetAspectRatio(aspectRatioRow);
-                }
 
                 Repeater {
                         model: imageSettings.aspectRatios
                         delegate: Button {
-                                property string aspect: modelData;
                                 text: qsTr(modelData);
                                 checked: settings.imageAspectRatio == modelData;
-                                onClicked: Util.setAspectRatio(modelData);
+                                onClicked: settings.imageAspectRatio = modelData;
                         }
                 }
         }
@@ -60,20 +53,24 @@ Column {
         ButtonRow {
                 id: resolutionsRow
                 width: parent.width
-
+                enabled: cam.idle
                 exclusive: false
+
+                Binding {
+                        target: imageSettings.resolutions
+                        property: "aspectRatio"
+                        value: settings.imageAspectRatio
+                }
 
                 Repeater {
                         id: resolutions
                         model: imageSettings.resolutions
 
                         delegate: Button {
-                                property string resolution: resolutionName
-                                property string aspectRatio: resolutionAspectRatio
                                 font.capitalization: Font.Capitalize
                                 text: qsTr("%1 %2 Mpx").arg(resolutionName).arg(megaPixels);
                                 checked: settings.imageResolution == resolutionName
-                                onClicked: Util.setResolution(resolutionName);
+                                onClicked: settings.imageResolution = resolutionName;
                         }
                 }
         }
