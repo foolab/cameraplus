@@ -64,7 +64,7 @@ Column {
 
                 Repeater {
                         id: resolutions
-                        model: imageSettings.resolutions.aspectRatio == settings.imageAspectRatio ? imageSettings.resolutions : 0
+                        model: imageSettings.resolutions.aspectRatio == settings.imageAspectRatio ? imageSettings.resolutions : undefined
 
                         delegate: Button {
                                 font.capitalization: Font.Capitalize
