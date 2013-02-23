@@ -1,0 +1,17 @@
+<aegis>
+	<request policy="add">
+		<credential name="GRP::metadata-users" />
+		<credential name="GRP::pulse-access" />
+		<credential name="GRP::video" />
+		<credential name="Location" />
+		<credential name="TrackerReadAccess" />
+		<credential name="TrackerWriteAccess" />
+		<credential name="tracker::tracker-miner-fs-access" />
+		<credential name="GID::metadata-users" />
+		<credential name="GRP::metadata-users" />
+		<credential name="GRP::users" />
+		<credential name="CAP::chown" />
+		<credential name="CAP::fowner" />
+		<for path="/usr/bin/cameraplus" />
+	</request>
+</aegis>
