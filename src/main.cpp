@@ -46,25 +46,30 @@
 #include "gridlines.h"
 #include "deviceinfo.h"
 #include "devicekeys.h"
+#include "platformsettings.h"
 
 #ifdef QMLJSDEBUGGER
 #include "qt_private/qdeclarativedebughelper_p.h"
 #endif /* QMLJSDEBUGGER */
 
-static void initQuill() {
-  // TODO: All these are hardcoded.
-  Quill::setPreviewLevelCount(1);
-  Quill::setPreviewSize(0, QSize(854, 480));
-  Quill::setMinimumPreviewSize(0, QSize(854, 480));
-  Quill::setThumbnailExtension("jpeg");
-  Quill::setThumbnailFlavorName(0, "screen");
-  Quill::setBackgroundRenderingColor(Qt::black);
-  QString tempPath(QDir::homePath() +  QDir::separator() + ".config" +
-		   QDir::separator() + "quill" + QDir::separator() + "tmp");
+static void initQuill(PlatformSettings *settings) {
+  QList<QPair<QString, QSize> > previewLevels = settings->previewLevels();
+  Quill::setPreviewLevelCount(previewLevels.size());
+
+  for (int x = 0; x < previewLevels.size(); x++) {
+    Quill::setThumbnailFlavorName(x, previewLevels[x].first);
+    Quill::setPreviewSize(x, previewLevels[x].second);
+    Quill::setMinimumPreviewSize(x, previewLevels[x].second);
+  }
+
+  Quill::setThumbnailExtension(settings->thumbnailExtension());
+  Quill::setBackgroundRenderingColor(settings->backgroundRenderingColor());
+  Quill::setDBusThumbnailingEnabled(settings->isDBusThumbnailingEnabled());
+  Quill::setThumbnailCreationEnabled(settings->isThumbnailCreationEnabled());
+
+  QString tempPath = settings->temporaryFilePath();
   QDir().mkpath(tempPath);
   Quill::setTemporaryFilePath(tempPath);
-  Quill::setDBusThumbnailingEnabled(true);
-  Quill::setThumbnailCreationEnabled(true);
 }
 
 Q_DECL_EXPORT int main(int argc, char *argv[]) {
@@ -75,15 +80,17 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   QDeclarativeDebugHelper::enableDebugging();
 #endif /* QMLJSDEBUGGER */
 
-  // Let's initialize Quill:
-  initQuill();
-
   QDeclarativeView view;
   view.setAttribute(Qt::WA_NoSystemBackground);
   view.setViewport(new QGLWidget);
   view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
   view.setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
   view.viewport()->setAttribute(Qt::WA_NoSystemBackground);
+
+  PlatformSettings platformSettings;
+
+  // Let's initialize Quill:
+  initQuill(&platformSettings);
 
   qmlRegisterType<Settings>("CameraPlus", 1, 0, "Settings");
   qmlRegisterType<FileNaming>("CameraPlus", 1, 0, "FileNaming");
