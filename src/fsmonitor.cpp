@@ -64,5 +64,8 @@ bool FSMonitor::hasFreeSpace(const QString& path) {
     return false;
   }
 
-  return (buf.f_bsize * buf.f_bavail >= MIN_SPACE);
+  // If the user has a lot of free space (8 GB for example)
+  // then we will overflow the unsigned long int thus we use a 64 bits "int"
+  quint64 freeSpace = (quint64)buf.f_bsize * (quint64)buf.f_bavail;
+  return (freeSpace >= MIN_SPACE);
 }
