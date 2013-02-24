@@ -169,7 +169,6 @@ QString MetaData::artist() const {
 }
 
 void MetaData::setArtist(const QString& artist) {
-  // TODO: there is a limit for the number of bytes in the artist
   if (m_artist != artist) {
     m_artist = artist;
     emit artistChanged();
