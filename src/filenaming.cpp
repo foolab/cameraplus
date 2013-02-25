@@ -24,7 +24,7 @@
 #include <QFile>
 #include <QDeclarativeInfo>
 
-#define PATH QString("%1%2MyDocs%2cameraplus%2").arg(QDir::homePath()).arg(QDir::separator())
+#define PATH QString("%1%2MyDocs%2DCIM%2").arg(QDir::homePath()).arg(QDir::separator())
 #define TEMP_PATH QString("%1%2MyDocs%2.cameraplus%2").arg(QDir::homePath()).arg(QDir::separator())
 
 FileNaming::FileNaming(QObject *parent) :
