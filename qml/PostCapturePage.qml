@@ -228,7 +228,7 @@ CameraPage {
                 anchors.right: parent.right
                 anchors.rightMargin: 20
                 visible: toolBar.visible
-                height: toolBar.height
+                height: screen.isPortrait ? toolBar.height * 2 : toolBar.height
                 color: toolBar.color
                 border.color: toolBar.border.color
                 radius: toolBar.radius
@@ -237,24 +237,28 @@ CameraPage {
                         PropertyAnimation { duration: 200; }
                 }
 
-                Label {
-                        text: currentItem ? currentItem.itemData.title : ""
-                        anchors.top: parent.top
-                        anchors.bottom: parent.bottom
-                        anchors.left: parent.left
-                        anchors.leftMargin: 20
-                        font.bold: true
-                        verticalAlignment: Text.AlignVCenter
-                }
+                Flow {
+                        width: parent.width - 40
+                        x: 20
+                        height: parent.height
 
-                Label {
-                        text: currentItem ? currentItem.itemData.created : ""
-                        font.bold: true
-                        anchors.top: parent.top
-                        anchors.bottom: parent.bottom
-                        anchors.right: parent.right
-                        anchors.rightMargin: 20
-                        verticalAlignment: Text.AlignVCenter
+                        Label {
+                                text: currentItem ? currentItem.itemData.title : ""
+                                width: parent.width / 2
+                                height: parent.height
+                                font.bold: true
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
+                        }
+
+                        Label {
+                                text: currentItem ? currentItem.itemData.created : ""
+                                width: parent.width / 2
+                                height: parent.height
+                                font.bold: true
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignRight
+                        }
                 }
         }
 }
