@@ -59,7 +59,6 @@ static void initQuill(PlatformSettings *settings) {
   for (int x = 0; x < previewLevels.size(); x++) {
     Quill::setThumbnailFlavorName(x, previewLevels[x].first);
     Quill::setPreviewSize(x, previewLevels[x].second);
-    Quill::setMinimumPreviewSize(x, previewLevels[x].second);
   }
 
   Quill::setThumbnailExtension(settings->thumbnailExtension());
