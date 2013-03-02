@@ -1,9 +1,15 @@
+cameraplus (0.0.3-1) UNRELEASED; urgency=low
+
+  * Generate proper thumbnails for portrait images
+
+ -- Mohammed Sameer <msameer@foolab.org>  Sat, 02 Mar 2013 23:48:21 +0200
+
 cameraplus (0.0.2-1) unstable; urgency=low
 
   * Fixed thumbnaile being cropped for portrait mode
   * Fixed overlapping title and creation date for portrait mode
 
- -- Mohammed Sameer <msameer@debian.org>  Wed, 27 Feb 2013 00:32:01 +0200
+ -- Mohammed Sameer <msameer@foolab.org>  Wed, 27 Feb 2013 00:32:01 +0200
 
 cameraplus (0.0.1-1) unstable; urgency=low
 
