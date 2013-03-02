@@ -58,7 +58,8 @@ void QuillItem::initialize(const QUrl& url, const QString& mimeType) {
     return;
   }
 
-  m_file->setDisplayLevel(0);
+  m_file->setDisplayLevel(isLandscape() ? LANDSCAPE_PREVIEW_LEVEL
+			  : PORTRAIT_PREVIEW_LEVEL);
 
   if (fileError()) {
     return;
@@ -126,4 +127,10 @@ bool QuillItem::fileError() {
   }
 
   return false;
+}
+
+bool QuillItem::isLandscape() {
+  QSize size = m_file->fullImageSize();
+
+  return size.width() > size.height();
 }

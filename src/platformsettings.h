@@ -31,7 +31,8 @@ public:
   PlatformSettings();
   ~PlatformSettings();
 
-  QList<QPair<QString, QSize> > previewLevels();
+  QSize previewSize();
+  QString thumbnailFlavorName();
 
   QString thumbnailExtension();
   QColor backgroundRenderingColor();

@@ -41,10 +41,12 @@ PlatformSettings::~PlatformSettings() {
 
 }
 
-QList<QPair<QString, QSize> > PlatformSettings::previewLevels() {
-  return QList<QPair<QString, QSize> >() <<
-    qMakePair<QString, QSize>(value("quill/thumbnailFlavorName", THUMBNAIL_FLAVOR_NAME).toString(),
-			      value("quill/previewSize", PREVIEW_SIZE).toSize());
+QSize PlatformSettings::previewSize() {
+  return value("quill/previewSize", PREVIEW_SIZE).toSize();
+}
+
+QString PlatformSettings::thumbnailFlavorName() {
+  return value("quill/thumbnailFlavorName", THUMBNAIL_FLAVOR_NAME).toString();
 }
 
 QString PlatformSettings::thumbnailExtension() {

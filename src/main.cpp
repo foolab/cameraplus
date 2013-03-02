@@ -52,14 +52,30 @@
 #include "qt_private/qdeclarativedebughelper_p.h"
 #endif /* QMLJSDEBUGGER */
 
-static void initQuill(PlatformSettings *settings) {
-  QList<QPair<QString, QSize> > previewLevels = settings->previewLevels();
-  Quill::setPreviewLevelCount(previewLevels.size());
+QSize portraitSize(const QSize& size) {
+  return size.width() > size.height() ? QSize(size.height(), size.width()) : size;
+}
 
-  for (int x = 0; x < previewLevels.size(); x++) {
-    Quill::setThumbnailFlavorName(x, previewLevels[x].first);
-    Quill::setPreviewSize(x, previewLevels[x].second);
-  }
+QSize landscapeSize(const QSize& size) {
+  return size.width() > size.height() ? size : QSize(size.height(), size.width());
+}
+
+static void initQuill(PlatformSettings *settings) {
+  // How we create thumbnails for portrait is really messy.
+  // I am sure there is a better way to tell Quill to generate proper
+  // portrait thumbnails without having 2 display levels but I don't know how.
+  // The issue is we generate screen sized thumbnails for landscape
+  // but we generate half screen sized thumbnails for portrait
+  Quill::setPreviewLevelCount(2);
+  QSize size = settings->previewSize();
+
+  // Landscape:
+  Quill::setThumbnailFlavorName(LANDSCAPE_PREVIEW_LEVEL, settings->thumbnailFlavorName());
+  Quill::setPreviewSize(LANDSCAPE_PREVIEW_LEVEL, landscapeSize(size));
+
+  // Portrait:
+  Quill::setThumbnailFlavorName(PORTRAIT_PREVIEW_LEVEL, settings->thumbnailFlavorName());
+  Quill::setPreviewSize(PORTRAIT_PREVIEW_LEVEL, portraitSize(size));
 
   Quill::setThumbnailExtension(settings->thumbnailExtension());
   Quill::setBackgroundRenderingColor(settings->backgroundRenderingColor());
