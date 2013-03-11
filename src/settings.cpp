@@ -42,6 +42,7 @@
 #define DEFAULT_VIDEO_MUTE              false
 #define DEFAULT_GRID_ENABLED            false
 #define DEFAULT_FACE_DETECTION_ENABLED  true
+#define DEFAULT_ZOOM_AS_SHUTTER         false
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -330,5 +331,17 @@ void Settings::setFaceDetectionEnabled(bool enabled) {
   if (isFaceDetectionEnabled() != enabled) {
     m_settings->setValue("image/faceDetectionEnabled", enabled);
     emit faceDetectionEnabledChanged();
+  }
+}
+
+bool Settings::isZoomAsShutterEnabled() {
+  return m_settings->value("camera/zoomAsShutter", DEFAULT_ZOOM_AS_SHUTTER).toBool();
+}
+
+void Settings::setZoomAsShutterEnabled(bool enabled) {
+  if (isZoomAsShutterEnabled() != enabled) {
+    m_settings->setValue("camera/zoomAsShutter", enabled);
+
+    emit zoomAsShutterChanged();
   }
 }

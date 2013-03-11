@@ -62,6 +62,7 @@ class Settings : public QObject {
   Q_PROPERTY(bool gridEnabled READ isGridEnabled WRITE setGridEnabled NOTIFY gridEnabledChanged);
 
   Q_PROPERTY(bool faceDetectionEnabled READ isFaceDetectionEnabled WRITE setFaceDetectionEnabled NOTIFY faceDetectionEnabledChanged);
+  Q_PROPERTY(bool zoomAsShutter READ isZoomAsShutterEnabled WRITE setZoomAsShutterEnabled NOTIFY zoomAsShutterChanged);
 
 public:
   Settings(QObject *parent = 0);
@@ -139,6 +140,9 @@ public:
   bool isFaceDetectionEnabled() const;
   void setFaceDetectionEnabled(bool enabled);
 
+  bool isZoomAsShutterEnabled();
+  void setZoomAsShutterEnabled(bool enabled);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
@@ -164,6 +168,7 @@ signals:
   void videoMutedChanged();
   void gridEnabledChanged();
   void faceDetectionEnabledChanged();
+  void zoomAsShutterChanged();
 
 private:
   QSettings *m_settings;

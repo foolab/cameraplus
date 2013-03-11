@@ -57,6 +57,15 @@ Column {
         }
 
         TextSwitch {
+                text: qsTr("Use zoom keys for capture");
+
+                // We have to do it that way because QML complains about a binding
+                // loop for checked if we bind the checked property to the settings value.
+                Component.onCompleted: checked = settings.zoomAsShutter;
+                onCheckedChanged: settings.zoomAsShutter = checked;
+        }
+
+        TextSwitch {
                 text: qsTr("Enable camera sounds");
 
                 // We have to do it that way because QML complains about a binding
