@@ -55,6 +55,11 @@ CameraPage {
                 openFileNow("RecordingPage.qml");
         }
 
+        ZoomCaptureButton {
+                page: page
+                onReleased: page.startRecording();
+        }
+
         CaptureButton {
                 id: recording
                 anchors.right: parent.right

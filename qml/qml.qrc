@@ -41,5 +41,6 @@
 	<file>ImageResolutionSettings.qml</file>
 	<file>VideoSettingsDialog.qml</file>
 	<file>VideoResolutionSettings.qml</file>
+	<file>ZoomCaptureButton.qml</file>
     </qresource>
 </RCC>

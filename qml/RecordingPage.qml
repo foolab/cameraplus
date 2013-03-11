@@ -100,6 +100,11 @@ CameraPage {
                 }
         }
 
+        ZoomCaptureButton {
+                page: page
+                onReleased: page.stopRecording();
+        }
+
         CaptureButton {
                 id: recording
                 anchors.right: parent.right
