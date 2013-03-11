@@ -48,11 +48,19 @@ Slider {
                 target: keys
 
                 onVolumeUpPressed: {
+                        if (settings.zoomAsShutter) {
+                                return;
+                        }
+
                         slider.value = Math.min(slider.value + slider.stepSize, slider.maximumValue);
                         hackTimer.running = true;
                 }
 
                 onVolumeDownPressed: {
+                        if (settings.zoomAsShutter) {
+                                return;
+                        }
+
                         slider.value = Math.max(slider.value - slider.stepSize, slider.minimumValue);
                         hackTimer.running = true;
                 }
