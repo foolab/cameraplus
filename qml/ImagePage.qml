@@ -90,15 +90,21 @@ CameraPage {
                                 cam.autoFocus.stopAutoFocus();
                         }
                 }
+        }
 
-                Timer {
-                        interval: 200
-                        running: capture.pressed
-                        repeat: false
-                        onTriggered: {
-                                if (cam.autoFocus.cafStatus != AutoFocus.Success) {
-                                        cam.autoFocus.startAutoFocus();
-                                }
+        ZoomCaptureButton {
+                id: zoomCapture
+                page: page
+                onReleased: page.captureImage();
+        }
+
+        Timer {
+                interval: 200
+                running: capture.pressed || zoomCapture.zoomPressed
+                repeat: false
+                onTriggered: {
+                        if (cam.autoFocus.cafStatus != AutoFocus.Success) {
+                                cam.autoFocus.startAutoFocus();
                         }
                 }
         }
