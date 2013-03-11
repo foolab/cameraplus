@@ -30,7 +30,7 @@ CameraPage {
         id: page
 
         policyMode: CameraResources.Image
-        controlsVisible: capture.visible
+        controlsVisible: imageMode.canCapture && !cameraMode.busy && dimmer.opacity == 0.0 && !previewAnimationRunning && cam.running
 
         orientationLock: PageOrientation.LockLandscape
 
@@ -82,7 +82,7 @@ CameraPage {
                 height: 75
                 opacity: 0.5
                 onClicked: captureImage();
-                visible: imageMode.canCapture && !cameraMode.busy && dimmer.opacity == 0.0 && !previewAnimationRunning && cam.running
+                visible: controlsVisible && (!settings.zoomAsShutter && keys.active)
 
                 onExited: {
                         if (mouseX <= 0 || mouseY <= 0 || mouseX > width || mouseY > height) {

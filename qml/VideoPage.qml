@@ -67,7 +67,7 @@ CameraPage {
 
                 onClicked: startRecording();
 
-                visible: controlsVisible
+                visible: controlsVisible && (!settings.zoomAsShutter && keys.active)
         }
 
         VideoMode {

@@ -111,7 +111,7 @@ CameraPage {
                 opacity: 0.5
 
                 onClicked: page.stopRecording();
-                visible: controlsVisible
+                visible: controlsVisible && (!settings.zoomAsShutter && keys.active)
         }
 
         Connections {
