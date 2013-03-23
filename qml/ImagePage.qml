@@ -41,6 +41,11 @@ CameraPage {
         }
 
         function captureImage() {
+                if (!imageMode.canCapture) {
+                        showError(qsTr("Camera is already capturing an image."));
+                        return;
+                }
+
                 if (!checkBattery()) {
                         showError(qsTr("Not enough battery to capture images."));
                         return;
