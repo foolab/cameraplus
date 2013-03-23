@@ -23,7 +23,8 @@
 
 DeviceKeys::DeviceKeys(QObject *parent) :
   QObject(parent),
-  m_keys(0) {
+  m_keys(0),
+  m_repeating(true) {
 
 }
 
@@ -43,6 +44,7 @@ void DeviceKeys::setActive(bool active) {
   if (!active) {
     m_keys->deleteLater();
     m_keys = 0;
+    m_stats.clear();
   }
   else {
     m_keys = new MeeGo::QmKeys(this);
@@ -54,6 +56,10 @@ void DeviceKeys::setActive(bool active) {
 }
 
 void DeviceKeys::keyEvent(MeeGo::QmKeys::Key key, MeeGo::QmKeys::State state) {
+  if (!setStats(key, state)) {
+    return;
+  }
+
   if (key == MeeGo::QmKeys::VolumeUp) {
     if (state == MeeGo::QmKeys::KeyUp) {
       emit volumeUpReleased();
@@ -72,3 +78,31 @@ void DeviceKeys::keyEvent(MeeGo::QmKeys::Key key, MeeGo::QmKeys::State state) {
   }
 }
 
+bool DeviceKeys::setStats(MeeGo::QmKeys::Key key, MeeGo::QmKeys::State state) {
+  if (m_repeating) {
+    return true;
+  }
+
+  if (!m_stats.contains(key)) {
+    m_stats.insert(key, state);
+    return true;
+  }
+
+  if (m_stats[key] != state) {
+    m_stats[key] = state;
+    return true;
+  }
+
+  return false;
+}
+
+bool DeviceKeys::isRepeating() {
+  return m_repeating;
+}
+
+void DeviceKeys::doRepeat(bool repeat) {
+  if (repeat != m_repeating) {
+    m_repeating = repeat;
+    emit repeatChanged();
+  }
+}

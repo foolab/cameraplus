@@ -25,11 +25,13 @@
 
 #include <QObject>
 #include <qmkeys.h>
+#include <QMap>
 
 class DeviceKeys : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged);
+  Q_PROPERTY(bool repeat READ isRepeating WRITE doRepeat NOTIFY repeatChanged);
 
 public:
   DeviceKeys(QObject *parent = 0);
@@ -38,18 +40,26 @@ public:
   bool isActive() const;
   void setActive(bool active);
 
+  bool isRepeating();
+  void doRepeat(bool repeat);
+
 signals:
   void activeChanged();
   void volumeUpPressed();
   void volumeUpReleased();
   void volumeDownPressed();
   void volumeDownReleased();
+  void repeatChanged();
 
 private slots:
   void keyEvent(MeeGo::QmKeys::Key key, MeeGo::QmKeys::State state);
 
 private:
+  bool setStats(MeeGo::QmKeys::Key key, MeeGo::QmKeys::State state);
+
   MeeGo::QmKeys *m_keys;
+  QMap<MeeGo::QmKeys::Key, MeeGo::QmKeys::State> m_stats;
+  bool m_repeating;
 };
 
 #endif /* DEVICE_KEYS_H */

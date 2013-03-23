@@ -449,5 +449,6 @@ PageStackWindow {
         DeviceKeys {
                 id: keys
                 active: Qt.application.active && pipelineManager.scaleAcquired
+                repeat: !settings.zoomAsShutter
         }
 }
