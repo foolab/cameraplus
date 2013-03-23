@@ -101,8 +101,16 @@ CameraPage {
         }
 
         ZoomCaptureButton {
+                id: zoomCapture
                 page: page
                 onReleased: page.stopRecording();
+        }
+
+        MouseArea {
+                anchors.fill: parent
+                enabled: zoomCapture.zoomPressed
+                z: 100
+                onPressed: zoomCapture.zoomPressed = false;
         }
 
         CaptureButton {

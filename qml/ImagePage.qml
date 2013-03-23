@@ -98,7 +98,20 @@ CameraPage {
                 onReleased: page.captureImage();
         }
 
+        MouseArea {
+                anchors.fill: parent
+                enabled: zoomCapture.zoomPressed
+                z: 100
+                onPressed: {
+                        zoomCapture.zoomPressed = false;
+                        if (!autoFocusTimer.running) {
+                                cam.autoFocus.stopAutoFocus();
+                        }
+                }
+        }
+
         Timer {
+                id: autoFocusTimer
                 interval: 200
                 running: capture.pressed || zoomCapture.zoomPressed
                 repeat: false
