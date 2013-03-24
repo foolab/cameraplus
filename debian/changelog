@@ -1,4 +1,4 @@
-cameraplus (0.0.3-1) UNRELEASED; urgency=low
+cameraplus (0.0.3-1) unstable; urgency=low
 
   * Generate proper thumbnails for portrait images
 
