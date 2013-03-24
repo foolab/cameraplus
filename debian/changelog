@@ -1,3 +1,9 @@
+cameraplus (0.0.4-1) unstable; urgency=low
+
+  * Added an option to use zoom keys as a shutter key
+
+ -- Mohammed Sameer <msameer@foolab.org>  Sun, 24 Mar 2013 20:39:59 +0200
+
 cameraplus (0.0.3-1) unstable; urgency=low
 
   * Generate proper thumbnails for portrait images
