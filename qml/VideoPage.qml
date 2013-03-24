@@ -61,11 +61,10 @@ CameraPage {
                 onReleased: page.startRecording();
         }
 
-        MouseArea {
+        ZoomCaptureCancel {
                 anchors.fill: parent
-                enabled: zoomCapture.zoomPressed
-                z: 100
-                onPressed: zoomCapture.zoomPressed = false;
+                page: page
+                zoomCapture: zoomCapture
         }
 
         CaptureButton {

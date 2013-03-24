@@ -103,12 +103,11 @@ CameraPage {
                 onReleased: page.captureImage();
         }
 
-        MouseArea {
+        ZoomCaptureCancel {
                 anchors.fill: parent
-                enabled: zoomCapture.zoomPressed
-                z: 100
-                onPressed: {
-                        zoomCapture.zoomPressed = false;
+                page: page
+                zoomCapture: zoomCapture
+                onCanceled: {
                         if (!autoFocusTimer.running) {
                                 cam.autoFocus.stopAutoFocus();
                         }
