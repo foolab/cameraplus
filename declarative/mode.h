@@ -24,6 +24,7 @@
 #define MODE_H
 
 #include <QObject>
+#include <QPointer>
 
 class Camera;
 class QImage;
@@ -68,7 +69,7 @@ protected:
   virtual void changeMode() = 0;
 
   Camera *m_cam;
-  QtCamMode *m_mode;
+  QPointer<QtCamMode> m_mode;
 
 private:
   unsigned long long m_seq;
