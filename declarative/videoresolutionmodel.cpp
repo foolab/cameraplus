@@ -98,14 +98,19 @@ void VideoResolutionModel::setAspectRatio(const QString& aspectRatio) {
 
     m_aspectRatio = aspectRatio;
 
-    emit aspectRatioChanged();
-
     beginResetModel();
 
     m_resolutions = m_settings->resolutions(m_aspectRatio);
 
     endResetModel();
+
+    emit aspectRatioChanged();
+    emit countChanged();
   }
+}
+
+int VideoResolutionModel::count() const {
+  return rowCount();
 }
 
 #if defined(QT5)

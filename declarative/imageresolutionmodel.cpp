@@ -105,7 +105,12 @@ void ImageResolutionModel::setAspectRatio(const QString& aspectRatio) {
     endResetModel();
 
     emit aspectRatioChanged();
+    emit countChanged();
   }
+}
+
+int ImageResolutionModel::count() const {
+  return rowCount();
 }
 
 #if defined(QT5)

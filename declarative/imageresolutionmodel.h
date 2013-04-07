@@ -32,6 +32,7 @@ class ImageResolutionModel : public QAbstractListModel {
   Q_OBJECT
 
   Q_PROPERTY(QString aspectRatio READ aspectRatio WRITE setAspectRatio NOTIFY aspectRatioChanged);
+  Q_PROPERTY(int count READ count NOTIFY countChanged);
 
 public:
 
@@ -56,8 +57,11 @@ public:
   QString aspectRatio() const;
   void setAspectRatio(const QString& aspectRatio);
 
+  int count() const;
+
 signals:
   void aspectRatioChanged();
+  void countChanged();
 
 private:
   QString m_aspectRatio;
