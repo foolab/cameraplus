@@ -94,7 +94,7 @@ void Plugin::registerTypes(const char *uri) {
   qmlRegisterUncreatableType<WhiteBalance>(uri, MAJOR, MINOR, "WhiteBalance", QObject::tr("Cannot create separate instance of WhiteBalance"));
   qmlRegisterUncreatableType<ColorTone>(uri, MAJOR, MINOR, "ColorTone", QObject::tr("Cannot create separate instance of ColorTone"));
   qmlRegisterUncreatableType<Exposure>(uri, MAJOR, MINOR, "Exposure", QObject::tr("Cannot create separate instance of Exposure"));
-  qmlRegisterUncreatableType<Aperture>(uri, MAJOR, MINOR, "Aperture", QObject::tr("Cannot create separate instance of Iso"));
+  qmlRegisterUncreatableType<Aperture>(uri, MAJOR, MINOR, "Aperture", QObject::tr("Cannot create separate instance of Aperture"));
   qmlRegisterUncreatableType<Iso>(uri, MAJOR, MINOR, "Iso", QObject::tr("Cannot create separate instance of Iso"));
   qmlRegisterUncreatableType<NoiseReduction>(uri, MAJOR, MINOR, "NoiseReduction", QObject::tr("Cannot create separate instance of NoiseReduction"));
   qmlRegisterUncreatableType<FlickerReduction>(uri, MAJOR, MINOR, "FlickerReduction", QObject::tr("Cannot create separate instance of FlickerReduction"));
