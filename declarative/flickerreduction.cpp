@@ -21,8 +21,10 @@
 #include "flickerreduction.h"
 
 FlickerReduction::FlickerReduction(QtCamDevice *dev, QObject *parent) :
-  QObject(parent),
+  Capability(parent),
   m_fr(new QtCamFlickerReduction(dev, this)) {
+
+  setCapability(m_fr);
 
   QObject::connect(m_fr, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
 }

@@ -23,12 +23,12 @@
 #ifndef WHITE_BALANCE_H
 #define WHITE_BALANCE_H
 
-#include <QObject>
+#include "capability.h"
 #include "qtcamwhitebalance.h"
 
 class QtCamDevice;
 
-class WhiteBalance : public QObject {
+class WhiteBalance : public Capability {
   Q_OBJECT
 
   Q_PROPERTY(WhiteBalanceMode value READ value WRITE setValue NOTIFY valueChanged);

@@ -23,12 +23,12 @@
 #ifndef EV_COMP_H
 #define EV_COMP_H
 
-#include <QObject>
+#include "capability.h"
 
 class QtCamEvComp;
 class QtCamDevice;
 
-class EvComp : public QObject {
+class EvComp : public Capability {
   Q_OBJECT
 
   Q_PROPERTY(qreal value READ value WRITE setValue NOTIFY valueChanged);

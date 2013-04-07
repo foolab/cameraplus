@@ -23,12 +23,12 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include <QObject>
+#include "capability.h"
 #include "qtcamscene.h"
 
 class QtCamDevice;
 
-class Scene : public QObject {
+class Scene : public Capability {
   Q_OBJECT
 
   Q_PROPERTY(SceneMode value READ value WRITE setValue NOTIFY valueChanged);

@@ -21,8 +21,10 @@
 #include "noisereduction.h"
 
 NoiseReduction::NoiseReduction(QtCamDevice *dev, QObject *parent) :
-  QObject(parent),
+  Capability(parent),
   m_nr(new QtCamNoiseReduction(dev, this)) {
+
+  setCapability(m_nr);
 
   QObject::connect(m_nr, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
 }

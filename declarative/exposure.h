@@ -23,12 +23,12 @@
 #ifndef EXPOSURE_H
 #define EXPOSURE_H
 
-#include <QObject>
+#include "capability.h"
 
 class QtCamExposure;
 class QtCamDevice;
 
-class Exposure : public QObject {
+class Exposure : public Capability {
   Q_OBJECT
 
   Q_PROPERTY(unsigned int value READ value WRITE setValue NOTIFY valueChanged);

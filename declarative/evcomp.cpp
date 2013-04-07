@@ -22,8 +22,10 @@
 #include "qtcamevcomp.h"
 
 EvComp::EvComp(QtCamDevice *dev, QObject *parent) :
-  QObject(parent),
+  Capability(parent),
   m_evComp(new QtCamEvComp(dev, this)) {
+
+  setCapability(m_evComp);
 
   QObject::connect(m_evComp, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
   QObject::connect(m_evComp, SIGNAL(minimumValueChanged()), this, SIGNAL(minimumChanged()));

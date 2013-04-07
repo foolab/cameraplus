@@ -23,12 +23,12 @@
 #ifndef FOCUS_H
 #define FOCUS_H
 
-#include <QObject>
+#include "capability.h"
 #include "qtcamfocus.h"
 
 class QtCamDevice;
 
-class Focus : public QObject {
+class Focus : public Capability {
   Q_OBJECT
 
   Q_PROPERTY(FocusMode value READ value WRITE setValue NOTIFY valueChanged);

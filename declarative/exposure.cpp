@@ -23,8 +23,10 @@
 #include "qtcamexposure.h"
 
 Exposure::Exposure(QtCamDevice *dev, QObject *parent) :
-  QObject(parent),
+  Capability(parent),
   m_exposure(new QtCamExposure(dev, this)) {
+
+  setCapability(m_exposure);
 
   QObject::connect(m_exposure, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
   QObject::connect(m_exposure, SIGNAL(minimumValueChanged()), this, SIGNAL(minimumChanged()));

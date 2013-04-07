@@ -23,12 +23,12 @@
 #ifndef ZOOM_H
 #define ZOOM_H
 
-#include <QObject>
+#include "capability.h"
 
 class QtCamZoom;
 class QtCamDevice;
 
-class Zoom : public QObject {
+class Zoom : public Capability {
   Q_OBJECT
 
   Q_PROPERTY(qreal value READ value WRITE setValue NOTIFY valueChanged);

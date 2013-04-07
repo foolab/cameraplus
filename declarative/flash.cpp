@@ -21,8 +21,10 @@
 #include "flash.h"
 
 Flash::Flash(QtCamDevice *dev, QObject *parent) :
-  QObject(parent),
+  Capability(parent),
   m_flash(new QtCamFlash(dev, this)) {
+
+  setCapability(m_flash);
 
   QObject::connect(m_flash, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
   QObject::connect(m_flash, SIGNAL(flashReadyChanged()), this, SIGNAL(readyChanged()));

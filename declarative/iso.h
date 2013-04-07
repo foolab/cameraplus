@@ -23,12 +23,12 @@
 #ifndef ISO_H
 #define ISO_H
 
-#include <QObject>
+#include "capability.h"
 
 class QtCamIso;
 class QtCamDevice;
 
-class Iso : public QObject {
+class Iso : public Capability {
   Q_OBJECT
 
   Q_PROPERTY(unsigned int value READ value WRITE setValue NOTIFY valueChanged);

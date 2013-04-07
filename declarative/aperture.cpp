@@ -22,8 +22,10 @@
 #include "qtcamaperture.h"
 
 Aperture::Aperture(QtCamDevice *dev, QObject *parent) :
-  QObject(parent),
+  Capability(parent),
   m_aperture(new QtCamAperture(dev, this)) {
+
+  setCapability(m_aperture);
 
   QObject::connect(m_aperture, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
   QObject::connect(m_aperture, SIGNAL(minimumValueChanged()), this, SIGNAL(minimumChanged()));

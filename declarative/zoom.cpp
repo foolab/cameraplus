@@ -22,8 +22,10 @@
 #include "qtcamzoom.h"
 
 Zoom::Zoom(QtCamDevice *dev, QObject *parent) :
-  QObject(parent),
+  Capability(parent),
   m_zoom(new QtCamZoom(dev, this)) {
+
+  setCapability(m_zoom);
 
   QObject::connect(m_zoom, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
   QObject::connect(m_zoom, SIGNAL(minimumValueChanged()), this, SIGNAL(minimumChanged()));

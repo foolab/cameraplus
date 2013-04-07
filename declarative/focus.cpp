@@ -21,8 +21,10 @@
 #include "focus.h"
 
 Focus::Focus(QtCamDevice *dev, QObject *parent) :
-  QObject(parent),
+  Capability(parent),
   m_f(new QtCamFocus(dev, this)) {
+
+  setCapability(m_f);
 
   QObject::connect(m_f, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
 }

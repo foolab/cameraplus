@@ -22,8 +22,10 @@
 #include "qtcamiso.h"
 
 Iso::Iso(QtCamDevice *dev, QObject *parent) :
-  QObject(parent),
+  Capability(parent),
   m_iso(new QtCamIso(dev, this)) {
+
+  setCapability(m_iso);
 
   QObject::connect(m_iso, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
   QObject::connect(m_iso, SIGNAL(minimumValueChanged()), this, SIGNAL(minimumChanged()));

@@ -21,8 +21,10 @@
 #include "scene.h"
 
 Scene::Scene(QtCamDevice *dev, QObject *parent) :
-  QObject(parent),
+  Capability(parent),
   m_scene(new QtCamScene(dev, this)) {
+
+  setCapability(m_scene);
 
   QObject::connect(m_scene, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
 }

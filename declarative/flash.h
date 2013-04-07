@@ -23,12 +23,12 @@
 #ifndef FLASH_H
 #define FLASH_H
 
-#include <QObject>
+#include "capability.h"
 #include "qtcamflash.h"
 
 class QtCamDevice;
 
-class Flash : public QObject {
+class Flash : public Capability {
   Q_OBJECT
 
   Q_PROPERTY(FlashMode value READ value WRITE setValue NOTIFY valueChanged);

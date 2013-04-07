@@ -23,12 +23,12 @@
 #ifndef COLOR_TONE_H
 #define COLOR_TONE_H
 
-#include <QObject>
+#include "capability.h"
 #include "qtcamcolortone.h"
 
 class QtCamDevice;
 
-class ColorTone : public QObject {
+class ColorTone : public Capability {
   Q_OBJECT
 
   Q_PROPERTY(ColorToneMode value READ value WRITE setValue NOTIFY valueChanged);

@@ -23,12 +23,12 @@
 #ifndef NOISE_REDUCTION_H
 #define NOISE_REDUCTION_H
 
-#include <QObject>
+#include "capability.h"
 #include "qtcamnoisereduction.h"
 
 class QtCamDevice;
 
-class NoiseReduction : public QObject {
+class NoiseReduction : public Capability {
   Q_OBJECT
 
   Q_PROPERTY(NoiseReductionMode value READ value WRITE setValue NOTIFY valueChanged);

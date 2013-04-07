@@ -23,12 +23,12 @@
 #ifndef APERTURE_H
 #define APERTURE_H
 
-#include <QObject>
+#include "capability.h"
 
 class QtCamAperture;
 class QtCamDevice;
 
-class Aperture : public QObject {
+class Aperture : public Capability {
   Q_OBJECT
 
   Q_PROPERTY(unsigned int value READ value WRITE setValue NOTIFY valueChanged);

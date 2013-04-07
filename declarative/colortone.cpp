@@ -21,8 +21,10 @@
 #include "colortone.h"
 
 ColorTone::ColorTone(QtCamDevice *dev, QObject *parent) :
-  QObject(parent),
+  Capability(parent),
   m_color(new QtCamColorTone(dev, this)) {
+
+  setCapability(m_color);
 
   QObject::connect(m_color, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
 }

@@ -21,8 +21,10 @@
 #include "whitebalance.h"
 
 WhiteBalance::WhiteBalance(QtCamDevice *dev, QObject *parent) :
-  QObject(parent),
+  Capability(parent),
   m_wb(new QtCamWhiteBalance(dev, this)) {
+
+  setCapability(m_wb);
 
   QObject::connect(m_wb, SIGNAL(valueChanged()), this, SIGNAL(valueChanged()));
 }
