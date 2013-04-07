@@ -79,6 +79,7 @@ void ImageSettings::deviceChanged() {
   delete m_resolutions;
   m_resolutions = 0;
 
+  emit aspectRatioCountChanged();
   emit resolutionsChanged();
 }
 
@@ -113,4 +114,8 @@ bool ImageSettings::setResolution(const QString& aspectRatio, const QString& res
   }
 
   return false;
+}
+
+int ImageSettings::aspectRatioCount() const {
+  return aspectRatios().count();
 }

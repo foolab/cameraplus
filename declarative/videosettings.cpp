@@ -79,6 +79,7 @@ void VideoSettings::deviceChanged() {
   delete m_resolutions;
   m_resolutions = 0;
 
+  emit aspectRatioCountChanged();
   emit resolutionsChanged();
 }
 
@@ -113,4 +114,8 @@ bool VideoSettings::setResolution(const QString& aspectRatio, const QString& res
   }
 
   return false;
+}
+
+int VideoSettings::aspectRatioCount() const {
+  return aspectRatios().count();
 }
