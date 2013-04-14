@@ -43,6 +43,7 @@ public:
     cameraBin(0),
     videoSource(0),
     wrapperVideoSource(0),
+    sink(0),
     image(0),
     video(0),
     active(0),
@@ -116,11 +117,7 @@ public:
   }
 
   bool setViewfinderSink() {
-    GstElement *sink = 0;
-    g_object_get(cameraBin, "viewfinder-sink", &sink, NULL);
-
     if (sink) {
-      gst_object_unref(sink);
       return true;
     }
 
@@ -225,6 +222,7 @@ public:
   GstElement *cameraBin;
   GstElement *videoSource;
   GstElement *wrapperVideoSource;
+  GstElement *sink;
 
   QtCamImageMode *image;
   QtCamVideoMode *video;

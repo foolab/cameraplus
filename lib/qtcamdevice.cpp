@@ -148,13 +148,14 @@ bool QtCamDevice::setViewfinder(QtCamViewfinder *viewfinder) {
   }
 
   if (!viewfinder) {
-    qWarning() << "QtCamDevice: viewfinder cannot be unset.";
-    return false;
-  }
+    if (d_ptr->cameraBin) {
+      g_object_set(d_ptr->cameraBin, "viewfinder-sink", NULL, NULL);
+    }
 
-  if (d_ptr->viewfinder) {
-    qWarning() << "QtCamDevice: viewfinder cannot be replaced.";
-    return false;
+    d_ptr->sink = 0;
+
+    d_ptr->viewfinder = 0;
+    return true;
   }
 
   if (!viewfinder->setDevice(this)) {
@@ -162,6 +163,7 @@ bool QtCamDevice::setViewfinder(QtCamViewfinder *viewfinder) {
   }
 
   d_ptr->viewfinder = viewfinder;
+  d_ptr->sink = 0;
 
   return true;
 }
