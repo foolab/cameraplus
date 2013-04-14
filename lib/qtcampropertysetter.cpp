@@ -65,6 +65,8 @@ public:
 	break;
       }
     }
+
+    gst_iterator_free(iter);
   }
 
   void setProperties(GstElement *element) {
