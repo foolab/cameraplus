@@ -165,9 +165,6 @@ GstElement *QtCamViewfinderRendererMeeGo::sinkElement() {
     g_object_add_toggle_ref(G_OBJECT(m_sink), (GToggleNotify)sink_notify, this);
   }
 
-  // Displa can be replaced with a null pointer.
-  // We all know that the sink used for Harmattan ignores the x-display property ;-)
-
   Display *d = QX11Info::display();
   g_object_set(G_OBJECT(m_sink), "x-display", d, "use-framebuffer-memory", TRUE, NULL);
 
