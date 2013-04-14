@@ -80,7 +80,7 @@ private:
   Q_PRIVATE_SLOT(d_ptr, void _d_stopped())
   Q_PRIVATE_SLOT(d_ptr, void _d_stopping())
 
-  friend class QtCamMetaData;
+  friend class QtCamMetaDataPrivate;
   friend class QtCamCapability;
   friend class QtCamVideoTorch;
   friend class QtCamVideoMute;

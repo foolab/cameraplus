@@ -26,6 +26,7 @@
 #include <QDate>
 #include <QTime>
 #include <QDateTime>
+#include <QPointer>
 
 const char *orientations[] = {
   "rotate-0",
@@ -37,35 +38,55 @@ const char *orientations[] = {
 class QtCamMetaDataPrivate {
 public:
   void addTag(const char *tag, const QString& value) {
-    if (!setter) {
+    GstTagSetter *s = setter();
+    if (!s) {
       return;
     }
 
-    gst_tag_setter_add_tags(setter, GST_TAG_MERGE_REPLACE, tag, value.toUtf8().data(), NULL);
+    gst_tag_setter_add_tags(s, GST_TAG_MERGE_REPLACE, tag, value.toUtf8().data(), NULL);
+
+    gst_object_unref(s);
   }
 
   void addTag(const char *tag, double value) {
-    if (!setter) {
+    GstTagSetter *s = setter();
+    if (!s) {
       return;
     }
 
-    gst_tag_setter_add_tags(setter, GST_TAG_MERGE_REPLACE, tag, value, NULL);
+    gst_tag_setter_add_tags(s, GST_TAG_MERGE_REPLACE, tag, value, NULL);
+
+    gst_object_unref(s);
   }
 
   void addTag(const char *tag, GstDateTime *value) {
-    if (!setter) {
+    GstTagSetter *s = setter();
+    if (!s) {
       return;
     }
 
-    gst_tag_setter_add_tags(setter, GST_TAG_MERGE_REPLACE, tag, value, NULL);
+    gst_tag_setter_add_tags(s, GST_TAG_MERGE_REPLACE, tag, value, NULL);
+
+    gst_object_unref(s);
   }
 
-  GstTagSetter *setter;
+  GstTagSetter *setter() {
+    if (!device || !device->d_ptr->cameraBin) {
+      return 0;
+    }
+
+    if (!GST_IS_TAG_SETTER(device->d_ptr->cameraBin)) {
+      return 0;
+    }
+
+    return GST_TAG_SETTER(gst_object_ref(device->d_ptr->cameraBin));
+  }
+
+  QPointer<QtCamDevice> device;
 };
 
 QtCamMetaData::QtCamMetaData(QObject *parent) :
   QObject(parent), d_ptr(new QtCamMetaDataPrivate) {
-  d_ptr->setter = 0;
 }
 
 QtCamMetaData::~QtCamMetaData() {
@@ -74,20 +95,9 @@ QtCamMetaData::~QtCamMetaData() {
 }
 
 void QtCamMetaData::setDevice(QtCamDevice *device) {
-  if (d_ptr->setter) {
-    gst_object_unref(d_ptr->setter);
-    d_ptr->setter = 0;
+  if (device != d_ptr->device) {
+    d_ptr->device = device;
   }
-
-  if (!device || !device->d_ptr->cameraBin) {
-    return;
-  }
-
-  if (!GST_IS_TAG_SETTER(device->d_ptr->cameraBin)) {
-    return;
-  }
-
-  d_ptr->setter = GST_TAG_SETTER(gst_object_ref(device->d_ptr->cameraBin));
 }
 
 void QtCamMetaData::setManufacturer(const QString& manufacturer) {
@@ -172,7 +182,12 @@ void QtCamMetaData::setHorizontalError(double error) {
 }
 
 void QtCamMetaData::reset() {
-  if (d_ptr->setter) {
-    gst_tag_setter_reset_tags(d_ptr->setter);
+  GstTagSetter *s = d_ptr->setter();
+  if (!s) {
+    return;
   }
+
+  gst_tag_setter_reset_tags(s);
+
+  gst_object_unref(s);
 }
