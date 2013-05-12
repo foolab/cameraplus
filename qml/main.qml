@@ -29,12 +29,20 @@ import QtMobility.location 1.2
 
 // TODO: flash not ready (battery low or flash not ready message)
 
-PageStackWindow {
+Window {
         id: root
 
         property alias dimmer: camDimmer
 
-        showStatusBar: false
+        PageStack {
+                id: pageStack
+                anchors.fill: parent
+        }
+
+        MouseArea {
+                anchors.fill: parent
+                enabled: pageStack.busy
+        }
 
         Component.onCompleted: {
                 theme.inverted = true;
@@ -178,12 +186,6 @@ PageStackWindow {
                 }
 
                 return false;
-        }
-
-        platformStyle: PageStackWindowStyle {
-                cornersVisible: false
-                background: ""
-                backgroundColor: "transparent"
         }
 
         ImageSettings {
