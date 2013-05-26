@@ -5,6 +5,7 @@
 	<file>PipelineManager.qml</file>
 	<file>FocusReticle.qml</file>
 	<file>CameraPage.qml</file>
+	<file>ControlsActivationData.qml</file>
 	<file>Standby.qml</file>
 	<file>CameraSettings.qml</file>
 	<file>VideoPage.qml</file>

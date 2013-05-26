@@ -30,7 +30,7 @@ import "data.js" as Data
 
 CameraPage {
         id: page
-        modesVisible: false
+        activationData: ControlsActivationData {modeSelectorVisible: false}
         property bool error: false
 
         policyMode: CameraResources.Recording

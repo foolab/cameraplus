@@ -32,10 +32,8 @@ Page {
 
         property Camera cam: null
         property Item dimmer: null
-
+        property ControlsActivationData activationData: ControlsActivationData {}
         property bool controlsVisible: cam.running && !standby.visible
-        property bool zoomVisible: true
-        property bool modesVisible: true
         property bool standbyVisible: true
         property bool focusReticleVisible: true
         property bool enableViewfinder: true
@@ -74,7 +72,7 @@ Page {
                 anchors.right: parent.right
                 anchors.rightMargin: 20
                 anchors.bottomMargin: 20
-                visible: controlsVisible && modesVisible
+                visible: controlsVisible && activationData.modeSelectorVisible
         }
 
         PreviewImage {
@@ -87,7 +85,7 @@ Page {
                 anchors.top: parent.top
                 anchors.topMargin: 0
                 anchors.horizontalCenter: parent.horizontalCenter
-                visible: controlsVisible && zoomVisible
+                visible: controlsVisible && activationData.zoomBarVisible
         }
 
         function checkDiskSpace() {
