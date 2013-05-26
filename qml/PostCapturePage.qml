@@ -30,7 +30,7 @@ CameraPage {
 
         controlsVisible: false
         policyMode: CameraResources.None
-        standbyVisible: !Qt.application.active
+        activationData: ControlsActivationData {standbyVisible: !Qt.application.active}
 
         property Item currentItem: null
         property bool available: currentItem ? currentItem.itemData.available : false

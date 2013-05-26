@@ -25,9 +25,10 @@ import QtQuick 1.1
 QtObject {
         property bool zoomBarVisible: true
         property bool modeSelectorVisible: true
+        property bool standbyVisible: true
+
 /*
 // TODO:
-        property bool standbyVisible: true
         property bool focusReticleVisible: true
         property bool captureButtonVisible: true
         property bool viewfinderEnabled: true

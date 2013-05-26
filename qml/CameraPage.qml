@@ -34,7 +34,6 @@ Page {
         property Item dimmer: null
         property ControlsActivationData activationData: ControlsActivationData {}
         property bool controlsVisible: cam.running && !standby.visible
-        property bool standbyVisible: true
         property bool focusReticleVisible: true
         property bool enableViewfinder: true
 

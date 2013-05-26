@@ -33,7 +33,7 @@ CameraPage {
         property bool popTwice: false
         controlsVisible: false
         policyMode: CameraResources.None
-        standbyVisible: false
+        activationData: ControlsActivationData {standbyVisible: false}
 
         property alias source: video.source
 
