@@ -20,7 +20,9 @@
 
 #include "platformsettings.h"
 #include <QDir>
-#include <QSize>
+#include <QSettings>
+#include <Quill>
+#include "quillitem.h"
 
 #define PATH "/usr/share/cameraplus/config/cameraplus.ini"
 
@@ -32,40 +34,76 @@
 #define DBUS_THUMBNAILING_ENABLED                true
 #define BACKGROUND_RENDERING_COLOR               QColor(Qt::black)
 
-PlatformSettings::PlatformSettings() :
-  QSettings(PATH, QSettings::IniFormat) {
+PlatformSettings::PlatformSettings(QObject *parent) :
+  QObject(parent), m_settings(new QSettings(PATH, QSettings::IniFormat)) {
 
 }
 
 PlatformSettings::~PlatformSettings() {
-
+  delete m_settings;
 }
 
 QSize PlatformSettings::previewSize() {
-  return value("quill/previewSize", PREVIEW_SIZE).toSize();
+  return m_settings->value("quill/previewSize", PREVIEW_SIZE).toSize();
 }
 
 QString PlatformSettings::thumbnailFlavorName() {
-  return value("quill/thumbnailFlavorName", THUMBNAIL_FLAVOR_NAME).toString();
+  return m_settings->value("quill/thumbnailFlavorName", THUMBNAIL_FLAVOR_NAME).toString();
 }
 
 QString PlatformSettings::thumbnailExtension() {
-  return value("quill/thumbnailExtension", THUMBNAIL_EXTENSION).toString();
+  return m_settings->value("quill/thumbnailExtension", THUMBNAIL_EXTENSION).toString();
 }
 
 QColor PlatformSettings::backgroundRenderingColor() {
-  return value("quill/backgroundRenderingColor", BACKGROUND_RENDERING_COLOR).value<QColor>();
+  return m_settings->value("quill/backgroundRenderingColor",
+			   BACKGROUND_RENDERING_COLOR).value<QColor>();
 }
 
 bool PlatformSettings::isDBusThumbnailingEnabled() {
-  return value("quill/dbusThumbnailingEnabled", DBUS_THUMBNAILING_ENABLED).toBool();
+  return m_settings->value("quill/dbusThumbnailingEnabled", DBUS_THUMBNAILING_ENABLED).toBool();
 }
 
 bool PlatformSettings::isThumbnailCreationEnabled() {
-  return value("quill/thumbnailCreationEnabled", THUMBNAIL_CREATION_ENABLED).toBool();
+  return m_settings->value("quill/thumbnailCreationEnabled", THUMBNAIL_CREATION_ENABLED).toBool();
 }
 
 QString PlatformSettings::temporaryFilePath() {
   QString defaultPath = QString(TEMPORARY_FILE_PATH).arg(QDir::homePath()).arg(QDir::separator());
-  return value("quill/temporaryFilePath", defaultPath).toString();
+  return m_settings->value("quill/temporaryFilePath", defaultPath).toString();
+}
+
+QSize PlatformSettings::portraitSize(const QSize& size) {
+  return size.width() > size.height() ? QSize(size.height(), size.width()) : size;
+}
+
+QSize PlatformSettings::landscapeSize(const QSize& size) {
+  return size.width() > size.height() ? size : QSize(size.height(), size.width());
+}
+
+void PlatformSettings::init() {
+  // How we create thumbnails for portrait is really messy.
+  // I am sure there is a better way to tell Quill to generate proper
+  // portrait thumbnails without having 2 display levels but I don't know how.
+  // The issue is we generate screen sized thumbnails for landscape
+  // but we generate half screen sized thumbnails for portrait
+  Quill::setPreviewLevelCount(2);
+  QSize size = previewSize();
+
+  // Landscape:
+  Quill::setThumbnailFlavorName(LANDSCAPE_PREVIEW_LEVEL, thumbnailFlavorName());
+  Quill::setPreviewSize(LANDSCAPE_PREVIEW_LEVEL, landscapeSize(size));
+
+  // Portrait:
+  Quill::setThumbnailFlavorName(PORTRAIT_PREVIEW_LEVEL, thumbnailFlavorName());
+  Quill::setPreviewSize(PORTRAIT_PREVIEW_LEVEL, portraitSize(size));
+
+  Quill::setThumbnailExtension(thumbnailExtension());
+  Quill::setBackgroundRenderingColor(backgroundRenderingColor());
+  Quill::setDBusThumbnailingEnabled(isDBusThumbnailingEnabled());
+  Quill::setThumbnailCreationEnabled(isThumbnailCreationEnabled());
+
+  QString tempPath = temporaryFilePath();
+  QDir().mkpath(tempPath);
+  Quill::setTemporaryFilePath(tempPath);
 }

@@ -23,12 +23,17 @@
 #ifndef PLATFORM_SETTINGS_H
 #define PLATFORM_SETTINGS_H
 
-#include <QSettings>
+#include <QObject>
 #include <QColor>
+#include <QSize>
 
-class PlatformSettings : private QSettings {
+class QSettings;
+
+class PlatformSettings : public QObject {
+  Q_OBJECT
+
 public:
-  PlatformSettings();
+  PlatformSettings(QObject *parent = 0);
   ~PlatformSettings();
 
   QSize previewSize();
@@ -39,6 +44,15 @@ public:
   bool isDBusThumbnailingEnabled();
   bool isThumbnailCreationEnabled();
   QString temporaryFilePath();
+
+public slots:
+  void init();
+
+private:
+  QSize portraitSize(const QSize& size);
+  QSize landscapeSize(const QSize& size);
+
+  QSettings *m_settings;
 };
 
 #endif /* PLATFORM_SETTINGS_H */

@@ -44,7 +44,12 @@ Window {
                 enabled: pageStack.busy
         }
 
+        PlatformSettings {
+                id: platformSettings
+        }
+
         Component.onCompleted: {
+                platformSettings.init();
                 theme.inverted = true;
                 // TODO: hardcoding device id
                 root.resetCamera(0, settings.mode);
