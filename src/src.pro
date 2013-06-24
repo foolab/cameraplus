@@ -5,8 +5,7 @@ INCLUDEPATH += . ../
 
 QT += declarative opengl dbus
 
-CONFIG += link_pkgconfig mobility qtsparql galleryinterface-maemo-meegotouch \
-          shareuiinterface-maemo-meegotouch
+CONFIG += link_pkgconfig mobility qtsparql
 
 MOBILITY += location systeminfo
 
@@ -16,13 +15,13 @@ SOURCES += main.cpp settings.cpp filenaming.cpp quillitem.cpp displaystate.cpp f
            cameraresources.cpp compass.cpp orientation.cpp geocode.cpp mountprotector.cpp \
            trackerstore.cpp focusrectangle.cpp sharehelper.cpp deletehelper.cpp galleryhelper.cpp \
            postcapturemodel.cpp batteryinfo.cpp gridlines.cpp deviceinfo.cpp devicekeys.cpp \
-           platformsettings.cpp
+           platformsettings.cpp dbusservice.cpp
 
 HEADERS += settings.h filenaming.h quillitem.h displaystate.h fsmonitor.h \
            cameraresources.h compass.h orientation.h geocode.h mountprotector.h \
            trackerstore.h focusrectangle.h sharehelper.h deletehelper.h galleryhelper.h \
            postcapturemodel.h batteryinfo.h gridlines.h deviceinfo.h devicekeys.h \
-           platformsettings.h
+           platformsettings.h dbusservice.h
 
 RESOURCES += ../qml/qml.qrc
 

@@ -23,12 +23,11 @@
 #ifndef GALLERY_HELPER_H
 #define GALLERY_HELPER_H
 
-#include <QObject>
+#include "dbusservice.h"
 
 class QUrl;
-class GalleryInterface;
 
-class GalleryHelper : public QObject {
+class GalleryHelper : public DbusService {
   Q_OBJECT
 
 public:
@@ -37,9 +36,6 @@ public:
 
   Q_INVOKABLE bool show(const QUrl& path);
   Q_INVOKABLE bool launch();
-
-private:
-  GalleryInterface *m_iface;
 };
 
 #endif /* GALLERY_HELPER_H */

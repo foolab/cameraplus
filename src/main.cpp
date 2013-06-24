@@ -46,6 +46,7 @@
 #include "deviceinfo.h"
 #include "devicekeys.h"
 #include "platformsettings.h"
+#include "dbusservice.h"
 
 #ifdef QMLJSDEBUGGER
 #include "qt_private/qdeclarativedebughelper_p.h"

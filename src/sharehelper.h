@@ -23,12 +23,11 @@
 #ifndef SHARE_HELPER_H
 #define SHARE_HELPER_H
 
-#include <QObject>
+#include "dbusservice.h"
 
 class QUrl;
-class ShareUiInterface;
 
-class ShareHelper : public QObject {
+class ShareHelper : public DbusService {
   Q_OBJECT
 
 public:
@@ -36,9 +35,6 @@ public:
   ~ShareHelper();
 
   Q_INVOKABLE bool share(const QUrl& path);
-
-private:
-  ShareUiInterface *m_iface;
 };
 
 #endif /* SHARE_HELPER_H */

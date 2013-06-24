@@ -20,51 +20,52 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef PLATFORM_SETTINGS_H
-#define PLATFORM_SETTINGS_H
+#ifndef DBUS_SERVICE_H
+#define DBUS_SERVICE_H
 
 #include <QObject>
-#include <QColor>
-#include <QSize>
+#include <QVariant>
+#include <QHash>
 
-class QSettings;
+class PlatformSettings;
 
-class PlatformSettings : public QObject {
+class DbusService : public QObject {
   Q_OBJECT
 
+  Q_PROPERTY(PlatformSettings* settings READ settings WRITE setSettings NOTIFY settingsChanged);
+  Q_PROPERTY(bool enabled READ isEnabled NOTIFY isEnabledChanged);
+
 public:
-  PlatformSettings(QObject *parent = 0);
-  ~PlatformSettings();
+  DbusService(QObject *parent = 0);
+  ~DbusService();
 
-  class Service {
-  public:
-    bool m_enabled;
-    QString m_type;
-    QString m_path;
-    QString m_interface;
-    QString m_dest;
-    QString m_method;
-  };
+  PlatformSettings *settings() const;
+  void setSettings(PlatformSettings *settings);
 
-  QSize previewSize();
-  QString thumbnailFlavorName();
+  void setName(const QString& name);
 
-  QString thumbnailExtension();
-  QColor backgroundRenderingColor();
-  bool isDBusThumbnailingEnabled();
-  bool isThumbnailCreationEnabled();
-  QString temporaryFilePath();
+  bool isEnabled() const;
 
-  Service service(const QString& id);
+  bool asyncCall(const QString& method, const QVariant& arg = QVariant());
 
-public slots:
-  void init();
+signals:
+  void settingsChanged();
+  void nameChanged();
+  void isEnabledChanged();
 
 private:
-  QSize portraitSize(const QSize& size);
-  QSize landscapeSize(const QSize& size);
+  void init();
 
-  QSettings *m_settings;
+  PlatformSettings *m_settings;
+  QString m_name;
+
+  QString m_path;
+  QString m_interface;
+  QString m_dest;
+
+  bool m_enabled;
+
+  QMap<QString, QString> m_methods;
 };
 
-#endif /* PLATFORM_SETTINGS_H */
+#endif /* DBUS_SERVICE_H */

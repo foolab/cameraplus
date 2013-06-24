@@ -107,3 +107,19 @@ void PlatformSettings::init() {
   QDir().mkpath(tempPath);
   Quill::setTemporaryFilePath(tempPath);
 }
+
+PlatformSettings::Service PlatformSettings::service(const QString& id) {
+  PlatformSettings::Service service;
+  m_settings->beginGroup(id);
+
+  service.m_enabled = m_settings->value("enabled", false).toBool();
+  service.m_type = m_settings->value("type").toString();
+  service.m_path = m_settings->value("path").toString();
+  service.m_interface = m_settings->value("interface").toString();
+  service.m_dest = m_settings->value("dest").toString();
+  service.m_method = m_settings->value("method").toString();
+
+  m_settings->endGroup();
+
+  return service;
+}

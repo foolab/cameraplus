@@ -19,28 +19,24 @@
  */
 
 #include "sharehelper.h"
-#include <maemo-meegotouch-interfaces/shareuiinterface.h>
 #include <QStringList>
 #include <QUrl>
-#include <QDeclarativeInfo>
+#include <QVariant>
 
 ShareHelper::ShareHelper(QObject *parent) :
-  QObject(parent),
-  m_iface(new ShareUiInterface) {
+  DbusService(parent) {
 
+  setName("share");
 }
 
 ShareHelper::~ShareHelper() {
-  delete m_iface;
 }
 
 bool ShareHelper::share(const QUrl& path) {
-  if (!m_iface->isValid()) {
-    qmlInfo(this) << "Failed to get share interface";
-    return false;
-  }
+  QStringList args;
+  args << path.toLocalFile();
 
-  m_iface->share(QStringList() << path.toLocalFile());
+  QVariant var(args);
 
-  return true;
+  return asyncCall("share", args);
 }

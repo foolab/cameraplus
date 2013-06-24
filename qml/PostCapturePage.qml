@@ -129,10 +129,12 @@ CameraPage {
 
         ShareHelper {
                 id: share
+                settings: platformSettings
         }
 
         GalleryHelper {
                 id: gallery
+                settings: platformSettings
         }
 
         Rectangle {

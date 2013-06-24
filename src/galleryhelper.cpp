@@ -19,35 +19,28 @@
  */
 
 #include "galleryhelper.h"
-#include <maemo-meegotouch-interfaces/galleryinterface.h>
 #include <QStringList>
 #include <QUrl>
-#include <QDeclarativeInfo>
 
 GalleryHelper::GalleryHelper(QObject *parent) :
-  QObject(parent),
-  m_iface(new GalleryInterface) {
-
+  DbusService(parent) {
+  setName("gallery");
 }
 
 GalleryHelper::~GalleryHelper() {
-  delete m_iface;
+
 }
 
 bool GalleryHelper::show(const QUrl& path) {
-  if (!m_iface->isValid()) {
-    qmlInfo(this) << "Failed to get gallery interface";
-    return false;
-  }
+  // TODO: this is not working and I don't know why.
+  QStringList args;
+  args << path.toLocalFile();
 
-  return m_iface->showMediaInFullScreen(QStringList() << path.toLocalFile());
+  QVariant var(args);
+
+  return asyncCall("show-media", var);
 }
 
 bool GalleryHelper::launch() {
-  if (!m_iface->isValid()) {
-    qmlInfo(this) << "Failed to get gallery interface";
-    return false;
-  }
-
-  return m_iface->showCameraRoll();
+  return asyncCall("camera-roll");
 }
