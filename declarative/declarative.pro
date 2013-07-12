@@ -5,7 +5,7 @@ INCLUDEPATH += . ../lib/
 
 CONFIG += link_pkgconfig plugin
 
-PKGCONFIG = gstreamer-pbutils-0.10 libcanberra
+PKGCONFIG = gstreamer-pbutils-0.10 libcanberra contextsubscriber-1.0
 
 LIBS += -L../lib/ -lqtcamera
 
