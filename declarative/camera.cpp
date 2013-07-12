@@ -194,7 +194,9 @@ QVariant Camera::deviceId() const {
 void Camera::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
   QDeclarativeItem::geometryChanged(newGeometry, oldGeometry);
 
-  m_vf->setGeometry(newGeometry);
+  // TODO: seems setting geometry breaks rendering somehow
+  //  m_vf->setGeometry(newGeometry);
+  m_vf->resize(newGeometry.size());
 }
 
 QtCamDevice *Camera::device() const {
