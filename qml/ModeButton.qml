@@ -23,33 +23,21 @@
 
 import QtQuick 1.1
 import QtCamera 1.0
-import com.nokia.meego 1.0
 
-Item {
-        width: selector.width * selector.scale
-        height: selector.height * selector.scale
+CaptureButton {
+    width: 55
+    height: 55
+    opacity: 0.5
 
-        Switch {
-                id: selector
-                scale: 1.5
-                anchors.centerIn: parent
-                checked: settings.mode == Camera.ImageMode
+    iconSource: settings.mode == Camera.VideoMode ?
+        "image://theme/icon-m-viewfinder-camera" :
+        "image://theme/icon-m-camera-video"
 
-                onCheckedChanged: {
-                        if (checked) {
-                                settings.mode = Camera.ImageMode;
-                        }
-                        else {
-                                settings.mode = Camera.VideoMode;
-                        }
-                }
-
-                platformStyle: SwitchStyle {
-                        thumbPressed: settings.mode == Camera.VideoMode ? "image://theme/icon-m-camera-video" : "image://theme/icon-m-viewfinder-camera"
-                        switchOn: ""
-                        switchOff: ""
-                        thumb: settings.mode == Camera.VideoMode ? "image://theme/icon-m-viewfinder-camera" : "image://theme/icon-m-camera-video"
-                }
-
+    onClicked: {
+        if (settings.mode == Camera.VideoMode) {
+            settings.mode = Camera.ImageMode
+        } else {
+            settings.mode = Camera.VideoMode
         }
+    }
 }

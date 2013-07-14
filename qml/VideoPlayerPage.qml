@@ -27,123 +27,109 @@ import CameraPlus 1.0
 
 // TODO: error reporting
 
-CameraPage {
-        id: page
+Item {
+    id: page
 
-        property bool popTwice: false
-        controlsVisible: false
-        policyMode: CameraResources.None
-        activationData: ControlsActivationData {standbyVisible: false}
+    signal finished
+    property alias source: video.source
 
-        property alias source: video.source
+    function play() {
+        video.play()
+    }
 
-        function play() {
-                video.play();
+    MouseArea {
+        anchors.top: parent.top
+        anchors.bottom: toolBar.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+
+        onClicked: toolBar.show = !toolBar.show
+    }
+
+    Timer {
+        id: hideTimer
+        running: toolBar.show
+        interval: 3000
+        onTriggered: toolBar.show = false
+    }
+
+    Video {
+        id: video
+        anchors.fill: parent
+
+        function toggle() {
+            if (!video.paused) {
+                video.pause()
+            } else {
+                page.play()
+            }
         }
 
-        MouseArea {
-                anchors.top: parent.top
-                anchors.bottom: toolBar.top
-                anchors.left: parent.left
-                anchors.right: parent.right
+        onStopped: page.finished()
+    }
 
-                onClicked: toolBar.show = !toolBar.show
+    Connections {
+        target: Qt.application
+        onActiveChanged: {
+            if (!Qt.application.active) {
+                video.stop()
+            }
+        }
+    }
+
+    CameraToolBar {
+        id: toolBar
+
+        property bool show: true
+
+        manualBack: true
+        expanded: true
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: show ? 20 : -1 * (height + 20)
+        anchors.left: parent.left
+        anchors.leftMargin: 20
+        opacity: 0.5
+
+        Behavior on anchors.bottomMargin {
+            PropertyAnimation { duration: 200; }
         }
 
-        Timer {
-                id: hideTimer
-                running: toolBar.show
-                interval: 3000
-                onTriggered: toolBar.show = false;
-        }
+        items: [
+            ToolIcon {
+                iconId: "icon-m-toolbar-mediacontrol-stop-white"
+                onClicked: video.stop()
+            },
+            Slider {
+                id: slider
+                height: toolBar.height
+                anchors.verticalCenter: parent.verticalCenter
 
-		Video {
-                id: video
-                anchors.fill: parent
-
-                function toggle() {
-                        if (!video.paused) {
-                                video.pause();
-                        }
-                        else {
-                                page.play();
-                        }
+                platformStyle: SliderStyle {
+                    handleBackground: ""
+                    handleBackgroundPressed: ""
                 }
 
-                onStopped: {
-                        source = "";
-                        pageStack.pop(undefined, true);
+                minimumValue: 0
+                maximumValue: video.duration
+                value: video.position
+                orientation: Qt.Horizontal
 
-                        if (page.popTwice) {
-                                pageStack.pop(undefined);
-                        }
+                onPressedChanged: {
+                    if (!slider.pressed) {
+                        video.position = slider.value
+                    }
+
+                    hideTimer.restart()
                 }
-		}
-
-        Connections {
-                target: Qt.application
-                onActiveChanged: {
-                        if (!Qt.application.active) {
-                                video.stop();
-                        }
-                }
-        }
-
-        CameraToolBar {
-                id: toolBar
-
-                property bool show: true
-
-                manualBack: true
-                expanded: true
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: show ? 20 : -1 * (height + 20)
-                anchors.left: parent.left
-                anchors.leftMargin: 20
-                opacity: 0.5
-
-                Behavior on anchors.bottomMargin {
-                        PropertyAnimation { duration: 200; }
-                }
-
+            },
+            ToolIcon {
+                id: control
+                iconId: !video.paused ? "icon-m-toolbar-mediacontrol-pause-white" : "icon-m-toolbar-mediacontrol-play-white"
                 onClicked: {
-                        page.popTwice = true;
-                        video.stop();
+                    video.toggle()
+                    hideTimer.restart()
                 }
-
-                items: [
-                        ToolIcon { iconId: "icon-m-toolbar-mediacontrol-stop-white"; onClicked: { video.stop(); } },
-                        Slider {
-                                id: slider
-                                height: toolBar.height
-                                anchors.verticalCenter: parent.verticalCenter
-
-                                platformStyle: SliderStyle {
-                                        handleBackground: ""
-                                        handleBackgroundPressed: ""
-                                }
-
-                                minimumValue: 0
-                                maximumValue: video.duration
-                                value: video.position
-                                orientation: Qt.Horizontal
-
-                                onPressedChanged: {
-                                        if (!slider.pressed) {
-                                                video.position = slider.value;
-                                        }
-
-                                        hideTimer.restart();
-                                }
-                        },
-                        ToolIcon {
-                                id: control
-                                iconId: !video.paused ? "icon-m-toolbar-mediacontrol-pause-white" : "icon-m-toolbar-mediacontrol-play-white"
-                                onClicked: {
-                                        video.toggle();
-                                        hideTimer.restart();
-                                }
-                        }
-                ]
-        }
+            }
+        ]
+    }
 }

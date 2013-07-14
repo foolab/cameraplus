@@ -25,57 +25,60 @@ import com.nokia.meego 1.1
 import CameraPlus 1.0
 
 Item {
-        id: postCaptureItem
-        property bool isVideo: itemData.type.search("nmm#Video") > 0
-        property alias error: image.error
-        property variant itemData: item
-        property bool isCurrentItem: PathView.isCurrentItem
-        signal clicked
+    id: postCaptureItem
+    property bool isVideo: itemData.type.search("nmm#Video") > 0
+    property alias error: image.error
+    property variant itemData: item
+    property bool playing: loader.source != ""
+    signal clicked
 
-        onIsCurrentItemChanged: {
-                if (isCurrentItem) {
-                        page.currentItem = postCaptureItem;
-                }
-        }
+    function startPlayback() {
+        loader.source = Qt.resolvedUrl("VideoPlayerPage.qml")
+        loader.item.source = itemData.url
+        loader.item.play()
+    }
 
-        function startPlayback() {
-                openFileNow("VideoPlayerPage.qml");
-                pageStack.currentPage.source = itemData.url;
-                pageStack.currentPage.play();
-        }
+    Loader {
+        id: loader
+        anchors.fill: parent
+    }
+
+    Connections {
+        target: loader.item
+        onFinished: loader.source = ""
+    }
+
+    QuillItem {
+        id: image
+        width: parent.width - 10
+        height: parent.height
+        anchors.centerIn: parent
+        Component.onCompleted: initialize(itemData.url, itemData.mimetype)
+        visible: loader.source == ""
 
         Label {
-                anchors.fill: parent
-                visible: image.error && page.status == PageStatus.Active
-                text: qsTr("Failed to load preview");
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                font.pixelSize: 32
+            anchors.fill: parent
+            visible: image.error
+            text: qsTr("Failed to load preview")
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 32
         }
 
-        QuillItem {
-                id: image
-                width: parent.width - 10
-                height: parent.height
-                anchors.centerIn: parent
-
-                visible: page.status == PageStatus.Activating || page.status == PageStatus.Active && !error
-
-                Component.onCompleted: initialize(itemData.url, itemData.mimetype);
-
-                MouseArea {
-                        id: mouse
-                        anchors.fill: parent
-                        enabled: true
-                        onClicked: postCaptureItem.clicked();
-                }
-
-                ToolIcon {
-                        id: playIcon
-                        anchors.centerIn: parent
-                        iconSource: "image://theme/icon-s-music-video-play"
-                        visible: isVideo
-                        onClicked: startPlayback();
-                }
+        MouseArea {
+            id: mouse
+            anchors.fill: parent
+            enabled: true
+            onClicked: postCaptureItem.clicked()
         }
+
+        ToolIcon {
+            // TODO: this is overlapping with error.
+            id: playIcon
+            anchors.centerIn: parent
+            iconSource: "image://theme/icon-s-music-video-play"
+            visible: isVideo
+            onClicked: startPlayback()
+        }
+    }
 }

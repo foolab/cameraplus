@@ -22,26 +22,37 @@
 
 import QtQuick 1.1
 import com.nokia.meego 1.1
+import QtCamera 1.0
 
-Item {
-    property alias text: label.text
-    property alias checked: switchComponent.checked
-    width: parent.width
-    height: switchComponent.height
+Flickable {
+    contentHeight: col.height
+    anchors.fill: parent
+    anchors.margins: 10
 
-    Text {
-        property Style platformStyle: LabelStyle {}
+    Column {
+        id: col
+        width: parent.width
+        spacing: 10
 
-        id: label
-        anchors.left: parent.left
-        font.family: platformStyle.fontFamily
-        font.pixelSize: platformStyle.fontPixelSize
-        color: platformStyle.textColor
-        wrapMode: Text.Wrap
-    }
+        Label {
+            font.pixelSize: 36
+            text: qsTr("Image settings")
+        }
 
-    Switch {
-        id: switchComponent
-        anchors.right: parent.right
+        ImageResolutionSettings {
+            width: parent.width
+        }
+
+        TextSwitch {
+            text: qsTr("Enable face detection")
+            // We have to do it that way because QML complains about a binding
+            // loop for checked if we bind the checked property to the settings value.
+            Component.onCompleted: checked = settings.faceDetectionEnabled
+            onCheckedChanged: settings.faceDetectionEnabled = checked
+        }
+
+        CameraSettings {
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
     }
 }

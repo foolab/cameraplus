@@ -25,43 +25,42 @@ import com.nokia.meego 1.1
 import CameraPlus 1.0
 
 MouseArea {
-        id: zoomCancel
-        property Item page
-        property Item zoomCapture
+    id: zoomCancel
+    property Item zoomCapture
 
-        signal canceled
+    signal canceled
 
-        z: 100
-        enabled: zoomCapture.zoomPressed
+    z: 100
+    enabled: zoomCapture.zoomPressed
 
-        onPressed: {
-                zoomCancel.zoomCapture.zoomPressed = false;
-                zoomCancel.canceled();
+    onPressed: {
+        zoomCancel.zoomCapture.zoomPressed = false
+        zoomCancel.canceled()
+    }
+
+    Rectangle {
+        anchors.top: parent.top
+        opacity: parent.enabled ? 0.5 : 0
+        anchors.topMargin: 20
+        anchors.horizontalCenter: parent.horizontalCenter
+        visible: opacity > 0
+        height: label.height * 2
+        width: parent.width * 0.7
+        color: "black"
+        border.color: "gray"
+        radius: 20
+
+        Behavior on opacity {
+            PropertyAnimation { duration: 100; }
         }
 
-        Rectangle {
-                anchors.top: parent.top
-                opacity: parent.enabled ? 0.5 : 0
-                anchors.topMargin: 20
-                anchors.horizontalCenter: parent.horizontalCenter
-                visible: opacity > 0
-                height: label.height * 2
-                width: parent.width * 0.7
-                color: "black"
-                border.color: "gray"
-                radius: 20
-
-                Behavior on opacity {
-                        PropertyAnimation { duration: 100; }
-                }
-
-                Label {
-                        id: label
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: parent.width
-                        text: qsTr("Tap anywhere to cancel");
-                        font.pixelSize: 24
-                        horizontalAlignment: Text.AlignHCenter
-                }
+        Label {
+            id: label
+            anchors.verticalCenter: parent.verticalCenter
+            width: parent.width
+            text: qsTr("Tap anywhere to cancel")
+            font.pixelSize: 24
+            horizontalAlignment: Text.AlignHCenter
         }
+    }
 }

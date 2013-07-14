@@ -24,54 +24,55 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 
 Column {
-        spacing: 10
+    spacing: 10
 
-        SectionHeader {
-                text: qsTr("Aspect ratio");
+    SectionHeader {
+        text: qsTr("Aspect ratio")
+    }
+
+    ButtonRow {
+        id: aspectRatioRow
+        width: parent.width
+        enabled: cam.idle
+        exclusive: false
+
+        Repeater {
+            model: imageSettings.aspectRatios
+            delegate: Button {
+                text: qsTr(modelData)
+                checked: settings.imageAspectRatio == modelData
+                onClicked: settings.imageAspectRatio = modelData
+            }
+        }
+    }
+
+    SectionHeader {
+        text: qsTr("Resolution")
+    }
+
+    ButtonRow {
+        id: resolutionsRow
+        width: parent.width
+        enabled: cam.idle
+        exclusive: false
+
+        Binding {
+            target: imageSettings.resolutions
+            property: "aspectRatio"
+            value: settings.imageAspectRatio
         }
 
-        ButtonRow {
-                id: aspectRatioRow
-                width: parent.width
-                enabled: cam.idle
-                exclusive: false
+        Repeater {
+            id: resolutions
+            model: imageSettings.resolutions.aspectRatio == settings.imageAspectRatio ?
+                imageSettings.resolutions : undefined
 
-                Repeater {
-                        model: imageSettings.aspectRatios
-                        delegate: Button {
-                                text: qsTr(modelData);
-                                checked: settings.imageAspectRatio == modelData;
-                                onClicked: settings.imageAspectRatio = modelData;
-                        }
-                }
+            delegate: Button {
+                font.capitalization: Font.Capitalize
+                text: qsTr("%1 %2 Mpx").arg(resolutionName).arg(megaPixels)
+                checked: settings.imageResolution == resolutionName
+                onClicked: settings.imageResolution = resolutionName
+            }
         }
-
-        SectionHeader {
-                text: qsTr("Resolution");
-        }
-
-        ButtonRow {
-                id: resolutionsRow
-                width: parent.width
-                enabled: cam.idle
-                exclusive: false
-
-                Binding {
-                        target: imageSettings.resolutions
-                        property: "aspectRatio"
-                        value: settings.imageAspectRatio
-                }
-
-                Repeater {
-                        id: resolutions
-                        model: imageSettings.resolutions.aspectRatio == settings.imageAspectRatio ? imageSettings.resolutions : undefined
-
-                        delegate: Button {
-                                font.capitalization: Font.Capitalize
-                                text: qsTr("%1 %2 Mpx").arg(resolutionName).arg(megaPixels);
-                                checked: settings.imageResolution == resolutionName
-                                onClicked: settings.imageResolution = resolutionName;
-                        }
-                }
-        }
+    }
 }

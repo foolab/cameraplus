@@ -25,116 +25,119 @@ import QtCamera 1.0
 import CameraPlus 1.0
 
 Item {
-        id: handler
+    id: handler
 
-        property bool showStandBy: state != "on"
+    property bool showStandBy: state != "on"
 
-        property alias acquired: policy.acquired
-        property alias hijacked: policy.hijacked
-        property alias scaleAcquired: policy.scaleAcquired
+    property alias acquired: policy.acquired
+    property alias hijacked: policy.hijacked
+    property alias scaleAcquired: policy.scaleAcquired
 
-        property Camera camera: null
-        property Item currentPage: pageStack.currentPage
-        property bool error: false
+    property Camera camera: null
+    property Item currentItem
+    property bool error: false
 
-        onCurrentPageChanged: {
-                if (state == "on" || state == "policyLost") {
-                        startCamera();
-                }
+    onCurrentItemChanged: {
+        if (state == "on" || state == "policyLost") {
+            startCamera()
         }
+    }
 
-        CameraResources {
-                id: policy
+    Connections {
+        target: currentItem
+        onPolicyModeChanged: {
+            if (state == "on" || state == "policyLost") {
+                startCamera()
+            }
         }
+    }
 
-        function startCamera() {
-                if (error) {
-                        return;
-                }
+    CameraResources {
+        id: policy
+    }
 
-                if (!policy.acquire(currentPage.policyMode)) {
-                        console.log("Failed to acquire policy resources");
-                        return;
-                }
-
-                if (!camera.start()) {
-                        showError(qsTr("Failed to start camera. Please restart the application."));
-                }
+    function startCamera() {
+        if (error) {
+            return
+        } else if (!policy.acquire(currentItem.policyMode)) {
+            console.log("Failed to acquire policy resources")
+            return
+        } else if (!camera.start()) {
+            showError(qsTr("Failed to start camera. Please restart the application."))
         }
+    }
 
-        function stopCamera() {
-                if (camera.stop(false)) {
-                        policy.acquire(CameraResources.None);
-                        error = false;
-                }
+    function stopCamera() {
+        if (camera.stop(false)) {
+            policy.acquire(CameraResources.None)
+            error = false
         }
+    }
 
-        function forceStopCamera() {
-                // We don't release resources here so we can get them back
-                // when they become available
-                pageStack.currentPage.policyLost();
-                camera.stop(true);
-                error = false;
-        }
+    function forceStopCamera() {
+        // We don't release resources here so we can get them back
+        // when they become available
+        currentItem.policyLost()
+        camera.stop(true)
+        error = false
+    }
 
-        state: "off"
+    state: "off"
 
-//        onStateChanged: console.log("New state " + handler.state);
+//    onStateChanged: console.log("New state " + handler.state);
 
-        states: [
+    states: [
         State {
-                name: "on"
-                when: Qt.application.active && currentPage && currentPage.policyMode != CameraResources.None && !policy.hijacked
-        },
-        State {
-                name: "off"
-                when: (!Qt.application.active && camera.idle) || (currentPage && currentPage.policyMode == CameraResources.None && camera.idle)
-        },
-        State {
-                name: "policyLost"
-                when: policy.hijacked
+            name: "on"
+            when: Qt.application.active && currentItem && currentItem.policyMode != CameraResources.None && !policy.hijacked
         },
         State {
-                name: "error"
+            name: "off"
+            when: (!Qt.application.active && camera.idle) || (currentItem && currentItem.policyMode == CameraResources.None && camera.idle)
+        },
+        State {
+            name: "policyLost"
+            when: policy.hijacked
+        },
+        State {
+            name: "error"
         }
-        ]
+    ]
 
-        transitions: [
+    transitions: [
         Transition {
-                to: "off"
-                ScriptAction {
-                        script: stopCamera();
-                }
+            to: "off"
+            ScriptAction {
+                script: stopCamera()
+            }
         },
         Transition {
-                from: "off"
-                to: "on"
-                ScriptAction {
-                        script: handler.startCamera();
-                }
-        },
-
-        Transition {
-                from: "on"
-                to: "policyLost"
-                ScriptAction {
-                        script: forceStopCamera();
-                }
-        },
-
-        Transition {
-                from: "policyLost"
-                to: "off"
-                ScriptAction {
-                        script: stopCamera();
-                }
+            from: "off"
+            to: "on"
+            ScriptAction {
+                script: handler.startCamera()
+            }
         },
         Transition {
-                from: "policyLost"
-                to: "on"
-                ScriptAction {
-                        script: startCamera();
-                }
+            from: "on"
+            to: "policyLost"
+            ScriptAction {
+                script: forceStopCamera()
+            }
+        },
+        Transition {
+            from: "policyLost"
+            to: "off"
+            ScriptAction {
+                script: stopCamera()
+            }
+        },
+        Transition {
+            from: "policyLost"
+            to: "on"
+            ScriptAction {
+                script: startCamera()
+            }
         }
-        ]
+    ]
 }

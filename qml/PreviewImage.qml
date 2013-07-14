@@ -25,31 +25,40 @@ import com.nokia.meego 1.1
 import QtCamera 1.0
 
 Image {
-        id: image
+    id: image
+    anchors.fill: parent
+    property alias animationRunning: animation.running
+
+    visible: opacity != 0
+
+    cache: false
+    fillMode: Image.PreserveAspectFit
+
+    MouseArea {
         anchors.fill: parent
-        property alias animationRunning: animation.running
-        opacity: visible ? 1 : 0
-        z: 1
+        enabled: parent.visible
+    }
 
-        visible: opacity != 0
-
-        cache: false
-        fillMode: Image.PreserveAspectFit
-
-        MouseArea {
-                anchors.fill: parent
-                enabled: parent.visible
+    SequentialAnimation {
+        id: animation
+        PauseAnimation {
+            duration: 500
+            alwaysRunToEnd: true
         }
 
-        SequentialAnimation {
-                id: animation
-                PauseAnimation { duration: 500; alwaysRunToEnd: true }
-                NumberAnimation { target: preview; property: "opacity"; from: 1; to: 0; duration: 250; alwaysRunToEnd: true }
+        NumberAnimation {
+            target: preview
+            property: "opacity"
+            from: 1
+            to: 0
+            duration: 250
+            alwaysRunToEnd: true
         }
+    }
 
-        function setPreview(preview) {
-                image.source = preview;
-                image.opacity = 1;
-                animation.start();
-        }
+    function setPreview(preview) {
+        image.source = preview
+        image.opacity = 1
+        animation.start()
+    }
 }

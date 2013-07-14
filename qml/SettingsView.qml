@@ -21,16 +21,16 @@
  */
 
 import QtQuick 1.1
+import QtCamera 1.0
+import CameraPlus 1.0
 
-QtObject {
-        property bool zoomBarVisible: true
-        property bool modeSelectorVisible: true
-        property bool standbyVisible: true
+Item {
+    property int policyMode: settings.mode == Camera.VideoMode ? CameraResources.Video
+        : CameraResources.Image
 
-/*
-// TODO:
-        property bool focusReticleVisible: true
-        property bool captureButtonVisible: true
-        property bool viewfinderEnabled: true
-*/
+    Loader {
+        id: loader
+        anchors.fill: parent
+        source: settings.mode == Camera.VideoMode ? Qt.resolvedUrl("VideoSettings.qml") : Qt.resolvedUrl("ImageSettings.qml")
+    }
 }

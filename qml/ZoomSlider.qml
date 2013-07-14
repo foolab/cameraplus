@@ -25,78 +25,79 @@ import com.nokia.meego 1.1
 import QtCamera 1.0
 
 Slider {
-        id: slider
-        property Camera camera: null
+    id: slider
+    property Camera camera: null
 
-        platformStyle: SliderStyle {
-                handleBackground: ""
-                handleBackgroundPressed: ""
+    platformStyle: SliderStyle {
+        handleBackground: ""
+        handleBackgroundPressed: ""
+    }
+
+    Binding {
+        target: camera.zoom
+        property: "value"
+        value: slider.value
+    }
+
+    Connections {
+        target: camera
+        onModeChanged: slider.value = camera.zoom.minimum;
+    }
+
+    Connections {
+        target: keys
+
+        onVolumeUpPressed: {
+            if (settings.zoomAsShutter) {
+                return;
+            }
+
+            slider.value = Math.min(slider.value + slider.stepSize, slider.maximumValue)
+            hackTimer.running = true
         }
 
-        Binding {
-                target: camera.zoom
-                property: "value"
-                value: slider.value
+        onVolumeDownPressed: {
+            if (settings.zoomAsShutter) {
+                return;
+            }
+
+            slider.value = Math.max(slider.value - slider.stepSize, slider.minimumValue)
+            hackTimer.running = true
         }
+    }
 
-        Connections {
-                target: camera
-                onModeChanged: slider.value = camera.zoom.minimum;
-        }
+    orientation: Qt.Horizontal
+    width: 500
+    height: 50
+    stepSize:0.1
+    value: camera.zoom.value
+    minimumValue: camera.zoom.minimum
+    maximumValue: camera.zoom.maximum
 
-        Connections {
-                target: keys
-
-                onVolumeUpPressed: {
-                        if (settings.zoomAsShutter) {
-                                return;
-                        }
-
-                        slider.value = Math.min(slider.value + slider.stepSize, slider.maximumValue);
-                        hackTimer.running = true;
-                }
-
-                onVolumeDownPressed: {
-                        if (settings.zoomAsShutter) {
-                                return;
-                        }
-
-                        slider.value = Math.max(slider.value - slider.stepSize, slider.minimumValue);
-                        hackTimer.running = true;
-                }
-        }
-
-        orientation: Qt.Horizontal
-        width: 500
-        height: 50
-        stepSize:0.1
-        value: camera.zoom.value
-        minimumValue: camera.zoom.minimum
-        maximumValue: camera.zoom.maximum
-
-        state: "hidden"
-        states: [
+    state: "hidden"
+    states: [
         State {
-                name: "visible"
-                when: slider.pressed || hackTimer.running
-                PropertyChanges { target: slider; opacity: 1.0 }
+            name: "visible"
+            when: slider.pressed || hackTimer.running
+            PropertyChanges { target: slider; opacity: 1.0 }
         },
         State {
-                name: "hidden"
-                when: !slider.pressed
-                PropertyChanges { target: slider; opacity: 0.2 }
-        }]
-
-        transitions: Transition {
-                to: "hidden"
-                SequentialAnimation {
-                        PauseAnimation { duration: 2000 }
-                        NumberAnimation { target: slider; property: "opacity"; duration: 250 }
-                }
+            name: "hidden"
+            when: !slider.pressed
+            PropertyChanges { target: slider; opacity: 0.2 }
         }
+    ]
 
-        Timer {
-                id: hackTimer
-                interval: 1
-        }
+    transitions: Transition {
+        to: "hidden"
+            SequentialAnimation {
+                PauseAnimation { duration: 2000 }
+                NumberAnimation { target: slider; property: "opacity"; duration: 250 }
+            }
+    }
+
+    Timer {
+        id: hackTimer
+        interval: 1
+    }
 }

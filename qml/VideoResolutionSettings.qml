@@ -24,29 +24,28 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 
 Column {
-        spacing: 10
+    spacing: 10
 
-        SectionHeader {
-                text: qsTr("Resolution");
+    SectionHeader {
+        text: qsTr("Resolution")
+    }
+
+    ButtonRow {
+        width: parent.width
+        enabled: cam.idle
+        exclusive: false
+
+        Repeater {
+            id: resolutions
+
+            model: videoSettings.resolutions
+
+            delegate: Button {
+                font.capitalization: Font.Capitalize
+                text: qsTr("%1 %2").arg(resolutionName).arg(resolution)
+                checked: settings.videoResolution == resolutionName
+                onClicked: settings.videoResolution = resolutionName
+            }
         }
-
-
-        ButtonRow {
-                width: parent.width
-                enabled: cam.idle
-                exclusive: false
-
-                Repeater {
-                        id: resolutions
-
-                        model: videoSettings.resolutions
-
-                        delegate: Button {
-                                font.capitalization: Font.Capitalize
-                                text: qsTr("%1 %2").arg(resolutionName).arg(resolution);
-                                checked: settings.videoResolution == resolutionName;
-                                onClicked: settings.videoResolution = resolutionName;
-                        }
-                }
-        }
+    }
 }

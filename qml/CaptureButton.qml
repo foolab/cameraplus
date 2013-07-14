@@ -24,42 +24,41 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 
 Item {
-        id: button
+    id: button
 
-        property url iconSource
-        property Style platformStyle: ButtonStyle {}
+    property url iconSource
+    property Style platformStyle: ButtonStyle {}
 
-        property alias pressed: mouse.pressed
-        property alias containsMouse: mouse.containsMouse
-        property alias mouseX: mouse.mouseX
-        property alias mouseY: mouse.mouseY
+    property alias pressed: mouse.pressed
+    property alias mouseX: mouse.mouseX
+    property alias mouseY: mouse.mouseY
 
-        signal clicked
-        signal exited
+    signal clicked
+    signal exited
 
-        MouseArea {
-                id: mouse
-                anchors.fill: parent
-                onClicked: button.clicked();
-                onExited: button.exited();
-        }
+    MouseArea {
+        id: mouse
+        anchors.fill: parent
+        onClicked: button.clicked()
+        onExited: button.exited()
+    }
 
-        BorderImage {
-                id: background
-                anchors.fill: parent
-                border.left: button.platformStyle.backgroundMarginLeft
-                border.top: button.platformStyle.backgroundMarginTop
-                border.right: button.platformStyle.backgroundMarginRight
-                border.bottom: button.platformStyle.backgroundMarginBottom
-                source:  pressed ? button.platformStyle.pressedBackground : button.platformStyle.background
-        }
+    BorderImage {
+        id: background
+        anchors.fill: parent
+        border.left: button.platformStyle.backgroundMarginLeft
+        border.top: button.platformStyle.backgroundMarginTop
+        border.right: button.platformStyle.backgroundMarginRight
+        border.bottom: button.platformStyle.backgroundMarginBottom
+        source:  pressed ? button.platformStyle.pressedBackground : button.platformStyle.background
+    }
 
-        Image {
-                id: icon
-                anchors.centerIn: parent
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.verticalCenterOffset: -1
-                source: button.iconSource
-                visible: source != ""
-        }
+    Image {
+        id: icon
+        anchors.centerIn: parent
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.verticalCenterOffset: -1
+        source: button.iconSource
+        visible: source != ""
+    }
 }

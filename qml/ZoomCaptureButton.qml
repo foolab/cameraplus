@@ -25,56 +25,55 @@ import com.nokia.meego 1.1
 import CameraPlus 1.0
 
 Item {
-        id: zoomHandler
-        property Item page
-        property bool zoomPressed: false
+    id: zoomHandler
+    property bool zoomPressed: false
 
-        signal pressed();
-        signal released();
+    signal pressed()
+    signal released()
 
-        property bool active: settings.zoomAsShutter && page.status == PageStatus.Active && Qt.application.active
+    property bool active: settings.zoomAsShutter && Qt.application.active
 
-        function handlePress() {
-                if (!zoomHandler.active || zoomHandler.zoomPressed) {
-                        return;
-                }
-
-                zoomHandler.zoomPressed = true;
-                zoomHandler.pressed();
+    function handlePress() {
+        if (!zoomHandler.active || zoomHandler.zoomPressed) {
+            return
         }
 
-        function handleRelease() {
-                if (!zoomHandler.active || !zoomHandler.zoomPressed) {
-                        return;
-                }
+        zoomHandler.zoomPressed = true
+        zoomHandler.pressed()
+    }
 
-                zoomHandler.zoomPressed = false;
-
-                zoomHandler.released();
+    function handleRelease() {
+        if (!zoomHandler.active || !zoomHandler.zoomPressed) {
+            return
         }
 
-        Connections {
-                id: zoomConnection
-                target: keys
+        zoomHandler.zoomPressed = false
 
-                onActiveChanged: {
-                        if (!zoomConnection.active) {
-                                zoomHandler.zoomPressed = false;
-                        }
-                }
+        zoomHandler.released()
+    }
 
-                onVolumeUpPressed: zoomHandler.handlePress();
-                onVolumeDownPressed: zoomHandler.handlePress();
-                onVolumeUpReleased: zoomHandler.handleRelease();
-                onVolumeDownReleased: zoomHandler.handleRelease();
+    Connections {
+        id: zoomConnection
+        target: keys
+
+        onActiveChanged: {
+            if (!zoomConnection.active) {
+                zoomHandler.zoomPressed = false
+            }
         }
 
-        Connections {
-                target: Qt.application
-                onActiveChanged: {
-                        if (!Qt.application.active) {
-                                zoomHandler.zoomPressed = false;
-                        }
-                }
+        onVolumeUpPressed: zoomHandler.handlePress()
+        onVolumeDownPressed: zoomHandler.handlePress()
+        onVolumeUpReleased: zoomHandler.handleRelease()
+        onVolumeDownReleased: zoomHandler.handleRelease()
+    }
+
+    Connections {
+        target: Qt.application
+        onActiveChanged: {
+            if (!Qt.application.active) {
+                zoomHandler.zoomPressed = false
+            }
         }
+    }
 }

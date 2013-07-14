@@ -24,75 +24,75 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 
 Column {
-        id: col
-        spacing: 10
+    id: col
+    spacing: 10
+    width: parent.width
+
+    Label {
+        font.pixelSize: 36
+        text: qsTr("Camera settings")
         width: parent.width
+    }
 
-        Label {
-                font.pixelSize: 36
-                text: qsTr("Camera settings");
-                width: parent.width
-        }
+    TextSwitch {
+        text: qsTr("Show grid lines")
 
-        TextSwitch {
-                text: qsTr("Show grid lines");
+        // We have to do it that way because QML complains about a binding
+        // loop for checked if we bind the checked property to the settings value.
+        Component.onCompleted: checked = settings.gridEnabled
 
-                // We have to do it that way because QML complains about a binding
-                // loop for checked if we bind the checked property to the settings value.
-                Component.onCompleted: checked = settings.gridEnabled;
+        onCheckedChanged: settings.gridEnabled = checked
+    }
 
-                onCheckedChanged: settings.gridEnabled = checked;
-        }
+    SectionHeader {
+        text: qsTr("Creator name")
+        width: parent.width
+    }
 
-        SectionHeader {
-                text: qsTr("Creator name");
-                width: parent.width
-        }
+    TextField {
+        placeholderText: qsTr("Name or copyright")
+        width: parent.width
+        text: settings.creatorName
+        onTextChanged: settings.creatorName = text
+    }
 
-        TextField {
-                placeholderText: qsTr("Name or copyright");
-                width: parent.width
-                text: settings.creatorName
-                onTextChanged: settings.creatorName = text;
-        }
+    TextSwitch {
+        text: qsTr("Use zoom keys for capture")
 
-        TextSwitch {
-                text: qsTr("Use zoom keys for capture");
+        // We have to do it that way because QML complains about a binding
+        // loop for checked if we bind the checked property to the settings value.
+        Component.onCompleted: checked = settings.zoomAsShutter
+        onCheckedChanged: settings.zoomAsShutter = checked
+    }
 
-                // We have to do it that way because QML complains about a binding
-                // loop for checked if we bind the checked property to the settings value.
-                Component.onCompleted: checked = settings.zoomAsShutter;
-                onCheckedChanged: settings.zoomAsShutter = checked;
-        }
+    TextSwitch {
+        text: qsTr("Enable camera sounds")
 
-        TextSwitch {
-                text: qsTr("Enable camera sounds");
+        // We have to do it that way because QML complains about a binding
+        // loop for checked if we bind the checked property to the settings value.
+        Component.onCompleted: checked = settings.soundEnabled
+        onCheckedChanged: settings.soundEnabled = checked
+    }
 
-                // We have to do it that way because QML complains about a binding
-                // loop for checked if we bind the checked property to the settings value.
-                Component.onCompleted: checked = settings.soundEnabled;
-                onCheckedChanged: settings.soundEnabled = checked;
-        }
+    TextSwitch {
+        id: useGps
+        text: qsTr("Use GPS")
 
-        TextSwitch {
-                id: useGps
-                text: qsTr("Use GPS");
+        // We have to do it that way because QML complains about a binding
+        // loop for checked if we bind the checked property to the settings value.
+        Component.onCompleted: checked = settings.useGps
+        onCheckedChanged: settings.useGps = checked
+    }
 
-                // We have to do it that way because QML complains about a binding
-                // loop for checked if we bind the checked property to the settings value.
-                Component.onCompleted: checked = settings.useGps;
-                onCheckedChanged: settings.useGps = checked;
-        }
+    TextSwitch {
+        // TODO: transition when hiding/showing and we should scroll a bit to show it
+        visible: useGps.checked
 
-        TextSwitch {
-                // TODO: transition when hiding/showing and we should scroll a bit to show it
-                visible: useGps.checked
+        text: qsTr("Use geotags")
 
-                text: qsTr("Use geotags");
-
-                // We have to do it that way because QML complains about a binding
-                // loop for checked if we bind the checked property to the settings value.
-                Component.onCompleted: checked = settings.useGeotags;
-                onCheckedChanged: settings.useGeotags = checked;
-        }
+        // We have to do it that way because QML complains about a binding
+        // loop for checked if we bind the checked property to the settings value.
+        Component.onCompleted: checked = settings.useGeotags
+        onCheckedChanged: settings.useGeotags = checked
+    }
 }
