@@ -36,6 +36,7 @@ Item {
     property Camera camera: null
     property Item currentItem
     property bool error: false
+    property int currentPolicyMode: CameraResources.None
 
     onCurrentItemChanged: {
         if (state == "on" || state == "policyLost") {
@@ -59,17 +60,22 @@ Item {
     function startCamera() {
         if (error) {
             return
+        } else if ((currentPolicyMode == currentItem.policyMode) && cam.running) {
+            return
         } else if (!policy.acquire(currentItem.policyMode)) {
             console.log("Failed to acquire policy resources")
             return
         } else if (!camera.start()) {
             showError(qsTr("Failed to start camera. Please restart the application."))
+        } else {
+            currentPolicyMode = currentItem.policyMode
         }
     }
 
     function stopCamera() {
         if (camera.stop(false)) {
             policy.acquire(CameraResources.None)
+            currentPolicyMode = CameraResources.None
             error = false
         }
     }
@@ -79,6 +85,7 @@ Item {
         // when they become available
         currentItem.policyLost()
         camera.stop(true)
+        currentPolicyMode = CameraResources.None
         error = false
     }
 
