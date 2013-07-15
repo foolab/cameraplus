@@ -24,41 +24,41 @@ import QtQuick 1.1
 import com.nokia.meego 1.0
 
 Rectangle {
-        id: standby
+    id: standby
 
-        property bool show: true
-        property bool policyLost: false
+    property bool show: true
+    property bool policyLost: false
 
-        color: "black"
+    color: "black"
+    anchors.fill: parent
+    z: 2
+
+    visible: opacity != 0.0
+    opacity: show ? 1.0 : 0.0
+
+    Behavior on opacity {
+        PropertyAnimation { duration: 250 }
+    }
+
+    MouseArea {
         anchors.fill: parent
-        z: 2
+        enabled: parent.visible
+    }
 
-        visible: opacity != 0.0
-        opacity: show ? 1.0 : 0.0
+    Image {
+        id: icon
+        source: "image://theme/icon-l-camera-standby"
+        anchors.centerIn: parent
+    }
 
-        Behavior on opacity {
-                PropertyAnimation { duration: 250; }
-        }
-
-        MouseArea {
-                anchors.fill: parent
-                enabled: parent.visible
-        }
-
-        Image {
-                id: icon
-                source: "image://theme/icon-l-camera-standby"
-                anchors.centerIn: parent
-        }
-
-        Label {
-                anchors.top: icon.bottom
-                anchors.right: parent.right
-                anchors.left: parent.left
-                text: qsTr("Resources lost")
-                color: "white"
-                font.pixelSize: 36
-                horizontalAlignment: Text.AlignHCenter
-                visible: parent.policyLost
-        }
+    Label {
+        anchors.top: icon.bottom
+        anchors.right: parent.right
+        anchors.left: parent.left
+        text: qsTr("Resources lost")
+        color: "white"
+        font.pixelSize: 36
+        horizontalAlignment: Text.AlignHCenter
+        visible: parent.policyLost
+    }
 }

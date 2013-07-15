@@ -32,7 +32,6 @@ import QtMobility.location 1.2
 Window {
         id: root
         property alias camera: cam
-//        property bool cameraVisible: mainView.currentIndex == 1
 
         VisualItemModel {
             id: mainModel
@@ -269,9 +268,9 @@ Window {
             repeat: !settings.zoomAsShutter
         }
 
-//        Standby {
-//            policyLost: pipelineManager.state == "policyLost"
-// TODO:
-//            show: !pageStack.currentPage || (pageStack.currentPage.activationData.standbyVisible && pageStack.currentPage.status == PageStatus.Active && pipelineManager.showStandBy)
-//        }
+        Standby {
+            policyLost: pipelineManager.state == "policyLost"
+            show: !Qt.application.active || pipelineManager.showStandBy ||
+                (mainView.currentIndex == 1 && !camera.running)
+        }
 }

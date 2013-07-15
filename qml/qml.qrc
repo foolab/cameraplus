@@ -30,9 +30,10 @@
 	<file>ZoomCaptureButton.qml</file>
 	<file>ZoomCaptureCancel.qml</file>
 	<file>PostCaptureItem.qml</file>
+	<file>VideoPlayerPage.qml</file>
+	<file>Standby.qml</file>
 
 	<file>CameraPage.qml</file>
-	<file>Standby.qml</file>
 	<file>FlashButton.qml</file>
 	<file>ImageSceneButton.qml</file>
 	<file>ImageEvCompButton.qml</file>
@@ -46,6 +47,5 @@
 	<file>VideoWhiteBalanceButton.qml</file>
 	<file>VideoColorFilterButton.qml</file>
 	<file>VideoMuteButton.qml</file>
-	<file>VideoPlayerPage.qml</file>
     </qresource>
 </RCC>
