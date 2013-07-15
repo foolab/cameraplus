@@ -82,7 +82,7 @@ Item {
 
         property bool show: true
 
-        manualBack: true
+        hideBack: true
         expanded: true
         anchors.bottom: parent.bottom
         anchors.bottomMargin: show ? 20 : -1 * (height + 20)
@@ -124,7 +124,8 @@ Item {
             },
             ToolIcon {
                 id: control
-                iconId: !video.paused ? "icon-m-toolbar-mediacontrol-pause-white" : "icon-m-toolbar-mediacontrol-play-white"
+                iconId: !video.paused ? "icon-m-toolbar-mediacontrol-pause-white"
+                    : "icon-m-toolbar-mediacontrol-play-white"
                 onClicked: {
                     video.toggle()
                     hideTimer.restart()

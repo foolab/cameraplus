@@ -85,21 +85,18 @@ Item {
     CameraToolBar {
         id: toolBar
         expanded: true
-        manualBack: true
+        hideBack: true
         anchors.bottom: parent.bottom
         anchors.bottomMargin: show ? 20 : -1 * (height + 20)
         anchors.left: parent.left
         anchors.leftMargin: 20
         opacity: 0.8
-// TODO: hide back button
+
         property bool show: deleteDialog.status == DialogStatus.Open ||
             deleteDialog.status == DialogStatus.Opening ||
             hideTimer.running || menu.status == DialogStatus.Open ||
             menu.status == DialogStatus.Opening ||
             (view.currentItem && view.currentItem.error) && !view.currentItem.playing
-
-// TODO:
-//        onClicked: pageStack.pop()
 
         Behavior on anchors.bottomMargin {
             PropertyAnimation { duration: 200; }
