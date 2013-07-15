@@ -31,6 +31,7 @@ Rectangle {
     property int targetWidth: parent.width - (2 * anchors.leftMargin)
     property alias menuWidth: menu.width
     property bool manualBack: false
+    property bool hideBack: false
     signal clicked
 
     height: menu.height
@@ -45,6 +46,7 @@ Rectangle {
 
     ToolIcon {
         property bool __isMenu: true
+        visible: !parent.hideBack
         id: menu
         anchors.verticalCenter: parent.verticalCenter
         iconSource: "image://theme/icon-m-toolbar-back-white"

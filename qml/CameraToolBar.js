@@ -56,16 +56,24 @@ function show(items) {
 	width += items[x].width;
     }
 
-    var spacing = (tools.width - width - tools.menuWidth) / len;
+    var totalWidth = tools.width - width;
+    if (tools.hideBack) {
+	len -= 1;
+    } else {
+	totalWidth -= tools.menuWidth;
+    }
 
-    for (var x = 0; x < len; x++) {
+    var spacing = totalWidth / len;
+
+    for (var x = 0; x < items.length; x++) {
 	var child = items[x];
 
 	if (x != 0) {
 	    var prev = items[x - 1];
 	    child.x = prev.x + prev.width + spacing;
-	}
-	else {
+	} else if (tools.hideBack) {
+	    child.x = 0;
+	} else {
 	    child.x = spacing + 80;
 	}
 
