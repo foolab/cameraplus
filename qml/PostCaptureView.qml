@@ -23,10 +23,12 @@
 import QtQuick 1.1
 import CameraPlus 1.0
 import com.nokia.meego 1.1
+import QtCamera 1.0
 
 Item {
     property bool pressed: view.currentItem ? view.currentItem.playing : false
-    property int policyMode: CameraResources.None
+    property int policyMode: settings.mode == Camera.VideoMode ? CameraResources.Video
+        : CameraResources.Image
     property bool available: view.currentItem ? view.currentItem.itemData.available : false
 
     Component.onCompleted: postCaptureModel.reload()
