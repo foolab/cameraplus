@@ -32,11 +32,12 @@
 	<file>PostCaptureItem.qml</file>
 	<file>VideoPlayerPage.qml</file>
 	<file>Standby.qml</file>
+	<file>ImageEvCompButton.qml</file>
 
 	<file>CameraPage.qml</file>
 	<file>FlashButton.qml</file>
 	<file>ImageSceneButton.qml</file>
-	<file>ImageEvCompButton.qml</file>
+
 	<file>ImageWhiteBalanceButton.qml</file>
 	<file>ImageColorFilterButton.qml</file>
 	<file>ImageIsoButton.qml</file>

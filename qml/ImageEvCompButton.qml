@@ -25,33 +25,34 @@ import com.nokia.meego 1.1
 import QtCamera 1.0
 
 ToolIcon {
-        id: button
+    id: button
 
-        iconSource: settings.imageEvComp == 0 ? "image://theme/icon-m-camera-manual-exposure" : ""
+    iconSource: settings.imageEvComp == 0 ? "image://theme/icon-m-camera-manual-exposure" : ""
 
+    Label {
+        anchors.fill: parent
+        verticalAlignment: Text.AlignVCenter
+        visible: settings.imageEvComp != 0
+        text: settings.imageEvComp == 0 ? "" : settings.imageEvComp.toFixed(1)
+    }
+
+    property list<Item> items: [
         Label {
-                anchors.fill: parent
-                verticalAlignment: Text.AlignVCenter
-                visible: settings.imageEvComp != 0
-                text: settings.imageEvComp == 0 ? "" : settings.imageEvComp.toFixed(1);
+            height: parent ? parent.height : 0
+            text: qsTr("EV")
+            verticalAlignment: Text.AlignVCenter
+        },
+        Slider {
+            id: slider
+            width: 500
+            orientation: Qt.Horizontal
+            minimumValue: cam ? cam.evComp.minimum : 0
+            maximumValue: cam ? cam.evComp.maximum : 0
+            value: settings.imageEvComp
+            valueIndicatorVisible: true
+            stepSize: 0.1
+            onValueChanged: settings.imageEvComp = value.toFixed(1)
+            Component.onCompleted: { slider.value = settings.imageEvComp.toFixed(1) }
         }
-
-        property list<Item> items: [
-                Label {
-                        height: parent ? parent.height : 0
-                        text: qsTr("EV");
-                        verticalAlignment: Text.AlignVCenter
-                },
-                Slider {
-                        id: slider
-                        width: 500
-                        orientation: Qt.Horizontal
-                        minimumValue: cam.evComp.minimum
-                        maximumValue: cam.evComp.maximum
-                        value: settings.imageEvComp
-                        valueIndicatorVisible: true
-                        stepSize: 0.1
-                        onValueChanged: settings.imageEvComp = value.toFixed(1);
-                        Component.onCompleted: { slider.value = settings.imageEvComp.toFixed(1); }
-                }]
+    ]
 }
