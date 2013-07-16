@@ -26,56 +26,57 @@ import QtCamera 1.0
 import "data.js" as Data
 
 ToolIcon {
-        id: button
+    id: button
 
-        iconSource: "image://theme/" + Data.cfIcon(settings.videoColorFilter);
+    iconSource: "image://theme/" + Data.cfIcon(settings.videoColorFilter)
 
-        property list<Item> items: [
-                Label {
-                        height: parent ? parent.height : 0
-                        text: qsTr("Filter");
-                        verticalAlignment: Text.AlignVCenter
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.cfIcon(value);
-                        checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
-                        value: ColorTone.Normal
-                        savedValue: settings.videoColorFilter
-                        onClicked: settings.videoColorFilter = value;
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.cfIcon(value);
-                        checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
-                        value: ColorTone.GrayScale
-                        savedValue: settings.videoColorFilter
-                        onClicked: settings.videoColorFilter = value;
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.cfIcon(value);
-                        checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
-                        value: ColorTone.Sepia
-                        savedValue: settings.videoColorFilter
-                        onClicked: settings.videoColorFilter = value;
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.cfIcon(value);
-                        checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
-                        value: ColorTone.Vivid
-                        savedValue: settings.videoColorFilter
-                        onClicked: settings.videoColorFilter = value;
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.cfIcon(value);
-                        checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
-                        value: ColorTone.Negative
-                        savedValue: settings.videoColorFilter
-                        onClicked: settings.videoColorFilter = value;
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.cfIcon(value);
-                        checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
-                        value: ColorTone.Solarize
-                        savedValue: settings.videoColorFilter
-                        onClicked: settings.videoColorFilter = value;
-                }]
+    property list<Item> items: [
+        Label {
+            height: parent ? parent.height : 0
+            text: qsTr("Filter")
+            verticalAlignment: Text.AlignVCenter
+            },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.cfIcon(value)
+            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            value: ColorTone.Normal
+            savedValue: settings.videoColorFilter
+            onClicked: settings.videoColorFilter = value
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.cfIcon(value)
+            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            value: ColorTone.GrayScale
+            savedValue: settings.videoColorFilter
+            onClicked: settings.videoColorFilter = value
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.cfIcon(value)
+            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            value: ColorTone.Sepia
+            savedValue: settings.videoColorFilter
+            onClicked: settings.videoColorFilter = value
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.cfIcon(value)
+            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            value: ColorTone.Vivid
+            savedValue: settings.videoColorFilter
+            onClicked: settings.videoColorFilter = value
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.cfIcon(value)
+            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            value: ColorTone.Negative
+            savedValue: settings.videoColorFilter
+            onClicked: settings.videoColorFilter = value
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.cfIcon(value)
+            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            value: ColorTone.Solarize
+            savedValue: settings.videoColorFilter
+            onClicked: settings.videoColorFilter = value
+        }
+    ]
 }

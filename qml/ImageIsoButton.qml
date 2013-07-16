@@ -26,54 +26,55 @@ import QtCamera 1.0
 import "data.js" as Data
 
 ToolIcon {
-        id: button
+    id: button
 
-        iconSource: "image://theme/" + Data.isoIcon(settings.imageIso);
+    iconSource: "image://theme/" + Data.isoIcon(settings.imageIso)
 
-        property list<Item> items: [
-                Label {
-                        height: parent ? parent.height : 0
-                        text: qsTr("ISO");
-                        verticalAlignment: Text.AlignVCenter
-                },
-                Button {
-                        property int value: 0
-                        onClicked: settings.imageIso = value;
-                        text: qsTr("Auto")
-                        width: 100
-                        checked: settings.imageIso == value
-                        anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-                },
-                Button {
-                        property int value: 100
-                        onClicked: settings.imageIso = value;
-                        text: value
-                        width: 100
-                        checked: settings.imageIso == value
-                        anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-                },
-                Button {
-                        property int value: 200
-                        onClicked: settings.imageIso = value;
-                        text: value
-                        width: 100
-                        checked: settings.imageIso == value
-                        anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-                },
-                Button {
-                        property int value: 400
-                        onClicked: settings.imageIso = value;
-                        text: value
-                        width: 100
-                        checked: settings.imageIso == value
-                        anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-                },
-                Button {
-                        property int value: 800
-                        onClicked: settings.imageIso = value;
-                        text: value
-                        width: 100
-                        checked: settings.imageIso == value
-                        anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-                }]
+    property list<Item> items: [
+        Label {
+            height: parent ? parent.height : 0
+            text: qsTr("ISO")
+            verticalAlignment: Text.AlignVCenter
+        },
+        Button {
+            property int value: 0
+            onClicked: settings.imageIso = value
+            text: qsTr("Auto")
+            width: 100
+            checked: settings.imageIso == value
+            anchors.verticalCenter: parent ? parent.verticalCenter : undefined
+        },
+        Button {
+            property int value: 100
+            onClicked: settings.imageIso = value
+            text: value
+            width: 100
+            checked: settings.imageIso == value
+            anchors.verticalCenter: parent ? parent.verticalCenter : undefined
+        },
+        Button {
+            property int value: 200
+            onClicked: settings.imageIso = value
+            text: value
+            width: 100
+            checked: settings.imageIso == value
+            anchors.verticalCenter: parent ? parent.verticalCenter : undefined
+        },
+        Button {
+            property int value: 400
+            onClicked: settings.imageIso = value
+            text: value
+            width: 100
+            checked: settings.imageIso == value
+            anchors.verticalCenter: parent ? parent.verticalCenter : undefined
+        },
+        Button {
+            property int value: 800
+            onClicked: settings.imageIso = value
+            text: value
+            width: 100
+            checked: settings.imageIso == value
+            anchors.verticalCenter: parent ? parent.verticalCenter : undefined
+        }
+    ]
 }

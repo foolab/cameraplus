@@ -26,49 +26,50 @@ import QtCamera 1.0
 import "data.js" as Data
 
 ToolIcon {
-        id: button
+    id: button
 
-        iconSource: "image://theme/" + Data.wbIcon(settings.imageWhiteBalance);
+    iconSource: "image://theme/" + Data.wbIcon(settings.imageWhiteBalance)
 
-        property list<Item> items: [
-                Label {
-                        height: parent ? parent.height : 0
-                        text: qsTr("WB");
-                        verticalAlignment: Text.AlignVCenter
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.wbIcon(value);
-                        checkedIcon: "image://theme/" + Data.wbSelectedIcon(value);
-                        onClicked: settings.imageWhiteBalance = value;
-                        value: WhiteBalance.Auto
-                        savedValue: settings.imageWhiteBalance
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.wbIcon(value);
-                        checkedIcon: "image://theme/" + Data.wbSelectedIcon(value);
-                        onClicked: settings.imageWhiteBalance = value;
-                        value: WhiteBalance.Sunset
-                        savedValue: settings.imageWhiteBalance
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.wbIcon(value);
-                        checkedIcon: "image://theme/" + Data.wbSelectedIcon(value);
-                        onClicked: settings.imageWhiteBalance = value;
-                        value: WhiteBalance.Cloudy
-                        savedValue: settings.imageWhiteBalance
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.wbIcon(value);
-                        checkedIcon: "image://theme/" + Data.wbSelectedIcon(value);
-                        onClicked: settings.imageWhiteBalance = value;
-                        value: WhiteBalance.Flourescent
-                        savedValue: settings.imageWhiteBalance
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.wbIcon(value);
-                        checkedIcon: "image://theme/" + Data.wbSelectedIcon(value);
-                        onClicked: settings.imageWhiteBalance = value;
-                        value: WhiteBalance.Tungsten
-                        savedValue: settings.imageWhiteBalance
-                }]
+    property list<Item> items: [
+        Label {
+            height: parent ? parent.height : 0
+            text: qsTr("WB")
+            verticalAlignment: Text.AlignVCenter
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.wbIcon(value)
+            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            onClicked: settings.imageWhiteBalance = value
+            value: WhiteBalance.Auto
+            savedValue: settings.imageWhiteBalance
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.wbIcon(value)
+            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            onClicked: settings.imageWhiteBalance = value
+            value: WhiteBalance.Sunset
+            savedValue: settings.imageWhiteBalance
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.wbIcon(value)
+            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            onClicked: settings.imageWhiteBalance = value
+            value: WhiteBalance.Cloudy
+            savedValue: settings.imageWhiteBalance
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.wbIcon(value)
+            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            onClicked: settings.imageWhiteBalance = value
+            value: WhiteBalance.Flourescent
+            savedValue: settings.imageWhiteBalance
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.wbIcon(value)
+            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            onClicked: settings.imageWhiteBalance = value
+            value: WhiteBalance.Tungsten
+            savedValue: settings.imageWhiteBalance
+        }
+    ]
 }

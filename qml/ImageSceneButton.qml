@@ -26,56 +26,57 @@ import QtCamera 1.0
 import "data.js" as Data
 
 ToolIcon {
-        id: button
+    id: button
 
-        iconSource: "image://theme/" + Data.ismIcon(settings.imageSceneMode);
+    iconSource: "image://theme/" + Data.ismIcon(settings.imageSceneMode)
 
-        property list<Item> items: [
-                Label {
-                        height: parent ? parent.height : 0
-                        text: qsTr("Scene");
-                        verticalAlignment: Text.AlignVCenter
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.ismIcon(value);
-                        checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
-                        savedValue: settings.imageSceneMode
-                        onClicked: settings.imageSceneMode = value;
-                        value: Scene.Auto
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.ismIcon(value);
-                        checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
-                        savedValue: settings.imageSceneMode
-                        onClicked: settings.imageSceneMode = value;
-                        value: Scene.Closeup
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.ismIcon(value);
-                        checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
-                        savedValue: settings.imageSceneMode
-                        onClicked: settings.imageSceneMode = value;
-                        value: Scene.Landscape
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.ismIcon(value);
-                        checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
-                        savedValue: settings.imageSceneMode
-                        onClicked: settings.imageSceneMode = value;
-                        value: Scene.Portrait
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.ismIcon(value);
-                        checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
-                        savedValue: settings.imageSceneMode
-                        onClicked: settings.imageSceneMode = value;
-                        value: Scene.Night
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.ismIcon(value);
-                        checkedIcon: "image://theme/" + Data.ismSelectedIcon(value);
-                        savedValue: settings.imageSceneMode
-                        onClicked: settings.imageSceneMode = value;
-                        value: Scene.Sport
-                }]
+    property list<Item> items: [
+        Label {
+            height: parent ? parent.height : 0
+            text: qsTr("Scene")
+            verticalAlignment: Text.AlignVCenter
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.ismIcon(value)
+            checkedIcon: "image://theme/" + Data.ismSelectedIcon(value)
+            savedValue: settings.imageSceneMode
+            onClicked: settings.imageSceneMode = value
+            value: Scene.Auto
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.ismIcon(value)
+            checkedIcon: "image://theme/" + Data.ismSelectedIcon(value)
+            savedValue: settings.imageSceneMode
+            onClicked: settings.imageSceneMode = value
+            value: Scene.Closeup
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.ismIcon(value)
+            checkedIcon: "image://theme/" + Data.ismSelectedIcon(value)
+            savedValue: settings.imageSceneMode
+            onClicked: settings.imageSceneMode = value
+            value: Scene.Landscape
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.ismIcon(value)
+            checkedIcon: "image://theme/" + Data.ismSelectedIcon(value)
+            savedValue: settings.imageSceneMode
+            onClicked: settings.imageSceneMode = value
+            value: Scene.Portrait
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.ismIcon(value)
+            checkedIcon: "image://theme/" + Data.ismSelectedIcon(value)
+            savedValue: settings.imageSceneMode
+            onClicked: settings.imageSceneMode = value
+            value: Scene.Night
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.ismIcon(value)
+            checkedIcon: "image://theme/" + Data.ismSelectedIcon(value)
+            savedValue: settings.imageSceneMode
+            onClicked: settings.imageSceneMode = value
+            value: Scene.Sport
+        }
+    ]
 }

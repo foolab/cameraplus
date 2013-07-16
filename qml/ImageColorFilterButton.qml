@@ -26,55 +26,56 @@ import QtCamera 1.0
 import "data.js" as Data
 
 ToolIcon {
-        id: button
-        iconSource: "image://theme/" + Data.cfIcon(settings.imageColorFilter);
+    id: button
+    iconSource: "image://theme/" + Data.cfIcon(settings.imageColorFilter)
 
-        property list<Item> items: [
-                Label {
-                        height: parent ? parent.height : 0
-                        text: qsTr("Filter");
-                        verticalAlignment: Text.AlignVCenter
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.cfIcon(value);
-                        checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
-                        value: ColorTone.Normal
-                        savedValue: settings.imageColorFilter
-                        onClicked: settings.imageColorFilter = value;
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.cfIcon(value);
-                        checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
-                        value: ColorTone.GrayScale
-                        savedValue: settings.imageColorFilter
-                        onClicked: settings.imageColorFilter = value;
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.cfIcon(value);
-                        checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
-                        value: ColorTone.Sepia
-                        savedValue: settings.imageColorFilter
-                        onClicked: settings.imageColorFilter = value;
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.cfIcon(value);
-                        checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
-                        value: ColorTone.Vivid
-                        savedValue: settings.imageColorFilter
-                        onClicked: settings.imageColorFilter = value;
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.cfIcon(value);
-                        checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
-                        value: ColorTone.Negative
-                        savedValue: settings.imageColorFilter
-                        onClicked: settings.imageColorFilter = value;
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.cfIcon(value);
-                        checkedIcon: "image://theme/" + Data.cfSelectedIcon(value);
-                        value: ColorTone.Solarize
-                        savedValue: settings.imageColorFilter
-                        onClicked: settings.imageColorFilter = value;
-                }]
+    property list<Item> items: [
+        Label {
+            height: parent ? parent.height : 0
+            text: qsTr("Filter")
+            verticalAlignment: Text.AlignVCenter
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.cfIcon(value)
+            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            value: ColorTone.Normal
+            savedValue: settings.imageColorFilter
+            onClicked: settings.imageColorFilter = value
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.cfIcon(value)
+            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            value: ColorTone.GrayScale
+            savedValue: settings.imageColorFilter
+            onClicked: settings.imageColorFilter = value
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.cfIcon(value)
+            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            value: ColorTone.Sepia
+            savedValue: settings.imageColorFilter
+            onClicked: settings.imageColorFilter = value
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.cfIcon(value)
+            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            value: ColorTone.Vivid
+            savedValue: settings.imageColorFilter
+            onClicked: settings.imageColorFilter = value
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.cfIcon(value)
+            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            value: ColorTone.Negative
+            savedValue: settings.imageColorFilter
+            onClicked: settings.imageColorFilter = value
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.cfIcon(value)
+            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            value: ColorTone.Solarize
+            savedValue: settings.imageColorFilter
+            onClicked: settings.imageColorFilter = value
+        }
+    ]
 }

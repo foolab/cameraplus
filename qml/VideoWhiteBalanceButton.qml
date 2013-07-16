@@ -26,49 +26,50 @@ import QtCamera 1.0
 import "data.js" as Data
 
 ToolIcon {
-        id: button
+    id: button
 
-        iconSource: "image://theme/" + Data.wbIcon(settings.videoWhiteBalance);
+    iconSource: "image://theme/" + Data.wbIcon(settings.videoWhiteBalance)
 
-        property list<Item> items: [
-                Label {
-                        height: parent ? parent.height : 0
-                        text: qsTr("WB");
-                        verticalAlignment: Text.AlignVCenter
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.wbIcon(value);
-                        checkedIcon: "image://theme/" + Data.wbSelectedIcon(value);
-                        value: WhiteBalance.Auto
-                        savedValue: settings.videoWhiteBalance
-                        onClicked: settings.videoWhiteBalance = value;
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.wbIcon(value);
-                        checkedIcon: "image://theme/" + Data.wbSelectedIcon(value);
-                        value: WhiteBalance.Sunset
-                        savedValue: settings.videoWhiteBalance
-                        onClicked: settings.videoWhiteBalance = value;
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.wbIcon(value);
-                        checkedIcon: "image://theme/" + Data.wbSelectedIcon(value);
-                        value: WhiteBalance.Cloudy
-                        savedValue: settings.videoWhiteBalance
-                        onClicked: settings.videoWhiteBalance = value;
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.wbIcon(value);
-                        checkedIcon: "image://theme/" + Data.wbSelectedIcon(value);
-                        value: WhiteBalance.Flourescent
-                        savedValue: settings.videoWhiteBalance
-                        onClicked: settings.videoWhiteBalance = value;
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.wbIcon(value);
-                        checkedIcon: "image://theme/" + Data.wbSelectedIcon(value);
-                        value: WhiteBalance.Tungsten
-                        savedValue: settings.videoWhiteBalance
-                        onClicked: settings.videoWhiteBalance = value;
-                }]
+    property list<Item> items: [
+        Label {
+            height: parent ? parent.height : 0
+            text: qsTr("WB")
+            verticalAlignment: Text.AlignVCenter
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.wbIcon(value)
+            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            value: WhiteBalance.Auto
+            savedValue: settings.videoWhiteBalance
+            onClicked: settings.videoWhiteBalance = value
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.wbIcon(value)
+            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            value: WhiteBalance.Sunset
+            savedValue: settings.videoWhiteBalance
+            onClicked: settings.videoWhiteBalance = value
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.wbIcon(value)
+            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            value: WhiteBalance.Cloudy
+            savedValue: settings.videoWhiteBalance
+            onClicked: settings.videoWhiteBalance = value
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.wbIcon(value)
+            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            value: WhiteBalance.Flourescent
+            savedValue: settings.videoWhiteBalance
+            onClicked: settings.videoWhiteBalance = value
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.wbIcon(value)
+            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            value: WhiteBalance.Tungsten
+            savedValue: settings.videoWhiteBalance
+            onClicked: settings.videoWhiteBalance = value
+        }
+    ]
 }

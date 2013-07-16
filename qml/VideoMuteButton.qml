@@ -24,6 +24,7 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 
 ToolIcon {
-        iconSource: settings.videoMuted ? "image://theme/icon-m-toolbar-volume-off-white-selected" : "image://theme/icon-m-toolbar-volume-white-selected"
-        onClicked: settings.videoMuted = !settings.videoMuted;
+    iconSource: settings.videoMuted ? "image://theme/icon-m-toolbar-volume-off-white-selected" :
+        "image://theme/icon-m-toolbar-volume-white-selected"
+    onClicked: settings.videoMuted = !settings.videoMuted
 }

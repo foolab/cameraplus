@@ -26,42 +26,43 @@ import QtCamera 1.0
 import "data.js" as Data
 
 ToolIcon {
-        id: button
+    id: button
 
-        iconSource: "image://theme/" + Data.flashIcon(settings.imageFlashMode)
+    iconSource: "image://theme/" + Data.flashIcon(settings.imageFlashMode)
 
-        property list<Item> items: [
-                Label {
-                        height: parent ? parent.height : 0
-                        text: qsTr("Flash");
-                        verticalAlignment: Text.AlignVCenter
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.flashIcon(value)
-                        checkedIcon: "image://theme/" + Data.flashPressedIcon(value)
-                        onClicked: settings.imageFlashMode = value;
-                        value: Flash.Auto
-                        savedValue: settings.imageFlashMode
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.flashIcon(value)
-                        checkedIcon: "image://theme/" + Data.flashPressedIcon(value)
-                        onClicked: settings.imageFlashMode = value;
-                        value: Flash.On
-                        savedValue: settings.imageFlashMode
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.flashIcon(value)
-                        checkedIcon: "image://theme/" + Data.flashPressedIcon(value)
-                        onClicked: settings.imageFlashMode = value;
-                        value: Flash.Off
-                        savedValue: settings.imageFlashMode
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.flashIcon(value)
-                        checkedIcon: "image://theme/" + Data.flashPressedIcon(value)
-                        onClicked: settings.imageFlashMode = value;
-                        value: Flash.RedEye
-                        savedValue: settings.imageFlashMode
-                }]
+    property list<Item> items: [
+        Label {
+            height: parent ? parent.height : 0
+            text: qsTr("Flash")
+            verticalAlignment: Text.AlignVCenter
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.flashIcon(value)
+            checkedIcon: "image://theme/" + Data.flashPressedIcon(value)
+            onClicked: settings.imageFlashMode = value
+            value: Flash.Auto
+            savedValue: settings.imageFlashMode
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.flashIcon(value)
+            checkedIcon: "image://theme/" + Data.flashPressedIcon(value)
+            onClicked: settings.imageFlashMode = value
+            value: Flash.On
+            savedValue: settings.imageFlashMode
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.flashIcon(value)
+            checkedIcon: "image://theme/" + Data.flashPressedIcon(value)
+            onClicked: settings.imageFlashMode = value
+            value: Flash.Off
+            savedValue: settings.imageFlashMode
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.flashIcon(value)
+            checkedIcon: "image://theme/" + Data.flashPressedIcon(value)
+            onClicked: settings.imageFlashMode = value
+            value: Flash.RedEye
+            savedValue: settings.imageFlashMode
+        }
+    ]
 }

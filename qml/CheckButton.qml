@@ -24,11 +24,11 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 
 ToolIcon {
-        id: button
-        property string normalIcon: ""
-        property string checkedIcon: ""
-        property int value: -1
-        property int savedValue: -1
+    id: button
+    property string normalIcon: ""
+    property string checkedIcon: ""
+    property int value: -1
+    property int savedValue: -1
 
-        iconSource: savedValue == value ? checkedIcon : normalIcon
+    iconSource: savedValue == value ? checkedIcon : normalIcon
 }

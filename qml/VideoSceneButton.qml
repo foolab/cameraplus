@@ -26,27 +26,29 @@ import QtCamera 1.0
 import "data.js" as Data
 
 ToolIcon {
-        id: button
+    id: button
 
-        iconSource: "image://theme/" + Data.vsmIcon(settings.videoSceneMode);
-        property list<Item> items: [
-                Label {
-                        height: parent ? parent.height : 0
-                        text: qsTr("Scene");
-                        verticalAlignment: Text.AlignVCenter
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.vsmIcon(value);
-                        checkedIcon: "image://theme/" + Data.vsmSelectedIcon(value);
-                        savedValue: settings.videoSceneMode
-                        onClicked: settings.videoSceneMode = value;
-                        value: Scene.Auto
-                },
-                CheckButton {
-                        normalIcon: "image://theme/" + Data.vsmIcon(value);
-                        checkedIcon: "image://theme/" + Data.vsmSelectedIcon(value);
-                        savedValue: settings.videoSceneMode
-                        onClicked: settings.videoSceneMode = value;
-                        value: Scene.Night
-                }]
+    iconSource: "image://theme/" + Data.vsmIcon(settings.videoSceneMode)
+
+    property list<Item> items: [
+        Label {
+            height: parent ? parent.height : 0
+            text: qsTr("Scene")
+            verticalAlignment: Text.AlignVCenter
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.vsmIcon(value)
+            checkedIcon: "image://theme/" + Data.vsmSelectedIcon(value)
+            savedValue: settings.videoSceneMode
+            onClicked: settings.videoSceneMode = value
+            value: Scene.Auto
+        },
+        CheckButton {
+            normalIcon: "image://theme/" + Data.vsmIcon(value)
+            checkedIcon: "image://theme/" + Data.vsmSelectedIcon(value)
+            savedValue: settings.videoSceneMode
+            onClicked: settings.videoSceneMode = value
+            value: Scene.Night
+        }
+    ]
 }
