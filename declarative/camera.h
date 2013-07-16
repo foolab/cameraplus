@@ -48,6 +48,7 @@ class AutoFocus;
 class Roi;
 class VideoMute;
 class VideoTorch;
+class CameraConfig;
 
 class Camera : public QDeclarativeItem {
   Q_OBJECT
@@ -83,6 +84,8 @@ class Camera : public QDeclarativeItem {
   Q_PROPERTY(VideoTorch *videoTorch READ videoTorch NOTIFY videoTorchChanged);
 
   Q_PROPERTY(bool renderingEnabled READ isRenderingEnabled WRITE setRenderingEnabled NOTIFY renderingEnabledChanged);
+  // TODO: We need a setter here too.
+  Q_PROPERTY(CameraConfig *cameraConfig READ cameraConfig CONSTANT);
 
   Q_ENUMS(CameraMode);
 
@@ -146,6 +149,8 @@ public:
   bool isRenderingEnabled() const;
   void setRenderingEnabled(bool enabled);
 
+  CameraConfig *cameraConfig() const;
+
 signals:
   void deviceCountChanged();
   void deviceIdChanged();
@@ -176,6 +181,8 @@ signals:
   void videoMuteChanged();
   void videoTorchChanged();
   void renderingEnabledChanged();
+
+  void cameraConfigChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
@@ -211,6 +218,7 @@ private:
 
   VideoMute *m_videoMute;
   VideoTorch *m_videoTorch;
+  CameraConfig *m_config;
 };
 
 #endif /* CAMERA_H */

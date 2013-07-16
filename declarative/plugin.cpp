@@ -46,10 +46,9 @@
 #include "videoresolutionmodel.h"
 #include "declarativeqtcameranotifications.h"
 #include "sounds.h"
-
+#include "cameraconfig.h"
 #include <QtDeclarative>
 
-#define URI "QtCamera"
 #define MAJOR 1
 #define MINOR 0
 
@@ -103,6 +102,7 @@ void Plugin::registerTypes(const char *uri) {
 			  "VideoResolutionModel can be obtained from VideoSettings");
 
   qmlRegisterType<Mode>();
+  qmlRegisterType<CameraConfig>(uri, MAJOR, MINOR, "CameraConfig");
 }
 
 Q_EXPORT_PLUGIN2(declarativeqtcamera, Plugin);

@@ -48,6 +48,7 @@
 
 #include "videomute.h"
 #include "videotorch.h"
+#include "cameraconfig.h"
 
 Camera::Camera(QDeclarativeItem *parent) :
   QDeclarativeItem(parent),
@@ -71,7 +72,8 @@ Camera::Camera(QDeclarativeItem *parent) :
   m_autoFocus(0),
   m_roi(0),
   m_videoMute(0),
-  m_videoTorch(0) {
+  m_videoTorch(0),
+  m_config(new CameraConfig(this)) {
 
   QObject::connect(m_vf, SIGNAL(renderAreaChanged()), this, SIGNAL(renderAreaChanged()));
   QObject::connect(m_vf, SIGNAL(videoResolutionChanged()), this, SIGNAL(videoResolutionChanged()));
@@ -438,4 +440,8 @@ bool Camera::isRenderingEnabled() const {
 
 void Camera::setRenderingEnabled(bool enabled) {
   m_vf->setRenderingEnabled(enabled);
+}
+
+CameraConfig *Camera::cameraConfig() const {
+  return m_config;
 }
