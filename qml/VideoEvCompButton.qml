@@ -25,33 +25,34 @@ import com.nokia.meego 1.1
 import QtCamera 1.0
 
 ToolIcon {
-        id: button
+    id: button
 
-        iconSource: settings.videoEvComp == 0 ? "image://theme/icon-m-camera-manual-exposure" : ""
+    iconSource: settings.videoEvComp == 0 ? "image://theme/icon-m-camera-manual-exposure" : ""
 
+    Label {
+        anchors.fill: parent
+        verticalAlignment: Text.AlignVCenter
+        visible: settings.videoEvComp != 0
+        text: settings.videoEvComp == 0 ? "" : settings.videoEvComp.toFixed(1)
+    }
+
+    property list<Item> items: [
         Label {
-                anchors.fill: parent
-                verticalAlignment: Text.AlignVCenter
-                visible: settings.videoEvComp != 0
-                text: settings.videoEvComp == 0 ? "" : settings.videoEvComp.toFixed(1);
+            height: parent ? parent.height : 0
+            text: qsTr("EV")
+            verticalAlignment: Text.AlignVCenter
+        },
+        Slider {
+            id: slider
+            width: 500
+            orientation: Qt.Horizontal
+            minimumValue: cam ? cam.evComp.minimum : 0
+            maximumValue: cam ? cam.evComp.maximum : 0
+            value: settings.videoEvComp
+            valueIndicatorVisible: true
+            stepSize: 0.1
+            onValueChanged: settings.videoEvComp = value.toFixed(1)
+            Component.onCompleted: { slider.value = settings.videoEvComp.toFixed(1) }
         }
-
-        property list<Item> items: [
-                Label {
-                        height: parent ? parent.height : 0
-                        text: qsTr("EV");
-                        verticalAlignment: Text.AlignVCenter
-                },
-                Slider {
-                        id: slider
-                        width: 500
-                        orientation: Qt.Horizontal
-                        minimumValue: cam.evComp.minimum
-                        maximumValue: cam.evComp.maximum
-                        value: settings.videoEvComp
-                        valueIndicatorVisible: true
-                        stepSize: 0.1
-                        onValueChanged: settings.videoEvComp = value.toFixed(1);
-                        Component.onCompleted: { slider.value = settings.videoEvComp.toFixed(1); }
-                }]
+    ]
 }
