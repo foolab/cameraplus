@@ -25,15 +25,17 @@ import com.nokia.meego 1.1
 import QtCamera 1.0
 
 ToolIcon {
-        id: button
-        property Camera camera: null
+    id: button
+    property Camera camera: null
 
-        iconSource: settings.videoTorchOn ? "image://theme/icon-m-camera-torch-on" : "image://theme/icon-m-camera-torch-off"
-        onClicked: settings.videoTorchOn = !settings.videoTorchOn
+    iconSource: settings.videoTorchOn ? "image://theme/icon-m-camera-torch-on"
+        : "image://theme/icon-m-camera-torch-off"
+    onClicked: settings.videoTorchOn = !settings.videoTorchOn
 
-        Binding {
-                target: camera.videoTorch
-                property: "on"
-                value: settings.videoTorchOn
-        }
+    Binding {
+        target: camera ? camera.videoTorch : null
+        property: "on"
+        value: settings.videoTorchOn
+        when: camera != null
+    }
 }

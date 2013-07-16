@@ -34,6 +34,7 @@
 	<file>Standby.qml</file>
 	<file>ImageEvCompButton.qml</file>
 	<file>VideoEvCompButton.qml</file>
+	<file>VideoTorchButton.qml</file>
 
 	<file>CameraPage.qml</file>
 	<file>FlashButton.qml</file>
@@ -42,7 +43,6 @@
 	<file>ImageColorFilterButton.qml</file>
 	<file>ImageIsoButton.qml</file>
 	<file>CheckButton.qml</file>
-	<file>VideoTorchButton.qml</file>
 	<file>VideoSceneButton.qml</file>
 	<file>VideoWhiteBalanceButton.qml</file>
 	<file>VideoColorFilterButton.qml</file>
