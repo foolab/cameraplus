@@ -34,9 +34,10 @@ Slider {
     }
 
     Binding {
-        target: camera.zoom
+        target: camera ? camera.zoom : null
         property: "value"
         value: slider.value
+        when: camera != null
     }
 
     Connections {
@@ -70,9 +71,9 @@ Slider {
     width: 500
     height: 50
     stepSize:0.1
-    value: camera.zoom.value
-    minimumValue: camera.zoom.minimum
-    maximumValue: camera.zoom.maximum
+    value: camera ? camera.zoom.value : 0
+    minimumValue: camera ? camera.zoom.minimum : 0
+    maximumValue: camera ? camera.zoom.maximum : 0
 
     state: "hidden"
     states: [

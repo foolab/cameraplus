@@ -33,9 +33,8 @@ Item {
     property Camera cam
     property bool animationRunning: false
     property int policyMode: recording == true ? CameraResources.Recording : CameraResources.Video
-    property bool controlsVisible: !animationRunning && cam.running && dimmer.opacity == 0.0
-        && !cameraMode.busy
-// TODO:
+    property bool controlsVisible: !animationRunning && cam != null && cam.running
+        && dimmer.opacity == 0.0 && !cameraMode.busy
     property bool pressed: overlay.recording || capture.pressed ||
         zoomSlider.pressed || modeButton.pressed
 
