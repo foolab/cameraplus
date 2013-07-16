@@ -45,7 +45,5 @@
 	<file>ImageColorFilterButton.qml</file>
 	<file>VideoWhiteBalanceButton.qml</file>
 	<file>VideoColorFilterButton.qml</file>
-
-	<file>CameraPage.qml</file>
     </qresource>
 </RCC>
