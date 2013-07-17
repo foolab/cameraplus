@@ -182,8 +182,6 @@ signals:
   void videoTorchChanged();
   void renderingEnabledChanged();
 
-  void cameraConfigChanged();
-
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
 
