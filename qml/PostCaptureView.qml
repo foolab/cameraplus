@@ -27,9 +27,9 @@ import QtCamera 1.0
 
 Item {
     property bool pressed: view.currentItem ? view.currentItem.playing : false
-    property int policyMode: view.currentItem && view.currentItem.playing ? CameraResources.None :
-        settings.mode == Camera.VideoMode ? CameraResources.Video
-        : CameraResources.Image
+    property int policyMode: view.currentItem && view.currentItem.playing ?
+        CameraResources.Player : settings.mode == Camera.VideoMode ? CameraResources.Video :
+        CameraResources.Image
     property bool available: view.currentItem ? view.currentItem.itemData.available : false
 
     Component.onCompleted: postCaptureModel.reload()

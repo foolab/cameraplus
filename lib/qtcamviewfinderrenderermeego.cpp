@@ -172,7 +172,14 @@ GstElement *QtCamViewfinderRendererMeeGo::sinkElement() {
   g_object_set(G_OBJECT(m_sink), "x-display", d, "use-framebuffer-memory", TRUE, NULL);
 
   m_dpy = eglGetDisplay((EGLNativeDisplayType)d);
+  if (m_dpy == EGL_NO_DISPLAY) {
+    qCritical() << "Failed to obtain EGL Display";
+  }
+
   EGLContext context = eglGetCurrentContext();
+  if (context == EGL_NO_CONTEXT) {
+    qCritical() << "Failed to obtain EGL context";
+  }
 
   g_object_set(G_OBJECT(m_sink), "egl-display", m_dpy, "egl-context", context, NULL);
 

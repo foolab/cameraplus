@@ -216,6 +216,13 @@ void CameraResourcesWorker::acquire(bool *ok, const CameraResources::Mode& mode)
 		    << ResourcePolicy::AudioPlaybackType);
     break;
 
+  case CameraResources::Player:
+    *ok = updateSet(QList<ResourcePolicy::ResourceType>()
+		    << ResourcePolicy::VideoPlaybackType
+		    << ResourcePolicy::AudioPlaybackType,
+		    QList<ResourcePolicy::ResourceType>());
+    break;
+
   default:
     qWarning() << "Unknown mode" << mode;
 

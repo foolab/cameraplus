@@ -35,7 +35,9 @@ Item {
     function startPlayback() {
         loader.source = Qt.resolvedUrl("VideoPlayerPage.qml")
         loader.item.source = itemData.url
-        loader.item.play()
+        if (!loader.item.play()) {
+            loader.source = ""
+        }
     }
 
     Loader {

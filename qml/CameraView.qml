@@ -24,6 +24,7 @@ import QtQuick 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
 
+// TODO: reset reticle and roi when we stop camera or change mode
 Camera {
     id: cam
 

@@ -47,6 +47,7 @@
 #include "declarativeqtcameranotifications.h"
 #include "sounds.h"
 #include "cameraconfig.h"
+#include "videoplayer.h"
 #include <QtDeclarative>
 
 #define MAJOR 1
@@ -68,6 +69,8 @@ void Plugin::initializeEngine(QDeclarativeEngine *engine, const char *uri) {
 }
 
 void Plugin::registerTypes(const char *uri) {
+  Q_ASSERT(QLatin1String(uri) == QLatin1String("QtCamera"));
+
   qmlRegisterType<Camera>(uri, MAJOR, MINOR, "Camera");
   qmlRegisterType<ImageMode>(uri, MAJOR, MINOR, "ImageMode");
   qmlRegisterType<VideoMode>(uri, MAJOR, MINOR, "VideoMode");
@@ -103,6 +106,8 @@ void Plugin::registerTypes(const char *uri) {
 
   qmlRegisterType<Mode>();
   qmlRegisterType<CameraConfig>(uri, MAJOR, MINOR, "CameraConfig");
+
+  qmlRegisterType<VideoPlayer>("QtCameraExtras", MAJOR, MINOR, "VideoPlayer");
 }
 
 Q_EXPORT_PLUGIN2(declarativeqtcamera, Plugin);

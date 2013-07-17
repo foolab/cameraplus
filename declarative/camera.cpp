@@ -75,6 +75,8 @@ Camera::Camera(QDeclarativeItem *parent) :
   m_videoTorch(0),
   m_config(new CameraConfig(this)) {
 
+  m_config->componentComplete();
+
   QObject::connect(m_vf, SIGNAL(renderAreaChanged()), this, SIGNAL(renderAreaChanged()));
   QObject::connect(m_vf, SIGNAL(videoResolutionChanged()), this, SIGNAL(videoResolutionChanged()));
   QObject::connect(m_vf, SIGNAL(renderingEnabledChanged()), this, SIGNAL(renderingEnabledChanged()));

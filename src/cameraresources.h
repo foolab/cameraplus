@@ -45,6 +45,7 @@ public:
     Image,
     Video,
     Recording,
+    Player,
   } Mode;
 
   CameraResources(QObject *parent = 0);

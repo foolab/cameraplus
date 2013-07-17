@@ -65,6 +65,9 @@ Item {
         } else if (!policy.acquire(currentItem.policyMode)) {
             console.log("Failed to acquire policy resources")
             return
+        } else if (currentItem.policyMode == CameraResources.Player) {
+            currentPolicyMode = CameraResources.Player
+            camera.stop(true)
         } else if (!camera.start()) {
             showError(qsTr("Failed to start camera. Please restart the application."))
         } else {

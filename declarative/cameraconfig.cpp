@@ -59,6 +59,10 @@ void CameraConfig::classBegin() {
 }
 
 void CameraConfig::componentComplete() {
+  if (m_config) {
+    return;
+  }
+
   if (m_path.isEmpty()) {
     m_config = new QtCamConfig(this);
   }

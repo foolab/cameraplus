@@ -22,8 +22,9 @@
 
 import QtQuick 1.1
 import com.nokia.meego 1.1
-import QtMultimediaKit 1.1
 import CameraPlus 1.0
+import QtCamera 1.0
+import QtCameraExtras 1.0
 
 // TODO: error reporting
 
@@ -34,7 +35,7 @@ Item {
     property alias source: video.source
 
     function play() {
-        video.play()
+        return video.play()
     }
 
     MouseArea {
@@ -53,9 +54,10 @@ Item {
         onTriggered: toolBar.show = false
     }
 
-    Video {
+    VideoPlayer {
         id: video
         anchors.fill: parent
+        cameraConfig: cam.cameraConfig
 
         function toggle() {
             if (!video.paused) {
@@ -65,7 +67,11 @@ Item {
             }
         }
 
-        onStopped: page.finished()
+        onStateChanged: {
+            if (state == VideoPlayer.StateStopped) {
+                page.finished()
+            }
+        }
     }
 
     Connections {
