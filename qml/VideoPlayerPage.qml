@@ -26,8 +26,6 @@ import CameraPlus 1.0
 import QtCamera 1.0
 import QtCameraExtras 1.0
 
-// TODO: error reporting
-
 Item {
     id: page
 
@@ -58,6 +56,8 @@ Item {
         id: video
         anchors.fill: parent
         cameraConfig: cam.cameraConfig
+
+        onError: showError(qsTr("Error playing video. Please try again or restart the application"))
 
         function toggle() {
             if (!video.paused) {

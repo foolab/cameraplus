@@ -36,6 +36,7 @@ Item {
         loader.source = Qt.resolvedUrl("VideoPlayerPage.qml")
         loader.item.source = itemData.url
         if (!loader.item.play()) {
+            showError(qsTr("Error playing video. Please try again."))
             loader.source = ""
         }
     }
