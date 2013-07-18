@@ -102,7 +102,6 @@ void VideoPlayer::setCameraConfig(CameraConfig *config) {
 
   if (m_config != config) {
     m_config = config;
-    // TODO: We need fence sync here.
     m_vf = new QtCamGraphicsViewfinder(m_config->config(), this);
     m_vf->resize(QSizeF(width(), height()));
     emit cameraConfigChanged();
