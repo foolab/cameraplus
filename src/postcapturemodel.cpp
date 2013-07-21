@@ -70,7 +70,8 @@ const QDBusArgument& operator>>(const QDBusArgument& argument, Quad& t) {
 
 PostCaptureModel::PostCaptureModel(QObject *parent) :
   QAbstractListModel(parent),
-  m_connection(0) {
+  m_connection(0),
+  m_connected(false) {
 
   QHash<int, QByteArray> roles;
   roles.insert(Item, "item");
@@ -117,12 +118,20 @@ void PostCaptureModel::reload() {
   q.bindValue("equipment", equipment);
   exec(q);
 
-  QDBusConnection::sessionBus().connect(TRACKER_SERVICE, TRACKER_RESOURCE_PATH,
-					TRACKER_RESOURCE_INTERFACE, TRACKER_RESOURCE_SIGNAL,
-					TRACKER_RESOURCE_SIGNAL_SIGNATURE,
-					this, SLOT(graphUpdated(const QString&,
-								const QList<Quad>&,
-								const QList<Quad>&)));
+  if (!m_connected) {
+    const char *slot = SLOT(graphUpdated(const QString&,
+					 const QList<Quad>&,
+					 const QList<Quad>&));
+    m_connected = QDBusConnection::sessionBus().connect(TRACKER_SERVICE, TRACKER_RESOURCE_PATH,
+							TRACKER_RESOURCE_INTERFACE,
+							TRACKER_RESOURCE_SIGNAL,
+							TRACKER_RESOURCE_SIGNAL_SIGNATURE,
+							this, slot);
+  }
+
+  if (!m_connected) {
+    qmlInfo(this) << "Failed to connect to tracker " << TRACKER_RESOURCE_SIGNAL;
+  }
 }
 
 void PostCaptureModel::exec(QSparqlQuery& query) {

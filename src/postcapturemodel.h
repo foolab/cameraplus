@@ -86,6 +86,8 @@ private:
 
   QList<PostCaptureModelItem *> m_items;
   QHash<int, PostCaptureModelItem *> m_hash;
+
+  bool m_connected;
 };
 
 class PostCaptureModelItem : public QObject {
