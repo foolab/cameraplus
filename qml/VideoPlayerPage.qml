@@ -36,6 +36,10 @@ Item {
         return video.play()
     }
 
+    function stop() {
+        return video.stop()
+    }
+
     MouseArea {
         anchors.top: parent.top
         anchors.bottom: toolBar.top

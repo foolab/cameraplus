@@ -274,4 +274,10 @@ Item {
     function restartTimer() {
         hideTimer.restart()
     }
+
+    function policyLost() {
+        if (view.currentItem && view.currentItem.playing) {
+            view.currentItem.stopPlayback()
+        }
+    }
 }

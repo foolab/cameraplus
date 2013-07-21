@@ -41,6 +41,12 @@ Item {
         }
     }
 
+    function stopPlayback() {
+        if (loader.item) {
+            loader.item.stop()
+        }
+    }
+
     Loader {
         id: loader
         anchors.fill: parent
