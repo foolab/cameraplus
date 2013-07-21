@@ -54,9 +54,15 @@ MouseArea {
     property variant allRoiRects
     property bool roiMode: allRoiRects != null && allRoiRects.length > 0 && !touchMode && !pressed
 
-    onPressed: calculateTouchPoint(mouse.x, mouse.y)
+    property variant __initialPos
+    onPressed: {
+        __initialPos = touchPoint
+        calculateTouchPoint(mouse.x, mouse.y)
+    }
+
     onReleased: calculateTouchPoint(mouse.x, mouse.y)
     onPositionChanged: calculateTouchPoint(mouse.x, mouse.y)
+    onCanceled: calculateTouchPoint(__initialPos.x, __initialPos.y)
 
     function resetReticle() {
         calculateTouchPoint(centerRect.x, centerRect.y)
