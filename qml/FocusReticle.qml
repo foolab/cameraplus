@@ -38,6 +38,8 @@ MouseArea {
     drag.maximumX: width - reticle.width
     drag.maximumY: height - reticle.height
 
+    property bool locked: false
+
     property int cafStatus: AutoFocus.None
     property int status: AutoFocus.None
     property Camera cam
@@ -56,13 +58,28 @@ MouseArea {
 
     property variant __initialPos
     onPressed: {
+
+        if (mouse.x >= reticle.x &&
+            mouse.y >= reticle.y &&
+            mouse.x <= reticle.x + reticle.width &&
+            mouse.y <= reticle.y + reticle.height) {
+            locked = true
+        }
+
         __initialPos = touchPoint
         calculateTouchPoint(mouse.x, mouse.y)
     }
 
-    onReleased: calculateTouchPoint(mouse.x, mouse.y)
+    onReleased: {
+        calculateTouchPoint(mouse.x, mouse.y)
+        locked = false
+    }
+
     onPositionChanged: calculateTouchPoint(mouse.x, mouse.y)
-    onCanceled: calculateTouchPoint(__initialPos.x, __initialPos.y)
+    onCanceled: {
+        calculateTouchPoint(__initialPos.x, __initialPos.y)
+        locked = false
+    }
 
     function resetReticle() {
         calculateTouchPoint(centerRect.x, centerRect.y)

@@ -28,7 +28,7 @@ import CameraPlus 1.0
 Camera {
     id: cam
 
-    property bool pressed: loader.item ? loader.item.pressed : false
+    property bool pressed: focusReticle.locked || (loader.item ? loader.item.pressed : false)
     property int policyMode: loader.item ? loader.item.policyMode : CameraResources.None
 
     renderingEnabled: mainView.currentItem == cam
