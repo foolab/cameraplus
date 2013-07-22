@@ -21,37 +21,36 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 import QtCamera 1.0
 
 Item {
-        id: controller
-        property Camera cam: null
-        property Item dimmer: null
-        property bool busy: cam.mode != settings.mode
+    id: controller
+    property Camera cam: null
+    property Item dimmer: null
+    property bool busy: cam.mode != settings.mode
 
-        onBusyChanged: {
-                if (busy) {
-                        controller.dimmer.dimmed = true;
-                }
+    onBusyChanged: {
+        if (busy) {
+            controller.dimmer.dimmed = true
         }
+    }
 
-        Connections {
-                target: controller.cam
-                onModeChanged: {
-                        controller.dimmer.dimmed = false;
-                }
+    Connections {
+        target: controller.cam
+        onModeChanged: {
+            controller.dimmer.dimmed = false
         }
+    }
 
-        PauseAnimation {
-                id: pause
-                duration: 50
-                running: controller.dimmer.opacity == 1.0 && controller.busy
+    PauseAnimation {
+        id: pause
+        duration: 50
+        running: controller.dimmer.opacity == 1.0 && controller.busy
 
-                onRunningChanged: {
-                        if (!running && controller.busy) {
-                                root.resetCamera(cam.deviceId, settings.mode);
-                        }
-                }
+        onRunningChanged: {
+            if (!running && controller.busy) {
+                root.resetCamera(cam.deviceId, settings.mode)
+            }
         }
+    }
 }
