@@ -65,15 +65,6 @@ Item {
         Component.onCompleted: initialize(itemData.url, itemData.mimetype)
         visible: loader.source == ""
 
-        CameraLabel {
-            anchors.fill: parent
-            visible: image.error
-            text: qsTr("Failed to load preview")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 32
-        }
-
         MouseArea {
             id: mouse
             anchors.fill: parent
@@ -81,13 +72,27 @@ Item {
             onClicked: postCaptureItem.clicked()
         }
 
-        CameraToolIcon {
-            // TODO: this is overlapping with error.
-            id: playIcon
+        Column {
             anchors.centerIn: parent
-            iconSource: "image://theme/icon-s-music-video-play"
-            visible: isVideo
-            onClicked: startPlayback()
+            width: parent.width
+
+            CameraLabel {
+                id: errorLabel
+                width: parent.width
+                visible: image.error
+                text: qsTr("Failed to load preview")
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: 32
+            }
+
+            CameraToolIcon {
+                id: playIcon
+                anchors.horizontalCenter: parent.horizontalCenter
+                iconSource: "image://theme/icon-s-music-video-play"
+                visible: isVideo
+                onClicked: startPlayback()
+            }
         }
     }
 }
