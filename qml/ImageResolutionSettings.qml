@@ -21,7 +21,6 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 
 Column {
     spacing: 10
@@ -30,7 +29,7 @@ Column {
         text: qsTr("Aspect ratio")
     }
 
-    ButtonRow {
+    CameraButtonRow {
         id: aspectRatioRow
         width: parent.width
         enabled: cam.idle
@@ -38,7 +37,7 @@ Column {
 
         Repeater {
             model: imageSettings.aspectRatios
-            delegate: Button {
+            delegate: CameraButton {
                 text: qsTr(modelData)
                 checked: settings.imageAspectRatio == modelData
                 onClicked: settings.imageAspectRatio = modelData
@@ -50,7 +49,7 @@ Column {
         text: qsTr("Resolution")
     }
 
-    ButtonRow {
+    CameraButtonRow {
         id: resolutionsRow
         width: parent.width
         enabled: cam.idle
@@ -67,7 +66,7 @@ Column {
             model: imageSettings.resolutions.aspectRatio == settings.imageAspectRatio ?
                 imageSettings.resolutions : undefined
 
-            delegate: Button {
+            delegate: CameraButton {
                 font.capitalization: Font.Capitalize
                 text: qsTr("%1 %2 Mpx").arg(resolutionName).arg(megaPixels)
                 checked: settings.imageResolution == resolutionName

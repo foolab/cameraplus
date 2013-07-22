@@ -21,7 +21,6 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
 import "data.js" as Data

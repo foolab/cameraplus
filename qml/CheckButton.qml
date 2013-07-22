@@ -21,9 +21,8 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 
-ToolIcon {
+CameraToolIcon {
     id: button
     property string normalIcon: ""
     property string checkedIcon: ""

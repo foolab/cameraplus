@@ -21,7 +21,6 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 
 Column {
     spacing: 10
@@ -30,7 +29,7 @@ Column {
         text: qsTr("Resolution")
     }
 
-    ButtonRow {
+    CameraButtonRow {
         width: parent.width
         enabled: cam.idle
         exclusive: false
@@ -40,7 +39,7 @@ Column {
 
             model: videoSettings.resolutions
 
-            delegate: Button {
+            delegate: CameraButton {
                 font.capitalization: Font.Capitalize
                 text: qsTr("%1 %2").arg(resolutionName).arg(resolution)
                 checked: settings.videoResolution == resolutionName

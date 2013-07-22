@@ -21,15 +21,14 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 import QtCamera 1.0
 
-ToolIcon {
+CameraToolIcon {
     id: button
 
     iconSource: settings.imageEvComp == 0 ? "image://theme/icon-m-camera-manual-exposure" : ""
 
-    Label {
+    CameraLabel {
         anchors.fill: parent
         verticalAlignment: Text.AlignVCenter
         visible: settings.imageEvComp != 0
@@ -37,12 +36,12 @@ ToolIcon {
     }
 
     property list<Item> items: [
-        Label {
+        CameraLabel {
             height: parent ? parent.height : 0
             text: qsTr("EV")
             verticalAlignment: Text.AlignVCenter
         },
-        Slider {
+        CameraSlider {
             id: slider
             width: 500
             orientation: Qt.Horizontal

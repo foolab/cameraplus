@@ -21,7 +21,6 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 
 Rectangle {
     property int duration
@@ -48,7 +47,7 @@ Rectangle {
         sourceSize.height: 20
     }
 
-    Label {
+    CameraLabel {
         function formatDuration(dur) {
             var secs = parseInt(recordingDuration.duration)
             var minutes = Math.floor(secs / 60)

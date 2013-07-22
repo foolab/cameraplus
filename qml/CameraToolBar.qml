@@ -21,7 +21,6 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 import "CameraToolBar.js" as Layout
 
 Rectangle {
@@ -44,7 +43,7 @@ Rectangle {
         PropertyAnimation { duration: 100 }
     }
 
-    ToolIcon {
+    CameraToolIcon {
         property bool __isMenu: true
         visible: !parent.hideBack
         id: menu

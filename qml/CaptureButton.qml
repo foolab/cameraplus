@@ -21,13 +21,12 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 
 Item {
     id: button
 
     property url iconSource
-    property Style platformStyle: ButtonStyle {}
+    property CameraButtonStyle platformStyle: CameraButtonStyle {}
 
     property alias pressed: mouse.pressed
     property alias mouseX: mouse.mouseX

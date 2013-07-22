@@ -21,15 +21,13 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
-import com.nokia.extras 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
 import QtMobility.location 1.2
 
 // TODO: flash not ready (battery low or flash not ready message)
 
-Window {
+CameraWindow {
     id: root
     property alias camera: cam
 
@@ -67,8 +65,6 @@ Window {
     }
 
     Component.onCompleted: {
-        screen.setAllowedOrientations(Screen.Landscape)
-        theme.inverted = true
         platformSettings.init()        
         // TODO: hardcoding device id
         root.resetCamera(0, settings.mode)
@@ -100,16 +96,6 @@ Window {
     }
 
     property alias dimmer: camDimmer
-
-    PageStack {
-        id: pageStack
-        anchors.fill: parent
-    }
-
-    MouseArea {
-        anchors.fill: parent
-        enabled: pageStack.busy
-    }
 
     PositionSource {
         // NOTE: The source will not reset the position when we lose the signal.
@@ -169,7 +155,7 @@ Window {
         id: fileSystem
     }
 
-    InfoBanner {
+    CameraInfoBanner {
         id: error
     }
 

@@ -21,7 +21,6 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 
 Item {
     property alias text: label.text
@@ -29,18 +28,13 @@ Item {
     width: parent.width
     height: switchComponent.height
 
-    Text {
-        property Style platformStyle: LabelStyle {}
-
+    CameraLabel {
         id: label
         anchors.left: parent.left
-        font.family: platformStyle.fontFamily
-        font.pixelSize: platformStyle.fontPixelSize
-        color: platformStyle.textColor
         wrapMode: Text.Wrap
     }
 
-    Switch {
+    CameraSwitch {
         id: switchComponent
         anchors.right: parent.right
     }

@@ -21,7 +21,6 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 import QtCamera 1.0
 
 Flickable {
@@ -34,7 +33,7 @@ Flickable {
         width: parent.width
         spacing: 10
 
-        Label {
+        CameraLabel {
             font.pixelSize: 36
             text: qsTr("Image settings")
         }

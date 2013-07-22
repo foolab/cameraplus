@@ -22,7 +22,6 @@
 
 @IMPORT_QT_QUICK@
 import CameraPlus 1.0
-import com.nokia.meego 1.1
 import QtCamera 1.0
 
 Item {
@@ -108,10 +107,8 @@ Item {
         anchors.leftMargin: 20
         opacity: 0.8
 
-        property bool show: deleteDialog.status == DialogStatus.Open ||
-            deleteDialog.status == DialogStatus.Opening ||
-            hideTimer.running || menu.status == DialogStatus.Open ||
-            menu.status == DialogStatus.Opening ||
+        property bool show: deleteDialog.isOpen || deleteDialog.isOpening ||
+            hideTimer.running || menu.isOpen || menu.isOpening ||
             (view.currentItem && view.currentItem.error) && !view.currentItem.playing
 
         Behavior on anchors.bottomMargin {
@@ -119,28 +116,28 @@ Item {
         }
 
         items: [
-            ToolIcon {
+            CameraToolIcon {
                 iconId: !available ? "icon-m-toolbar-favorite-mark-dimmed-white" : view.currentItem.itemData.favorite ? "icon-m-toolbar-favorite-mark-white" : "icon-m-toolbar-favorite-unmark-white"
                 onClicked: {
                     addOrRemoveFavorite()
                     restartTimer()
                 }
             },
-            ToolIcon {
+            CameraToolIcon {
                 iconId: available ? "icon-m-toolbar-share-white" : "icon-m-toolbar-share-dimmed-white"
                 onClicked: {
                     shareCurrentItem()
                     restartTimer()
                 }
             },
-            ToolIcon {
+            CameraToolIcon {
                 iconId: available ? "icon-m-toolbar-delete-white" : "icon-m-toolbar-delete-dimmed-white"
                 onClicked: {
                     deleteCurrentItem()
                     restartTimer()
                 }
             },
-            ToolIcon {
+            CameraToolIcon {
                 iconId: "icon-m-toolbar-view-menu-white"
                 onClicked: {
                     menu.open()
@@ -150,7 +147,7 @@ Item {
         ]
     }
 
-    QueryDialog {
+    CameraQueryDialog {
         id: deleteDialog
         titleText: qsTr("Delete item?");
         acceptButtonText: qsTr("Yes");
@@ -171,22 +168,22 @@ Item {
         }
     }
 
-    Menu {
+    CameraMenu {
         id: menu
         onStatusChanged: restartTimer()
 
-        MenuLayout {
-            MenuItem {
+        actions: [
+            CameraMenuAction {
                 text: qsTr("Captures in gallery")
                 onClicked: launchGallery()
-            }
-
-            MenuItem {
+            },
+            CameraMenuAction {
+                // TODO: this is not working...
                 text: qsTr("View in gallery")
                 enabled: available
                 onClicked: showInGallery()
             }
-        }
+        ]
     }
 
     Rectangle {
@@ -212,7 +209,7 @@ Item {
             x: 20
             height: parent.height
 
-            Label {
+            CameraLabel {
                 text: view.currentItem ? view.currentItem.itemData.title : ""
                 width: parent.width / 2
                 height: parent.height
@@ -221,7 +218,7 @@ Item {
                 horizontalAlignment: Text.AlignLeft
             }
 
-            Label {
+            CameraLabel {
                 text: view.currentItem ? view.currentItem.itemData.created : ""
                 width: parent.width / 2
                 height: parent.height

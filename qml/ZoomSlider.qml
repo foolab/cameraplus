@@ -21,17 +21,14 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 import QtCamera 1.0
 
-Slider {
+CameraSlider {
     id: slider
     property Camera camera: null
 
-    platformStyle: SliderStyle {
-        handleBackground: ""
-        handleBackgroundPressed: ""
-    }
+    handleBackground: ""
+    handleBackgroundPressed: ""
 
     Binding {
         target: camera ? camera.zoom : null

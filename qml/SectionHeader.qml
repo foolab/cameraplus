@@ -21,7 +21,6 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 
 Row {
     id: root
@@ -34,7 +33,7 @@ Row {
 
     property alias text: label.text
 
-    Label {
+    CameraLabel {
         id: label
         verticalAlignment: Text.AlignVCenter
     }

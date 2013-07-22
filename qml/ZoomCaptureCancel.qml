@@ -21,7 +21,6 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 import CameraPlus 1.0
 
 MouseArea {
@@ -54,7 +53,7 @@ MouseArea {
             PropertyAnimation { duration: 100; }
         }
 
-        Label {
+        CameraLabel {
             id: label
             anchors.verticalCenter: parent.verticalCenter
             width: parent.width

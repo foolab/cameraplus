@@ -21,7 +21,6 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 import CameraPlus 1.0
 import QtCamera 1.0
 import QtCameraExtras 1.0
@@ -105,19 +104,17 @@ Item {
         }
 
         items: [
-            ToolIcon {
+            CameraToolIcon {
                 iconId: "icon-m-toolbar-mediacontrol-stop-white"
                 onClicked: video.stop()
             },
-            Slider {
+            CameraSlider {
                 id: slider
                 height: toolBar.height
                 anchors.verticalCenter: parent.verticalCenter
 
-                platformStyle: SliderStyle {
-                    handleBackground: ""
-                    handleBackgroundPressed: ""
-                }
+                handleBackground: ""
+                handleBackgroundPressed: ""
 
                 minimumValue: 0
                 maximumValue: video.duration
@@ -132,7 +129,7 @@ Item {
                     hideTimer.restart()
                 }
             },
-            ToolIcon {
+            CameraToolIcon {
                 id: control
                 iconId: !video.paused ? "icon-m-toolbar-mediacontrol-pause-white"
                     : "icon-m-toolbar-mediacontrol-play-white"

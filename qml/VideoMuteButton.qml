@@ -21,9 +21,8 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 
-ToolIcon {
+CameraToolIcon {
     iconSource: settings.videoMuted ? "image://theme/icon-m-toolbar-volume-off-white-selected" :
         "image://theme/icon-m-toolbar-volume-white-selected"
     onClicked: settings.videoMuted = !settings.videoMuted

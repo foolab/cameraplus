@@ -21,14 +21,13 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 
 Column {
     id: col
     spacing: 10
     width: parent.width
 
-    Label {
+    CameraLabel {
         font.pixelSize: 36
         text: qsTr("Camera settings")
         width: parent.width
@@ -49,7 +48,7 @@ Column {
         width: parent.width
     }
 
-    TextField {
+    CameraTextField {
         placeholderText: qsTr("Name or copyright")
         width: parent.width
         text: settings.creatorName

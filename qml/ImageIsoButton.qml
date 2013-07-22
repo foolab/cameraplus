@@ -21,22 +21,21 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 import QtCamera 1.0
 import "data.js" as Data
 
-ToolIcon {
+CameraToolIcon {
     id: button
 
     iconSource: "image://theme/" + Data.isoIcon(settings.imageIso)
 
     property list<Item> items: [
-        Label {
+        CameraLabel {
             height: parent ? parent.height : 0
             text: qsTr("ISO")
             verticalAlignment: Text.AlignVCenter
         },
-        Button {
+        CameraButton {
             property int value: 0
             onClicked: settings.imageIso = value
             text: qsTr("Auto")
@@ -44,7 +43,7 @@ ToolIcon {
             checked: settings.imageIso == value
             anchors.verticalCenter: parent ? parent.verticalCenter : undefined
         },
-        Button {
+        CameraButton {
             property int value: 100
             onClicked: settings.imageIso = value
             text: value
@@ -52,7 +51,7 @@ ToolIcon {
             checked: settings.imageIso == value
             anchors.verticalCenter: parent ? parent.verticalCenter : undefined
         },
-        Button {
+        CameraButton {
             property int value: 200
             onClicked: settings.imageIso = value
             text: value
@@ -60,7 +59,7 @@ ToolIcon {
             checked: settings.imageIso == value
             anchors.verticalCenter: parent ? parent.verticalCenter : undefined
         },
-        Button {
+        CameraButton {
             property int value: 400
             onClicked: settings.imageIso = value
             text: value
@@ -68,7 +67,7 @@ ToolIcon {
             checked: settings.imageIso == value
             anchors.verticalCenter: parent ? parent.verticalCenter : undefined
         },
-        Button {
+        CameraButton {
             property int value: 800
             onClicked: settings.imageIso = value
             text: value

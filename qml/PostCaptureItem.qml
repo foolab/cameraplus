@@ -21,7 +21,6 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 import CameraPlus 1.0
 
 Item {
@@ -57,6 +56,7 @@ Item {
         onFinished: loader.source = ""
     }
 
+// TODO: rotation
     QuillItem {
         id: image
         width: parent.width - 10
@@ -65,7 +65,7 @@ Item {
         Component.onCompleted: initialize(itemData.url, itemData.mimetype)
         visible: loader.source == ""
 
-        Label {
+        CameraLabel {
             anchors.fill: parent
             visible: image.error
             text: qsTr("Failed to load preview")
@@ -81,7 +81,7 @@ Item {
             onClicked: postCaptureItem.clicked()
         }
 
-        ToolIcon {
+        CameraToolIcon {
             // TODO: this is overlapping with error.
             id: playIcon
             anchors.centerIn: parent

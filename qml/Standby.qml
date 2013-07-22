@@ -21,7 +21,6 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.0
 
 Rectangle {
     id: standby
@@ -51,7 +50,7 @@ Rectangle {
         anchors.centerIn: parent
     }
 
-    Label {
+    CameraLabel {
         anchors.top: icon.bottom
         anchors.right: parent.right
         anchors.left: parent.left

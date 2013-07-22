@@ -20,21 +20,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-@IMPORT_QT_QUICK@
-import QtCamera 1.0
+import QtQuick 1.1
+import com.nokia.meego 1.1
 
-CameraToolIcon {
-    id: button
-    property Camera camera: null
+Menu {
+    id: menu
 
-    iconSource: settings.videoTorchOn ? "image://theme/icon-m-camera-torch-on"
-        : "image://theme/icon-m-camera-torch-off"
-    onClicked: settings.videoTorchOn = !settings.videoTorchOn
+    property bool isOpen: status == DialogStatus.Open
+    property bool isOpening: status == DialogStatus.Opening
 
-    Binding {
-        target: camera ? camera.videoTorch : null
-        property: "on"
-        value: settings.videoTorchOn
-        when: camera != null
+    property list<CameraMenuAction> actions
+
+    MenuLayout {
+        Repeater {
+            model: menu.actions
+            delegate: MenuItem {
+                text: modelData.text
+                enabled: modelData.enabled
+                onClicked: modelData.clicked()
+            }
+        }
     }
 }

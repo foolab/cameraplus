@@ -21,16 +21,15 @@
  */
 
 @IMPORT_QT_QUICK@
-import com.nokia.meego 1.1
 import QtCamera 1.0
 import "data.js" as Data
 
-ToolIcon {
+CameraToolIcon {
     id: button
     iconSource: "image://theme/" + Data.cfIcon(settings.imageColorFilter)
 
     property list<Item> items: [
-        Label {
+        CameraLabel {
             height: parent ? parent.height : 0
             text: qsTr("Filter")
             verticalAlignment: Text.AlignVCenter
