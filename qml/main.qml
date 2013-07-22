@@ -26,251 +26,251 @@ import com.nokia.extras 1.1
 import QtCamera 1.0
 import CameraPlus 1.0
 import QtMobility.location 1.2
-//import QtCamera 1.0
+
 // TODO: flash not ready (battery low or flash not ready message)
 
 Window {
-        id: root
-        property alias camera: cam
+    id: root
+    property alias camera: cam
 
-        VisualItemModel {
-            id: mainModel
+    VisualItemModel {
+        id: mainModel
 
-            SettingsView {
-                width: mainView.width
-                height: mainView.height
-            }
-
-            CameraView {
-                id: cam
-                width: mainView.width
-                height: mainView.height
-            }
-
-            PostCaptureView {
-                width: mainView.width
-                height: mainView.height
-            }
+        SettingsView {
+            width: mainView.width
+            height: mainView.height
         }
 
-        ListView {
-            id: mainView
-            LayoutMirroring.enabled: false
-            anchors.fill: parent
-            orientation: ListView.Horizontal
-            model: mainModel
-            snapMode: ListView.SnapOneItem
-            highlightRangeMode: ListView.StrictlyEnforceRange
-            boundsBehavior: Flickable.StopAtBounds
-            currentIndex: 1
-            interactive: !currentItem.pressed
+        CameraView {
+            id: cam
+            width: mainView.width
+            height: mainView.height
         }
 
-        Component.onCompleted: {
-            screen.setAllowedOrientations(Screen.Landscape)
-            theme.inverted = true
-            platformSettings.init()        
-            // TODO: hardcoding device id
-            root.resetCamera(0, settings.mode)
+        PostCaptureView {
+            width: mainView.width
+            height: mainView.height
         }
+    }
 
-        PlatformSettings {
-            id: platformSettings
+    ListView {
+        id: mainView
+        LayoutMirroring.enabled: false
+        anchors.fill: parent
+        orientation: ListView.Horizontal
+        model: mainModel
+        snapMode: ListView.SnapOneItem
+        highlightRangeMode: ListView.StrictlyEnforceRange
+        boundsBehavior: Flickable.StopAtBounds
+        currentIndex: 1
+        interactive: !currentItem.pressed
+    }
+
+    Component.onCompleted: {
+        screen.setAllowedOrientations(Screen.Landscape)
+        theme.inverted = true
+        platformSettings.init()        
+        // TODO: hardcoding device id
+        root.resetCamera(0, settings.mode)
+    }
+
+    PlatformSettings {
+        id: platformSettings
+    }
+
+    Settings {
+        id: settings
+    }
+
+    PipelineManager {
+        id: pipelineManager
+        camera: cam
+        currentItem: mainView.currentItem
+    }
+
+    function resetCamera(deviceId, mode) {
+        if (!cam.reset(deviceId, mode)) {
+            showError(qsTr("Failed to set camera device and mode. Please restart the application."))
         }
+    }
 
-        Settings {
-            id: settings
-        }
+    function showError(msg) {
+        error.text = msg
+        error.show()
+    }
 
-        PipelineManager {
-            id: pipelineManager
-            camera: cam
-            currentItem: mainView.currentItem
-        }
+    property alias dimmer: camDimmer
 
-        function resetCamera(deviceId, mode) {
-            if (!cam.reset(deviceId, mode)) {
-                showError(qsTr("Failed to set camera device and mode. Please restart the application."))
-            }
-        }
+    PageStack {
+        id: pageStack
+        anchors.fill: parent
+    }
 
-        function showError(msg) {
-            error.text = msg
-            error.show()
-        }
+    MouseArea {
+        anchors.fill: parent
+        enabled: pageStack.busy
+    }
 
-        property alias dimmer: camDimmer
+    PositionSource {
+        // NOTE: The source will not reset the position when we lose the signal.
+        // This shouldn't be a big problem as we are course enough.
+        // If we ever need street level updates then this will be an issue.
+        id: positionSource
+        active: settings.useGps
+        // TODO: we cannot bind to cam.running because camera will stop
+        // when the connection dialog pops up and we end up with an infinite loop
+        // active: cam.running && settings.useGps
+        onPositionChanged: geocode.search(position.coordinate.longitude, position.coordinate.latitude)
+    }
 
-        PageStack {
-            id: pageStack
-            anchors.fill: parent
-        }
+    MetaData {
+        id: metaData
+        camera: cam
+        manufacturer: deviceInfo.manufacturer
+        model: deviceInfo.model
+        country: geocode.country
+        city: geocode.city
+        suburb: geocode.suburb
+        longitude: positionSource.position.coordinate.longitude
+        longitudeValid: positionSource.position.longitudeValid && settings.useGps
+        latitude: positionSource.position.coordinate.latitude
+        latitudeValid: positionSource.position.latitudeValid && settings.useGps
+        elevation: positionSource.position.coordinate.altitude
+        elevationValid: positionSource.position.altitudeValid && settings.useGps
+        orientation: orientation.orientation
+        artist: settings.creatorName
+        captureDirection: compass.direction
+        captureDirectionValid: compass.directionValid
+        horizontalError: positionSource.position.horizontalAccuracy
+        horizontalErrorValid: positionSource.position.horizontalAccuracyValid && settings.useGps
+        dateTimeEnabled: true
+    }
 
-        MouseArea {
-            anchors.fill: parent
-            enabled: pageStack.busy
-        }
+    Orientation {
+        id: orientation
+        active: cam.running || (mainView.currentIndex == 2 && Qt.application.active)
+    }
 
-        PositionSource {
-            // NOTE: The source will not reset the position when we lose the signal.
-            // This shouldn't be a big problem as we are course enough.
-            // If we ever need street level updates then this will be an issue.
-            id: positionSource
-            active: settings.useGps
-            // TODO: we cannot bind to cam.running because camera will stop
-            // when the connection dialog pops up and we end up with an infinite loop
-            // active: cam.running && settings.useGps
-            onPositionChanged: geocode.search(position.coordinate.longitude, position.coordinate.latitude)
-        }
+    Compass {
+        id: compass
+        active: cam.running
+    }
 
-        MetaData {
-            id: metaData
-            camera: cam
-            manufacturer: deviceInfo.manufacturer
-            model: deviceInfo.model
-            country: geocode.country
-            city: geocode.city
-            suburb: geocode.suburb
-            longitude: positionSource.position.coordinate.longitude
-            longitudeValid: positionSource.position.longitudeValid && settings.useGps
-            latitude: positionSource.position.coordinate.latitude
-            latitudeValid: positionSource.position.latitudeValid && settings.useGps
-            elevation: positionSource.position.coordinate.altitude
-            elevationValid: positionSource.position.altitudeValid && settings.useGps
-            orientation: orientation.orientation
-            artist: settings.creatorName
-            captureDirection: compass.direction
-            captureDirectionValid: compass.directionValid
-            horizontalError: positionSource.position.horizontalAccuracy
-            horizontalErrorValid: positionSource.position.horizontalAccuracyValid && settings.useGps
-            dateTimeEnabled: true
-        }
+    ReverseGeocode {
+        id: geocode
+        active: cam.running && settings.useGps && settings.useGeotags
+    }
 
-        Orientation {
-            id: orientation
-            active: cam.running || (mainView.currentIndex == 2 && Qt.application.active)
-        }
+    DeviceInfo {
+        id: deviceInfo
+    }
 
-        Compass {
-            id: compass
-            active: cam.running
-        }
+    FSMonitor {
+        id: fileSystem
+    }
 
-        ReverseGeocode {
-            id: geocode
-            active: cam.running && settings.useGps && settings.useGeotags
-        }
+    InfoBanner {
+        id: error
+    }
 
-        DeviceInfo {
-            id: deviceInfo
-        }
+    FileNaming {
+        id: fileNaming
+        imageSuffix: cam.imageSuffix
+        videoSuffix: cam.videoSuffix
+    }
 
-        FSMonitor {
-            id: fileSystem
-        }
+    MountProtector {
+        id: mountProtector
+        path: fileNaming.path
+    }
 
-        InfoBanner {
-            id: error
-        }
+    TrackerStore {
+        id: trackerStore
+        active: cam.running
+        manufacturer: deviceInfo.manufacturer
+        model: deviceInfo.model
+    }
 
-        FileNaming {
-            id: fileNaming
-            imageSuffix: cam.imageSuffix
-            videoSuffix: cam.videoSuffix
-        }
+    function checkDiskSpace() {
+        return fileSystem.hasFreeSpace(fileNaming.path)
+    }
 
-        MountProtector {
-            id: mountProtector
-            path: fileNaming.path
-        }
-
-        TrackerStore {
-            id: trackerStore
-            active: cam.running
-            manufacturer: deviceInfo.manufacturer
-            model: deviceInfo.model
-        }
-
-        function checkDiskSpace() {
-            return fileSystem.hasFreeSpace(fileNaming.path)
-        }
-
-        ImageSettings {
-            id: imageSettings
-            camera: cam
-            function setImageResolution() {
-                if (!imageSettings.setResolution(settings.imageAspectRatio, settings.imageResolution)) {
-                    showError(qsTr("Failed to set required resolution"))
-                }
-            }
-
-            onReadyChanged: {
-                if (ready) {
-                    imageSettings.setImageResolution()
-                }
+    ImageSettings {
+        id: imageSettings
+        camera: cam
+        function setImageResolution() {
+            if (!imageSettings.setResolution(settings.imageAspectRatio, settings.imageResolution)) {
+                showError(qsTr("Failed to set required resolution"))
             }
         }
 
-        VideoSettings {
-            id: videoSettings
-            camera: cam
-
-            function setVideoResolution() {
-                if (!videoSettings.setResolution(settings.videoAspectRatio, settings.videoResolution)) {
-                    showError(qsTr("Failed to set required resolution"))
-                }
-            }
-
-            onReadyChanged: {
-                if (ready) {
-                    videoSettings.setVideoResolution()
-                }
-            }
-        }
-
-        Connections {
-            target: settings
-
-            onImageAspectRatioChanged: {
+        onReadyChanged: {
+            if (ready) {
                 imageSettings.setImageResolution()
             }
+        }
+    }
 
-            onImageResolutionChanged: {
-                imageSettings.setImageResolution()
+    VideoSettings {
+        id: videoSettings
+        camera: cam
+
+        function setVideoResolution() {
+            if (!videoSettings.setResolution(settings.videoAspectRatio, settings.videoResolution)) {
+                showError(qsTr("Failed to set required resolution"))
             }
+        }
 
-            onVideoResolutionChanged: {
+        onReadyChanged: {
+            if (ready) {
                 videoSettings.setVideoResolution()
             }
         }
+    }
 
-        ModeController {
-            id: cameraMode
-            cam: cam
-            dimmer: root.dimmer
+    Connections {
+        target: settings
+
+        onImageAspectRatioChanged: {
+            imageSettings.setImageResolution()
         }
 
-        Rectangle {
-            property bool dimmed: false
-            id: camDimmer
-            z: 1
-            anchors.fill: parent
-            opacity: dimmed ? 1.0 : 0.0
-            color: "black"
-            Behavior on opacity {
-                PropertyAnimation { duration: 150 }
-            }
+        onImageResolutionChanged: {
+            imageSettings.setImageResolution()
         }
 
-        DeviceKeys {
-            id: keys
-            active: Qt.application.active && pipelineManager.scaleAcquired
-            repeat: !settings.zoomAsShutter
+        onVideoResolutionChanged: {
+            videoSettings.setVideoResolution()
         }
+    }
 
-        Standby {
-            policyLost: pipelineManager.state == "policyLost"
-            show: !Qt.application.active || pipelineManager.showStandBy ||
-                (mainView.currentIndex == 1 && !camera.running)
+    ModeController {
+        id: cameraMode
+        cam: cam
+        dimmer: root.dimmer
+    }
+
+    Rectangle {
+        property bool dimmed: false
+        id: camDimmer
+        z: 1
+        anchors.fill: parent
+        opacity: dimmed ? 1.0 : 0.0
+        color: "black"
+        Behavior on opacity {
+            PropertyAnimation { duration: 150 }
         }
+    }
+
+    DeviceKeys {
+        id: keys
+        active: Qt.application.active && pipelineManager.scaleAcquired
+        repeat: !settings.zoomAsShutter
+    }
+
+    Standby {
+        policyLost: pipelineManager.state == "policyLost"
+        show: !Qt.application.active || pipelineManager.showStandBy ||
+            (mainView.currentIndex == 1 && !camera.running)
+    }
 }
