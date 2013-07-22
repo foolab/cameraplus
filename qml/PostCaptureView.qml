@@ -32,8 +32,6 @@ Item {
         CameraResources.Image
     property bool available: view.currentItem ? view.currentItem.itemData.available : false
 
-    Component.onCompleted: postCaptureModel.reload()
-
     ShareHelper {
         id: share
         settings: platformSettings
@@ -65,14 +63,32 @@ Item {
         }
     }
 
-    PostCaptureModel {
-        // TODO: this should not be active all the time
-        id: postCaptureModel
-        manufacturer: deviceInfo.manufacturer
-        model: deviceInfo.model
-        onError: {
-            console.log("Error populating model " + msg)
-            showError(qsTr("Failed to load captures"))
+    property variant postCaptureModel: postCaptureModelLoader.item ?
+        postCaptureModelLoader.item.model : null
+    property bool loadModel: mainView.currentIndex == 2 && Qt.application.active
+
+    Loader {
+        id: postCaptureModelLoader
+        sourceComponent: loadModel ? postCaptureModelComponent : undefined
+    }
+
+    // We have to do it that way because Loader does not support non-visual elements.
+    Component {
+        id: postCaptureModelComponent
+
+        Item {
+            property alias model: postCaptureModel
+
+            PostCaptureModel {
+                id: postCaptureModel
+                manufacturer: deviceInfo.manufacturer
+                model: deviceInfo.model
+                Component.onCompleted: reload()
+                onError: {
+                    console.log("Error populating model " + msg)
+                    showError(qsTr("Failed to load captures"))
+                }
+            }
         }
     }
 
