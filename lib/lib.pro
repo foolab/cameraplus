@@ -3,12 +3,16 @@ TARGET = qtcamera
 DEPENDPATH += .
 INCLUDEPATH += .
 
+include(../cameraplus.pri)
+
 QT += opengl
 
 CONFIG += link_pkgconfig
 
 PKGCONFIG = gstreamer-0.10 gstreamer-interfaces-0.10 gstreamer-video-0.10 gstreamer-tag-0.10 \
-            gstreamer-pbutils-0.10 meego-gstreamer-interfaces-0.10
+            gstreamer-pbutils-0.10
+
+harmattan:PKGCONFIG += meego-gstreamer-interfaces-0.10
 
 HEADERS += qtcamconfig.h qtcamera.h qtcamscanner.h qtcamdevice.h qtcamviewfinder.h \
            qtcammode.h qtcamgstreamermessagehandler.h qtcamgstreamermessagelistener.h \
@@ -40,10 +44,8 @@ LIBS += -lgstphotography-0.10
 HEADERS += gst/gstcopy.h
 SOURCES += gst/gstcopy.cpp
 
-isEqual(MEEGO_EDITION, harmattan) {
-SOURCES += qtcamviewfinderrenderermeego.cpp
-HEADERS += qtcamviewfinderrenderermeego.h
-}
+harmattan:SOURCES += qtcamviewfinderrenderermeego.cpp
+harmattan:HEADERS += qtcamviewfinderrenderermeego.h
 
 target.path = /usr/lib/
 INSTALLS += target

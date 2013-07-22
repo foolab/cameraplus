@@ -2,6 +2,7 @@ TEMPLATE = lib
 TARGET = declarativeqtcamera
 DEPENDPATH += . ../lib/
 INCLUDEPATH += . ../lib/
+include(../cameraplus.pri)
 
 CONFIG += link_pkgconfig plugin
 

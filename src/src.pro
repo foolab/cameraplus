@@ -2,6 +2,7 @@ TEMPLATE = app
 TARGET = cameraplus
 DEPENDPATH += . ../
 INCLUDEPATH += . ../
+include(../cameraplus.pri)
 
 QT += declarative opengl dbus
 
@@ -31,11 +32,7 @@ contains(CONFIG, qmljsdebug) {
     include(../qmljsdebugger/qmljsdebugger-src.pri)
 }
 
-contains(MEEGO_EDITION, "harmattan") {
-    message("Building for harmattan")
-    DEFINES += HARMATTAN
-    RESOURCES += ../qml/harmattan/harmattan.qrc
-}
+harmattan:RESOURCES += ../qml/harmattan/harmattan.qrc
 
 target.path = /usr/bin/
 INSTALLS += target
