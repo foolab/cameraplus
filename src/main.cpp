@@ -52,9 +52,26 @@
 #include "qt_private/qdeclarativedebughelper_p.h"
 #endif /* QMLJSDEBUGGER */
 
+#include <QAbstractFileEngineHandler>
+#include "qmlfileengine.h"
+
+class QmlFileEngineHandler : public QAbstractFileEngineHandler {
+  QAbstractFileEngine *create(const QString& fileName) const {
+    QString fn = fileName.toLower();
+    if (fn.startsWith(':') && fn.endsWith(".qml")) {
+      return new QmlFileEngine(fileName);
+    }
+
+    return 0;
+  }
+};
+
 Q_DECL_EXPORT int main(int argc, char *argv[]) {
   QApplication::setAttribute(Qt::AA_X11InitThreads, true);
   QApplication app(argc, argv);
+
+  QmlFileEngineHandler handler;
+  Q_UNUSED(handler);
 
 #ifdef QMLJSDEBUGGER
   QDeclarativeDebugHelper::enableDebugging();

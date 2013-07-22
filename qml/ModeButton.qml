@@ -21,7 +21,7 @@
  */
 
 
-import QtQuick 1.1
+@IMPORT_QT_QUICK@
 import QtCamera 1.0
 
 CaptureButton {
