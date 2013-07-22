@@ -148,7 +148,7 @@ Window {
 
         Orientation {
             id: orientation
-            active: cam.running
+            active: cam.running || (mainView.currentIndex == 2 && Qt.application.active)
         }
 
         Compass {
