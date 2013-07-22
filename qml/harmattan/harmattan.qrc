@@ -14,5 +14,6 @@
 	<file>CameraButtonStyle.qml</file>
 	<file>CameraMenu.qml</file>
 	<file>CameraMenuAction.qml</file>
+	<file>FullScreenThumbnail.qml</file>
     </qresource>
 </RCC>

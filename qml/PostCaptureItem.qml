@@ -57,12 +57,14 @@ Item {
     }
 
 // TODO: rotation
-    QuillItem {
+    FullScreenThumbnail {
         id: image
+        source: itemData.url
+        mimeType: itemData.mimeType
+
         width: parent.width - 10
         height: parent.height
         anchors.centerIn: parent
-        Component.onCompleted: initialize(itemData.url, itemData.mimetype)
         visible: loader.source == ""
 
         MouseArea {
