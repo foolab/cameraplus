@@ -61,9 +61,14 @@ Camera {
         }
     }
 
+    SoundVolumeControl {
+        id: volumeControl
+    }
+
     sounds: Sounds {
         id: sounds
         mute: !settings.soundEnabled
+        volume: volumeControl.fullVolume ? Sounds.VolumeHigh : Sounds.VolumeLow
         imageCaptureStart: platformSettings.imageCaptureStartedSound
         imageCaptureEnd: platformSettings.imageCaptureEndedSound
         videoRecordingStart: platformSettings.videoRecordingStartedSound

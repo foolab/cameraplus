@@ -6,7 +6,7 @@ include(../cameraplus.pri)
 
 CONFIG += link_pkgconfig plugin
 
-PKGCONFIG = gstreamer-pbutils-0.10 libcanberra contextsubscriber-1.0
+PKGCONFIG = gstreamer-pbutils-0.10 libcanberra
 
 LIBS += -L../lib/ -lqtcamera
 

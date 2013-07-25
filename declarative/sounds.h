@@ -27,7 +27,6 @@
 #include <canberra.h>
 
 class QDBusServiceWatcher;
-class ContextProperty;
 
 class Sounds : public QObject {
   Q_OBJECT
@@ -91,7 +90,6 @@ signals:
 private slots:
   void serviceOwnerChanged(const QString& serviceName, const QString& oldOwner,
 			   const QString& newOwner);
-  void audioConnectionChanged();
 
 private:
   void cache(const QString& path, const char *id);
@@ -100,9 +98,9 @@ private:
 
   bool m_muted;
   ca_context *m_ctx;
+  Volume m_volume;
   QDBusServiceWatcher *m_watcher;
-  ContextProperty *m_audioRoute;
-  QString m_volume;
+  QString m_volumeString;
   QString m_imageCaptureStart;
   QString m_imageCaptureEnd;
   QString m_videoRecordingStart;

@@ -25,7 +25,7 @@
 #include <QWaitCondition>
 #include <QDBusServiceWatcher>
 #include <QDBusConnection>
-#include <contextsubscriber/contextproperty.h>
+#include <QDeclarativeInfo>
 
 #define CAMERA_IMAGE_START_SOUND_ID  "camera-image-start"
 #define CAMERA_IMAGE_END_SOUND_ID    "camera-image-end"
@@ -36,13 +36,12 @@
 // Odd, volume has to be a char *
 #define CANBERRA_FULL_VOLUME         "0.0"
 #define CANBERRA_HEADSET_VOLUME      "-24.0"
-#define AUDIO_ROUTE_PROPERTY         "/com/nokia/policy/audio_route"
-#define AUDIO_ROUTE_SPEAKERS         "ihf"
 
 Sounds::Sounds(QObject *parent) :
   QObject(parent),
   m_muted(false),
   m_ctx(0),
+  m_volume(Sounds::VolumeHigh),
   m_watcher(new QDBusServiceWatcher("org.pulseaudio.Server",
 				    QDBusConnection::systemBus(),
 				    QDBusServiceWatcher::WatchForOwnerChange)) {
@@ -54,11 +53,6 @@ Sounds::Sounds(QObject *parent) :
 
   // No idea why but canberra will not cache without that!!!
   setenv("CANBERRA_EVENT_LOOKUP", "1", 1);
-
-  m_audioRoute = new ContextProperty(AUDIO_ROUTE_PROPERTY, this);
-  QObject::connect(m_audioRoute, SIGNAL(valueChanged()), this, SLOT(audioConnectionChanged()));
-  m_audioRoute->waitForSubscription(true);
-  audioConnectionChanged();
 }
 
 Sounds::~Sounds() {
@@ -198,13 +192,16 @@ void Sounds::play(const char *id) {
     return;
   }
 
+  const char *volume = m_volume == Sounds::VolumeLow ?
+    CANBERRA_HEADSET_VOLUME : CANBERRA_FULL_VOLUME;
+
   int code = ca_context_play(m_ctx, 0,
-			     CA_PROP_CANBERRA_VOLUME, m_volume.toAscii().constData(),
+			     CA_PROP_CANBERRA_VOLUME, volume,
 			     CA_PROP_EVENT_ID, id,
 			     CA_PROP_MEDIA_ROLE, "camera-sound-effect",
 			     NULL);
   if (code != CA_SUCCESS) {
-    qDebug() << "Failed to play sound" << ca_strerror(code) << code;
+    qmlInfo(this) << "Failed to play sound" << ca_strerror(code) << code;
   }
 }
 
@@ -249,14 +246,6 @@ void Sounds::playAndBlock(const char *id) {
   cond.wait(&mutex);
   ca_proplist_destroy(p);
   mutex.unlock();
-}
-
-void Sounds::audioConnectionChanged() {
-  if (m_audioRoute->value().toString() != AUDIO_ROUTE_SPEAKERS) {
-    m_volume = CANBERRA_HEADSET_VOLUME;
-  } else {
-    m_volume = CANBERRA_FULL_VOLUME;
-  }
 }
 
 QString Sounds::imageCaptureStart() const {
@@ -316,5 +305,16 @@ void Sounds::setAutoFocusAcquired(const QString& path) {
     m_autoFocusAcquired = path;
     cache(m_autoFocusAcquired, CAMERA_FOCUS_SOUND_ID);
     emit autoFocusAcquiredChanged();
+  }
+}
+
+Sounds::Volume Sounds::volume() const {
+  return m_volume;
+}
+
+void Sounds::setVolume(const Sounds::Volume& volume) {
+  if (m_volume != volume) {
+    m_volume = volume;
+    emit volumeChanged();
   }
 }
