@@ -27,7 +27,9 @@
 
 #include "settings.h"
 #include "filenaming.h"
+#ifdef HARMATTAN
 #include "quillitem.h"
+#endif
 #include "displaystate.h"
 #include "fsmonitor.h"
 #include "cameraresources.h"
@@ -86,7 +88,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
 
   qmlRegisterType<Settings>("CameraPlus", 1, 0, "Settings");
   qmlRegisterType<FileNaming>("CameraPlus", 1, 0, "FileNaming");
+#ifdef HARMATTAN
   qmlRegisterType<QuillItem>("CameraPlus", 1, 0, "QuillItem");
+#endif
   qmlRegisterType<DisplayState>("CameraPlus", 1, 0, "DisplayState");
   qmlRegisterType<FSMonitor>("CameraPlus", 1, 0, "FSMonitor");
   qmlRegisterType<CameraResources>("CameraPlus", 1, 0, "CameraResources");
