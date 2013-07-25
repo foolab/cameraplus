@@ -185,7 +185,7 @@ public:
     else {
       QString preview = QString(PREVIEW_CAPS).arg(size.width()).arg(size.height());
 
-      GstCaps *caps = gst_caps_from_string(preview.toAscii());
+      GstCaps *caps = gst_caps_from_string(preview.toLatin1());
 
       g_object_set(dev->cameraBin, "preview-caps", caps, "post-previews", TRUE, NULL);
 

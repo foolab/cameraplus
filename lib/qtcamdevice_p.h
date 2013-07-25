@@ -55,7 +55,7 @@ public:
   }
 
   GstElement *createAndAddElement(const QString& elementName, const char *prop, const char *name) {
-    GstElement *elem = gst_element_factory_make(elementName.toAscii(), name);
+    GstElement *elem = gst_element_factory_make(elementName.toLatin1(), name);
     if (!elem) {
       qWarning() << "Failed to create" << elementName;
       return 0;
@@ -105,12 +105,12 @@ public:
     if (videoSource) {
       if (conf->deviceScannerType() == SCANNER_TYPE_ENUM) {
 	int dev = id.toInt();
-	g_object_set(videoSource, conf->deviceScannerProperty().toAscii().constData(), dev, NULL);
+	g_object_set(videoSource, conf->deviceScannerProperty().toLatin1().constData(), dev, NULL);
       }
       else {
 	QString dev = id.toString();
-	g_object_set(videoSource, conf->deviceScannerProperty().toAscii().constData(),
-		     dev.toAscii().constData(), NULL);
+	g_object_set(videoSource, conf->deviceScannerProperty().toLatin1().constData(),
+		     dev.toLatin1().constData(), NULL);
       }
     }
   }
@@ -173,7 +173,7 @@ public:
   void setAudioCaptureCaps() {
     QString captureCaps = conf->audioCaptureCaps();
     if (!captureCaps.isEmpty()) {
-      GstCaps *caps = gst_caps_from_string(captureCaps.toAscii().data());
+      GstCaps *caps = gst_caps_from_string(captureCaps.toLatin1().data());
       if (caps) {
 	g_object_set(cameraBin, "audio-capture-caps", caps, NULL);
 	gst_caps_unref(caps);

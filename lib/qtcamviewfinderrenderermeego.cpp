@@ -155,7 +155,7 @@ GstElement *QtCamViewfinderRendererMeeGo::sinkElement() {
   }
 
   if (!m_sink) {
-    m_sink = gst_element_factory_make(m_conf->viewfinderSink().toAscii().data(),
+    m_sink = gst_element_factory_make(m_conf->viewfinderSink().toLatin1().data(),
 				      "QtCamViewfinderRendererMeeGoSink");
     if (!m_sink) {
       qCritical() << "Failed to create" << m_conf->viewfinderSink();

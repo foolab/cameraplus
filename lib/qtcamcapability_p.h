@@ -66,7 +66,7 @@ public:
   void startMonitoring() {
     if (src) {
       QString p = QString("notify::%1").arg(prop);
-      handler = g_signal_connect(src, p.toAscii().data(), G_CALLBACK(camera_src_notify), this);
+      handler = g_signal_connect(src, p.toLatin1().data(), G_CALLBACK(camera_src_notify), this);
     }
   }
 
@@ -81,7 +81,7 @@ public:
       return false;
     }
 
-    g_object_get(src, prop.toAscii().data(), val, NULL);
+    g_object_get(src, prop.toLatin1().data(), val, NULL);
 
     return true;
   }
@@ -91,7 +91,7 @@ public:
       return false;
     }
 
-    g_object_set(src, prop.toAscii().data(), val, NULL);
+    g_object_set(src, prop.toLatin1().data(), val, NULL);
 
     return true;
   }
@@ -101,7 +101,7 @@ public:
       return false;
     }
 
-    g_object_get(src, prop.toAscii().data(), val, NULL);
+    g_object_get(src, prop.toLatin1().data(), val, NULL);
 
     return true;
   }
@@ -112,15 +112,15 @@ public:
     }
 
     if (force) {
-      g_object_set(src, prop.toAscii().data(), val, NULL);
+      g_object_set(src, prop.toLatin1().data(), val, NULL);
       return true;
     }
 
     int old = 0;
-    g_object_get(src, prop.toAscii().data(), &old, NULL);
+    g_object_get(src, prop.toLatin1().data(), &old, NULL);
 
     if (old != val) {
-      g_object_set(src, prop.toAscii().data(), val, NULL);
+      g_object_set(src, prop.toLatin1().data(), val, NULL);
     }
 
     return true;
@@ -131,7 +131,7 @@ public:
       return false;
     }
 
-    g_object_get(src, prop.toAscii().data(), val, NULL);
+    g_object_get(src, prop.toLatin1().data(), val, NULL);
 
     return true;
   }
@@ -141,7 +141,7 @@ public:
       return false;
     }
 
-    g_object_set(src, prop.toAscii().data(), val, NULL);
+    g_object_set(src, prop.toLatin1().data(), val, NULL);
 
     return true;
   }

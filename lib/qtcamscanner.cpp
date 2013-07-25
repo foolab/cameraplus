@@ -40,13 +40,13 @@ public:
 
 void QtCamScannerPrivate::scanEnum() {
   // Too bad there's no way to get the values of an enum without creating the element :(
-  GstElement *elem = gst_element_factory_make(conf->videoSource().toAscii(), NULL);
+  GstElement *elem = gst_element_factory_make(conf->videoSource().toLatin1(), NULL);
   if (!elem) {
     return;
   }
 
   GParamSpec *spec = g_object_class_find_property(G_OBJECT_GET_CLASS(elem),
-						  conf->deviceScannerProperty().toAscii());
+						  conf->deviceScannerProperty().toLatin1());
   if (!spec) {
     gst_object_unref(elem);
     return;
