@@ -29,8 +29,8 @@
 #include "filenaming.h"
 #ifdef HARMATTAN
 #include "quillitem.h"
-#include "soundvolumecontrol.h"
 #endif
+#include "soundvolumecontrol.h"
 #include "displaystate.h"
 #include "fsmonitor.h"
 #include "cameraresources.h"
@@ -91,8 +91,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<FileNaming>("CameraPlus", 1, 0, "FileNaming");
 #ifdef HARMATTAN
   qmlRegisterType<QuillItem>("CameraPlus", 1, 0, "QuillItem");
-  qmlRegisterType<SoundVolumeControl>("CameraPlus", 1, 0, "SoundVolumeControl");
 #endif
+  qmlRegisterType<SoundVolumeControl>("CameraPlus", 1, 0, "SoundVolumeControl");
   qmlRegisterType<DisplayState>("CameraPlus", 1, 0, "DisplayState");
   qmlRegisterType<FSMonitor>("CameraPlus", 1, 0, "FSMonitor");
   qmlRegisterType<CameraResources>("CameraPlus", 1, 0, "CameraResources");

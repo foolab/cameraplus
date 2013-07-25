@@ -37,5 +37,10 @@ harmattan {
     RESOURCES += ../qml/harmattan/harmattan.qrc
 }
 
+nemo {
+    include(nemo/nemo.pri)
+    RESOURCES += ../qml/harmattan/harmattan.qrc
+}
+
 target.path = /usr/bin/
 INSTALLS += target
