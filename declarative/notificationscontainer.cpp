@@ -21,10 +21,10 @@
 #include "notificationscontainer.h"
 #include "qtcamdevice.h"
 #include "qtcamnotifications.h"
-#include "declarativeqtcameranotifications.h"
+#include "sounds.h"
 
 NotificationsContainer::NotificationsContainer(QObject *parent) :
-  QObject(parent), m_dev(0), m_notifications(0) {
+  QObject(parent), m_dev(0), m_sounds(0) {
 
 }
 
@@ -32,7 +32,7 @@ NotificationsContainer::~NotificationsContainer() {
   setDevice(0);
 
   QMutexLocker locker(&m_mutex);
-  m_notifications = 0;
+  m_sounds = 0;
 }
 
 void NotificationsContainer::setDevice(QtCamDevice *dev) {
@@ -62,15 +62,15 @@ void NotificationsContainer::setDevice(QtCamDevice *dev) {
   }
 }
 
-DeclarativeQtCameraNotifications *NotificationsContainer::notifications() const {
-  return m_notifications;
+Sounds *NotificationsContainer::sounds() const {
+  return m_sounds;
 }
 
-bool NotificationsContainer::setNotifications(DeclarativeQtCameraNotifications *notifications) {
+bool NotificationsContainer::setSounds(Sounds *sounds) {
   QMutexLocker lock(&m_mutex);
 
-  if (m_notifications != notifications) {
-    m_notifications = notifications;
+  if (m_sounds != sounds) {
+    m_sounds = sounds;
     return true;
   }
 
@@ -80,39 +80,39 @@ bool NotificationsContainer::setNotifications(DeclarativeQtCameraNotifications *
 void NotificationsContainer::imageCaptureStarted() {
   QMutexLocker l(&m_mutex);
 
-  if (m_notifications) {
-    m_notifications->imageCaptureStarted();
+  if (m_sounds) {
+    m_sounds->playImageCaptureStartedSound();
   }
 }
 
 void NotificationsContainer::imageCaptureEnded() {
   QMutexLocker l(&m_mutex);
 
-  if (m_notifications) {
-    m_notifications->imageCaptureEnded();
+  if (m_sounds) {
+    m_sounds->playImageCaptureEndedSound();
   }
 }
 
 void NotificationsContainer::videoRecordingStarted() {
   QMutexLocker l(&m_mutex);
 
-  if (m_notifications) {
-    m_notifications->videoRecordingStarted();
+  if (m_sounds) {
+    m_sounds->playVideoRecordingStartedSound();
   }
 }
 
 void NotificationsContainer::videoRecordingEnded() {
   QMutexLocker l(&m_mutex);
 
-  if (m_notifications) {
-    m_notifications->videoRecordingEnded();
+  if (m_sounds) {
+    m_sounds->playVideoRecordingEndedSound();
   }
 }
 
 void NotificationsContainer::autoFocusAcquired() {
   QMutexLocker l(&m_mutex);
 
-  if (m_notifications) {
-    m_notifications->autoFocusAcquired();
+  if (m_sounds) {
+    m_sounds->playAutoFocusAcquiredSound();
   }
 }

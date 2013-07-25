@@ -43,7 +43,6 @@ Sounds::Sounds(QObject *parent) :
   QObject(parent),
   m_muted(false),
   m_ctx(0),
-  m_conf(0),
   m_watcher(new QDBusServiceWatcher("org.pulseaudio.Server",
 				    QDBusConnection::systemBus(),
 				    QDBusServiceWatcher::WatchForOwnerChange)) {
@@ -69,10 +68,6 @@ Sounds::~Sounds() {
   }
 }
 
-void Sounds::setConfig(QtCamConfig *conf) {
-  m_conf = conf;
-}
-
 void Sounds::serviceOwnerChanged(const QString& serviceName, const QString& oldOwner,
 				 const QString& newOwner) {
   Q_UNUSED(serviceName);
@@ -90,7 +85,7 @@ void Sounds::serviceOwnerChanged(const QString& serviceName, const QString& oldO
   }
 }
 
-void Sounds::imageCaptureStarted() {
+void Sounds::playImageCaptureStartedSound() {
   if (isMuted() || !m_ctx) {
     return;
   }
@@ -98,7 +93,7 @@ void Sounds::imageCaptureStarted() {
   play(CAMERA_IMAGE_START_SOUND_ID);
 }
 
-void Sounds::imageCaptureEnded() {
+void Sounds::playImageCaptureEndedSound() {
   if (isMuted() || !m_ctx) {
     return;
   }
@@ -106,7 +101,7 @@ void Sounds::imageCaptureEnded() {
   play(CAMERA_IMAGE_END_SOUND_ID);
 }
 
-void Sounds::videoRecordingStarted() {
+void Sounds::playVideoRecordingStartedSound() {
   if (isMuted() || !m_ctx) {
     return;
   }
@@ -114,7 +109,7 @@ void Sounds::videoRecordingStarted() {
   playAndBlock(CAMERA_VIDEO_START_SOUND_ID);
 }
 
-void Sounds::videoRecordingEnded() {
+void Sounds::playVideoRecordingEndedSound() {
   if (isMuted() || !m_ctx) {
     return;
   }
@@ -122,7 +117,7 @@ void Sounds::videoRecordingEnded() {
   play(CAMERA_VIDEO_STOP_SOUND_ID);
 }
 
-void Sounds::autoFocusAcquired() {
+void Sounds::playAutoFocusAcquiredSound() {
   if (isMuted() || !m_ctx) {
     return;
   }
@@ -175,11 +170,11 @@ void Sounds::reload() {
     return;
   }
 
-  cache(m_conf->imageCaptureStartedSound(), CAMERA_IMAGE_START_SOUND_ID);
-  cache(m_conf->imageCaptureEndedSound(), CAMERA_IMAGE_END_SOUND_ID);
-  cache(m_conf->videoRecordingStartedSound(), CAMERA_VIDEO_START_SOUND_ID);
-  cache(m_conf->videoRecordingEndedSound(), CAMERA_VIDEO_STOP_SOUND_ID);
-  cache(m_conf->autoFocusAcquiredSound(), CAMERA_FOCUS_SOUND_ID);
+  cache(m_imageCaptureStart, CAMERA_IMAGE_START_SOUND_ID);
+  cache(m_imageCaptureEnd, CAMERA_IMAGE_END_SOUND_ID);
+  cache(m_videoRecordingStart, CAMERA_VIDEO_START_SOUND_ID);
+  cache(m_videoRecordingEnd, CAMERA_VIDEO_STOP_SOUND_ID);
+  cache(m_autoFocusAcquired, CAMERA_FOCUS_SOUND_ID);
 }
 
 void Sounds::cache(const QString& path, const char *id) {
@@ -261,5 +256,65 @@ void Sounds::audioConnectionChanged() {
     m_volume = CANBERRA_HEADSET_VOLUME;
   } else {
     m_volume = CANBERRA_FULL_VOLUME;
+  }
+}
+
+QString Sounds::imageCaptureStart() const {
+  return m_imageCaptureStart;
+}
+
+void Sounds::setImageCaptureStart(const QString& path) {
+  if (path != m_imageCaptureStart) {
+    m_imageCaptureStart = path;
+    cache(m_imageCaptureStart, CAMERA_IMAGE_START_SOUND_ID);
+    emit imageCaptureStartChanged();
+  }
+}
+
+QString Sounds::imageCaptureEnd() const {
+  return m_imageCaptureEnd;
+}
+
+void Sounds::setImageCaptureEnd(const QString& path) {
+  if (path != m_imageCaptureEnd) {
+    m_imageCaptureEnd = path;
+    cache(m_imageCaptureEnd, CAMERA_IMAGE_END_SOUND_ID);
+    emit imageCaptureEndChanged();
+  }
+}
+
+QString Sounds::videoRecordingStart() const {
+  return m_videoRecordingStart;
+}
+
+void Sounds::setVideoRecordingStart(const QString& path) {
+  if (path != m_videoRecordingStart) {
+    m_videoRecordingStart = path;
+    cache(m_videoRecordingStart, CAMERA_VIDEO_START_SOUND_ID);
+    emit videoRecordingStartChanged();
+  }
+}
+
+QString Sounds::videoRecordingEnd() const {
+  return m_videoRecordingEnd;
+}
+
+void Sounds::setVideoRecordingEnd(const QString& path) {
+  if (path != m_videoRecordingEnd) {
+    m_videoRecordingEnd = path;
+    cache(m_videoRecordingEnd, CAMERA_VIDEO_STOP_SOUND_ID);
+    emit videoRecordingEndChanged();
+  }
+}
+
+QString Sounds::autoFocusAcquired() const {
+  return m_autoFocusAcquired;
+}
+
+void Sounds::setAutoFocusAcquired(const QString& path) {
+  if (path != m_autoFocusAcquired) {
+    m_autoFocusAcquired = path;
+    cache(m_autoFocusAcquired, CAMERA_FOCUS_SOUND_ID);
+    emit autoFocusAcquiredChanged();
   }
 }

@@ -24,37 +24,69 @@
 #define SOUNDS_H
 
 #include <QObject>
-#include "declarativeqtcameranotifications.h"
 #include <canberra.h>
 
-class QtCamConfig;
 class QDBusServiceWatcher;
 class ContextProperty;
 
-class Sounds : public QObject, public DeclarativeQtCameraNotifications {
+class Sounds : public QObject {
   Q_OBJECT
-  Q_INTERFACES(DeclarativeQtCameraNotifications);
 
   Q_PROPERTY(bool mute READ isMuted WRITE setMuted NOTIFY muteChanged);
+  Q_PROPERTY(QString imageCaptureStart READ imageCaptureStart WRITE setImageCaptureStart NOTIFY imageCaptureStartChanged);
+  Q_PROPERTY(QString imageCaptureEnd READ imageCaptureEnd WRITE setImageCaptureEnd NOTIFY imageCaptureEndChanged);
+  Q_PROPERTY(QString videoRecordingStart READ videoRecordingStart WRITE setVideoRecordingStart NOTIFY videoRecordingStartChanged);
+  Q_PROPERTY(QString videoRecordingEnd READ videoRecordingEnd WRITE setVideoRecordingEnd NOTIFY videoRecordingEndChanged);
+  Q_PROPERTY(QString autoFocusAcquired READ autoFocusAcquired WRITE setAutoFocusAcquired NOTIFY autoFocusAcquiredChanged);
+  Q_PROPERTY(Volume volume READ volume WRITE setVolume NOTIFY volumeChanged);
+  Q_ENUMS(Volume);
 
 public:
   Sounds(QObject *parent = 0);
   ~Sounds();
 
-  void imageCaptureStarted();
-  void imageCaptureEnded();
-  void videoRecordingStarted();
-  void videoRecordingEnded();
-  void autoFocusAcquired();
+  typedef enum {
+    VolumeLow,
+    VolumeHigh,
+  } Volume;
+
+  void playImageCaptureStartedSound();
+  void playImageCaptureEndedSound();
+  void playVideoRecordingStartedSound();
+  void playVideoRecordingEndedSound();
+  void playAutoFocusAcquiredSound();
 
   bool isMuted() const;
   void setMuted(bool mute);
 
-  void setConfig(QtCamConfig *conf);
+  Volume volume() const;
+  void setVolume(const Volume& volume);
+
   void reload();
+
+  QString imageCaptureStart() const;
+  void setImageCaptureStart(const QString& path);
+
+  QString imageCaptureEnd() const;
+  void setImageCaptureEnd(const QString& path);
+
+  QString videoRecordingStart() const;
+  void setVideoRecordingStart(const QString& path);
+
+  QString videoRecordingEnd() const;
+  void setVideoRecordingEnd(const QString& path);
+
+  QString autoFocusAcquired() const;
+  void setAutoFocusAcquired(const QString& path);
 
 signals:
   void muteChanged();
+  void volumeChanged();
+  void imageCaptureStartChanged();
+  void imageCaptureEndChanged();
+  void videoRecordingStartChanged();
+  void videoRecordingEndChanged();
+  void autoFocusAcquiredChanged();
 
 private slots:
   void serviceOwnerChanged(const QString& serviceName, const QString& oldOwner,
@@ -68,10 +100,14 @@ private:
 
   bool m_muted;
   ca_context *m_ctx;
-  QtCamConfig *m_conf;
   QDBusServiceWatcher *m_watcher;
   ContextProperty *m_audioRoute;
   QString m_volume;
+  QString m_imageCaptureStart;
+  QString m_imageCaptureEnd;
+  QString m_videoRecordingStart;
+  QString m_videoRecordingEnd;
+  QString m_autoFocusAcquired;
 };
 
 #endif /* SOUNDS_H */

@@ -76,12 +76,6 @@ public:
 
   QString audioCaptureCaps() const;
 
-  QString imageCaptureStartedSound() const;
-  QString imageCaptureEndedSound() const;
-  QString videoRecordingStartedSound() const;
-  QString videoRecordingEndedSound() const;
-  QString autoFocusAcquiredSound() const;
-
   QStringList viewfinderFilters() const;
 
   QString roiElement() const;

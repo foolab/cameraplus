@@ -61,9 +61,14 @@ Camera {
         }
     }
 
-    notifications: Sounds {
+    sounds: Sounds {
         id: sounds
         mute: !settings.soundEnabled
+        imageCaptureStart: platformSettings.imageCaptureStartedSound
+        imageCaptureEnd: platformSettings.imageCaptureEndedSound
+        videoRecordingStart: platformSettings.videoRecordingStartedSound
+        videoRecordingEnd: platformSettings.videoRecordingEndedSound
+        autoFocusAcquired: platformSettings.autoFocusAcquiredSound
     }
 
     BatteryInfo {

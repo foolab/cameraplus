@@ -30,7 +30,7 @@
 class QtCamera;
 class QtCamDevice;
 class QtCamGraphicsViewfinder;
-class DeclarativeQtCameraNotifications;
+class Sounds;
 class NotificationsContainer;
 class Zoom;
 class Flash;
@@ -60,7 +60,7 @@ class Camera : public QDeclarativeItem {
   Q_PROPERTY(bool running READ isRunning NOTIFY runningStateChanged);
   Q_PROPERTY(QString imageSuffix READ imageSuffix CONSTANT);
   Q_PROPERTY(QString videoSuffix READ videoSuffix CONSTANT);
-  Q_PROPERTY(DeclarativeQtCameraNotifications *notifications READ notifications WRITE setNotifications NOTIFY notificationsChanged);
+  Q_PROPERTY(Sounds *sounds READ sounds WRITE setSounds NOTIFY soundsChanged);
 
   Q_PROPERTY(QRectF renderArea READ renderArea NOTIFY renderAreaChanged);
   Q_PROPERTY(QSizeF videoResolution READ videoResolution NOTIFY videoResolutionChanged);
@@ -122,8 +122,8 @@ public:
   QString imageSuffix() const;
   QString videoSuffix() const;
 
-  DeclarativeQtCameraNotifications *notifications() const;
-  void setNotifications(DeclarativeQtCameraNotifications *notifications);
+  Sounds *sounds() const;
+  void setSounds(Sounds *sounds);
 
   Zoom *zoom() const;
   Flash *flash() const;
@@ -159,7 +159,7 @@ signals:
   void idleStateChanged();
   void runningStateChanged();
   void error(const QString& message, int code, const QString& debug);
-  void notificationsChanged();
+  void soundsChanged();
   void renderAreaChanged();
   void videoResolutionChanged();
 

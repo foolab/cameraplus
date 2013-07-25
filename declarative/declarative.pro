@@ -28,8 +28,6 @@ SOURCES += plugin.cpp previewprovider.cpp camera.cpp mode.cpp imagemode.cpp vide
            notificationscontainer.cpp sounds.cpp focus.cpp autofocus.cpp \
            roi.cpp cameraconfig.cpp videoplayer.cpp
 
-HEADERS += declarativeqtcameranotifications.h
-
 PLUGIN_IMPORT_PATH = QtCamera
 target.path = $$[QT_INSTALL_IMPORTS]/$$PLUGIN_IMPORT_PATH
 

@@ -123,3 +123,23 @@ PlatformSettings::Service PlatformSettings::service(const QString& id) {
 
   return service;
 }
+
+QString PlatformSettings::imageCaptureStartedSound() const {
+  return m_settings->value("sounds/imageCaptureStarted").toString();
+}
+
+QString PlatformSettings::imageCaptureEndedSound() const {
+  return m_settings->value("sounds/imageCaptureEnded").toString();
+}
+
+QString PlatformSettings::videoRecordingStartedSound() const {
+  return m_settings->value("sounds/videoRecordingStarted").toString();
+}
+
+QString PlatformSettings::videoRecordingEndedSound() const {
+  return m_settings->value("sounds/videoRecordingEnded").toString();
+}
+
+QString PlatformSettings::autoFocusAcquiredSound() const {
+  return m_settings->value("sounds/autoFocusAcquired").toString();
+}

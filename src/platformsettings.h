@@ -32,6 +32,12 @@ class QSettings;
 class PlatformSettings : public QObject {
   Q_OBJECT
 
+  Q_PROPERTY(QString imageCaptureStartedSound READ imageCaptureStartedSound CONSTANT);
+  Q_PROPERTY(QString imageCaptureEndedSound READ imageCaptureEndedSound CONSTANT);
+  Q_PROPERTY(QString videoRecordingStartedSound READ videoRecordingStartedSound CONSTANT);
+  Q_PROPERTY(QString videoRecordingEndedSound READ videoRecordingEndedSound CONSTANT);
+  Q_PROPERTY(QString autoFocusAcquiredSound READ autoFocusAcquiredSound CONSTANT);
+
 public:
   PlatformSettings(QObject *parent = 0);
   ~PlatformSettings();
@@ -56,6 +62,12 @@ public:
   QString temporaryFilePath();
 
   Service service(const QString& id);
+
+  QString imageCaptureStartedSound() const;
+  QString imageCaptureEndedSound() const;
+  QString videoRecordingStartedSound() const;
+  QString videoRecordingEndedSound() const;
+  QString autoFocusAcquiredSound() const;
 
 public slots:
   void init();
