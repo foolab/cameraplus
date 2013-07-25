@@ -24,10 +24,10 @@
 #define QT_CAM_ROI_H
 
 #include <QObject>
+#include <QRectF>
 
 class QtCamDevice;
 class QtCamRoiPrivate;
-class QRectF;
 
 class QtCamRoi : public QObject {
   Q_OBJECT
