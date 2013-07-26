@@ -55,7 +55,7 @@ bool QmlFileEngine::open(QIODevice::OpenMode flags) {
     m_data = QByteArray::fromRawData((const char *)m_res->data(), m_res->size());
   }
 
-  m_data.replace("@IMPORT_QT_QUICK@", "import QtQuick 1.1");
+  m_data.replace("import QtQuick 2.0", "import QtQuick 1.1");
 
   return true;
 }
