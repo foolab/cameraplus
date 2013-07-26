@@ -171,9 +171,6 @@ signals:
   void videoTorchChanged();
   void renderingEnabledChanged();
 
-protected:
-  void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
-
 private:
   bool applyMode();
   bool setDeviceId(const QVariant& deviceId);

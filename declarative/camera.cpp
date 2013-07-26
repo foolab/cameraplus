@@ -188,10 +188,6 @@ QVariant Camera::deviceId() const {
   return m_id;
 }
 
-void Camera::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
-  QDeclarativeItem::geometryChanged(newGeometry, oldGeometry);
-}
-
 QtCamDevice *Camera::device() const {
   return m_dev;
 }
