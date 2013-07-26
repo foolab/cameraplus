@@ -29,7 +29,6 @@
 
 class QtCamera;
 class QtCamDevice;
-class QtCamGraphicsViewfinder;
 class Sounds;
 class NotificationsContainer;
 class Zoom;
@@ -62,9 +61,6 @@ class Camera : public QDeclarativeItem {
   Q_PROPERTY(QString videoSuffix READ videoSuffix CONSTANT);
   Q_PROPERTY(Sounds *sounds READ sounds WRITE setSounds NOTIFY soundsChanged);
 
-  Q_PROPERTY(QRectF renderArea READ renderArea NOTIFY renderAreaChanged);
-  Q_PROPERTY(QSizeF videoResolution READ videoResolution NOTIFY videoResolutionChanged);
-
   Q_PROPERTY(Zoom *zoom READ zoom NOTIFY zoomChanged);
   Q_PROPERTY(Flash *flash READ flash NOTIFY flashChanged);
   Q_PROPERTY(Scene *scene READ scene NOTIFY sceneChanged);
@@ -83,7 +79,6 @@ class Camera : public QDeclarativeItem {
   Q_PROPERTY(VideoMute *videoMute READ videoMute NOTIFY videoMuteChanged);
   Q_PROPERTY(VideoTorch *videoTorch READ videoTorch NOTIFY videoTorchChanged);
 
-  Q_PROPERTY(bool renderingEnabled READ isRenderingEnabled WRITE setRenderingEnabled NOTIFY renderingEnabledChanged);
   // TODO: We need a setter here too.
   Q_PROPERTY(CameraConfig *cameraConfig READ cameraConfig CONSTANT);
 
@@ -143,12 +138,6 @@ public:
   VideoMute *videoMute() const;
   VideoTorch *videoTorch() const;
 
-  QRectF renderArea() const;
-  QSizeF videoResolution() const;
-
-  bool isRenderingEnabled() const;
-  void setRenderingEnabled(bool enabled);
-
   CameraConfig *cameraConfig() const;
 
 signals:
@@ -195,7 +184,6 @@ private:
   QtCamera *m_cam;
   QtCamDevice *m_dev;
   QVariant m_id;
-  QtCamGraphicsViewfinder *m_vf;
   CameraMode m_mode;
   NotificationsContainer *m_notifications;
 

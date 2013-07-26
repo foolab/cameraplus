@@ -29,14 +29,17 @@ import CameraPlus 1.0
 
 MouseArea {
     id: mouse
-    x: cam ? cam.renderArea.x : 0
-    y: cam ? cam.renderArea.y : 0
-    width: cam ? cam.renderArea.width : 0
-    height: cam ? cam.renderArea.height : 0
+    x: renderArea.x
+    y: renderArea.y
+    width: renderArea.width
+    height: renderArea.height
     drag.minimumX: 0
     drag.minimumY: 0
     drag.maximumX: width - reticle.width
     drag.maximumY: height - reticle.height
+
+    property variant videoResolution
+    property variant renderArea
 
     property bool locked: false
 
@@ -103,16 +106,16 @@ MouseArea {
 
         // TODO: rework this and move to unnormalized coordinates
         // in terms of video resolution:
-        var rx = (cam.videoResolution.width * reticle.x) / mouse.width
-        var rwidth = (cam.videoResolution.width * reticle.width) / mouse.width
-        var ry = (cam.videoResolution.height * reticle.y) / mouse.height
-        var rheight = (cam.videoResolution.height * reticle.height) / mouse.height
+        var rx = (videoResolution.width * reticle.x) / mouse.width
+        var rwidth = (videoResolution.width * reticle.width) / mouse.width
+        var ry = (videoResolution.height * reticle.y) / mouse.height
+        var rheight = (videoResolution.height * reticle.height) / mouse.height
 
         // Translate to normalized coordinates (1x1 square) as expected by our C++ backend
-        rx = rx / cam.videoResolution.width
-        rwidth = rwidth / cam.videoResolution.width
-        ry = ry / cam.videoResolution.height
-        rheight = rheight / cam.videoResolution.height
+        rx = rx / videoResolution.width
+        rwidth = rwidth / videoResolution.width
+        ry = ry / videoResolution.height
+        rheight = rheight / videoResolution.height
 
         // console.log("Setting ROI to: " + rx + "x" + ry)
         cam.roi.setRegionOfInterest(Qt.rect(rx, ry, rwidth, rheight))

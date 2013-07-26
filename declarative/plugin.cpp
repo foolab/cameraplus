@@ -47,6 +47,7 @@
 #include "sounds.h"
 #include "cameraconfig.h"
 #include "videoplayer.h"
+#include "viewfinder.h"
 #include <QtDeclarative>
 
 #define MAJOR 1
@@ -106,6 +107,7 @@ void Plugin::registerTypes(const char *uri) {
   qmlRegisterType<CameraConfig>(uri, MAJOR, MINOR, "CameraConfig");
 
   qmlRegisterType<VideoPlayer>("QtCameraExtras", MAJOR, MINOR, "VideoPlayer");
+  qmlRegisterType<Viewfinder>(uri, MAJOR, MINOR, "Viewfinder");
 }
 
 Q_EXPORT_PLUGIN2(declarativeqtcamera, Plugin);

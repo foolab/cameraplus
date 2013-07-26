@@ -54,7 +54,6 @@ Camera::Camera(QDeclarativeItem *parent) :
   QDeclarativeItem(parent),
   m_cam(new QtCamera(this)),
   m_dev(0),
-  m_vf(new QtCamGraphicsViewfinder(m_cam->config(), this)),
   m_mode(Camera::UnknownMode),
   m_notifications(new NotificationsContainer(this)),
   m_zoom(0),
@@ -76,10 +75,6 @@ Camera::Camera(QDeclarativeItem *parent) :
   m_config(new CameraConfig(this)) {
 
   m_config->componentComplete();
-
-  QObject::connect(m_vf, SIGNAL(renderAreaChanged()), this, SIGNAL(renderAreaChanged()));
-  QObject::connect(m_vf, SIGNAL(videoResolutionChanged()), this, SIGNAL(videoResolutionChanged()));
-  QObject::connect(m_vf, SIGNAL(renderingEnabledChanged()), this, SIGNAL(renderingEnabledChanged()));
 }
 
 Camera::~Camera() {
@@ -178,8 +173,6 @@ bool Camera::setDeviceId(const QVariant& deviceId) {
 
   m_id = deviceId;
 
-  m_vf->setDevice(m_dev);
-
   QObject::connect(m_dev, SIGNAL(runningStateChanged(bool)),
 		      this, SIGNAL(runningStateChanged()));
   QObject::connect(m_dev, SIGNAL(idleStateChanged(bool)), this, SIGNAL(idleStateChanged()));
@@ -197,10 +190,6 @@ QVariant Camera::deviceId() const {
 
 void Camera::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
   QDeclarativeItem::geometryChanged(newGeometry, oldGeometry);
-
-  // TODO: seems setting geometry breaks rendering somehow
-  //  m_vf->setGeometry(newGeometry);
-  m_vf->resize(newGeometry.size());
 }
 
 QtCamDevice *Camera::device() const {
@@ -288,14 +277,6 @@ void Camera::setSounds(Sounds *sounds) {
     sounds->reload();
     emit soundsChanged();
   }
-}
-
-QRectF Camera::renderArea() const {
-  return m_vf->renderArea();
-}
-
-QSizeF Camera::videoResolution() const {
-  return m_vf->videoResolution();
 }
 
 void Camera::resetCapabilities() {
@@ -428,14 +409,6 @@ VideoMute *Camera::videoMute() const {
 
 VideoTorch *Camera::videoTorch() const {
   return m_videoTorch;
-}
-
-bool Camera::isRenderingEnabled() const {
-  return m_vf->isRenderingEnabled();
-}
-
-void Camera::setRenderingEnabled(bool enabled) {
-  m_vf->setRenderingEnabled(enabled);
 }
 
 CameraConfig *Camera::cameraConfig() const {

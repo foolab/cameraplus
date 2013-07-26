@@ -31,7 +31,26 @@ Camera {
     property bool pressed: focusReticle.locked || (loader.item ? loader.item.pressed : false)
     property int policyMode: loader.item ? loader.item.policyMode : CameraResources.None
 
-    renderingEnabled: mainView.currentItem == cam
+    Viewfinder {
+        id: viewfinder
+        width: cam.width
+        height: cam.height
+        x: 0
+        y: 0
+
+        camera: cam
+        cameraConfig: cam.cameraConfig
+
+        renderingEnabled: mainView.currentItem == cam
+
+        GridLines {
+            x: viewfinder.renderArea.x
+            y: viewfinder.renderArea.y
+            width: viewfinder.renderArea.width
+            height: viewfinder.renderArea.height
+            visible: settings.gridEnabled
+        }
+    }
 
     function policyLost() {
         if (loader.item) {
@@ -120,17 +139,12 @@ Camera {
 
     onRoiChanged: roi.normalize = false
 
-    GridLines {
-        x: cam.renderArea.x
-        y: cam.renderArea.y
-        width: cam.renderArea.width
-        height: cam.renderArea.height
-        visible: settings.gridEnabled
-    }
-
     FocusReticle {
         id: focusReticle
         cam: cam
+        videoResolution: viewfinder.videoResolution
+        renderArea: viewfinder.renderArea
+
         visible: loader.item != null && loader.item.controlsVisible &&
             cam.autoFocus.canFocus(cam.scene.value)
         cafStatus: cam ? cam.autoFocus.cafStatus : -1
