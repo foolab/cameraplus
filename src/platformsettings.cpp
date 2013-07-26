@@ -21,8 +21,10 @@
 #include "platformsettings.h"
 #include <QDir>
 #include <QSettings>
+#ifdef HARMATTAN
 #include <Quill>
 #include "quillitem.h"
+#endif
 
 #define PATH "/usr/share/cameraplus/config/cameraplus.ini"
 
@@ -82,6 +84,7 @@ QSize PlatformSettings::landscapeSize(const QSize& size) {
 }
 
 void PlatformSettings::init() {
+#ifdef HARMATTAN
   // How we create thumbnails for portrait is really messy.
   // I am sure there is a better way to tell Quill to generate proper
   // portrait thumbnails without having 2 display levels but I don't know how.
@@ -106,6 +109,7 @@ void PlatformSettings::init() {
   QString tempPath = temporaryFilePath();
   QDir().mkpath(tempPath);
   Quill::setTemporaryFilePath(tempPath);
+#endif
 }
 
 PlatformSettings::Service PlatformSettings::service(const QString& id) {
