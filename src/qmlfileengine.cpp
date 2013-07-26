@@ -200,7 +200,12 @@ bool QmlFileEngine::setPermissions(uint perms) {
 }
 
 QString QmlFileEngine::fileName(QAbstractFileEngine::FileName file) const {
-  Q_UNUSED(file);
+  switch (file) {
+  case QAbstractFileEngine::AbsoluteName:
+    return m_res->fileName();
+  default:
+    break;
+  }
 
   // TODO:
   return QString();
