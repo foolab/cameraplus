@@ -134,6 +134,12 @@ QtCamAnalysisBinPrivate *qt_cam_analysis_bin_create(const QStringList& factories
     added << element;
   }
 
+  if (added.isEmpty()) {
+    gst_object_unref (bin);
+
+    return 0;
+  }
+
   if (added.size() > 1) {
     for (int x = 1; x < added.count(); x++) {
       GstElement *elem = added[x];
