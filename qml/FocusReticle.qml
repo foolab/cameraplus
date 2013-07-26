@@ -94,7 +94,10 @@ MouseArea {
             return
         } else if (!touchMode && !roiMode) {
             // console.log("resetting ROI")
-            cam.roi.resetRegionOfInterest()
+            if (cam.roi) {
+                cam.roi.resetRegionOfInterest()
+            }
+
             return
         }
 
