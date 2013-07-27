@@ -23,7 +23,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include <QDeclarativeItem>
+#include <QObject>
 #include <QVariant>
 #include <QPointer>
 
@@ -49,7 +49,7 @@ class VideoMute;
 class VideoTorch;
 class CameraConfig;
 
-class Camera : public QDeclarativeItem {
+class Camera : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(int deviceCount READ deviceCount NOTIFY deviceCountChanged)
@@ -91,10 +91,8 @@ public:
     VideoMode
   } CameraMode;
 
-  Camera(QDeclarativeItem *parent = 0);
+  Camera(QObject *parent = 0);
   ~Camera();
-
-  virtual void componentComplete();
 
   int deviceCount() const;
   Q_INVOKABLE QString deviceName(int index) const;

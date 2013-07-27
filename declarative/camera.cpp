@@ -50,8 +50,8 @@
 #include "videotorch.h"
 #include "cameraconfig.h"
 
-Camera::Camera(QDeclarativeItem *parent) :
-  QDeclarativeItem(parent),
+Camera::Camera(QObject *parent) :
+  QObject(parent),
   m_cam(new QtCamera(this)),
   m_dev(0),
   m_mode(Camera::UnknownMode),
@@ -106,12 +106,6 @@ Camera::~Camera() {
   delete m_videoTorch;
 }
 
-void Camera::componentComplete() {
-  QDeclarativeItem::componentComplete();
-
-  emit deviceCountChanged();
-}
-
 int Camera::deviceCount() const {
   return m_cam ? m_cam->devices().size() : 0;
 }
@@ -127,11 +121,6 @@ QVariant Camera::deviceId(int index) const {
 bool Camera::reset(const QVariant& deviceId, const CameraMode& mode) {
   if (mode == Camera::UnknownMode) {
     qmlInfo(this) << "Cannot set mode to unknown";
-    return false;
-  }
-
-  if (!isComponentComplete()) {
-    qmlInfo(this) << "Component is still not ready";
     return false;
   }
 

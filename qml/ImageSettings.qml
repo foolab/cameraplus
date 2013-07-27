@@ -24,6 +24,10 @@ import QtQuick 2.0
 import QtCamera 1.0
 
 Flickable {
+    property Camera camera: null
+
+    id: flick
+
     contentHeight: col.height
     anchors.fill: parent
     anchors.margins: 10
@@ -39,6 +43,7 @@ Flickable {
         }
 
         ImageResolutionSettings {
+            camera: flick.camera
             width: parent.width
         }
 

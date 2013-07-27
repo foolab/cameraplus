@@ -25,6 +25,7 @@ import QtCamera 1.0
 import CameraPlus 1.0
 
 Item {
+    property Camera camera: null
     property int policyMode: settings.mode == Camera.VideoMode ? CameraResources.Video
         : CameraResources.Image
 
@@ -32,5 +33,12 @@ Item {
         id: loader
         anchors.fill: parent
         source: settings.mode == Camera.VideoMode ? Qt.resolvedUrl("VideoSettings.qml") : Qt.resolvedUrl("ImageSettings.qml")
+    }
+
+    Binding {
+        target: loader.item
+        property: "camera"
+        value: camera
+        when: loader.item != null
     }
 }

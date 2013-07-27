@@ -29,18 +29,18 @@ import QtMobility.location 1.2
 
 CameraWindow {
     id: root
-    property alias camera: cam
 
     VisualItemModel {
         id: mainModel
 
         SettingsView {
+            camera: viewfinder.camera
             width: mainView.width
             height: mainView.height
         }
 
         CameraView {
-            id: cam
+            id: viewfinder
             width: mainView.width
             height: mainView.height
         }
@@ -80,12 +80,12 @@ CameraWindow {
 
     PipelineManager {
         id: pipelineManager
-        camera: cam
+        camera: viewfinder.camera
         currentItem: mainView.currentItem
     }
 
     function resetCamera(deviceId, mode) {
-        if (!cam.reset(deviceId, mode)) {
+        if (!viewfinder.camera.reset(deviceId, mode)) {
             showError(qsTr("Failed to set camera device and mode. Please restart the application."))
         }
     }
@@ -111,7 +111,7 @@ CameraWindow {
 
     MetaData {
         id: metaData
-        camera: cam
+        camera: viewfinder.camera
         manufacturer: deviceInfo.manufacturer
         model: deviceInfo.model
         country: geocode.country
@@ -134,17 +134,17 @@ CameraWindow {
 
     Orientation {
         id: orientation
-        active: cam.running || (mainView.currentIndex == 2 && Qt.application.active)
+        active: viewfinder.camera.running || (mainView.currentIndex == 2 && Qt.application.active)
     }
 
     Compass {
         id: compass
-        active: cam.running
+        active: viewfinder.camera.running
     }
 
     ReverseGeocode {
         id: geocode
-        active: cam.running && settings.useGps && settings.useGeotags
+        active: viewfinder.camera.running && settings.useGps && settings.useGeotags
     }
 
     DeviceInfo {
@@ -161,8 +161,8 @@ CameraWindow {
 
     FileNaming {
         id: fileNaming
-        imageSuffix: cam.imageSuffix
-        videoSuffix: cam.videoSuffix
+        imageSuffix: viewfinder.camera.imageSuffix
+        videoSuffix: viewfinder.camera.videoSuffix
     }
 
     MountProtector {
@@ -172,7 +172,7 @@ CameraWindow {
 
     TrackerStore {
         id: trackerStore
-        active: cam.running
+        active: viewfinder.camera.running
         manufacturer: deviceInfo.manufacturer
         model: deviceInfo.model
     }
@@ -183,7 +183,8 @@ CameraWindow {
 
     ImageSettings {
         id: imageSettings
-        camera: cam
+        camera: viewfinder.camera
+
         function setImageResolution() {
             if (!imageSettings.setResolution(settings.imageAspectRatio, settings.imageResolution)) {
                 showError(qsTr("Failed to set required resolution"))
@@ -199,7 +200,7 @@ CameraWindow {
 
     VideoSettings {
         id: videoSettings
-        camera: cam
+        camera: viewfinder.camera
 
         function setVideoResolution() {
             if (!videoSettings.setResolution(settings.videoAspectRatio, settings.videoResolution)) {
@@ -232,7 +233,7 @@ CameraWindow {
 
     ModeController {
         id: cameraMode
-        cam: cam
+        cam: viewfinder.camera
         dimmer: root.dimmer
     }
 
@@ -257,6 +258,6 @@ CameraWindow {
     Standby {
         policyLost: pipelineManager.state == "policyLost"
         show: !Qt.application.active || pipelineManager.showStandBy ||
-            (mainView.currentIndex == 1 && !camera.running)
+            (mainView.currentIndex == 1 && !viewfinder.camera.running)
     }
 }

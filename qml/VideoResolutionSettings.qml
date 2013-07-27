@@ -21,8 +21,11 @@
  */
 
 import QtQuick 2.0
+import QtCamera 1.0
 
 Column {
+    property Camera camera: null
+
     spacing: 10
 
     SectionHeader {
@@ -31,7 +34,7 @@ Column {
 
     CameraButtonRow {
         width: parent.width
-        enabled: cam.idle
+        enabled: camera ? camera.idle : false
         exclusive: false
 
         Repeater {

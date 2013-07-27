@@ -60,7 +60,7 @@ Item {
     function startCamera() {
         if (error) {
             return
-        } else if ((currentPolicyMode == currentItem.policyMode) && cam.running) {
+        } else if ((currentPolicyMode == currentItem.policyMode) && camera.running) {
             return
         } else if (!policy.acquire(currentItem.policyMode)) {
             console.log("Failed to acquire policy resources")
