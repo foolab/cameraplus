@@ -56,8 +56,6 @@ public:
   QString model() const;
   void setModel(const QString& model);
 
-  QHash<int, QByteArray> roleNames() const;
-
 signals:
   void error(const QString& msg);
 
@@ -85,6 +83,12 @@ private:
   QHash<int, PostCaptureModelItem *> m_hash;
 
   bool m_connected;
+
+#if defined(QT5)
+  QHash<int, QByteArray> roleNames() const;
+  void setRoleNames(const QHash<int, QByteArray>& roles);
+  QHash<int, QByteArray> m_roles;
+#endif
 };
 
 class PostCaptureModelItem : public QObject {

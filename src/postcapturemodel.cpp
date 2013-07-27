@@ -79,6 +79,11 @@ PostCaptureModel::PostCaptureModel(QObject *parent) :
 
   qDBusRegisterMetaType<Quad>();
   qDBusRegisterMetaType<QList<Quad> >();
+
+  QHash<int, QByteArray> roles;
+  roles.insert(Item, "item");
+
+  setRoleNames(roles);
 }
 
 PostCaptureModel::~PostCaptureModel() {
@@ -86,12 +91,6 @@ PostCaptureModel::~PostCaptureModel() {
   m_items.clear();
 
   delete m_connection; m_connection = 0;
-}
-
-QHash<int, QByteArray> PostCaptureModel::roleNames() const {
-  QHash<int, QByteArray> roles;
-  roles.insert(Item, "item");
-  return roles;
 }
 
 void PostCaptureModel::reload() {
@@ -280,6 +279,16 @@ void PostCaptureModel::graphUpdated(const QString& className, const QList<Quad>&
     exec(q);
   }
 }
+
+#if defined(QT5)
+QHash<int, QByteArray> PostCaptureModel::roleNames() const {
+  return m_roles;
+}
+
+void PostCaptureModel::setRoleNames(const QHash<int, QByteArray>& roles) {
+  m_roles = roles;
+}
+#endif
 
 PostCaptureModelItem::PostCaptureModelItem(const QSparqlResultRow& row, QObject *parent) :
   QObject(parent) {
