@@ -34,6 +34,8 @@
 #include "filenaming.h"
 #ifdef HARMATTAN
 #include "quillitem.h"
+#include "geocode.h"
+#include "deviceinfo.h"
 #endif
 #include "soundvolumecontrol.h"
 #include "displaystate.h"
@@ -41,9 +43,6 @@
 #include "cameraresources.h"
 #include "compass.h"
 #include "orientation.h"
-#if defined(QT4) // TODO:
-#include "geocode.h"
-#endif
 #include "mountprotector.h"
 #include "trackerstore.h"
 #include "focusrectangle.h"
@@ -53,7 +52,6 @@
 #include "postcapturemodel.h"
 #include "batteryinfo.h"
 #include "gridlines.h"
-#include "deviceinfo.h"
 #include "devicekeys.h"
 #include "platformsettings.h"
 #include "dbusservice.h"
@@ -114,6 +112,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<FileNaming>("CameraPlus", 1, 0, "FileNaming");
 #ifdef HARMATTAN
   qmlRegisterType<QuillItem>("CameraPlus", 1, 0, "QuillItem");
+  qmlRegisterType<Geocode>("CameraPlus", 1, 0, "ReverseGeocode");
+  qmlRegisterType<DeviceInfo>("CameraPlus", 1, 0, "DeviceInfo");
 #endif
   qmlRegisterType<SoundVolumeControl>("CameraPlus", 1, 0, "SoundVolumeControl");
   qmlRegisterType<DisplayState>("CameraPlus", 1, 0, "DisplayState");
@@ -121,9 +121,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<CameraResources>("CameraPlus", 1, 0, "CameraResources");
   qmlRegisterType<Compass>("CameraPlus", 1, 0, "Compass");
   qmlRegisterType<Orientation>("CameraPlus", 1, 0, "Orientation");
-#if defined(QT4) // TODO:
-  qmlRegisterType<Geocode>("CameraPlus", 1, 0, "ReverseGeocode");
-#endif
   qmlRegisterType<MountProtector>("CameraPlus", 1, 0, "MountProtector");
   qmlRegisterType<TrackerStore>("CameraPlus", 1, 0, "TrackerStore");
   qmlRegisterType<FocusRectangle>("CameraPlus", 1, 0, "FocusRectangle");
@@ -133,9 +130,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<PostCaptureModel>("CameraPlus", 1, 0, "PostCaptureModel");
   qmlRegisterType<BatteryInfo>("CameraPlus", 1, 0, "BatteryInfo");
   qmlRegisterType<GridLines>("CameraPlus", 1, 0, "GridLines");
-#if defined(QT4) // TODO:
-  qmlRegisterType<DeviceInfo>("CameraPlus", 1, 0, "DeviceInfo");
-#endif
   qmlRegisterType<DeviceKeys>("CameraPlus", 1, 0, "DeviceKeys");
   qmlRegisterType<PlatformSettings>("CameraPlus", 1, 0, "PlatformSettings");
 

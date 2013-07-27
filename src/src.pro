@@ -9,8 +9,6 @@ CONFIG += link_pkgconfig
 
 qt4 {
     QT += declarative opengl
-    CONFIG += mobility
-    MOBILITY += location systeminfo
     PKGCONFIG += QtSparql qmsystem2 libresourceqt1 qdeclarative-boostable
 }
 
@@ -50,9 +48,8 @@ nemo {
 }
 
 qt4 {
-# TODO: geocode.*
-    SOURCES += qmlfileengine.cpp geocode.cpp deviceinfo.cpp
-    HEADERS += qmlfileengine.h geocode.h deviceinfo.h
+    SOURCES += qmlfileengine.cpp
+    HEADERS += qmlfileengine.h
 }
 
 target.path = /usr/bin/
