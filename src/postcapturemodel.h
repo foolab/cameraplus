@@ -24,7 +24,6 @@
 #define POST_CAPTURE_MODEL_H
 
 #include <QAbstractListModel>
-#include <QDeclarativeParserStatus>
 #include <QUrl>
 
 class QSparqlConnection;
@@ -34,9 +33,8 @@ class Quad;
 class QSparqlQuery;
 class QSparqlResultRow;
 
-class PostCaptureModel : public QAbstractListModel, public QDeclarativeParserStatus {
+class PostCaptureModel : public QAbstractListModel {
   Q_OBJECT
-  Q_INTERFACES(QDeclarativeParserStatus);
 
   Q_PROPERTY(QString manufacturer READ manufacturer WRITE setManufacturer NOTIFY manufacturerChanged);
   Q_PROPERTY(QString model READ model WRITE setModel NOTIFY modelChanged);
@@ -48,9 +46,6 @@ class PostCaptureModel : public QAbstractListModel, public QDeclarativeParserSta
 public:
   PostCaptureModel(QObject *parent = 0);
   ~PostCaptureModel();
-
-  virtual void classBegin();
-  virtual void componentComplete();
 
   virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
   virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;

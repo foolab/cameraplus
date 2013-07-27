@@ -88,14 +88,6 @@ PostCaptureModel::~PostCaptureModel() {
   delete m_connection; m_connection = 0;
 }
 
-void PostCaptureModel::classBegin() {
-
-}
-
-void PostCaptureModel::componentComplete() {
-
-}
-
 void PostCaptureModel::reload() {
   delete m_connection; m_connection = 0;
 
