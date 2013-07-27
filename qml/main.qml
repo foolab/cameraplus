@@ -23,7 +23,6 @@
 import QtQuick 2.0
 import QtCamera 1.0
 import CameraPlus 1.0
-import QtMobility.location 1.2
 
 // TODO: flash not ready (battery low or flash not ready message)
 
@@ -97,11 +96,7 @@ CameraWindow {
     }
 
     property alias dimmer: camDimmer
-
-    PositionSource {
-        // NOTE: The source will not reset the position when we lose the signal.
-        // This shouldn't be a big problem as we are course enough.
-        // If we ever need street level updates then this will be an issue.
+    CameraPositionSource {
         id: positionSource
         active: settings.useGps
         // TODO: we cannot bind to cam.running because camera will stop
@@ -118,18 +113,18 @@ CameraWindow {
         country: geocode.country
         city: geocode.city
         suburb: geocode.suburb
-        longitude: positionSource.position.coordinate.longitude
-        longitudeValid: positionSource.position.longitudeValid && settings.useGps
-        latitude: positionSource.position.coordinate.latitude
-        latitudeValid: positionSource.position.latitudeValid && settings.useGps
-        elevation: positionSource.position.coordinate.altitude
-        elevationValid: positionSource.position.altitudeValid && settings.useGps
+        longitude: positionSource.longitude
+        longitudeValid: positionSource.longitudeValid && settings.useGps
+        latitude: positionSource.latitude
+        latitudeValid: positionSource.latitudeValid && settings.useGps
+        elevation: positionSource.altitude
+        elevationValid: positionSource.altitudeValid && settings.useGps
         orientation: orientation.orientation
         artist: settings.creatorName
         captureDirection: compass.direction
         captureDirectionValid: compass.directionValid
-        horizontalError: positionSource.position.horizontalAccuracy
-        horizontalErrorValid: positionSource.position.horizontalAccuracyValid && settings.useGps
+        horizontalError: positionSource.horizontalAccuracy
+        horizontalErrorValid: positionSource.horizontalAccuracyValid && settings.useGps
         dateTimeEnabled: true
     }
 

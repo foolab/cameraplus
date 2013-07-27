@@ -15,5 +15,6 @@
 	<file>CameraMenu.qml</file>
 	<file>CameraMenuAction.qml</file>
 	<file>FullScreenThumbnail.qml</file>
+	<file>CameraPositionSource.qml</file>
     </qresource>
 </RCC>
