@@ -57,10 +57,7 @@
 #include "devicekeys.h"
 #include "platformsettings.h"
 #include "dbusservice.h"
-
-#ifdef HAVE_BOOSTER
 #include <MDeclarativeCache>
-#endif
 
 #ifdef QMLJSDEBUGGER
 #include "qt_private/qdeclarativedebughelper_p.h"
@@ -90,14 +87,10 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   QmlFileEngineHandler handler;
   Q_UNUSED(handler);
 
-  QDeclarativeView *view = new QDeclarativeView;
-#elif defined(HAVE_BOOSTER)
+  QDeclarativeView *view = MDeclarativeCache::qDeclarativeView();
+#elif defined(QT5)
   QGuiApplication *app = MDeclarativeCache::qApplication(argc, argv);
   QQuickView *view = MDeclarativeCache::qQuickView();
-#elif defined(QT5)
-  QGuiApplication::setAttribute(Qt::AA_X11InitThreads, true);
-  QGuiApplication *app = new QGuiApplication(argc, argv);
-  QQuickView *view = new QQuickView;
 #endif
 
 #ifdef QMLJSDEBUGGER

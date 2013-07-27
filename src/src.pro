@@ -11,13 +11,12 @@ qt4 {
     QT += declarative opengl
     CONFIG += mobility
     MOBILITY += location systeminfo
-    PKGCONFIG += qtsparql qmsystem2 libresourceqt1
+    PKGCONFIG += QtSparql qmsystem2 libresourceqt1 qdeclarative-boostable
 }
 
 qt5 {
     QT += qml quick
     PKGCONFIG += Qt5Sparql qmsystem2-qt5 libresourceqt5 qdeclarative5-boostable
-    DEFINES += HAVE_BOOSTER
 }
 
 SOURCES += main.cpp settings.cpp filenaming.cpp displaystate.cpp fsmonitor.cpp \
