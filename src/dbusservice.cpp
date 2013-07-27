@@ -21,7 +21,11 @@
 #include "dbusservice.h"
 #include <QDBusInterface>
 #include "platformsettings.h"
+#if defined(QT4)
 #include <QDeclarativeInfo>
+#elif defined(QT5)
+#include <QQmlInfo>
+#endif
 #include <QDBusPendingCall>
 
 // We cannot use ADBusInterface because it will try to introspect the service upon

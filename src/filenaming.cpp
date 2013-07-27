@@ -22,7 +22,11 @@
 #include <QDir>
 #include <QDate>
 #include <QFile>
+#if defined(QT4)
 #include <QDeclarativeInfo>
+#elif defined(QT5)
+#include <QQmlInfo>
+#endif
 
 #define PATH QString("%1%2MyDocs%2DCIM%2").arg(QDir::homePath()).arg(QDir::separator())
 #define TEMP_PATH QString("%1%2MyDocs%2.cameraplus%2").arg(QDir::homePath()).arg(QDir::separator())

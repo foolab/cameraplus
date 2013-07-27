@@ -23,7 +23,11 @@
 PreviewProvider *PreviewProvider::m_instance = 0;
 
 PreviewProvider::PreviewProvider() :
+#if defined(QT4)
   QDeclarativeImageProvider(QDeclarativeImageProvider::Image) {
+#elif defined(QT5)
+  QQuickImageProvider(QQuickImageProvider::Image) {
+#endif
 
   m_instance = this;
 }

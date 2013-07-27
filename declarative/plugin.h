@@ -23,16 +23,34 @@
 #ifndef PLUGIN_H
 #define PLUGIN_H
 
+#if defined(QT4)
 #include <QDeclarativeExtensionPlugin>
+#elif defined(QT5)
+#include <QQmlExtensionPlugin>
+#endif
 
+#if defined(QT4)
 class Plugin : public QDeclarativeExtensionPlugin {
+#elif defined(QT5)
+class Plugin : public QQmlExtensionPlugin {
+#endif
+
   Q_OBJECT
+
+#if defined(QT5)
+  Q_PLUGIN_METADATA(IID "QtCamera");
+#endif
 
 public:
   Plugin(QObject *parent = 0);
   ~Plugin();
 
+#if defined(QT4)
   void initializeEngine(QDeclarativeEngine *engine, const char *uri);
+#elif defined(QT5)
+  void initializeEngine(QQmlEngine *engine, const char *uri);
+#endif
+
   void registerTypes(const char *uri);
 };
 

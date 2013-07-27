@@ -25,17 +25,14 @@
 VideoResolutionModel::VideoResolutionModel(QtCamVideoSettings *settings, QObject *parent) :
   QAbstractListModel(parent), m_settings(settings) {
 
-  QHash<int, QByteArray> roles;
-  roles[IdRole] = "resolutionId";
-  roles[NameRole] = "resolutionName";
-  roles[CaptureRole] = "captureResolution";
-  roles[PreviewRole] = "previewResolution";
-  roles[FpsRole] = "frameRate";
-  roles[NightFpsRole] = "nightFrameRate";
-  roles[ResolutionRole] = "resolution";
-  roles[AspectRatioRole] = "resolutionAspectRatio";
-
-  setRoleNames(roles);
+  m_roles[IdRole] = "resolutionId";
+  m_roles[NameRole] = "resolutionName";
+  m_roles[CaptureRole] = "captureResolution";
+  m_roles[PreviewRole] = "previewResolution";
+  m_roles[FpsRole] = "frameRate";
+  m_roles[NightFpsRole] = "nightFrameRate";
+  m_roles[ResolutionRole] = "resolution";
+  m_roles[AspectRatioRole] = "resolutionAspectRatio";
 
   m_resolutions = m_settings->resolutions(m_aspectRatio);
 }
@@ -106,4 +103,8 @@ void VideoResolutionModel::setAspectRatio(const QString& aspectRatio) {
 
     endResetModel();
   }
+}
+
+QHash<int, QByteArray> VideoResolutionModel::roleNames() const {
+  return m_roles;
 }

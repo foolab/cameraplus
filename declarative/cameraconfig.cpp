@@ -22,7 +22,11 @@
 
 #include "cameraconfig.h"
 #include "qtcamconfig.h"
+#if defined(QT4)
 #include <QDeclarativeInfo>
+#elif defined(QT5)
+#include <QQmlInfo>
+#endif
 
 CameraConfig::CameraConfig(QObject *parent) :
   QObject(parent),

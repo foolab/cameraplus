@@ -23,13 +23,22 @@
 #ifndef VIDEO_PLAYER_H
 #define VIDEO_PLAYER_H
 
+#if defined(QT4)
 #include <QDeclarativeItem>
+#elif defined(QT5)
+#include <QQuickPaintedItem>
+#endif
 #include <gst/gst.h>
 
 class CameraConfig;
-class QtCamGraphicsViewfinder;
+class QtCamViewfinderRenderer;
 
+#if defined(QT4)
 class VideoPlayer : public QDeclarativeItem {
+#elif defined(QT5)
+class VideoPlayer : public QQuickPaintedItem {
+#endif
+
   Q_OBJECT
 
   Q_PROPERTY(QUrl source READ source WRITE setSource NOTIFY sourceChanged);
@@ -40,11 +49,23 @@ class VideoPlayer : public QDeclarativeItem {
   Q_ENUMS(State);
 
 public:
+
+#if defined(QT4)
   VideoPlayer(QDeclarativeItem *parent = 0);
+#elif defined(QT5)
+  VideoPlayer(QQuickItem *parent = 0);
+#endif
+
   ~VideoPlayer();
 
   virtual void componentComplete();
   virtual void classBegin();
+
+#if defined(QT4)
+  void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+#elif defined(QT5)
+  void paint(QPainter *painter);
+#endif
 
   QUrl source() const;
   void setSource(const QUrl& source);
@@ -81,13 +102,16 @@ signals:
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
 
+private slots:
+  void updateRequested();
+
 private:
   static gboolean bus_call(GstBus *bus, GstMessage *msg, gpointer data);
 
   bool setState(const State& state);
 
   CameraConfig *m_config;
-  QtCamGraphicsViewfinder *m_vf;
+  QtCamViewfinderRenderer *m_renderer;
   QUrl m_url;
 
   GstElement *m_bin;

@@ -20,7 +20,11 @@
 
 #include "batteryinfo.h"
 #include <qmbattery.h>
+#if defined(QT4)
 #include <QDeclarativeInfo>
+#elif defined(QT5)
+#include <QQmlInfo>
+#endif
 
 BatteryInfo::BatteryInfo(QObject *parent) :
   QObject(parent), m_battery(0) {

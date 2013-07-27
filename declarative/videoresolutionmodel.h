@@ -56,6 +56,8 @@ public:
   QString aspectRatio() const;
   void setAspectRatio(const QString& aspectRatio);
 
+  QHash<int, QByteArray> roleNames() const;
+
 signals:
   void aspectRatioChanged();
 
@@ -65,6 +67,8 @@ private:
   QtCamVideoSettings *m_settings;
 
   QList<QtCamVideoResolution> m_resolutions;
+
+  QHash<int, QByteArray> m_roles;
 };
 
 #endif /* VIDEO_RESOLUTION_MODEL_H */

@@ -20,16 +20,22 @@
 
 #include "focusrectangle.h"
 #include <QPainter>
-#include <QDebug>
 
 #define WIDTH  4
 #define LENGTH 30
 
+#if defined(QT4)
 FocusRectangle::FocusRectangle(QDeclarativeItem *parent) :
   QDeclarativeItem(parent),
+#elif defined(QT5)
+FocusRectangle::FocusRectangle(QQuickItem *parent) :
+  QQuickPaintedItem(parent),
+#endif
   m_color(Qt::white) {
 
+#if defined(QT4)
   setFlag(QGraphicsItem::ItemHasNoContents, false);
+#endif
 }
 
 FocusRectangle::~FocusRectangle() {
@@ -49,10 +55,14 @@ void FocusRectangle::setColor(const QColor& color) {
   }
 }
 
+#if defined(QT4)
 void FocusRectangle::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
 			   QWidget* widget) {
 
   QDeclarativeItem::paint(painter, option, widget);
+#elif defined(QT5)
+void FocusRectangle::paint(QPainter* painter) {
+#endif
 
   painter->save();
 
@@ -66,7 +76,11 @@ void FocusRectangle::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 }
 
 void FocusRectangle::geometryChanged( const QRectF& newGeometry, const QRectF& oldGeometry) {
+#if defined(QT4)
   QDeclarativeItem::geometryChanged(newGeometry, oldGeometry);
+#elif defined(QT5)
+  QQuickPaintedItem::geometryChanged(newGeometry, oldGeometry);
+#endif
 
   qreal w = width();
   qreal h = height();

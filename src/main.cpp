@@ -18,12 +18,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#if defined(QT4)
 #include <QApplication>
 #include <QDeclarativeView>
 #include <QDeclarativeContext>
 #include <QDeclarativeEngine>
 #include <QtDeclarative>
 #include <QGLWidget>
+#elif defined(QT5)
+#include <QGuiApplication>
+#include <QQuickView>
+#endif
 
 #include "settings.h"
 #include "filenaming.h"
@@ -36,7 +41,9 @@
 #include "cameraresources.h"
 #include "compass.h"
 #include "orientation.h"
+#if defined(QT4) // TODO:
 #include "geocode.h"
+#endif
 #include "mountprotector.h"
 #include "trackerstore.h"
 #include "focusrectangle.h"
@@ -51,10 +58,15 @@
 #include "platformsettings.h"
 #include "dbusservice.h"
 
+#ifdef HAVE_BOOSTER
+#include <MDeclarativeCache>
+#endif
+
 #ifdef QMLJSDEBUGGER
 #include "qt_private/qdeclarativedebughelper_p.h"
 #endif /* QMLJSDEBUGGER */
 
+#if defined(QT4)
 #include <QAbstractFileEngineHandler>
 #include "qmlfileengine.h"
 
@@ -68,24 +80,42 @@ class QmlFileEngineHandler : public QAbstractFileEngineHandler {
     return 0;
   }
 };
+#endif
 
 Q_DECL_EXPORT int main(int argc, char *argv[]) {
+#if defined(QT4)
   QApplication::setAttribute(Qt::AA_X11InitThreads, true);
-  QApplication app(argc, argv);
+  QApplication *app = new QApplication(argc, argv);
 
   QmlFileEngineHandler handler;
   Q_UNUSED(handler);
+
+  QDeclarativeView *view = new QDeclarativeView;
+#elif defined(HAVE_BOOSTER)
+  QGuiApplication *app = MDeclarativeCache::qApplication(argc, argv);
+  QQuickView *view = MDeclarativeCache::qQuickView();
+#elif defined(QT5)
+  QGuiApplication::setAttribute(Qt::AA_X11InitThreads, true);
+  QGuiApplication *app = new QGuiApplication(argc, argv);
+  QQuickView *view = new QQuickView;
+#endif
 
 #ifdef QMLJSDEBUGGER
   QDeclarativeDebugHelper::enableDebugging();
 #endif /* QMLJSDEBUGGER */
 
-  QDeclarativeView view;
-  view.setAttribute(Qt::WA_NoSystemBackground);
-  view.setViewport(new QGLWidget);
-  view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
-  view.setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-  view.viewport()->setAttribute(Qt::WA_NoSystemBackground);
+#if defined(QT4)
+  view->setAttribute(Qt::WA_NoSystemBackground);
+  view->setViewport(new QGLWidget);
+  view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
+  view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+  view->viewport()->setAttribute(Qt::WA_NoSystemBackground);
+#endif
+
+#if defined(QT5)
+  view->setResizeMode(QQuickView::SizeRootObjectToView);
+  // TODO:
+#endif
 
   qmlRegisterType<Settings>("CameraPlus", 1, 0, "Settings");
   qmlRegisterType<FileNaming>("CameraPlus", 1, 0, "FileNaming");
@@ -98,7 +128,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<CameraResources>("CameraPlus", 1, 0, "CameraResources");
   qmlRegisterType<Compass>("CameraPlus", 1, 0, "Compass");
   qmlRegisterType<Orientation>("CameraPlus", 1, 0, "Orientation");
+#if defined(QT4) // TODO:
   qmlRegisterType<Geocode>("CameraPlus", 1, 0, "ReverseGeocode");
+#endif
   qmlRegisterType<MountProtector>("CameraPlus", 1, 0, "MountProtector");
   qmlRegisterType<TrackerStore>("CameraPlus", 1, 0, "TrackerStore");
   qmlRegisterType<FocusRectangle>("CameraPlus", 1, 0, "FocusRectangle");
@@ -108,14 +140,20 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<PostCaptureModel>("CameraPlus", 1, 0, "PostCaptureModel");
   qmlRegisterType<BatteryInfo>("CameraPlus", 1, 0, "BatteryInfo");
   qmlRegisterType<GridLines>("CameraPlus", 1, 0, "GridLines");
+#if defined(QT4) // TODO:
   qmlRegisterType<DeviceInfo>("CameraPlus", 1, 0, "DeviceInfo");
+#endif
   qmlRegisterType<DeviceKeys>("CameraPlus", 1, 0, "DeviceKeys");
   qmlRegisterType<PlatformSettings>("CameraPlus", 1, 0, "PlatformSettings");
 
-  view.setSource(QUrl("qrc:/qml/main.qml"));
+  view->setSource(QUrl("qrc:/qml/main.qml"));
 
-  view.showFullScreen();
+  view->showFullScreen();
 
-  int ret = app.exec();
+  int ret = app->exec();
+
+  delete view;
+  delete app;
+
   return ret;
 }

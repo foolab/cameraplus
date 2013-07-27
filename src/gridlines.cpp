@@ -21,19 +21,31 @@
 #include "gridlines.h"
 #include <QPainter>
 
+#if defined(QT4)
 GridLines::GridLines(QDeclarativeItem *parent) :
   QDeclarativeItem(parent) {
+#elif defined(QT5)
+GridLines::GridLines(QQuickItem *parent) :
+  QQuickPaintedItem(parent) {
+#endif
 
+#if defined(QT4)
   setFlag(QGraphicsItem::ItemHasNoContents, false);
+#endif
 }
 
 GridLines::~GridLines() {
 
 }
 
-void GridLines::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-  Q_UNUSED(option);
-  Q_UNUSED(widget);
+#if defined(QT4)
+void GridLines::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
+			   QWidget* widget) {
+
+  QDeclarativeItem::paint(painter, option, widget);
+#elif defined(QT5)
+void GridLines::paint(QPainter* painter) {
+#endif
 
   painter->save();
   painter->setPen(QPen(Qt::black, 3));
@@ -45,7 +57,11 @@ void GridLines::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
 }
 
 void GridLines::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
+#if defined(QT4)
   QDeclarativeItem::geometryChanged(newGeometry, oldGeometry);
+#elif defined(QT5)
+  QQuickPaintedItem::geometryChanged(newGeometry, oldGeometry);
+#endif
 
   qreal width = newGeometry.width();
   qreal height = newGeometry.height();

@@ -19,15 +19,25 @@
  */
 
 #include "videoplayer.h"
+#if defined(QT4)
 #include <QDeclarativeInfo>
-#include "qtcamgraphicsviewfinder.h"
+#elif defined(QT5)
+#include <QQmlInfo>
+#endif
 #include "cameraconfig.h"
 #include <QTimer>
+#include "qtcamviewfinderrenderer.h"
+#include <QPainter>
 
+#if defined(QT4)
 VideoPlayer::VideoPlayer(QDeclarativeItem *parent) :
   QDeclarativeItem(parent),
+#elif defined(QT5)
+VideoPlayer::VideoPlayer(QQuickItem *parent) :
+  QQuickPaintedItem(parent),
+#endif
   m_config(0),
-  m_vf(0),
+  m_renderer(0),
   m_bin(0),
   m_state(VideoPlayer::StateStopped),
   m_timer(new QTimer(this)),
@@ -36,6 +46,10 @@ VideoPlayer::VideoPlayer(QDeclarativeItem *parent) :
   m_timer->setSingleShot(false);
   m_timer->setInterval(500);
   QObject::connect(m_timer, SIGNAL(timeout()), this, SIGNAL(positionChanged()));
+
+#if defined(QT4)
+  setFlag(QGraphicsItem::ItemHasNoContents, false);
+#endif
 }
 
 VideoPlayer::~VideoPlayer() {
@@ -48,7 +62,23 @@ VideoPlayer::~VideoPlayer() {
 }
 
 void VideoPlayer::componentComplete() {
+  if (!m_config) {
+    qmlInfo(this) << "CameraConfig not set";
+    return;
+  }
 
+  m_renderer = QtCamViewfinderRenderer::create(m_config->config(), this);
+  if (!m_renderer) {
+    qmlInfo(this) << "Failed to create viewfinder renderer";
+    return;
+  }
+
+  m_renderer->resize(QSizeF(width(), height()));
+  QObject::connect(m_renderer, SIGNAL(updateRequested()), this, SLOT(updateRequested()));
+
+  if (m_bin) {
+    g_object_set(m_bin, "video-sink", m_renderer->sinkElement(), NULL);
+  }
 }
 
 void VideoPlayer::classBegin() {
@@ -102,13 +132,7 @@ void VideoPlayer::setCameraConfig(CameraConfig *config) {
 
   if (m_config != config) {
     m_config = config;
-    m_vf = new QtCamGraphicsViewfinder(m_config->config(), this);
-    m_vf->resize(QSizeF(width(), height()));
     emit cameraConfigChanged();
-  }
-
-  if (m_bin) {
-    g_object_set(m_bin, "video-sink", m_vf->sinkElement(), NULL);
   }
 }
 
@@ -198,11 +222,33 @@ bool VideoPlayer::stop() {
 }
 
 void VideoPlayer::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
+#if defined(QT4)
   QDeclarativeItem::geometryChanged(newGeometry, oldGeometry);
+#elif defined(QT5)
+  QQuickPaintedItem::geometryChanged(newGeometry, oldGeometry);
+#endif
 
-  if (m_vf) {
-    m_vf->resize(newGeometry.size());
+  if (m_renderer) {
+    m_renderer->resize(newGeometry.size());
   }
+}
+
+#if defined(QT4)
+void VideoPlayer::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+		       QWidget *widget) {
+
+  Q_UNUSED(widget);
+  Q_UNUSED(option);
+#elif defined(QT5)
+void VideoPlayer::paint(QPainter *painter) {
+#endif
+  painter->fillRect(boundingRect(), Qt::black);
+
+  if (!m_renderer) {
+    return;
+  }
+
+  m_renderer->paint(painter);
 }
 
 VideoPlayer::State VideoPlayer::state() const {
@@ -347,4 +393,8 @@ gboolean VideoPlayer::bus_call(GstBus *bus, GstMessage *msg, gpointer data) {
   }
 
   return TRUE;  
+}
+
+void VideoPlayer::updateRequested() {
+  update();
 }

@@ -23,14 +23,23 @@
 #ifndef VIEWFINDER_H
 #define VIEWFINDER_H
 
+#if defined(QT4)
 #include <QDeclarativeItem>
+#elif defined(QT5)
+#include <QQuickPaintedItem>
+#endif
 #include "qtcamviewfinder.h"
 
 class QtCamViewfinderRenderer;
 class Camera;
 class CameraConfig;
 
+#if defined(QT4)
 class Viewfinder : public QDeclarativeItem, public QtCamViewfinder {
+#elif defined(QT5)
+class Viewfinder : public QQuickPaintedItem, public QtCamViewfinder {
+#endif
+
   Q_OBJECT
 
   Q_PROPERTY(QRectF renderArea READ renderArea NOTIFY renderAreaChanged);
@@ -40,7 +49,12 @@ class Viewfinder : public QDeclarativeItem, public QtCamViewfinder {
   Q_PROPERTY(CameraConfig *cameraConfig READ cameraConfig WRITE setCameraConfig NOTIFY cameraConfigChanged);
 
 public:
+#if defined(QT4)
   Viewfinder(QDeclarativeItem *parent = 0);
+#elif defined(QT5)
+  Viewfinder(QQuickItem *parent = 0);
+#endif
+
   ~Viewfinder();
 
   QRectF renderArea() const;
@@ -55,7 +69,11 @@ public:
   CameraConfig *cameraConfig() const;
   void setCameraConfig(CameraConfig *config);
 
+#if defined(QT4)
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+#elif defined(QT5)
+  void paint(QPainter *painter);
+#endif
 
   GstElement *sinkElement();
   bool setDevice(QtCamDevice *device);

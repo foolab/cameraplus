@@ -3,5 +3,5 @@ INCLUDEPATH += nemo .
 
 PKGCONFIG += 
 
-HEADERS += soundvolumecontrol.h
-SOURCES += soundvolumecontrol.cpp
+HEADERS += nemo/soundvolumecontrol.h
+SOURCES += nemo/soundvolumecontrol.cpp

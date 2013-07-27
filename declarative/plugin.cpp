@@ -48,13 +48,21 @@
 #include "cameraconfig.h"
 #include "videoplayer.h"
 #include "viewfinder.h"
-#include <QtDeclarative>
+#if defined(QT4)
+#include <QDeclarativeEngine>
+#elif defined(QT5)
+#include <QQmlEngine>
+#endif
 
 #define MAJOR 1
 #define MINOR 0
 
 Plugin::Plugin(QObject *parent) :
+#if defined(QT4)
   QDeclarativeExtensionPlugin(parent) {
+#elif defined(QT5)
+  QQmlExtensionPlugin(parent) {
+#endif
 
 }
 
@@ -62,7 +70,11 @@ Plugin::~Plugin() {
 
 }
 
+#if defined(QT4)
 void Plugin::initializeEngine(QDeclarativeEngine *engine, const char *uri) {
+#elif defined(QT5)
+void Plugin::initializeEngine(QQmlEngine *engine, const char *uri) {
+#endif
   Q_UNUSED(uri);
 
   engine->addImageProvider("preview", new PreviewProvider);
@@ -110,4 +122,6 @@ void Plugin::registerTypes(const char *uri) {
   qmlRegisterType<Viewfinder>(uri, MAJOR, MINOR, "Viewfinder");
 }
 
+#if defined(QT4)
 Q_EXPORT_PLUGIN2(declarativeqtcamera, Plugin);
+#endif

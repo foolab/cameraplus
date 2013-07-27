@@ -25,17 +25,14 @@
 ImageResolutionModel::ImageResolutionModel(QtCamImageSettings *settings, QObject *parent) :
   QAbstractListModel(parent), m_settings(settings) {
 
-  QHash<int, QByteArray> roles;
-  roles[IdRole] = "resolutionId";
-  roles[NameRole] = "resolutionName";
-  roles[CaptureRole] = "captureResolution";
-  roles[PreviewRole] = "previewResolution";
-  roles[FpsRole] = "frameRate";
-  roles[NightFpsRole] = "nightFrameRate";
-  roles[MegaPixelsRole] = "megaPixels";
-  roles[AspectRatioRole] = "resolutionAspectRatio";
-
-  setRoleNames(roles);
+  m_roles[IdRole] = "resolutionId";
+  m_roles[NameRole] = "resolutionName";
+  m_roles[CaptureRole] = "captureResolution";
+  m_roles[PreviewRole] = "previewResolution";
+  m_roles[FpsRole] = "frameRate";
+  m_roles[NightFpsRole] = "nightFrameRate";
+  m_roles[MegaPixelsRole] = "megaPixels";
+  m_roles[AspectRatioRole] = "resolutionAspectRatio";
 
   m_resolutions = m_settings->resolutions(m_aspectRatio);
 }
@@ -106,4 +103,8 @@ void ImageResolutionModel::setAspectRatio(const QString& aspectRatio) {
 
     emit aspectRatioChanged();
   }
+}
+
+QHash<int, QByteArray> ImageResolutionModel::roleNames() const {
+  return m_roles;
 }

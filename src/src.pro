@@ -4,25 +4,33 @@ DEPENDPATH += . ../
 INCLUDEPATH += . ../
 include(../cameraplus.pri)
 
-QT += declarative opengl dbus
+QT += dbus
+CONFIG += link_pkgconfig
 
-CONFIG += link_pkgconfig mobility qtsparql
+qt4 {
+    QT += declarative opengl
+    CONFIG += mobility
+    MOBILITY += location systeminfo
+    PKGCONFIG += qtsparql qmsystem2 libresourceqt1
+}
 
-MOBILITY += location systeminfo
-
-PKGCONFIG = qmsystem2 libresourceqt1
+qt5 {
+    QT += qml quick
+    PKGCONFIG += Qt5Sparql qmsystem2-qt5 libresourceqt5 qdeclarative5-boostable
+    DEFINES += HAVE_BOOSTER
+}
 
 SOURCES += main.cpp settings.cpp filenaming.cpp displaystate.cpp fsmonitor.cpp \
-           cameraresources.cpp compass.cpp orientation.cpp geocode.cpp mountprotector.cpp \
+           cameraresources.cpp compass.cpp orientation.cpp mountprotector.cpp \
            trackerstore.cpp focusrectangle.cpp sharehelper.cpp deletehelper.cpp galleryhelper.cpp \
-           postcapturemodel.cpp batteryinfo.cpp gridlines.cpp deviceinfo.cpp devicekeys.cpp \
-           platformsettings.cpp dbusservice.cpp qmlfileengine.cpp
+           postcapturemodel.cpp batteryinfo.cpp gridlines.cpp devicekeys.cpp \
+           platformsettings.cpp dbusservice.cpp
 
 HEADERS += settings.h filenaming.h displaystate.h fsmonitor.h \
-           cameraresources.h compass.h orientation.h geocode.h mountprotector.h \
+           cameraresources.h compass.h orientation.h mountprotector.h \
            trackerstore.h focusrectangle.h sharehelper.h deletehelper.h galleryhelper.h \
-           postcapturemodel.h batteryinfo.h gridlines.h deviceinfo.h devicekeys.h \
-           platformsettings.h dbusservice.h qmlfileengine.h
+           postcapturemodel.h batteryinfo.h gridlines.h devicekeys.h \
+           platformsettings.h dbusservice.h
 
 RESOURCES += ../qml/qml.qrc
 
@@ -40,6 +48,12 @@ harmattan {
 nemo {
     include(nemo/nemo.pri)
     RESOURCES += ../qml/harmattan/harmattan.qrc
+}
+
+qt4 {
+# TODO: geocode.*
+    SOURCES += qmlfileengine.cpp geocode.cpp deviceinfo.cpp
+    HEADERS += qmlfileengine.h geocode.h deviceinfo.h
 }
 
 target.path = /usr/bin/

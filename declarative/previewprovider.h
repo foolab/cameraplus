@@ -23,10 +23,19 @@
 #ifndef PREVIEW_PROVIDER_H
 #define PREVIEW_PROVIDER_H
 
+#if defined(QT4)
 #include <QDeclarativeImageProvider>
+#elif defined(QT5)
+#include <QQuickImageProvider>
+#endif
 #include <QMutex>
 
+#if defined(QT4)
 class PreviewProvider : public QDeclarativeImageProvider {
+#elif defined(QT5)
+class PreviewProvider : public QQuickImageProvider {
+#endif
+
 public:
   PreviewProvider();
   ~PreviewProvider();

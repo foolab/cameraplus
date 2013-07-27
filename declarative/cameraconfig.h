@@ -24,11 +24,20 @@
 #define CAMERA_CONFIG_H
 
 #include <QObject>
+#if defined(QT4)
 #include <QDeclarativeParserStatus>
+#elif defined(QT5)
+#include <QQmlParserStatus>
+#endif
 
 class QtCamConfig;
 
+#if defined(QT4)
 class CameraConfig : public QObject, public QDeclarativeParserStatus {
+#elif defined(QT5)
+class CameraConfig : public QObject, public QQmlParserStatus {
+#endif
+
   Q_OBJECT
 
   Q_PROPERTY(QString configPath READ configPath WRITE setConfigPath NOTIFY configPathChanged);

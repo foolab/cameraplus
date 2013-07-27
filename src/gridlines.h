@@ -23,16 +23,34 @@
 #ifndef GRID_LINES_H
 #define GRID_LINES_H
 
+#if defined(QT4)
 #include <QDeclarativeItem>
+#elif defined(QT5)
+#include <QQuickPaintedItem>
+#endif
+#include <QLineF>
 
+#if defined(QT4)
 class GridLines : public QDeclarativeItem {
+#elif defined(QT5)
+class GridLines : public QQuickPaintedItem {
+#endif
+
   Q_OBJECT
 
 public:
+#if defined(QT4)
   GridLines(QDeclarativeItem *parent = 0);
+#elif defined(QT5)
+  GridLines(QQuickItem *parent = 0);
+#endif
   ~GridLines();
 
+#if defined(QT4)
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+#elif defined(QT5)
+  void paint(QPainter* painter);
+#endif
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);

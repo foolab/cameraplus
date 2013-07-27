@@ -21,7 +21,11 @@
 #include "mountprotector.h"
 #include <QDir>
 #include <QTemporaryFile>
+#if defined(QT4)
 #include <QDeclarativeInfo>
+#elif defined(QT5)
+#include <QQmlInfo>
+#endif
 
 MountProtector::MountProtector(QObject *parent) :
   QObject(parent), m_file(0) {

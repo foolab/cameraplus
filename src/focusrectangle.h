@@ -23,21 +23,40 @@
 #ifndef FOCUS_RECTANGLE_H
 #define FOCUS_RECTANGLE_H
 
+#if defined(QT4)
 #include <QDeclarativeItem>
+#elif defined(QT5)
+#include <QQuickPaintedItem>
+#endif
+#include <QPainterPath>
 
+#if defined(QT4)
 class FocusRectangle : public QDeclarativeItem {
+#elif defined(QT5)
+class FocusRectangle : public QQuickPaintedItem {
+#endif
+
   Q_OBJECT
 
   Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged);
 
 public:
+#if defined(QT4)
   FocusRectangle(QDeclarativeItem *parent = 0);
+#elif defined(QT5)
+  FocusRectangle(QQuickItem *parent = 0);
+#endif
+
   ~FocusRectangle();
 
   QColor color() const;
   void setColor(const QColor& color);
 
+#if defined(QT4)
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+#elif defined(QT5)
+  void paint(QPainter* painter);
+#endif
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);

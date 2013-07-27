@@ -24,18 +24,29 @@
 #include "camera.h"
 #include "cameraconfig.h"
 #include "qtcamviewfinderrenderer.h"
+#if defined(QT4)
 #include <QDeclarativeInfo>
+#elif defined(QT5)
+#include <QQmlInfo>
+#endif
 #include <QPainter>
 #include "qtcamdevice.h"
 
+#if defined(QT4)
 Viewfinder::Viewfinder(QDeclarativeItem *parent) :
   QDeclarativeItem(parent),
+#elif defined(QT5)
+Viewfinder::Viewfinder(QQuickItem *parent) :
+  QQuickPaintedItem(parent),
+#endif
   m_renderer(0),
   m_cam(0),
   m_conf(0),
   m_enabled(true) {
 
+#if defined(QT4)
   setFlag(QGraphicsItem::ItemHasNoContents, false);
+#endif
 }
 
 Viewfinder::~Viewfinder() {
@@ -117,12 +128,15 @@ void Viewfinder::setCameraConfig(CameraConfig *config) {
   emit cameraConfigChanged();
 }
 
+#if defined(QT4)
 void Viewfinder::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 		       QWidget *widget) {
 
   Q_UNUSED(widget);
   Q_UNUSED(option);
-
+#elif defined(QT5)
+void Viewfinder::paint(QPainter *painter) {
+#endif
   painter->fillRect(boundingRect(), Qt::black);
 
   if (!m_renderer || !m_enabled) {
@@ -141,7 +155,11 @@ QSizeF Viewfinder::videoResolution() const {
 }
 
 void Viewfinder::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
+#if defined(QT4)
   QDeclarativeItem::geometryChanged(newGeometry, oldGeometry);
+#elif defined(QT5)
+  QQuickPaintedItem::geometryChanged(newGeometry, oldGeometry);
+#endif
 
   if (m_renderer) {
     m_renderer->resize(newGeometry.size());

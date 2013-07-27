@@ -56,6 +56,8 @@ public:
   QString model() const;
   void setModel(const QString& model);
 
+  QHash<int, QByteArray> roleNames() const;
+
 signals:
   void error(const QString& msg);
 

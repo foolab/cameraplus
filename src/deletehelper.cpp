@@ -21,7 +21,11 @@
 #include "deletehelper.h"
 #include <QUrl>
 #include <QFile>
+#if defined(QT4)
 #include <QDeclarativeInfo>
+#elif defined(QT5)
+#include <QQmlInfo>
+#endif
 
 DeleteHelper::DeleteHelper(QObject *parent) :
   QObject(parent) {

@@ -16,7 +16,7 @@ harmattan:PKGCONFIG += meego-gstreamer-interfaces-0.10
 
 HEADERS += qtcamconfig.h qtcamera.h qtcamscanner.h qtcamdevice.h qtcamviewfinder.h \
            qtcammode.h qtcamgstreamermessagehandler.h qtcamgstreamermessagelistener.h \
-           qtcamgraphicsviewfinder.h qtcamviewfinderrenderer.h \
+           qtcamviewfinderrenderer.h \
            qtcamviewfinderrenderergeneric.h qtcamimagesettings.h qtcamvideosettings.h \
            qtcamimagemode.h qtcamvideomode.h qtcammetadata.h qtcamcapability.h \
            qtcamzoom.h qtcamflash.h qtcamscene.h qtcamevcomp.h qtcamvideotorch.h \
@@ -27,7 +27,7 @@ HEADERS += qtcamconfig.h qtcamera.h qtcamscanner.h qtcamdevice.h qtcamviewfinder
 
 SOURCES += qtcamconfig.cpp qtcamera.cpp qtcamscanner.cpp qtcamdevice.cpp qtcamviewfinder.cpp \
            qtcammode.cpp qtcamgstreamermessagehandler.cpp qtcamgstreamermessagelistener.cpp \
-           qtcamgraphicsviewfinder.cpp qtcamviewfinderrenderer.cpp \
+           qtcamviewfinderrenderer.cpp \
            qtcamviewfinderrenderergeneric.cpp qtcamimagesettings.cpp qtcamvideosettings.cpp \
            qtcamimagemode.cpp qtcamvideomode.cpp qtcammetadata.cpp qtcamcapability.cpp \
            qtcamzoom.cpp qtcamflash.cpp qtcamscene.cpp qtcamevcomp.cpp qtcamvideotorch.cpp \
@@ -46,6 +46,9 @@ SOURCES += gst/gstcopy.cpp
 
 harmattan:SOURCES += qtcamviewfinderrenderermeego.cpp
 harmattan:HEADERS += qtcamviewfinderrenderermeego.h
+
+qt4:SOURCES += qtcamgraphicsviewfinder.cpp
+qt4:HEADERS += qtcamgraphicsviewfinder.h
 
 target.path = /usr/lib/
 INSTALLS += target

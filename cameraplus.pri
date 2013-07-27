@@ -8,3 +8,13 @@ contains(MEEGO_EDITION, "harmattan") {
     DEFINES += NEMO
     CONFIG += nemo
 }
+
+equals(QT_MAJOR_VERSION, 4) {
+    CONFIG += qt4
+    DEFINES += QT4
+}
+
+equals(QT_MAJOR_VERSION, 5) {
+    CONFIG += qt5
+    DEFINES += QT5
+}

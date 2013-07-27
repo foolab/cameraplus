@@ -23,7 +23,11 @@
 #include <QSparqlQuery>
 #include <QSparqlResult>
 #include <QSparqlError>
+#if defined(QT4)
 #include <QDeclarativeInfo>
+#elif defined(QT5)
+#include <QQmlInfo>
+#endif
 #include <QDateTime>
 #include <QDBusConnection>
 #include <QStringList>
@@ -73,10 +77,6 @@ PostCaptureModel::PostCaptureModel(QObject *parent) :
   m_connection(0),
   m_connected(false) {
 
-  QHash<int, QByteArray> roles;
-  roles.insert(Item, "item");
-  setRoleNames(roles);
-
   qDBusRegisterMetaType<Quad>();
   qDBusRegisterMetaType<QList<Quad> >();
 }
@@ -86,6 +86,12 @@ PostCaptureModel::~PostCaptureModel() {
   m_items.clear();
 
   delete m_connection; m_connection = 0;
+}
+
+QHash<int, QByteArray> PostCaptureModel::roleNames() const {
+  QHash<int, QByteArray> roles;
+  roles.insert(Item, "item");
+  return roles;
 }
 
 void PostCaptureModel::reload() {

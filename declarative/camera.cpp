@@ -24,13 +24,15 @@
 #include "qtcammode.h"
 #include "qtcamimagemode.h"
 #include "qtcamvideomode.h"
-#include "qtcamgraphicsviewfinder.h"
 #include "qtcamconfig.h"
 #include "sounds.h"
 #include "notificationscontainer.h"
 #include "sounds.h"
+#if defined(QT4)
 #include <QDeclarativeInfo>
-
+#elif defined(QT5)
+#include <QQmlInfo>
+#endif
 #include "zoom.h"
 #include "flash.h"
 #include "scene.h"

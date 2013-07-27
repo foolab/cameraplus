@@ -19,7 +19,7 @@
  */
 
 #include "displaystate.h"
-#include <qmsystem2/qmdisplaystate.h>
+#include <qmdisplaystate.h>
 #include <QTimer>
 #include <QDebug>
 

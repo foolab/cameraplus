@@ -10,7 +10,10 @@ PKGCONFIG = gstreamer-pbutils-0.10 libcanberra
 
 LIBS += -L../lib/ -lqtcamera
 
-QT += declarative dbus
+QT += dbus
+
+qt4:QT += declarative
+qt5:QT += qml quick
 
 HEADERS += plugin.h previewprovider.h camera.h mode.h imagemode.h videomode.h \
            zoom.h flash.h scene.h evcomp.h videotorch.h whitebalance.h \

@@ -25,7 +25,11 @@
 #include <QWaitCondition>
 #include <QDBusServiceWatcher>
 #include <QDBusConnection>
+#if defined(QT4)
 #include <QDeclarativeInfo>
+#elif defined(QT5)
+#include <QQmlInfo>
+#endif
 
 #define CAMERA_IMAGE_START_SOUND_ID  "camera-image-start"
 #define CAMERA_IMAGE_END_SOUND_ID    "camera-image-end"

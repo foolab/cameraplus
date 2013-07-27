@@ -22,7 +22,11 @@
 #include <QSparqlConnection>
 #include <QSparqlQuery>
 #include <QUrl>
+#if defined(QT4)
 #include <QDeclarativeInfo>
+#elif defined(QT5)
+#include <QQmlInfo>
+#endif
 #include <QSparqlResult>
 #include <QScopedPointer>
 #include <QSparqlError>
