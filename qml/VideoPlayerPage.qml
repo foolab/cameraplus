@@ -58,7 +58,7 @@ Item {
     VideoPlayer {
         id: video
         anchors.fill: parent
-        cameraConfig: cam.cameraConfig
+        cameraConfig: camera.cameraConfig
 
         onError: showError(qsTr("Error playing video. Please try again or restart the application"))
 

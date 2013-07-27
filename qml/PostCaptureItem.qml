@@ -25,6 +25,7 @@ import CameraPlus 1.0
 
 Item {
     id: postCaptureItem
+
     property bool isVideo: itemData.type.search("nmm#Video") > 0
     property alias error: image.error
     property variant itemData: item

@@ -46,6 +46,7 @@ CameraWindow {
         }
 
         PostCaptureView {
+            camera: viewfinder.camera
             width: mainView.width
             height: mainView.height
         }

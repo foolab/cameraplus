@@ -25,6 +25,7 @@ import CameraPlus 1.0
 import QtCamera 1.0
 
 Item {
+    property Camera camera: null
     property bool pressed: view.currentItem ? view.currentItem.playing : false
     property int policyMode: view.currentItem && view.currentItem.playing ?
         CameraResources.Player : settings.mode == Camera.VideoMode ? CameraResources.Video :
