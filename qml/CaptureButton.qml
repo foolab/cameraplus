@@ -49,7 +49,7 @@ Item {
         border.top: button.platformStyle.backgroundMarginTop
         border.right: button.platformStyle.backgroundMarginRight
         border.bottom: button.platformStyle.backgroundMarginBottom
-        source:  pressed ? button.platformStyle.pressedBackground : button.platformStyle.background
+        source: pressed ? button.platformStyle.pressedBackground : button.platformStyle.background
     }
 
     Image {
