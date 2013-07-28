@@ -47,6 +47,12 @@ Viewfinder::Viewfinder(QQuickItem *parent) :
 #if defined(QT4)
   setFlag(QGraphicsItem::ItemHasNoContents, false);
 #endif
+
+#if defined(QT5)
+  setRenderTarget(QQuickPaintedItem::FramebufferObject);
+  setSmooth(false);
+  setAntialiasing(false);
+#endif
 }
 
 Viewfinder::~Viewfinder() {
@@ -134,10 +140,11 @@ void Viewfinder::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
   Q_UNUSED(widget);
   Q_UNUSED(option);
+  painter->fillRect(boundingRect(), Qt::black);
 #elif defined(QT5)
 void Viewfinder::paint(QPainter *painter) {
+  painter->fillRect(contentsBoundingRect(), Qt::black);
 #endif
-  painter->fillRect(boundingRect(), Qt::black);
 
   if (!m_renderer || !m_enabled) {
     return;

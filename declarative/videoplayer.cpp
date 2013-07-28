@@ -50,6 +50,12 @@ VideoPlayer::VideoPlayer(QQuickItem *parent) :
 #if defined(QT4)
   setFlag(QGraphicsItem::ItemHasNoContents, false);
 #endif
+
+#if defined(QT5)
+  setRenderTarget(QQuickPaintedItem::FramebufferObject);
+  setSmooth(false);
+  setAntialiasing(false);
+#endif
 }
 
 VideoPlayer::~VideoPlayer() {
@@ -239,10 +245,14 @@ void VideoPlayer::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
   Q_UNUSED(widget);
   Q_UNUSED(option);
+
+  painter->fillRect(boundingRect(), Qt::black);
+
 #elif defined(QT5)
 void VideoPlayer::paint(QPainter *painter) {
+  painter->fillRect(contentsBoundingRect(), Qt::black);
+
 #endif
-  painter->fillRect(boundingRect(), Qt::black);
 
   if (!m_renderer) {
     return;
