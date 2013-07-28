@@ -29,7 +29,7 @@
 
 class QtCamConfig;
 class QMetaObject;
-class QPainter;
+class QMatrix4x4;
 class QSizeF;
 
 class QtCamViewfinderRenderer : public QObject {
@@ -41,13 +41,15 @@ public:
 
   virtual ~QtCamViewfinderRenderer();
 
-  virtual void paint(QPainter *painter) = 0;
+  virtual void paint(const QMatrix4x4& matrix, const QRectF& viewport) = 0;
   virtual void resize(const QSizeF& size) = 0;
   virtual void reset() = 0;
   virtual GstElement *sinkElement() = 0;
 
   virtual QRectF renderArea() = 0;
   virtual QSizeF videoResolution() = 0;
+
+  virtual bool needsNativePainting() = 0;
 
 protected:
   QtCamViewfinderRenderer(QtCamConfig *config, QObject *parent = 0);

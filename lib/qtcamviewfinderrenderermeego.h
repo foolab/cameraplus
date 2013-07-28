@@ -40,13 +40,15 @@ public:
 
   ~QtCamViewfinderRendererMeeGo();
 
-  virtual void paint(QPainter *painter);
+  virtual void paint(const QMatrix4x4& matrix, const QRectF& viewport);
   virtual void resize(const QSizeF& size);
   virtual void reset();
   virtual GstElement *sinkElement();
 
   QRectF renderArea();
   QSizeF videoResolution();
+
+  bool needsNativePainting();
 
 private slots:
   void setVideoSize(const QSizeF& size);
@@ -58,7 +60,7 @@ private:
 
   void calculateProjectionMatrix(const QRectF& rect);
   void createProgram();
-  void paintFrame(QPainter *painter, int frame);
+  void paintFrame(const QMatrix4x4& matrix, int frame);
   void calculateCoords();
 
   QtCamConfig *m_conf;

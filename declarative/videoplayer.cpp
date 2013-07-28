@@ -258,7 +258,17 @@ void VideoPlayer::paint(QPainter *painter) {
     return;
   }
 
-  m_renderer->paint(painter);
+  bool needsNativePainting = m_renderer->needsNativePainting();
+
+  if (needsNativePainting) {
+    painter->beginNativePainting();
+  }
+
+  m_renderer->paint(QMatrix4x4(painter->combinedTransform()), painter->viewport());
+
+  if (needsNativePainting) {
+    painter->endNativePainting();
+  }
 }
 
 VideoPlayer::State VideoPlayer::state() const {

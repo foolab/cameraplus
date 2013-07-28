@@ -25,6 +25,7 @@
 #include "qtcamviewfinderrenderer.h"
 #include <QPainter>
 #include <QGraphicsSceneResizeEvent>
+#include <QMatrix4x4>
 
 class QtCamGraphicsViewfinderPrivate {
 public:
@@ -118,7 +119,17 @@ void QtCamGraphicsViewfinder::paint(QPainter *painter, const QStyleOptionGraphic
     return;
   }
 
-  d_ptr->renderer->paint(painter);
+  bool needsNativePainting = d_ptr->renderer->needsNativePainting();
+
+  if (needsNativePainting) {
+    painter->beginNativePainting();
+  }
+
+  d_ptr->renderer->paint(QMatrix4x4(painter->combinedTransform()), painter->viewport());
+
+  if (needsNativePainting) {
+    painter->endNativePainting();
+  }
 }
 
 void QtCamGraphicsViewfinder::resizeEvent(QGraphicsSceneResizeEvent *event) {

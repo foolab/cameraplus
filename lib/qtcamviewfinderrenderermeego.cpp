@@ -92,16 +92,18 @@ QtCamViewfinderRendererMeeGo::~QtCamViewfinderRendererMeeGo() {
   }
 }
 
-void QtCamViewfinderRendererMeeGo::paint(QPainter *painter) {
+bool QtCamViewfinderRendererMeeGo::needsNativePainting() {
+  return true;
+}
+
+void QtCamViewfinderRendererMeeGo::paint(const QMatrix4x4& matrix, const QRectF& viewport) {
   QMutexLocker locker(&m_frameMutex);
   if (m_frame == -1) {
     return;
   }
 
-  painter->beginNativePainting();
-
   if (m_needsInit) {
-    calculateProjectionMatrix(painter->viewport());
+    calculateProjectionMatrix(viewport);
 
     if (!eglCreateSyncKHR && m_conf->viewfinderUseFence()) {
       eglCreateSyncKHR = (_PFNEGLCREATESYNCKHRPROC)eglGetProcAddress("eglCreateSyncKHR");
@@ -120,9 +122,7 @@ void QtCamViewfinderRendererMeeGo::paint(QPainter *painter) {
     createProgram();
   }
 
-  paintFrame(painter, m_frame);
-
-  painter->endNativePainting();
+  paintFrame(matrix, m_frame);
 }
 
 void QtCamViewfinderRendererMeeGo::resize(const QSizeF& size) {
@@ -268,7 +268,7 @@ void QtCamViewfinderRendererMeeGo::createProgram() {
   m_program->release();
 }
 
-void QtCamViewfinderRendererMeeGo::paintFrame(QPainter *painter, int frame) {
+void QtCamViewfinderRendererMeeGo::paintFrame(const QMatrix4x4& matrix, int frame) {
   EGLSyncKHR sync = 0;
 
   if (frame == -1) {
@@ -284,7 +284,7 @@ void QtCamViewfinderRendererMeeGo::paintFrame(QPainter *painter, int frame) {
   m_program->bind();
 
   m_program->setUniformValue("matrix", m_projectionMatrix);
-  m_program->setUniformValue("matrixWorld", QMatrix4x4(painter->combinedTransform()));
+  m_program->setUniformValue("matrixWorld", matrix);
 
   if (!meego_gst_video_texture_bind_frame(sink, GL_TEXTURE_EXTERNAL_OES, frame)) {
     qDebug() << "Failed to bind frame";
