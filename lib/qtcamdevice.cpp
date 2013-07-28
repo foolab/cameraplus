@@ -102,8 +102,14 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
   g_signal_connect(d_ptr->cameraBin, "notify::idle",
 		   G_CALLBACK(QtCamDevicePrivate::on_idle_changed), d_ptr);
 
-  g_signal_connect(d_ptr->wrapperVideoSource, "notify::ready-for-capture",
-		   G_CALLBACK(QtCamDevicePrivate::on_ready_for_capture_changed), d_ptr);
+  if (d_ptr->wrapperVideoSource) {
+    g_signal_connect(d_ptr->wrapperVideoSource, "notify::ready-for-capture",
+		     G_CALLBACK(QtCamDevicePrivate::on_ready_for_capture_changed), d_ptr);
+  }
+  else {
+    g_signal_connect(d_ptr->videoSource, "notify::ready-for-capture",
+		     G_CALLBACK(QtCamDevicePrivate::on_ready_for_capture_changed), d_ptr);
+  }
 
   d_ptr->image = new QtCamImageMode(d_ptr, this);
   d_ptr->video = new QtCamVideoMode(d_ptr, this);
