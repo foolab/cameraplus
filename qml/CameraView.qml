@@ -111,6 +111,10 @@ Viewfinder {
         }
     }
 
+    PreviewImage {
+        id: preview
+    }
+
     FocusReticle {
         id: focusReticle
         cam: cam
@@ -121,10 +125,6 @@ Viewfinder {
             cam.autoFocus.canFocus(cam.scene.value)
         cafStatus: cam ? cam.autoFocus.cafStatus : -1
         status: cam ? cam.autoFocus.status : -1
-    }
-
-    PreviewImage {
-        id: preview
     }
 
     Loader {
