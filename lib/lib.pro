@@ -13,11 +13,11 @@ PKGCONFIG = gstreamer-0.10 gstreamer-interfaces-0.10 gstreamer-video-0.10 gstrea
             gstreamer-pbutils-0.10
 
 harmattan:PKGCONFIG += meego-gstreamer-interfaces-0.10
+nemo:PKGCONFIG += nemo-gstreamer-interfaces-0.10
 
 HEADERS += qtcamconfig.h qtcamera.h qtcamscanner.h qtcamdevice.h qtcamviewfinder.h \
            qtcammode.h qtcamgstreamermessagehandler.h qtcamgstreamermessagelistener.h \
-           qtcamviewfinderrenderer.h \
-           qtcamviewfinderrenderergeneric.h qtcamimagesettings.h qtcamvideosettings.h \
+           qtcamviewfinderrenderer.h qtcamimagesettings.h qtcamvideosettings.h \
            qtcamimagemode.h qtcamvideomode.h qtcammetadata.h qtcamcapability.h \
            qtcamzoom.h qtcamflash.h qtcamscene.h qtcamevcomp.h qtcamvideotorch.h \
            qtcamwhitebalance.h qtcamcolortone.h qtcamflickerreduction.h \
@@ -27,8 +27,7 @@ HEADERS += qtcamconfig.h qtcamera.h qtcamscanner.h qtcamdevice.h qtcamviewfinder
 
 SOURCES += qtcamconfig.cpp qtcamera.cpp qtcamscanner.cpp qtcamdevice.cpp qtcamviewfinder.cpp \
            qtcammode.cpp qtcamgstreamermessagehandler.cpp qtcamgstreamermessagelistener.cpp \
-           qtcamviewfinderrenderer.cpp \
-           qtcamviewfinderrenderergeneric.cpp qtcamimagesettings.cpp qtcamvideosettings.cpp \
+           qtcamviewfinderrenderer.cpp qtcamimagesettings.cpp qtcamvideosettings.cpp \
            qtcamimagemode.cpp qtcamvideomode.cpp qtcammetadata.cpp qtcamcapability.cpp \
            qtcamzoom.cpp qtcamflash.cpp qtcamscene.cpp qtcamevcomp.cpp qtcamvideotorch.cpp \
            qtcamwhitebalance.cpp qtcamcolortone.cpp qtcamflickerreduction.cpp \
