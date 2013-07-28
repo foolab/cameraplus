@@ -20,6 +20,7 @@
 	<file>ImageWhiteBalanceButton.qml</file>
 	<file>Indicator.qml</file>
         <file>main.qml</file>
+	<file>MainPage.qml</file>
 	<file>ModeButton.qml</file>
 	<file>ModeController.qml</file>
 	<file>PipelineManager.qml</file>
