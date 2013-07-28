@@ -31,12 +31,12 @@ PositionSource {
     // If we ever need street level updates then this will be an issue.
     id: positionSource
 
-    property alias longitude: position.coordinate.longitude
-    property alias latitude: position.coordinate.latitude
-    property alias altitude: position.coordinate.altitude
-    property alias longitudeValid: position.longitudeValid
-    property alias latitudeValid: position.latitudeValid
-    property alias altitudeValid: position.altitudeValid
-    property alias horizontalAccuracy: position.horizontalAccuracy
-    property alias horizontalAccuracyValid: position.horizontalAccuracyValid
+    property double longitude: position.coordinate.longitude
+    property double latitude: position.coordinate.latitude
+    property double altitude: position.coordinate.altitude
+    property bool longitudeValid: position.longitudeValid
+    property bool latitudeValid: position.latitudeValid
+    property bool altitudeValid: position.altitudeValid
+    property real horizontalAccuracy: position.horizontalAccuracy
+    property bool horizontalAccuracyValid: position.horizontalAccuracyValid
 }
