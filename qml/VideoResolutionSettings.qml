@@ -43,7 +43,7 @@ Column {
             model: videoSettings.resolutions
 
             delegate: CameraButton {
-                font.capitalization: Font.Capitalize
+                capitalize: true
                 text: qsTr("%1 %2").arg(resolutionName).arg(resolution)
                 checked: settings.videoResolution == resolutionName
                 onClicked: settings.videoResolution = resolutionName

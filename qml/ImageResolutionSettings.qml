@@ -70,7 +70,7 @@ Column {
                 imageSettings.resolutions : undefined
 
             delegate: CameraButton {
-                font.capitalization: Font.Capitalize
+                capitalize: true
                 text: qsTr("%1 %2 Mpx").arg(resolutionName).arg(megaPixels)
                 checked: settings.imageResolution == resolutionName
                 onClicked: settings.imageResolution = resolutionName

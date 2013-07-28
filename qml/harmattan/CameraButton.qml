@@ -24,5 +24,6 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 
 Button {
-
+    property bool capitalize
+    font.capitalization: capitalize ? Font.Capitalize : Font.MixedCase
 }
