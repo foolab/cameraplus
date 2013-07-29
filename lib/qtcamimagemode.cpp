@@ -64,7 +64,7 @@ QtCamImageMode::~QtCamImageMode() {
 }
 
 bool QtCamImageMode::canCapture() {
-  return QtCamMode::canCapture() && d_ptr->dev->isWrapperReady();
+  return QtCamMode::canCapture() && d_ptr->dev->isReadyForCapture();
 }
 
 void QtCamImageMode::applySettings() {

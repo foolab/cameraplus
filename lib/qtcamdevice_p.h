@@ -181,13 +181,18 @@ public:
     }
   }
 
-  bool isWrapperReady() {
-    if (!wrapperVideoSource) {
+  bool isReadyForCapture() {
+    GstElement *src = videoSource;
+    if (wrapperVideoSource) {
+      src = wrapperVideoSource;
+    }
+
+    if (!src) {
       return false;
     }
 
     gboolean ready = FALSE;
-    g_object_get(wrapperVideoSource, "ready-for-capture", &ready, NULL);
+    g_object_get(src, "ready-for-capture", &ready, NULL);
 
     return ready == TRUE;
   }
