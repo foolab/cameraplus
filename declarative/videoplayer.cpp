@@ -68,6 +68,12 @@ VideoPlayer::~VideoPlayer() {
 }
 
 void VideoPlayer::componentComplete() {
+#if defined(QT4)
+  QDeclarativeItem::componentComplete();
+#elif defined(QT5)
+  QQuickPaintedItem::componentComplete();
+#endif
+
   if (!m_config) {
     qmlInfo(this) << "CameraConfig not set";
     return;

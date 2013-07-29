@@ -31,6 +31,7 @@
 #endif
 #include <QPainter>
 #include "qtcamdevice.h"
+#include <QMatrix4x4>
 
 #if defined(QT4)
 Viewfinder::Viewfinder(QDeclarativeItem *parent) :
@@ -184,6 +185,12 @@ void Viewfinder::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeo
 }
 
 void Viewfinder::componentComplete() {
+#if defined(QT4)
+  QDeclarativeItem::componentComplete();
+#elif defined(QT5)
+  QQuickPaintedItem::componentComplete();
+#endif
+
   if (!m_cam) {
     qmlInfo(this) << "Camera not set";
     return;
