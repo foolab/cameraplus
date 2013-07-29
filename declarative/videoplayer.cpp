@@ -28,6 +28,7 @@
 #include <QTimer>
 #include "qtcamviewfinderrenderer.h"
 #include <QPainter>
+#include <QMatrix4x4>
 
 #if defined(QT4)
 VideoPlayer::VideoPlayer(QDeclarativeItem *parent) :
