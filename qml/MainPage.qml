@@ -128,12 +128,12 @@ CameraPage {
         dateTimeEnabled: true
     }
 
-    Orientation {
+    CameraOrientation {
         id: orientation
         active: viewfinder.camera.running || (mainView.currentIndex == 2 && Qt.application.active)
     }
 
-    Compass {
+    CameraCompass {
         id: compass
         active: viewfinder.camera.running
     }

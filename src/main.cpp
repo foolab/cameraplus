@@ -119,8 +119,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<DisplayState>("CameraPlus", 1, 0, "DisplayState");
   qmlRegisterType<FSMonitor>("CameraPlus", 1, 0, "FSMonitor");
   qmlRegisterType<CameraResources>("CameraPlus", 1, 0, "CameraResources");
-  qmlRegisterType<Compass>("CameraPlus", 1, 0, "Compass");
-  qmlRegisterType<Orientation>("CameraPlus", 1, 0, "Orientation");
+  qmlRegisterType<Compass>("CameraPlus", 1, 0, "CameraCompass");
+  qmlRegisterType<Orientation>("CameraPlus", 1, 0, "CameraOrientation");
   qmlRegisterType<MountProtector>("CameraPlus", 1, 0, "MountProtector");
   qmlRegisterType<TrackerStore>("CameraPlus", 1, 0, "TrackerStore");
   qmlRegisterType<FocusRectangle>("CameraPlus", 1, 0, "FocusRectangle");
