@@ -36,36 +36,36 @@ CameraToolIcon {
             verticalAlignment: Text.AlignVCenter
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.wbIcon(value)
-            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            normalIconId: Data.wbIcon(value)
+            checkedIconId: Data.wbSelectedIcon(value)
             value: WhiteBalance.Auto
             savedValue: settings.videoWhiteBalance
             onClicked: settings.videoWhiteBalance = value
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.wbIcon(value)
-            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            normalIconId: Data.wbIcon(value)
+            checkedIconId: Data.wbSelectedIcon(value)
             value: WhiteBalance.Sunset
             savedValue: settings.videoWhiteBalance
             onClicked: settings.videoWhiteBalance = value
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.wbIcon(value)
-            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            normalIconId: Data.wbIcon(value)
+            checkedIconId: Data.wbSelectedIcon(value)
             value: WhiteBalance.Cloudy
             savedValue: settings.videoWhiteBalance
             onClicked: settings.videoWhiteBalance = value
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.wbIcon(value)
-            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            normalIconId: Data.wbIcon(value)
+            checkedIconId: Data.wbSelectedIcon(value)
             value: WhiteBalance.Flourescent
             savedValue: settings.videoWhiteBalance
             onClicked: settings.videoWhiteBalance = value
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.wbIcon(value)
-            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            normalIconId: Data.wbIcon(value)
+            checkedIconId: Data.wbSelectedIcon(value)
             value: WhiteBalance.Tungsten
             savedValue: settings.videoWhiteBalance
             onClicked: settings.videoWhiteBalance = value

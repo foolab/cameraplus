@@ -35,43 +35,43 @@ CameraToolIcon {
             verticalAlignment: Text.AlignVCenter
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.cfIcon(value)
-            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            normalIconId: Data.cfIcon(value)
+            checkedIconId: Data.cfSelectedIcon(value)
             value: ColorTone.Normal
             savedValue: settings.imageColorFilter
             onClicked: settings.imageColorFilter = value
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.cfIcon(value)
-            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            normalIconId: Data.cfIcon(value)
+            checkedIconId: Data.cfSelectedIcon(value)
             value: ColorTone.GrayScale
             savedValue: settings.imageColorFilter
             onClicked: settings.imageColorFilter = value
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.cfIcon(value)
-            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            normalIconId: Data.cfIcon(value)
+            checkedIconId: Data.cfSelectedIcon(value)
             value: ColorTone.Sepia
             savedValue: settings.imageColorFilter
             onClicked: settings.imageColorFilter = value
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.cfIcon(value)
-            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            normalIconId: Data.cfIcon(value)
+            checkedIconId: Data.cfSelectedIcon(value)
             value: ColorTone.Vivid
             savedValue: settings.imageColorFilter
             onClicked: settings.imageColorFilter = value
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.cfIcon(value)
-            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            normalIconId: Data.cfIcon(value)
+            checkedIconId: Data.cfSelectedIcon(value)
             value: ColorTone.Negative
             savedValue: settings.imageColorFilter
             onClicked: settings.imageColorFilter = value
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.cfIcon(value)
-            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            normalIconId: Data.cfIcon(value)
+            checkedIconId: Data.cfSelectedIcon(value)
             value: ColorTone.Solarize
             savedValue: settings.imageColorFilter
             onClicked: settings.imageColorFilter = value

@@ -24,10 +24,10 @@ import QtQuick 2.0
 
 CameraToolIcon {
     id: button
-    property string normalIcon: ""
-    property string checkedIcon: ""
+    property string normalIconId
+    property string checkedIconId
     property int value: -1
     property int savedValue: -1
 
-    iconSource: savedValue == value ? checkedIcon : normalIcon
+    iconId: savedValue == value ? checkedIconId : normalIconId
 }

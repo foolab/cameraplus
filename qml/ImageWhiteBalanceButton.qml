@@ -36,36 +36,36 @@ CameraToolIcon {
             verticalAlignment: Text.AlignVCenter
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.wbIcon(value)
-            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            normalIconId: Data.wbIcon(value)
+            checkedIconId: Data.wbSelectedIcon(value)
             onClicked: settings.imageWhiteBalance = value
             value: WhiteBalance.Auto
             savedValue: settings.imageWhiteBalance
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.wbIcon(value)
-            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            normalIconId: Data.wbIcon(value)
+            checkedIconId: Data.wbSelectedIcon(value)
             onClicked: settings.imageWhiteBalance = value
             value: WhiteBalance.Sunset
             savedValue: settings.imageWhiteBalance
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.wbIcon(value)
-            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            normalIconId: Data.wbIcon(value)
+            checkedIconId: Data.wbSelectedIcon(value)
             onClicked: settings.imageWhiteBalance = value
             value: WhiteBalance.Cloudy
             savedValue: settings.imageWhiteBalance
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.wbIcon(value)
-            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            normalIconId: Data.wbIcon(value)
+            checkedIconId: Data.wbSelectedIcon(value)
             onClicked: settings.imageWhiteBalance = value
             value: WhiteBalance.Flourescent
             savedValue: settings.imageWhiteBalance
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.wbIcon(value)
-            checkedIcon: "image://theme/" + Data.wbSelectedIcon(value)
+            normalIconId: Data.wbIcon(value)
+            checkedIconId: Data.wbSelectedIcon(value)
             onClicked: settings.imageWhiteBalance = value
             value: WhiteBalance.Tungsten
             savedValue: settings.imageWhiteBalance

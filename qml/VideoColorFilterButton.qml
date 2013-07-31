@@ -36,43 +36,43 @@ CameraToolIcon {
             verticalAlignment: Text.AlignVCenter
             },
         CheckButton {
-            normalIcon: "image://theme/" + Data.cfIcon(value)
-            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            normalIconId: Data.cfIcon(value)
+            checkedIconId: Data.cfSelectedIcon(value)
             value: ColorTone.Normal
             savedValue: settings.videoColorFilter
             onClicked: settings.videoColorFilter = value
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.cfIcon(value)
-            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            normalIconId: Data.cfIcon(value)
+            checkedIconId: Data.cfSelectedIcon(value)
             value: ColorTone.GrayScale
             savedValue: settings.videoColorFilter
             onClicked: settings.videoColorFilter = value
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.cfIcon(value)
-            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            normalIconId: Data.cfIcon(value)
+            checkedIconId: Data.cfSelectedIcon(value)
             value: ColorTone.Sepia
             savedValue: settings.videoColorFilter
             onClicked: settings.videoColorFilter = value
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.cfIcon(value)
-            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            normalIconId: Data.cfIcon(value)
+            checkedIconId: Data.cfSelectedIcon(value)
             value: ColorTone.Vivid
             savedValue: settings.videoColorFilter
             onClicked: settings.videoColorFilter = value
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.cfIcon(value)
-            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            normalIconId: Data.cfIcon(value)
+            checkedIconId: Data.cfSelectedIcon(value)
             value: ColorTone.Negative
             savedValue: settings.videoColorFilter
             onClicked: settings.videoColorFilter = value
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.cfIcon(value)
-            checkedIcon: "image://theme/" + Data.cfSelectedIcon(value)
+            normalIconId: Data.cfIcon(value)
+            checkedIconId: Data.cfSelectedIcon(value)
             value: ColorTone.Solarize
             savedValue: settings.videoColorFilter
             onClicked: settings.videoColorFilter = value

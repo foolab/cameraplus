@@ -36,43 +36,43 @@ CameraToolIcon {
             verticalAlignment: Text.AlignVCenter
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.ismIcon(value)
-            checkedIcon: "image://theme/" + Data.ismSelectedIcon(value)
+            normalIconId: Data.ismIcon(value)
+            checkedIconId: Data.ismSelectedIcon(value)
             savedValue: settings.imageSceneMode
             onClicked: settings.imageSceneMode = value
             value: Scene.Auto
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.ismIcon(value)
-            checkedIcon: "image://theme/" + Data.ismSelectedIcon(value)
+            normalIconId: Data.ismIcon(value)
+            checkedIconId: Data.ismSelectedIcon(value)
             savedValue: settings.imageSceneMode
             onClicked: settings.imageSceneMode = value
             value: Scene.Closeup
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.ismIcon(value)
-            checkedIcon: "image://theme/" + Data.ismSelectedIcon(value)
+            normalIconId: Data.ismIcon(value)
+            checkedIconId: Data.ismSelectedIcon(value)
             savedValue: settings.imageSceneMode
             onClicked: settings.imageSceneMode = value
             value: Scene.Landscape
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.ismIcon(value)
-            checkedIcon: "image://theme/" + Data.ismSelectedIcon(value)
+            normalIconId: Data.ismIcon(value)
+            checkedIconId: Data.ismSelectedIcon(value)
             savedValue: settings.imageSceneMode
             onClicked: settings.imageSceneMode = value
             value: Scene.Portrait
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.ismIcon(value)
-            checkedIcon: "image://theme/" + Data.ismSelectedIcon(value)
+            normalIconId: Data.ismIcon(value)
+            checkedIconId: Data.ismSelectedIcon(value)
             savedValue: settings.imageSceneMode
             onClicked: settings.imageSceneMode = value
             value: Scene.Night
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.ismIcon(value)
-            checkedIcon: "image://theme/" + Data.ismSelectedIcon(value)
+            normalIconId: Data.ismIcon(value)
+            checkedIconId: Data.ismSelectedIcon(value)
             savedValue: settings.imageSceneMode
             onClicked: settings.imageSceneMode = value
             value: Scene.Sport

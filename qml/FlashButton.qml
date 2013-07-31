@@ -36,29 +36,29 @@ CameraToolIcon {
             verticalAlignment: Text.AlignVCenter
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.flashIcon(value)
-            checkedIcon: "image://theme/" + Data.flashPressedIcon(value)
+            normalIconId: Data.flashIcon(value)
+            checkedIconId: Data.flashPressedIcon(value)
             onClicked: settings.imageFlashMode = value
             value: Flash.Auto
             savedValue: settings.imageFlashMode
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.flashIcon(value)
-            checkedIcon: "image://theme/" + Data.flashPressedIcon(value)
+            normalIconId: Data.flashIcon(value)
+            checkedIconId: Data.flashPressedIcon(value)
             onClicked: settings.imageFlashMode = value
             value: Flash.On
             savedValue: settings.imageFlashMode
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.flashIcon(value)
-            checkedIcon: "image://theme/" + Data.flashPressedIcon(value)
+            normalIconId: Data.flashIcon(value)
+            checkedIconId: Data.flashPressedIcon(value)
             onClicked: settings.imageFlashMode = value
             value: Flash.Off
             savedValue: settings.imageFlashMode
         },
         CheckButton {
-            normalIcon: "image://theme/" + Data.flashIcon(value)
-            checkedIcon: "image://theme/" + Data.flashPressedIcon(value)
+            normalIconId: Data.flashIcon(value)
+            checkedIconId: Data.flashPressedIcon(value)
             onClicked: settings.imageFlashMode = value
             value: Flash.RedEye
             savedValue: settings.imageFlashMode
