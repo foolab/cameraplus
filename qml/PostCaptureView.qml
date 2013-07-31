@@ -119,28 +119,28 @@ Item {
 
         items: [
             CameraToolIcon {
-                iconId: !available ? "icon-m-toolbar-favorite-mark-dimmed-white" : view.currentItem.itemData.favorite ? "icon-m-toolbar-favorite-mark-white" : "icon-m-toolbar-favorite-unmark-white"
+                iconId: !available ? cameraTheme.favoriteDisabledIconId : view.currentItem.itemData.favorite ? cameraTheme.favoriteMarkIconId : cameraTheme.favoriteUnmarkIconId
                 onClicked: {
                     addOrRemoveFavorite()
                     restartTimer()
                 }
             },
             CameraToolIcon {
-                iconId: available ? "icon-m-toolbar-share-white" : "icon-m-toolbar-share-dimmed-white"
+                iconId: available ? cameraTheme.shareEnabledIconId : cameraTheme.shareDisabledIconId
                 onClicked: {
                     shareCurrentItem()
                     restartTimer()
                 }
             },
             CameraToolIcon {
-                iconId: available ? "icon-m-toolbar-delete-white" : "icon-m-toolbar-delete-dimmed-white"
+                iconId: available ? cameraTheme.deleteEnabledIconId : cameraTheme.deleteDisabledIconId
                 onClicked: {
                     deleteCurrentItem()
                     restartTimer()
                 }
             },
             CameraToolIcon {
-                iconId: "icon-m-toolbar-view-menu-white"
+                iconId: cameraTheme.menuIconId
                 onClicked: {
                     menu.open()
                     restartTimer()

@@ -46,7 +46,7 @@ Rectangle {
 
     Image {
         id: icon
-        source: "image://theme/icon-l-camera-standby"
+        source: cameraTheme.standbyIcon
         anchors.centerIn: parent
     }
 

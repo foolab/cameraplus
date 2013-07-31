@@ -48,7 +48,7 @@ Rectangle {
         visible: !parent.hideBack
         id: menu
         anchors.verticalCenter: parent.verticalCenter
-        iconId: "icon-m-toolbar-back-white"
+        iconId: cameraTheme.cameraToolBarMenuIcon
         onClicked: {
             if (tools.manualBack) {
                 tools.clicked()

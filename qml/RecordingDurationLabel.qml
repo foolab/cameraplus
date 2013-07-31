@@ -37,7 +37,7 @@ Rectangle {
 
     Image {
         id: recordingIcon
-        source: "image://theme/icon-m-camera-ongoing-recording"
+        source: cameraTheme.recordingDurationIcon
         width: 20
         height: 20
         anchors.verticalCenter: parent.verticalCenter

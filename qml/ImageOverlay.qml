@@ -73,7 +73,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        iconId: "icon-m-camera-shutter"
+        iconId: cameraTheme.captureButtonImageIconId
         width: 75
         height: 75
         opacity: 0.5
@@ -193,7 +193,7 @@ Item {
             Indicator {
                 id: gpsIndicator
                 visible: settings.useGps
-                source: "image://theme/icon-m-camera-location"
+                source: cameraTheme.gpsIndicatorIcon
 
                 PropertyAnimation on opacity  {
                     easing.type: Easing.OutSine
@@ -209,7 +209,7 @@ Item {
             Indicator {
                 id: faceDetectionIndicator
                 visible: settings.faceDetectionEnabled
-                source: "image://theme/icon-m-camera-face-detection-screen"
+                source: cameraTheme.faceDetectionIndicatorIcon
             }
 
         }

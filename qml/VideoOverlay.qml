@@ -80,7 +80,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        iconId: overlay.recording ? "icon-m-camera-video-record" : "icon-m-camera-video-record"
+        iconId: overlay.recording ? cameraTheme.captureButtonRecordingIconId : cameraTheme.captureButtonVideoIconId
         width: 75
         height: 75
         opacity: 0.5
@@ -162,7 +162,7 @@ Item {
             Indicator {
                 id: gpsIndicator
                 visible: settings.useGps
-                source: "image://theme/icon-m-camera-location"
+                source: cameraTheme.gpsIndicatorIcon
 
                 PropertyAnimation on opacity  {
                     easing.type: Easing.OutSine

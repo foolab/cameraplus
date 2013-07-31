@@ -29,6 +29,10 @@ import CameraPlus 1.0
 CameraPage {
     id: root
 
+    CameraTheme {
+        id: cameraTheme
+    }
+
     VisualItemModel {
         id: mainModel
 

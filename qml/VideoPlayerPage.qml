@@ -105,7 +105,7 @@ Item {
 
         items: [
             CameraToolIcon {
-                iconId: "icon-m-toolbar-mediacontrol-stop-white"
+                iconId: cameraTheme.videoStopIconId
                 onClicked: video.stop()
             },
             CameraSlider {
@@ -131,8 +131,7 @@ Item {
             },
             CameraToolIcon {
                 id: control
-                iconId: !video.paused ? "icon-m-toolbar-mediacontrol-pause-white"
-                    : "icon-m-toolbar-mediacontrol-play-white"
+                iconId: !video.paused ? cameraTheme.videoPauseIconId : cameraTheme.videoPlayIconId
                 onClicked: {
                     video.toggle()
                     hideTimer.restart()

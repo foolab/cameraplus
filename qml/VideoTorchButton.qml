@@ -27,7 +27,7 @@ CameraToolIcon {
     id: button
     property Camera camera: null
 
-    iconId: settings.videoTorchOn ? "icon-m-camera-torch-on" : "icon-m-camera-torch-off"
+    iconId: settings.videoTorchOn ? cameraTheme.cameraTorchOnIconId : cameraTheme.cameraTorchOffIconId
     onClicked: settings.videoTorchOn = !settings.videoTorchOn
 
     Binding {
