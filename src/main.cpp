@@ -137,7 +137,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   view->setSource(QUrl("qrc:/qml/main.qml"));
 
 #if defined(QT5)
-  view->showFullScreen();
   if (view->status() == QQuickView::Error) {
     qCritical() << "Errors loading QML:";
     QList<QQmlError> errors = view->errors();
@@ -151,8 +150,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
 
     return 1;
   }
-
 #endif
+
+  view->showFullScreen();
 
   int ret = app->exec();
 
