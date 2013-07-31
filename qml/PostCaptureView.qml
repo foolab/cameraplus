@@ -49,6 +49,7 @@ Item {
         cacheBuffer: height * 3
         model: postCaptureModel
         highlightRangeMode: ListView.StrictlyEnforceRange
+        interactive: view.currentItem && view.currentItem.playing ? false : true
 
         delegate: PostCaptureItem {
             width: view.width
