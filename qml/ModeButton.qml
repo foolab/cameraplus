@@ -29,9 +29,7 @@ CaptureButton {
     height: 55
     opacity: 0.5
 
-    iconSource: settings.mode == Camera.VideoMode ?
-        "image://theme/icon-m-viewfinder-camera" :
-        "image://theme/icon-m-camera-video"
+    iconId: settings.mode == Camera.VideoMode ? "icon-m-viewfinder-camera" : "icon-m-camera-video"
 
     onClicked: {
         if (settings.mode == Camera.VideoMode) {

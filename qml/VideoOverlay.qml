@@ -80,7 +80,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        iconSource: overlay.recording ? "image://theme/icon-m-camera-video-record" : "image://theme/icon-m-camera-video-record"
+        iconId: overlay.recording ? "icon-m-camera-video-record" : "icon-m-camera-video-record"
         width: 75
         height: 75
         opacity: 0.5

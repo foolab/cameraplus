@@ -73,7 +73,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        iconSource: "image://theme/icon-m-camera-shutter"
+        iconId: "icon-m-camera-shutter"
         width: 75
         height: 75
         opacity: 0.5

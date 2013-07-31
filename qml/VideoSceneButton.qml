@@ -27,7 +27,7 @@ import "data.js" as Data
 CameraToolIcon {
     id: button
 
-    iconSource: "image://theme/" + Data.vsmIcon(settings.videoSceneMode)
+    iconId: Data.vsmIcon(settings.videoSceneMode)
 
     property list<Item> items: [
         CameraLabel {

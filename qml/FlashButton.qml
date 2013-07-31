@@ -27,7 +27,7 @@ import "data.js" as Data
 CameraToolIcon {
     id: button
 
-    iconSource: "image://theme/" + Data.flashIcon(settings.imageFlashMode)
+    iconId: Data.flashIcon(settings.imageFlashMode)
 
     property list<Item> items: [
         CameraLabel {

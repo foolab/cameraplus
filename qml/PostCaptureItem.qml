@@ -92,7 +92,7 @@ Item {
             CameraToolIcon {
                 id: playIcon
                 anchors.horizontalCenter: parent.horizontalCenter
-                iconSource: "image://theme/icon-s-music-video-play"
+                iconId: "icon-m-toolbar-mediacontrol-play-white"
                 visible: isVideo
                 onClicked: startPlayback()
             }

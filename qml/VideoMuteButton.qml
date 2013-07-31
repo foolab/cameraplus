@@ -23,7 +23,7 @@
 import QtQuick 2.0
 
 CameraToolIcon {
-    iconSource: settings.videoMuted ? "image://theme/icon-m-toolbar-volume-off-white-selected" :
-        "image://theme/icon-m-toolbar-volume-white-selected"
+    iconId: settings.videoMuted ? "icon-m-toolbar-volume-off-white-selected"
+        : "icon-m-toolbar-volume-white-selected"
     onClicked: settings.videoMuted = !settings.videoMuted
 }

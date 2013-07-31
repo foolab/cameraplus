@@ -48,7 +48,7 @@ Rectangle {
         visible: !parent.hideBack
         id: menu
         anchors.verticalCenter: parent.verticalCenter
-        iconSource: "image://theme/icon-m-toolbar-back-white"
+        iconId: "icon-m-toolbar-back-white"
         onClicked: {
             if (tools.manualBack) {
                 tools.clicked()

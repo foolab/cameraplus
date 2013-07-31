@@ -25,7 +25,7 @@ import QtQuick 2.0
 Item {
     id: button
 
-    property url iconSource
+    property string iconId
     property CameraButtonStyle platformStyle: CameraButtonStyle {}
 
     property alias pressed: mouse.pressed
@@ -57,7 +57,7 @@ Item {
         anchors.centerIn: parent
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: -1
-        source: button.iconSource
+        source: "image://theme/" + button.iconId
         visible: source != ""
     }
 }

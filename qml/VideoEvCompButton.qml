@@ -26,7 +26,7 @@ import QtCamera 1.0
 CameraToolIcon {
     id: button
 
-    iconSource: settings.videoEvComp == 0 ? "image://theme/icon-m-camera-manual-exposure" : ""
+    iconId: settings.videoEvComp == 0 ? "icon-m-camera-manual-exposure" : ""
 
     CameraLabel {
         anchors.fill: parent

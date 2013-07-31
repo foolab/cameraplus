@@ -27,7 +27,7 @@ import "data.js" as Data
 CameraToolIcon {
     id: button
 
-    iconSource: "image://theme/" + Data.cfIcon(settings.videoColorFilter)
+    iconId: Data.cfIcon(settings.videoColorFilter)
 
     property list<Item> items: [
         CameraLabel {

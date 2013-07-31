@@ -27,7 +27,7 @@ import "data.js" as Data
 CameraToolIcon {
     id: button
 
-    iconSource: "image://theme/" + Data.wbIcon(settings.imageWhiteBalance)
+    iconId: Data.wbIcon(settings.imageWhiteBalance)
 
     property list<Item> items: [
         CameraLabel {

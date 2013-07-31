@@ -27,7 +27,7 @@ import "data.js" as Data
 CameraToolIcon {
     id: button
 
-    iconSource: "image://theme/" + Data.isoIcon(settings.imageIso)
+    iconId: Data.isoIcon(settings.imageIso)
 
     property list<Item> items: [
         CameraLabel {
