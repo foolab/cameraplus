@@ -17,17 +17,16 @@ qt5 {
     PKGCONFIG += Qt5Sparql qmsystem2-qt5 libresourceqt5 qdeclarative5-boostable
 }
 
-SOURCES += main.cpp settings.cpp filenaming.cpp displaystate.cpp fsmonitor.cpp \
-           cameraresources.cpp compass.cpp orientation.cpp mountprotector.cpp \
-           trackerstore.cpp focusrectangle.cpp sharehelper.cpp deletehelper.cpp galleryhelper.cpp \
-           postcapturemodel.cpp batteryinfo.cpp gridlines.cpp devicekeys.cpp \
-           platformsettings.cpp dbusservice.cpp
+SOURCES += main.cpp \
+           settings.cpp filenaming.cpp cameraresources.cpp \
+           trackerstore.cpp focusrectangle.cpp sharehelper.cpp \
+           deletehelper.cpp galleryhelper.cpp postcapturemodel.cpp \
+           gridlines.cpp platformsettings.cpp dbusservice.cpp
 
-HEADERS += settings.h filenaming.h displaystate.h fsmonitor.h \
-           cameraresources.h compass.h orientation.h mountprotector.h \
-           trackerstore.h focusrectangle.h sharehelper.h deletehelper.h galleryhelper.h \
-           postcapturemodel.h batteryinfo.h gridlines.h devicekeys.h \
-           platformsettings.h dbusservice.h
+HEADERS += settings.h filenaming.h cameraresources.h \
+           trackerstore.h focusrectangle.h sharehelper.h \
+           deletehelper.h galleryhelper.h postcapturemodel.h \
+           gridlines.h platformsettings.h dbusservice.h
 
 RESOURCES += ../qml/qml.qrc
 
