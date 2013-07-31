@@ -63,7 +63,7 @@ Item {
         onError: showError(qsTr("Error playing video. Please try again or restart the application"))
 
         function toggle() {
-            if (!video.paused) {
+            if (state != VideoPlayer.StatePaused) {
                 video.pause()
             } else {
                 page.play()
@@ -131,7 +131,7 @@ Item {
             },
             CameraToolIcon {
                 id: control
-                iconId: !video.paused ? cameraTheme.videoPauseIconId : cameraTheme.videoPlayIconId
+                iconId: video.state != VideoPlayer.StatePaused ? cameraTheme.videoPauseIconId : cameraTheme.videoPlayIconId
                 onClicked: {
                     video.toggle()
                     hideTimer.restart()
