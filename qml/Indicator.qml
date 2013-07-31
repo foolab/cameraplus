@@ -23,12 +23,12 @@
 import QtQuick 2.0
 
 Image {
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.leftMargin: 5
-        anchors.rightMargin: 5
-        anchors.topMargin: 5
-        anchors.bottomMargin: 5
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.leftMargin: 5
+    anchors.rightMargin: 5
+    anchors.topMargin: 5
+    anchors.bottomMargin: 5
 
-        height: width
+    height: width
 }
