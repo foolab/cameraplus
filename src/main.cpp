@@ -28,6 +28,7 @@
 #elif defined(QT5)
 #include <QGuiApplication>
 #include <QQuickView>
+#include <QQmlError>
 #endif
 
 #include "settings.h"
@@ -135,7 +136,23 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
 
   view->setSource(QUrl("qrc:/qml/main.qml"));
 
+#if defined(QT5)
   view->showFullScreen();
+  if (view->status() == QQuickView::Error) {
+    qCritical() << "Errors loading QML:";
+    QList<QQmlError> errors = view->errors();
+
+    foreach (const QQmlError& error, errors) {
+      qCritical() << error.toString();
+    }
+
+    delete view;
+    delete app;
+
+    return 1;
+  }
+
+#endif
 
   int ret = app->exec();
 
