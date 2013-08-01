@@ -123,20 +123,12 @@ function filterData(val, data, item) {
     }
 }
 
-function wbSelectedIcon(wb) {
-    return filterData(wb, __wb, 2);
-}
-
 function wbIcon(wb) {
     return filterData(wb, __wb, 3);
 }
 
 function wbName(wb) {
     return filterData(wb, __wb, 1);
-}
-
-function cfSelectedIcon(cf) {
-    return filterData(cf, __cf, 2);
 }
 
 function cfIcon(cf) {
@@ -151,20 +143,12 @@ function ismIcon(sm) {
     return filterData(sm, __ism, 3);
 }
 
-function ismSelectedIcon(sm) {
-    return filterData(sm, __ism, 2);
-}
-
 function ismName(sm) {
     return filterData(sm, __ism, 1);
 }
 
 function vsmIcon(sm) {
     return filterData(sm, __vsm, 3);
-}
-
-function vsmSelectedIcon(sm) {
-    return filterData(sm, __vsm, 2);
 }
 
 function vsmName(sm) {
@@ -193,8 +177,4 @@ function videoIcon(res) {
 
 function flashIcon(val) {
     return filterData(val, __flash, 2);
-}
-
-function flashPressedIcon(val) {
-    return filterData(val, __flash, 1);
 }
