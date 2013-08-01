@@ -36,18 +36,14 @@ CameraToolIcon {
             verticalAlignment: Text.AlignVCenter
         },
         CheckButton {
-            normalIconId: Data.vsmIcon(value)
-            checkedIconId: Data.vsmSelectedIcon(value)
-            savedValue: settings.videoSceneMode
-            onClicked: settings.videoSceneMode = value
-            value: Scene.Auto
+            iconId: Data.vsmIcon(Scene.Auto)
+            onClicked: settings.videoSceneMode = Scene.Auto
+            checked: settings.videoSceneMode == Scene.Auto
         },
         CheckButton {
-            normalIconId: Data.vsmIcon(value)
-            checkedIconId: Data.vsmSelectedIcon(value)
-            savedValue: settings.videoSceneMode
-            onClicked: settings.videoSceneMode = value
-            value: Scene.Night
+            iconId: Data.vsmIcon(Scene.Night)
+            onClicked: settings.videoSceneMode = Scene.Night
+            checked: settings.videoSceneMode == Scene.Night
         }
     ]
 }

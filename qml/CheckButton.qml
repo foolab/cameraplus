@@ -24,10 +24,25 @@ import QtQuick 2.0
 
 CameraToolIcon {
     id: button
-    property string normalIconId
-    property string checkedIconId
-    property int value: -1
-    property int savedValue: -1
+    property bool checked: false
 
-    iconId: savedValue == value ? checkedIconId : normalIconId
+    Rectangle {
+        anchors.centerIn: parent
+        width: parent.width * 0.8
+        height: parent.height * 0.8
+        color: "blue"
+        opacity: checked ? 0.5 : 0.0
+        visible: opacity > 0.0
+        z: -1
+        radius: width / 2
+        border.color: "steelblue"
+        border.width: 1
+        smooth: true
+        Behavior on opacity {
+            PropertyAnimation {
+                duration: 20
+                easing.type: Easing.OutQuad
+            }
+        }
+    }
 }

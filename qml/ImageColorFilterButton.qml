@@ -35,46 +35,34 @@ CameraToolIcon {
             verticalAlignment: Text.AlignVCenter
         },
         CheckButton {
-            normalIconId: Data.cfIcon(value)
-            checkedIconId: Data.cfSelectedIcon(value)
-            value: ColorTone.Normal
-            savedValue: settings.imageColorFilter
-            onClicked: settings.imageColorFilter = value
+            iconId: Data.cfIcon(ColorTone.Normal)
+            onClicked: settings.imageColorFilter = ColorTone.Normal
+            checked: settings.imageColorFilter == ColorTone.Normal
         },
         CheckButton {
-            normalIconId: Data.cfIcon(value)
-            checkedIconId: Data.cfSelectedIcon(value)
-            value: ColorTone.GrayScale
-            savedValue: settings.imageColorFilter
-            onClicked: settings.imageColorFilter = value
+            iconId: Data.cfIcon(ColorTone.GrayScale)
+            onClicked: settings.imageColorFilter = ColorTone.GrayScale
+            checked: settings.imageColorFilter == ColorTone.GrayScale
         },
         CheckButton {
-            normalIconId: Data.cfIcon(value)
-            checkedIconId: Data.cfSelectedIcon(value)
-            value: ColorTone.Sepia
-            savedValue: settings.imageColorFilter
-            onClicked: settings.imageColorFilter = value
+            iconId: Data.cfIcon(ColorTone.Sepia)
+            onClicked: settings.imageColorFilter = ColorTone.Sepia
+            checked: settings.imageColorFilter == ColorTone.Sepia
         },
         CheckButton {
-            normalIconId: Data.cfIcon(value)
-            checkedIconId: Data.cfSelectedIcon(value)
-            value: ColorTone.Vivid
-            savedValue: settings.imageColorFilter
-            onClicked: settings.imageColorFilter = value
+            iconId: Data.cfIcon(ColorTone.Vivid)
+            onClicked: settings.imageColorFilter = ColorTone.Vivid
+            checked: settings.imageColorFilter == ColorTone.Vivid
         },
         CheckButton {
-            normalIconId: Data.cfIcon(value)
-            checkedIconId: Data.cfSelectedIcon(value)
-            value: ColorTone.Negative
-            savedValue: settings.imageColorFilter
-            onClicked: settings.imageColorFilter = value
+            iconId: Data.cfIcon(ColorTone.Negative)
+            onClicked: settings.imageColorFilter = ColorTone.Negative
+            checked: settings.imageColorFilter == ColorTone.Negative
         },
         CheckButton {
-            normalIconId: Data.cfIcon(value)
-            checkedIconId: Data.cfSelectedIcon(value)
-            value: ColorTone.Solarize
-            savedValue: settings.imageColorFilter
-            onClicked: settings.imageColorFilter = value
+            iconId: Data.cfIcon(ColorTone.Solarize)
+            onClicked: settings.imageColorFilter = ColorTone.Solarize
+            checked: settings.imageColorFilter == ColorTone.Solarize
         }
     ]
 }

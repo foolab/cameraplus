@@ -36,39 +36,29 @@ CameraToolIcon {
             verticalAlignment: Text.AlignVCenter
         },
         CheckButton {
-            normalIconId: Data.wbIcon(value)
-            checkedIconId: Data.wbSelectedIcon(value)
-            value: WhiteBalance.Auto
-            savedValue: settings.videoWhiteBalance
-            onClicked: settings.videoWhiteBalance = value
+            iconId: Data.wbIcon(WhiteBalance.Auto)
+            onClicked: settings.videoWhiteBalance = WhiteBalance.Auto
+            checked: settings.videoWhiteBalance == WhiteBalance.Auto
         },
         CheckButton {
-            normalIconId: Data.wbIcon(value)
-            checkedIconId: Data.wbSelectedIcon(value)
-            value: WhiteBalance.Sunset
-            savedValue: settings.videoWhiteBalance
-            onClicked: settings.videoWhiteBalance = value
+            iconId: Data.wbIcon(WhiteBalance.Sunset)
+            onClicked: settings.videoWhiteBalance = WhiteBalance.Sunset
+            checked: settings.videoWhiteBalance == WhiteBalance.Sunset
         },
         CheckButton {
-            normalIconId: Data.wbIcon(value)
-            checkedIconId: Data.wbSelectedIcon(value)
-            value: WhiteBalance.Cloudy
-            savedValue: settings.videoWhiteBalance
-            onClicked: settings.videoWhiteBalance = value
+            iconId: Data.wbIcon(WhiteBalance.Cloudy)
+            onClicked: settings.videoWhiteBalance = WhiteBalance.Cloudy
+            checked: settings.videoWhiteBalance == WhiteBalance.Cloudy
         },
         CheckButton {
-            normalIconId: Data.wbIcon(value)
-            checkedIconId: Data.wbSelectedIcon(value)
-            value: WhiteBalance.Flourescent
-            savedValue: settings.videoWhiteBalance
-            onClicked: settings.videoWhiteBalance = value
+            iconId: Data.wbIcon(WhiteBalance.Flourescent)
+            onClicked: settings.videoWhiteBalance = WhiteBalance.Flourescent
+            checked: settings.videoWhiteBalance == WhiteBalance.Flourescent
         },
         CheckButton {
-            normalIconId: Data.wbIcon(value)
-            checkedIconId: Data.wbSelectedIcon(value)
-            value: WhiteBalance.Tungsten
-            savedValue: settings.videoWhiteBalance
-            onClicked: settings.videoWhiteBalance = value
+            iconId: Data.wbIcon(WhiteBalance.Tungsten)
+            onClicked: settings.videoWhiteBalance = WhiteBalance.Tungsten
+            checked: settings.videoWhiteBalance == WhiteBalance.Tungsten
         }
     ]
 }

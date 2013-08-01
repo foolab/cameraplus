@@ -34,48 +34,36 @@ CameraToolIcon {
             height: parent ? parent.height : 0
             text: qsTr("Filter")
             verticalAlignment: Text.AlignVCenter
-            },
-        CheckButton {
-            normalIconId: Data.cfIcon(value)
-            checkedIconId: Data.cfSelectedIcon(value)
-            value: ColorTone.Normal
-            savedValue: settings.videoColorFilter
-            onClicked: settings.videoColorFilter = value
         },
         CheckButton {
-            normalIconId: Data.cfIcon(value)
-            checkedIconId: Data.cfSelectedIcon(value)
-            value: ColorTone.GrayScale
-            savedValue: settings.videoColorFilter
-            onClicked: settings.videoColorFilter = value
+            iconId: Data.cfIcon(ColorTone.Normal)
+            onClicked: settings.videoColorFilter = ColorTone.Normal
+            checked: settings.videoColorFilter == ColorTone.Normal
         },
         CheckButton {
-            normalIconId: Data.cfIcon(value)
-            checkedIconId: Data.cfSelectedIcon(value)
-            value: ColorTone.Sepia
-            savedValue: settings.videoColorFilter
-            onClicked: settings.videoColorFilter = value
+            iconId: Data.cfIcon(ColorTone.GrayScale)
+            onClicked: settings.videoColorFilter = ColorTone.GrayScale
+            checked: settings.videoColorFilter == ColorTone.GrayScale
         },
         CheckButton {
-            normalIconId: Data.cfIcon(value)
-            checkedIconId: Data.cfSelectedIcon(value)
-            value: ColorTone.Vivid
-            savedValue: settings.videoColorFilter
-            onClicked: settings.videoColorFilter = value
+            iconId: Data.cfIcon(ColorTone.Sepia)
+            onClicked: settings.videoColorFilter = ColorTone.Sepia
+            checked: settings.videoColorFilter == ColorTone.Sepia
         },
         CheckButton {
-            normalIconId: Data.cfIcon(value)
-            checkedIconId: Data.cfSelectedIcon(value)
-            value: ColorTone.Negative
-            savedValue: settings.videoColorFilter
-            onClicked: settings.videoColorFilter = value
+            iconId: Data.cfIcon(ColorTone.Vivid)
+            onClicked: settings.videoColorFilter = ColorTone.Vivid
+            checked: settings.videoColorFilter == ColorTone.Vivid
         },
         CheckButton {
-            normalIconId: Data.cfIcon(value)
-            checkedIconId: Data.cfSelectedIcon(value)
-            value: ColorTone.Solarize
-            savedValue: settings.videoColorFilter
-            onClicked: settings.videoColorFilter = value
+            iconId: Data.cfIcon(ColorTone.Negative)
+            onClicked: settings.videoColorFilter = ColorTone.Negative
+            checked: settings.videoColorFilter == ColorTone.Negative
+        },
+        CheckButton {
+            iconId: Data.cfIcon(ColorTone.Solarize)
+            onClicked: settings.videoColorFilter = ColorTone.Solarize
+            checked: settings.videoColorFilter == ColorTone.Solarize
         }
     ]
 }

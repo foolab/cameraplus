@@ -36,46 +36,34 @@ CameraToolIcon {
             verticalAlignment: Text.AlignVCenter
         },
         CheckButton {
-            normalIconId: Data.ismIcon(value)
-            checkedIconId: Data.ismSelectedIcon(value)
-            savedValue: settings.imageSceneMode
-            onClicked: settings.imageSceneMode = value
-            value: Scene.Auto
+            iconId: Data.ismIcon(Scene.Auto)
+            onClicked: settings.imageSceneMode = Scene.Auto
+            checked: settings.imageSceneMode == Scene.Auto
         },
         CheckButton {
-            normalIconId: Data.ismIcon(value)
-            checkedIconId: Data.ismSelectedIcon(value)
-            savedValue: settings.imageSceneMode
-            onClicked: settings.imageSceneMode = value
-            value: Scene.Closeup
+            iconId: Data.ismIcon(Scene.Closeup)
+            onClicked: settings.imageSceneMode = Scene.Closeup
+            checked: settings.imageSceneMode == Scene.Closeup
         },
         CheckButton {
-            normalIconId: Data.ismIcon(value)
-            checkedIconId: Data.ismSelectedIcon(value)
-            savedValue: settings.imageSceneMode
-            onClicked: settings.imageSceneMode = value
-            value: Scene.Landscape
+            iconId: Data.ismIcon(Scene.Landscape)
+            onClicked: settings.imageSceneMode = Scene.Landscape
+            checked: settings.imageSceneMode == Scene.Landscape
         },
         CheckButton {
-            normalIconId: Data.ismIcon(value)
-            checkedIconId: Data.ismSelectedIcon(value)
-            savedValue: settings.imageSceneMode
-            onClicked: settings.imageSceneMode = value
-            value: Scene.Portrait
+            iconId: Data.ismIcon(Scene.Portrait)
+            onClicked: settings.imageSceneMode = Scene.Portrait
+            checked: settings.imageSceneMode == Scene.Portrait
         },
         CheckButton {
-            normalIconId: Data.ismIcon(value)
-            checkedIconId: Data.ismSelectedIcon(value)
-            savedValue: settings.imageSceneMode
-            onClicked: settings.imageSceneMode = value
-            value: Scene.Night
+            iconId: Data.ismIcon(Scene.Night)
+            onClicked: settings.imageSceneMode = Scene.Night
+            checked: settings.imageSceneMode == Scene.Night
         },
         CheckButton {
-            normalIconId: Data.ismIcon(value)
-            checkedIconId: Data.ismSelectedIcon(value)
-            savedValue: settings.imageSceneMode
-            onClicked: settings.imageSceneMode = value
-            value: Scene.Sport
+            iconId: Data.ismIcon(Scene.Sport)
+            onClicked: settings.imageSceneMode = Scene.Sport
+            checked: settings.imageSceneMode == Scene.Sport
         }
     ]
 }
