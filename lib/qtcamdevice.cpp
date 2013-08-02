@@ -158,10 +158,6 @@ bool QtCamDevice::setViewfinder(QtCamViewfinder *viewfinder) {
     return true;
   }
 
-  if (!viewfinder->setDevice(this)) {
-    return false;
-  }
-
   d_ptr->viewfinder = viewfinder;
   d_ptr->sink = 0;
 

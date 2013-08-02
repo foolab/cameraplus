@@ -33,6 +33,7 @@
 class QtCamViewfinderRenderer;
 class Camera;
 class CameraConfig;
+class QtCamDevice;
 
 #if defined(QT4)
 class Viewfinder : public QDeclarativeItem, public QtCamViewfinder {
@@ -76,7 +77,6 @@ public:
 #endif
 
   GstElement *sinkElement();
-  bool setDevice(QtCamDevice *device);
   void stop();
 
 signals:
@@ -93,11 +93,13 @@ protected:
 private slots:
   void deviceChanged();
   void updateRequested();
+  void prepareForDeviceChange();
 
 private:
   QtCamViewfinderRenderer *m_renderer;
   Camera *m_cam;
   CameraConfig *m_conf;
+  QtCamDevice *m_dev;
   bool m_enabled;
 };
 

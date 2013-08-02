@@ -153,6 +153,7 @@ bool Camera::setDeviceId(const QVariant& deviceId) {
   }
 
   if (m_dev && m_dev->stop(false)) {
+    emit prepareForDeviceChange();
     delete m_dev;
   }
   else if (m_dev) {

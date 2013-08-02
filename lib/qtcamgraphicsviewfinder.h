@@ -37,7 +37,6 @@ public:
   virtual ~QtCamGraphicsViewfinder();
 
   virtual GstElement *sinkElement();
-  virtual bool setDevice(QtCamDevice *device);
   virtual void stop();
 
   virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,

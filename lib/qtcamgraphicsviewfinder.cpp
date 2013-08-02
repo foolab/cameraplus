@@ -81,33 +81,6 @@ GstElement *QtCamGraphicsViewfinder::sinkElement() {
   return d_ptr->renderer->sinkElement();
 }
 
-bool QtCamGraphicsViewfinder::setDevice(QtCamDevice *device) {
-  if (device && d_ptr->dev == device) {
-    return true;
-  }
-
-  if (d_ptr->dev) {
-    qWarning() << "QtCamGraphicsViewfinder: viewfinder cannot be replaced.";
-    return false;
-  }
-
-  if (!device) {
-    qWarning() << "QtCamGraphicsViewfinder: viewfinder cannot be unset.";
-    return false;
-  }
-
-  // This is to break the loop.
-  d_ptr->dev = device;
-  if (!device->setViewfinder(this)) {
-    d_ptr->dev = 0;
-    return false;
-  }
-
-  d_ptr->resetBackend();
-
-  return true;
-}
-
 void QtCamGraphicsViewfinder::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 				    QWidget *widget) {
   Q_UNUSED(widget);

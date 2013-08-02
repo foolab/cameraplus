@@ -43,6 +43,7 @@ Viewfinder::Viewfinder(QQuickItem *parent) :
   m_renderer(0),
   m_cam(0),
   m_conf(0),
+  m_dev(0),
   m_enabled(true) {
 
 #if defined(QT4)
@@ -92,12 +93,14 @@ void Viewfinder::setCamera(Camera *camera) {
 
   if (m_cam) {
     QObject::disconnect(m_cam, SIGNAL(deviceChanged()), this, SLOT(deviceChanged()));
+    QObject::disconnect(m_cam, SIGNAL(prepareForDeviceChange()), this, SLOT(prepareForDeviceChange()));
   }
 
   m_cam = camera;
 
   if (m_cam) {
     QObject::connect(m_cam, SIGNAL(deviceChanged()), this, SLOT(deviceChanged()));
+    QObject::connect(m_cam, SIGNAL(prepareForDeviceChange()), this, SLOT(prepareForDeviceChange()));
   }
 
   if (isComponentComplete()) {
@@ -219,10 +222,15 @@ void Viewfinder::deviceChanged() {
     return;
   }
 
-  QtCamDevice *dev = m_cam->device();
+  if (m_dev) {
+    qmlInfo(this) << "Cannot set a new device without cleaning up the existing one";
+    abort();
+  }
 
-  if (dev) {
-    dev->setViewfinder(this);
+  m_dev = m_cam->device();
+
+  if (m_dev) {
+    m_dev->setViewfinder(this);
   }
 
   emit renderAreaChanged();
@@ -231,12 +239,6 @@ void Viewfinder::deviceChanged() {
 
 GstElement *Viewfinder::sinkElement() {
   return m_renderer ? m_renderer->sinkElement() : 0;
-}
-
-bool Viewfinder::setDevice(QtCamDevice *device) {
-  Q_UNUSED(device);
-
-  return true;
 }
 
 void Viewfinder::stop() {
@@ -248,5 +250,12 @@ void Viewfinder::stop() {
 void Viewfinder::updateRequested() {
   if (m_enabled) {
     update();
+  }
+}
+
+void Viewfinder::prepareForDeviceChange() {
+  if (m_dev) {
+    m_dev->setViewfinder(0);
+    m_dev = 0;
   }
 }

@@ -141,6 +141,7 @@ public:
 signals:
   void deviceCountChanged();
   void deviceIdChanged();
+  void prepareForDeviceChange();
   void deviceChanged();
   void modeChanged();
   void idleStateChanged();

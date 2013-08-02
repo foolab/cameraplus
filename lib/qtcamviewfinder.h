@@ -34,7 +34,6 @@ public:
   virtual ~QtCamViewfinder();
 
   virtual GstElement *sinkElement() = 0;
-  virtual bool setDevice(QtCamDevice *device) = 0;
   virtual void stop() = 0;
 
   virtual QRectF renderArea() const = 0;
