@@ -32,7 +32,7 @@ Item {
     Loader {
         id: loader
         anchors.fill: parent
-        source: settings.mode == Camera.VideoMode ? Qt.resolvedUrl("VideoSettings.qml") : Qt.resolvedUrl("ImageSettings.qml")
+        source: settings.mode == Camera.VideoMode ? Qt.resolvedUrl("VideoModeSettings.qml") : Qt.resolvedUrl("ImageModeSettings.qml")
     }
 
     Binding {

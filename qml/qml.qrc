@@ -17,7 +17,7 @@
 	<file>ImageOverlay.qml</file>
 	<file>ImageResolutionSettings.qml</file>
 	<file>ImageSceneButton.qml</file>
-	<file>ImageSettings.qml</file>
+	<file>ImageModeSettings.qml</file>
 	<file>ImageWhiteBalanceButton.qml</file>
 	<file>Indicator.qml</file>
         <file>main.qml</file>
@@ -40,7 +40,7 @@
 	<file>VideoPlayerPage.qml</file>
 	<file>VideoResolutionSettings.qml</file>
 	<file>VideoSceneButton.qml</file>
-	<file>VideoSettings.qml</file>
+	<file>VideoModeSettings.qml</file>
 	<file>VideoTorchButton.qml</file>
 	<file>VideoWhiteBalanceButton.qml</file>
 	<file>ZoomCaptureButton.qml</file>
