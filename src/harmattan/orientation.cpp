@@ -28,7 +28,7 @@ Orientation::Orientation(QObject *parent) :
   m_direction(Unknown) {
 
   QObject::connect(m_orientation, SIGNAL(orientationChanged(const MeeGo::QmOrientationReading&)),
-		   this, SLOT(orientationChanged(const MeeGo::QmOrientationReading&)));
+		   this, SLOT(onOrientationChanged(const MeeGo::QmOrientationReading&)));
 
   if (m_orientation->requestSession(MeeGo::QmSensor::SessionTypeListen)
       == MeeGo::QmSensor::SessionTypeNone) {
@@ -51,7 +51,7 @@ void Orientation::setActive(bool active) {
 
   if (active) {
     m_orientation->start();
-    orientationChanged(m_orientation->orientation());
+    onOrientationChanged(m_orientation->orientation());
   }
   else {
     m_orientation->stop();
@@ -67,7 +67,7 @@ Orientation::OrientationDirection Orientation::orientation() const {
   return m_direction;
 }
 
-void Orientation::orientationChanged(const MeeGo::QmOrientationReading& value) {
+void Orientation::onOrientationChanged(const MeeGo::QmOrientationReading& value) {
   OrientationDirection direction = Unknown;
 
   switch (value.value) {
@@ -94,6 +94,7 @@ void Orientation::orientationChanged(const MeeGo::QmOrientationReading& value) {
 
   if (direction != m_direction) {
     m_direction = direction;
+
     emit orientationChanged();
   }
 }

@@ -61,7 +61,7 @@ signals:
   void orientationChanged();
 
 private slots:
-  void orientationChanged(const MeeGo::QmOrientationReading& value);
+  void onOrientationChanged(const MeeGo::QmOrientationReading& value);
 
 private:
   MeeGo::QmOrientation *m_orientation;
