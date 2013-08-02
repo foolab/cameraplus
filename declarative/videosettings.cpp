@@ -88,7 +88,6 @@ VideoResolutionModel *VideoSettings::resolutions() {
     return 0;
   }
 
-
   if (!m_resolutions) {
     m_resolutions = new VideoResolutionModel(m_settings, this);
   }
@@ -97,7 +96,7 @@ VideoResolutionModel *VideoSettings::resolutions() {
 }
 
 bool VideoSettings::isReady() const {
-  return m_settings;
+  return m_settings != 0;
 }
 
 bool VideoSettings::setResolution(const QString& aspectRatio, const QString& resolution) {

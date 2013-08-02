@@ -88,7 +88,6 @@ ImageResolutionModel *ImageSettings::resolutions() {
     return 0;
   }
 
-
   if (!m_resolutions) {
     m_resolutions = new ImageResolutionModel(m_settings, this);
   }
@@ -97,7 +96,7 @@ ImageResolutionModel *ImageSettings::resolutions() {
 }
 
 bool ImageSettings::isReady() const {
-  return m_settings;
+  return m_settings != 0;
 }
 
 bool ImageSettings::setResolution(const QString& aspectRatio, const QString& resolution) {
