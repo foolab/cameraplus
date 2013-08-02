@@ -31,6 +31,7 @@ Item {
     property variant itemData: item
     property bool playing: loader.source != ""
     signal clicked
+    clip: true
 
     function startPlayback() {
         loader.source = Qt.resolvedUrl("VideoPlayerPage.qml")
@@ -57,16 +58,41 @@ Item {
         onFinished: loader.source = ""
     }
 
-// TODO: rotation
     FullScreenThumbnail {
         id: image
         source: itemData.url
         mimeType: itemData.mimeType
-
-        width: parent.width - 10
-        height: parent.height
+        rotation: calculateRotation(orientation.orientation)
+        width: isPortrait ? parent.height : parent.width - 10
+        height: isPortrait ? parent.width - 10 : parent.height
         anchors.centerIn: parent
         visible: loader.source == ""
+        property bool isPortrait: rotation == -90
+
+        Behavior on width {
+            PropertyAnimation { duration: 100 }
+        }
+
+        Behavior on height {
+            PropertyAnimation { duration: 100 }
+        }
+
+        Behavior on rotation {
+            PropertyAnimation { duration: 100 }
+        }
+
+        function calculateRotation(orientation) {
+            switch (orientation) {
+                case CameraOrientation.InvertedLandscape:
+                case CameraOrientation.Landscape:
+                    return 0
+                case CameraOrientation.InvertedPortrait:
+                case CameraOrientation.Portrait:
+                    return -90
+                default:
+                    return 0
+            }
+        }
 
         MouseArea {
             id: mouse
