@@ -43,6 +43,7 @@
 #define DEFAULT_GRID_ENABLED            false
 #define DEFAULT_FACE_DETECTION_ENABLED  true
 #define DEFAULT_ZOOM_AS_SHUTTER         false
+#define DEFAULT_DEVICE                  0
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -343,5 +344,16 @@ void Settings::setZoomAsShutterEnabled(bool enabled) {
     m_settings->setValue("camera/zoomAsShutter", enabled);
 
     emit zoomAsShutterChanged();
+  }
+}
+
+int Settings::device() const {
+  return m_settings->value("camera/device", DEFAULT_DEVICE).toInt();
+}
+
+void Settings::setDevice(int device) {
+  if (device != Settings::device()) {
+    m_settings->setValue("camera/device", device);
+    emit deviceChanged();
   }
 }
