@@ -25,7 +25,6 @@ import CameraPlus 1.0
 import QtCamera 1.0
 
 // TODO: qrc:/qml/PostCaptureView.qml:104:5: QML CameraToolBar: Binding loop detected for property "height"
-// TODO: hide toolbar as soon as we start playback
 Item {
     id: postCaptureView
 
@@ -35,6 +34,15 @@ Item {
         CameraResources.Player : settings.mode == Camera.VideoMode ? CameraResources.Video :
         CameraResources.Image
     property bool available: view.currentItem ? view.currentItem.itemData.available : false
+
+    Connections {
+        target: view.currentItem
+        onPlayingChanged: {
+            if (view.currentItem.playing) {
+                hideTimer.running = false
+            }
+        }
+    }
 
     ShareHelper {
         id: share
@@ -120,7 +128,7 @@ Item {
             (view.currentItem && view.currentItem.error) && !view.currentItem.playing
 
         Behavior on anchors.bottomMargin {
-            PropertyAnimation { duration: 200; }
+            PropertyAnimation { duration: view.currentItem && view.currentItem.playing ? 0 : 200 }
         }
 
         tools: CameraToolBarTools {
@@ -212,7 +220,7 @@ Item {
         radius: toolBar.radius
 
         Behavior on anchors.topMargin {
-            PropertyAnimation { duration: 200; }
+            PropertyAnimation { duration: view.currentItem && view.currentItem.playing ? 0 : 200 }
         }
 
         Flow {
