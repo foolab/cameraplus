@@ -21,8 +21,11 @@
  */
 
 import QtQuick 2.0
+import QtCamera 1.0
 
 Column {
+    property Camera camera: null
+
     id: col
     spacing: 10
     width: parent.width
@@ -40,6 +43,8 @@ Column {
 
     CameraButtonRow {
         anchors.horizontalCenter: parent.horizontalCenter
+        // TODO: test this
+        enabled: camera.running && camera.idle
 
         CameraButton {
             text: qsTr("Back (Primary)");

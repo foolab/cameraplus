@@ -56,6 +56,7 @@ Flickable {
         }
 
         CameraSettings {
+            camera: flick.camera
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }
