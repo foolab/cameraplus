@@ -28,6 +28,8 @@ Column {
 
     spacing: 10
 
+    visible: videoSettings.resolutions.count > 1
+
     SectionHeader {
         text: qsTr("Resolution")
     }

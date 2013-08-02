@@ -30,6 +30,7 @@ Column {
 
     SectionHeader {
         text: qsTr("Aspect ratio")
+        visible: aspectRatioRow.visible
     }
 
     CameraButtonRow {
@@ -37,6 +38,7 @@ Column {
         width: parent.width
         enabled: camera ? camera.idle : false
         exclusive: false
+        visible: imageSettings.aspectRatioCount > 1
 
         Repeater {
             model: imageSettings.aspectRatios
@@ -50,6 +52,7 @@ Column {
 
     SectionHeader {
         text: qsTr("Resolution")
+        visible: resolutionsRow.visible
     }
 
     CameraButtonRow {
@@ -57,6 +60,7 @@ Column {
         width: parent.width
         enabled: camera ? camera.idle : false
         exclusive: false
+        visible: imageSettings.resolutions.count > 1
 
         Binding {
             target: imageSettings.resolutions
