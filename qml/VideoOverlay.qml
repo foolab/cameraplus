@@ -102,26 +102,31 @@ Item {
         expanded: settings.showToolBar
         onExpandedChanged: settings.showToolBar = expanded;
 
-        items: [
+        tools: CameraToolBarTools {
             VideoTorchButton {
                 camera: cam
-            },
+            }
+
             VideoSceneButton {
-// TODO: hide when recording
-                onClicked: toolBar.push(items)
-            },
+                visible: !overlay.recording
+                onClicked: toolBar.push(tools)
+            }
+
             VideoEvCompButton {
-                onClicked: toolBar.push(items)
-            },
+                onClicked: toolBar.push(tools)
+            }
+
             VideoWhiteBalanceButton {
-                onClicked: toolBar.push(items)
-            },
+                onClicked: toolBar.push(tools)
+            }
+
             VideoColorFilterButton {
-                onClicked: toolBar.push(items)
-            },
+                onClicked: toolBar.push(tools)
+            }
+
             VideoMuteButton {
             }
-        ]
+        }
     }
 
     Rectangle {

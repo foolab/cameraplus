@@ -29,36 +29,41 @@ CameraToolIcon {
 
     iconId: Data.wbIcon(settings.imageWhiteBalance)
 
-    property list<Item> items: [
+    property CameraToolBarTools tools: CameraToolBarTools {
         CameraLabel {
             height: parent ? parent.height : 0
             text: qsTr("WB")
             verticalAlignment: Text.AlignVCenter
-        },
+        }
+
         CheckButton {
             iconId: Data.wbIcon(WhiteBalance.Auto)
             onClicked: settings.imageWhiteBalance = WhiteBalance.Auto
             checked: settings.imageWhiteBalance == WhiteBalance.Auto
-        },
+        }
+
         CheckButton {
             iconId: Data.wbIcon(WhiteBalance.Sunset)
             onClicked: settings.imageWhiteBalance = WhiteBalance.Sunset
             checked: settings.imageWhiteBalance == WhiteBalance.Sunset
-        },
+        }
+
         CheckButton {
             iconId: Data.wbIcon(WhiteBalance.Cloudy)
             onClicked: settings.imageWhiteBalance = WhiteBalance.Cloudy
             checked: settings.imageWhiteBalance == WhiteBalance.Cloudy
-        },
+        }
+
         CheckButton {
             iconId: Data.wbIcon(WhiteBalance.Flourescent)
             onClicked: settings.imageWhiteBalance = WhiteBalance.Flourescent
             checked: settings.imageWhiteBalance == WhiteBalance.Flourescent
-        },
+        }
+
         CheckButton {
             iconId: Data.wbIcon(WhiteBalance.Tungsten)
             onClicked: settings.imageWhiteBalance = WhiteBalance.Tungsten
             checked: settings.imageWhiteBalance == WhiteBalance.Tungsten
         }
-    ]
+    }
 }

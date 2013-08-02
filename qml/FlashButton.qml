@@ -29,31 +29,35 @@ CameraToolIcon {
 
     iconId: Data.flashIcon(settings.imageFlashMode)
 
-    property list<Item> items: [
+    property CameraToolBarTools tools: CameraToolBarTools {
         CameraLabel {
             height: parent ? parent.height : 0
             text: qsTr("Flash")
             verticalAlignment: Text.AlignVCenter
-        },
+        }
+
         CheckButton {
             iconId: Data.flashIcon(Flash.Auto)
             onClicked: settings.imageFlashMode = Flash.Auto
             checked: settings.imageFlashMode == Flash.Auto
-        },
+        }
+
         CheckButton {
             iconId: Data.flashIcon(Flash.On)
             onClicked: settings.imageFlashMode = Flash.On
             checked: settings.imageFlashMode == Flash.On
-        },
+        }
+
         CheckButton {
             iconId: Data.flashIcon(Flash.Off)
             onClicked: settings.imageFlashMode = Flash.Off
             checked: settings.imageFlashMode == Flash.Off
-        },
+        }
+
         CheckButton {
             iconId: Data.flashIcon(Flash.RedEye)
             onClicked: settings.imageFlashMode = Flash.RedEye
             checked: settings.imageFlashMode == Flash.RedEye
         }
-    ]
+    }
 }

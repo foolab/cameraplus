@@ -24,78 +24,63 @@ import QtQuick 2.0
 import "CameraToolBar.js" as Layout
 
 Rectangle {
-    id: tools
-    property bool expanded: false
-    property list<Item> items
-    property int targetWidth: parent.width - (2 * anchors.leftMargin)
-    property alias menuWidth: menu.width
+    id: toolBar
+
+    property bool expanded: true
+    property real targetWidth: parent.width - anchors.leftMargin - anchors.rightMargin
     property bool manualBack: false
     property bool hideBack: false
     signal clicked
 
-    height: menu.height
-    width: expanded ? targetWidth : menu.width
-    color: expanded ? "black" : width == menu.width ? "transparent" : "black"
-    border.color: expanded ? "gray" : width == menu.width ? "transparent" : "gray"
-    radius: 20
+    property CameraToolBarTools tools
+    property CameraToolBarTools __currentTools
 
-    Behavior on width {
-        PropertyAnimation { duration: 100 }
-    }
-
-    CameraToolIcon {
-        property bool __isMenu: true
-        visible: !parent.hideBack
-        id: menu
-        anchors.verticalCenter: parent.verticalCenter
-        iconId: cameraTheme.cameraToolBarMenuIcon
-        onClicked: {
-            if (tools.manualBack) {
-                tools.clicked()
-                return
-            }
-
-            if (!expanded) {
-                expanded = true
-            } else if (Layout.stack.length == 1) {
-                expanded = false
-            } else {
-                Layout.pop()
-            }
+    function push(tools) {
+        if (expanded) {
+            __currentTools = Layout.pushAndShow(tools)
         }
-
-        anchors.left: parent.left
-        rotation: 180
-    }
-
-    onExpandedChanged: {
-        if (tools.expanded) {
-            tools.push(tools.items)
-        } else {
-            tools.pop()
+        else {
+            __currentTools = Layout.push(tools)
         }
-    }
-
-    onWidthChanged: Layout.layout()
-    onTargetWidthChanged: Layout.layout()
-
-    function push(items) {
-        return Layout.push(items)
     }
 
     function pop() {
-        return Layout.pop()
+        __currentTools = Layout.pop();
     }
 
-    state: "collapsed"
+    onToolsChanged: {
+        push(tools)
+    }
+
+    onExpandedChanged: {
+        if (Layout.isEmpty()) {
+            return
+        }
+
+        if (expanded) {
+            Layout.showLast()
+        }
+        else {
+            Layout.hideLast()
+        }
+    }
+
+    Component.onDestruction: Layout.clear()
+
+    width: expanded ? targetWidth : menu.width
+    height: menu.height
+    color: "black"
+    border.color: "gray"
+    radius: 20
+
     states: [
         State {
             name: "expanded"
-            when: tools.expanded
+            when: expanded
         },
         State {
             name: "collapsed"
-            when: !tools.expanded
+            when: !expanded
         }
     ]
 
@@ -109,7 +94,7 @@ Rectangle {
                 target: menu
                 from: 0
                 to: 180
-                duration: 500
+                duration: 250
             }
         },
         Transition {
@@ -120,8 +105,54 @@ Rectangle {
                 target: menu
                 from: 180
                 to: 360
-                duration: 500
+                duration: 250
             }
         }
     ]
+
+    Behavior on width {
+        PropertyAnimation { duration: 100 }
+    }
+
+    CameraToolIcon {
+        visible: !parent.hideBack
+        id: menu
+        anchors.verticalCenter: parent.verticalCenter
+        iconId: cameraTheme.cameraToolBarMenuIcon
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+
+        onClicked: {
+            if (parent.manualBack) {
+                parent.clicked()
+            } else if (!parent.expanded) {
+                parent.expanded = true
+            } else if (Layout.stack.length == 1) {
+                expanded = false
+            } else {
+                __currentTools = Layout.pop()
+            }
+        }
+    }
+
+    Rectangle {
+        id: dock
+        property real menuWidth: parent.hideBack ? 0 : menu.width
+        property real leftMargin: (parent.width - __currentTools.childrenWidth - menuWidth) / __currentTools.childrenLen
+        color: "transparent"
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        anchors.left: parent.hideBack ? parent.left : menu.right
+        anchors.leftMargin: parent.hideBack ? 0 : leftMargin
+    }
+
+    Component {
+        id: toolsContainer
+        Item {
+            property Item tools
+            property Item owner
+        }
+    }
 }

@@ -29,12 +29,13 @@ CameraToolIcon {
 
     iconId: Data.isoIcon(settings.imageIso)
 
-    property list<Item> items: [
+    property CameraToolBarTools tools: CameraToolBarTools {
         CameraLabel {
             height: parent ? parent.height : 0
             text: qsTr("ISO")
             verticalAlignment: Text.AlignVCenter
-        },
+        }
+
         CameraButton {
             property int value: 0
             onClicked: settings.imageIso = value
@@ -42,7 +43,8 @@ CameraToolIcon {
             width: 100
             checked: settings.imageIso == value
             anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-        },
+        }
+
         CameraButton {
             property int value: 100
             onClicked: settings.imageIso = value
@@ -50,7 +52,8 @@ CameraToolIcon {
             width: 100
             checked: settings.imageIso == value
             anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-        },
+        }
+
         CameraButton {
             property int value: 200
             onClicked: settings.imageIso = value
@@ -58,7 +61,8 @@ CameraToolIcon {
             width: 100
             checked: settings.imageIso == value
             anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-        },
+        }
+
         CameraButton {
             property int value: 400
             onClicked: settings.imageIso = value
@@ -66,7 +70,8 @@ CameraToolIcon {
             width: 100
             checked: settings.imageIso == value
             anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-        },
+        }
+
         CameraButton {
             property int value: 800
             onClicked: settings.imageIso = value
@@ -75,5 +80,5 @@ CameraToolIcon {
             checked: settings.imageIso == value
             anchors.verticalCenter: parent ? parent.verticalCenter : undefined
         }
-    ]
+    }
 }

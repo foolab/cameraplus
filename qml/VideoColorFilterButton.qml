@@ -29,41 +29,47 @@ CameraToolIcon {
 
     iconId: Data.cfIcon(settings.videoColorFilter)
 
-    property list<Item> items: [
+    property CameraToolBarTools tools: CameraToolBarTools {
         CameraLabel {
             height: parent ? parent.height : 0
             text: qsTr("Filter")
             verticalAlignment: Text.AlignVCenter
-        },
+        }
+
         CheckButton {
             iconId: Data.cfIcon(ColorTone.Normal)
             onClicked: settings.videoColorFilter = ColorTone.Normal
             checked: settings.videoColorFilter == ColorTone.Normal
-        },
+        }
+
         CheckButton {
             iconId: Data.cfIcon(ColorTone.GrayScale)
             onClicked: settings.videoColorFilter = ColorTone.GrayScale
             checked: settings.videoColorFilter == ColorTone.GrayScale
-        },
+        }
+
         CheckButton {
             iconId: Data.cfIcon(ColorTone.Sepia)
             onClicked: settings.videoColorFilter = ColorTone.Sepia
             checked: settings.videoColorFilter == ColorTone.Sepia
-        },
+        }
+
         CheckButton {
             iconId: Data.cfIcon(ColorTone.Vivid)
             onClicked: settings.videoColorFilter = ColorTone.Vivid
             checked: settings.videoColorFilter == ColorTone.Vivid
-        },
+        }
+
         CheckButton {
             iconId: Data.cfIcon(ColorTone.Negative)
             onClicked: settings.videoColorFilter = ColorTone.Negative
             checked: settings.videoColorFilter == ColorTone.Negative
-        },
+        }
+
         CheckButton {
             iconId: Data.cfIcon(ColorTone.Solarize)
             onClicked: settings.videoColorFilter = ColorTone.Solarize
             checked: settings.videoColorFilter == ColorTone.Solarize
         }
-    ]
+    }
 }

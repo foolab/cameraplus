@@ -103,11 +103,12 @@ Item {
             PropertyAnimation { duration: 200; }
         }
 
-        items: [
+        tools: CameraToolBarTools {
             CameraToolIcon {
                 iconId: cameraTheme.videoStopIconId
                 onClicked: video.stop()
-            },
+            }
+
             CameraSlider {
                 id: slider
                 height: toolBar.height
@@ -128,7 +129,8 @@ Item {
 
                     hideTimer.restart()
                 }
-            },
+            }
+
             CameraToolIcon {
                 id: control
                 iconId: video.state != VideoPlayer.StatePaused ? cameraTheme.videoPauseIconId : cameraTheme.videoPlayIconId
@@ -137,6 +139,6 @@ Item {
                     hideTimer.restart()
                 }
             }
-        ]
+        }
     }
 }

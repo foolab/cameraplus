@@ -126,26 +126,31 @@ Item {
         visible: controlsVisible
         expanded: settings.showToolBar
         onExpandedChanged: settings.showToolBar = expanded
-        items: [
+        tools: CameraToolBarTools {
             FlashButton {
-                onClicked: toolBar.push(items)
-            },
-            ImageSceneButton {
-                onClicked: toolBar.push(items)
-            },
-            ImageEvCompButton {
-                onClicked: toolBar.push(items)
-            },
-            ImageWhiteBalanceButton {
-                onClicked: toolBar.push(items)
-            },
-            ImageColorFilterButton {
-                onClicked: toolBar.push(items)
-            },
-            ImageIsoButton {
-                onClicked: toolBar.push(items)
+                onClicked: toolBar.push(tools)
             }
-        ]
+
+            ImageSceneButton {
+                onClicked: toolBar.push(tools)
+            }
+
+            ImageEvCompButton {
+                onClicked: toolBar.push(tools)
+            }
+
+            ImageWhiteBalanceButton {
+                onClicked: toolBar.push(tools)
+            }
+
+            ImageColorFilterButton {
+                onClicked: toolBar.push(tools)
+            }
+
+            ImageIsoButton {
+                onClicked: toolBar.push(tools)
+            }
+        }
     }
 
     Rectangle {

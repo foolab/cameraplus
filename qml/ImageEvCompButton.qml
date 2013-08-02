@@ -35,12 +35,13 @@ CameraToolIcon {
         text: settings.imageEvComp == 0 ? "" : settings.imageEvComp.toFixed(1)
     }
 
-    property list<Item> items: [
+    property CameraToolBarTools tools: CameraToolBarTools {
         CameraLabel {
             height: parent ? parent.height : 0
             text: qsTr("EV")
             verticalAlignment: Text.AlignVCenter
-        },
+        }
+
         CameraSlider {
             id: slider
             width: 500
@@ -53,5 +54,5 @@ CameraToolIcon {
             onValueChanged: settings.imageEvComp = value.toFixed(1)
             Component.onCompleted: { slider.value = settings.imageEvComp.toFixed(1) }
         }
-    ]
+    }
 }

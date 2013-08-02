@@ -26,7 +26,6 @@ import CameraPlus 1.0
 
 // TODO: flash not ready (battery low or flash not ready message)
 // TODO: rotate post capture image
-// TODO: hide items for CameraToolBar
 // TODO: front camera
 
 CameraPage {

@@ -22,79 +22,111 @@
 
 var stack = new Array();
 
-function push(items) {
+function __push(tools) {
     if (stack.length >= 1) {
 	hide(stack[stack.length - 1]);
     }
 
-    stack.push(items);
+    var container = createContainer(tools);
+    stack.push(container);
 
-    layout();
+    return container;
+}
+
+function push(tools) {
+    var container = __push(tools);
+    return container.tools;
 }
 
 function pop() {
-    var items = stack[stack.length - 1];
-    hide(items);
-    stack.pop();
-    layout();
-}
-
-function hide(items) {
-    var len = items.length;
-
-    for (var x = 0; x < len; x++) {
-        var item = items[x];
-        item.visible = false;
-    }
-}
-
-function show(items) {
-    var len = items.length;
-
-    var width = 0;
-    for (var x = 0; x < len; x++) {
-	width += items[x].width;
-    }
-
-    var totalWidth = tools.width - width;
-    if (tools.hideBack) {
-	len -= 1;
-    } else {
-	totalWidth -= tools.menuWidth;
-    }
-
-    var spacing = totalWidth / len;
-
-    for (var x = 0; x < items.length; x++) {
-	var child = items[x];
-
-	if (x != 0) {
-	    var prev = items[x - 1];
-	    child.x = prev.x + prev.width + spacing;
-	} else if (tools.hideBack) {
-	    child.x = 0;
-	} else {
-	    child.x = spacing + 80;
-	}
-
-	child.parent = tools;
-	child.visible = true;
-	child.y = 0;
-    }
-}
-
-function layout() {
     if (stack.length == 0) {
-	return;
+	return null;
     }
 
-    var items = stack[stack.length - 1];
-    var len = items.length;
+    var container = stack.pop();
+    hide(container);
+    destroyContainer(container);
 
-    if (!tools.expanded) {
-	hide(items);
+    if (stack.length == 0) {
+	return null;
     }
-    else if (tools.width == tools.targetWidth) {
-	show(items);
+
+    container = stack[stack.length - 1];
+    show(container);
+
+    return container.tools;
+}
+
+function show(container) {
+    container.tools.width = dock.width;
+    container.tools.height = dock.height;
+    container.tools.visible = true;
+}
+
+function hide(container) {
+    container.tools.visible = false;
+}
+
+function createContainer(tools) {
+    var container = toolsContainer.createObject(dock);
+    container.tools = tools;
+    container.owner = tools.parent;
+    container.tools.parent = dock;
+
+    return container;
+}
+
+function destroyContainer(container) {
+    container.tools.parent = container.owner;
+    container.tools = null;
+    container.owner = null;
+    container.destroy();
+}
+
+function pushAndShow(tools) {
+    var container = __push(tools);
+    show(container);
+    return container.tools;
+}
+
+function clear() {
+    while (stack.length > 0) {
+	pop();
     }
+}
+
+function isEmpty() {
+    return stack.length == 0 ? true : false;
+}
+
+function showLast() {
+    show(stack[stack.length - 1])
+}
+
+function hideLast() {
+    hide(stack[stack.length - 1])
+}
+
+function calculateChildrenWidth(children) {
+    var totalWidth = 0;
+
+    for (var x = 0; x < children.length; x++) {
+	if (children[x].visible) {
+	    totalWidth += children[x].width;
+	}
+    }
+
+    return totalWidth;
+}
+
+function countVisibleChildren(children) {
+    var total = 0;
+
+    for (var x = 0; x < children.length; x++) {
+	if (children[x].visible) {
+	    ++total;
+	}
+    }
+
+    return total;
 }

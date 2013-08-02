@@ -21,31 +21,18 @@
  */
 
 import QtQuick 2.0
-import QtCamera 1.0
-import "data.js" as Data
+import "CameraToolBar.js" as Layout
 
-CameraToolIcon {
-    id: button
-
-    iconId: Data.vsmIcon(settings.videoSceneMode)
-
-    property CameraToolBarTools tools: CameraToolBarTools {
-        CameraLabel {
-            height: parent ? parent.height : 0
-            text: qsTr("Scene")
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        CheckButton {
-            iconId: Data.vsmIcon(Scene.Auto)
-            onClicked: settings.videoSceneMode = Scene.Auto
-            checked: settings.videoSceneMode == Scene.Auto
-        }
-
-        CheckButton {
-            iconId: Data.vsmIcon(Scene.Night)
-            onClicked: settings.videoSceneMode = Scene.Night
-            checked: settings.videoSceneMode == Scene.Night
-        }
-    }
+Row {
+    visible: false
+    anchors.fill: parent
+    layoutDirection: Qt.LeftToRight
+    // We are explicitly setting a width here to prevent the item from dynamically
+    // calculating it based on spacing.
+    // If we don't do so then we get a binding loop problem between spacing and width
+    // the value doesn't affect anything else as CameraToolBar will fix it before it shows us
+    width: 0
+    property real childrenWidth: Layout.calculateChildrenWidth(children)
+    property int childrenLen: Layout.countVisibleChildren(children)
+    spacing: (width - childrenWidth) / (childrenLen - 1)
 }

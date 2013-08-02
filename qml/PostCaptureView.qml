@@ -24,7 +24,11 @@ import QtQuick 2.0
 import CameraPlus 1.0
 import QtCamera 1.0
 
+// TODO: qrc:/qml/PostCaptureView.qml:104:5: QML CameraToolBar: Binding loop detected for property "height"
+// TODO: hide toolbar as soon as we start playback
 Item {
+    id: postCaptureView
+
     property Camera camera: null
     property bool pressed: view.currentItem ? view.currentItem.playing : false
     property int policyMode: view.currentItem && view.currentItem.playing ?
@@ -107,6 +111,8 @@ Item {
         anchors.bottomMargin: show ? 20 : -1 * (height + 20)
         anchors.left: parent.left
         anchors.leftMargin: 20
+        anchors.right: parent.right
+        anchors.rightMargin: 20
         opacity: 0.8
 
         property bool show: deleteDialog.isOpen || deleteDialog.isOpening ||
@@ -117,28 +123,31 @@ Item {
             PropertyAnimation { duration: 200; }
         }
 
-        items: [
+        tools: CameraToolBarTools {
             CameraToolIcon {
                 iconId: !available ? cameraTheme.favoriteDisabledIconId : view.currentItem.itemData.favorite ? cameraTheme.favoriteMarkIconId : cameraTheme.favoriteUnmarkIconId
                 onClicked: {
                     addOrRemoveFavorite()
                     restartTimer()
                 }
-            },
+            }
+
             CameraToolIcon {
                 iconId: available ? cameraTheme.shareEnabledIconId : cameraTheme.shareDisabledIconId
                 onClicked: {
                     shareCurrentItem()
                     restartTimer()
                 }
-            },
+            }
+
             CameraToolIcon {
                 iconId: available ? cameraTheme.deleteEnabledIconId : cameraTheme.deleteDisabledIconId
                 onClicked: {
                     deleteCurrentItem()
                     restartTimer()
                 }
-            },
+            }
+
             CameraToolIcon {
                 iconId: cameraTheme.menuIconId
                 onClicked: {
@@ -146,7 +155,7 @@ Item {
                     restartTimer()
                 }
             }
-        ]
+        }
     }
 
     CameraQueryDialog {
