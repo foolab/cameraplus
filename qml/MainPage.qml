@@ -80,7 +80,14 @@ CameraPage {
 
     Settings {
         id: settings
-        onDeviceChanged: root.resetCamera(settings.device, settings.mode)
+        onDeviceChanged: {
+            // Reset pipeline manager error
+            pipelineManager.error = false
+
+            if (root.resetCamera(settings.device, settings.mode)) {
+                pipelineManager.startCamera()
+            }
+        }
     }
 
     PipelineManager {
@@ -92,7 +99,10 @@ CameraPage {
     function resetCamera(deviceId, mode) {
         if (!viewfinder.camera.reset(deviceId, mode)) {
             showError(qsTr("Failed to set camera device and mode. Please restart the application."))
+            return false
         }
+
+        return true
     }
 
     function showError(msg) {
