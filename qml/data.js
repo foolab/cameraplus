@@ -25,63 +25,44 @@
 
 // White Balance
 var __wb = [
-    [WhiteBalance.Auto, qsTr("Automatic"),
-     "icon-m-camera-whitebalance-auto-selected", "icon-m-camera-whitebalance-auto"],
-    [WhiteBalance.Sunset, qsTr("Sunny"),
-     "icon-m-camera-whitebalance-sunny-selected", "icon-m-camera-whitebalance-sunny"],
-    [WhiteBalance.Cloudy, qsTr("Cloudy"),
-     "icon-m-camera-whitebalance-cloudy-selected", "icon-m-camera-whitebalance-cloudy"],
-    [WhiteBalance.Flourescent, qsTr("Flourescent"),
-     "icon-m-camera-whitebalance-fluorescent-selected", "icon-m-camera-whitebalance-fluorescent"],
-    [WhiteBalance.Tungsten, qsTr("Tungsten"),
-     "icon-m-camera-whitebalance-tungsten-selected", "icon-m-camera-whitebalance-tungsten"],
+    [WhiteBalance.Auto, qsTr("Automatic"), "icon-m-camera-whitebalance-auto"],
+    [WhiteBalance.Sunset, qsTr("Sunny"), "icon-m-camera-whitebalance-sunny"],
+    [WhiteBalance.Cloudy, qsTr("Cloudy"), "icon-m-camera-whitebalance-cloudy"],
+    [WhiteBalance.Flourescent, qsTr("Flourescent"), "icon-m-camera-whitebalance-fluorescent"],
+    [WhiteBalance.Tungsten, qsTr("Tungsten"), "icon-m-camera-whitebalance-tungsten"],
 ];
 
 // Color Filter
 var __cf = [
-    [ColorTone.Normal, qsTr("Off"),
-     "icon-m-camera-no-filter-selected", "icon-m-camera-no-filter"],
-    [ColorTone.GrayScale, qsTr("Black & white"),
-     "icon-m-camera-filter-black-white-selected", "icon-m-camera-filter-black-white"],
-    [ColorTone.Sepia, qsTr("Sepia"),
-     "icon-m-camera-filter-sepia-selected", "icon-m-camera-filter-sepia"],
-    [ColorTone.Vivid, qsTr("Vivid"),
-     "icon-m-camera-filter-vivid-selected", "icon-m-camera-filter-vivid"],
-    [ColorTone.Negative, qsTr("Negative"),
-     "icon-m-camera-filter-negative-selected", "icon-m-camera-filter-negative"],
-    [ColorTone.Solarize, qsTr("Solarize"),
-     "icon-m-camera-filter-solarize-selected", "icon-m-camera-filter-solarize"]
+    [ColorTone.Normal, qsTr("Off"), "icon-m-camera-no-filter"],
+    [ColorTone.GrayScale, qsTr("Black & white"), "icon-m-camera-filter-black-white"],
+    [ColorTone.Sepia, qsTr("Sepia"), "icon-m-camera-filter-sepia"],
+    [ColorTone.Vivid, qsTr("Vivid"), "icon-m-camera-filter-vivid"],
+    [ColorTone.Negative, qsTr("Negative"), "icon-m-camera-filter-negative"],
+    [ColorTone.Solarize, qsTr("Solarize"), "icon-m-camera-filter-solarize"]
 ];
 
 // Image Scene Mode
 var __ism = [
-    [Scene.Auto, qsTr("Automatic"),
-     "icon-m-camera-scene-auto-selected", "icon-m-camera-scene-auto"],
-    [Scene.Closeup, qsTr("Macro"),
-     "icon-m-camera-scene-macro-selected", "icon-m-camera-scene-macro"],
-    [Scene.Landscape, qsTr("Landscape"),
-     "icon-m-camera-scene-landscape-selected", "icon-m-camera-scene-landscape"],
-    [Scene.Portrait, qsTr("Portrait"),
-     "icon-m-camera-scene-portrait-selected", "icon-m-camera-scene-portrait"],
-    [Scene.Night, qsTr("Night"),
-     "icon-m-camera-night-selected", "icon-m-camera-night"],
-    [Scene.Sport, qsTr("Sports"),
-     "icon-m-camera-scene-sports-selected", "icon-m-camera-scene-sports"]
+    [Scene.Auto, qsTr("Automatic"), "icon-m-camera-scene-auto"],
+    [Scene.Closeup, qsTr("Macro"), "icon-m-camera-scene-macro"],
+    [Scene.Landscape, qsTr("Landscape"), "icon-m-camera-scene-landscape"],
+    [Scene.Portrait, qsTr("Portrait"), "icon-m-camera-scene-portrait"],
+    [Scene.Night, qsTr("Night"), "icon-m-camera-night"],
+    [Scene.Sport, qsTr("Sports"), "icon-m-camera-scene-sports"]
 ];
 
 // Video Scene Mode
 var __vsm = [
-    [Scene.Auto, qsTr("Automatic"),
-     "icon-m-camera-scene-auto-selected", "icon-m-camera-scene-auto"],
-    [Scene.Night, qsTr("Video at night"),
-     "icon-m-camera-video-night-selected", "icon-m-camera-video-night"]
+    [Scene.Auto, qsTr("Automatic"), "icon-m-camera-scene-auto"],
+    [Scene.Night, qsTr("Video at night"), "icon-m-camera-video-night"]
 ];
 
 var __flash = [
-    [Flash.Auto,"icon-m-camera-flash-auto-selected", "icon-m-camera-flash-auto"],
-    [Flash.On, "icon-m-camera-flash-always-selected", "icon-m-camera-flash-always"],
-    [Flash.Off, "icon-m-camera-flash-off-selected", "icon-m-camera-flash-off"],
-    [Flash.RedEye, "icon-m-camera-flash-red-eye-selected", "icon-m-camera-flash-red-eye"]
+    [Flash.Auto, "icon-m-camera-flash-auto"],
+    [Flash.On, "icon-m-camera-flash-always"],
+    [Flash.Off, "icon-m-camera-flash-off"],
+    [Flash.RedEye, "icon-m-camera-flash-red-eye"]
 ];
 
 // ISO
@@ -124,7 +105,7 @@ function filterData(val, data, item) {
 }
 
 function wbIcon(wb) {
-    return filterData(wb, __wb, 3);
+    return filterData(wb, __wb, 2);
 }
 
 function wbName(wb) {
@@ -132,7 +113,7 @@ function wbName(wb) {
 }
 
 function cfIcon(cf) {
-    return filterData(cf, __cf, 3);
+    return filterData(cf, __cf, 2);
 }
 
 function cfName(cf) {
@@ -140,7 +121,7 @@ function cfName(cf) {
 }
 
 function ismIcon(sm) {
-    return filterData(sm, __ism, 3);
+    return filterData(sm, __ism, 2);
 }
 
 function ismName(sm) {
@@ -148,7 +129,7 @@ function ismName(sm) {
 }
 
 function vsmIcon(sm) {
-    return filterData(sm, __vsm, 3);
+    return filterData(sm, __vsm, 2);
 }
 
 function vsmName(sm) {
@@ -176,5 +157,5 @@ function videoIcon(res) {
 }
 
 function flashIcon(val) {
-    return filterData(val, __flash, 2);
+    return filterData(val, __flash, 1);
 }
