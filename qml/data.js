@@ -25,37 +25,37 @@
 
 // White Balance
 var __wb = [
-    [WhiteBalance.Auto, qsTr("Automatic"), "icon-m-camera-whitebalance-auto"],
-    [WhiteBalance.Sunset, qsTr("Sunny"), "icon-m-camera-whitebalance-sunny"],
-    [WhiteBalance.Cloudy, qsTr("Cloudy"), "icon-m-camera-whitebalance-cloudy"],
-    [WhiteBalance.Flourescent, qsTr("Flourescent"), "icon-m-camera-whitebalance-fluorescent"],
-    [WhiteBalance.Tungsten, qsTr("Tungsten"), "icon-m-camera-whitebalance-tungsten"],
+    [WhiteBalance.Auto, "icon-m-camera-whitebalance-auto"],
+    [WhiteBalance.Sunset, "icon-m-camera-whitebalance-sunny"],
+    [WhiteBalance.Cloudy, "icon-m-camera-whitebalance-cloudy"],
+    [WhiteBalance.Flourescent, "icon-m-camera-whitebalance-fluorescent"],
+    [WhiteBalance.Tungsten, "icon-m-camera-whitebalance-tungsten"],
 ];
 
 // Color Filter
 var __cf = [
-    [ColorTone.Normal, qsTr("Off"), "icon-m-camera-no-filter"],
-    [ColorTone.GrayScale, qsTr("Black & white"), "icon-m-camera-filter-black-white"],
-    [ColorTone.Sepia, qsTr("Sepia"), "icon-m-camera-filter-sepia"],
-    [ColorTone.Vivid, qsTr("Vivid"), "icon-m-camera-filter-vivid"],
-    [ColorTone.Negative, qsTr("Negative"), "icon-m-camera-filter-negative"],
-    [ColorTone.Solarize, qsTr("Solarize"), "icon-m-camera-filter-solarize"]
+    [ColorTone.Normal, "icon-m-camera-no-filter"],
+    [ColorTone.GrayScale, "icon-m-camera-filter-black-white"],
+    [ColorTone.Sepia, "icon-m-camera-filter-sepia"],
+    [ColorTone.Vivid, "icon-m-camera-filter-vivid"],
+    [ColorTone.Negative, "icon-m-camera-filter-negative"],
+    [ColorTone.Solarize, "icon-m-camera-filter-solarize"]
 ];
 
 // Image Scene Mode
 var __ism = [
-    [Scene.Auto, qsTr("Automatic"), "icon-m-camera-scene-auto"],
-    [Scene.Closeup, qsTr("Macro"), "icon-m-camera-scene-macro"],
-    [Scene.Landscape, qsTr("Landscape"), "icon-m-camera-scene-landscape"],
-    [Scene.Portrait, qsTr("Portrait"), "icon-m-camera-scene-portrait"],
-    [Scene.Night, qsTr("Night"), "icon-m-camera-night"],
-    [Scene.Sport, qsTr("Sports"), "icon-m-camera-scene-sports"]
+    [Scene.Auto, "icon-m-camera-scene-auto"],
+    [Scene.Closeup, "icon-m-camera-scene-macro"],
+    [Scene.Landscape, "icon-m-camera-scene-landscape"],
+    [Scene.Portrait, "icon-m-camera-scene-portrait"],
+    [Scene.Night, "icon-m-camera-night"],
+    [Scene.Sport, "icon-m-camera-scene-sports"]
 ];
 
 // Video Scene Mode
 var __vsm = [
-    [Scene.Auto, qsTr("Automatic"), "icon-m-camera-scene-auto"],
-    [Scene.Night, qsTr("Video at night"), "icon-m-camera-video-night"]
+    [Scene.Auto, "icon-m-camera-scene-auto"],
+    [Scene.Night, "icon-m-camera-video-night"]
 ];
 
 var __flash = [
@@ -105,34 +105,18 @@ function filterData(val, data, item) {
 }
 
 function wbIcon(wb) {
-    return filterData(wb, __wb, 2);
-}
-
-function wbName(wb) {
     return filterData(wb, __wb, 1);
 }
 
 function cfIcon(cf) {
-    return filterData(cf, __cf, 2);
-}
-
-function cfName(cf) {
     return filterData(cf, __cf, 1);
 }
 
 function ismIcon(sm) {
-    return filterData(sm, __ism, 2);
-}
-
-function ismName(sm) {
     return filterData(sm, __ism, 1);
 }
 
 function vsmIcon(sm) {
-    return filterData(sm, __vsm, 2);
-}
-
-function vsmName(sm) {
     return filterData(sm, __vsm, 1);
 }
 
