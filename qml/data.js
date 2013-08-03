@@ -74,26 +74,6 @@ var __iso = [
     [800, "icon-m-camera-iso-800"]
 ];
 
-// Image resolutions
-var __image = [
-    ["3:2", "low", "icon-m-camera-resolution-3m"],
-    ["3:2", "medium", "icon-m-camera-resolution-6m"],
-    ["3:2", "high", "icon-m-camera-resolution-7m"],
-    ["4:3", "low", "icon-m-camera-resolution-3m"],
-    ["4:3", "medium", "icon-m-camera-resolution-6m"],
-    ["4:3", "high", "icon-m-camera-resolution-8m"],
-    ["16:9", "low", "icon-m-camera-resolution-3m"],
-    ["16:9", "medium", "icon-m-camera-resolution-6m"],
-    ["16:9", "high", "icon-m-camera-resolution-7m"]
-];
-
-// Video resolutions
-var __video = [
-    ["low", "icon-m-camera-video-low-resolution"],
-    ["medium", "icon-m-camera-video-fine-resolution"],
-    ["high", "icon-m-camera-video-high-resolution"],
-];
-
 function filterData(val, data, item) {
     var x = 0;
     var i = data.length;
@@ -122,22 +102,6 @@ function vsmIcon(sm) {
 
 function isoIcon(value) {
     return filterData(value, __iso, 1);
-}
-
-function imageIcon(aspect, res) {
-    var x = 0;
-    var len = __image.length;
-    for (x = 0; x < len; x++) {
-	if (__image[x][0] == aspect && __image[x][1] == res) {
-	    return __image[x][2];
-	}
-    }
-
-    return "";
-}
-
-function videoIcon(res) {
-    return filterData(res, __video, 1);
 }
 
 function flashIcon(val) {

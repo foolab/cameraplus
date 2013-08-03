@@ -181,7 +181,7 @@ Item {
                 id: resolutionIndicator
                 property string imageAspectRatio: settings.device == 1 ? settings.secondaryImageAspectRatio : settings.primaryImageAspectRatio
                 property string imageResolution: settings.device == 1 ? settings.secondaryImageResolution : settings.primaryImageResolution
-                source: "image://theme/" + Data.imageIcon(imageAspectRatio, imageResolution)
+                source: "image://theme/" + cameraTheme.imageIcon(imageAspectRatio, imageResolution, settings.device)
             }
 
             Indicator {

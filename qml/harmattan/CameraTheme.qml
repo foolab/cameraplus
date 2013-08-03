@@ -71,4 +71,40 @@ QtObject {
     property string 
     property string 
 */
+
+    function videoIcon(ratio, res, device) {
+        if (res == "high") {
+            return "icon-m-camera-video-high-resolution"
+        } else if (res == "medium") {
+            return "icon-m-camera-video-fine-resolution"
+        } else if (res == "low") {
+            return "icon-m-camera-video-low-resolution"
+        } else {
+            return ""
+        }
+    }
+
+    property variant __imageData: [
+        ["3:2", "low", "icon-m-camera-resolution-3m"],
+        ["3:2", "medium", "icon-m-camera-resolution-6m"],
+        ["3:2", "high", "icon-m-camera-resolution-7m"],
+        ["4:3", "low", "icon-m-camera-resolution-3m"],
+        ["4:3", "medium", "icon-m-camera-resolution-6m"],
+        ["4:3", "high", "icon-m-camera-resolution-8m"],
+        ["16:9", "low", "icon-m-camera-resolution-3m"],
+        ["16:9", "medium", "icon-m-camera-resolution-6m"],
+        ["16:9", "high", "icon-m-camera-resolution-7m"]
+    ]
+
+    function imageIcon(ratio, res, device) {
+        var x = 0
+        var len = __imageData.length
+        for (x = 0; x < len; x++) {
+            if (__imageData[x][0] == ratio && __imageData[x][1] == res) {
+                return __imageData[x][2]
+            }
+        }
+
+        return ""
+    }
 }
