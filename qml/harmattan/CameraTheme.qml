@@ -52,25 +52,39 @@ QtObject {
     property string favoriteUnmarkIconId: "icon-m-toolbar-favorite-unmark-white"
     property string menuIconId: "icon-m-toolbar-view-menu-white"
 
-/*
+    property string flashAutoIconId: "icon-m-camera-flash-auto"
+    property string flashOnIconId: "icon-m-camera-flash-always"
+    property string flashOffIconId: "icon-m-camera-flash-off"
+    property string flashRedEyeIconId: "icon-m-camera-flash-red-eye"
 
-    property string 
-    property string 
-    property string 
-    property string 
-    property string 
-    property string 
-    property string 
-    property string 
-    property string 
-    property string 
-    property string 
-    property string 
-    property string 
-    property string 
-    property string 
-    property string 
-*/
+    property string whiteBalanceAutoIconId: "icon-m-camera-whitebalance-auto"
+    property string whiteBalanceSunsetIconId: "icon-m-camera-whitebalance-sunny"
+    property string whiteBalanceCloudyIconId: "icon-m-camera-whitebalance-cloudy"
+    property string whiteBalanceFlourescentIconId: "icon-m-camera-whitebalance-fluorescent"
+    property string whiteBalanceTungstenIconId: "icon-m-camera-whitebalance-tungsten"
+
+    property string colorFilterNormalIconId: "icon-m-camera-no-filter"
+    property string colorFilterGrayScaleIconId: "icon-m-camera-filter-black-white"
+    property string colorFilterSepiaIconId: "icon-m-camera-filter-sepia"
+    property string colorFilterVividIconId: "icon-m-camera-filter-vivid"
+    property string colorFilterNegativeIconId: "icon-m-camera-filter-negative"
+    property string colorFilterSolarizeIconId: "icon-m-camera-filter-solarize"
+
+    property string imageSceneModeAutoIconId: "icon-m-camera-scene-auto"
+    property string imageSceneModeCloseupIconId: "icon-m-camera-scene-macro"
+    property string imageSceneModeLandscapeIconId: "icon-m-camera-scene-landscape"
+    property string imageSceneModePortraitIconId: "icon-m-camera-scene-portrait"
+    property string imageSceneModeNightIconId: "icon-m-camera-night"
+    property string imageSceneModeSportIconId: "icon-m-camera-scene-sports"
+
+    property string videoSceneModeAutoIconId: "icon-m-camera-scene-auto"
+    property string videoSceneModeNightIconId: "icon-m-camera-video-night"
+
+    property string isoAudoIconId: "icon-m-camera-iso-auto"
+    property string iso100IconId: "icon-m-camera-iso-100"
+    property string iso200IconId: "icon-m-camera-iso-200"
+    property string iso400IconId: "icon-m-camera-iso-400"
+    property string iso800IconId: "icon-m-camera-iso-800"
 
     function videoIcon(ratio, res, device) {
         if (res == "high") {
