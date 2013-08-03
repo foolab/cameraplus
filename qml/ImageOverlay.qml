@@ -173,7 +173,7 @@ Item {
 
             Indicator {
                 id: flashIndicator
-                source: "image://theme/" + cameraTheme.flashIcon(settings.imageFlashMode) + "-screen"
+                source: "image://theme/" + cameraTheme.flashIndicatorIcon(settings.imageFlashMode)
             }
 
             Indicator {
@@ -185,13 +185,13 @@ Item {
 
             Indicator {
                 id: wbIndicator
-                source: visible ? "image://theme/" + cameraTheme.whiteBalanceIcon(settings.imageWhiteBalance) + "-screen" : ""
+                source: visible ? "image://theme/" + cameraTheme.whiteBalanceIndicatorIcon(settings.imageWhiteBalance) : ""
                 visible: settings.imageWhiteBalance != WhiteBalance.Auto
             }
 
             Indicator {
                 id: cfIndicator
-                source: "image://theme/" + cameraTheme.colorFilterIcon(settings.imageColorFilter) + "-screen"
+                source: "image://theme/" + cameraTheme.colorFilterIndicatorIcon(settings.imageColorFilter)
                 visible: settings.imageColorFilter != ColorTone.Normal
             }
 

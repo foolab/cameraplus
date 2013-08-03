@@ -155,13 +155,13 @@ Item {
 
             Indicator {
                 id: wbIndicator
-                source: visible ? "image://theme/" + cameraTheme.whiteBalanceIcon(settings.videoWhiteBalance) + "-screen" : ""
+                source: visible ? "image://theme/" + cameraTheme.whiteBalanceIndicatorIcon(settings.videoWhiteBalance) : ""
                 visible: settings.videoWhiteBalance != WhiteBalance.Auto
             }
 
             Indicator {
                 id: cfIndicator
-                source: "image://theme/" + cameraTheme.colorFilterIcon(settings.videoColorFilter) + "-screen"
+                source: visible ? "image://theme/" + cameraTheme.colorFilterIndicatorIcon(settings.videoColorFilter) : ""
                 visible: settings.videoColorFilter != ColorTone.Normal
             }
 

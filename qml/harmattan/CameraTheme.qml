@@ -220,4 +220,24 @@ QtObject {
                 return ""
         }
     }
+
+    function flashIndicatorIcon(val) {
+        return flashIcon(val) + "-screen"
+    }
+
+    function whiteBalanceIndicatorIcon(val) {
+        if (val == WhiteBalance.Auto) {
+            return ""
+        } else {
+            return whiteBalanceIcon(val) + "-screen"
+        }
+    }
+
+    function colorFilterIndicatorIcon(val) {
+        if (val == ColorTone.Normal) {
+            return ""
+        } else {
+            return colorFilterIcon(val) + "-screen"
+        }
+    }
 }
