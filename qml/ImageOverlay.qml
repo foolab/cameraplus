@@ -173,6 +173,11 @@ Item {
             spacing: 5
 
             Indicator {
+                id: flashIndicator
+                source: "image://theme/" + Data.flashIcon(settings.imageFlashMode) + "-screen"
+            }
+
+            Indicator {
                 id: resolutionIndicator
                 property string imageAspectRatio: settings.device == 1 ? settings.secondaryImageAspectRatio : settings.primaryImageAspectRatio
                 property string imageResolution: settings.device == 1 ? settings.secondaryImageResolution : settings.primaryImageResolution
