@@ -25,7 +25,7 @@ import QtCamera 1.0
 import CameraPlus 1.0
 
 // TODO: flash not ready (battery low or flash not ready message)
-// TODO: front camera
+// TODO: front camera night mode
 
 CameraPage {
     id: root
