@@ -33,9 +33,6 @@
 #define DEFAULT_EV_COMP                 0.0
 #define DEFAULT_FLASH_MODE              0
 #define DEFAULT_IMAGE_ISO               0
-#define DEFAULT_IMAGE_RESOLUTION        "high"
-#define DEFAULT_IMAGE_ASPECT_RATIO      "16:9"
-#define DEFAULT_VIDEO_RESOLUTION        "high"
 #define DEFAULT_SOUND_ENABLED           true
 #define DEFAULT_VIDEO_TORCH_ON          false
 #define DEFAULT_SHOW_TOOL_BAR           false
@@ -44,6 +41,16 @@
 #define DEFAULT_FACE_DETECTION_ENABLED  true
 #define DEFAULT_ZOOM_AS_SHUTTER         false
 #define DEFAULT_DEVICE                  0
+
+#define DEFAULT_PRIMARY_IMAGE_RESOLUTION        "high"
+#define DEFAULT_PRIMARY_IMAGE_ASPECT_RATIO      "16:9"
+#define DEFAULT_PRIMARY_VIDEO_RESOLUTION        "high"
+#define DEFAULT_PRIMARY_VIDEO_ASPECT_RATIO      "16:9"
+
+#define DEFAULT_SECONDARY_IMAGE_RESOLUTION       "low"
+#define DEFAULT_SECONDARY_IMAGE_ASPECT_RATIO     "4:3"
+#define DEFAULT_SECONDARY_VIDEO_RESOLUTION       "low"
+#define DEFAULT_SECONDARY_VIDEO_ASPECT_RATIO     "4:3"
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -222,52 +229,6 @@ void Settings::setImageIso(int iso) {
   }
 }
 
-QString Settings::imageAspectRatio() const {
-  return m_settings->value("image/aspectRatio", DEFAULT_IMAGE_ASPECT_RATIO).toString();
-}
-
-void Settings::setImageAspectRatio(const QString& aspectRatio) {
-  if (aspectRatio != imageAspectRatio()) {
-    m_settings->setValue("image/aspectRatio", aspectRatio);
-    emit imageAspectRatioChanged();
-  }
-}
-
-QString Settings::imageResolution() const {
-  return m_settings->value("image/resolution", DEFAULT_IMAGE_RESOLUTION).toString();
-}
-
-void Settings::setImageResolution(const QString& resolution) {
-  if (resolution != imageResolution()) {
-    m_settings->setValue("image/resolution", resolution);
-    emit imageResolutionChanged();
-  }
-}
-
-QString Settings::videoAspectRatio() const {
-  // This is not used for anything so we will return an empty string for now
-  // which will make the backend return all resolutions.
-
-  return QString();
-}
-
-void Settings::setVideoAspectRatio(const QString& aspectRatio) {
-  Q_UNUSED(aspectRatio);
-
-  // This is not used for anything so we will just ignore it.
-}
-
-QString Settings::videoResolution() const {
-  return m_settings->value("video/resolution", DEFAULT_VIDEO_RESOLUTION).toString();
-}
-
-void Settings::setVideoResolution(const QString& resolution) {
-  if (resolution != videoResolution()) {
-    m_settings->setValue("video/resolution", resolution);
-    emit videoResolutionChanged();
-  }
-}
-
 bool Settings::isSoundEnabled() const {
   return m_settings->value("camera/soundEnabled", DEFAULT_SOUND_ENABLED).toBool();
 }
@@ -355,5 +316,101 @@ void Settings::setDevice(int device) {
   if (device != Settings::device()) {
     m_settings->setValue("camera/device", device);
     emit deviceChanged();
+  }
+}
+
+QString Settings::primaryImageAspectRatio() const {
+  return m_settings->value("image/primaryAspectRatio",
+			   DEFAULT_PRIMARY_IMAGE_ASPECT_RATIO).toString();
+}
+
+void Settings::setPrimaryImageAspectRatio(const QString& aspectRatio) {
+  if (primaryImageAspectRatio() != aspectRatio) {
+    m_settings->setValue("image/primaryAspectRatio", aspectRatio);
+    emit primaryImageAspectRatioChanged();
+  }
+}
+
+QString Settings::primaryImageResolution() const {
+  return m_settings->value("image/primaryResolution",
+			   DEFAULT_PRIMARY_IMAGE_RESOLUTION).toString();
+}
+
+void Settings::setPrimaryImageResolution(const QString& resolution) {
+  if (primaryImageResolution() != resolution) {
+    m_settings->setValue("image/primaryResolution", resolution);
+    emit primaryImageResolutionChanged();
+  }
+}
+
+QString Settings::primaryVideoAspectRatio() const {
+  return m_settings->value("video/primaryAspectRatio",
+			   DEFAULT_PRIMARY_VIDEO_ASPECT_RATIO).toString();
+}
+
+void Settings::setPrimaryVideoAspectRatio(const QString& aspectRatio) {
+  if (primaryVideoAspectRatio() != aspectRatio) {
+    m_settings->setValue("video/primaryAspectRatio", aspectRatio);
+    emit primaryVideoAspectRatioChanged();
+  }
+}
+
+QString Settings::primaryVideoResolution() const {
+  return m_settings->value("video/primaryResolution",
+			   DEFAULT_PRIMARY_VIDEO_RESOLUTION).toString();
+}
+
+void Settings::setPrimaryVideoResolution(const QString& resolution) {
+  if (primaryVideoResolution() != resolution) {
+    m_settings->setValue("video/primaryResolution", resolution);
+    emit primaryVideoResolutionChanged();
+  }
+}
+
+QString Settings::secondaryImageAspectRatio() const {
+  return m_settings->value("image/secondaryAspectRatio",
+			   DEFAULT_SECONDARY_IMAGE_ASPECT_RATIO).toString();
+}
+
+void Settings::setSecondaryImageAspectRatio(const QString& aspectRatio) {
+  if (secondaryImageAspectRatio() != aspectRatio) {
+    m_settings->setValue("image/secondaryAspectRatio", aspectRatio);
+    emit secondaryImageAspectRatioChanged();
+  }
+}
+
+QString Settings::secondaryImageResolution() const {
+  return m_settings->value("image/secondaryResolution",
+			   DEFAULT_SECONDARY_IMAGE_RESOLUTION).toString();
+}
+
+void Settings::setSecondaryImageResolution(const QString& resolution) {
+  if (secondaryImageResolution() != resolution) {
+    m_settings->setValue("image/secondaryResolution", resolution);
+    emit secondaryImageResolutionChanged();
+  }
+}
+
+QString Settings::secondaryVideoAspectRatio() const {
+  return m_settings->value("video/secondaryAspectRatio",
+			   DEFAULT_SECONDARY_VIDEO_ASPECT_RATIO).toString();
+}
+
+void Settings::setSecondaryVideoAspectRatio(const QString& aspectRatio) {
+  if (secondaryVideoAspectRatio() != aspectRatio) {
+    m_settings->setValue("video/secondaryAspectRatio", aspectRatio);
+    emit secondaryVideoAspectRatioChanged();
+  }
+}
+
+QString Settings::secondaryVideoResolution() const {
+  return m_settings->value("video/secondaryResolution",
+			   DEFAULT_SECONDARY_VIDEO_RESOLUTION).toString();
+}
+
+void Settings::setSecondaryVideoResolution(const QString& resolution) {
+  if (secondaryVideoResolution() != resolution) {
+    m_settings->setValue("video/secondaryResolution", resolution);
+    emit secondaryVideoResolutionChanged();
   }
 }

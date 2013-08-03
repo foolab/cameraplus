@@ -47,11 +47,14 @@ class Settings : public QObject {
   Q_PROPERTY(int imageFlashMode READ imageFlashMode WRITE setImageFlashMode NOTIFY imageFlashModeChanged);
   Q_PROPERTY(int imageIso READ imageIso WRITE setImageIso NOTIFY imageIsoChanged);
 
-  Q_PROPERTY(QString imageAspectRatio READ imageAspectRatio WRITE setImageAspectRatio NOTIFY imageAspectRatioChanged);
-  Q_PROPERTY(QString imageResolution READ imageResolution WRITE setImageResolution NOTIFY imageResolutionChanged);
-
-  Q_PROPERTY(QString videoAspectRatio READ videoAspectRatio WRITE setVideoAspectRatio NOTIFY videoAspectRatioChanged);
-  Q_PROPERTY(QString videoResolution READ videoResolution WRITE setVideoResolution NOTIFY videoResolutionChanged);
+  Q_PROPERTY(QString primaryImageAspectRatio READ primaryImageAspectRatio WRITE setPrimaryImageAspectRatio NOTIFY primaryImageAspectRatioChanged);
+  Q_PROPERTY(QString primaryImageResolution READ primaryImageResolution WRITE setPrimaryImageResolution NOTIFY primaryImageResolutionChanged);
+  Q_PROPERTY(QString primaryVideoAspectRatio READ primaryVideoAspectRatio WRITE setPrimaryVideoAspectRatio NOTIFY primaryVideoAspectRatioChanged);
+  Q_PROPERTY(QString primaryVideoResolution READ primaryVideoResolution WRITE setPrimaryVideoResolution NOTIFY primaryVideoResolutionChanged);
+  Q_PROPERTY(QString secondaryImageAspectRatio READ secondaryImageAspectRatio WRITE setSecondaryImageAspectRatio NOTIFY secondaryImageAspectRatioChanged);
+  Q_PROPERTY(QString secondaryImageResolution READ secondaryImageResolution WRITE setSecondaryImageResolution NOTIFY secondaryImageResolutionChanged);
+  Q_PROPERTY(QString secondaryVideoAspectRatio READ secondaryVideoAspectRatio WRITE setSecondaryVideoAspectRatio NOTIFY secondaryVideoAspectRatioChanged);
+  Q_PROPERTY(QString secondaryVideoResolution READ secondaryVideoResolution WRITE setSecondaryVideoResolution NOTIFY secondaryVideoResolutionChanged);
 
   Q_PROPERTY(bool soundEnabled READ isSoundEnabled WRITE setSoundEnabled NOTIFY soundEnabledChanged);
   Q_PROPERTY(bool videoTorchOn READ isVideoTorchOn WRITE setVideoTorchOn NOTIFY videoTorchOnChanged);
@@ -111,18 +114,6 @@ public:
   int imageIso() const;
   void setImageIso(int iso);
 
-  QString imageAspectRatio() const;
-  void setImageAspectRatio(const QString& aspectRatio);
-
-  QString imageResolution() const;
-  void setImageResolution(const QString& resolution);
-
-  QString videoAspectRatio() const;
-  void setVideoAspectRatio(const QString& aspectRatio);
-
-  QString videoResolution() const;
-  void setVideoResolution(const QString& resolution);
-
   bool isSoundEnabled() const;
   void setSoundEnabled(bool enabled);
 
@@ -147,6 +138,30 @@ public:
   int device() const;
   void setDevice(int device);
 
+  QString primaryImageAspectRatio() const;
+  void setPrimaryImageAspectRatio(const QString& aspectRatio);
+
+  QString primaryImageResolution() const;
+  void setPrimaryImageResolution(const QString& resolution);
+
+  QString primaryVideoAspectRatio() const;
+  void setPrimaryVideoAspectRatio(const QString& aspectRatio);
+
+  QString primaryVideoResolution() const;
+  void setPrimaryVideoResolution(const QString& resolution);
+
+  QString secondaryImageAspectRatio() const;
+  void setSecondaryImageAspectRatio(const QString& aspectRatio);
+
+  QString secondaryImageResolution() const;
+  void setSecondaryImageResolution(const QString& resolution);
+
+  QString secondaryVideoAspectRatio() const;
+  void setSecondaryVideoAspectRatio(const QString& aspectRatio);
+
+  QString secondaryVideoResolution() const;
+  void setSecondaryVideoResolution(const QString& resolution);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
@@ -162,10 +177,6 @@ signals:
   void videoEvCompChanged();
   void imageFlashModeChanged();
   void imageIsoChanged();
-  void imageAspectRatioChanged();
-  void imageResolutionChanged();
-  void videoAspectRatioChanged();
-  void videoResolutionChanged();
   void soundEnabledChanged();
   void videoTorchOnChanged();
   void toolBarShownChanged();
@@ -174,6 +185,14 @@ signals:
   void faceDetectionEnabledChanged();
   void zoomAsShutterChanged();
   void deviceChanged();
+  void primaryImageAspectRatioChanged();
+  void primaryImageResolutionChanged();
+  void primaryVideoAspectRatioChanged();
+  void primaryVideoResolutionChanged();
+  void secondaryImageAspectRatioChanged();
+  void secondaryImageResolutionChanged();
+  void secondaryVideoAspectRatioChanged();
+  void secondaryVideoResolutionChanged();
 
 private:
   QSettings *m_settings;

@@ -174,7 +174,9 @@ Item {
 
             Indicator {
                 id: resolutionIndicator
-                source: "image://theme/" + Data.imageIcon(settings.imageAspectRatio, settings.imageResolution)
+                property string imageAspectRatio: settings.device == 1 ? settings.secondaryImageAspectRatio : settings.primaryImageAspectRatio
+                property string imageResolution: settings.device == 1 ? settings.secondaryImageResolution : settings.primaryImageResolution
+                source: "image://theme/" + Data.imageIcon(imageAspectRatio, imageResolution)
             }
 
             Indicator {

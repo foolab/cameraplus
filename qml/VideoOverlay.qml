@@ -149,7 +149,8 @@ Item {
 
             Indicator {
                 id: resolutionIndicator
-                source: "image://theme/" + Data.videoIcon(settings.videoResolution)
+                property string videoResolution: settings.device == 1 ? settings.secondaryVideoResolution : settings.primaryVideoResolution
+                source: "image://theme/" + Data.videoIcon(videoResolution)
             }
 
             Indicator {

@@ -28,6 +28,9 @@ Column {
 
     spacing: 10
 
+    property string __resolution: settings.device == 1 ?
+        settings.secondaryVideoResolution : settings.primaryVideoResolution
+
     visible: videoSettings.resolutions.count > 1
 
     SectionHeader {
@@ -47,8 +50,14 @@ Column {
             delegate: CameraButton {
                 capitalize: true
                 text: qsTr("%1 %2").arg(resolutionName).arg(resolution)
-                checked: settings.videoResolution == resolutionName
-                onClicked: settings.videoResolution = resolutionName
+                checked: __resolution == resolutionName
+                onClicked: {
+                    if (settings.device == 1) {
+                        settings.secondaryVideoResolution = resolutionName
+                    } else {
+                        settings.primaryVideoResolution = resolutionName
+                    }
+                }
             }
         }
     }

@@ -28,6 +28,11 @@ Column {
 
     spacing: 10
 
+    property string __aspectRatio: settings.device == 1 ?
+        settings.secondaryImageAspectRatio : settings.primaryImageAspectRatio
+    property string __resolution: settings.device == 1 ?
+        settings.secondaryImageResolution : settings.primaryImageResolution
+
     SectionHeader {
         text: qsTr("Aspect ratio")
         visible: aspectRatioRow.visible
@@ -44,8 +49,14 @@ Column {
             model: imageSettings.aspectRatios
             delegate: CameraButton {
                 text: qsTr(modelData)
-                checked: settings.imageAspectRatio == modelData
-                onClicked: settings.imageAspectRatio = modelData
+                checked: __aspectRatio == modelData
+                onClicked: {
+                    if (settings.device == 1) {
+                        settings.secondaryImageAspectRatio = modelData
+                    } else {
+                        settings.primaryImageAspectRatio = modelData
+                    }
+                }
             }
         }
     }
@@ -65,19 +76,34 @@ Column {
         Binding {
             target: imageSettings.resolutions
             property: "aspectRatio"
-            value: settings.imageAspectRatio
+            value: settings.primaryImageAspectRatio
+            when: settings.device == 0
+        }
+
+        Binding {
+            target: imageSettings.resolutions
+            property: "aspectRatio"
+            value: settings.secondaryImageAspectRatio
+            when: settings.device == 1
         }
 
         Repeater {
             id: resolutions
-            model: imageSettings.resolutions.aspectRatio == settings.imageAspectRatio ?
+
+            model: imageSettings.resolutions.aspectRatio == __aspectRatio ?
                 imageSettings.resolutions : undefined
 
             delegate: CameraButton {
                 capitalize: true
                 text: qsTr("%1 %2 Mpx").arg(resolutionName).arg(megaPixels)
-                checked: settings.imageResolution == resolutionName
-                onClicked: settings.imageResolution = resolutionName
+                checked: __resolution == resolutionName
+                onClicked: {
+                    if (settings.device == 1) {
+                        settings.secondaryImageResolution = resolutionName
+                    } else {
+                        settings.primaryImageResolution = resolutionName
+                    }
+                }
             }
         }
     }

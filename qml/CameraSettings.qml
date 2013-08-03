@@ -44,7 +44,7 @@ Column {
     CameraButtonRow {
         anchors.horizontalCenter: parent.horizontalCenter
         // TODO: test this
-        enabled: camera.running && camera.idle
+        enabled: camera != null && camera.running && camera.idle
 
         CameraButton {
             text: qsTr("Back (Primary)");
