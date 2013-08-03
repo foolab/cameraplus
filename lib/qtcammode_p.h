@@ -187,6 +187,12 @@ public:
 
       GstCaps *caps = gst_caps_from_string(preview.toLatin1());
 
+      if (!dev->conf->isPreviewSupported()) {
+	qWarning() << "Cannot set preview caps. Preview not supported";
+	gst_caps_unref(caps);
+	return;
+      }
+
       g_object_set(dev->cameraBin, "preview-caps", caps, "post-previews", TRUE, NULL);
 
       gst_caps_unref(caps);

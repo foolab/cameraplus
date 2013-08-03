@@ -82,6 +82,8 @@ public:
   QString roiEnableProperty() const;
   QString roiMessage() const;
 
+  bool isPreviewSupported() const;
+
 private:
   QtCamConfigPrivate *d_ptr;
 };

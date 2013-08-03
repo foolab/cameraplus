@@ -215,3 +215,7 @@ QString QtCamConfig::roiEnableProperty() const {
 QString QtCamConfig::roiMessage() const {
   return d_ptr->conf->value("roi/message").toString();
 }
+
+bool QtCamConfig::isPreviewSupported() const {
+  return d_ptr->conf->value("general/preview-supported").toBool();
+}
