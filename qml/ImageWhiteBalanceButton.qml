@@ -29,6 +29,14 @@ CameraToolIcon {
 
     iconId: Data.wbIcon(settings.imageWhiteBalance)
 
+    property list<ToolsModelItem> toolsModel: [
+        ToolsModelItem {icon: cameraTheme.whiteBalanceAutoIconId; value: WhiteBalance.Auto },
+        ToolsModelItem {icon: cameraTheme.whiteBalanceSunsetIconId; value: WhiteBalance.Sunset },
+        ToolsModelItem {icon: cameraTheme.whiteBalanceCloudyIconId; value: WhiteBalance.Cloudy },
+        ToolsModelItem {icon: cameraTheme.whiteBalanceFlourescentIconId; value: WhiteBalance.Flourescent },
+        ToolsModelItem {icon: cameraTheme.whiteBalanceTungstenIconId; value: WhiteBalance.Tungsten }
+    ]
+
     property CameraToolBarTools tools: CameraToolBarTools {
         CameraLabel {
             height: parent ? parent.height : 0
@@ -36,34 +44,14 @@ CameraToolIcon {
             verticalAlignment: Text.AlignVCenter
         }
 
-        CheckButton {
-            iconId: Data.wbIcon(WhiteBalance.Auto)
-            onClicked: settings.imageWhiteBalance = WhiteBalance.Auto
-            checked: settings.imageWhiteBalance == WhiteBalance.Auto
-        }
+        Repeater {
+            model: parent != null && parent.visible ? toolsModel : undefined
 
-        CheckButton {
-            iconId: Data.wbIcon(WhiteBalance.Sunset)
-            onClicked: settings.imageWhiteBalance = WhiteBalance.Sunset
-            checked: settings.imageWhiteBalance == WhiteBalance.Sunset
-        }
-
-        CheckButton {
-            iconId: Data.wbIcon(WhiteBalance.Cloudy)
-            onClicked: settings.imageWhiteBalance = WhiteBalance.Cloudy
-            checked: settings.imageWhiteBalance == WhiteBalance.Cloudy
-        }
-
-        CheckButton {
-            iconId: Data.wbIcon(WhiteBalance.Flourescent)
-            onClicked: settings.imageWhiteBalance = WhiteBalance.Flourescent
-            checked: settings.imageWhiteBalance == WhiteBalance.Flourescent
-        }
-
-        CheckButton {
-            iconId: Data.wbIcon(WhiteBalance.Tungsten)
-            onClicked: settings.imageWhiteBalance = WhiteBalance.Tungsten
-            checked: settings.imageWhiteBalance == WhiteBalance.Tungsten
+            delegate: CheckButton {
+                iconId: icon
+                onClicked: settings.imageWhiteBalance = value
+                checked: settings.imageWhiteBalance == value
+            }
         }
     }
 }

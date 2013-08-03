@@ -21,34 +21,9 @@
  */
 
 import QtQuick 2.0
-import QtCamera 1.0
-import "data.js" as Data
 
-CameraToolIcon {
-    id: button
-
-    iconId: Data.vsmIcon(settings.videoSceneMode)
-
-    property list<ToolsModelItem> toolsModel: [
-        ToolsModelItem {icon: cameraTheme.videoSceneModeAutoIconId; value: Scene.Auto},
-        ToolsModelItem {icon: cameraTheme.videoSceneModeNightIconId; value: Scene.Night}
-    ]
-
-    property CameraToolBarTools tools: CameraToolBarTools {
-        CameraLabel {
-            height: parent ? parent.height : 0
-            text: qsTr("Scene")
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        Repeater {
-            model: parent != null && parent.visible ? toolsModel : undefined
-
-            delegate: CheckButton {
-                iconId: icon
-                onClicked: settings.videoSceneMode = value
-                checked: settings.videoSceneMode == value
-            }
-        }
-    }
+QtObject {
+    property string icon
+    property int value
+    property bool enabled: true
 }

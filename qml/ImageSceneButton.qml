@@ -28,6 +28,14 @@ CameraToolIcon {
     id: button
 
     iconId: Data.ismIcon(settings.imageSceneMode)
+    property list<ToolsModelItem> toolsModel: [
+        ToolsModelItem {icon: cameraTheme.imageSceneModeAutoIconId; value: Scene.Auto},
+        ToolsModelItem {icon: cameraTheme.imageSceneModeCloseupIconId; value: Scene.Closeup},
+        ToolsModelItem {icon: cameraTheme.imageSceneModeLandscapeIconId; value: Scene.Landscape},
+        ToolsModelItem {icon: cameraTheme.imageSceneModePortraitIconId; value: Scene.Portrait},
+        ToolsModelItem {icon: cameraTheme.imageSceneModeNightIconId; value: Scene.Night},
+        ToolsModelItem {icon: cameraTheme.imageSceneModeSportIconId; value: Scene.Sport}
+    ]
 
     property CameraToolBarTools tools: CameraToolBarTools {
         CameraLabel {
@@ -36,40 +44,14 @@ CameraToolIcon {
             verticalAlignment: Text.AlignVCenter
         }
 
-        CheckButton {
-            iconId: Data.ismIcon(Scene.Auto)
-            onClicked: settings.imageSceneMode = Scene.Auto
-            checked: settings.imageSceneMode == Scene.Auto
-        }
+        Repeater {
+            model: parent != null && parent.visible ? toolsModel : undefined
 
-        CheckButton {
-            iconId: Data.ismIcon(Scene.Closeup)
-            onClicked: settings.imageSceneMode = Scene.Closeup
-            checked: settings.imageSceneMode == Scene.Closeup
-        }
-
-        CheckButton {
-            iconId: Data.ismIcon(Scene.Landscape)
-            onClicked: settings.imageSceneMode = Scene.Landscape
-            checked: settings.imageSceneMode == Scene.Landscape
-        }
-
-        CheckButton {
-            iconId: Data.ismIcon(Scene.Portrait)
-            onClicked: settings.imageSceneMode = Scene.Portrait
-            checked: settings.imageSceneMode == Scene.Portrait
-        }
-
-        CheckButton {
-            iconId: Data.ismIcon(Scene.Night)
-            onClicked: settings.imageSceneMode = Scene.Night
-            checked: settings.imageSceneMode == Scene.Night
-        }
-
-        CheckButton {
-            iconId: Data.ismIcon(Scene.Sport)
-            onClicked: settings.imageSceneMode = Scene.Sport
-            checked: settings.imageSceneMode == Scene.Sport
+            delegate: CheckButton {
+                iconId: icon
+                onClicked: settings.imageSceneMode = value
+                checked: settings.imageSceneMode == value
+            }
         }
     }
 }

@@ -26,7 +26,17 @@ import "data.js" as Data
 
 CameraToolIcon {
     id: button
+
     iconId: Data.cfIcon(settings.imageColorFilter)
+
+    property list<ToolsModelItem> toolsModel: [
+        ToolsModelItem {icon: cameraTheme.colorFilterNormalIconId; value: ColorTone.Normal },
+        ToolsModelItem {icon: cameraTheme.colorFilterGrayScaleIconId; value: ColorTone.GrayScale },
+        ToolsModelItem {icon: cameraTheme.colorFilterSepiaIconId; value: ColorTone.Sepia },
+        ToolsModelItem {icon: cameraTheme.colorFilterVividIconId; value: ColorTone.Vivid },
+        ToolsModelItem {icon: cameraTheme.colorFilterNegativeIconId; value: ColorTone.Negative },
+        ToolsModelItem {icon: cameraTheme.colorFilterSolarizeIconId; value: ColorTone.Solarize }
+    ]
 
     property CameraToolBarTools tools: CameraToolBarTools {
         CameraLabel {
@@ -35,40 +45,14 @@ CameraToolIcon {
             verticalAlignment: Text.AlignVCenter
         }
 
-        CheckButton {
-            iconId: Data.cfIcon(ColorTone.Normal)
-            onClicked: settings.imageColorFilter = ColorTone.Normal
-            checked: settings.imageColorFilter == ColorTone.Normal
-        }
+        Repeater {
+            model: parent != null && parent.visible ? toolsModel : undefined
 
-        CheckButton {
-            iconId: Data.cfIcon(ColorTone.GrayScale)
-            onClicked: settings.imageColorFilter = ColorTone.GrayScale
-            checked: settings.imageColorFilter == ColorTone.GrayScale
-        }
-
-        CheckButton {
-            iconId: Data.cfIcon(ColorTone.Sepia)
-            onClicked: settings.imageColorFilter = ColorTone.Sepia
-            checked: settings.imageColorFilter == ColorTone.Sepia
-        }
-
-        CheckButton {
-            iconId: Data.cfIcon(ColorTone.Vivid)
-            onClicked: settings.imageColorFilter = ColorTone.Vivid
-            checked: settings.imageColorFilter == ColorTone.Vivid
-        }
-
-        CheckButton {
-            iconId: Data.cfIcon(ColorTone.Negative)
-            onClicked: settings.imageColorFilter = ColorTone.Negative
-            checked: settings.imageColorFilter == ColorTone.Negative
-        }
-
-        CheckButton {
-            iconId: Data.cfIcon(ColorTone.Solarize)
-            onClicked: settings.imageColorFilter = ColorTone.Solarize
-            checked: settings.imageColorFilter == ColorTone.Solarize
+            delegate: CheckButton {
+                iconId: icon
+                onClicked: settings.imageColorFilter = value
+                checked: settings.imageColorFilter == value
+            }
         }
     }
 }
