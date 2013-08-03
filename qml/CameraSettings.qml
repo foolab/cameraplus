@@ -43,7 +43,6 @@ Column {
 
     CameraButtonRow {
         anchors.horizontalCenter: parent.horizontalCenter
-        // TODO: test this
         enabled: camera != null && camera.running && camera.idle
 
         CameraButton {
