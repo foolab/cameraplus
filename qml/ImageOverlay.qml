@@ -191,7 +191,7 @@ Item {
 
             Indicator {
                 id: cfIndicator
-                source: "image://theme/" + cameraTheme.colorFilterIndicatorIcon(settings.imageColorFilter)
+                source: visible ? "image://theme/" + cameraTheme.colorFilterIndicatorIcon(settings.imageColorFilter) : ""
                 visible: settings.imageColorFilter != ColorTone.Normal
             }
 
