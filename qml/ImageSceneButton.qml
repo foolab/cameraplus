@@ -22,12 +22,11 @@
 
 import QtQuick 2.0
 import QtCamera 1.0
-import "data.js" as Data
 
 CameraToolIcon {
     id: button
 
-    iconId: Data.ismIcon(settings.imageSceneMode)
+    iconId: cameraTheme.imageSceneModeIcon(settings.imageSceneMode)
     property list<ToolsModelItem> toolsModel: [
         ToolsModelItem {icon: cameraTheme.imageSceneModeAutoIconId; value: Scene.Auto},
         ToolsModelItem {icon: cameraTheme.imageSceneModeCloseupIconId; value: Scene.Closeup},

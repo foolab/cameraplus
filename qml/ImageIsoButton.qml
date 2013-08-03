@@ -22,12 +22,11 @@
 
 import QtQuick 2.0
 import QtCamera 1.0
-import "data.js" as Data
 
 CameraToolIcon {
     id: button
 
-    iconId: Data.isoIcon(settings.imageIso)
+    iconId: cameraTheme.isoIcon(settings.imageIso)
 
     property CameraToolBarTools tools: CameraToolBarTools {
         CameraLabel {

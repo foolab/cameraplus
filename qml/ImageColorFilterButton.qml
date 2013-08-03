@@ -22,12 +22,11 @@
 
 import QtQuick 2.0
 import QtCamera 1.0
-import "data.js" as Data
 
 CameraToolIcon {
     id: button
 
-    iconId: Data.cfIcon(settings.imageColorFilter)
+    iconId: cameraTheme.colorFilterIcon(settings.imageColorFilter)
 
     property list<ToolsModelItem> toolsModel: [
         ToolsModelItem {icon: cameraTheme.colorFilterNormalIconId; value: ColorTone.Normal },

@@ -22,12 +22,11 @@
 
 import QtQuick 2.0
 import QtCamera 1.0
-import "data.js" as Data
 
 CameraToolIcon {
     id: button
 
-    iconId: Data.wbIcon(settings.imageWhiteBalance)
+    iconId: cameraTheme.whiteBalanceIcon(settings.imageWhiteBalance)
 
     property list<ToolsModelItem> toolsModel: [
         ToolsModelItem {icon: cameraTheme.whiteBalanceAutoIconId; value: WhiteBalance.Auto },

@@ -23,7 +23,6 @@
 import QtQuick 2.0
 import QtCamera 1.0
 import CameraPlus 1.0
-import "data.js" as Data
 
 Item {
     id: overlay
@@ -156,13 +155,13 @@ Item {
 
             Indicator {
                 id: wbIndicator
-                source: visible ? "image://theme/" + Data.wbIcon(settings.videoWhiteBalance) + "-screen" : ""
+                source: visible ? "image://theme/" + cameraTheme.whiteBalanceIcon(settings.videoWhiteBalance) + "-screen" : ""
                 visible: settings.videoWhiteBalance != WhiteBalance.Auto
             }
 
             Indicator {
                 id: cfIndicator
-                source: "image://theme/" + Data.cfIcon(settings.videoColorFilter) + "-screen"
+                source: "image://theme/" + cameraTheme.colorFilterIcon(settings.videoColorFilter) + "-screen"
                 visible: settings.videoColorFilter != ColorTone.Normal
             }
 

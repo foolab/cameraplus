@@ -8,7 +8,6 @@
 	<file>CameraView.qml</file>
 	<file>CaptureButton.qml</file>
 	<file>CheckButton.qml</file>
-	<file>data.js</file>
 	<file>FlashButton.qml</file>
 	<file>FocusReticle.qml</file>
 	<file>ImageColorFilterButton.qml</file>

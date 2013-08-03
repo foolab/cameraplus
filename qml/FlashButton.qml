@@ -22,12 +22,11 @@
 
 import QtQuick 2.0
 import QtCamera 1.0
-import "data.js" as Data
 
 CameraToolIcon {
     id: button
 
-    iconId: Data.flashIcon(settings.imageFlashMode)
+    iconId: cameraTheme.flashIcon(settings.imageFlashMode)
 
     property list<ToolsModelItem> toolsModel: [
         ToolsModelItem {icon: cameraTheme.flashAutoIconId; value: Flash.Auto },

@@ -21,6 +21,7 @@
  */
 
 import QtQuick 1.1
+import QtCamera 1.0
 
 QtObject {
     property string standbyIcon: "image://theme/icon-l-camera-standby"
@@ -120,5 +121,103 @@ QtObject {
         }
 
         return ""
+    }
+
+    function whiteBalanceIcon(val) {
+        switch (val) {
+            case WhiteBalance.Auto:
+                return whiteBalanceAutoIconId
+            case WhiteBalance.Sunset:
+                return whiteBalanceSunsetIconId
+            case WhiteBalance.Cloudy:
+                return whiteBalanceCloudyIconId
+            case WhiteBalance.Flourescent:
+                return whiteBalanceFlourescentIconId
+            case WhiteBalance.Tungsten:
+                return whiteBalanceTungstenIconId
+            default:
+                return ""
+        }
+    }
+
+    function colorFilterIcon(val) {
+        switch (val) {
+            case ColorTone.Normal:
+                return colorFilterNormalIconId
+            case ColorTone.GrayScale:
+                return colorFilterGrayScaleIconId
+            case ColorTone.Sepia:
+                return colorFilterSepiaIconId
+            case ColorTone.Vivid:
+                return colorFilterVividIconId
+            case ColorTone.Negative:
+                return colorFilterNegativeIconId
+            case ColorTone.Solarize:
+                return colorFilterSolarizeIconId
+            default:
+                return ""
+        }
+    }
+
+    function imageSceneModeIcon(val) {
+        switch (val) {
+            case Scene.Auto:
+                return imageSceneModeAutoIconId
+            case Scene.Closeup:
+                return imageSceneModeCloseupIconId
+            case Scene.Landscape:
+                return imageSceneModeLandscapeIconId
+            case Scene.Portrait:
+                return imageSceneModePortraitIconId
+            case Scene.Night:
+                return imageSceneModeNightIconId
+            case Scene.Sport:
+                return imageSceneModeSportIconId
+            default:
+                return ""
+        }
+    }
+
+    function videoSceneModeIcon(val) {
+        switch (val) {
+            case Scene.Auto:
+                return videoSceneModeAutoIconId
+            case Scene.Night:
+                return videoSceneModeNightIconId
+            default:
+                return ""
+        }
+    }
+
+    function flashIcon(val) {
+        switch (val) {
+            case Flash.Auto:
+                return flashAutoIconId
+            case Flash.On:
+                return flashOnIconId
+            case Flash.Off:
+                return flashOffIconId
+            case Flash.RedEye:
+                return flashRedEyeIconId
+            default:
+                return ""
+        }
+    }
+
+    function isoIcon(val) {
+        switch (val) {
+            case 0:
+                return isoAudoIconId
+            case 100:
+                return iso100IconId
+            case 200:
+                return iso200IconId
+            case 400:
+                return iso400IconId
+            case 800:
+                return iso800IconId
+            default:
+                return ""
+        }
     }
 }
