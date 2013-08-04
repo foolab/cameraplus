@@ -3,10 +3,10 @@ contains(MEEGO_EDITION, "harmattan") {
     DEFINES += HARMATTAN
     CONFIG += harmattan
 } else {
-# TODO: Assume nemo for now
-    message("Building for nemo")
-    DEFINES += NEMO
-    CONFIG += nemo
+    # We will assume sailfish for now since it's the only platform I am familiar with
+    message("Building for sailfish")
+    DEFINES += SAILFISH
+    CONFIG += sailfish
 }
 
 equals(QT_MAJOR_VERSION, 4) {
