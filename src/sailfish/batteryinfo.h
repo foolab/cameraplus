@@ -25,9 +25,7 @@
 
 #include <QObject>
 
-namespace MeeGo {
-  class QmBattery;
-};
+class QBatteryInfo;
 
 class BatteryInfo : public QObject {
   Q_OBJECT
@@ -52,7 +50,7 @@ signals:
   void activeChanged();
 
 private:
-  MeeGo::QmBattery *m_battery;
+  QBatteryInfo *m_battery;
 };
 
 #endif /* BATTERY_INFO_H */

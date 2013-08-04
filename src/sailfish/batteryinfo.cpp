@@ -19,7 +19,7 @@
  */
 
 #include "batteryinfo.h"
-#include <qmbattery.h>
+#include <QBatteryInfo>
 #if defined(QT4)
 #include <QDeclarativeInfo>
 #elif defined(QT5)
@@ -27,7 +27,8 @@
 #endif
 
 BatteryInfo::BatteryInfo(QObject *parent) :
-  QObject(parent), m_battery(0) {
+  QObject(parent),
+  m_battery(0) {
 
 }
 
@@ -41,7 +42,8 @@ bool BatteryInfo::isCharging() const {
     return false;
   }
 
-  if (m_battery->getChargingState() == MeeGo::QmBattery::StateCharging) {
+  QBatteryInfo::ChargingState state = m_battery->chargingState(0);
+  if (state == QBatteryInfo::Charging) {
     return true;
   }
 
@@ -54,9 +56,8 @@ bool BatteryInfo::isCritical() const {
     return true;
   }
 
-  MeeGo::QmBattery::BatteryState state = m_battery->getBatteryState();
-
-  if (state == MeeGo::QmBattery::StateOK || state == MeeGo::QmBattery::StateFull) {
+  QBatteryInfo::BatteryStatus state = m_battery->batteryStatus(0);
+  if (state == QBatteryInfo::BatteryOk || state == QBatteryInfo::BatteryFull) {
     return false;
   }
 
@@ -77,10 +78,11 @@ void BatteryInfo::setActive(bool active) {
     m_battery = 0;
   }
   else {
-    m_battery = new MeeGo::QmBattery(this);
-    QObject::connect(m_battery, SIGNAL(batteryStateChanged(MeeGo::QmBattery::BatteryState)),
+    m_battery = new QBatteryInfo(this);
+
+    QObject::connect(m_battery, SIGNAL(batteryStatusChanged(int, QBatteryInfo::BatteryStatus)),
 		     this, SIGNAL(chargingChanged()));
-    QObject::connect(m_battery, SIGNAL(chargingStateChanged(MeeGo::QmBattery::ChargingState)),
+    QObject::connect(m_battery, SIGNAL(chargingStateChanged(int, QBatteryInfo::ChargingState)),
 		     this, SIGNAL(chargingChanged()));
   }
 
