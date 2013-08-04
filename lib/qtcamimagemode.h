@@ -49,6 +49,10 @@ public:
 
   QtCamImageSettings *settings() const;
 
+signals:
+  void captureStarted();
+  void captureEnded();
+
 protected:
   virtual void start();
   virtual void stop();

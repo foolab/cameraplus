@@ -36,6 +36,10 @@ public:
 
   Q_INVOKABLE bool capture(const QString& fileName);
 
+signals:
+  void captureStarted();
+  void captureEnded();
+
 protected:
   virtual void preChangeMode();
   virtual void postChangeMode();

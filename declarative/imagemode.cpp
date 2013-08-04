@@ -39,11 +39,21 @@ bool ImageMode::capture(const QString& fileName) {
 }
 
 void ImageMode::preChangeMode() {
+  if (m_image) {
+    QObject::disconnect(m_image, SIGNAL(captureStarted()), this, SIGNAL(captureStarted()));
+    QObject::disconnect(m_image, SIGNAL(captureEnded()), this, SIGNAL(captureEnded()));
+  }
+
   m_image = 0;
 }
 
 void ImageMode::postChangeMode() {
   m_image = m_cam->device()->imageMode();
+
+  if (m_image) {
+    QObject::connect(m_image, SIGNAL(captureStarted()), this, SIGNAL(captureStarted()));
+    QObject::connect(m_image, SIGNAL(captureEnded()), this, SIGNAL(captureEnded()));
+  }
 }
 
 void ImageMode::changeMode() {

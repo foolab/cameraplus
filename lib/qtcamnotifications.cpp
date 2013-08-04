@@ -21,6 +21,8 @@
 #include "qtcamnotifications.h"
 #include "qtcamnotifications_p.h"
 #include "qtcamdevice.h"
+#include "qtcamdevice_p.h"
+#include "qtcamimagemode.h"
 #ifndef GST_USE_UNSTABLE_API
 #define GST_USE_UNSTABLE_API
 #endif /* GST_USE_UNSTABLE_API */
@@ -56,6 +58,11 @@ QtCamNotifications::QtCamNotifications(QtCamDevice *dev, QObject *parent) :
 
   QObject::connect(d_ptr->af, SIGNAL(messageSent(GstMessage *)),
 		   this, SLOT(autoFocusStatusChanged(GstMessage *)));
+
+  QObject::connect(d_ptr->imageStart, SIGNAL(messageSent(GstMessage *)),
+		   d_ptr->dev->d_ptr->image, SIGNAL(captureStarted()), Qt::AutoConnection);
+  QObject::connect(d_ptr->imageEnd, SIGNAL(messageSent(GstMessage *)),
+		   d_ptr->dev->d_ptr->image, SIGNAL(captureEnded()), Qt::AutoConnection);
 }
 
 QtCamNotifications::~QtCamNotifications() {
