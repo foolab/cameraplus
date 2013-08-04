@@ -41,9 +41,9 @@ harmattan {
     RESOURCES += ../qml/harmattan/harmattan.qrc
 }
 
-nemo {
-    include(nemo/nemo.pri)
-    RESOURCES += ../qml/harmattan/harmattan.qrc
+sailfish {
+    include(sailfish/sailfish.pri)
+    RESOURCES += ../qml/sailfish/sailfish.qrc
 }
 
 qt4 {
