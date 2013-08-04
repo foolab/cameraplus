@@ -41,10 +41,10 @@ Item {
     ImageMode {
         id: imageMode
         camera: cam
-        onPreviewAvailable: {
-            overlay.previewAvailable(preview)
-            cam.autoFocus.stopAutoFocus()
-        }
+
+        onCaptureEnded: cam.autoFocus.stopAutoFocus()
+
+        onPreviewAvailable: overlay.previewAvailable(preview)
 
         onSaved: mountProtector.unlock()
     }
