@@ -47,6 +47,7 @@ void Mode::setCamera(Camera *camera) {
   }
 
   if (m_cam) {
+    QObject::disconnect(m_cam, SIGNAL(prepareForDeviceChange()), this, SLOT(prepareForDeviceChange()));
     QObject::disconnect(m_cam, SIGNAL(deviceChanged()), this, SLOT(deviceChanged()));
     QObject::disconnect(m_cam, SIGNAL(deviceChanged()), this, SIGNAL(isReadyChanged()));
   }
@@ -54,6 +55,7 @@ void Mode::setCamera(Camera *camera) {
   m_cam = camera;
 
   if (m_cam) {
+    QObject::connect(m_cam, SIGNAL(prepareForDeviceChange()), this, SLOT(prepareForDeviceChange()));
     QObject::connect(m_cam, SIGNAL(deviceChanged()), this, SLOT(deviceChanged()));
     QObject::connect(m_cam, SIGNAL(deviceChanged()), this, SIGNAL(isReadyChanged()));
   }
@@ -74,22 +76,6 @@ bool Mode::canCapture() {
 }
 
 void Mode::deviceChanged() {
-  if (m_mode) {
-    QObject::disconnect(m_mode, SIGNAL(canCaptureChanged()), this, SIGNAL(canCaptureChanged()));
-    QObject::disconnect(m_mode, SIGNAL(saved(const QString&)),
-			this, SIGNAL(saved(const QString&)));
-    QObject::disconnect(m_mode, SIGNAL(previewAvailable(const QImage&, const QString&)),
-			this, SLOT(gotPreview(const QImage&, const QString&)));
-    QObject::disconnect(m_mode, SIGNAL(activeChanged()), this, SIGNAL(activeChanged()));
-    QObject::disconnect(m_mode, SIGNAL(activeChanged()), this, SIGNAL(canCaptureChanged()));
-    QObject::disconnect(m_cam->device(), SIGNAL(idleStateChanged(bool)),
-			this, SIGNAL(canCaptureChanged()));
-    QObject::disconnect(m_cam->device(), SIGNAL(runningStateChanged(bool)),
-			this, SIGNAL(canCaptureChanged()));
-
-    preChangeMode();
-  }
-
   if (!m_cam || !m_cam->device()) {
     return;
   }
@@ -127,4 +113,22 @@ void Mode::gotPreview(const QImage& image, const QString& fileName) {
 
 bool Mode::isReady() const {
   return m_mode;
+}
+
+void Mode::prepareForDeviceChange() {
+  if (m_mode) {
+    QObject::disconnect(m_mode, SIGNAL(canCaptureChanged()), this, SIGNAL(canCaptureChanged()));
+    QObject::disconnect(m_mode, SIGNAL(saved(const QString&)),
+			this, SIGNAL(saved(const QString&)));
+    QObject::disconnect(m_mode, SIGNAL(previewAvailable(const QImage&, const QString&)),
+			this, SLOT(gotPreview(const QImage&, const QString&)));
+    QObject::disconnect(m_mode, SIGNAL(activeChanged()), this, SIGNAL(activeChanged()));
+    QObject::disconnect(m_mode, SIGNAL(activeChanged()), this, SIGNAL(canCaptureChanged()));
+    QObject::disconnect(m_cam->device(), SIGNAL(idleStateChanged(bool)),
+			this, SIGNAL(canCaptureChanged()));
+    QObject::disconnect(m_cam->device(), SIGNAL(runningStateChanged(bool)),
+			this, SIGNAL(canCaptureChanged()));
+
+    preChangeMode();
+  }
 }

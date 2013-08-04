@@ -62,6 +62,7 @@ signals:
 private slots:
   void gotPreview(const QImage& image, const QString& fileName);
   void deviceChanged();
+  void prepareForDeviceChange();
 
 protected:
   virtual void preChangeMode() = 0;
