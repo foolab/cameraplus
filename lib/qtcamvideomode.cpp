@@ -235,4 +235,8 @@ QtCamVideoSettings *QtCamVideoMode::settings() {
   return d->settings;
 }
 
+QtCamVideoResolution QtCamVideoMode::currentResolution() {
+  return d->resolution;
+}
+
 #include "moc_qtcamvideomode.cpp"

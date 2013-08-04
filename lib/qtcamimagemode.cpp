@@ -143,3 +143,7 @@ void QtCamImageMode::setProfile(GstEncodingProfile *profile) {
 QtCamImageSettings *QtCamImageMode::settings() const {
   return d->settings;
 }
+
+QtCamImageResolution QtCamImageMode::currentResolution() {
+  return d->resolution;
+}

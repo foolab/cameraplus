@@ -45,6 +45,8 @@ public:
 
   bool setResolution(const QtCamImageResolution& resolution);
 
+  QtCamImageResolution currentResolution();
+
   void setProfile(GstEncodingProfile *profile);
 
   QtCamImageSettings *settings() const;
