@@ -1,0 +1,57 @@
+// -*- c++ -*-
+
+/*!
+ * This file is part of CameraPlus.
+ *
+ * Copyright (C) 2012-2013 Mohammed Sameer <msameer@foolab.org>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
+#ifndef FS_MONITOR_H
+#define FS_MONITOR_H
+
+#include <QObject>
+
+namespace MeeGo {
+  class QmUSBMode;
+};
+
+class FSMonitor : public QObject {
+  Q_OBJECT
+  Q_PROPERTY(bool available READ isAvailable NOTIFY availabilityChanged)
+
+public:
+  FSMonitor(QObject *parent = 0);
+  ~FSMonitor();
+
+  bool isAvailable() const;
+
+  void setAvailable(bool available);
+
+  Q_INVOKABLE bool hasFreeSpace(const QString& path);
+
+signals:
+  void availabilityChanged();
+
+private slots:
+  void modeChanged();
+
+private:
+  bool m_available;
+  MeeGo::QmUSBMode *m_mode;
+};
+
+#endif /* FS_MONITOR_H */
