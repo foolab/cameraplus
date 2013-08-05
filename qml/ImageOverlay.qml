@@ -241,14 +241,19 @@ Item {
     function captureImage() {
         if (!imageMode.canCapture) {
             showError(qsTr("Camera is already capturing an image."))
+            cam.autoFocus.stopAutoFocus()
         } else if (!checkBattery()) {
             showError(qsTr("Not enough battery to capture images."))
+            cam.autoFocus.stopAutoFocus()
         } else if (!fileSystem.available) {
             showError(qsTr("Camera cannot capture images in mass storage mode."))
+            cam.autoFocus.stopAutoFocus()
         } else if (!checkDiskSpace()) {
             showError(qsTr("Not enough space to capture images."))
+            cam.autoFocus.stopAutoFocus()
         } else if (!mountProtector.lock()) {
             showError(qsTr("Failed to lock images directory."))
+            cam.autoFocus.stopAutoFocus()
         } else {
             metaData.setMetaData()
 
@@ -256,6 +261,7 @@ Item {
             if (!imageMode.capture(fileName)) {
                 showError(qsTr("Failed to capture image. Please restart the camera."))
                 mountProtector.unlock()
+                cam.autoFocus.stopAutoFocus()
             } else {
                 trackerStore.storeImage(fileName)
             }
