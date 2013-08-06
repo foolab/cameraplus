@@ -240,4 +240,20 @@ QtObject {
             return colorFilterIcon(val) + "-screen"
         }
     }
+
+    function imageSceneModeIndicatorIcon(val) {
+        if (val == Scene.Auto) {
+            return ""
+        } else {
+            return imageSceneModeIcon(val) + "-screen"
+        }
+    }
+
+    function videoSceneModeIndicatorIcon(val) {
+        if (val == Scene.Auto) {
+            return ""
+        } else {
+            return videoSceneModeIcon(val) + "-screen"
+        }
+    }
 }

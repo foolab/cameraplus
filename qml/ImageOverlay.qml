@@ -202,6 +202,12 @@ Item {
             }
 
             Indicator {
+                id: sceneIndicator
+                visible: settings.imageSceneMode != Scene.Auto
+                source: visible ? "image://theme/" + cameraTheme.imageSceneModeIndicatorIcon(settings.imageSceneMode) : ""
+            }
+
+            Indicator {
                 id: gpsIndicator
                 visible: settings.useGps
                 source: cameraTheme.gpsIndicatorIcon
