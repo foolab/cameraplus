@@ -82,6 +82,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
 #if defined(QT4)
   QApplication::setAttribute(Qt::AA_X11InitThreads, true);
   QApplication *app = new QApplication(argc, argv);
+  app->setApplicationName("cameraplus");
 
   QmlFileEngineHandler handler;
   Q_UNUSED(handler);
@@ -89,6 +90,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   QDeclarativeView *view = MDeclarativeCache::qDeclarativeView();
 #elif defined(QT5)
   QGuiApplication *app = MDeclarativeCache::qApplication(argc, argv);
+  app->setApplicationName("cameraplus");
+
   QQuickView *view = MDeclarativeCache::qQuickView();
 #endif
 
