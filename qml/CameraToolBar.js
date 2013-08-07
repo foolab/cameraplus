@@ -95,6 +95,10 @@ function clear() {
     }
 }
 
+function depth() {
+    return stack.length;
+}
+
 function isEmpty() {
     return stack.length == 0 ? true : false;
 }

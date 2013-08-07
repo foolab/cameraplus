@@ -48,6 +48,10 @@ Rectangle {
         __currentTools = Layout.pop();
     }
 
+    function depth() {
+        return Layout.depth()
+    }
+
     onToolsChanged: {
         push(tools)
     }

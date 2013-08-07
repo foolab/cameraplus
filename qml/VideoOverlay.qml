@@ -258,6 +258,10 @@ Item {
         }
 
         trackerStore.storeVideo(file);
+
+        if (toolBar.depth() > 1) {
+            toolBar.pop()
+        }
     }
 
     function startRecording() {
