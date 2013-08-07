@@ -25,6 +25,7 @@ import CameraPlus 1.0
 import QtCamera 1.0
 
 // TODO: qrc:/qml/PostCaptureView.qml:104:5: QML CameraToolBar: Binding loop detected for property "height"
+// TODO: try to reload the preview thumbnail when the picture becomes available
 Item {
     id: postCaptureView
 
@@ -133,7 +134,8 @@ Item {
 
         tools: CameraToolBarTools {
             CameraToolIcon {
-                iconId: !available ? cameraTheme.favoriteDisabledIconId : view.currentItem.itemData.favorite ? cameraTheme.favoriteMarkIconId : cameraTheme.favoriteUnmarkIconId
+                iconId: available && view.currentItem.itemData.favorite ? cameraTheme.favoriteMarkIconId : cameraTheme.favoriteUnmarkIconId
+                opacity: available ? 1.0 : 0.4
                 onClicked: {
                     addOrRemoveFavorite()
                     restartTimer()
@@ -141,7 +143,8 @@ Item {
             }
 
             CameraToolIcon {
-                iconId: available ? cameraTheme.shareEnabledIconId : cameraTheme.shareDisabledIconId
+                iconId: cameraTheme.shareIconId
+                opacity: available ? 1.0 : 0.4
                 onClicked: {
                     shareCurrentItem()
                     restartTimer()
@@ -149,7 +152,8 @@ Item {
             }
 
             CameraToolIcon {
-                iconId: available ? cameraTheme.deleteEnabledIconId : cameraTheme.deleteDisabledIconId
+                iconId: cameraTheme.deleteIconId
+                opacity: available ? 1.0 : 0.4
                 onClicked: {
                     deleteCurrentItem()
                     restartTimer()
