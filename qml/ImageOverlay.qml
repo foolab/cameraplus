@@ -173,6 +173,7 @@ Item {
 
             Indicator {
                 id: flashIndicator
+                visible: !toolBar.expanded
                 source: "image://theme/" + cameraTheme.flashIndicatorIcon(settings.imageFlashMode)
             }
 
@@ -186,24 +187,24 @@ Item {
             Indicator {
                 id: wbIndicator
                 source: visible ? "image://theme/" + cameraTheme.whiteBalanceIndicatorIcon(settings.imageWhiteBalance) : ""
-                visible: settings.imageWhiteBalance != WhiteBalance.Auto
+                visible: settings.imageWhiteBalance != WhiteBalance.Auto && !toolBar.expanded
             }
 
             Indicator {
                 id: cfIndicator
                 source: visible ? "image://theme/" + cameraTheme.colorFilterIndicatorIcon(settings.imageColorFilter) : ""
-                visible: settings.imageColorFilter != ColorTone.Normal
+                visible: settings.imageColorFilter != ColorTone.Normal && !toolBar.expanded
             }
 
             Indicator {
                 id: isoIndicator
-                visible: settings.imageIso != 0
+                visible: settings.imageIso != 0 && !toolBar.expanded
                 source: visible ? "image://theme/" + cameraTheme.isoIcon(settings.imageIso) : ""
             }
 
             Indicator {
                 id: sceneIndicator
-                visible: settings.imageSceneMode != Scene.Auto
+                visible: settings.imageSceneMode != Scene.Auto && !toolBar.expanded
                 source: visible ? "image://theme/" + cameraTheme.imageSceneModeIndicatorIcon(settings.imageSceneMode) : ""
             }
 
