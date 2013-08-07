@@ -26,6 +26,7 @@ import QtCamera 1.0
 
 // TODO: qrc:/qml/PostCaptureView.qml:104:5: QML CameraToolBar: Binding loop detected for property "height"
 // TODO: try to reload the preview thumbnail when the picture becomes available
+// TODO: prevent flicking to this view while preview animation is running
 Item {
     id: postCaptureView
 
@@ -125,7 +126,7 @@ Item {
         opacity: 0.8
 
         property bool show: deleteDialog.isOpen || deleteDialog.isOpening ||
-            hideTimer.running || menu.isOpen || menu.isOpening ||
+            hideTimer.running ||
             (view.currentItem && view.currentItem.error) && !view.currentItem.playing
 
         Behavior on anchors.bottomMargin {
@@ -161,9 +162,9 @@ Item {
             }
 
             CameraToolIcon {
-                iconId: cameraTheme.menuIconId
+                iconId: cameraTheme.galleryIconId
                 onClicked: {
-                    menu.open()
+                    launchGallery()
                     restartTimer()
                 }
             }
@@ -189,24 +190,6 @@ Item {
         DeleteHelper {
             id: remove
         }
-    }
-
-    CameraMenu {
-        id: menu
-        onStatusChanged: restartTimer()
-
-        actions: [
-            CameraMenuAction {
-                text: qsTr("Captures in gallery")
-                onClicked: launchGallery()
-            },
-            CameraMenuAction {
-                // TODO: this is not working...
-                text: qsTr("View in gallery")
-                enabled: available
-                onClicked: showInGallery()
-            }
-        ]
     }
 
     Rectangle {
@@ -254,16 +237,6 @@ Item {
 
     function launchGallery() {
         if (!gallery.launch()) {
-            showError(qsTr("Failed to launch gallery"))
-        }
-    }
-
-    function showInGallery() {
-        if (!available) {
-            return
-        }
-
-        if (!gallery.show(view.currentItem.itemUrl)) {
             showError(qsTr("Failed to launch gallery"))
         }
     }

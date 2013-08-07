@@ -31,16 +31,6 @@ GalleryHelper::~GalleryHelper() {
 
 }
 
-bool GalleryHelper::show(const QUrl& path) {
-  // TODO: this is not working and I don't know why.
-  QStringList args;
-  args << path.toLocalFile();
-
-  QVariant var(args);
-
-  return asyncCall("show-media", var);
-}
-
 bool GalleryHelper::launch() {
   return asyncCall("camera-roll");
 }

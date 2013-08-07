@@ -12,8 +12,6 @@
 	<file>CameraWindow.qml</file>
 	<file>CameraInfoBanner.qml</file>
 	<file>CameraButtonStyle.qml</file>
-	<file>CameraMenu.qml</file>
-	<file>CameraMenuAction.qml</file>
 	<file>FullScreenThumbnail.qml</file>
 	<file>CameraPositionSource.qml</file>
 	<file>CameraPage.qml</file>

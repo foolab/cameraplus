@@ -48,7 +48,7 @@ QtObject {
     property string shareIconId: "icon-m-toolbar-share-white"
     property string favoriteMarkIconId: "icon-m-toolbar-favorite-mark-white"
     property string favoriteUnmarkIconId: "icon-m-toolbar-favorite-unmark-white"
-    property string menuIconId: "icon-m-toolbar-view-menu-white"
+    property string galleryIconId: "icon-m-camera-roll"
 
     property string flashAutoIconId: "icon-m-camera-flash-auto"
     property string flashOnIconId: "icon-m-camera-flash-always"
