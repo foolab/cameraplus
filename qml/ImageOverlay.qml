@@ -198,7 +198,7 @@ Item {
             Indicator {
                 id: isoIndicator
                 visible: settings.imageIso != 0
-                source: "image://theme/" + cameraTheme.isoIcon(settings.imageIso)
+                source: visible ? "image://theme/" + cameraTheme.isoIcon(settings.imageIso) : ""
             }
 
             Indicator {
