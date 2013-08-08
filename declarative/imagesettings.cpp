@@ -108,7 +108,12 @@ bool ImageSettings::setResolution(const QString& aspectRatio, const QString& res
 
   foreach (const QtCamImageResolution& r, res) {
     if (r.name() == resolution) {
-      return m_cam->device()->imageMode()->setResolution(r);
+      bool set = m_cam->device()->imageMode()->setResolution(r);
+      if (set) {
+	emit currentResolutionMegapixelChanged();
+      }
+
+      return set;
     }
   }
 
@@ -117,4 +122,12 @@ bool ImageSettings::setResolution(const QString& aspectRatio, const QString& res
 
 int ImageSettings::aspectRatioCount() const {
   return aspectRatios().count();
+}
+
+QString ImageSettings::currentResolutionMegapixel() const {
+  if (!m_cam || !m_cam->device()) {
+    return QString();
+  }
+
+  return QString("%1").arg(m_cam->device()->imageMode()->currentResolution().megaPixels());
 }

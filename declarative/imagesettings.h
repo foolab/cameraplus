@@ -39,6 +39,7 @@ class ImageSettings : public QObject {
   Q_PROPERTY(int aspectRatioCount READ aspectRatioCount NOTIFY aspectRatioCountChanged);
   Q_PROPERTY(ImageResolutionModel *resolutions READ resolutions NOTIFY resolutionsChanged);
   Q_PROPERTY(bool ready READ isReady NOTIFY readyChanged);
+  Q_PROPERTY(QString currentResolutionMegapixel READ currentResolutionMegapixel NOTIFY currentResolutionMegapixelChanged);
 
 public:
   ImageSettings(QObject *parent = 0);
@@ -58,12 +59,15 @@ public:
 
   int aspectRatioCount() const;
 
+  QString currentResolutionMegapixel() const;
+
 signals:
   void settingsChanged();
   void cameraChanged();
   void resolutionsChanged();
   void readyChanged();
   void aspectRatioCountChanged();
+  void currentResolutionMegapixelChanged();
 
 private slots:
   void deviceChanged();
