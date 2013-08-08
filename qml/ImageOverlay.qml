@@ -177,11 +177,18 @@ Item {
                 source: "image://theme/" + cameraTheme.flashIndicatorIcon(settings.imageFlashMode)
             }
 
-            Indicator {
-                id: resolutionIndicator
-                property string imageAspectRatio: settings.device == 1 ? settings.secondaryImageAspectRatio : settings.primaryImageAspectRatio
-                property string imageResolution: settings.device == 1 ? settings.secondaryImageResolution : settings.primaryImageResolution
-                source: "image://theme/" + cameraTheme.imageIcon(imageAspectRatio, imageResolution, settings.device)
+            CameraLabel {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.leftMargin: 5
+                anchors.rightMargin: 5
+                anchors.topMargin: 5
+                anchors.bottomMargin: 5
+                property string mp: imageSettings.currentResolutionMegapixel == "" ? "?" : imageSettings.currentResolutionMegapixel
+                text: qsTr("%1M").arg(mp)
+                font.bold: true
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
             }
 
             Indicator {
