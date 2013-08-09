@@ -53,5 +53,10 @@ CameraToolIcon {
             onValueChanged: settings.imageEvComp = value.toFixed(1)
             Component.onCompleted: { slider.value = settings.imageEvComp.toFixed(1) }
         }
+
+        CameraToolIcon {
+            iconSource: cameraTheme.resetIconId
+            onClicked: slider.value = 0
+        }
     }
 }
