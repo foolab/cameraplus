@@ -20,7 +20,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-import QtQuick 1.1
+import QtQuick 2.0
 import QtCamera 1.0
 
 QtObject {
