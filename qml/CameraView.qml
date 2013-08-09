@@ -28,7 +28,8 @@ import CameraPlus 1.0
 
 Viewfinder {
     id: viewfinder
-    property bool pressed: focusReticle.locked || (loader.item ? loader.item.pressed : false)
+    property bool pressed: focusReticle.locked || preview.animationRunning
+        || (loader.item ? loader.item.pressed : false)
     property int policyMode: loader.item ? loader.item.policyMode : CameraResources.None
 
     camera: cam

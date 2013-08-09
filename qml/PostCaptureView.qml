@@ -26,7 +26,7 @@ import QtCamera 1.0
 
 // TODO: qrc:/qml/PostCaptureView.qml:104:5: QML CameraToolBar: Binding loop detected for property "height"
 // TODO: try to reload the preview thumbnail when the picture becomes available
-// TODO: prevent flicking to this view while preview animation is running
+
 Item {
     id: postCaptureView
 
