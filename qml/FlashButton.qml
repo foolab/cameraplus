@@ -26,7 +26,7 @@ import QtCamera 1.0
 CameraToolIcon {
     id: button
 
-    iconId: cameraTheme.flashIcon(settings.imageFlashMode)
+    iconSource: cameraTheme.flashIcon(settings.imageFlashMode)
 
     property list<ToolsModelItem> toolsModel: [
         ToolsModelItem {icon: cameraTheme.flashAutoIconId; value: Flash.Auto },
@@ -46,7 +46,7 @@ CameraToolIcon {
             model: parent != null && parent.visible ? toolsModel : undefined
 
             delegate: CheckButton {
-                iconId: icon
+                iconSource: icon
                 onClicked: settings.imageFlashMode = value
                 checked: settings.imageFlashMode == value
             }

@@ -26,7 +26,7 @@ import QtCamera 1.0
 CameraToolIcon {
     id: button
 
-    iconId: cameraTheme.whiteBalanceIcon(settings.videoWhiteBalance)
+    iconSource: cameraTheme.whiteBalanceIcon(settings.videoWhiteBalance)
 
     property list<ToolsModelItem> toolsModel: [
         ToolsModelItem {icon: cameraTheme.whiteBalanceAutoIconId; value: WhiteBalance.Auto },
@@ -47,7 +47,7 @@ CameraToolIcon {
             model: parent != null && parent.visible ? toolsModel : undefined
 
             delegate: CheckButton {
-                iconId: icon
+                iconSource: icon
                 onClicked: settings.videoWhiteBalance = value
                 checked: settings.videoWhiteBalance == value
             }

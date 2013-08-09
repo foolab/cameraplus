@@ -26,7 +26,7 @@ import QtCamera 1.0
 CameraToolIcon {
     id: button
 
-    iconId: cameraTheme.colorFilterIcon(settings.imageColorFilter)
+    iconSource: cameraTheme.colorFilterIcon(settings.imageColorFilter)
 
     property list<ToolsModelItem> toolsModel: [
         ToolsModelItem {icon: cameraTheme.colorFilterNormalIconId; value: ColorTone.Normal },
@@ -48,7 +48,7 @@ CameraToolIcon {
             model: parent != null && parent.visible ? toolsModel : undefined
 
             delegate: CheckButton {
-                iconId: icon
+                iconSource: icon
                 onClicked: settings.imageColorFilter = value
                 checked: settings.imageColorFilter == value
             }

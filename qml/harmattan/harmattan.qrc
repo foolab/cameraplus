@@ -15,6 +15,5 @@
 	<file>FullScreenThumbnail.qml</file>
 	<file>CameraPositionSource.qml</file>
 	<file>CameraPage.qml</file>
-	<file>CameraTheme.qml</file>
     </qresource>
 </RCC>

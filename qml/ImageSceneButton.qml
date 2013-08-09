@@ -26,7 +26,7 @@ import QtCamera 1.0
 CameraToolIcon {
     id: button
 
-    iconId: cameraTheme.imageSceneModeIcon(settings.imageSceneMode)
+    iconSource: cameraTheme.imageSceneModeIcon(settings.imageSceneMode)
     property list<ToolsModelItem> toolsModel: [
         ToolsModelItem {icon: cameraTheme.imageSceneModeAutoIconId; value: Scene.Auto},
         ToolsModelItem {icon: cameraTheme.imageSceneModeCloseupIconId; value: Scene.Closeup},
@@ -47,7 +47,7 @@ CameraToolIcon {
             model: parent != null && parent.visible ? toolsModel : undefined
 
             delegate: CheckButton {
-                iconId: icon
+                iconSource: icon
                 onClicked: settings.imageSceneMode = value
                 checked: settings.imageSceneMode == value
             }

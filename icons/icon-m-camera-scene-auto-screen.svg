@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 14.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 43363)  -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="icon-m-camera-scene-auto-screen-layer"
+   x="0px"
+   y="0px"
+   width="32px"
+   height="32px"
+   viewBox="0 0 32 32"
+   style="enable-background:new 0 0 32 32;"
+   xml:space="preserve"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="icon-m-camera-scene-auto-screen.svg"><metadata
+   id="metadata14"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+   id="defs12">
+	
+	
+	
+</defs><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1024"
+   inkscape:window-height="686"
+   id="namedview10"
+   showgrid="false"
+   inkscape:zoom="13.914551"
+   inkscape:cx="13.189709"
+   inkscape:cy="15.784327"
+   inkscape:window-x="0"
+   inkscape:window-y="30"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="icon-m-camera-scene-auto-screen-layer" />
+<rect
+   y="1.3157926"
+   x="1.3157926"
+   id="rect4"
+   height="29.368414"
+   width="29.368414"
+   style="fill:none" /><path
+   style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
+   d="M 16 1.15625 C 7.8037744 1.15625 1.15625 7.8037744 1.15625 16 C 1.15625 24.196226 7.8037744 30.84375 16 30.84375 C 24.196226 30.84375 30.84375 24.196226 30.84375 16 C 30.84375 7.8037744 24.196226 1.15625 16 1.15625 z M 16 3.53125 C 23.32302 3.53125 29.25 9.1135829 29.25 16 C 29.25 22.886417 23.32302 28.46875 16 28.46875 C 8.6769801 28.46875 2.75 22.886417 2.75 16 C 2.75 9.1135829 8.6769801 3.53125 16 3.53125 z "
+   id="path3013" /><path
+   inkscape:connector-curvature="0"
+   id="path6"
+   d="m 13.233862,20.22951 h 5.230332 l 1.036154,3.586618 h 2.377006 L 17.295881,8.1829539 H 14.790388 L 10.122646,23.817046 h 2.075062 l 1.036154,-3.587536 z m 2.636733,-9.707178 2.181523,8.140557 h -4.408016 l 2.226493,-8.140557 z"
+   style="fill:#ffffff;fill-opacity:1" />
+</svg>

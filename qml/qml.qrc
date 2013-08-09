@@ -2,6 +2,7 @@
 <RCC version="1.0">
     <qresource prefix="/qml">
 	<file>CameraSettings.qml</file>
+	<file>CameraTheme.qml</file>
 	<file>CameraToolBar.js</file>
 	<file>CameraToolBar.qml</file>
 	<file>CameraToolBarTools.qml</file>

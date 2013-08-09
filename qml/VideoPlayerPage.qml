@@ -105,7 +105,7 @@ Item {
 
         tools: CameraToolBarTools {
             CameraToolIcon {
-                iconId: cameraTheme.videoStopIconId
+                iconSource: cameraTheme.videoStopIconId
                 onClicked: video.stop()
             }
 
@@ -133,7 +133,7 @@ Item {
 
             CameraToolIcon {
                 id: control
-                iconId: video.state != VideoPlayer.StatePaused ? cameraTheme.videoPauseIconId : cameraTheme.videoPlayIconId
+                iconSource: video.state != VideoPlayer.StatePaused ? cameraTheme.videoPauseIconId : cameraTheme.videoPlayIconId
                 onClicked: {
                     video.toggle()
                     hideTimer.restart()

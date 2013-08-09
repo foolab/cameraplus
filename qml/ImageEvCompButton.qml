@@ -26,7 +26,7 @@ import QtCamera 1.0
 CameraToolIcon {
     id: button
 
-    iconId: settings.imageEvComp == 0 ? cameraTheme.cameraManualExposureIconId : ""
+    iconSource: settings.imageEvComp == 0 ? cameraTheme.cameraManualExposureIconId : ""
 
     CameraLabel {
         anchors.fill: parent
@@ -44,7 +44,6 @@ CameraToolIcon {
 
         CameraSlider {
             id: slider
-            width: 500
             orientation: Qt.Horizontal
             minimumValue: cam ? cam.evComp.minimum : 0
             maximumValue: cam ? cam.evComp.maximum : 0

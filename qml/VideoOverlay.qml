@@ -79,7 +79,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        iconId: overlay.recording ? cameraTheme.captureButtonRecordingIconId : cameraTheme.captureButtonVideoIconId
+        iconSource: overlay.recording ? cameraTheme.captureButtonRecordingIconId : cameraTheme.captureButtonVideoIconId
         width: 75
         height: 75
         opacity: 0.5
@@ -150,25 +150,25 @@ Item {
                 id: resolutionIndicator
                 property string videoResolution: settings.device == 1 ? settings.secondaryVideoResolution : settings.primaryVideoResolution
                 property string videoRatio: settings.device == 1 ? settings.secondaryVideoAspectRatio : settings.primaryVideoAspectRatio
-                source: "image://theme/" + cameraTheme.videoIcon(videoRatio, videoResolution, settings.device)
+                source: cameraTheme.videoIcon(videoRatio, videoResolution, settings.device)
             }
 
             Indicator {
                 id: wbIndicator
-                source: visible ? "image://theme/" + cameraTheme.whiteBalanceIndicatorIcon(settings.videoWhiteBalance) : ""
+                source: visible ? cameraTheme.whiteBalanceIcon(settings.videoWhiteBalance) : ""
                 visible: settings.videoWhiteBalance != WhiteBalance.Auto && !toolBar.expanded
             }
 
             Indicator {
                 id: cfIndicator
-                source: visible ? "image://theme/" + cameraTheme.colorFilterIndicatorIcon(settings.videoColorFilter) : ""
+                source: visible ? cameraTheme.colorFilterIcon(settings.videoColorFilter) : ""
                 visible: settings.videoColorFilter != ColorTone.Normal && !toolBar.expanded
             }
 
             Indicator {
                 id: sceneIndicator
                 visible: settings.videoSceneMode != Scene.Auto && (!toolBar.expanded || overlay.recording)
-                source: visible ? "image://theme/" + cameraTheme.videoSceneModeIndicatorIcon(settings.videoSceneMode) : ""
+                source: visible ? cameraTheme.videoSceneModeIcon(settings.videoSceneMode) : ""
             }
 
             Indicator {

@@ -72,7 +72,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        iconId: cameraTheme.captureButtonImageIconId
+        iconSource: cameraTheme.captureButtonImageIconId
         width: 75
         height: 75
         opacity: 0.5
@@ -174,7 +174,7 @@ Item {
             Indicator {
                 id: flashIndicator
                 visible: !toolBar.expanded
-                source: "image://theme/" + cameraTheme.flashIndicatorIcon(settings.imageFlashMode)
+                source: cameraTheme.flashIcon(settings.imageFlashMode)
             }
 
             CameraLabel {
@@ -193,26 +193,26 @@ Item {
 
             Indicator {
                 id: wbIndicator
-                source: visible ? "image://theme/" + cameraTheme.whiteBalanceIndicatorIcon(settings.imageWhiteBalance) : ""
+                source: visible ? cameraTheme.whiteBalanceIcon(settings.imageWhiteBalance) : ""
                 visible: settings.imageWhiteBalance != WhiteBalance.Auto && !toolBar.expanded
             }
 
             Indicator {
                 id: cfIndicator
-                source: visible ? "image://theme/" + cameraTheme.colorFilterIndicatorIcon(settings.imageColorFilter) : ""
+                source: visible ? cameraTheme.colorFilterIcon(settings.imageColorFilter) : ""
                 visible: settings.imageColorFilter != ColorTone.Normal && !toolBar.expanded
             }
 
             Indicator {
                 id: isoIndicator
                 visible: settings.imageIso != 0 && !toolBar.expanded
-                source: visible ? "image://theme/" + cameraTheme.isoIcon(settings.imageIso) : ""
+                source: visible ? cameraTheme.isoIcon(settings.imageIso) : ""
             }
 
             Indicator {
                 id: sceneIndicator
                 visible: settings.imageSceneMode != Scene.Auto && !toolBar.expanded
-                source: visible ? "image://theme/" + cameraTheme.imageSceneModeIndicatorIcon(settings.imageSceneMode) : ""
+                source: visible ? cameraTheme.imageSceneModeIcon(settings.imageSceneMode) : ""
             }
 
             Indicator {

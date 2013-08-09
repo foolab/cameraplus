@@ -23,6 +23,6 @@
 import QtQuick 2.0
 
 CameraToolIcon {
-    iconId: settings.videoMuted ? cameraTheme.soundMuteOnIconId : cameraTheme.soundMuteOffIconId
+    iconSource: settings.videoMuted ? cameraTheme.soundMuteOnIconId : cameraTheme.soundMuteOffIconId
     onClicked: settings.videoMuted = !settings.videoMuted
 }

@@ -26,7 +26,7 @@ import QtCamera 1.0
 CameraToolIcon {
     id: button
 
-    iconId: cameraTheme.isoIcon(settings.imageIso)
+    iconSource: cameraTheme.isoIcon(settings.imageIso)
 
     property CameraToolBarTools tools: CameraToolBarTools {
         CameraLabel {

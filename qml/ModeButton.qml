@@ -29,7 +29,7 @@ CaptureButton {
     height: 55
     opacity: 0.5
 
-    iconId: settings.mode == Camera.VideoMode ? cameraTheme.cameraImageIconId : cameraTheme.cameraVideoIconId
+    iconSource: settings.mode == Camera.VideoMode ? cameraTheme.cameraImageIconId : cameraTheme.cameraVideoIconId
     onClicked: {
         if (settings.mode == Camera.VideoMode) {
             settings.mode = Camera.ImageMode

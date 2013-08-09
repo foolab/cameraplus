@@ -135,7 +135,7 @@ Item {
 
         tools: CameraToolBarTools {
             CameraToolIcon {
-                iconId: available && view.currentItem.itemData.favorite ? cameraTheme.favoriteMarkIconId : cameraTheme.favoriteUnmarkIconId
+                iconSource: available && view.currentItem.itemData.favorite ? cameraTheme.favoriteMarkIconId : cameraTheme.favoriteUnmarkIconId
                 opacity: available ? 1.0 : 0.4
                 onClicked: {
                     addOrRemoveFavorite()
@@ -144,7 +144,7 @@ Item {
             }
 
             CameraToolIcon {
-                iconId: cameraTheme.shareIconId
+                iconSource: cameraTheme.shareIconId
                 opacity: available ? 1.0 : 0.4
                 onClicked: {
                     shareCurrentItem()
@@ -153,7 +153,7 @@ Item {
             }
 
             CameraToolIcon {
-                iconId: cameraTheme.deleteIconId
+                iconSource: cameraTheme.deleteIconId
                 opacity: available ? 1.0 : 0.4
                 onClicked: {
                     deleteCurrentItem()
@@ -162,7 +162,7 @@ Item {
             }
 
             CameraToolIcon {
-                iconId: cameraTheme.galleryIconId
+                iconSource: cameraTheme.galleryIconId
                 onClicked: {
                     launchGallery()
                     restartTimer()

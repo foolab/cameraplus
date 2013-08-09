@@ -118,7 +118,7 @@ Item {
             CameraToolIcon {
                 id: playIcon
                 anchors.horizontalCenter: parent.horizontalCenter
-                iconId: cameraTheme.videoPlayIconId
+                iconSource: cameraTheme.videoPlayIconId
                 visible: isVideo
                 onClicked: startPlayback()
             }

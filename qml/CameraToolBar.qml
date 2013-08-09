@@ -122,7 +122,7 @@ Rectangle {
         visible: !parent.hideBack
         id: menu
         anchors.verticalCenter: parent.verticalCenter
-        iconId: cameraTheme.cameraToolBarMenuIcon
+        iconSource: cameraTheme.cameraToolBarMenuIcon
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
