@@ -35,4 +35,10 @@ Row {
     property real childrenWidth: Layout.calculateChildrenWidth(children)
     property int childrenLen: Layout.countVisibleChildren(children)
     spacing: (width - childrenWidth) / (childrenLen - 1)
+
+    opacity: visible ? 1.0 : 0
+
+    Behavior on opacity {
+        NumberAnimation { duration: 100 }
+    }
 }
