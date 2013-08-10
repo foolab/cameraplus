@@ -37,6 +37,9 @@ class PlatformSettings : public QObject {
   Q_PROPERTY(QString videoRecordingStartedSound READ videoRecordingStartedSound CONSTANT);
   Q_PROPERTY(QString videoRecordingEndedSound READ videoRecordingEndedSound CONSTANT);
   Q_PROPERTY(QString autoFocusAcquiredSound READ autoFocusAcquiredSound CONSTANT);
+  Q_PROPERTY(QString imagePath READ imagePath CONSTANT);
+  Q_PROPERTY(QString videoPath READ videoPath CONSTANT);
+  Q_PROPERTY(QString temporaryVideoPath READ temporaryVideoPath CONSTANT);
 
 public:
   PlatformSettings(QObject *parent = 0);
@@ -68,6 +71,10 @@ public:
   QString videoRecordingStartedSound() const;
   QString videoRecordingEndedSound() const;
   QString autoFocusAcquiredSound() const;
+
+  QString imagePath() const;
+  QString videoPath() const;
+  QString temporaryVideoPath() const;
 
 public slots:
   void init();

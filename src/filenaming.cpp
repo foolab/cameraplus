@@ -41,37 +41,36 @@ FileNaming::~FileNaming() {
 }
 
 QString FileNaming::imageSuffix() const {
-  return m_image;
+  return m_imageSuffix;
 }
 
 void FileNaming::setImageSuffix(const QString& suffix) {
-  if (m_image != suffix) {
-    m_image = suffix;
+  if (m_imageSuffix != suffix) {
+    m_imageSuffix = suffix;
     emit imageSuffixChanged();
   }
 }
 
 QString FileNaming::videoSuffix() const {
-  return m_video;
+  return m_videoSuffix;
 }
 
 void FileNaming::setVideoSuffix(const QString& suffix) {
-  if (m_video != suffix) {
-    m_video = suffix;
+  if (m_videoSuffix != suffix) {
+    m_videoSuffix = suffix;
     emit videoSuffixChanged();
   }
 }
 
 QString FileNaming::imageFileName() {
-  return fileName(m_image);
+  return fileName(m_imagePath, m_imageSuffix);
 }
 
 QString FileNaming::videoFileName() {
-  return fileName(m_video);
+  return fileName(m_videoPath, m_videoSuffix);
 }
 
-QString FileNaming::fileName(const QString& suffix) {
-  QString path = FileNaming::path();
+QString FileNaming::fileName(const QString& path, const QString& suffix) {
   QString date = QDate::currentDate().toString("yyyyMMdd");
   QDir dir(path);
 
@@ -112,22 +111,6 @@ QString FileNaming::fileName(const QString& suffix) {
   return name;
 }
 
-QString FileNaming::path() {
-  if (m_path.isEmpty()) {
-    m_path = canonicalPath(PATH);
-  }
-
-  return m_path;
-}
-
-QString FileNaming::temporaryPath() {
-  if (m_temp.isEmpty()) {
-    m_temp = canonicalPath(TEMP_PATH);
-  }
-
-  return m_temp;
-}
-
 QString FileNaming::canonicalPath(const QString& path) {
   if (!QDir::root().mkpath(path)) {
     qmlInfo(this) << "Failed to create path" << path;
@@ -148,11 +131,48 @@ QString FileNaming::canonicalPath(const QString& path) {
 }
 
 QString FileNaming::temporaryVideoFileName() {
-  QString path = temporaryPath();
-
-  if (path.isEmpty()) {
-    return path;
+  if (m_temporaryVideoPath.isEmpty()) {
+    return QString();
   }
 
-  return QString("%1.cameraplus_video.tmp").arg(path);
+  return QString("%1.cameraplus_video.tmp").arg(m_temporaryVideoPath);
+}
+
+QString FileNaming::imagePath() const {
+  return m_imagePath;
+}
+
+void FileNaming::setImagePath(const QString& path) {
+  QString p = canonicalPath(path);
+
+  if (m_imagePath != p) {
+    m_imagePath = p;
+    emit imagePathChanged();
+  }
+}
+
+QString FileNaming::videoPath() const {
+  return m_videoPath;
+}
+
+void FileNaming::setVideoPath(const QString& path) {
+  QString p = canonicalPath(path);
+
+  if (m_videoPath != p) {
+    m_videoPath = p;
+    emit videoPathChanged();
+  }
+}
+
+QString FileNaming::temporaryVideoPath() const {
+  return m_temporaryVideoPath;
+}
+
+void FileNaming::setTemporaryVideoPath(const QString& path) {
+  QString p = canonicalPath(path);
+
+  if (m_temporaryVideoPath != p) {
+    m_temporaryVideoPath = p;
+    emit temporaryVideoPathChanged();
+  }
 }

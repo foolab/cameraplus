@@ -24,31 +24,25 @@
 #define MOUNT_PROTECTOR_H
 
 #include <QObject>
+#include <QMultiMap>
+
 class QTemporaryFile;
 
 class MountProtector : public QObject {
   Q_OBJECT
 
-  Q_PROPERTY(QString path READ path WRITE setPath NOTIFY pathChanged);
-
 public:
   MountProtector(QObject *parent = 0);
   ~MountProtector();
 
-  QString path() const;
-  void setPath(const QString& path);
-
-  Q_INVOKABLE bool lock();
+  Q_INVOKABLE bool lock(const QString& path);
 
 public slots:
-  void unlock();
-
-signals:
-  void pathChanged();
+  void unlock(const QString& path);
+  void unlockAll();
 
 private:
-  QString m_path;
-  QTemporaryFile *m_file;
+  QMultiMap<QString, QTemporaryFile *> m_locks;
 };
 
 #endif /* MOUNT_PROTECTOR_H */

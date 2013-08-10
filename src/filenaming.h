@@ -30,7 +30,9 @@ class FileNaming : public QObject {
 
   Q_PROPERTY(QString imageSuffix READ imageSuffix WRITE setImageSuffix NOTIFY imageSuffixChanged);
   Q_PROPERTY(QString videoSuffix READ videoSuffix WRITE setVideoSuffix NOTIFY videoSuffixChanged);
-  Q_PROPERTY(QString path READ path CONSTANT);
+  Q_PROPERTY(QString imagePath READ imagePath WRITE setImagePath NOTIFY imagePathChanged);
+  Q_PROPERTY(QString videoPath READ videoPath WRITE setVideoPath NOTIFY videoPathChanged);
+  Q_PROPERTY(QString temporaryVideoPath READ temporaryVideoPath WRITE setTemporaryVideoPath NOTIFY temporaryVideoPathChanged);
 
 public:
   FileNaming(QObject *parent = 0);
@@ -46,21 +48,32 @@ public:
   Q_INVOKABLE QString videoFileName();
   Q_INVOKABLE QString temporaryVideoFileName();
 
-  QString path();
-  QString temporaryPath();
+  QString imagePath() const;
+  void setImagePath(const QString& path);
+
+  QString videoPath() const;
+  void setVideoPath(const QString& path);
+
+  QString temporaryVideoPath() const;
+  void setTemporaryVideoPath(const QString& path);
 
 signals:
   void imageSuffixChanged();
   void videoSuffixChanged();
+  void imagePathChanged();
+  void videoPathChanged();
+  void temporaryVideoPathChanged();
 
 private:
-  QString fileName(const QString& suffix);
+  QString fileName(const QString& path, const QString& suffix);
   QString canonicalPath(const QString& path);
+  QString temporaryPath();
 
-  QString m_image;
-  QString m_video;
-  QString m_path;
-  QString m_temp;
+  QString m_imageSuffix;
+  QString m_videoSuffix;
+  QString m_imagePath;
+  QString m_videoPath;
+  QString m_temporaryVideoPath;
 
   QString m_date;
   int m_index;

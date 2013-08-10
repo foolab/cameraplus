@@ -28,54 +28,50 @@
 #endif
 
 MountProtector::MountProtector(QObject *parent) :
-  QObject(parent), m_file(0) {
+  QObject(parent) {
 
 }
 
 MountProtector::~MountProtector() {
-  unlock();
+  unlockAll();
 }
 
-QString MountProtector::path() const {
-  return m_path;
-}
-
-void MountProtector::setPath(const QString& path) {
-  if (m_path != path) {
-    m_path = path;
-    emit pathChanged();
-  }
-}
-
-bool MountProtector::lock() {
-  if (m_file) {
-    return true;
-  }
-
-  if (m_path.isEmpty()) {
+bool MountProtector::lock(const QString& path) {
+  if (path.isEmpty()) {
+    qmlInfo(this) << "Cannot lock an empty path";
     return false;
   }
 
-  QString path = QString("%1%2.cameraplus_tmp_XXXXXX").arg(m_path).arg(QDir::separator());
-  m_file = new QTemporaryFile(path);
-  m_file->setAutoRemove(true);
-  if (!m_file->open()) {
-    qmlInfo(this) << "Failed to lock" << m_file->errorString();
-    delete m_file;
-    m_file = 0;
+  QString p = QString("%1%2.cameraplus_tmp_XXXXXX").arg(path).arg(QDir::separator());
+  QTemporaryFile *file = new QTemporaryFile(p);
+  file->setAutoRemove(true);
+
+  if (!file->open()) {
+    qmlInfo(this) << "Failed to lock" << file->errorString();
+    delete file;
+    file = 0;
     return false;
   }
 
-  if (!QFile::remove(m_file->fileName())) {
-    qmlInfo(this) << "Failed to remove temporarily file" << m_file->fileName();
+  if (!QFile::remove(file->fileName())) {
+    qmlInfo(this) << "Failed to remove temporarily file" << file->fileName();
   }
+
+  m_locks.insert(path, file);
 
   return true;
 }
 
-void MountProtector::unlock() {
-  if (m_file) {
-    delete m_file;
-    m_file = 0;
+void MountProtector::unlock(const QString& path) {
+  QTemporaryFile *file = m_locks.take(path);
+
+  if (file) {
+    delete file;
   }
+}
+
+void MountProtector::unlockAll() {
+  qDeleteAll(m_locks);
+
+  m_locks.clear();
 }

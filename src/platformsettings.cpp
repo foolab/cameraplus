@@ -36,6 +36,18 @@
 #define DBUS_THUMBNAILING_ENABLED                true
 #define BACKGROUND_RENDERING_COLOR               QColor(Qt::black)
 
+#ifdef HARMATTAN
+#define IMAGE_PATH QString("%1%2MyDocs%2DCIM%2").arg(QDir::homePath()).arg(QDir::separator())
+#define VIDEO_PATH IMAGE_PATH
+#define TEMP_VIDEO QString("%1%2MyDocs%2.cameraplus%2").arg(QDir::homePath()).arg(QDir::separator())
+#endif
+
+#ifdef SAILFISH
+#define IMAGE_PATH QString("%1%2Pictures%2Camera%2").arg(QDir::homePath()).arg(QDir::separator())
+#define VIDEO_PATH QString("%1%2Videos%2Camera%2").arg(QDir::homePath()).arg(QDir::separator())
+#define TEMP_VIDEO VIDEO_PATH
+#endif
+
 PlatformSettings::PlatformSettings(QObject *parent) :
   QObject(parent), m_settings(new QSettings(PATH, QSettings::IniFormat)) {
 
@@ -146,4 +158,16 @@ QString PlatformSettings::videoRecordingEndedSound() const {
 
 QString PlatformSettings::autoFocusAcquiredSound() const {
   return m_settings->value("sounds/autoFocusAcquired").toString();
+}
+
+QString PlatformSettings::imagePath() const {
+  return IMAGE_PATH;
+}
+
+QString PlatformSettings::videoPath() const {
+  return VIDEO_PATH;
+}
+
+QString PlatformSettings::temporaryVideoPath() const {
+  return TEMP_VIDEO;
 }

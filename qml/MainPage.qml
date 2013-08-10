@@ -174,11 +174,13 @@ CameraPage {
         id: fileNaming
         imageSuffix: viewfinder.camera.imageSuffix
         videoSuffix: viewfinder.camera.videoSuffix
+        imagePath: platformSettings.imagePath
+        videoPath: platformSettings.videoPath
+        temporaryVideoPath: platformSettings.temporaryVideoPath
     }
 
     MountProtector {
         id: mountProtector
-        path: fileNaming.path
     }
 
     TrackerStore {
@@ -186,10 +188,6 @@ CameraPage {
         active: viewfinder.camera.running
         manufacturer: deviceInfo.manufacturer
         model: deviceInfo.model
-    }
-
-    function checkDiskSpace() {
-        return fileSystem.hasFreeSpace(fileNaming.path)
     }
 
     ImageSettings {

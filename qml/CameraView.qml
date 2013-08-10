@@ -63,7 +63,7 @@ Viewfinder {
 
         onRunningChanged: {
             if (!cam.running) {
-                mountProtector.unlock()
+                mountProtector.unlockAll()
             }
         }
 

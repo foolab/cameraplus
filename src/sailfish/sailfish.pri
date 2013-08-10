@@ -10,7 +10,6 @@ HEADERS += sailfish/soundvolumecontrol.h \
            sailfish/fsmonitor.h \
            sailfish/compass.h \
            sailfish/orientation.h \
-           sailfish/mountprotector.h \
            sailfish/batteryinfo.h \
            sailfish/devicekeys.h
 
@@ -21,6 +20,5 @@ SOURCES += sailfish/soundvolumecontrol.cpp \
            sailfish/fsmonitor.cpp \
            sailfish/compass.cpp \
            sailfish/orientation.cpp \
-           sailfish/mountprotector.cpp \
            sailfish/batteryinfo.cpp \
            sailfish/devicekeys.cpp

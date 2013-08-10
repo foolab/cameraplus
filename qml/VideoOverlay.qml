@@ -215,7 +215,7 @@ Item {
             if (duration == 3600) {
                 overlay.stopRecording()
                 showError(qsTr("Maximum recording time reached."))
-            } else if (!checkDiskSpace()) {
+            } else if (!fileSystem.hasFreeSpace(fileNaming.temporaryVideoPath)) {
                 page.stopRecording()
                 showError(qsTr("Not enough space to continue recording."))
             }
@@ -241,9 +241,16 @@ Item {
 
         metaData.setMetaData()
 
-        if (!mountProtector.lock()) {
-            showError(qsTr("Failed to lock images directory."))
+        if (!mountProtector.lock(fileNaming.temporaryVideoPath)) {
+            showError(qsTr("Failed to lock temporary videos directory."))
             overlay.recording = false
+            return
+        }
+
+        if (!mountProtector.lock(fileNaming.videoPath)) {
+            showError(qsTr("Failed to lock videos directory."))
+            overlay.recording = false
+            mountProtector.unlockAll()
             return
         }
 
@@ -252,7 +259,7 @@ Item {
 
         if (!videoMode.startRecording(file, tmpFile)) {
             showError(qsTr("Failed to record video. Please restart the camera."))
-            mountProtector.unlock()
+            mountProtector.unlockAll()
             overlay.recording = false
             return
         }
@@ -269,7 +276,7 @@ Item {
             showError(qsTr("Camera cannot record videos in mass storage mode."))
         } else if (!checkBattery()) {
             showError(qsTr("Not enough battery to record video."))
-        } else if (!checkDiskSpace()) {
+        } else if (!fileSystem.hasFreeSpace(fileNaming.videoPath) || !fileSystem.hasFreeSpace(fileNaming.temporaryVideoPath)) {
             showError(qsTr("Not enough space to record video."))
         } else {
             recordingDuration.duration = 0
@@ -280,7 +287,7 @@ Item {
 
     function stopRecording() {
         videoMode.stopRecording(true)
-        mountProtector.unlock()
+        mountProtector.unlockAll()
         overlay.recording = false
     }
 
