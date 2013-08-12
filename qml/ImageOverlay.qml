@@ -128,6 +128,7 @@ Item {
         tools: CameraToolBarTools {
             FlashButton {
                 onClicked: toolBar.push(tools)
+                visible: cam.device == 0
             }
 
             ImageSceneButton {
@@ -173,7 +174,7 @@ Item {
 
             Indicator {
                 id: flashIndicator
-                visible: !toolBar.expanded
+                visible: !toolBar.expanded && cam.device == 0
                 source: cameraTheme.flashIcon(settings.imageFlashMode)
             }
 
