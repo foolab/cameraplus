@@ -42,7 +42,7 @@ Item {
         id: imageMode
         camera: cam
 
-        onCaptureEnded: cam.autoFocus.stopAutoFocus()
+        onCaptureEnded: stopAutoFocus()
 
         onPreviewAvailable: overlay.previewAvailable(preview)
 
@@ -82,7 +82,7 @@ Item {
         onExited: {
             if (mouseX <= 0 || mouseY <= 0 || mouseX > width || mouseY > height) {
                 // Release outside the button:
-                cam.autoFocus.stopAutoFocus()
+                stopAutoFocus()
             }
         }
     }
@@ -94,7 +94,7 @@ Item {
         repeat: false
         onTriggered: {
             if (cam.autoFocus.cafStatus != AutoFocus.Success) {
-                cam.autoFocus.startAutoFocus()
+                startAutoFocus()
             }
         }
     }
@@ -109,7 +109,7 @@ Item {
         zoomCapture: zoomCapture
         onCanceled: {
             if (!autoFocusTimer.running) {
-                cam.autoFocus.stopAutoFocus()
+                stopAutoFocus()
             }
         }
     }
@@ -255,19 +255,19 @@ Item {
     function captureImage() {
         if (!imageMode.canCapture) {
             showError(qsTr("Camera is already capturing an image."))
-            cam.autoFocus.stopAutoFocus()
+            stopAutoFocus()
         } else if (!checkBattery()) {
             showError(qsTr("Not enough battery to capture images."))
-            cam.autoFocus.stopAutoFocus()
+            stopAutoFocus()
         } else if (!fileSystem.available) {
             showError(qsTr("Camera cannot capture images in mass storage mode."))
-            cam.autoFocus.stopAutoFocus()
+            stopAutoFocus()
         } else if (!fileSystem.hasFreeSpace(fileNaming.imagePath)) {
             showError(qsTr("Not enough space to capture images."))
-            cam.autoFocus.stopAutoFocus()
+            stopAutoFocus()
         } else if (!mountProtector.lock(fileNaming.imagePath)) {
             showError(qsTr("Failed to lock images directory."))
-            cam.autoFocus.stopAutoFocus()
+            stopAutoFocus()
         } else {
             metaData.setMetaData()
 
@@ -275,10 +275,22 @@ Item {
             if (!imageMode.capture(fileName)) {
                 showError(qsTr("Failed to capture image. Please restart the camera."))
                 mountProtector.unlock(fileNaming.imagePath)
-                cam.autoFocus.stopAutoFocus()
+                stopAutoFocus()
             } else {
                 trackerStore.storeImage(fileName)
             }
+        }
+    }
+
+    function startAutoFocus() {
+        if (cam.device == 0) {
+            cam.autoFocus.startAutoFocus()
+        }
+    }
+
+    function stopAutoFocus() {
+        if (cam.device == 0) {
+            cam.autoFocus.stopAutoFocus()
         }
     }
 
