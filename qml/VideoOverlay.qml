@@ -104,6 +104,7 @@ Item {
         tools: CameraToolBarTools {
             VideoTorchButton {
                 camera: cam
+                visible: cam.device == 0
             }
 
             VideoSceneButton {
