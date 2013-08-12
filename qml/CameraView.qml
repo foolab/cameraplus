@@ -24,8 +24,6 @@ import QtQuick 2.0
 import QtCamera 1.0
 import CameraPlus 1.0
 
-// TODO: reset reticle and roi when we stop camera or change mode
-
 Viewfinder {
     id: viewfinder
     property bool pressed: focusReticle.locked || preview.animationRunning
