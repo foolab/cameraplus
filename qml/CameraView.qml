@@ -59,6 +59,7 @@ Viewfinder {
             autoFocusAcquired: platformSettings.autoFocusAcquiredSound
         }
 
+        onFocusChanged: focus.value = Focus.ContinuousNormal
         onRoiChanged: roi.normalize = false
 
         onRunningChanged: {
