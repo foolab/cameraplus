@@ -49,6 +49,8 @@
 #include "videoplayer.h"
 #include "viewfinder.h"
 #include "capability.h"
+#include "imageresolution.h"
+#include "videoresolution.h"
 #if defined(QT4)
 #include <QDeclarativeEngine>
 #elif defined(QT5)
@@ -122,6 +124,9 @@ void Plugin::registerTypes(const char *uri) {
   qmlRegisterType<VideoPlayer>("QtCameraExtras", MAJOR, MINOR, "VideoPlayer");
   qmlRegisterType<Viewfinder>(uri, MAJOR, MINOR, "Viewfinder");
   qmlRegisterType<Capability>();
+
+  qmlRegisterType<ImageResolution>(uri, MAJOR, MINOR, "ImageResolution");
+  qmlRegisterType<VideoResolution>(uri, MAJOR, MINOR, "VideoResolution");
 }
 
 #if defined(QT4)
