@@ -185,8 +185,7 @@ Item {
                 anchors.rightMargin: 5
                 anchors.topMargin: 5
                 anchors.bottomMargin: 5
-                property string mp: imageSettings.currentResolutionMegapixel == "" ? "?" : imageSettings.currentResolutionMegapixel
-                text: qsTr("%1M").arg(mp)
+                text: imageSettings.currentResolution ? qsTr("%1M").arg(imageSettings.currentResolution.megaPixels) : qsTr("?M")
                 font.bold: true
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter

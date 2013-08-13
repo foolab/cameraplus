@@ -29,6 +29,8 @@
 class Camera;
 class QtCamImageSettings;
 class ImageResolutionModel;
+class ImageResolution;
+class QtCamImageResolution;
 
 class ImageSettings : public QObject {
   Q_OBJECT
@@ -39,7 +41,7 @@ class ImageSettings : public QObject {
   Q_PROPERTY(int aspectRatioCount READ aspectRatioCount NOTIFY aspectRatioCountChanged);
   Q_PROPERTY(ImageResolutionModel *resolutions READ resolutions NOTIFY resolutionsChanged);
   Q_PROPERTY(bool ready READ isReady NOTIFY readyChanged);
-  Q_PROPERTY(QString currentResolutionMegapixel READ currentResolutionMegapixel NOTIFY currentResolutionMegapixelChanged);
+  Q_PROPERTY(ImageResolution *currentResolution READ currentResolution NOTIFY currentResolutionChanged);
 
 public:
   ImageSettings(QObject *parent = 0);
@@ -55,11 +57,15 @@ public:
 
   bool isReady() const;
 
+  ImageResolution *currentResolution();
+
+  Q_INVOKABLE ImageResolution *findResolution(const QString& aspectRatio,
+					      const QString& name);
+  Q_INVOKABLE bool setResolution(ImageResolution *resolution);
+
   Q_INVOKABLE bool setResolution(const QString& aspectRatio, const QString& resolution);
 
   int aspectRatioCount() const;
-
-  QString currentResolutionMegapixel() const;
 
 signals:
   void settingsChanged();
@@ -67,15 +73,18 @@ signals:
   void resolutionsChanged();
   void readyChanged();
   void aspectRatioCountChanged();
-  void currentResolutionMegapixelChanged();
+  void currentResolutionChanged();
 
 private slots:
   void deviceChanged();
 
 private:
+  bool setResolution(const QtCamImageResolution& resolution);
+
   Camera *m_cam;
   QtCamImageSettings *m_settings;
   ImageResolutionModel *m_resolutions;
+  ImageResolution *m_currentResolution;
 };
 
 #endif /* IMAGE_SETTINGS_H */

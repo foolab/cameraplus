@@ -24,15 +24,25 @@
 #include "qtcamdevice.h"
 #include "qtcamimagemode.h"
 #include "imageresolutionmodel.h"
+#include "imageresolution.h"
 #include <QDebug>
 
 ImageSettings::ImageSettings(QObject *parent) :
-  QObject(parent), m_cam(0), m_settings(0), m_resolutions(0) {
+  QObject(parent),
+  m_cam(0),
+  m_settings(0),
+  m_resolutions(0),
+  m_currentResolution(0) {
 
 }
 
 ImageSettings::~ImageSettings() {
   m_settings = 0;
+
+  if (m_currentResolution) {
+    delete m_currentResolution;
+    m_currentResolution = 0;
+  }
 }
 
 QString ImageSettings::suffix() const {
@@ -67,6 +77,11 @@ void ImageSettings::setCamera(Camera *camera) {
   if (m_cam->device()) {
     deviceChanged();
   }
+  else {
+    delete m_currentResolution;
+    m_currentResolution = 0;
+    emit currentResolutionChanged();
+  }
 }
 
 void ImageSettings::deviceChanged() {
@@ -79,8 +94,12 @@ void ImageSettings::deviceChanged() {
   delete m_resolutions;
   m_resolutions = 0;
 
+  delete m_currentResolution;
+  m_currentResolution = 0;
+
   emit aspectRatioCountChanged();
   emit resolutionsChanged();
+  emit currentResolutionChanged();
 }
 
 ImageResolutionModel *ImageSettings::resolutions() {
@@ -108,12 +127,7 @@ bool ImageSettings::setResolution(const QString& aspectRatio, const QString& res
 
   foreach (const QtCamImageResolution& r, res) {
     if (r.name() == resolution) {
-      bool set = m_cam->device()->imageMode()->setResolution(r);
-      if (set) {
-	emit currentResolutionMegapixelChanged();
-      }
-
-      return set;
+      return setResolution(r);
     }
   }
 
@@ -124,10 +138,58 @@ int ImageSettings::aspectRatioCount() const {
   return aspectRatios().count();
 }
 
-QString ImageSettings::currentResolutionMegapixel() const {
-  if (!m_cam || !m_cam->device()) {
-    return QString();
+ImageResolution *ImageSettings::currentResolution() {
+  if (m_currentResolution) {
+    return m_currentResolution;
   }
 
-  return QString("%1").arg(m_cam->device()->imageMode()->currentResolution().megaPixels());
+  if (!m_cam || !m_cam->device()) {
+    return 0;
+  }
+
+  m_currentResolution = new ImageResolution(m_cam->device()->imageMode()->currentResolution());
+
+  return m_currentResolution;
+}
+
+ImageResolution *ImageSettings::findResolution(const QString& aspectRatio,
+					       const QString& name) {
+  if (!isReady()) {
+    return 0;
+  }
+
+  QList<QtCamImageResolution> res = m_settings->resolutions(aspectRatio);
+
+  foreach (const QtCamImageResolution& r, res) {
+    if (r.name() == name) {
+      return new ImageResolution(r);
+    }
+  }
+
+  return 0;
+}
+
+bool ImageSettings::setResolution(ImageResolution *resolution) {
+  return setResolution(resolution->resolution());
+}
+
+bool ImageSettings::setResolution(const QtCamImageResolution& resolution) {
+  if (!isReady()) {
+    return false;
+  }
+
+  if (!m_cam || !m_cam->device()) {
+    return false;
+  }
+
+  if (m_cam->device()->imageMode()->setResolution(resolution)) {
+    delete m_currentResolution;
+    m_currentResolution = 0;
+
+    emit currentResolutionChanged();
+
+    return true;
+  }
+
+  return false;
 }
