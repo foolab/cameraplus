@@ -28,6 +28,8 @@
 #include <QQmlInfo>
 #endif
 
+// TODO: share that with qtcamera. We now have 2 instances of QtCamConfig
+
 CameraConfig::CameraConfig(QObject *parent) :
   QObject(parent),
   m_config(0) {

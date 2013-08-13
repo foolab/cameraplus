@@ -51,6 +51,7 @@
 #include "capability.h"
 #include "imageresolution.h"
 #include "videoresolution.h"
+#include "quirks.h"
 #if defined(QT4)
 #include <QDeclarativeEngine>
 #elif defined(QT5)
@@ -127,6 +128,9 @@ void Plugin::registerTypes(const char *uri) {
 
   qmlRegisterType<ImageResolution>(uri, MAJOR, MINOR, "ImageResolution");
   qmlRegisterType<VideoResolution>(uri, MAJOR, MINOR, "VideoResolution");
+
+  qmlRegisterUncreatableType<Quirks>(uri, MAJOR, MINOR, "Quirks",
+			  "Quirks can be obtained from Camera");
 }
 
 #if defined(QT4)

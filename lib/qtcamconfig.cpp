@@ -19,9 +19,13 @@
  */
 
 #include "qtcamconfig.h"
+#include "qtcamimagesettings.h"
+#include "qtcamvideosettings.h"
+#include "qtcamquirks.h"
 #include <QSettings>
 #include <QStringList>
 #include <QDebug>
+#include <QMetaEnum>
 
 #define CONFIGURATION_FILE                    DATA_DIR"/qtcamera.ini"
 
@@ -166,6 +170,39 @@ QtCamVideoSettings *QtCamConfig::videoSettings(const QVariant& id) {
   }
 
   return new QtCamVideoSettings(id.toString(), suffix, profileName, profilePath, resolutions);
+}
+
+QtCamQuirks *QtCamConfig::quirks(const QVariant& id) {
+  QString group = QString("quirks-%1").arg(id.toString());
+  d_ptr->conf->beginGroup(group);
+  QStringList quirks = d_ptr->conf->value("quirks").toStringList();
+  d_ptr->conf->endGroup();
+
+  QMetaObject m = QtCamQuirks::staticMetaObject;
+  int index = m.indexOfEnumerator("QuirkType");
+  if (index == -1) {
+    qCritical() << "Failed to obtain QuirkType index";
+    return 0;
+  }
+
+  QMetaEnum e = m.enumerator(index);
+
+  int value = 0;
+
+  foreach (const QString& quirk, quirks) {
+    int val = e.keyToValue(quirk.toLatin1().constData());
+
+    if (val == -1) {
+      qWarning() << "Unknown quirk" << quirk;
+    }
+    else {
+      value |= val;
+    }
+  }
+
+  QtCamQuirks::QuirkTypes types = (QtCamQuirks::QuirkTypes)value;
+
+  return new QtCamQuirks(types);
 }
 
 QString QtCamConfig::imageEncodingProfileName() const {
