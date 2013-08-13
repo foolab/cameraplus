@@ -29,6 +29,8 @@
 class Camera;
 class QtCamVideoSettings;
 class VideoResolutionModel;
+class VideoResolution;
+class QtCamVideoResolution;
 
 class VideoSettings : public QObject {
   Q_OBJECT
@@ -39,6 +41,7 @@ class VideoSettings : public QObject {
   Q_PROPERTY(int aspectRatioCount READ aspectRatioCount NOTIFY aspectRatioCountChanged);
   Q_PROPERTY(VideoResolutionModel *resolutions READ resolutions NOTIFY resolutionsChanged);
   Q_PROPERTY(bool ready READ isReady NOTIFY readyChanged);
+  Q_PROPERTY(VideoResolution *currentResolution READ currentResolution NOTIFY currentResolutionChanged);
 
 public:
   VideoSettings(QObject *parent = 0);
@@ -54,6 +57,12 @@ public:
 
   bool isReady() const;
 
+  VideoResolution *currentResolution();
+
+  Q_INVOKABLE VideoResolution *findResolution(const QString& aspectRatio,
+					      const QString& name);
+  Q_INVOKABLE bool setResolution(VideoResolution *resolution);
+
   Q_INVOKABLE bool setResolution(const QString& aspectRatio, const QString& resolution);
 
   int aspectRatioCount() const;
@@ -64,14 +73,18 @@ signals:
   void resolutionsChanged();
   void readyChanged();
   void aspectRatioCountChanged();
+  void currentResolutionChanged();
 
 private slots:
   void deviceChanged();
 
 private:
+  bool setResolution(const QtCamVideoResolution& resolution);
+
   Camera *m_cam;
   QtCamVideoSettings *m_settings;
   VideoResolutionModel *m_resolutions;
+  VideoResolution *m_currentResolution;
 };
 
 #endif /* VIDEO_SETTINGS_H */
