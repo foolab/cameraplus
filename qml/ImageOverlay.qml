@@ -128,7 +128,7 @@ Item {
         tools: CameraToolBarTools {
             FlashButton {
                 onClicked: toolBar.push(tools)
-                visible: cam.device == 0
+                visible: !overlay.cam.quirks.hasQuirk(Quirks.NoFlash)
             }
 
             ImageSceneButton {
@@ -174,7 +174,7 @@ Item {
 
             Indicator {
                 id: flashIndicator
-                visible: !toolBar.expanded && cam.device == 0
+                visible: !toolBar.expanded && !overlay.cam.quirks.hasQuirk(Quirks.NoFlash)
                 source: cameraTheme.flashIcon(settings.imageFlashMode)
             }
 
@@ -283,13 +283,13 @@ Item {
     }
 
     function startAutoFocus() {
-        if (cam.device == 0) {
+        if (!overlay.cam.quirks.hasQuirk(Quirks.NoAutoFocus)) {
             cam.autoFocus.startAutoFocus()
         }
     }
 
     function stopAutoFocus() {
-        if (cam.device == 0) {
+        if (!overlay.cam.quirks.hasQuirk(Quirks.NoAutoFocus)) {
             cam.autoFocus.stopAutoFocus()
         }
     }

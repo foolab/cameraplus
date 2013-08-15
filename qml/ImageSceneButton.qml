@@ -50,6 +50,7 @@ CameraToolIcon {
                 iconSource: icon
                 onClicked: settings.imageSceneMode = value
                 checked: settings.imageSceneMode == value
+                visible: !(value == Scene.Night && overlay.cam.quirks.hasQuirk(Quirks.NoNightSceneMode))
             }
         }
     }

@@ -104,11 +104,12 @@ Item {
         tools: CameraToolBarTools {
             VideoTorchButton {
                 camera: cam
-                visible: cam.device == 0
+                visible: !overlay.cam.quirks.hasQuirk(Quirks.NoVideoTorch)
             }
 
             VideoSceneButton {
-                visible: !overlay.recording
+                property bool hide: (overlay.recording && overlay.cam.quirks.hasQuirk(Quirks.NoSceneModeChangeDuringRecording)) || overlay.cam.quirks.hasQuirk(Quirks.NoNightSceneMode)
+                visible: !hide
                 onClicked: toolBar.push(tools)
             }
 

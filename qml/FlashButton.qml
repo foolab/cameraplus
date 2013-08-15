@@ -49,6 +49,7 @@ CameraToolIcon {
                 iconSource: icon
                 onClicked: settings.imageFlashMode = value
                 checked: settings.imageFlashMode == value
+                visible: !(overlay.cam.quirks.hasQuirk(Quirks.NoRedEyeFlash) && value == Flash.RedEye)
             }
         }
     }
