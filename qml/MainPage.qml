@@ -81,6 +81,8 @@ CameraPage {
     Settings {
         id: settings
         onDeviceChanged: {
+            viewfinder.cameraDeviceChanged()
+
             // Reset pipeline manager error
             pipelineManager.error = false
 

@@ -230,6 +230,12 @@ Item {
         duration: recordingDuration.duration
     }
 
+    function resetToolBar() {
+        if (toolBar.depth() > 1) {
+            toolBar.pop()
+        }
+    }
+
     function doStartRecording() {
         if (!overlay.recording) {
             return
@@ -268,9 +274,7 @@ Item {
 
         trackerStore.storeVideo(file);
 
-        if (toolBar.depth() > 1) {
-            toolBar.pop()
-        }
+        resetToolBar()
     }
 
     function startRecording() {
@@ -320,4 +324,7 @@ Item {
         }
     }
 
+    function cameraDeviceChanged() {
+        resetToolBar()
+    }
 }

@@ -294,4 +294,13 @@ Item {
         }
     }
 
+    function resetToolBar() {
+        if (toolBar.depth() > 1) {
+            toolBar.pop()
+        }
+    }
+
+    function cameraDeviceChanged() {
+        resetToolBar()
+    }
 }

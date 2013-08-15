@@ -283,4 +283,10 @@ Viewfinder {
 
         return false
     }
+
+    function cameraDeviceChanged() {
+        if (loader.item) {
+            loader.item.cameraDeviceChanged()
+        }
+    }
 }
