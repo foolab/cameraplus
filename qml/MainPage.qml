@@ -197,10 +197,7 @@ CameraPage {
         camera: viewfinder.camera
 
         function setImageResolution() {
-            var aspectRatio = settings.device == 1 ? settings.secondaryImageAspectRatio : settings.primaryImageAspectRatio
-            var resolution = settings.device == 1 ? settings.secondaryImageResolution : settings.primaryImageResolution
-
-            if (!imageSettings.setResolution(aspectRatio, resolution)) {
+            if (!imageSettings.setResolution(settings.imageAspectRatio, settings.imageResolution)) {
                 showError(qsTr("Failed to set required resolution"))
             }
         }
@@ -217,10 +214,7 @@ CameraPage {
         camera: viewfinder.camera
 
         function setVideoResolution() {
-            var aspectRatio = settings.device == 1 ? settings.secondaryVideoAspectRatio : settings.primaryVideoAspectRatio
-            var resolution = settings.device == 1 ? settings.secondaryVideoResolution : settings.primaryVideoResolution
-
-            if (!videoSettings.setResolution(aspectRatio, resolution)) {
+            if (!videoSettings.setResolution(settings.videoAspectRatio, settings.videoResolution)) {
                 showError(qsTr("Failed to set required resolution"))
             }
         }
@@ -235,15 +229,17 @@ CameraPage {
     Connections {
         target: settings
 
-        onPrimaryImageResolutionChanged: imageSettings.setImageResolution()
-        onPrimaryImageAspectRatioChanged: imageSettings.setImageResolution()
-        onSecondaryImageResolutionChanged: imageSettings.setImageResolution()
-        onSecondaryImageAspectRatioChanged: imageSettings.setImageResolution()
+        onImageAspectRatioChanged: {
+            imageSettings.setImageResolution()
+        }
 
-        onPrimaryVideoResolutionChanged: videoSettings.setVideoResolution()
-        onPrimaryVideoAspectRatioChanged: videoSettings.setVideoResolution()
-        onSecondaryVideoResolutionChanged: videoSettings.setVideoResolution()
-        onSecondaryVideoAspectRatioChanged: videoSettings.setVideoResolution()
+        onImageResolutionChanged: {
+            imageSettings.setImageResolution()
+        }
+
+        onVideoResolutionChanged: {
+            videoSettings.setVideoResolution()
+        }
     }
 
     ModeController {

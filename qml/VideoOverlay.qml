@@ -150,9 +150,8 @@ Item {
 
             Indicator {
                 id: resolutionIndicator
-                property string videoResolution: settings.device == 1 ? settings.secondaryVideoResolution : settings.primaryVideoResolution
-                property string videoRatio: settings.device == 1 ? settings.secondaryVideoAspectRatio : settings.primaryVideoAspectRatio
-                source: cameraTheme.videoIcon(videoRatio, videoResolution, settings.device)
+                source: cameraTheme.videoIcon(settings.videoAspectRatio,
+                    settings.videoResolution, settings.device)
             }
 
             Indicator {
