@@ -99,15 +99,21 @@ CameraPage {
         }
 
         onImageAspectRatioChanged: {
-            imageSettings.setImageResolution()
+            if (!root.deviceChangeInProgress) {
+                imageSettings.setImageResolution()
+            }
         }
 
         onImageResolutionChanged: {
-            imageSettings.setImageResolution()
+            if (!root.deviceChangeInProgress) {
+                imageSettings.setImageResolution()
+            }
         }
 
         onVideoResolutionChanged: {
-            videoSettings.setVideoResolution()
+            if (!root.deviceChangeInProgress) {
+                videoSettings.setVideoResolution()
+            }
         }
     }
 
