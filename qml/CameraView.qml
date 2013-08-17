@@ -157,98 +157,98 @@ Viewfinder {
     Binding {
         target: cam.flash
         property: "value"
-        when: cam.mode == Camera.ImageMode
+        when: cam.mode == Camera.ImageMode && !root.deviceChangeInProgress
         value: settings.imageFlashMode
     }
 
     Binding {
         target: settings
         property: "imageFlashMode"
-        when: cam.mode == Camera.ImageMode
+        when: cam.mode == Camera.ImageMode && !root.deviceChangeInProgress
         value: cam.flash.value
     }
 
     Binding {
         target: cam.scene
         property: "value"
-        when: cam.mode == Camera.VideoMode
+        when: cam.mode == Camera.VideoMode && !root.deviceChangeInProgress
         value: settings.videoSceneMode
     }
 
     Binding {
         target: cam.scene
         property: "value"
-        when: cam.mode == Camera.ImageMode
+        when: cam.mode == Camera.ImageMode && !root.deviceChangeInProgress
         value: settings.imageSceneMode
     }
 
     Binding {
         target: cam.evComp
         property: "value"
-        when: cam.mode == Camera.ImageMode
+        when: cam.mode == Camera.ImageMode && !root.deviceChangeInProgress
         value: settings.imageEvComp
     }
 
     Binding {
         target: cam.evComp
         property: "value"
-        when: cam.mode == Camera.VideoMode
+        when: cam.mode == Camera.VideoMode && !root.deviceChangeInProgress
         value: settings.videoEvComp
     }
 
     Binding {
         target: settings
         property: "imageEvComp"
-        when: cam.mode == Camera.ImageMode
+        when: cam.mode == Camera.ImageMode && !root.deviceChangeInProgress
         value: cam.evComp.value
     }
 
     Binding {
         target: settings
         property: "videoEvComp"
-        when: cam.mode == Camera.VideoMode
+        when: cam.mode == Camera.VideoMode && !root.deviceChangeInProgress
         value: cam.evComp.value
     }
 
     Binding {
         target: cam.whiteBalance
         property: "value"
-        when: cam.mode == Camera.ImageMode
+        when: cam.mode == Camera.ImageMode && !root.deviceChangeInProgress
         value: settings.imageWhiteBalance
     }
 
     Binding {
         target: cam.whiteBalance
         property: "value"
-        when: cam.mode == Camera.VideoMode
+        when: cam.mode == Camera.VideoMode && !root.deviceChangeInProgress
         value: settings.videoWhiteBalance
     }
 
     Binding {
         target: cam.colorTone
         property: "value"
-        when: cam.mode == Camera.ImageMode
+        when: cam.mode == Camera.ImageMode && !root.deviceChangeInProgress
         value: settings.imageColorFilter
     }
 
     Binding {
         target: cam.colorTone
         property: "value"
-        when: cam.mode == Camera.VideoMode
+        when: cam.mode == Camera.VideoMode && !root.deviceChangeInProgress
         value: settings.videoColorFilter
     }
 
     Binding {
         target: cam.iso
         property: "value"
-        when: cam.mode == Camera.ImageMode
+        when: cam.mode == Camera.ImageMode && !root.deviceChangeInProgress
         value: settings.imageIso
     }
 
     Binding {
         target: settings
         property: "imageIso"
-        when: cam.mode == Camera.ImageMode
+        when: cam.mode == Camera.ImageMode && !root.deviceChangeInProgress
         value: cam.iso.value
     }
 

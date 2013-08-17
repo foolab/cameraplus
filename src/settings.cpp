@@ -170,6 +170,8 @@ int Settings::device() const {
 
 void Settings::setDevice(int device) {
   if (device != Settings::device()) {
+    emit deviceAboutToChange();
+
     m_settings->setValue("camera/device", device);
 
     delete m_device; m_device = 0;

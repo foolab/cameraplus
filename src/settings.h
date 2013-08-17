@@ -174,6 +174,7 @@ signals:
   void gridEnabledChanged();
   void faceDetectionEnabledChanged();
   void zoomAsShutterChanged();
+  void deviceAboutToChange();
   void deviceChanged();
 
 private:

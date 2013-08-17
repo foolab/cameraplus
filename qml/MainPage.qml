@@ -30,6 +30,8 @@ import CameraPlus 1.0
 CameraPage {
     id: root
 
+    property bool deviceChangeInProgress: false
+
     CameraTheme {
         id: cameraTheme
     }
@@ -80,6 +82,10 @@ CameraPage {
 
     Settings {
         id: settings
+        onDeviceAboutToChange: {
+            root.deviceChangeInProgress = true
+        }
+
         onDeviceChanged: {
             viewfinder.cameraDeviceChanged()
 
@@ -87,6 +93,7 @@ CameraPage {
             pipelineManager.error = false
 
             if (root.resetCamera(settings.device, settings.mode)) {
+                root.deviceChangeInProgress = false
                 pipelineManager.startCamera()
             }
         }
