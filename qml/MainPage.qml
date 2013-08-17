@@ -123,6 +123,13 @@ CameraPage {
             return false
         }
 
+        if (mode == Camera.ImageMode) {
+            imageSettings.setImageResolution()
+        }
+        else if (mode == Camera.VideoMode) {
+            videoSettings.setVideoResolution()
+        }
+
         return true
     }
 
@@ -220,12 +227,6 @@ CameraPage {
                 showError(qsTr("Failed to set required resolution"))
             }
         }
-
-        onReadyChanged: {
-            if (ready) {
-                imageSettings.setImageResolution()
-            }
-        }
     }
 
     VideoSettings {
@@ -235,12 +236,6 @@ CameraPage {
         function setVideoResolution() {
             if (!videoSettings.setResolution(settings.videoAspectRatio, settings.videoResolution)) {
                 showError(qsTr("Failed to set required resolution"))
-            }
-        }
-
-        onReadyChanged: {
-            if (ready) {
-                videoSettings.setVideoResolution()
             }
         }
     }
