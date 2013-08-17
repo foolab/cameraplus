@@ -97,6 +97,18 @@ CameraPage {
                 pipelineManager.startCamera()
             }
         }
+
+        onImageAspectRatioChanged: {
+            imageSettings.setImageResolution()
+        }
+
+        onImageResolutionChanged: {
+            imageSettings.setImageResolution()
+        }
+
+        onVideoResolutionChanged: {
+            videoSettings.setVideoResolution()
+        }
     }
 
     PipelineManager {
@@ -230,22 +242,6 @@ CameraPage {
             if (ready) {
                 videoSettings.setVideoResolution()
             }
-        }
-    }
-
-    Connections {
-        target: settings
-
-        onImageAspectRatioChanged: {
-            imageSettings.setImageResolution()
-        }
-
-        onImageResolutionChanged: {
-            imageSettings.setImageResolution()
-        }
-
-        onVideoResolutionChanged: {
-            videoSettings.setVideoResolution()
         }
     }
 
