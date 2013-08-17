@@ -175,7 +175,6 @@ void Settings::setDevice(int device) {
     m_settings->setValue("camera/device", device);
 
     delete m_device; m_device = 0;
-    emit deviceChanged();
 
     if (mode() == DEFAULT_MODE) {
       // image
@@ -198,6 +197,8 @@ void Settings::setDevice(int device) {
       emit videoResolutionChanged();
       emit videoTorchOnChanged();
     }
+
+    emit deviceChanged();
   }
 }
 
