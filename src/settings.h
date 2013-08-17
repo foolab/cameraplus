@@ -26,6 +26,7 @@
 #include <QObject>
 
 class QSettings;
+class DeviceSettings;
 
 class Settings : public QObject {
   Q_OBJECT
@@ -81,52 +82,52 @@ public:
   bool useGeotags() const;
   void setUseGeotags(bool enable);
 
-  int imageSceneMode() const;
+  int imageSceneMode();
   void setImageSceneMode(int mode);
 
-  int imageColorFilter() const;
+  int imageColorFilter();
   void setImageColorFilter(int filter);
 
-  int imageWhiteBalance() const;
+  int imageWhiteBalance();
   void setImageWhiteBalance(int wb);
 
-  qreal imageEvComp() const;
+  qreal imageEvComp();
   void setImageEvComp(qreal ev);
 
-  int videoSceneMode() const;
+  int videoSceneMode();
   void setVideoSceneMode(int mode);
 
-  int videoColorFilter() const;
+  int videoColorFilter();
   void setVideoColorFilter(int filter);
 
-  int videoWhiteBalance() const;
+  int videoWhiteBalance();
   void setVideoWhiteBalance(int wb);
 
-  qreal videoEvComp() const;
+  qreal videoEvComp();
   void setVideoEvComp(qreal ev);
 
-  int imageFlashMode() const;
+  int imageFlashMode();
   void setImageFlashMode(int mode);
 
-  int imageIso() const;
+  int imageIso();
   void setImageIso(int iso);
 
-  QString imageAspectRatio() const;
+  QString imageAspectRatio();
   void setImageAspectRatio(const QString& aspectRatio);
 
-  QString imageResolution() const;
+  QString imageResolution();
   void setImageResolution(const QString& resolution);
 
-  QString videoAspectRatio() const;
+  QString videoAspectRatio();
   void setVideoAspectRatio(const QString& aspectRatio);
 
-  QString videoResolution() const;
+  QString videoResolution();
   void setVideoResolution(const QString& resolution);
 
   bool isSoundEnabled() const;
   void setSoundEnabled(bool enabled);
 
-  bool isVideoTorchOn() const;
+  bool isVideoTorchOn();
   void setVideoTorchOn(bool on);
 
   bool isToolBarShown() const;
@@ -141,7 +142,7 @@ public:
   bool isFaceDetectionEnabled() const;
   void setFaceDetectionEnabled(bool enabled);
 
-  bool isZoomAsShutterEnabled();
+  bool isZoomAsShutterEnabled() const;
   void setZoomAsShutterEnabled(bool enabled);
 
   int device() const;
@@ -176,7 +177,12 @@ signals:
   void deviceChanged();
 
 private:
+  DeviceSettings *deviceSettings();
+  QVariant deviceValue(const char *key, const QVariant& defaultValue);
+  void setDeviceValue(const char *key, const QVariant& value);
+
   QSettings *m_settings;
+  DeviceSettings *m_device;
 };
 
 #endif /* SETTINGS_H */

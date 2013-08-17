@@ -22,13 +22,13 @@ SOURCES += main.cpp \
            trackerstore.cpp focusrectangle.cpp sharehelper.cpp \
            deletehelper.cpp galleryhelper.cpp postcapturemodel.cpp \
            gridlines.cpp platformsettings.cpp dbusservice.cpp \
-           mountprotector.cpp
+           mountprotector.cpp devicesettings.cpp
 
 HEADERS += settings.h filenaming.h cameraresources.h \
            trackerstore.h focusrectangle.h sharehelper.h \
            deletehelper.h galleryhelper.h postcapturemodel.h \
            gridlines.h platformsettings.h dbusservice.h \
-           mountprotector.h
+           mountprotector.h devicesettings.h
 
 RESOURCES += ../qml/qml.qrc
 
