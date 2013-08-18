@@ -53,6 +53,7 @@ Flickable {
             // loop for checked if we bind the checked property to the settings value.
             Component.onCompleted: checked = settings.faceDetectionEnabled
             onCheckedChanged: settings.faceDetectionEnabled = checked
+            visible: !camera.quirks.hasQuirk(Quirks.NoFaceDetection)
         }
 
         CameraSettings {
