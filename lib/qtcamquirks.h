@@ -41,6 +41,7 @@ public:
     NoAutoFocus = 0x8,
     NoSceneModeChangeDuringRecording = 0x10,
     NoRedEyeFlash = 0x20,
+    NoTouchFocus = 0x40,
   } QuirkType;
 
   Q_DECLARE_FLAGS(QuirkTypes, QuirkType);

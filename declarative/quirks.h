@@ -42,6 +42,7 @@ public:
     NoAutoFocus = QtCamQuirks::NoAutoFocus,
     NoSceneModeChangeDuringRecording = QtCamQuirks::NoSceneModeChangeDuringRecording,
     NoRedEyeFlash = QtCamQuirks::NoRedEyeFlash,
+    NoTouchFocus = QtCamQuirks::NoTouchFocus,
   } QuirkType;
 
   Q_INVOKABLE bool hasQuirk(const QuirkType& type);
