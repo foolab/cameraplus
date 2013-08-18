@@ -79,6 +79,10 @@ class QmlFileEngineHandler : public QAbstractFileEngineHandler {
 #endif
 
 Q_DECL_EXPORT int main(int argc, char *argv[]) {
+#ifdef QMLJSDEBUGGER
+  QDeclarativeDebugHelper::enableDebugging();
+#endif /* QMLJSDEBUGGER */
+
 #if defined(QT4)
   QApplication::setAttribute(Qt::AA_X11InitThreads, true);
   QApplication *app = new QApplication(argc, argv);
@@ -94,10 +98,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
 
   QQuickView *view = MDeclarativeCache::qQuickView();
 #endif
-
-#ifdef QMLJSDEBUGGER
-  QDeclarativeDebugHelper::enableDebugging();
-#endif /* QMLJSDEBUGGER */
 
 #if defined(QT4)
   view->setAttribute(Qt::WA_NoSystemBackground);
