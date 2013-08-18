@@ -19,7 +19,9 @@
  */
 
 #include "cameraresources.h"
+#if defined(QT4)
 #include <dbusconnectioneventloop.h>
+#endif
 #include <QDebug>
 
 #define APPLICATION_CLASS "camera"
@@ -29,7 +31,10 @@ CameraResources::CameraResources(QObject *parent) :
   m_worker(new CameraResourcesWorker) {
 
   m_worker->moveToThread(&m_thread);
+
+#if defined(QT4)
   DBUSConnectionEventLoop::getInstance().moveToThread(&m_thread);
+#endif
 
   QObject::connect(&m_thread, SIGNAL(started()), m_worker, SLOT(init()));
   m_thread.start();
