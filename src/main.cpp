@@ -56,6 +56,7 @@
 #include "devicekeys.h"
 #include "platformsettings.h"
 #include "dbusservice.h"
+#include "phoneprofile.h"
 #include <MDeclarativeCache>
 
 #ifdef QMLJSDEBUGGER
@@ -136,6 +137,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<GridLines>("CameraPlus", 1, 0, "GridLines");
   qmlRegisterType<DeviceKeys>("CameraPlus", 1, 0, "DeviceKeys");
   qmlRegisterType<PlatformSettings>("CameraPlus", 1, 0, "PlatformSettings");
+  qmlRegisterType<PhoneProfile>("CameraPlus", 1, 0, "PhoneProfile");
 
   view->setSource(QUrl("qrc:/qml/main.qml"));
 

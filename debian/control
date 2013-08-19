@@ -12,7 +12,7 @@ Standards-Version: 3.9.1
 
 Package: cameraplus
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}, context-profile
 XB-Maemo-Display-Name: Camera+
 XB-Maemo-Flags: visible
 XB-Meego-Desktop-Entry-Filename: cameraplus

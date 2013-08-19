@@ -44,11 +44,15 @@ Viewfinder {
         visible: settings.gridEnabled
     }
 
+    PhoneProfile {
+        id: phoneProfile
+    }
+
     Camera {
         id: cam
         sounds: Sounds {
             id: sounds
-            mute: !settings.soundEnabled
+            mute: !settings.soundEnabled || phoneProfile.isSilent
             volume: volumeControl.fullVolume ? Sounds.VolumeHigh : Sounds.VolumeLow
             imageCaptureStart: platformSettings.imageCaptureStartedSound
             imageCaptureEnd: platformSettings.imageCaptureEndedSound

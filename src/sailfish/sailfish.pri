@@ -11,7 +11,8 @@ HEADERS += sailfish/soundvolumecontrol.h \
            sailfish/compass.h \
            sailfish/orientation.h \
            sailfish/batteryinfo.h \
-           sailfish/devicekeys.h
+           sailfish/devicekeys.h \
+           sailfish/phoneprofile.h
 
 SOURCES += sailfish/soundvolumecontrol.cpp \
            sailfish/deviceinfo.cpp \
@@ -21,4 +22,5 @@ SOURCES += sailfish/soundvolumecontrol.cpp \
            sailfish/compass.cpp \
            sailfish/orientation.cpp \
            sailfish/batteryinfo.cpp \
-           sailfish/devicekeys.cpp
+           sailfish/devicekeys.cpp \
+           sailfish/phoneprofile.cpp
