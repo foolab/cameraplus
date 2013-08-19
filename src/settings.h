@@ -148,6 +148,12 @@ public:
   int device() const;
   void setDevice(int device);
 
+  QString fileNamingStamp() const;
+  void setFileNamingStamp(const QString& stamp);
+
+  int fileNamingCounter() const;
+  void setFileNamingCounter(int counter);
+
 signals:
   void modeChanged();
   void creatorNameChanged();

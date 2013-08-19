@@ -25,6 +25,8 @@
 
 #include <QObject>
 
+class Settings;
+
 class FileNaming : public QObject {
   Q_OBJECT
 
@@ -33,6 +35,7 @@ class FileNaming : public QObject {
   Q_PROPERTY(QString imagePath READ imagePath WRITE setImagePath NOTIFY imagePathChanged);
   Q_PROPERTY(QString videoPath READ videoPath WRITE setVideoPath NOTIFY videoPathChanged);
   Q_PROPERTY(QString temporaryVideoPath READ temporaryVideoPath WRITE setTemporaryVideoPath NOTIFY temporaryVideoPathChanged);
+  Q_PROPERTY(Settings *settings READ settings WRITE setSettings NOTIFY settingsChanged);
 
 public:
   FileNaming(QObject *parent = 0);
@@ -57,12 +60,16 @@ public:
   QString temporaryVideoPath() const;
   void setTemporaryVideoPath(const QString& path);
 
+  Settings *settings() const;
+  void setSettings(Settings *settings);
+
 signals:
   void imageSuffixChanged();
   void videoSuffixChanged();
   void imagePathChanged();
   void videoPathChanged();
   void temporaryVideoPathChanged();
+  void settingsChanged();
 
 private:
   QString fileName(const QString& path, const QString& suffix);
@@ -75,8 +82,7 @@ private:
   QString m_videoPath;
   QString m_temporaryVideoPath;
 
-  QString m_date;
-  int m_index;
+  Settings *m_settings;
 };
 
 #endif /* FILE_NAMING_H */

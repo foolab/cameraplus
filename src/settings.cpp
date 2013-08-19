@@ -408,3 +408,19 @@ void Settings::setVideoTorchOn(bool on) {
     emit videoTorchOnChanged();
   }
 }
+
+QString Settings::fileNamingStamp() const {
+  return m_settings->value("fileNaming/stamp").toString();
+}
+
+void Settings::setFileNamingStamp(const QString& stamp) {
+  m_settings->setValue("fileNaming/stamp", stamp);
+}
+
+int Settings::fileNamingCounter() const {
+  return m_settings->value("fileNaming/counter").toInt();
+}
+
+void Settings::setFileNamingCounter(int counter) {
+  m_settings->setValue("fileNaming/counter", counter);
+}

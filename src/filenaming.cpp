@@ -27,12 +27,14 @@
 #elif defined(QT5)
 #include <QQmlInfo>
 #endif
+#include "settings.h"
 
 #define PATH QString("%1%2MyDocs%2DCIM%2").arg(QDir::homePath()).arg(QDir::separator())
 #define TEMP_PATH QString("%1%2MyDocs%2.cameraplus%2").arg(QDir::homePath()).arg(QDir::separator())
 
 FileNaming::FileNaming(QObject *parent) :
-  QObject(parent), m_index(-1) {
+  QObject(parent),
+  m_settings(0) {
 
 }
 
@@ -71,44 +73,60 @@ QString FileNaming::videoFileName() {
 }
 
 QString FileNaming::fileName(const QString& path, const QString& suffix) {
-  QString date = QDate::currentDate().toString("yyyyMMdd");
-  QDir dir(path);
+  if (!m_settings) {
+    qmlInfo(this) << "settings has not been set";
+    return QString();
+  }
 
   if (suffix.isEmpty()) {
+    qmlInfo(this) << "called with empty suffix";
     return QString();
   }
 
   if (path.isEmpty()) {
+    qmlInfo(this) << "called with empty path";
     return QString();
   }
 
-  if (date != m_date) {
-    m_index = -1;
-    m_date = date;
+  QString date = QDate::currentDate().toString("yyyyMMdd");
+  QDir dir(path);
+
+  // index is the last used index
+  int index = 0;
+
+  if (m_settings->fileNamingStamp() != date) {
+    m_settings->setFileNamingStamp(date);
+  }
+  else {
+    index = m_settings->fileNamingCounter();
   }
 
-  if (m_index == -1) {
+  if (index == 0) {
     QStringList filters(QString("*%1_*").arg(date));
     QStringList entries = dir.entryList(filters, QDir::Files, QDir::Name);
-    if (entries.isEmpty()) {
-      m_index = 0;
-    }
-    else {
+    if (!entries.isEmpty()) {
       QString name = QFile(entries.last()).fileName();
-      m_index = name.section('_', 1, 1).section('.', 0, 0).toInt();
+      index = name.section('_', 1, 1).section('.', 0, 0).toInt();
     }
   }
 
-  ++m_index;
+  while (index < INT_MAX) {
+    ++index;
 
-  QString name = QString("%1%2_%3.%4").arg(path).arg(date).arg(QString().sprintf("%03i", m_index)).
-    arg(suffix);
+    QString name = QString("%1%2_%3.%4")
+      .arg(path).arg(date).arg(QString().sprintf("%03i", index)).arg(suffix);
 
-  if (QFile(name).exists()) {
-    return QString();
+    if (!QFile(name).exists()) {
+      m_settings->setFileNamingCounter(index);
+
+      return name;
+    }
+
   }
 
-  return name;
+  qmlInfo(this) << "Failed to guess a file name";
+
+  return QString();
 }
 
 QString FileNaming::canonicalPath(const QString& path) {
@@ -174,5 +192,17 @@ void FileNaming::setTemporaryVideoPath(const QString& path) {
   if (m_temporaryVideoPath != p) {
     m_temporaryVideoPath = p;
     emit temporaryVideoPathChanged();
+  }
+}
+
+Settings *FileNaming::settings() const {
+  return m_settings;
+}
+
+void FileNaming::setSettings(Settings *settings) {
+  if (m_settings != settings) {
+    m_settings = settings;
+
+    emit settingsChanged();
   }
 }

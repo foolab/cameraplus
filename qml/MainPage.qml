@@ -216,6 +216,7 @@ CameraPage {
         imagePath: platformSettings.imagePath
         videoPath: platformSettings.videoPath
         temporaryVideoPath: platformSettings.temporaryVideoPath
+        settings: settings
     }
 
     MountProtector {
