@@ -104,10 +104,11 @@ Item {
         onReleased: parent.captureImage()
     }
 
-    ZoomCaptureCancel {
+    CaptureCancel {
         anchors.fill: parent
-        zoomCapture: zoomCapture
-        onCanceled: {
+        enabled: zoomCapture.zoomPressed
+        onPressed: {
+            zoomCapture.zoomPressed = false
             if (!autoFocusTimer.running) {
                 stopAutoFocus()
             }

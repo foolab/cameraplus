@@ -69,9 +69,10 @@ Item {
         onReleased: overlay.toggleRecording()
     }
 
-    ZoomCaptureCancel {
+    CaptureCancel {
         anchors.fill: parent
-        zoomCapture: zoomCapture
+        enabled: zoomCapture.zoomPressed
+        onPressed: zoomCapture.zoomPressed = false
     }
 
     CaptureButton {

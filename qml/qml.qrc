@@ -45,7 +45,7 @@
 	<file>VideoTorchButton.qml</file>
 	<file>VideoWhiteBalanceButton.qml</file>
 	<file>ZoomCaptureButton.qml</file>
-	<file>ZoomCaptureCancel.qml</file>
+	<file>CaptureCancel.qml</file>
 	<file>ZoomSlider.qml</file>
     </qresource>
 </RCC>

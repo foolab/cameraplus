@@ -24,18 +24,9 @@ import QtQuick 2.0
 import CameraPlus 1.0
 
 MouseArea {
-    id: zoomCancel
-    property Item zoomCapture
-
     signal canceled
 
     z: 100
-    enabled: zoomCapture.zoomPressed
-
-    onPressed: {
-        zoomCancel.zoomCapture.zoomPressed = false
-        zoomCancel.canceled()
-    }
 
     Rectangle {
         anchors.top: parent.top
