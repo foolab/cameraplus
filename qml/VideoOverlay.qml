@@ -87,7 +87,7 @@ Item {
 
         onClicked: overlay.toggleRecording()
 
-        visible: controlsVisible && (!settings.zoomAsShutter && keys.active)
+        visible: controlsVisible
     }
 
     CameraToolBar {

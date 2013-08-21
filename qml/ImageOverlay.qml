@@ -77,7 +77,7 @@ Item {
         height: 75
         opacity: 0.5
         onClicked: captureImage()
-        visible: controlsVisible && (!settings.zoomAsShutter && keys.active)
+        visible: controlsVisible
 
         onExited: {
             if (mouseX <= 0 || mouseY <= 0 || mouseX > width || mouseY > height) {
