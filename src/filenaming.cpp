@@ -21,6 +21,7 @@
 #include "filenaming.h"
 #include <QDir>
 #include <QDate>
+#include <QDateTime>
 #include <QFile>
 #if defined(QT4)
 #include <QDeclarativeInfo>
@@ -88,7 +89,7 @@ QString FileNaming::fileName(const QString& path, const QString& suffix) {
     return QString();
   }
 
-  QString date = QDate::currentDate().toString("yyyyMMdd");
+  QString date = QDateTime::currentDateTime().toUTC().date().toString("yyyyMMdd");
   QDir dir(path);
 
   // index is the last used index
