@@ -26,16 +26,21 @@ import CameraPlus 1.0
 Item {
     id: postCaptureItem
 
-    property bool isVideo: itemData.type.search("nmm#Video") > 0
+    property url itemUrl: url
+    property string itemTitle: title
+    property string itemMimeType: mimeType
+    property string itemCreated: created
+    property string itemFileName: fileName
+
+    property bool isVideo: itemMimeType.search("video/") >= 0
     property alias error: image.error
-    property variant itemData: item
     property bool playing: loader.source != ""
     signal clicked
     clip: true
 
     function startPlayback() {
         loader.source = Qt.resolvedUrl("VideoPlayerPage.qml")
-        loader.item.source = itemData.url
+        loader.item.source = itemUrl
         if (!loader.item.play()) {
             showError(qsTr("Error playing video. Please try again."))
             loader.source = ""
@@ -60,8 +65,8 @@ Item {
 
     FullScreenThumbnail {
         id: image
-        source: itemData.url
-        mimeType: itemData.mimeType
+        source: itemUrl
+        mimeType: itemMimeType
         rotation: calculateRotation(orientation.orientation)
         width: isPortrait ? parent.height : parent.width - 10
         height: isPortrait ? parent.width - 10 : parent.height

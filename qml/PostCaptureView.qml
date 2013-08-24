@@ -25,7 +25,6 @@ import CameraPlus 1.0
 import QtCamera 1.0
 
 // TODO: qrc:/qml/PostCaptureView.qml:104:5: QML CameraToolBar: Binding loop detected for property "height"
-// TODO: try to reload the preview thumbnail when the picture becomes available
 
 Item {
     id: postCaptureView
@@ -35,7 +34,6 @@ Item {
     property int policyMode: view.currentItem && view.currentItem.playing ?
         CameraResources.Player : settings.mode == Camera.VideoMode ? CameraResources.Video :
         CameraResources.Image
-    property bool available: view.currentItem ? view.currentItem.itemData.available : false
 
     Connections {
         target: view.currentItem
@@ -96,13 +94,10 @@ Item {
 
             PostCaptureModel {
                 id: postCaptureModel
-                manufacturer: deviceInfo.manufacturer
-                model: deviceInfo.model
+                imagePath: platformSettings.imagePath
+                videoPath: platformSettings.videoPath
+
                 Component.onCompleted: reload()
-                onError: {
-                    console.log("Error populating model " + msg)
-                    showError(qsTr("Failed to load captures"))
-                }
             }
         }
     }
@@ -127,7 +122,7 @@ Item {
 
         property bool show: deleteDialog.isOpen || deleteDialog.isOpening ||
             hideTimer.running ||
-            (view.currentItem && view.currentItem.error) && !view.currentItem.playing
+            (view.currentItem != null && view.currentItem.error) && !view.currentItem.playing
 
         Behavior on anchors.bottomMargin {
             PropertyAnimation { duration: view.currentItem && view.currentItem.playing ? 0 : 200 }
@@ -135,17 +130,7 @@ Item {
 
         tools: CameraToolBarTools {
             CameraToolIcon {
-                iconSource: available && view.currentItem.itemData.favorite ? cameraTheme.favoriteMarkIconId : cameraTheme.favoriteUnmarkIconId
-                opacity: available ? 1.0 : 0.4
-                onClicked: {
-                    addOrRemoveFavorite()
-                    restartTimer()
-                }
-            }
-
-            CameraToolIcon {
                 iconSource: cameraTheme.shareIconId
-                opacity: available ? 1.0 : 0.4
                 onClicked: {
                     shareCurrentItem()
                     restartTimer()
@@ -154,7 +139,6 @@ Item {
 
             CameraToolIcon {
                 iconSource: cameraTheme.deleteIconId
-                opacity: available ? 1.0 : 0.4
                 onClicked: {
                     deleteCurrentItem()
                     restartTimer()
@@ -180,10 +164,10 @@ Item {
         onStatusChanged: restartTimer()
 
         onAccepted: {
-            if (!remove.remove(view.currentItem.itemData.url)) {
+            if (!remove.remove(view.currentItem.itemUrl)) {
                 showError(qsTr("Failed to delete item"))
             } else {
-                postCaptureModel.remove(view.currentItem.itemData);
+                view.model.remove(view.currentItem.itemUrl)
             }
         }
 
@@ -216,7 +200,7 @@ Item {
             height: parent.height
 
             CameraLabel {
-                text: view.currentItem ? view.currentItem.itemData.title : ""
+                text: view.currentItem ? view.currentItem.itemTitle : ""
                 width: parent.width / 2
                 height: parent.height
                 font.bold: true
@@ -225,7 +209,7 @@ Item {
             }
 
             CameraLabel {
-                text: view.currentItem ? view.currentItem.itemData.created : ""
+                text: view.currentItem ? view.currentItem.itemCreated : ""
                 width: parent.width / 2
                 height: parent.height
                 font.bold: true
@@ -242,41 +226,17 @@ Item {
     }
 
     function deleteCurrentItem() {
-        if (!available) {
+        if (view.currentItem == null) {
             return
         }
 
-        deleteDialog.message = view.currentItem.itemData.fileName
+        deleteDialog.message = view.currentItem.itemFileName
         deleteDialog.open()
     }
 
     function shareCurrentItem() {
-        if (!available) {
-            return
-        }
-
-        if (!share.share(view.currentItem.itemData.url)) {
+        if (view.currentItem != null && !share.share(view.currentItem.itemUrl)) {
             showError(qsTr("Failed to launch share service"))
-        }
-    }
-
-    function addOrRemoveFavorite() {
-        if (!available) {
-            return
-        }
-
-        if (view.currentItem.itemData.favorite) {
-            if (!trackerStore.removeFromFavorites(view.currentItem.itemData.url)) {
-                showError(qsTr("Failed to remove favorite"))
-            } else {
-                view.currentItem.itemData.favorite = false
-            }
-        } else {
-            if (!trackerStore.addToFavorites(view.currentItem.itemData.url)) {
-                showError(qsTr("Failed to add favorite"))
-            } else {
-                view.currentItem.itemData.favorite = true
-            }
         }
     }
 
