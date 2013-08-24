@@ -66,13 +66,20 @@ Item {
 
     ZoomCaptureButton {
         id: zoomCapture
-        onReleased: overlay.toggleRecording()
+    }
+
+    CaptureControl {
+        id: captureControl
+        capturePressed: capture.pressed
+        zoomPressed: zoomCapture.zoomPressed
+        proximityClosed: proximitySensor.close
+        onStartCapture: overlay.toggleRecording()
     }
 
     CaptureCancel {
         anchors.fill: parent
-        enabled: zoomCapture.zoomPressed
-        onPressed: zoomCapture.zoomPressed = false
+        enabled: captureControl.showCancelBanner
+        onPressed: captureControl.canceled = true
     }
 
     CaptureButton {
@@ -85,9 +92,14 @@ Item {
         height: 75
         opacity: 0.5
 
-        onClicked: overlay.toggleRecording()
-
         visible: controlsVisible
+
+        onExited: {
+            if (mouseX <= 0 || mouseY <= 0 || mouseX > width || mouseY > height) {
+                // Release outside the button:
+                captureControl.canceled = true
+            }
+        }
     }
 
     CameraToolBar {

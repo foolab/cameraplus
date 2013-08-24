@@ -76,13 +76,12 @@ Item {
         width: 75
         height: 75
         opacity: 0.5
-        onClicked: captureImage()
         visible: controlsVisible
 
         onExited: {
             if (mouseX <= 0 || mouseY <= 0 || mouseX > width || mouseY > height) {
                 // Release outside the button:
-                stopAutoFocus()
+                captureControl.canceled = true
             }
         }
     }
@@ -90,7 +89,7 @@ Item {
     Timer {
         id: autoFocusTimer
         interval: 200
-        running: capture.pressed || zoomCapture.zoomPressed
+        running: captureControl.state == "capturing"
         repeat: false
         onTriggered: {
             if (cam.autoFocus.cafStatus != AutoFocus.Success) {
@@ -101,18 +100,21 @@ Item {
 
     ZoomCaptureButton {
         id: zoomCapture
-        onReleased: parent.captureImage()
+    }
+
+    CaptureControl {
+        id: captureControl
+        capturePressed: capture.pressed
+        zoomPressed: zoomCapture.zoomPressed
+        proximityClosed: proximitySensor.close
+        onStartCapture: captureImage()
+        onCancelCapture: stopAutoFocus()
     }
 
     CaptureCancel {
         anchors.fill: parent
-        enabled: zoomCapture.zoomPressed
-        onPressed: {
-            zoomCapture.zoomPressed = false
-            if (!autoFocusTimer.running) {
-                stopAutoFocus()
-            }
-        }
+        enabled: captureControl.showCancelBanner
+        onPressed:  captureControl.canceled = true
     }
 
     CameraToolBar {
@@ -291,7 +293,9 @@ Item {
 
     function stopAutoFocus() {
         if (!overlay.cam.quirks.hasQuirk(Quirks.NoAutoFocus)) {
-            cam.autoFocus.stopAutoFocus()
+            if (!autoFocusTimer.running) {
+                cam.autoFocus.stopAutoFocus()
+            }
         }
     }
 

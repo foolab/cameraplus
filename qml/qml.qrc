@@ -47,5 +47,6 @@
 	<file>ZoomCaptureButton.qml</file>
 	<file>CaptureCancel.qml</file>
 	<file>ZoomSlider.qml</file>
+	<file>CaptureControl.qml</file>
     </qresource>
 </RCC>
