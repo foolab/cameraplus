@@ -276,6 +276,12 @@ CameraPage {
         repeat: !settings.zoomAsShutter
     }
 
+    CameraProximitySensor {
+        id: proximitySensor
+        active: Qt.application.active && viewfinder.camera.running && settings.proximityAsShutter
+    }
+
+    // TODO:
     Standby {
         policyLost: pipelineManager.state == "policyLost"
         show: !Qt.application.active || pipelineManager.showStandBy ||

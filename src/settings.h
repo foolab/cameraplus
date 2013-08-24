@@ -64,6 +64,7 @@ class Settings : public QObject {
 
   Q_PROPERTY(bool faceDetectionEnabled READ isFaceDetectionEnabled WRITE setFaceDetectionEnabled NOTIFY faceDetectionEnabledChanged);
   Q_PROPERTY(bool zoomAsShutter READ isZoomAsShutterEnabled WRITE setZoomAsShutterEnabled NOTIFY zoomAsShutterChanged);
+  Q_PROPERTY(bool proximityAsShutter READ isProximityAsShutterEnabled WRITE setProximityAsShutterEnabled NOTIFY proximityAsShutterChanged);
   Q_PROPERTY(int device READ device WRITE setDevice NOTIFY deviceChanged);
 
 public:
@@ -145,6 +146,9 @@ public:
   bool isZoomAsShutterEnabled() const;
   void setZoomAsShutterEnabled(bool enabled);
 
+  bool isProximityAsShutterEnabled() const;
+  void setProximityAsShutterEnabled(bool enabled);
+
   int device() const;
   void setDevice(int device);
 
@@ -180,6 +184,7 @@ signals:
   void gridEnabledChanged();
   void faceDetectionEnabledChanged();
   void zoomAsShutterChanged();
+  void proximityAsShutterChanged();
   void deviceAboutToChange();
   void deviceChanged();
 

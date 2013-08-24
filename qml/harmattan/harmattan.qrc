@@ -15,5 +15,6 @@
 	<file>FullScreenThumbnail.qml</file>
 	<file>CameraPositionSource.qml</file>
 	<file>CameraPage.qml</file>
+	<file>CameraProximitySensor.qml</file>
     </qresource>
 </RCC>

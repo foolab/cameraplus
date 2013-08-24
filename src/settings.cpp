@@ -34,6 +34,7 @@
 #define DEFAULT_GRID_ENABLED            false
 #define DEFAULT_FACE_DETECTION_ENABLED  true
 #define DEFAULT_ZOOM_AS_SHUTTER         false
+#define DEFAULT_PROXIMITY_AS_SHUTTER    false
 #define DEFAULT_DEVICE                  0
 
 Settings::Settings(QObject *parent) :
@@ -161,6 +162,18 @@ void Settings::setZoomAsShutterEnabled(bool enabled) {
     m_settings->setValue("camera/zoomAsShutter", enabled);
 
     emit zoomAsShutterChanged();
+  }
+}
+
+bool Settings::isProximityAsShutterEnabled() const {
+  return m_settings->value("camera/proximityAsShutter", DEFAULT_PROXIMITY_AS_SHUTTER).toBool();
+}
+
+void Settings::setProximityAsShutterEnabled(bool enabled) {
+  if (isProximityAsShutterEnabled() != enabled) {
+    m_settings->setValue("camera/proximityAsShutter", enabled);
+
+    emit proximityAsShutterChanged();
   }
 }
 
