@@ -23,18 +23,19 @@
 #ifndef POST_CAPTURE_MODEL_H
 #define POST_CAPTURE_MODEL_H
 
-#include <QSortFilterProxyModel>
-#include <QStringList>
-#include <QFileInfo>
+#include <QStandardItemModel>
 
-class FileInfoModel;
 class QDir;
 
-class PostCaptureModel : public QSortFilterProxyModel {
+class PostCaptureModel : public QStandardItemModel {
   Q_OBJECT
 
   Q_PROPERTY(QString imagePath READ imagePath WRITE setImagePath NOTIFY imagePathChanged);
   Q_PROPERTY(QString videoPath READ videoPath WRITE setVideoPath NOTIFY videoPathChanged);
+
+public:
+  PostCaptureModel(QObject *parent = 0);
+  ~PostCaptureModel();
 
   typedef enum {
     UrlRole = Qt::UserRole + 1,
@@ -43,12 +44,6 @@ class PostCaptureModel : public QSortFilterProxyModel {
     CreatedRole = Qt::UserRole + 4,
     FileNameRole = Qt::UserRole + 5,
   } Roles;
-
-public:
-  PostCaptureModel(QObject *parent = 0);
-  ~PostCaptureModel();
-
-  virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
   QString imagePath() const;
   void setImagePath(const QString& path);
@@ -65,20 +60,11 @@ signals:
   void imagePathChanged();
   void videoPathChanged();
 
-protected:
-  bool lessThan(const QModelIndex& left, const QModelIndex& right) const;
-
 private:
-  QFileInfo info(const QString& path) const;
-
   QString m_imagePath;
   QString m_videoPath;
 
-  FileInfoModel *m_model;
-
-  QStringList loadDir(QDir& dir);
-
-  mutable QHash<QString, QFileInfo> m_data;
+  void loadDir(const QDir& dir, QList<QStandardItem *>& out);
 
 #if defined(QT5)
   QHash<int, QByteArray> roleNames() const;
