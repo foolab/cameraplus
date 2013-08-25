@@ -36,7 +36,7 @@ Item {
         CameraResources.Image
 
     property bool isCurrent: mainView.currentIndex == 2 && !mainView.moving
-    property bool inCameraMode: mainView.currentIndex == 1 && !mainView.moving
+    property bool inCameraMode: root.inCaptureMode && !mainView.moving
 
     onIsCurrentChanged: {
         if (isCurrent) {

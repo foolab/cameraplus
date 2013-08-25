@@ -30,6 +30,7 @@ CameraPage {
     id: root
 
     property bool deviceChangeInProgress: false
+    property bool inCaptureMode: mainView.currentIndex == 1
 
     CameraTheme {
         id: cameraTheme
@@ -272,19 +273,19 @@ CameraPage {
 
     DeviceKeys {
         id: keys
-        active: Qt.application.active && pipelineManager.scaleAcquired
+        active: Qt.application.active && pipelineManager.scaleAcquired && root.inCaptureMode && !mainView.moving
         repeat: !settings.zoomAsShutter
     }
 
     CameraProximitySensor {
         id: proximitySensor
-        active: Qt.application.active && viewfinder.camera.running && settings.proximityAsShutter
+        active: Qt.application.active && viewfinder.camera.running && settings.proximityAsShutter && root.inCaptureMode && !mainView.moving
     }
 
     // TODO:
     Standby {
         policyLost: pipelineManager.state == "policyLost"
         show: !Qt.application.active || pipelineManager.showStandBy ||
-            (mainView.currentIndex == 1 && !viewfinder.camera.running)
+            (inCaptureMode && !viewfinder.camera.running)
     }
 }
