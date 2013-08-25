@@ -1,3 +1,16 @@
+cameraplus (0.0.6-1) unstable; urgency=low
+
+  * Make sure we don't play camera sounds in silent profile
+  * Don't reuse a file name if a file gets deleted
+  * Make capture buttons always visible
+  * Added an option to use proximity sensor as a shutter button
+  * Reworked toolbar animation to use opacity
+  * Don't try to capture if zoom gets pressed and we are in settings or post capture
+  * Reworked post capture to get rid of tracker dependency
+  * Dropped add to/remove from favorites
+
+ -- Mohammed Sameer <msameer@foolab.org>  Sat, 24 Aug 2013 12:34:21 +0300
+
 cameraplus (0.0.5-1) unstable; urgency=low
 
   * New UI
