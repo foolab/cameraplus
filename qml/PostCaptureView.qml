@@ -24,8 +24,6 @@ import QtQuick 2.0
 import CameraPlus 1.0
 import QtCamera 1.0
 
-// TODO: qrc:/qml/PostCaptureView.qml:104:5: QML CameraToolBar: Binding loop detected for property "height"
-
 Item {
     id: postCaptureView
 
@@ -108,18 +106,18 @@ Item {
         expanded: true
         hideBack: true
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: show ? 20 : -1 * (height + 20)
+        anchors.bottomMargin: 20
         anchors.left: parent.left
         anchors.leftMargin: 20
         anchors.right: parent.right
         anchors.rightMargin: 20
-        opacity: 0.8
-
+        opacity: show ? 0.8 : 0.0
+        visible: opacity > 0
         property bool show: deleteDialog.isOpen || deleteDialog.isOpening ||
             hideTimer.running ||
             (view.currentItem != null && view.currentItem.error) && !view.currentItem.playing
 
-        Behavior on anchors.bottomMargin {
+        Behavior on opacity {
             PropertyAnimation { duration: view.currentItem && view.currentItem.playing ? 0 : 200 }
         }
 
@@ -174,7 +172,7 @@ Item {
     Rectangle {
         opacity: toolBar.opacity
         anchors.top: parent.top
-        anchors.topMargin: toolBar.show ? 20 : -1 * (height + 20)
+        anchors.topMargin: 20
         anchors.left: parent.left
         anchors.leftMargin: 20
         anchors.right: parent.right
@@ -184,10 +182,6 @@ Item {
         color: toolBar.color
         border.color: toolBar.border.color
         radius: toolBar.radius
-
-        Behavior on anchors.topMargin {
-            PropertyAnimation { duration: view.currentItem && view.currentItem.playing ? 0 : 200 }
-        }
 
         Flow {
             width: parent.width - 40

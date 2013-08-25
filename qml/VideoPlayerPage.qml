@@ -94,12 +94,13 @@ Item {
         hideBack: true
         expanded: true
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: show ? 20 : -1 * (height + 20)
+        anchors.bottomMargin: 20
         anchors.left: parent.left
         anchors.leftMargin: 20
-        opacity: 0.5
+        opacity: show ? 0.8 : 0.0
+        visible: opacity > 0
 
-        Behavior on anchors.bottomMargin {
+        Behavior on opacity {
             PropertyAnimation { duration: 200; }
         }
 
