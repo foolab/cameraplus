@@ -124,6 +124,7 @@ Item {
         tools: CameraToolBarTools {
             CameraToolIcon {
                 iconSource: cameraTheme.shareIconId
+                enabled: view.currentItem != null
                 onClicked: {
                     shareCurrentItem()
                     restartTimer()
@@ -132,6 +133,7 @@ Item {
 
             CameraToolIcon {
                 iconSource: cameraTheme.deleteIconId
+                enabled: view.currentItem != null
                 onClicked: {
                     deleteCurrentItem()
                     restartTimer()
