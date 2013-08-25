@@ -58,6 +58,7 @@ public:
 
 public slots:
   void reload();
+  void clear();
   void remove(const QUrl& file);
 
 signals:

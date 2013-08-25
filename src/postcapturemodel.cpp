@@ -108,6 +108,16 @@ void PostCaptureModel::reload() {
   sort(0, Qt::DescendingOrder);
 }
 
+void PostCaptureModel::clear() {
+  if (m_model->rowCount(QModelIndex()) == 0) {
+    return;
+  }
+
+  m_data.clear();
+
+  m_model->setFiles(QStringList());
+}
+
 bool PostCaptureModel::lessThan(const QModelIndex& left, const QModelIndex& right) const {
   return info(sourceModel()->data(left, Qt::DisplayRole).toString()).created() <
     info(sourceModel()->data(right, Qt::DisplayRole).toString()).created();

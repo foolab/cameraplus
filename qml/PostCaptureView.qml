@@ -35,6 +35,21 @@ Item {
         CameraResources.Player : settings.mode == Camera.VideoMode ? CameraResources.Video :
         CameraResources.Image
 
+    property bool isCurrent: mainView.currentIndex == 2 && !mainView.moving
+    property bool inCameraMode: mainView.currentIndex == 1 && !mainView.moving
+
+    onIsCurrentChanged: {
+        if (isCurrent) {
+            postCaptureModel.reload()
+        }
+    }
+
+    onInCameraModeChanged: {
+        if (inCameraMode) {
+            postCaptureModel.clear()
+        }
+    }
+
     Connections {
         target: view.currentItem
         onPlayingChanged: {
@@ -76,30 +91,10 @@ Item {
         }
     }
 
-    property variant postCaptureModel: postCaptureModelLoader.item ?
-        postCaptureModelLoader.item.model : null
-    property bool loadModel: mainView.currentIndex == 2 && Qt.application.active
-
-    Loader {
-        id: postCaptureModelLoader
-        sourceComponent: loadModel ? postCaptureModelComponent : undefined
-    }
-
-    // We have to do it that way because Loader does not support non-visual elements.
-    Component {
-        id: postCaptureModelComponent
-
-        Item {
-            property alias model: postCaptureModel
-
-            PostCaptureModel {
-                id: postCaptureModel
-                imagePath: platformSettings.imagePath
-                videoPath: platformSettings.videoPath
-
-                Component.onCompleted: reload()
-            }
-        }
+    PostCaptureModel {
+        id: postCaptureModel
+        imagePath: platformSettings.imagePath
+        videoPath: platformSettings.videoPath
     }
 
     Timer {
