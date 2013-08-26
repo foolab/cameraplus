@@ -16,5 +16,6 @@
 	<file>CameraPositionSource.qml</file>
 	<file>CameraPage.qml</file>
 	<file>CameraProximitySensor.qml</file>
+	<file>CameraTextSwitch.qml</file>
     </qresource>
 </RCC>

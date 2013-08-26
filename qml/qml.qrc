@@ -32,7 +32,6 @@
 	<file>SectionHeader.qml</file>
 	<file>SettingsView.qml</file>
 	<file>Standby.qml</file>
-	<file>TextSwitch.qml</file>
 	<file>ToolsModelItem.qml</file>
 	<file>VideoColorFilterButton.qml</file>
 	<file>VideoEvCompButton.qml</file>

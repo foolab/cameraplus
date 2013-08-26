@@ -60,7 +60,7 @@ Column {
         }
     }
 
-    TextSwitch {
+    CameraTextSwitch {
         text: qsTr("Show grid lines")
 
         // We have to do it that way because QML complains about a binding
@@ -82,7 +82,7 @@ Column {
         onTextChanged: settings.creatorName = text
     }
 
-    TextSwitch {
+    CameraTextSwitch {
         text: qsTr("Use zoom keys for capture")
 
         // We have to do it that way because QML complains about a binding
@@ -91,7 +91,7 @@ Column {
         onCheckedChanged: settings.zoomAsShutter = checked
     }
 
-    TextSwitch {
+    CameraTextSwitch {
         text: qsTr("Use proximity sensor for capture")
 
         // We have to do it that way because QML complains about a binding
@@ -100,7 +100,7 @@ Column {
         onCheckedChanged: settings.proximityAsShutter = checked
     }
 
-    TextSwitch {
+    CameraTextSwitch {
         text: qsTr("Enable camera sounds")
 
         // We have to do it that way because QML complains about a binding
@@ -109,7 +109,7 @@ Column {
         onCheckedChanged: settings.soundEnabled = checked
     }
 
-    TextSwitch {
+    CameraTextSwitch {
         id: useGps
         text: qsTr("Use GPS")
 
@@ -119,7 +119,7 @@ Column {
         onCheckedChanged: settings.useGps = checked
     }
 
-    TextSwitch {
+    CameraTextSwitch {
         // TODO: transition when hiding/showing and we should scroll a bit to show it
         visible: useGps.checked
 
