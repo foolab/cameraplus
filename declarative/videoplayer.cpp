@@ -95,6 +95,12 @@ void VideoPlayer::componentComplete() {
 }
 
 void VideoPlayer::classBegin() {
+#if defined(QT4)
+  QDeclarativeItem::classBegin();
+#elif defined(QT5)
+  QQuickPaintedItem::classBegin();
+#endif
+
   m_bin = gst_element_factory_make ("playbin2", "VideoPlayerBin");
   if (!m_bin) {
     qmlInfo(this) << "Failed to create playbin2";

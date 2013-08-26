@@ -61,10 +61,22 @@ QtCamConfig *CameraConfig::config() const {
 }
 
 void CameraConfig::classBegin() {
+#if defined(QT4)
+  QDeclarativeParserStatus::classBegin();
+#elif defined(QT5)
+  QQmlParserStatus::classBegin();
+#endif
+
   // Nothing
 }
 
 void CameraConfig::componentComplete() {
+#if defined(QT4)
+  QDeclarativeParserStatus::componentComplete();
+#elif defined(QT5)
+  QQmlParserStatus::componentComplete();
+#endif
+
   if (m_config) {
     return;
   }
