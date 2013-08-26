@@ -28,16 +28,16 @@
 #elif defined(QT5)
 #include <QQmlInfo>
 #endif
-#include "settings.h"
 
 FileNaming::FileNaming(QObject *parent) :
   QObject(parent),
-  m_settings(0) {
+  m_settings(0),
+  m_index(0) {
 
 }
 
 FileNaming::~FileNaming() {
-
+  delete m_index; m_index = 0;
 }
 
 QString FileNaming::imageSuffix() const {
@@ -63,14 +63,16 @@ void FileNaming::setVideoSuffix(const QString& suffix) {
 }
 
 QString FileNaming::imageFileName() {
-  return fileName(m_imagePath, m_imageSuffix);
+  return fileName(m_imagePath, m_imageSuffix, Image);
 }
 
 QString FileNaming::videoFileName() {
-  return fileName(m_videoPath, m_videoSuffix);
+  return fileName(m_videoPath, m_videoSuffix, Video);
 }
 
-QString FileNaming::fileName(const QString& path, const QString& suffix) {
+QString FileNaming::fileName(const QString& path, const QString& suffix, const Type& type) {
+  FileIndex::Type indexType = (FileIndex::Type) type;
+
   if (!m_settings) {
     qmlInfo(this) << "settings has not been set";
     return QString();
@@ -92,11 +94,11 @@ QString FileNaming::fileName(const QString& path, const QString& suffix) {
   // index is the last used index
   int index = 0;
 
-  if (m_settings->fileNamingStamp() != date) {
-    m_settings->setFileNamingStamp(date);
+  if (m_index->stamp(indexType) != date) {
+    m_index->setStamp(indexType, date);
   }
   else {
-    index = m_settings->fileNamingCounter();
+    index = m_index->counter(indexType);
   }
 
   if (index == 0) {
@@ -115,8 +117,7 @@ QString FileNaming::fileName(const QString& path, const QString& suffix) {
       .arg(path).arg(date).arg(QString().sprintf("%03i", index)).arg(suffix);
 
     if (!QFile(name).exists()) {
-      m_settings->setFileNamingCounter(index);
-
+      m_index->setCounter(indexType, index);
       return name;
     }
 
@@ -202,5 +203,18 @@ void FileNaming::setSettings(Settings *settings) {
     m_settings = settings;
 
     emit settingsChanged();
+  }
+}
+
+void FileNaming::classBegin() {
+  // Nothing
+}
+
+void FileNaming::componentComplete() {
+  if (QDir(m_imagePath).canonicalPath() == QDir(m_videoPath).canonicalPath()) {
+    m_index = new SingleFileIndex(m_settings);
+  }
+  else {
+    m_index = new MultiFileIndex(m_settings);
   }
 }

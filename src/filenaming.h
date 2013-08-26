@@ -24,10 +24,21 @@
 #define FILE_NAMING_H
 
 #include <QObject>
+#if defined(QT4)
+#include <QDeclarativeParserStatus>
+#elif defined(QT5)
+#include <QQmlParserStatus>
+#endif
+#include "fileindex.h"
 
 class Settings;
 
-class FileNaming : public QObject {
+#if defined(QT4)
+class FileNaming : public QObject, public QDeclarativeParserStatus {
+#elif defined(QT5)
+class FileNaming : public QObject, public QQmlParserStatus {
+#endif
+
   Q_OBJECT
 
   Q_PROPERTY(QString imageSuffix READ imageSuffix WRITE setImageSuffix NOTIFY imageSuffixChanged);
@@ -63,6 +74,9 @@ public:
   Settings *settings() const;
   void setSettings(Settings *settings);
 
+  virtual void classBegin();
+  virtual void componentComplete();
+
 signals:
   void imageSuffixChanged();
   void videoSuffixChanged();
@@ -72,7 +86,12 @@ signals:
   void settingsChanged();
 
 private:
-  QString fileName(const QString& path, const QString& suffix);
+  typedef enum {
+    Image = FileIndex::Image,
+    Video = FileIndex::Video,
+  } Type;
+
+  QString fileName(const QString& path, const QString& suffix, const Type& type);
   QString canonicalPath(const QString& path);
   QString temporaryPath();
 
@@ -83,6 +102,7 @@ private:
   QString m_temporaryVideoPath;
 
   Settings *m_settings;
+  FileIndex *m_index;
 };
 
 #endif /* FILE_NAMING_H */

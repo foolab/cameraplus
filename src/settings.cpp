@@ -422,18 +422,22 @@ void Settings::setVideoTorchOn(bool on) {
   }
 }
 
-QString Settings::fileNamingStamp() const {
-  return m_settings->value("fileNaming/stamp").toString();
+QString Settings::fileNamingStamp(const QString& id) const {
+  QString key = QString("fileNaming/%1").arg(id);
+  return m_settings->value(key).toString();
 }
 
-void Settings::setFileNamingStamp(const QString& stamp) {
-  m_settings->setValue("fileNaming/stamp", stamp);
+void Settings::setFileNamingStamp(const QString& id, const QString& stamp) {
+  QString key = QString("fileNaming/%1").arg(id);
+  m_settings->setValue(key, stamp);
 }
 
-int Settings::fileNamingCounter() const {
-  return m_settings->value("fileNaming/counter").toInt();
+int Settings::fileNamingCounter(const QString& id) const {
+  QString key = QString("fileNaming/%1").arg(id);
+  return m_settings->value(key).toInt();
 }
 
-void Settings::setFileNamingCounter(int counter) {
-  m_settings->setValue("fileNaming/counter", counter);
+void Settings::setFileNamingCounter(const QString& id, int counter) {
+  QString key = QString("fileNaming/%1").arg(id);
+  m_settings->setValue(key, counter);
 }
