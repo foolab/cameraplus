@@ -25,8 +25,11 @@ import Sailfish.Silica 1.0
 import org.nemomobile.thumbnailer 1.0
 
 Thumbnail {
+    // TODO: rotate portrait images
     property bool error: status == Thumbnail.Error
     anchors.fill: parent
     fillMode: Thumbnail.PreserveAspectFit
     priority: Thumbnail.HighPriority
+    sourceSize.width: width
+    sourceSize.height: height
 }
