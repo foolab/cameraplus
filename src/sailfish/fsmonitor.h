@@ -25,10 +25,6 @@
 
 #include <QObject>
 
-namespace MeeGo {
-  class QmUSBMode;
-};
-
 class FSMonitor : public QObject {
   Q_OBJECT
   Q_PROPERTY(bool available READ isAvailable NOTIFY availabilityChanged)
@@ -45,13 +41,6 @@ public:
 
 signals:
   void availabilityChanged();
-
-private slots:
-  void modeChanged();
-
-private:
-  bool m_available;
-  MeeGo::QmUSBMode *m_mode;
 };
 
 #endif /* FS_MONITOR_H */
