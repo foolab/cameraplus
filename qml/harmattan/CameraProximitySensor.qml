@@ -27,5 +27,4 @@ ProximitySensor {
     property bool close
     onReadingChanged: close = reading.close
     Component.onCompleted: close = reading.close
-    onActiveChanged: close = false
 }
