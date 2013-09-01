@@ -257,7 +257,6 @@ void QtCamViewfinderRendererNemo::sink_caps_changed(GObject *obj, GParamSpec *ps
 
   GstPad *pad = GST_PAD (obj);
   if (!GST_PAD_CAPS (pad)) {
-    qWarning() << "QtCamViewfinderRendererNemo::sink_caps_changed pad has no caps";
     return;
   }
 
