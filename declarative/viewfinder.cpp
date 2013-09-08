@@ -58,7 +58,13 @@ Viewfinder::Viewfinder(QQuickItem *parent) :
 }
 
 Viewfinder::~Viewfinder() {
+  if (m_cam) {
+    m_cam->stop(true);
+  }
 
+  if (m_dev) {
+    m_dev->setViewfinder(0);
+  }
 }
 
 bool Viewfinder::isRenderingEnabled() const {
