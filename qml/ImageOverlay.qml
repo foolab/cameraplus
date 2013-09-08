@@ -33,6 +33,7 @@ Item {
     property bool pressed: capture.pressed || zoomSlider.pressed || modeButton.pressed
     property bool controlsVisible: imageMode.canCapture && cam.running && !animationRunning
         && dimmer.opacity == 0.0 && !cameraMode.busy
+    property bool inhibitDim: false
 
     signal previewAvailable(string uri)
 

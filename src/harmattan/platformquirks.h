@@ -20,41 +20,30 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef DISPLAY_STATE_H
-#define DISPLAY_STATE_H
+#ifndef PLATFORM_QUIRKS_H
+#define PLATFORM_QUIRKS_H
 
 #include <QObject>
 
-class QTimer;
-namespace MeeGo {
-  class QmDisplayState;
-};
-
-class DisplayState : public QObject {
+class PlatformQuirks : public QObject {
   Q_OBJECT
-  Q_PROPERTY(bool inhibitDim READ isDimInhibited WRITE setInhibitDim NOTIFY inhibitDimChanged);
-  Q_PROPERTY(bool isOn READ isOn NOTIFY isOnChanged);
+  Q_PROPERTY(bool forceOn READ isOnForced NOTIFY forceOnChanged);
 
 public:
-  DisplayState(QObject *parent = 0);
-  ~DisplayState();
+  PlatformQuirks(QObject *parent = 0);
+  ~PlatformQuirks();
 
-  bool isDimInhibited() const;
-  void setInhibitDim(bool inhibit);
+  bool isOnForced();
 
-  bool isOn();
+protected:
+  bool eventFilter(QObject *obj, QEvent *event);
 
 signals:
-  void inhibitDimChanged();
-  void isOnChanged();
-
-private slots:
-  void timeout();
-  void displayStateChanged();
+  void forceOnChanged();
 
 private:
-  MeeGo::QmDisplayState *m_state;
-  QTimer *m_timer;
+  bool m_state;
+  bool m_check;
 };
 
-#endif /* DISPLAY_STATE_H */
+#endif /* PLATFORM_QUIRKS_H */

@@ -28,6 +28,8 @@ Item {
     property Camera camera: null
     property int policyMode: settings.mode == Camera.VideoMode ? CameraResources.Video
         : CameraResources.Image
+    property bool pressed: false
+    property bool inhibitDim: false
 
     Loader {
         id: loader

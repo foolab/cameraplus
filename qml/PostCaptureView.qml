@@ -32,6 +32,7 @@ Item {
     property int policyMode: view.currentItem && view.currentItem.playing ?
         CameraResources.Player : settings.mode == Camera.VideoMode ? CameraResources.Video :
         CameraResources.Image
+    property bool inhibitDim: pressed
 
     property bool isCurrent: mainView.currentIndex == 2 && !mainView.moving
     property bool inCameraMode: root.inCaptureMode && !mainView.moving

@@ -35,6 +35,7 @@ Item {
         && dimmer.opacity == 0.0 && !cameraMode.busy
     property bool pressed: overlay.recording || capture.pressed ||
         zoomSlider.pressed || modeButton.pressed
+    property bool inhibitDim: recording
 
     signal previewAvailable(string uri)
 
@@ -201,10 +202,6 @@ Item {
                 }
             }
         }
-    }
-
-    DisplayState {
-        inhibitDim: overlay.recording
     }
 
     Connections {

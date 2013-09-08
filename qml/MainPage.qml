@@ -151,12 +151,19 @@ CameraPage {
     }
 
     property alias dimmer: camDimmer
+
+    PlatformQuirks {
+        id: platformQuirks
+    }
+
+    DisplayState {
+        id: displayState
+        inhibitDim: mainView.currentItem != null ? mainView.currentItem.inhibitDim : false
+    }
+
     CameraPositionSource {
         id: positionSource
-        active: settings.useGps
-        // TODO: we cannot bind to cam.running because camera will stop
-        // when the connection dialog pops up and we end up with an infinite loop
-        // active: cam.running && settings.useGps
+        active: (viewfinder.camera.running || platformQuirks.forceOn) && settings.useGps && displayState.isOn
         onPositionChanged: geocode.search(position.coordinate.longitude, position.coordinate.latitude)
     }
 
@@ -195,7 +202,7 @@ CameraPage {
 
     ReverseGeocode {
         id: geocode
-        active: viewfinder.camera.running && settings.useGps && settings.useGeotags
+        active: (viewfinder.camera.running || platformQuirks.forceOn) && settings.useGps && settings.useGeotags && displayState.isOn
     }
 
     DeviceInfo {

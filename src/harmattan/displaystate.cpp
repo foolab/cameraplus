@@ -24,12 +24,17 @@
 #include <QDebug>
 
 DisplayState::DisplayState(QObject *parent) :
-  QObject(parent), m_state(new MeeGo::QmDisplayState(this)), m_timer(new QTimer(this)) {
+  QObject(parent),
+  m_state(new MeeGo::QmDisplayState(this)),
+  m_timer(new QTimer(this)) {
 
   m_timer->setSingleShot(false);
   m_timer->setInterval(50 * 1000);
 
   QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
+
+  QObject::connect(m_state, SIGNAL(displayStateChanged(MeeGo::QmDisplayState::DisplayState)),
+		   this, SLOT(displayStateChanged()));
 }
 
 DisplayState::~DisplayState() {
@@ -68,4 +73,12 @@ void DisplayState::timeout() {
   if (!m_state->setBlankingPause()) {
     qWarning() << "Failed to inhibit display dimming!";
   }
+}
+
+bool DisplayState::isOn() {
+  return m_state->get() == MeeGo::QmDisplayState::On;
+}
+
+void DisplayState::displayStateChanged() {
+  emit isOnChanged();
 }
