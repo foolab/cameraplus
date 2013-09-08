@@ -39,11 +39,6 @@ Rectangle {
         PropertyAnimation { duration: 250 }
     }
 
-    MouseArea {
-        anchors.fill: parent
-        enabled: parent.visible
-    }
-
     Image {
         id: icon
         source: cameraTheme.standbyIcon

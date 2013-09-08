@@ -282,7 +282,6 @@ CameraPage {
         active: Qt.application.active && viewfinder.camera.running && settings.proximityAsShutter && root.inCaptureMode && !mainView.moving
     }
 
-    // TODO:
     Standby {
         policyLost: pipelineManager.state == "policyLost"
         show: !Qt.application.active || pipelineManager.showStandBy ||
