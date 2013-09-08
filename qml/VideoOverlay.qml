@@ -73,7 +73,7 @@ Item {
         id: captureControl
         capturePressed: capture.pressed
         zoomPressed: zoomCapture.zoomPressed
-        proximityClosed: proximitySensor.close
+        proximityClosed: proximitySensor.sensorClosed
         onStartCapture: overlay.toggleRecording()
     }
 

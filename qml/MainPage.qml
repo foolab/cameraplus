@@ -284,9 +284,28 @@ CameraPage {
         repeat: !settings.zoomAsShutter
     }
 
+    Timer {
+        id: proximityTimer
+        running: proximitySensor.close
+        repeat: false
+        interval: 500
+        onTriggered: {
+            if (proximitySensor.close) {
+                proximitySensor.sensorClosed = true
+            }
+        }
+    }
+
     CameraProximitySensor {
         id: proximitySensor
+        property bool sensorClosed: false
+
         active: Qt.application.active && viewfinder.camera.running && settings.proximityAsShutter && root.inCaptureMode && !mainView.moving
+        onCloseChanged: {
+            if (!close) {
+                sensorClosed = false
+            }
+        }
     }
 
     Standby {
