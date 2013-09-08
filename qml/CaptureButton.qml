@@ -50,6 +50,7 @@ Item {
         border.right: button.platformStyle.backgroundMarginRight
         border.bottom: button.platformStyle.backgroundMarginBottom
         source: pressed ? button.platformStyle.pressedBackground : button.platformStyle.background
+        asynchronous: true
     }
 
     Image {

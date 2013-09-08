@@ -43,6 +43,7 @@ Rectangle {
         id: icon
         source: cameraTheme.standbyIcon
         anchors.centerIn: parent
+        asynchronous: true
     }
 
     CameraLabel {

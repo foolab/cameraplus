@@ -29,6 +29,7 @@ Image {
     anchors.rightMargin: 5
     anchors.topMargin: 5
     anchors.bottomMargin: 5
+    asynchronous: true
 
     height: width
 }
