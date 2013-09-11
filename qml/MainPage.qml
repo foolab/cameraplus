@@ -25,12 +25,15 @@ import QtCamera 1.0
 import CameraPlus 1.0
 
 // TODO: flash not ready (battery low or flash not ready message)
+// TODO: Sounds
+// TODO: N950 conf
 
 CameraPage {
     id: root
 
     property bool deviceChangeInProgress: false
     property bool inCaptureMode: mainView.currentIndex == 1
+    property Item dimmer: camDimmer
 
     CameraTheme {
         id: cameraTheme
@@ -149,8 +152,6 @@ CameraPage {
         error.text = msg
         error.show()
     }
-
-    property alias dimmer: camDimmer
 
     PlatformQuirks {
         id: platformQuirks
