@@ -118,11 +118,11 @@ Item {
         tools: CameraToolBarTools {
             VideoTorchButton {
                 camera: cam
-                visible: !overlay.cam.quirks.hasQuirk(Quirks.NoVideoTorch)
+                visible: overlay.cam ? !overlay.cam.quirks.hasQuirk(Quirks.NoVideoTorch) : false
             }
 
             VideoSceneButton {
-                property bool hide: (overlay.recording && overlay.cam.quirks.hasQuirk(Quirks.NoSceneModeChangeDuringRecording)) || overlay.cam.quirks.hasQuirk(Quirks.NoNightSceneMode)
+                property bool hide: overlay.cam ? (overlay.recording && overlay.cam.quirks.hasQuirk(Quirks.NoSceneModeChangeDuringRecording)) || overlay.cam.quirks.hasQuirk(Quirks.NoNightSceneMode) : false
                 visible: !hide
                 onClicked: toolBar.push(tools)
             }

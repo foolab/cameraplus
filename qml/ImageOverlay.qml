@@ -132,7 +132,7 @@ Item {
         tools: CameraToolBarTools {
             FlashButton {
                 onClicked: toolBar.push(tools)
-                visible: !overlay.cam.quirks.hasQuirk(Quirks.NoFlash)
+                visible: overlay.cam ? !overlay.cam.quirks.hasQuirk(Quirks.NoFlash) : false
             }
 
             ImageSceneButton {
