@@ -22,10 +22,15 @@
 #include "qtcamscanner.h"
 #include "qtcamconfig.h"
 #include "qtcamdevice.h"
+#include "gst/gstcopy.h"
 #include <gst/gst.h>
 
 class QtCameraPrivate {
 public:
+  QtCameraPrivate() {
+    qt_cam_copy_register();
+  }
+
   QtCamConfig *conf;
   QtCamScanner *scanner;
 };

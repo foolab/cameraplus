@@ -29,19 +29,12 @@
 #include "qtcamimagemode.h"
 #include "qtcamvideomode.h"
 #include "qtcamnotifications.h"
-#include "gst/gstcopy.h"
 #include "qtcampropertysetter.h"
 #include "qtcamanalysisbin.h"
 
 QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
 			 const QVariant& id, QObject *parent) :
   QObject(parent), d_ptr(new QtCamDevicePrivate) {
-
-  static gboolean register_copy = TRUE;
-  if (register_copy) {
-    qt_cam_copy_register();
-    register_copy = FALSE;
-  }
 
   d_ptr->q_ptr = this;
   d_ptr->name = name;
