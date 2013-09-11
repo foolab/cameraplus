@@ -121,7 +121,6 @@ Rectangle {
     CameraToolIcon {
         visible: !parent.hideBack
         id: menu
-        anchors.verticalCenter: parent.verticalCenter
         iconSource: cameraTheme.cameraToolBarMenuIcon
         anchors.left: parent.left
         anchors.top: parent.top
