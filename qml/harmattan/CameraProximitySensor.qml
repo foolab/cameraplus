@@ -24,7 +24,6 @@ import QtQuick 1.1
 import QtMobility.sensors 1.2
 
 ProximitySensor {
-    property bool close
+    property bool close: false
     onReadingChanged: close = reading.close
-    Component.onCompleted: close = reading.close
 }
