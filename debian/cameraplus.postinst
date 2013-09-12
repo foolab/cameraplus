@@ -1,0 +1,15 @@
+#!/bin/sh
+
+case "$1" in
+    configure)
+        /usr/bin/dbus-send --print-reply --dest=com.meego.core.MNotificationManager \
+        /notificationmanager com.meego.core.MNotificationManager.addNotification \
+        uint32:0 uint32:0 string:'device' \
+        string:'' string:'Camera+ installed. Please restart your phone!' string:'' \
+        string:'icon-m-toolbar-done' uint32:0
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0
