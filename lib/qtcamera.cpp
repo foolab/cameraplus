@@ -22,6 +22,7 @@
 #include "qtcamscanner.h"
 #include "qtcamconfig.h"
 #include "qtcamdevice.h"
+#include "gst/gstcopy.h"
 #include <gst/gst.h>
 
 class QtCameraPrivate {
@@ -34,6 +35,7 @@ QtCamera::QtCamera(QObject *parent) :
   QObject(parent), d_ptr(new QtCameraPrivate) {
 
   gst_init(0, 0);
+  qt_cam_copy_register();
 
   d_ptr->conf = new QtCamConfig(this);
   d_ptr->scanner = new QtCamScanner(d_ptr->conf, this);
@@ -45,6 +47,7 @@ QtCamera::QtCamera(const QString& configPath, QObject *parent) :
   QObject(parent), d_ptr(new QtCameraPrivate) {
 
   gst_init(0, 0);
+  qt_cam_copy_register();
 
   d_ptr->conf = new QtCamConfig(configPath, this);
   d_ptr->scanner = new QtCamScanner(d_ptr->conf, this);
@@ -56,6 +59,7 @@ QtCamera::QtCamera(QtCamConfig *config, QObject *parent) :
   QObject(parent), d_ptr(new QtCameraPrivate) {
 
   gst_init(0, 0);
+  qt_cam_copy_register();
 
   d_ptr->conf = config;
   d_ptr->scanner = new QtCamScanner(d_ptr->conf, this);
