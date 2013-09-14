@@ -97,7 +97,9 @@ PostCaptureModel::PostCaptureModel(QObject *parent) :
 
   if (m_mime.isEmpty()) {
     m_mime.insert("jpg", "image/jpeg");
+    m_mime.insert("png", "image/png");
     m_mime.insert("mp4", "video/mp4");
+    m_mime.insert("avi", "video/x-msvideo");
   }
 }
 
