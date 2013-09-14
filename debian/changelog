@@ -1,3 +1,15 @@
+cameraplus (0.0.7-1) unstable; urgency=low
+
+  * Hopefully prevent GPS from running all the time.
+  * Prevent screen dimming while playing a video in post capture
+  * Standby screen does not prevent going to settings or post capture anymore
+  * Delay capturing via proximity sensor by half a second to prevent accidental trigger.
+  * Fix a crash when capturing an image and immediately closing camera.
+  * Notify user to reboot the phone after installation.
+  * Optimize loading DCIM folder contents when navigating to post capture view
+
+ -- Mohammed Sameer <msameer@foolab.org>  Sun, 08 Sep 2013 20:55:05 +0300
+
 cameraplus (0.0.6-1) unstable; urgency=low
 
   * Make sure we don't play camera sounds in silent profile
