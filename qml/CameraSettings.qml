@@ -110,6 +110,15 @@ Column {
     }
 
     CameraTextSwitch {
+        text: qsTr("Preview images and videos after capturing")
+        visible: false
+        // We have to do it that way because QML complains about a binding
+        // loop for checked if we bind the checked property to the settings value.
+        Component.onCompleted: checked = settings.enablePreview
+        onCheckedChanged: settings.enablePreview = checked
+    }
+
+    CameraTextSwitch {
         id: useGps
         text: qsTr("Use GPS")
 

@@ -141,7 +141,11 @@ Viewfinder {
 
     Connections {
         target: loader.item
-        onPreviewAvailable: preview.setPreview(uri)
+        onPreviewAvailable: {
+            if (settings.enablePreview) {
+                preview.setPreview(uri)
+            }
+        }
     }
 
     Binding {

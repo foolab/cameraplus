@@ -36,6 +36,7 @@
 #define DEFAULT_ZOOM_AS_SHUTTER         false
 #define DEFAULT_PROXIMITY_AS_SHUTTER    false
 #define DEFAULT_DEVICE                  0
+#define DEFAULT_ENABLE_PREVIEW          true
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -440,4 +441,16 @@ int Settings::fileNamingCounter(const QString& id) const {
 void Settings::setFileNamingCounter(const QString& id, int counter) {
   QString key = QString("fileNaming/%1").arg(id);
   m_settings->setValue(key, counter);
+}
+
+bool Settings::isPreviewEnabled() const {
+  return m_settings->value("camera/enablePreview", DEFAULT_ENABLE_PREVIEW).toBool();
+}
+
+void Settings::setPreviewEnabled(bool enabled) {
+  if (enabled != isPreviewEnabled()) {
+    m_settings->setValue("camera/enablePreview", enabled);
+
+    emit previewEnabledChanged();
+  }
 }

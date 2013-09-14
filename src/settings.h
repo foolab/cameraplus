@@ -66,6 +66,7 @@ class Settings : public QObject {
   Q_PROPERTY(bool zoomAsShutter READ isZoomAsShutterEnabled WRITE setZoomAsShutterEnabled NOTIFY zoomAsShutterChanged);
   Q_PROPERTY(bool proximityAsShutter READ isProximityAsShutterEnabled WRITE setProximityAsShutterEnabled NOTIFY proximityAsShutterChanged);
   Q_PROPERTY(int device READ device WRITE setDevice NOTIFY deviceChanged);
+  Q_PROPERTY(bool enablePreview READ isPreviewEnabled WRITE setPreviewEnabled NOTIFY previewEnabledChanged);
 
 public:
   Settings(QObject *parent = 0);
@@ -158,6 +159,9 @@ public:
   int fileNamingCounter(const QString& id) const;
   void setFileNamingCounter(const QString& id, int counter);
 
+  bool isPreviewEnabled() const;
+  void setPreviewEnabled(bool enabled);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
@@ -187,6 +191,7 @@ signals:
   void proximityAsShutterChanged();
   void deviceAboutToChange();
   void deviceChanged();
+  void previewEnabledChanged();
 
 private:
   DeviceSettings *deviceSettings();
