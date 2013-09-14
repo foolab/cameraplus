@@ -23,15 +23,30 @@
 #include <QDateTime>
 #include <QUrl>
 #include <QStandardItem>
+#include <dirent.h>
+#include <sys/types.h>
+#if defined(QT4)
+#include <QDeclarativeInfo>
+#elif defined(QT5)
+#include <QQmlInfo>
+#endif
 
 static QHash<QString, QString> m_mime;
 
 class PostCaptureModelItem : public QStandardItem {
 public:
-  PostCaptureModelItem(const QString& path) :
-    m_info(QFileInfo(path)),
-    m_path(path) {
+  PostCaptureModelItem(const QString& path, const char *file) :
+    m_dir(path),
+    m_name(QString::fromLocal8Bit(file)),
+    m_info(0) {
 
+  }
+
+  ~PostCaptureModelItem() {
+    if (m_info) {
+      delete m_info;
+      m_info = 0;
+    }
   }
 
   int type() const {
@@ -39,33 +54,37 @@ public:
   }
 
   const QFileInfo *info() const {
-    return &m_info;
+    if (!m_info) {
+      m_info = new QFileInfo(path());
+    }
+
+    return m_info;
   }
 
-  QString path() {
-    return m_path;
+  QString path() const {
+    return QString("%1%2%3").arg(m_dir).arg(QDir::separator()).arg(m_name);
   }
 
   QVariant data (int role = Qt::UserRole + 1) const {
     switch (role) {
     case PostCaptureModel::UrlRole:
-      return QUrl::fromLocalFile(m_info.absoluteFilePath());
+      return QUrl::fromLocalFile(path());
 
     case PostCaptureModel::TitleRole:
-      return m_info.baseName();
+      return info()->baseName();
 
     case PostCaptureModel::MimeTypeRole:
-      if (m_mime.contains(m_info.completeSuffix())) {
-	return m_mime[m_info.completeSuffix()];
+      if (m_mime.contains(info()->completeSuffix())) {
+	return m_mime[info()->completeSuffix()];
       }
 
       return QString();
 
     case PostCaptureModel::CreatedRole:
-      return m_info.created().toString();
+      return info()->created().toString();
 
     case PostCaptureModel::FileNameRole:
-      return m_info.fileName();
+      return info()->fileName();
 
     default:
       return QVariant();
@@ -73,8 +92,9 @@ public:
   }
 
 private:
-  QFileInfo m_info;
-  QString m_path;
+  QString m_dir;
+  QString m_name;
+  mutable QFileInfo *m_info;
 };
 
 static bool lessThan(const QStandardItem *a1, const QStandardItem *a2) {
@@ -130,11 +150,32 @@ void PostCaptureModel::setVideoPath(const QString& path) {
 }
 
 void PostCaptureModel::loadDir(const QDir& dir, QList<QStandardItem *>& out) {
-  QStringList entries(dir.entryList(QDir::Files | QDir::NoDotAndDotDot));
+  QString path = dir.canonicalPath();
 
-  foreach (const QString& entry, entries) {
-    out << new PostCaptureModelItem(dir.absoluteFilePath(entry));
+  DIR *d = opendir(path.toLocal8Bit().constData());
+  if (!d) {
+    qmlInfo(this) << "Failed to open dir" << path;
+    return;
   }
+
+  while (true) {
+    struct dirent *entry = readdir(d);
+    if (!entry) {
+      break;
+    }
+
+    if (QLatin1String(".") == entry->d_name || QLatin1String("..") == entry->d_name) {
+      continue;
+    }
+
+    if (!(entry->d_type == DT_LNK || entry->d_type == DT_REG)) {
+      continue;
+    }
+
+    out << new PostCaptureModelItem(path, entry->d_name);
+  }
+
+  closedir(d);
 }
 
 void PostCaptureModel::reload() {
