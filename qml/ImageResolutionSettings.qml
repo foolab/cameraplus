@@ -33,11 +33,10 @@ Column {
         visible: aspectRatioRow.visible
     }
 
-    CameraButtonRow {
+    Row {
         id: aspectRatioRow
         width: parent.width
         enabled: camera ? camera.idle : false
-        exclusive: false
         visible: imageSettings.aspectRatioCount > 1
 
         Repeater {
@@ -57,11 +56,10 @@ Column {
         visible: resolutionsRow.visible
     }
 
-    CameraButtonRow {
+    Row {
         id: resolutionsRow
         width: parent.width
         enabled: camera ? camera.idle : false
-        exclusive: false
         visible: imageSettings.resolutions.count > 1
 
         Binding {

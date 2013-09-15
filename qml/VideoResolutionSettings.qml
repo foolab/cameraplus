@@ -34,11 +34,10 @@ Column {
         text: qsTr("Resolution")
     }
 
-    CameraButtonRow {
+    Row {
         id: resoultionsRow
         width: parent.width
         enabled: camera ? camera.idle : false
-        exclusive: false
 
         Repeater {
             id: resolutions

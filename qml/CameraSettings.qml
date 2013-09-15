@@ -40,7 +40,7 @@ Column {
         text: qsTr("Camera")
     }
 
-    CameraButtonRow {
+    Row {
         anchors.horizontalCenter: parent.horizontalCenter
         enabled: camera != null && camera.running && camera.idle
 
