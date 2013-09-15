@@ -50,6 +50,11 @@ CameraPage {
             property bool pressed: false
             property bool inhibitDim: false
             property int policyMode: settings.mode == Camera.VideoMode ? CameraResources.Video : CameraResources.Image
+            opacity: item ? 1.0 : 0
+
+            Behavior on opacity {
+                NumberAnimation {duration: 200}
+            }
         }
 
         CameraView {
@@ -66,6 +71,11 @@ CameraPage {
 
             width: mainView.width
             height: mainView.height
+            opacity: item ? 1.0 : 0
+
+            Behavior on opacity {
+                NumberAnimation {duration: 200}
+            }
         }
     }
 
