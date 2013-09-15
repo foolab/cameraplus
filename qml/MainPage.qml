@@ -83,6 +83,9 @@ CameraPage {
         onContentXChanged: {
             if (contentX == 0) {
                 settingsLoader.source = Qt.resolvedUrl("SettingsView.qml")
+            } else if (contentX == width) {
+                settingsLoader.source = ""
+                postCaptureLoader.source = ""
             } else if (contentX == width * 2) {
                 postCaptureLoader.source = Qt.resolvedUrl("PostCaptureView.qml")
             }
