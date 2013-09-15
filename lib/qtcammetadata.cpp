@@ -27,6 +27,7 @@
 #include <QTime>
 #include <QDateTime>
 #include <QPointer>
+#include <ctime>
 
 const char *orientations[] = {
   "rotate-0",
@@ -143,7 +144,33 @@ void QtCamMetaData::setOrientation(Orientation orientation) {
 }
 
 void QtCamMetaData::setArtist(const QString& artist) {
-  d_ptr->addTag(GST_TAG_ARTIST, artist);
+  /* try the shortcut first */
+  if (!artist.contains('%')) {
+    d_ptr->addTag(GST_TAG_ARTIST, artist);
+    return;
+  }
+
+  std::vector<char> result(artist.size());
+  struct tm tm;
+  time_t t;
+  t = time(NULL);
+  if (t == -1) {
+    qWarning() << "Failed to get current time";
+    d_ptr->addTag(GST_TAG_ARTIST, artist);
+    return;
+  }
+
+  if (!localtime_r(&t, &tm)) {
+    qWarning() << "Failed to get local time";
+    d_ptr->addTag(GST_TAG_ARTIST, artist);
+    return;
+  }
+
+  while (!strftime(result.data(), result.size(), artist.toUtf8().constData(), &tm)) {
+    result.resize(result.size() * 2);
+  }
+
+  d_ptr->addTag(GST_TAG_ARTIST, QString::fromUtf8(result.data()));
 }
 
 void QtCamMetaData::setDateTime(const QDateTime& dateTime) {
