@@ -34,7 +34,6 @@ CameraSlider {
         target: camera ? camera.zoom : null
         property: "value"
         value: slider.value
-        when: camera != null
     }
 
     Connections {
