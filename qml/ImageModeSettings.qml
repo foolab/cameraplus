@@ -49,9 +49,7 @@ Flickable {
 
         CameraTextSwitch {
             text: qsTr("Enable face detection")
-            // We have to do it that way because QML complains about a binding
-            // loop for checked if we bind the checked property to the settings value.
-            Component.onCompleted: checked = settings.faceDetectionEnabled
+            checked: settings.faceDetectionEnabled
             onCheckedChanged: settings.faceDetectionEnabled = checked
             visible: camera ? !camera.quirks.hasQuirk(Quirks.NoFaceDetection) : false
         }

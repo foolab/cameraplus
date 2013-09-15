@@ -63,10 +63,7 @@ Column {
     CameraTextSwitch {
         text: qsTr("Show grid lines")
 
-        // We have to do it that way because QML complains about a binding
-        // loop for checked if we bind the checked property to the settings value.
-        Component.onCompleted: checked = settings.gridEnabled
-
+        checked: settings.gridEnabled
         onCheckedChanged: settings.gridEnabled = checked
     }
 
@@ -84,37 +81,28 @@ Column {
 
     CameraTextSwitch {
         text: qsTr("Use zoom keys for capture")
-
-        // We have to do it that way because QML complains about a binding
-        // loop for checked if we bind the checked property to the settings value.
-        Component.onCompleted: checked = settings.zoomAsShutter
+        checked: settings.zoomAsShutter
         onCheckedChanged: settings.zoomAsShutter = checked
     }
 
     CameraTextSwitch {
         text: qsTr("Use proximity sensor for capture")
 
-        // We have to do it that way because QML complains about a binding
-        // loop for checked if we bind the checked property to the settings value.
-        Component.onCompleted: checked = settings.proximityAsShutter
+        checked: settings.proximityAsShutter
         onCheckedChanged: settings.proximityAsShutter = checked
     }
 
     CameraTextSwitch {
         text: qsTr("Enable camera sounds")
 
-        // We have to do it that way because QML complains about a binding
-        // loop for checked if we bind the checked property to the settings value.
-        Component.onCompleted: checked = settings.soundEnabled
+        checked: settings.soundEnabled
         onCheckedChanged: settings.soundEnabled = checked
     }
 
     CameraTextSwitch {
         text: qsTr("Preview images and videos after capturing")
         visible: false
-        // We have to do it that way because QML complains about a binding
-        // loop for checked if we bind the checked property to the settings value.
-        Component.onCompleted: checked = settings.enablePreview
+        checked: settings.enablePreview
         onCheckedChanged: settings.enablePreview = checked
     }
 
@@ -122,9 +110,7 @@ Column {
         id: useGps
         text: qsTr("Use GPS")
 
-        // We have to do it that way because QML complains about a binding
-        // loop for checked if we bind the checked property to the settings value.
-        Component.onCompleted: checked = settings.useGps
+        checked: settings.useGps
         onCheckedChanged: settings.useGps = checked
     }
 
@@ -133,10 +119,7 @@ Column {
         visible: useGps.checked
 
         text: qsTr("Use geotags")
-
-        // We have to do it that way because QML complains about a binding
-        // loop for checked if we bind the checked property to the settings value.
-        Component.onCompleted: checked = settings.useGeotags
+        checked: settings.useGeotags
         onCheckedChanged: settings.useGeotags = checked
     }
 }
