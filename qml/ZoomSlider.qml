@@ -25,7 +25,7 @@ import QtCamera 1.0
 
 CameraSlider {
     id: slider
-    property Camera camera: null
+    property Camera camera
 
     handleBackground: ""
     handleBackgroundPressed: ""
