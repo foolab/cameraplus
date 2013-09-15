@@ -63,7 +63,6 @@ CameraSlider {
         }
     }
 
-    orientation: Qt.Horizontal
     width: 500
     height: 50
     stepSize:0.1
