@@ -24,7 +24,7 @@ import QtQuick 2.0
 import QtCamera 1.0
 
 Column {
-    property Camera camera: null
+    property Camera camera
 
     id: col
     spacing: 10
@@ -38,7 +38,6 @@ Column {
 
     SectionHeader {
         text: qsTr("Camera")
-        width: parent.width
     }
 
     CameraButtonRow {
@@ -69,7 +68,6 @@ Column {
 
     SectionHeader {
         text: qsTr("Creator name")
-        width: parent.width
     }
 
     CameraTextField {
