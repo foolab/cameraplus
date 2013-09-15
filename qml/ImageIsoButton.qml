@@ -28,6 +28,14 @@ CameraToolIcon {
 
     iconSource: cameraTheme.isoIcon(settings.imageIso)
 
+    property list<ToolsModelItem> toolsModel: [
+        ToolsModelItem {icon: cameraTheme.isoAudoIconId; value: 0 },
+        ToolsModelItem {icon: cameraTheme.iso100IconId; value: 100 },
+        ToolsModelItem {icon: cameraTheme.iso200IconId; value: 200 },
+        ToolsModelItem {icon: cameraTheme.iso400IconId; value: 400 },
+        ToolsModelItem {icon: cameraTheme.iso800IconId; value: 800 }
+    ]
+
     property CameraToolBarTools tools: CameraToolBarTools {
         CameraLabel {
             height: parent ? parent.height : 0
@@ -35,49 +43,13 @@ CameraToolIcon {
             verticalAlignment: Text.AlignVCenter
         }
 
-        CameraButton {
-            property int value: 0
-            onClicked: settings.imageIso = value
-            text: qsTr("Auto")
-            width: 100
-            checked: settings.imageIso == value
-            anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-        }
-
-        CameraButton {
-            property int value: 100
-            onClicked: settings.imageIso = value
-            text: value
-            width: 100
-            checked: settings.imageIso == value
-            anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-        }
-
-        CameraButton {
-            property int value: 200
-            onClicked: settings.imageIso = value
-            text: value
-            width: 100
-            checked: settings.imageIso == value
-            anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-        }
-
-        CameraButton {
-            property int value: 400
-            onClicked: settings.imageIso = value
-            text: value
-            width: 100
-            checked: settings.imageIso == value
-            anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-        }
-
-        CameraButton {
-            property int value: 800
-            onClicked: settings.imageIso = value
-            text: value
-            width: 100
-            checked: settings.imageIso == value
-            anchors.verticalCenter: parent ? parent.verticalCenter : undefined
+        Repeater {
+            model: parent != null && parent.visible ? toolsModel : undefined
+            delegate: CheckButton {
+                iconSource: icon
+                onClicked: settings.imageIso = value
+                checked: settings.imageIso == value
+            }
         }
     }
 }
