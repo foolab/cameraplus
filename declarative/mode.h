@@ -37,6 +37,7 @@ class Mode : public QObject {
   Q_PROPERTY(bool canCapture READ canCapture NOTIFY canCaptureChanged);
   Q_PROPERTY(bool active READ isActive NOTIFY activeChanged);
   Q_PROPERTY(bool ready READ isReady NOTIFY isReadyChanged);
+  Q_PROPERTY(bool enablePreview READ isPreviewEnabled WRITE setPreviewEnabled NOTIFY enablePreviewChanged);
 
 public:
   Mode(QObject *parent = 0);
@@ -51,6 +52,9 @@ public:
 
   bool isReady() const;
 
+  bool isPreviewEnabled();
+  void setPreviewEnabled(bool enabled);
+
 signals:
   void cameraChanged();
   void canCaptureChanged();
@@ -58,6 +62,7 @@ signals:
   void previewAvailable(const QString& preview, const QString& fileName);
   void saved(const QString& fileName);
   void isReadyChanged();
+  void enablePreviewChanged();
 
 private slots:
   void gotPreview(const QImage& image, const QString& fileName);
@@ -73,7 +78,10 @@ protected:
   QPointer<QtCamMode> m_mode;
 
 private:
+  void setPreviewState();
+
   unsigned long long m_seq;
+  bool m_previewEnabled;
 };
 
 #endif /* MODE_H */

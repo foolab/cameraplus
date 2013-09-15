@@ -28,7 +28,8 @@ Mode::Mode(QObject *parent) :
   QObject(parent),
   m_cam(0),
   m_mode(0),
-  m_seq(0) {
+  m_seq(0),
+  m_previewEnabled(true) {
 
 }
 
@@ -94,6 +95,8 @@ void Mode::deviceChanged() {
     QObject::connect(m_cam->device(), SIGNAL(runningStateChanged(bool)),
 		     this, SIGNAL(canCaptureChanged()));
 
+    setPreviewState();
+
     postChangeMode();
   }
 
@@ -130,5 +133,30 @@ void Mode::prepareForDeviceChange() {
 			this, SIGNAL(canCaptureChanged()));
 
     preChangeMode();
+  }
+}
+
+bool Mode::isPreviewEnabled() {
+  return m_previewEnabled;
+}
+
+void Mode::setPreviewEnabled(bool enabled) {
+  if (enabled != m_previewEnabled) {
+    m_previewEnabled = enabled;
+
+    if (m_mode) {
+      setPreviewState();
+    }
+
+    emit enablePreviewChanged();
+  }
+}
+
+void Mode::setPreviewState() {
+  if (m_previewEnabled) {
+    m_mode->enablePreview();
+  }
+  else {
+    m_mode->disablePreview();
   }
 }
