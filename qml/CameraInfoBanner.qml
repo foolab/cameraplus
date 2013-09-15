@@ -21,7 +21,50 @@
  */
 
 import QtQuick 1.1
-import com.nokia.extras 1.1
 
-InfoBanner {
+Rectangle {
+    property alias text: label.text
+    property bool shown: false
+
+    width: parent.width - 16
+    height: label.height * 2
+    y: shown ? 8 : - (height + 8)
+    anchors.horizontalCenter: parent.horizontalCenter
+    color: "black"
+    border.color: "gray"
+    radius: 20
+
+    Behavior on y {
+        NumberAnimation {duration: 200}
+    }
+
+    Timer {
+        id: timer
+        repeat: false
+        interval: 3000
+        onTriggered: hide()
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: parent.hide()
+    }
+
+    CameraLabel {
+        id: label
+        anchors.verticalCenter: parent.verticalCenter
+        elide: Text.ElideRight
+        maximumLineCount: 1
+        x: 16
+    }
+
+    function show() {
+        shown = true
+        timer.restart()
+    }
+
+    function hide() {
+        shown = false
+        timer.stop()
+    }
 }
