@@ -25,7 +25,7 @@ import QtCamera 1.0
 
 CameraToolIcon {
     id: button
-    property Camera camera: null
+    property Camera camera
 
     iconSource: settings.videoTorchOn ? cameraTheme.cameraTorchOnIconId : cameraTheme.cameraTorchOffIconId
     onClicked: settings.videoTorchOn = !settings.videoTorchOn

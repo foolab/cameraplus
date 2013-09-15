@@ -25,11 +25,7 @@ import QtCamera 1.0
 import CameraPlus 1.0
 
 Item {
-    property Camera camera: null
-    property int policyMode: settings.mode == Camera.VideoMode ? CameraResources.Video
-        : CameraResources.Image
-    property bool pressed: false
-    property bool inhibitDim: false
+    property Camera camera: viewfinder.camera
 
     Loader {
         id: loader

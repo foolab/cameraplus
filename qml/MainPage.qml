@@ -42,10 +42,14 @@ CameraPage {
     VisualItemModel {
         id: mainModel
 
-        SettingsView {
-            camera: viewfinder.camera
+        Loader {
+            id: settingsLoader
             width: mainView.width
             height: mainView.height
+
+            property bool pressed: false
+            property bool inhibitDim: false
+            property int policyMode: settings.mode == Camera.VideoMode ? CameraResources.Video : CameraResources.Image
         }
 
         CameraView {
@@ -54,8 +58,12 @@ CameraPage {
             height: mainView.height
         }
 
-        PostCaptureView {
-            camera: viewfinder.camera
+        Loader {
+            id: postCaptureLoader
+            property bool pressed: item ? item.pressed : false
+            property bool inhibitDim: item ? item.inhibitDim : false
+            property int policyMode: item ? item.policyMode : settings.mode == Camera.VideoMode ? CameraResources.Video : CameraResources.Image
+
             width: mainView.width
             height: mainView.height
         }
@@ -72,6 +80,13 @@ CameraPage {
         boundsBehavior: Flickable.StopAtBounds
         currentIndex: 1
         interactive: !currentItem.pressed
+        onContentXChanged: {
+            if (contentX == 0) {
+                settingsLoader.source = Qt.resolvedUrl("SettingsView.qml")
+            } else if (contentX == width * 2) {
+                postCaptureLoader.source = Qt.resolvedUrl("PostCaptureView.qml")
+            }
+        }
     }
 
     Component.onCompleted: {

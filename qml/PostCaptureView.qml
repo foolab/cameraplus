@@ -27,7 +27,7 @@ import QtCamera 1.0
 Item {
     id: postCaptureView
 
-    property Camera camera: null
+    property Camera camera: viewfinder.camera
     property bool pressed: view.currentItem ? view.currentItem.playing : false
     property int policyMode: view.currentItem && view.currentItem.playing ?
         CameraResources.Player : settings.mode == Camera.VideoMode ? CameraResources.Video :
