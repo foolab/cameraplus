@@ -1,3 +1,13 @@
+cameraplus (0.0.8-1) unstable; urgency=low
+
+  * Reworked preview animation
+  * Fixed reboot banner not showing up (Fix by SteveYoungs).
+  * Improved start up time a bit
+  * Added an option to disable preview for captured images and recorded videos
+  * Added support for strftime() formatting to creator name text
+
+ -- Mohammed Sameer <msameer@foolab.org>  Sun, 15 Sep 2013 03:55:00 +0300
+
 cameraplus (0.0.7-1) unstable; urgency=low
 
   * Hopefully prevent GPS from running all the time.
