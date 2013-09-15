@@ -21,8 +21,10 @@
  */
 
 import QtQuick 1.1
-import com.nokia.meego 1.1
 
-Label {
-
+Text {
+    font.family: "Nokia Pure Text"
+    font.pixelSize: 24
+    color: "#ffffff"
+    wrapMode: Text.Wrap
 }
