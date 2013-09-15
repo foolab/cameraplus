@@ -44,6 +44,7 @@ Column {
             id: aspectRatios
             model: imageSettings.aspectRatios
             delegate: CameraButton {
+                width: aspectRatioRow.width / aspectRatios.count
                 text: qsTr(modelData)
                 checked: settings.imageAspectRatio == modelData
                 onClicked: settings.imageAspectRatio = modelData
@@ -75,6 +76,7 @@ Column {
                 imageSettings.resolutions : undefined
 
             delegate: CameraButton {
+                width: resolutionsRow.width / resolutions.count
                 capitalize: true
                 text: qsTr("%1 %2 Mpx").arg(resolutionName).arg(megaPixels)
                 checked: settings.imageResolution == resolutionName

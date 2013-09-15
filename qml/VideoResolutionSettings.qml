@@ -35,6 +35,7 @@ Column {
     }
 
     CameraButtonRow {
+        id: resoultionsRow
         width: parent.width
         enabled: camera ? camera.idle : false
         exclusive: false
@@ -45,6 +46,7 @@ Column {
             model: videoSettings.resolutions
 
             delegate: CameraButton {
+                width: resoultionsRow.width / resolutions.count
                 capitalize: true
                 text: qsTr("%1 %2").arg(resolutionName).arg(resolution)
                 checked: settings.videoResolution == resolutionName

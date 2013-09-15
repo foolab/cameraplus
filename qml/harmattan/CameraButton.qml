@@ -21,9 +21,56 @@
  */
 
 import QtQuick 1.1
-import com.nokia.meego 1.1
 
-Button {
+Item {
+    id: button
     property bool capitalize
-    font.capitalization: capitalize ? Font.Capitalize : Font.MixedCase
+    width: platformStyle.buttonWidth
+    height: platformStyle.buttonHeight
+
+    signal clicked
+    property bool checked
+    property bool checkable
+    property alias text: label.text
+    property alias pressed: mouse.pressed
+    property alias enabled: mouse.enabled
+    property CameraButtonStyle platformStyle: CameraButtonStyle {}
+
+    MouseArea {
+        id: mouse
+        anchors.fill: parent
+        onClicked: parent.clicked()
+    }
+
+    BorderImage {
+        id: background
+        anchors.fill: parent
+        border { left: button.platformStyle.backgroundMarginLeft; top: button.platformStyle.backgroundMarginTop;
+                 right: button.platformStyle.backgroundMarginRight; bottom: button.platformStyle.backgroundMarginBottom }
+
+        source: !enabled ?
+                  (checked ? button.platformStyle.checkedDisabledBackground : button.platformStyle.disabledBackground) :
+                  pressed ?
+                      button.platformStyle.pressedBackground :
+                  checked ?
+                      button.platformStyle.checkedBackground :
+                      button.platformStyle.background;
+    }
+
+    CameraLabel {
+        id: label
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: 10
+        anchors.left: parent.left
+        anchors.leftMargin: 10
+        horizontalAlignment: Text.AlignHCenter
+        font.bold: true
+        font.capitalization: parent.capitalize ? Font.Capitalize : Font.MixedCase
+        color: !enabled ? button.platformStyle.disabledTextColor :
+               pressed ? button.platformStyle.pressedTextColor :
+               checked ? button.platformStyle.checkedTextColor :
+                         button.platformStyle.textColor;
+        elide: Text.ElideRight
+    }
 }
