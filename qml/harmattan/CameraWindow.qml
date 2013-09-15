@@ -23,21 +23,19 @@
 import QtQuick 1.1
 import com.nokia.meego 1.1
 
-// PageStackWindow has the ugly toolbar which is always visible
-// upon startup no matter what I do.
-
 Window {
+    id: window
     property Component initialPage
+    property Item page
 
-    PageStack {
-        id: stack
-    }
-
+    Component.onDestruction: page.destroy()
     Component.onCompleted: {
+        screen.setAllowedOrientations(Screen.Landscape)
         theme.inverted = true
 
         if (initialPage) {
-            stack.push(initialPage)
+            page = initialPage.createObject(window)
+            page.visible = true
         }
     }
 }

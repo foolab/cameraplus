@@ -21,9 +21,7 @@
  */
 
 import QtQuick 1.1
-import com.nokia.meego 1.1
 
-Page {
+Item {
     anchors.fill: parent
-    orientationLock: PageOrientation.LockLandscape
 }
