@@ -52,6 +52,9 @@ public:
 
   QtCamDevice *device() const;
 
+  virtual void enablePreview() = 0;
+  void disablePreview();
+
 public slots:
   void activate();
 

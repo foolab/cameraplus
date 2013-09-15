@@ -159,3 +159,7 @@ bool QtCamMode::isActive() {
 QtCamDevice *QtCamMode::device() const {
   return d_ptr->dev->q_ptr;
 }
+
+void QtCamMode::disablePreview() {
+  d_ptr->setPreviewSize(QSize());
+}

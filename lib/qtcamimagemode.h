@@ -51,6 +51,8 @@ public:
 
   QtCamImageSettings *settings() const;
 
+  void enablePreview();
+
 signals:
   void captureStarted();
   void captureEnded();

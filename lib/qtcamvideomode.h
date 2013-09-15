@@ -55,6 +55,8 @@ public:
 
   QtCamVideoSettings *settings();
 
+  void enablePreview();
+
 public slots:
   void stopRecording(bool sync);
 

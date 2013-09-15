@@ -80,7 +80,7 @@ void QtCamImageMode::applySettings() {
   // we use. For now we will not set any FPS.
   d_ptr->setCaps("image-capture-caps", d->resolution.captureResolution(), -1);
 
-  d_ptr->setPreviewSize(d->resolution.previewResolution());
+  enablePreview();
 
   // If we don't reset the caps then: if we switch from video to image then we fail
   // the next time we restart the pipeline.
@@ -146,4 +146,8 @@ QtCamImageSettings *QtCamImageMode::settings() const {
 
 QtCamImageResolution QtCamImageMode::currentResolution() {
   return d->resolution;
+}
+
+void QtCamImageMode::enablePreview() {
+  d_ptr->setPreviewSize(d->resolution.previewResolution());
 }

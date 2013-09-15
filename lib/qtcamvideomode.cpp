@@ -133,7 +133,7 @@ void QtCamVideoMode::applySettings() {
 
   d_ptr->setCaps("video-capture-caps", d->resolution.captureResolution(), fps);
 
-  d_ptr->setPreviewSize(d->resolution.previewResolution());
+  enablePreview();
 
   // Not sure this is needed but just in case.
   d_ptr->resetCaps("image-capture-caps");
@@ -237,6 +237,10 @@ QtCamVideoSettings *QtCamVideoMode::settings() {
 
 QtCamVideoResolution QtCamVideoMode::currentResolution() {
   return d->resolution;
+}
+
+void QtCamVideoMode::enablePreview() {
+  d_ptr->setPreviewSize(d->resolution.previewResolution());
 }
 
 #include "moc_qtcamvideomode.cpp"
