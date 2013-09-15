@@ -21,8 +21,22 @@
  */
 
 import QtQuick 1.1
-import com.nokia.meego 1.1
 
-ToolIcon {
+Item {
+    signal clicked
+    width: 80
+    height: 64
 
+    property url iconSource
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: parent.clicked()
+    }
+
+    Image {
+        anchors.centerIn: parent
+        asynchronous: true
+        source: parent.iconSource
+    }
 }
