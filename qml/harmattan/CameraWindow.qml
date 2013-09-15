@@ -27,7 +27,7 @@ import com.nokia.meego 1.1
 // upon startup no matter what I do.
 
 Window {
-    property variant initialPage
+    property Component initialPage
 
     PageStack {
         id: stack
