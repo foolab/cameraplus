@@ -25,10 +25,11 @@ import QtCamera 1.0
 
 Image {
     id: image
-    anchors.fill: parent
+    x: 0
+    y: 0
+    width: parent.width
+    height: parent.height
     property alias animationRunning: animation.running
-
-    visible: opacity != 0
 
     cache: false
     fillMode: Image.PreserveAspectFit
@@ -40,16 +41,24 @@ Image {
 
     SequentialAnimation {
         id: animation
+
+        onRunningChanged: {
+            if (!running) {
+                image.visible = false
+                image.x = 0
+            }
+        }
+
         PauseAnimation {
-            duration: 500
+            duration: 250
             alwaysRunToEnd: true
         }
 
         NumberAnimation {
-            target: preview
-            property: "opacity"
-            from: 1
-            to: 0
+            target: image
+            property: "x"
+            from: 0
+            to: parent.width
             duration: 250
             alwaysRunToEnd: true
         }
@@ -57,7 +66,8 @@ Image {
 
     function setPreview(preview) {
         image.source = preview
-        image.opacity = 1
+        image.x = 0
+        image.visible = true
         animation.start()
     }
 }
