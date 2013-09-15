@@ -41,6 +41,7 @@ Column {
         visible: imageSettings.aspectRatioCount > 1
 
         Repeater {
+            id: aspectRatios
             model: imageSettings.aspectRatios
             delegate: CameraButton {
                 text: qsTr(modelData)
