@@ -45,6 +45,8 @@ Item {
 
         onCaptureEnded: stopAutoFocus()
 
+        enablePreview: settings.enablePreview
+
         onPreviewAvailable: overlay.previewAvailable(preview)
 
         onSaved: mountProtector.unlock(fileNaming.imagePath)

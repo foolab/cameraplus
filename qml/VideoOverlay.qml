@@ -44,6 +44,7 @@ Item {
     VideoMode {
         id: videoMode
         camera: cam
+        enablePreview: settings.enablePreview
         onPreviewAvailable: overlay.previewAvailable(preview)
     }
 

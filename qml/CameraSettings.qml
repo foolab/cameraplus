@@ -99,7 +99,6 @@ Column {
 
     CameraTextSwitch {
         text: qsTr("Preview images and videos after capturing")
-        visible: false
         checked: settings.enablePreview
         onCheckedChanged: settings.enablePreview = checked
     }
