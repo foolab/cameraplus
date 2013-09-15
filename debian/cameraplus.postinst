@@ -1,7 +1,10 @@
 #!/bin/sh
 
+set -e
+
 case "$1" in
     configure)
+        source /tmp/session_bus_address.user
         /usr/bin/dbus-send --print-reply --dest=com.meego.core.MNotificationManager \
         /notificationmanager com.meego.core.MNotificationManager.addNotification \
         uint32:0 uint32:0 string:'device' \
