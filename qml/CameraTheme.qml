@@ -86,15 +86,7 @@ QtObject {
     property string resetIconId: "image://theme/cameraplus-icon-m-settings-reset"
 
     function videoIcon(ratio, res, device) {
-        if (res == "high") {
-            return "image://theme/cameraplus-icon-m-camera-video-high-resolution"
-        } else if (res == "medium") {
-            return "image://theme/cameraplus-icon-m-camera-video-fine-resolution"
-        } else if (res == "low") {
-            return "image://theme/cameraplus-icon-m-camera-video-low-resolution"
-        } else {
-            return ""
-        }
+        return "image://theme/cameraplus-icon-m-camera-video-"+ res + "-resolution"
     }
 
     function whiteBalanceIcon(val) {
