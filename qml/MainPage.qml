@@ -146,12 +146,6 @@ CameraPage {
                 videoSettings.setVideoResolution()
             }
         }
-
-        onVideoAspectRatioChanged: {
-            if (!root.deviceChangeInProgress) {
-                videoSettings.setVideoResolution()
-            }
-        }
     }
 
     PipelineManager {
