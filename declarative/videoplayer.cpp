@@ -114,7 +114,6 @@ void VideoPlayer::classBegin() {
     qmlInfo(this) << "Failed to create pulsesink";
   }
   else {
-    // TODO: properties on sink
     g_object_set (m_bin, "audio-sink", elem, NULL);
   }
 

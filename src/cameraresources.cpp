@@ -278,6 +278,7 @@ bool CameraResourcesWorker::updateSet(const QList<ResourcePolicy::ResourceType>&
 
     ResourcePolicy::AudioResource *audio = new ResourcePolicy::AudioResource(APPLICATION_CLASS);
     audio->setProcessID(QCoreApplication::applicationPid());
+    audio->setStreamTag("media.name", "*");
     audio->setOptional(isOptional);
     m_set->addResourceObject(audio);
   }
