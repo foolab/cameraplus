@@ -23,6 +23,7 @@
 #include <QDate>
 #include <QDateTime>
 #include <QFile>
+#include "settings.h"
 #if defined(QT4)
 #include <QDeclarativeInfo>
 #elif defined(QT5)
@@ -88,7 +89,13 @@ QString FileNaming::fileName(const QString& path, const QString& suffix, const T
     return QString();
   }
 
-  QString date = QDateTime::currentDateTime().toUTC().date().toString("yyyyMMdd");
+  QString date;
+  if (m_settings && !m_settings->isUtcForFileNamingUsed()) {
+    date = QDate::currentDate().toString("yyyyMMdd");
+  }
+  else {
+    date = QDateTime::currentDateTime().toUTC().date().toString("yyyyMMdd");
+  }
   QDir dir(path);
 
   // index is the last used index

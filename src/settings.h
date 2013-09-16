@@ -67,6 +67,7 @@ class Settings : public QObject {
   Q_PROPERTY(bool proximityAsShutter READ isProximityAsShutterEnabled WRITE setProximityAsShutterEnabled NOTIFY proximityAsShutterChanged);
   Q_PROPERTY(int device READ device WRITE setDevice NOTIFY deviceChanged);
   Q_PROPERTY(bool enablePreview READ isPreviewEnabled WRITE setPreviewEnabled NOTIFY previewEnabledChanged);
+  Q_PROPERTY(bool useUtcForFileNaming READ isUtcForFileNamingUsed CONSTANT);
 
 public:
   Settings(QObject *parent = 0);
@@ -161,6 +162,8 @@ public:
 
   bool isPreviewEnabled() const;
   void setPreviewEnabled(bool enabled);
+
+  bool isUtcForFileNamingUsed() const;
 
 signals:
   void modeChanged();
