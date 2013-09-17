@@ -37,7 +37,6 @@
 #define DEFAULT_PROXIMITY_AS_SHUTTER    false
 #define DEFAULT_DEVICE                  0
 #define DEFAULT_ENABLE_PREVIEW          true
-#define DEFAULT_FILE_NAMING_UTC         true
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -454,8 +453,4 @@ void Settings::setPreviewEnabled(bool enabled) {
 
     emit previewEnabledChanged();
   }
-}
-
-bool Settings::isUtcForFileNamingUsed() const {
-  return m_settings->value("fileNaming/useUtc", DEFAULT_FILE_NAMING_UTC).toBool();
 }
