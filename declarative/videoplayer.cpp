@@ -29,6 +29,7 @@
 #include "qtcamviewfinderrenderer.h"
 #include <QPainter>
 #include <QMatrix4x4>
+#include <cmath>
 
 #if defined(QT4)
 VideoPlayer::VideoPlayer(QDeclarativeItem *parent) :
@@ -107,6 +108,7 @@ void VideoPlayer::classBegin() {
     return;
   }
 
+  g_signal_connect (G_OBJECT (m_bin), "notify::volume", G_CALLBACK (on_volume_changed), this);
   g_object_set (m_bin, "flags", 99, NULL);
 
   GstElement *elem = gst_element_factory_make("pulsesink", "VideoPlayerPulseSink");
@@ -429,4 +431,30 @@ gboolean VideoPlayer::bus_call(GstBus *bus, GstMessage *msg, gpointer data) {
 
 void VideoPlayer::updateRequested() {
   update();
+}
+
+quint32 VideoPlayer::volume() {
+  double vol = 1.0;
+  g_object_get (m_bin, "volume", &vol, NULL);
+
+  qint32 res = (int)round(vol * 100.0);
+
+  return res;
+}
+
+void VideoPlayer::setVolume(quint32 volume) {
+  if (VideoPlayer::volume() != volume) {
+    double vol = volume / 100.0;
+    g_object_set (m_bin, "volume", vol, NULL);
+    emit volumeChanged();
+  }
+}
+
+void VideoPlayer::on_volume_changed(GObject *object, GParamSpec *pspec, gpointer user_data) {
+  Q_UNUSED(object);
+  Q_UNUSED(pspec);
+
+  VideoPlayer *player = (VideoPlayer *) user_data;
+
+  QMetaObject::invokeMethod(player, "volumeChanged", Qt::QueuedConnection);
 }

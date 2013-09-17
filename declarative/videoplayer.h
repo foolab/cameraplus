@@ -47,6 +47,7 @@ class VideoPlayer : public QQuickPaintedItem {
   Q_PROPERTY(qint64 position READ position WRITE setPosition NOTIFY positionChanged);
   Q_PROPERTY(State state READ state NOTIFY stateChanged);
   Q_ENUMS(State);
+  Q_PROPERTY(quint32 volume READ volume WRITE setVolume NOTIFY volumeChanged);
 
 public:
 
@@ -90,6 +91,9 @@ public:
 
   State state() const;
 
+  quint32 volume();
+  void setVolume(quint32 volume);
+
 signals:
   void sourceChanged();
   void cameraConfigChanged();
@@ -98,6 +102,7 @@ signals:
   void positionChanged();
   void error(const QString& message, int code, const QString& debug);
   void stateChanged();
+  void volumeChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
@@ -107,6 +112,7 @@ private slots:
 
 private:
   static gboolean bus_call(GstBus *bus, GstMessage *msg, gpointer data);
+  static void on_volume_changed(GObject *object, GParamSpec *pspec, gpointer user_data);
 
   bool setState(const State& state);
 

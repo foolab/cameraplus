@@ -55,7 +55,44 @@ Item {
         onTriggered: toolBar.show = false
     }
 
+    DeviceKeys {
+        id: zoomKeys
+        active: Qt.application.active && pipelineManager.scaleAcquired
+        repeat: true
+
+        onVolumeUpPressed: {
+            timer.restart()
+            video.volume = Math.min(video.volume + 2, 100)
+        }
+
+        onVolumeDownPressed: {
+            timer.restart()
+            video.volume = Math.max(video.volume - 2, 0)
+        }
+    }
+
     VideoPlayer {
+        Rectangle {
+            id: volumeControl
+            anchors.top: parent.top
+            anchors.left: parent.left
+            width: (parent.width * video.volume) / 100
+            color: "blue"
+            border.color: "black"
+            height: 25
+            opacity: timer.running ? 1.0 : 0.0
+
+            Behavior on opacity {
+                NumberAnimation { duration: 250 }
+            }
+
+            Timer {
+                id: timer
+                interval: 500
+                repeat: false
+            }
+        }
+
         id: video
         anchors.fill: parent
         cameraConfig: camera.cameraConfig

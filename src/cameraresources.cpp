@@ -225,7 +225,8 @@ void CameraResourcesWorker::acquire(bool *ok, const CameraResources::Mode& mode)
     *ok = updateSet(QList<ResourcePolicy::ResourceType>()
 		    << ResourcePolicy::VideoPlaybackType
 		    << ResourcePolicy::AudioPlaybackType,
-		    QList<ResourcePolicy::ResourceType>());
+		    QList<ResourcePolicy::ResourceType>()
+		    << ResourcePolicy::ScaleButtonType);
     break;
 
   default:
