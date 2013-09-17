@@ -14,4 +14,11 @@
 		<credential name="CAP::fowner" />
 		<for path="/usr/bin/cameraplus" />
 	</request>
+	<request policy="setxid">
+		<credential name="UID::user" />
+		<credential name="GID::root" />
+		<credential name="CAP::setuid" />
+		<credential name="CAP::setgid" />
+		<for path="/usr/bin/restart-mthemedaemon.sh" />
+	</request>
 </aegis>

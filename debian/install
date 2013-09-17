@@ -6,3 +6,4 @@ data/n9/image.gep usr/share/qtcamera/config/
 data/n9/video.gep usr/share/qtcamera/config/
 debian/cameraplus.png usr/share/themes/base/meegotouch/icons/
 icons/*.png usr/share/themes/blanco/meegotouch/icons/
+debian/restart-mthemedaemon.sh usr/bin/
