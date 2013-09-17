@@ -164,7 +164,6 @@ qint64 VideoPlayer::duration() const {
   GstFormat format = GST_FORMAT_TIME;
   qint64 dur = 0;
   if (!gst_element_query_duration(m_bin, &format, &dur)) {
-    qmlInfo(this) << "Failed to query pipeline duration";
     return 0;
   }
 
@@ -186,7 +185,6 @@ qint64 VideoPlayer::position() {
   GstFormat format = GST_FORMAT_TIME;
   qint64 pos = 0;
   if (!gst_element_query_position(m_bin, &format, &pos)) {
-    qmlInfo(this) << "Failed to query pipeline position";
     return m_pos;
   }
 
