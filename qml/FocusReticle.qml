@@ -63,7 +63,6 @@ MouseArea {
 
     property variant __initialPos
     onPressed: {
-
         if (mouse.x >= reticle.x &&
             mouse.y >= reticle.y &&
             mouse.x <= reticle.x + reticle.width &&
