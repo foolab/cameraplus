@@ -9,7 +9,7 @@ case "$1" in
         /notificationmanager com.meego.core.MNotificationManager.addNotification \
         uint32:0 uint32:0 string:'device' \
         string:'' string:'Camera+ installed. Please restart your phone!' string:'' \
-        string:'icon-m-toolbar-done' uint32:0
+        string:'icon-m-toolbar-done' uint32:0 > /dev/null 2>&1
         ;;
 esac
 
