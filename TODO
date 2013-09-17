@@ -3,6 +3,7 @@ Missing big features:
 * timer
 * panorama
 * HDR
+* Sequential shots
 * fcam like functionality for QtCamera (precise control over frame parameters)
 * Zoom images in post capture
 * portrait mode for image and video modes.
