@@ -26,40 +26,34 @@ import QtCamera 1.0
 Rectangle {
     id: controller
     property Camera cam
-    property bool busy: cam.mode != settings.mode
-    property bool dimmed
+    property alias busy: animation.running
 
     z: 1
     anchors.fill: parent
-    opacity: dimmed ? 1.0 : 0.0
     color: "black"
+    opacity: 0
 
-    Behavior on opacity {
-        PropertyAnimation { duration: 150 }
-    }
+    SequentialAnimation {
+        id: animation
 
-    onBusyChanged: {
-        if (busy) {
-            controller.dimmed = true
+        alwaysRunToEnd: true
+        running: cam.mode != settings.mode
+
+        PropertyAnimation {
+            properties: "opacity"
+            target: controller
+            duration: 150
+            to: 1.0
         }
-    }
 
-    Connections {
-        target: controller.cam
-        onModeChanged: {
-            controller.dimmed = false
-        }
-    }
+        PauseAnimation { duration: 50 }
+        ScriptAction { script: root.resetCamera(cam.deviceId, settings.mode) }
 
-    PauseAnimation {
-        id: pause
-        duration: 50
-        running: controller.opacity == 1.0 && controller.busy
-
-        onRunningChanged: {
-            if (!running && controller.busy) {
-                root.resetCamera(cam.deviceId, settings.mode)
-            }
+        PropertyAnimation {
+            properties: "opacity"
+            target: controller
+            duration: 50
+            to: 0
         }
     }
 }
