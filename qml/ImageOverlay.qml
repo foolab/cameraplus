@@ -31,8 +31,9 @@ Item {
     property bool animationRunning: false
     property int policyMode: CameraResources.Image
     property bool pressed: capture.pressed || zoomSlider.pressed || modeButton.pressed
+// TODO: combine modeController.opacity & modeController.busy
     property bool controlsVisible: imageMode.canCapture && cam.running && !animationRunning
-        && dimmer.opacity == 0.0 && !cameraMode.busy
+        && modeController.opacity == 0.0 && !modeController.busy
     property bool inhibitDim: false
 
     signal previewAvailable(string uri)

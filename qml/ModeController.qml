@@ -23,29 +23,38 @@
 import QtQuick 2.0
 import QtCamera 1.0
 
-Item {
+Rectangle {
     id: controller
-    property Camera cam: null
-    property Item dimmer: null
+    property Camera cam
     property bool busy: cam.mode != settings.mode
+    property bool dimmed
+
+    z: 1
+    anchors.fill: parent
+    opacity: dimmed ? 1.0 : 0.0
+    color: "black"
+
+    Behavior on opacity {
+        PropertyAnimation { duration: 150 }
+    }
 
     onBusyChanged: {
         if (busy) {
-            controller.dimmer.dimmed = true
+            controller.dimmed = true
         }
     }
 
     Connections {
         target: controller.cam
         onModeChanged: {
-            controller.dimmer.dimmed = false
+            controller.dimmed = false
         }
     }
 
     PauseAnimation {
         id: pause
         duration: 50
-        running: controller.dimmer.opacity == 1.0 && controller.busy
+        running: controller.opacity == 1.0 && controller.busy
 
         onRunningChanged: {
             if (!running && controller.busy) {

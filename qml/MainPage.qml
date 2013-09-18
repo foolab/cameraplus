@@ -33,7 +33,6 @@ CameraPage {
 
     property bool deviceChangeInProgress: false
     property bool inCaptureMode: mainView.currentIndex == 1
-    property Item dimmer: camDimmer
 
     CameraTheme {
         id: cameraTheme
@@ -284,21 +283,8 @@ CameraPage {
     }
 
     ModeController {
-        id: cameraMode
+        id: modeController
         cam: viewfinder.camera
-        dimmer: root.dimmer
-    }
-
-    Rectangle {
-        property bool dimmed: false
-        id: camDimmer
-        z: 1
-        anchors.fill: parent
-        opacity: dimmed ? 1.0 : 0.0
-        color: "black"
-        Behavior on opacity {
-            PropertyAnimation { duration: 150 }
-        }
     }
 
     DeviceKeys {
