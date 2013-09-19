@@ -319,7 +319,7 @@ CameraPage {
 
     Standby {
         policyLost: pipelineManager.state == "policyLost"
-        show: !Qt.application.active || pipelineManager.showStandBy ||
+        visible: !Qt.application.active || pipelineManager.showStandBy ||
             (inCaptureMode && !viewfinder.camera.running)
     }
 }

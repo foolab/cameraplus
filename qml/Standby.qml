@@ -25,19 +25,11 @@ import QtQuick 2.0
 Rectangle {
     id: standby
 
-    property bool show: true
     property bool policyLost: false
 
     color: "black"
     anchors.fill: parent
     z: 2
-
-    visible: opacity != 0.0
-    opacity: show ? 1.0 : 0.0
-
-    Behavior on opacity {
-        PropertyAnimation { duration: 250 }
-    }
 
     Image {
         id: icon
