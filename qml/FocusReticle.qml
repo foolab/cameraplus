@@ -174,17 +174,7 @@ MouseArea {
 
         onXChanged: setRegionOfInterest()
         onYChanged: setRegionOfInterest()
-        /*
-        Behavior on x {
-            PropertyAnimation { duration: 100 }
-            enabled: !mouse.pressed
-        }
 
-        Behavior on y {
-            PropertyAnimation { duration: 100 }
-            enabled: !mouse.pressed
-        }
-        */
         Behavior on width {
             PropertyAnimation { duration: 100 }
         }
