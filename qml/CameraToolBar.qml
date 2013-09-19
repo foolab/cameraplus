@@ -142,7 +142,7 @@ Rectangle {
     Rectangle {
         id: dock
         property real menuWidth: parent.hideBack ? 0 : menu.width
-        property real leftMargin: (parent.width - __currentTools.childrenWidth - menuWidth) / __currentTools.childrenLen
+        property real leftMargin: __currentTools ? (parent.width - __currentTools.childrenWidth - menuWidth) / __currentTools.childrenLen : 0
         color: "transparent"
         anchors.top: parent.top
         anchors.bottom: parent.bottom
