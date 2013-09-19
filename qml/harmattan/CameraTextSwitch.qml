@@ -21,21 +21,8 @@
  */
 
 import QtQuick 1.1
+import com.nokia.meego 1.0
 
-Item {
-    property alias text: label.text
-    property alias checked: switchComponent.checked
-    width: parent.width
-    height: switchComponent.height
+CheckBox {
 
-    CameraLabel {
-        id: label
-        anchors.left: parent.left
-        wrapMode: Text.Wrap
-    }
-
-    CameraSwitch {
-        id: switchComponent
-        anchors.right: parent.right
-    }
 }
