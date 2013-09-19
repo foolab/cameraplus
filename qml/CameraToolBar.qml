@@ -21,6 +21,7 @@
  */
 
 import QtQuick 2.0
+import CameraPlus 1.0
 import "CameraToolBar.js" as Layout
 
 Rectangle {
@@ -37,19 +38,19 @@ Rectangle {
 
     function push(tools) {
         if (expanded) {
-            __currentTools = Layout.pushAndShow(tools)
+            __currentTools = Layout.pushAndShow(tools, dock, stack)
         }
         else {
-            __currentTools = Layout.push(tools)
+            __currentTools = Layout.push(tools, dock, stack)
         }
     }
 
     function pop() {
-        __currentTools = Layout.pop();
+        __currentTools = Layout.pop(dock, stack);
     }
 
     function depth() {
-        return Layout.depth()
+        return stack.length
     }
 
     onToolsChanged: {
@@ -57,19 +58,19 @@ Rectangle {
     }
 
     onExpandedChanged: {
-        if (Layout.isEmpty()) {
+        if (stack.length == 0) {
             return
         }
 
         if (expanded) {
-            Layout.showLast()
+            Layout.showLast(dock, stack)
         }
         else {
-            Layout.hideLast()
+            Layout.hideLast(dock, stack)
         }
     }
 
-    Component.onDestruction: Layout.clear()
+    Component.onDestruction: Layout.clear(dock, stack)
 
     width: expanded ? targetWidth : menu.width
     height: menu.height
@@ -131,12 +132,16 @@ Rectangle {
                 parent.clicked()
             } else if (!parent.expanded) {
                 parent.expanded = true
-            } else if (Layout.stack.length == 1) {
+            } else if (stack.length == 1) {
                 expanded = false
             } else {
-                __currentTools = Layout.pop()
+                __currentTools = Layout.pop(dock, stack)
             }
         }
+    }
+
+    Stack {
+        id: stack
     }
 
     Rectangle {
@@ -149,13 +154,5 @@ Rectangle {
         anchors.right: parent.right
         anchors.left: parent.hideBack ? parent.left : menu.right
         anchors.leftMargin: parent.hideBack ? 0 : leftMargin
-    }
-
-    Component {
-        id: toolsContainer
-        Item {
-            property Item tools
-            property Item owner
-        }
     }
 }

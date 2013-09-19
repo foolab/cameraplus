@@ -20,54 +20,60 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-var stack = new Array();
+.pragma library
 
-function __push(tools) {
+var toolsContainer;
+
+function __push(tools, dock, stack) {
     if (stack.length >= 1) {
-	hide(stack[stack.length - 1]);
+	hide(stack.peek(), dock, stack);
     }
 
-    var container = createContainer(tools);
+    var container = createContainer(tools, dock, stack);
     stack.push(container);
 
     return container;
 }
 
-function push(tools) {
-    var container = __push(tools);
+function push(tools, dock, stack) {
+    var container = __push(tools, dock, stack);
     return container.tools;
 }
 
-function pop() {
+function pop(dock, stack) {
     if (stack.length == 0) {
 	return null;
     }
 
     var container = stack.pop();
-    hide(container);
+    hide(container, dock, stack);
     destroyContainer(container);
 
     if (stack.length == 0) {
 	return null;
     }
 
-    container = stack[stack.length - 1];
-    show(container);
+    container = stack.peek();
+    show(container, dock, stack);
 
     return container.tools;
 }
 
-function show(container) {
+function show(container, dock, stack) {
     container.tools.width = dock.width;
     container.tools.height = dock.height;
     container.tools.visible = true;
 }
 
-function hide(container) {
+function hide(container, dock, stack) {
     container.tools.visible = false;
 }
 
-function createContainer(tools) {
+function createContainer(tools, dock, stack) {
+    if (!toolsContainer) {
+	toolsContainer = Qt.createComponent(Qt.resolvedUrl("CameraToolBarToolsContainer.qml"));
+    }
+
     var container = toolsContainer.createObject(dock);
     container.tools = tools;
     container.owner = tools.parent;
@@ -83,32 +89,24 @@ function destroyContainer(container) {
     container.destroy();
 }
 
-function pushAndShow(tools) {
-    var container = __push(tools);
-    show(container);
+function pushAndShow(tools, dock, stack) {
+    var container = __push(tools, dock, stack);
+    show(container, dock, stack);
     return container.tools;
 }
 
-function clear() {
+function clear(dock, stack) {
     while (stack.length > 0) {
-	pop();
+	pop(dock, stack);
     }
 }
 
-function depth() {
-    return stack.length;
+function showLast(dock, stack) {
+    show(stack.peek(), dock, stack)
 }
 
-function isEmpty() {
-    return stack.length == 0 ? true : false;
-}
-
-function showLast() {
-    show(stack[stack.length - 1])
-}
-
-function hideLast() {
-    hide(stack[stack.length - 1])
+function hideLast(dock, stack) {
+    hide(stack.peek(), dock, stack)
 }
 
 function calculateChildrenWidth(children) {
