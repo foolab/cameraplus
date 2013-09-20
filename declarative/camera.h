@@ -82,7 +82,6 @@ class Camera : public QObject {
 
   Q_PROPERTY(Quirks *quirks READ quirks NOTIFY quirksChanged);
 
-  // TODO: We need a setter here too.
   Q_PROPERTY(CameraConfig *cameraConfig READ cameraConfig CONSTANT);
 
   Q_ENUMS(CameraMode);
@@ -183,6 +182,7 @@ private:
 
   void resetCapabilities();
 
+  CameraConfig *m_config;
   QtCamera *m_cam;
   QtCamDevice *m_dev;
   QVariant m_id;
@@ -206,7 +206,6 @@ private:
 
   VideoMute *m_videoMute;
   VideoTorch *m_videoTorch;
-  CameraConfig *m_config;
   Quirks *m_quirks;
 };
 

@@ -22,17 +22,10 @@
 
 #include "cameraconfig.h"
 #include "qtcamconfig.h"
-#if defined(QT4)
-#include <QDeclarativeInfo>
-#elif defined(QT5)
-#include <QQmlInfo>
-#endif
-
-// TODO: share that with qtcamera. We now have 2 instances of QtCamConfig
 
 CameraConfig::CameraConfig(QObject *parent) :
   QObject(parent),
-  m_config(0) {
+  m_config(new QtCamConfig(this)) {
 
 }
 
@@ -40,39 +33,14 @@ CameraConfig::~CameraConfig() {
   m_config = 0;
 }
 
-QString CameraConfig::configPath() const {
-  return m_path;
-}
-
-void CameraConfig::setConfigPath(const QString& configPath) {
-  if (m_config) {
-    qmlInfo(this) << "configPath cannot be changed after initialization";
-    return;
-  }
-
-  if (m_path != configPath) {
-    m_path = configPath;
-    emit configPathChanged();
-  }
-}
-
 QtCamConfig *CameraConfig::config() const {
   return m_config;
 }
 
-void CameraConfig::classBegin() {
-  // Nothing
+QString CameraConfig::imageSuffix() const {
+  return m_config->imageSuffix();
 }
 
-void CameraConfig::componentComplete() {
-  if (m_config) {
-    return;
-  }
-
-  if (m_path.isEmpty()) {
-    m_config = new QtCamConfig(this);
-  }
-  else {
-    m_config = new QtCamConfig(m_path, this);
-  }
+QString CameraConfig::videoSuffix() const {
+  return m_config->videoSuffix();
 }

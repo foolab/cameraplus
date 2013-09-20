@@ -55,7 +55,8 @@
 
 Camera::Camera(QObject *parent) :
   QObject(parent),
-  m_cam(new QtCamera(this)),
+  m_config(new CameraConfig(this)),
+  m_cam(new QtCamera(m_config->config(), this)),
   m_dev(0),
   m_mode(Camera::UnknownMode),
   m_notifications(new NotificationsContainer(this)),
@@ -75,10 +76,8 @@ Camera::Camera(QObject *parent) :
   m_roi(0),
   m_videoMute(0),
   m_videoTorch(0),
-  m_config(new CameraConfig(this)),
   m_quirks(0) {
 
-  m_config->componentComplete();
 }
 
 Camera::~Camera() {
