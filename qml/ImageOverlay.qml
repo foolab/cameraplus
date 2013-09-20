@@ -49,7 +49,7 @@ Item {
 
         onPreviewAvailable: overlay.previewAvailable(preview)
 
-        onSaved: mountProtector.unlock(fileNaming.imagePath)
+        onSaved: mountProtector.unlock(platformSettings.imagePath)
     }
 
     ZoomSlider {
@@ -247,7 +247,7 @@ Item {
     }
 
     function cameraError() {
-        mountProtector.unlock(fileNaming.imagePath)
+        mountProtector.unlock(platformSettings.imagePath)
     }
 
     function policyLost() {
@@ -268,10 +268,10 @@ Item {
         } else if (!fileSystem.available) {
             showError(qsTr("Camera cannot capture images in mass storage mode."))
             stopAutoFocus()
-        } else if (!fileSystem.hasFreeSpace(fileNaming.imagePath)) {
+        } else if (!fileSystem.hasFreeSpace(platformSettings.imagePath)) {
             showError(qsTr("Not enough space to capture images."))
             stopAutoFocus()
-        } else if (!mountProtector.lock(fileNaming.imagePath)) {
+        } else if (!mountProtector.lock(platformSettings.imagePath)) {
             showError(qsTr("Failed to lock images directory."))
             stopAutoFocus()
         } else {
@@ -280,7 +280,7 @@ Item {
             var fileName = fileNaming.imageFileName()
             if (!imageMode.capture(fileName)) {
                 showError(qsTr("Failed to capture image. Please restart the camera."))
-                mountProtector.unlock(fileNaming.imagePath)
+                mountProtector.unlock(platformSettings.imagePath)
                 stopAutoFocus()
             } else {
                 trackerStore.storeImage(fileName)

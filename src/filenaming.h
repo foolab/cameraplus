@@ -32,6 +32,7 @@
 #include "fileindex.h"
 
 class Settings;
+class PlatformSettings;
 
 #if defined(QT4)
 class FileNaming : public QObject, public QDeclarativeParserStatus {
@@ -43,10 +44,8 @@ class FileNaming : public QObject, public QQmlParserStatus {
 
   Q_PROPERTY(QString imageSuffix READ imageSuffix WRITE setImageSuffix NOTIFY imageSuffixChanged);
   Q_PROPERTY(QString videoSuffix READ videoSuffix WRITE setVideoSuffix NOTIFY videoSuffixChanged);
-  Q_PROPERTY(QString imagePath READ imagePath WRITE setImagePath NOTIFY imagePathChanged);
-  Q_PROPERTY(QString videoPath READ videoPath WRITE setVideoPath NOTIFY videoPathChanged);
-  Q_PROPERTY(QString temporaryVideoPath READ temporaryVideoPath WRITE setTemporaryVideoPath NOTIFY temporaryVideoPathChanged);
   Q_PROPERTY(Settings *settings READ settings WRITE setSettings NOTIFY settingsChanged);
+  Q_PROPERTY(PlatformSettings *platformSettings READ platformSettings WRITE setPlatformSettings NOTIFY platformSettingsChanged);
 
 public:
   FileNaming(QObject *parent = 0);
@@ -62,17 +61,11 @@ public:
   Q_INVOKABLE QString videoFileName();
   Q_INVOKABLE QString temporaryVideoFileName();
 
-  QString imagePath() const;
-  void setImagePath(const QString& path);
-
-  QString videoPath() const;
-  void setVideoPath(const QString& path);
-
-  QString temporaryVideoPath() const;
-  void setTemporaryVideoPath(const QString& path);
-
   Settings *settings() const;
   void setSettings(Settings *settings);
+
+  PlatformSettings *platformSettings() const;
+  void setPlatformSettings(PlatformSettings *settings);
 
   virtual void classBegin();
   virtual void componentComplete();
@@ -80,10 +73,8 @@ public:
 signals:
   void imageSuffixChanged();
   void videoSuffixChanged();
-  void imagePathChanged();
-  void videoPathChanged();
-  void temporaryVideoPathChanged();
   void settingsChanged();
+  void platformSettingsChanged();
 
 private:
   typedef enum {
@@ -92,16 +83,13 @@ private:
   } Type;
 
   QString fileName(const QString& path, const QString& suffix, const Type& type);
-  QString canonicalPath(const QString& path);
   QString temporaryPath();
 
   QString m_imageSuffix;
   QString m_videoSuffix;
-  QString m_imagePath;
-  QString m_videoPath;
-  QString m_temporaryVideoPath;
 
   Settings *m_settings;
+  PlatformSettings *m_platformSettings;
   FileIndex *m_index;
 };
 

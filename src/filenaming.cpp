@@ -23,6 +23,7 @@
 #include <QDate>
 #include <QDateTime>
 #include <QFile>
+#include "platformsettings.h"
 #if defined(QT4)
 #include <QDeclarativeInfo>
 #elif defined(QT5)
@@ -32,6 +33,7 @@
 FileNaming::FileNaming(QObject *parent) :
   QObject(parent),
   m_settings(0),
+  m_platformSettings(0),
   m_index(0) {
 
 }
@@ -63,11 +65,11 @@ void FileNaming::setVideoSuffix(const QString& suffix) {
 }
 
 QString FileNaming::imageFileName() {
-  return fileName(m_imagePath, m_imageSuffix, Image);
+  return fileName(m_platformSettings->imagePath(), m_imageSuffix, Image);
 }
 
 QString FileNaming::videoFileName() {
-  return fileName(m_videoPath, m_videoSuffix, Video);
+  return fileName(m_platformSettings->videoPath(), m_videoSuffix, Video);
 }
 
 QString FileNaming::fileName(const QString& path, const QString& suffix, const Type& type) {
@@ -128,70 +130,14 @@ QString FileNaming::fileName(const QString& path, const QString& suffix, const T
   return QString();
 }
 
-QString FileNaming::canonicalPath(const QString& path) {
-  if (!QDir::root().mkpath(path)) {
-    qmlInfo(this) << "Failed to create path" << path;
-    return QString();
-  }
-
-  QString newPath = QFileInfo(path).canonicalFilePath();
-
-  if (newPath.isEmpty()) {
-    return newPath;
-  }
-
-  if (!newPath.endsWith(QDir::separator())) {
-    newPath.append(QDir::separator());
-  }
-
-  return newPath;
-}
-
 QString FileNaming::temporaryVideoFileName() {
-  if (m_temporaryVideoPath.isEmpty()) {
+  QString temp = m_platformSettings->temporaryVideoPath();
+
+  if (temp.isEmpty()) {
     return QString();
   }
 
-  return QString("%1.cameraplus_video.tmp").arg(m_temporaryVideoPath);
-}
-
-QString FileNaming::imagePath() const {
-  return m_imagePath;
-}
-
-void FileNaming::setImagePath(const QString& path) {
-  QString p = canonicalPath(path);
-
-  if (m_imagePath != p) {
-    m_imagePath = p;
-    emit imagePathChanged();
-  }
-}
-
-QString FileNaming::videoPath() const {
-  return m_videoPath;
-}
-
-void FileNaming::setVideoPath(const QString& path) {
-  QString p = canonicalPath(path);
-
-  if (m_videoPath != p) {
-    m_videoPath = p;
-    emit videoPathChanged();
-  }
-}
-
-QString FileNaming::temporaryVideoPath() const {
-  return m_temporaryVideoPath;
-}
-
-void FileNaming::setTemporaryVideoPath(const QString& path) {
-  QString p = canonicalPath(path);
-
-  if (m_temporaryVideoPath != p) {
-    m_temporaryVideoPath = p;
-    emit temporaryVideoPathChanged();
-  }
+  return QString("%1.cameraplus_video.tmp").arg(temp);
 }
 
 Settings *FileNaming::settings() const {
@@ -206,12 +152,24 @@ void FileNaming::setSettings(Settings *settings) {
   }
 }
 
+PlatformSettings *FileNaming::platformSettings() const {
+  return m_platformSettings;
+}
+
+void FileNaming::setPlatformSettings(PlatformSettings *settings) {
+  if (m_platformSettings != settings) {
+    m_platformSettings = settings;
+    emit platformSettingsChanged();
+  }
+}
+
 void FileNaming::classBegin() {
   // Nothing
 }
 
 void FileNaming::componentComplete() {
-  if (QDir(m_imagePath).canonicalPath() == QDir(m_videoPath).canonicalPath()) {
+  if (QDir(m_platformSettings->imagePath()).canonicalPath()
+      == QDir(m_platformSettings->videoPath()).canonicalPath()) {
     m_index = new SingleFileIndex(m_settings);
   }
   else {

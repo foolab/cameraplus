@@ -227,7 +227,7 @@ Item {
             if (duration == 3600) {
                 overlay.stopRecording()
                 showError(qsTr("Maximum recording time reached."))
-            } else if (!fileSystem.hasFreeSpace(fileNaming.temporaryVideoPath)) {
+            } else if (!fileSystem.hasFreeSpace(platformSettings.temporaryVideoPath)) {
                 page.stopRecording()
                 showError(qsTr("Not enough space to continue recording."))
             }
@@ -259,13 +259,13 @@ Item {
 
         metaData.setMetaData()
 
-        if (!mountProtector.lock(fileNaming.temporaryVideoPath)) {
+        if (!mountProtector.lock(platformSettings.temporaryVideoPath)) {
             showError(qsTr("Failed to lock temporary videos directory."))
             overlay.recording = false
             return
         }
 
-        if (!mountProtector.lock(fileNaming.videoPath)) {
+        if (!mountProtector.lock(platformSettings.videoPath)) {
             showError(qsTr("Failed to lock videos directory."))
             overlay.recording = false
             mountProtector.unlockAll()
@@ -292,7 +292,7 @@ Item {
             showError(qsTr("Camera cannot record videos in mass storage mode."))
         } else if (!checkBattery()) {
             showError(qsTr("Not enough battery to record video."))
-        } else if (!fileSystem.hasFreeSpace(fileNaming.videoPath) || !fileSystem.hasFreeSpace(fileNaming.temporaryVideoPath)) {
+        } else if (!fileSystem.hasFreeSpace(platformSettings.videoPath) || !fileSystem.hasFreeSpace(platformSettings.temporaryVideoPath)) {
             showError(qsTr("Not enough space to record video."))
         } else {
             recordingDuration.duration = 0

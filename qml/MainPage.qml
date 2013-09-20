@@ -241,12 +241,10 @@ CameraPage {
 
     FileNaming {
         id: fileNaming
-        imageSuffix: viewfinder.camera.imageSuffix
-        videoSuffix: viewfinder.camera.videoSuffix
-        imagePath: platformSettings.imagePath
-        videoPath: platformSettings.videoPath
-        temporaryVideoPath: platformSettings.temporaryVideoPath
+        imageSuffix: viewfinder.camera.cameraConfig.imageSuffix
+        videoSuffix: viewfinder.camera.cameraConfig.videoSuffix
         settings: settings
+        platformSettings: platformSettings
     }
 
     MountProtector {

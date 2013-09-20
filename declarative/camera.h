@@ -58,8 +58,6 @@ class Camera : public QObject {
   Q_PROPERTY(CameraMode mode READ mode NOTIFY modeChanged);
   Q_PROPERTY(bool idle READ isIdle NOTIFY idleStateChanged);
   Q_PROPERTY(bool running READ isRunning NOTIFY runningStateChanged);
-  Q_PROPERTY(QString imageSuffix READ imageSuffix CONSTANT);
-  Q_PROPERTY(QString videoSuffix READ videoSuffix CONSTANT);
   Q_PROPERTY(Sounds *sounds READ sounds WRITE setSounds NOTIFY soundsChanged);
 
   Q_PROPERTY(Zoom *zoom READ zoom NOTIFY zoomChanged);
@@ -113,9 +111,6 @@ public:
 
   bool isIdle();
   bool isRunning();
-
-  QString imageSuffix() const;
-  QString videoSuffix() const;
 
   Sounds *sounds() const;
   void setSounds(Sounds *sounds);

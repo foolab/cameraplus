@@ -72,18 +72,24 @@ public:
   QString videoRecordingEndedSound() const;
   QString autoFocusAcquiredSound() const;
 
-  QString imagePath() const;
-  QString videoPath() const;
-  QString temporaryVideoPath() const;
+  QString imagePath();
+  QString videoPath();
+  QString temporaryVideoPath();
 
 public slots:
   void init();
 
 private:
+  QString canonicalPath(const QString& path) const;
+
   QSize portraitSize(const QSize& size);
   QSize landscapeSize(const QSize& size);
 
   QSettings *m_settings;
+
+  QString m_image;
+  QString m_video;
+  QString m_temp;
 };
 
 #endif /* PLATFORM_SETTINGS_H */

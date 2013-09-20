@@ -25,6 +25,11 @@
 #include <Quill>
 #include "quillitem.h"
 #endif
+#if defined(QT4)
+#include <QDeclarativeInfo>
+#elif defined(QT5)
+#include <QQmlInfo>
+#endif
 
 #define PATH "/usr/share/cameraplus/config/cameraplus.ini"
 
@@ -160,14 +165,45 @@ QString PlatformSettings::autoFocusAcquiredSound() const {
   return m_settings->value("sounds/autoFocusAcquired").toString();
 }
 
-QString PlatformSettings::imagePath() const {
-  return IMAGE_PATH;
+QString PlatformSettings::imagePath() {
+  if (m_image.isEmpty()) {
+    m_image = canonicalPath(IMAGE_PATH);
+  }
+
+  return m_image;
 }
 
-QString PlatformSettings::videoPath() const {
-  return VIDEO_PATH;
+QString PlatformSettings::videoPath() {
+  if (m_video.isEmpty()) {
+    m_video = canonicalPath(VIDEO_PATH);
+  }
+
+  return m_video;
 }
 
-QString PlatformSettings::temporaryVideoPath() const {
-  return TEMP_VIDEO;
+QString PlatformSettings::temporaryVideoPath() {
+  if (m_temp.isEmpty()) {
+    m_temp = canonicalPath(TEMP_VIDEO);
+  }
+
+  return m_temp;
+}
+
+QString PlatformSettings::canonicalPath(const QString& path) const {
+  if (!QDir::root().mkpath(path)) {
+    qmlInfo(this) << "Failed to create path" << path;
+    return QString();
+  }
+
+  QString newPath = QFileInfo(path).canonicalFilePath();
+
+  if (newPath.isEmpty()) {
+    return newPath;
+  }
+
+  if (!newPath.endsWith(QDir::separator())) {
+    newPath.append(QDir::separator());
+  }
+
+  return newPath;
 }

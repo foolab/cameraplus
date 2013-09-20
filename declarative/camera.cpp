@@ -251,14 +251,6 @@ bool Camera::applyMode() {
   return true;
 }
 
-QString Camera::imageSuffix() const {
-  return m_cam->config()->imageSuffix();
-}
-
-QString Camera::videoSuffix() const {
-  return m_cam->config()->videoSuffix();
-}
-
 Sounds *Camera::sounds() const {
   return m_notifications->sounds();
 }
