@@ -100,8 +100,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
 #endif /* QMLJSDEBUGGER */
 
 #if defined(QT4)
-  QApplication::setAttribute(Qt::AA_X11InitThreads, true);
-  QApplication *app = new QApplication(argc, argv);
+  QApplication *app = MDeclarativeCache::qApplication(argc, argv);
   app->setApplicationName("cameraplus");
 
   QmlFileEngineHandler handler;
