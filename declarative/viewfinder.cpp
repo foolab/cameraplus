@@ -234,10 +234,9 @@ void Viewfinder::deviceChanged() {
 
   if (m_dev) {
     m_dev->setViewfinder(this);
+    emit renderAreaChanged();
+    emit videoResolutionChanged();
   }
-
-  emit renderAreaChanged();
-  emit videoResolutionChanged();
 }
 
 GstElement *Viewfinder::sinkElement() {
