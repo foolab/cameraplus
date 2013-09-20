@@ -96,6 +96,8 @@ private slots:
   void prepareForDeviceChange();
 
 private:
+  void createRenderer();
+
   QtCamViewfinderRenderer *m_renderer;
   Camera *m_cam;
   CameraConfig *m_conf;

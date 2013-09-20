@@ -110,6 +110,7 @@ void Viewfinder::setCamera(Camera *camera) {
   }
 
   if (isComponentComplete()) {
+    createRenderer();
     deviceChanged();
   }
 
@@ -138,6 +139,7 @@ void Viewfinder::setCameraConfig(CameraConfig *config) {
   m_conf = config;
 
   if (isComponentComplete()) {
+    createRenderer();
     deviceChanged();
   }
 
@@ -210,16 +212,11 @@ void Viewfinder::componentComplete() {
     return;
   }
 
-  m_renderer = QtCamViewfinderRenderer::create(m_conf->config(), this);
+  createRenderer();
+
   if (!m_renderer) {
     qmlInfo(this) << "Failed to create viewfinder renderer";
-    return;
   }
-
-  m_renderer->resize(QSizeF(width(), height()));
-  QObject::connect(m_renderer, SIGNAL(updateRequested()), this, SLOT(updateRequested()));
-  QObject::connect(m_renderer, SIGNAL(renderAreaChanged()), this, SIGNAL(renderAreaChanged()));
-  QObject::connect(m_renderer, SIGNAL(videoResolutionChanged()), this, SIGNAL(videoResolutionChanged()));
 }
 
 void Viewfinder::deviceChanged() {
@@ -264,4 +261,21 @@ void Viewfinder::prepareForDeviceChange() {
     m_dev->setViewfinder(0);
     m_dev = 0;
   }
+}
+
+void Viewfinder::createRenderer() {
+  if (!m_cam || !m_conf) {
+    return;
+  }
+
+  m_renderer = QtCamViewfinderRenderer::create(m_conf->config(), this);
+
+  if (!m_renderer) {
+    return;
+  }
+
+  m_renderer->resize(QSizeF(width(), height()));
+  QObject::connect(m_renderer, SIGNAL(updateRequested()), this, SLOT(updateRequested()));
+  QObject::connect(m_renderer, SIGNAL(renderAreaChanged()), this, SIGNAL(renderAreaChanged()));
+  QObject::connect(m_renderer, SIGNAL(videoResolutionChanged()), this, SIGNAL(videoResolutionChanged()));
 }
