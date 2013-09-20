@@ -81,6 +81,19 @@ class QmlFileEngineHandler : public QAbstractFileEngineHandler {
 };
 #endif
 
+#ifdef HARMATTAN
+#include <X11/Xlib.h>
+class _XInitThreads {
+public:
+  _XInitThreads() {
+    // XInitThreads() is required by gst-gltexture sink
+    XInitThreads();
+  }
+};
+
+static _XInitThreads __XInitThreads;
+#endif
+
 Q_DECL_EXPORT int main(int argc, char *argv[]) {
 #ifdef QMLJSDEBUGGER
   QDeclarativeDebugHelper::enableDebugging();
