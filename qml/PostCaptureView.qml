@@ -114,7 +114,7 @@ Item {
         anchors.rightMargin: 20
         opacity: show ? 0.8 : 0.0
         visible: opacity > 0
-        property bool show: deleteDialog.isOpen || deleteDialog.isOpening ||
+        property bool show: deleteDialog.visible ||
             hideTimer.running ||
             (view.currentItem != null && view.currentItem.error) && !view.currentItem.playing
 
@@ -156,8 +156,6 @@ Item {
         titleText: qsTr("Delete item?");
         acceptButtonText: qsTr("Yes");
         rejectButtonText: qsTr("No");
-
-        onStatusChanged: restartTimer()
 
         onAccepted: {
             if (!remove.remove(view.currentItem.itemUrl)) {
@@ -222,7 +220,7 @@ Item {
             return
         }
 
-        deleteDialog.message = view.currentItem.itemFileName
+        deleteDialog.messageText = view.currentItem.itemFileName
         deleteDialog.open()
     }
 

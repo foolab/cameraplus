@@ -7,7 +7,6 @@
 	<file>CameraButton.qml</file>
 	<file>CameraSlider.qml</file>
 	<file>CameraSwitch.qml</file>
-	<file>CameraQueryDialog.qml</file>
 	<file>CameraWindow.qml</file>
 	<file>CameraButtonStyle.qml</file>
 	<file>FullScreenThumbnail.qml</file>
