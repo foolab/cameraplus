@@ -99,11 +99,11 @@ Item {
     states: [
         State {
             name: "on"
-            when: Qt.application.active && currentItem && currentItem.policyMode != CameraResources.None && !policy.hijacked
+            when: rootWindow.active && currentItem && currentItem.policyMode != CameraResources.None && !policy.hijacked
         },
         State {
             name: "off"
-            when: (!Qt.application.active && camera.idle) || (currentItem && currentItem.policyMode == CameraResources.None && camera.idle)
+            when: (!rootWindow.active && camera.idle) || (currentItem && currentItem.policyMode == CameraResources.None && camera.idle)
         },
         State {
             name: "policyLost"

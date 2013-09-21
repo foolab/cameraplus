@@ -57,7 +57,7 @@ Item {
 
     DeviceKeys {
         id: zoomKeys
-        active: Qt.application.active && pipelineManager.scaleAcquired
+        active: rootWindow.active && pipelineManager.scaleAcquired
         repeat: true
 
         onVolumeUpPressed: {
@@ -115,9 +115,9 @@ Item {
     }
 
     Connections {
-        target: Qt.application
+        target: rootWindow
         onActiveChanged: {
-            if (!Qt.application.active) {
+            if (!rootWindow.active) {
                 video.stop()
             }
         }

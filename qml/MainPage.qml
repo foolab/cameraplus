@@ -174,10 +174,6 @@ CameraPage {
         error.show()
     }
 
-    PlatformQuirks {
-        id: platformQuirks
-    }
-
     DisplayState {
         id: displayState
         inhibitDim: mainView.currentItem != null ? mainView.currentItem.inhibitDim : false
@@ -185,7 +181,7 @@ CameraPage {
 
     CameraPositionSource {
         id: positionSource
-        active: (viewfinder.camera.running || platformQuirks.forceOn) && settings.useGps && displayState.isOn
+        active: viewfinder.camera.running && settings.useGps && displayState.isOn
         onPositionChanged: geocode.search(position.coordinate.longitude, position.coordinate.latitude)
     }
 
@@ -214,7 +210,7 @@ CameraPage {
 
     CameraOrientation {
         id: orientation
-        active: viewfinder.camera.running || (mainView.currentIndex == 2 && Qt.application.active)
+        active: viewfinder.camera.running || (mainView.currentIndex == 2 && rootWindow.active)
     }
 
     CameraCompass {
@@ -224,7 +220,7 @@ CameraPage {
 
     ReverseGeocode {
         id: geocode
-        active: (viewfinder.camera.running || platformQuirks.forceOn) && settings.useGps && settings.useGeotags && displayState.isOn
+        active: viewfinder.camera.running && settings.useGps && settings.useGeotags && displayState.isOn
     }
 
     DeviceInfo {
@@ -287,7 +283,7 @@ CameraPage {
 
     DeviceKeys {
         id: keys
-        active: Qt.application.active && pipelineManager.scaleAcquired && root.inCaptureMode && !mainView.moving
+        active: rootWindow.active && pipelineManager.scaleAcquired && root.inCaptureMode && !mainView.moving
         repeat: !settings.zoomAsShutter
     }
 
@@ -307,7 +303,7 @@ CameraPage {
         id: proximitySensor
         property bool sensorClosed: false
 
-        active: Qt.application.active && viewfinder.camera.running && settings.proximityAsShutter && root.inCaptureMode && !mainView.moving
+        active: rootWindow.active && viewfinder.camera.running && settings.proximityAsShutter && root.inCaptureMode && !mainView.moving
         onCloseChanged: {
             if (!close) {
                 sensorClosed = false
@@ -317,7 +313,7 @@ CameraPage {
 
     Standby {
         policyLost: pipelineManager.state == "policyLost"
-        visible: !Qt.application.active || pipelineManager.showStandBy ||
+        visible: !rootWindow.active || pipelineManager.showStandBy ||
             (inCaptureMode && !viewfinder.camera.running)
     }
 }

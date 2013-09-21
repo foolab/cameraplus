@@ -21,6 +21,7 @@
  */
 
 #include "platformquirks.h"
+#include <QDeclarativeView>
 #include <QApplication>
 #include <QEvent>
 #include <QX11Info>
@@ -28,8 +29,7 @@
 
 PlatformQuirks::PlatformQuirks(QObject *parent) :
   QObject(parent),
-  m_state(false),
-  m_check(true) {
+  m_active(false) {
 
   qApp->installEventFilter(this);
 }
@@ -38,11 +38,55 @@ PlatformQuirks::~PlatformQuirks() {
 
 }
 
-bool PlatformQuirks::isOnForced() {
-  if (!m_check) {
-    return m_state;
+bool PlatformQuirks::eventFilter(QObject *obj, QEvent *event) {
+  if (event->type() == QEvent::ApplicationActivate) {
+    if (!m_active) {
+      m_active = true;
+      emit windowActiveChanged();
+    }
+  }
+  else if (event->type() == QEvent::ApplicationDeactivate) {
+    if (coveredByNetworkOrTermsDialog()) {
+      if (!m_active) {
+	m_active = true;
+	emit windowActiveChanged();
+      }
+    } else {
+      if (m_active) {
+	m_active = false;
+	emit windowActiveChanged();
+      }
+    }
+  }
+  else if (event->type() == QEvent::WindowStateChange) {
+    if (!state().testFlag(Qt::WindowMaximized)) {
+      if (m_active) {
+	m_active = false;
+	emit windowActiveChanged();
+      }
+    }
   }
 
+  return QObject::eventFilter(obj, event);
+}
+
+bool PlatformQuirks::isWindowActive() const {
+  return m_active;
+}
+
+Qt::WindowStates PlatformQuirks::state() {
+  QWidgetList widgets = qApp->allWidgets();
+
+  foreach (QWidget *w, widgets) {
+    if (QDeclarativeView *v = dynamic_cast <QDeclarativeView *>(w)) {
+      return v->windowState();
+    }
+  }
+
+  return Qt::WindowStates();
+}
+
+bool PlatformQuirks::coveredByNetworkOrTermsDialog() {
   int param = 0;
   char *winName = 0;
   Window winFocus;
@@ -52,26 +96,8 @@ bool PlatformQuirks::isOnForced() {
   XGetInputFocus(d, &winFocus, &param);
   XFetchName(d, winFocus, &winName);
 
-  m_state = (QLatin1String(winName) == "location-ui" || QLatin1String(winName) == "conndlgs");
+  bool covered = (QLatin1String(winName) == "location-ui" || QLatin1String(winName) == "conndlgs");
   XFree(winName);
 
-  m_check = false;
-  return m_state;
-}
-
-bool PlatformQuirks::eventFilter(QObject *obj, QEvent *event) {
-  if (event->type() == QEvent::ApplicationActivate) {
-    m_check = false;
-
-    if (!m_state) {
-      m_state = true;
-      emit forceOnChanged();
-    }
-  }
-  else if (event->type() == QEvent::ApplicationDeactivate) {
-    m_check = true;
-    emit forceOnChanged();
-  }
-
-  return QObject::eventFilter(obj, event);
+  return covered;
 }

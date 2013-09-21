@@ -27,23 +27,25 @@
 
 class PlatformQuirks : public QObject {
   Q_OBJECT
-  Q_PROPERTY(bool forceOn READ isOnForced NOTIFY forceOnChanged);
+  Q_PROPERTY(bool windowActive READ isWindowActive NOTIFY windowActiveChanged);
 
 public:
   PlatformQuirks(QObject *parent = 0);
   ~PlatformQuirks();
 
-  bool isOnForced();
+  bool isWindowActive() const;
 
 protected:
   bool eventFilter(QObject *obj, QEvent *event);
 
 signals:
-  void forceOnChanged();
+  void windowActiveChanged();
 
 private:
-  bool m_state;
-  bool m_check;
+  Qt::WindowStates state();
+  bool coveredByNetworkOrTermsDialog();
+
+  bool m_active;
 };
 
 #endif /* PLATFORM_QUIRKS_H */

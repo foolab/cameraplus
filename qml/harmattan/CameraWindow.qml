@@ -22,11 +22,18 @@
 
 import QtQuick 1.1
 import com.nokia.meego 1.1
+import CameraPlus 1.0
 
 Window {
     id: window
     property Component initialPage
     property Item page
+
+    property bool active: platformQuirks.windowActive
+
+    PlatformQuirks {
+        id: platformQuirks
+    }
 
     Component.onDestruction: page.destroy()
     Component.onCompleted: {

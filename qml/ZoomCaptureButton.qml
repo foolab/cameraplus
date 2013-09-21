@@ -30,7 +30,7 @@ Item {
     signal pressed()
     signal released()
 
-    property bool active: settings.zoomAsShutter && Qt.application.active
+    property bool active: settings.zoomAsShutter && rootWindow.active
 
     function handlePress() {
         if (!zoomHandler.active || zoomHandler.zoomPressed) {
@@ -68,9 +68,9 @@ Item {
     }
 
     Connections {
-        target: Qt.application
+        target: rootWindow
         onActiveChanged: {
-            if (!Qt.application.active) {
+            if (!rootWindow.active) {
                 zoomHandler.zoomPressed = false
             }
         }

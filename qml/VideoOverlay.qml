@@ -206,9 +206,9 @@ Item {
     }
 
     Connections {
-        target: Qt.application
+        target: rootWindow
         onActiveChanged: {
-            if (!Qt.application.active && overlay.recording) {
+            if (!rootWindow.active && overlay.recording) {
                 overlay.stopRecording()
             }
         }
