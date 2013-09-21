@@ -78,9 +78,27 @@ Item {
         interactive: view.currentItem && view.currentItem.playing ? false : true
 
         delegate: PostCaptureItem {
+            property bool del
+
             width: view.width
             height: view.height
             onClicked: hideTimer.running = !hideTimer.running
+            x: del ? view.width : 0
+            Behavior on x {
+                SequentialAnimation {
+                    NumberAnimation { duration: 250 }
+                    ScriptAction {
+                        script: {
+                            if (!remove.remove(view.currentItem.itemUrl)) {
+                                showError(qsTr("Failed to delete item"))
+                                x = 0
+                            } else {
+                                view.model.remove(view.currentItem.itemUrl)
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         onFlickingChanged: {
@@ -157,13 +175,7 @@ Item {
         acceptButtonText: qsTr("Yes");
         rejectButtonText: qsTr("No");
 
-        onAccepted: {
-            if (!remove.remove(view.currentItem.itemUrl)) {
-                showError(qsTr("Failed to delete item"))
-            } else {
-                view.model.remove(view.currentItem.itemUrl)
-            }
-        }
+        onAccepted: view.currentItem.del = true
 
         DeleteHelper {
             id: remove
