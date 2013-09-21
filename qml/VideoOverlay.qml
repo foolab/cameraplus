@@ -172,18 +172,18 @@ Item {
             Indicator {
                 id: wbIndicator
                 source: visible ? cameraTheme.whiteBalanceIcon(settings.videoWhiteBalance) : ""
-                visible: settings.videoWhiteBalance != WhiteBalance.Auto && !toolBar.expanded
+                visible: settings.videoWhiteBalance != WhiteBalance.Auto
             }
 
             Indicator {
                 id: cfIndicator
                 source: visible ? cameraTheme.colorFilterIcon(settings.videoColorFilter) : ""
-                visible: settings.videoColorFilter != ColorTone.Normal && !toolBar.expanded
+                visible: settings.videoColorFilter != ColorTone.Normal
             }
 
             Indicator {
                 id: sceneIndicator
-                visible: settings.videoSceneMode != Scene.Auto && (!toolBar.expanded || overlay.recording)
+                visible: settings.videoSceneMode != Scene.Auto && overlay.recording
                 source: visible ? cameraTheme.videoSceneModeIcon(settings.videoSceneMode) : ""
             }
 

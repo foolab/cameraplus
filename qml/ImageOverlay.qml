@@ -180,7 +180,7 @@ Item {
 
             Indicator {
                 id: flashIndicator
-                visible: !toolBar.expanded && !overlay.cam.quirks.hasQuirk(Quirks.NoFlash)
+                visible: !overlay.cam.quirks.hasQuirk(Quirks.NoFlash)
                 source: cameraTheme.flashIcon(settings.imageFlashMode)
             }
 
@@ -200,24 +200,24 @@ Item {
             Indicator {
                 id: wbIndicator
                 source: visible ? cameraTheme.whiteBalanceIcon(settings.imageWhiteBalance) : ""
-                visible: settings.imageWhiteBalance != WhiteBalance.Auto && !toolBar.expanded
+                visible: settings.imageWhiteBalance != WhiteBalance.Auto
             }
 
             Indicator {
                 id: cfIndicator
                 source: visible ? cameraTheme.colorFilterIcon(settings.imageColorFilter) : ""
-                visible: settings.imageColorFilter != ColorTone.Normal && !toolBar.expanded
+                visible: settings.imageColorFilter != ColorTone.Normal
             }
 
             Indicator {
                 id: isoIndicator
-                visible: settings.imageIso != 0 && !toolBar.expanded
+                visible: settings.imageIso != 0
                 source: visible ? cameraTheme.isoIcon(settings.imageIso) : ""
             }
 
             Indicator {
                 id: sceneIndicator
-                visible: settings.imageSceneMode != Scene.Auto && !toolBar.expanded
+                visible: settings.imageSceneMode != Scene.Auto
                 source: visible ? cameraTheme.imageSceneModeIcon(settings.imageSceneMode) : ""
             }
 
