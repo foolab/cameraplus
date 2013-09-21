@@ -29,8 +29,8 @@ Rectangle {
 
     property bool expanded: true
     property real targetWidth: parent.width - anchors.leftMargin - anchors.rightMargin
-    property bool manualBack: false
-    property bool hideBack: false
+    property bool manualBack
+    property bool hideBack
     signal clicked
 
     property CameraToolBarTools tools
