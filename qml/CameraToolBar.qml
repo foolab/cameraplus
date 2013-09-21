@@ -37,11 +37,26 @@ Rectangle {
     property CameraToolBarTools __currentTools
 
     function push(tools) {
-        if (expanded) {
-            __currentTools = Layout.pushAndShow(tools, dock, stack)
+        var toolsToPush
+        var comp
+
+        if (typeof tools == "string") {
+            comp = Qt.createComponent(tools)
+            toolsToPush = comp.createObject(dock)
         }
         else {
-            __currentTools = Layout.push(tools, dock, stack)
+            toolsToPush = tools
+        }
+
+        if (expanded) {
+            __currentTools = Layout.pushAndShow(toolsToPush, dock, stack)
+        }
+        else {
+            __currentTools = Layout.push(toolsToPush, dock, stack)
+        }
+
+        if (comp) {
+            stack.peek().comp = comp
         }
     }
 

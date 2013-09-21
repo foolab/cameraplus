@@ -25,4 +25,5 @@ import QtQuick 2.0
 Item {
     property Item tools
     property Item owner
+    property Component comp
 }

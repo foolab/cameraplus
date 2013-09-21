@@ -37,13 +37,11 @@
 	<file>ToolsModelItem.qml</file>
 	<file>VideoColorFilterButton.qml</file>
 	<file>VideoEvCompButton.qml</file>
-	<file>VideoMuteButton.qml</file>
 	<file>VideoOverlay.qml</file>
 	<file>VideoPlayerPage.qml</file>
 	<file>VideoResolutionSettings.qml</file>
 	<file>VideoSceneButton.qml</file>
 	<file>VideoModeSettings.qml</file>
-	<file>VideoTorchButton.qml</file>
 	<file>VideoWhiteBalanceButton.qml</file>
 	<file>ZoomCaptureButton.qml</file>
 	<file>CaptureCancel.qml</file>

@@ -23,11 +23,7 @@
 import QtQuick 2.0
 import QtCamera 1.0
 
-CameraToolIcon {
-    id: button
-
-    iconSource: cameraTheme.isoIcon(settings.imageIso)
-
+CameraToolBarTools {
     property list<ToolsModelItem> toolsModel: [
         ToolsModelItem {icon: cameraTheme.isoAudoIconId; value: 0 },
         ToolsModelItem {icon: cameraTheme.iso100IconId; value: 100 },
@@ -36,20 +32,18 @@ CameraToolIcon {
         ToolsModelItem {icon: cameraTheme.iso800IconId; value: 800 }
     ]
 
-    property CameraToolBarTools tools: CameraToolBarTools {
-        CameraLabel {
-            height: parent ? parent.height : 0
-            text: qsTr("ISO")
-            verticalAlignment: Text.AlignVCenter
-        }
+    CameraLabel {
+        height: parent.height
+        text: qsTr("ISO")
+        verticalAlignment: Text.AlignVCenter
+    }
 
-        Repeater {
-            model: parent != null && parent.visible ? toolsModel : undefined
-            delegate: CheckButton {
-                iconSource: icon
-                onClicked: settings.imageIso = value
-                checked: settings.imageIso == value
-            }
+    Repeater {
+        model: toolsModel
+        delegate: CheckButton {
+            iconSource: icon
+            onClicked: settings.imageIso = value
+            checked: settings.imageIso == value
         }
     }
 }

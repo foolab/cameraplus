@@ -23,10 +23,7 @@
 import QtQuick 2.0
 import QtCamera 1.0
 
-CameraToolIcon {
-    id: button
-
-    iconSource: cameraTheme.imageSceneModeIcon(settings.imageSceneMode)
+CameraToolBarTools {
     property list<ToolsModelItem> toolsModel: [
         ToolsModelItem {icon: cameraTheme.imageSceneModeAutoIconId; value: Scene.Auto},
         ToolsModelItem {icon: cameraTheme.imageSceneModeCloseupIconId; value: Scene.Closeup},
@@ -36,22 +33,20 @@ CameraToolIcon {
         ToolsModelItem {icon: cameraTheme.imageSceneModeSportIconId; value: Scene.Sport}
     ]
 
-    property CameraToolBarTools tools: CameraToolBarTools {
-        CameraLabel {
-            height: parent ? parent.height : 0
-            text: qsTr("Scene")
-            verticalAlignment: Text.AlignVCenter
-        }
+    CameraLabel {
+        height: parent.height
+        text: qsTr("Scene")
+        verticalAlignment: Text.AlignVCenter
+    }
 
-        Repeater {
-            model: parent != null && parent.visible ? toolsModel : undefined
+    Repeater {
+        model: toolsModel
 
-            delegate: CheckButton {
-                iconSource: icon
-                onClicked: settings.imageSceneMode = value
-                checked: settings.imageSceneMode == value
-                visible: !(value == Scene.Night && overlay.cam.quirks.hasQuirk(Quirks.NoNightSceneMode))
-            }
+        delegate: CheckButton {
+            iconSource: icon
+            onClicked: settings.imageSceneMode = value
+            checked: settings.imageSceneMode == value
+            visible: !(value == Scene.Night && overlay.cam.quirks.hasQuirk(Quirks.NoNightSceneMode))
         }
     }
 }

@@ -23,11 +23,7 @@
 import QtQuick 2.0
 import QtCamera 1.0
 
-CameraToolIcon {
-    id: button
-
-    iconSource: cameraTheme.colorFilterIcon(settings.videoColorFilter)
-
+CameraToolBarTools {
     property list<ToolsModelItem> toolsModel: [
         ToolsModelItem {icon: cameraTheme.colorFilterNormalIconId; value: ColorTone.Normal },
         ToolsModelItem {icon: cameraTheme.colorFilterGrayScaleIconId; value: ColorTone.GrayScale },
@@ -37,21 +33,19 @@ CameraToolIcon {
         ToolsModelItem {icon: cameraTheme.colorFilterSolarizeIconId; value: ColorTone.Solarize }
     ]
 
-    property CameraToolBarTools tools: CameraToolBarTools {
-        CameraLabel {
-            height: parent ? parent.height : 0
-            text: qsTr("Filter")
-            verticalAlignment: Text.AlignVCenter
-        }
+    CameraLabel {
+        height: parent.height
+        text: qsTr("Filter")
+        verticalAlignment: Text.AlignVCenter
+    }
 
-        Repeater {
-            model: parent != null && parent.visible ? toolsModel : undefined
+    Repeater {
+        model: toolsModel
 
-            delegate: CheckButton {
-                iconSource: icon
-                onClicked: settings.videoColorFilter = value
-                checked: settings.videoColorFilter == value
-            }
+        delegate: CheckButton {
+            iconSource: icon
+            onClicked: settings.videoColorFilter = value
+            checked: settings.videoColorFilter == value
         }
     }
 }

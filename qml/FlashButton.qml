@@ -23,11 +23,7 @@
 import QtQuick 2.0
 import QtCamera 1.0
 
-CameraToolIcon {
-    id: button
-
-    iconSource: cameraTheme.flashIcon(settings.imageFlashMode)
-
+CameraToolBarTools {
     property list<ToolsModelItem> toolsModel: [
         ToolsModelItem {icon: cameraTheme.flashAutoIconId; value: Flash.Auto },
         ToolsModelItem {icon: cameraTheme.flashOnIconId; value: Flash.On },
@@ -35,22 +31,20 @@ CameraToolIcon {
         ToolsModelItem {icon: cameraTheme.flashRedEyeIconId; value: Flash.RedEye }
     ]
 
-    property CameraToolBarTools tools: CameraToolBarTools {
-        CameraLabel {
-            height: parent ? parent.height : 0
-            text: qsTr("Flash")
-            verticalAlignment: Text.AlignVCenter
-        }
+    CameraLabel {
+        height: parent.height
+        text: qsTr("Flash")
+        verticalAlignment: Text.AlignVCenter
+    }
 
-        Repeater {
-            model: parent != null && parent.visible ? toolsModel : undefined
+    Repeater {
+        model: toolsModel
 
-            delegate: CheckButton {
-                iconSource: icon
-                onClicked: settings.imageFlashMode = value
-                checked: settings.imageFlashMode == value
-                visible: !(overlay.cam.quirks.hasQuirk(Quirks.NoRedEyeFlash) && value == Flash.RedEye)
-            }
+        delegate: CheckButton {
+            iconSource: icon
+            onClicked: settings.imageFlashMode = value
+            checked: settings.imageFlashMode == value
+            visible: !(overlay.cam.quirks.hasQuirk(Quirks.NoRedEyeFlash) && value == Flash.RedEye)
         }
     }
 }

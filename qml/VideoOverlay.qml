@@ -117,30 +117,45 @@ Item {
         onExpandedChanged: settings.showToolBar = expanded;
 
         tools: CameraToolBarTools {
-            VideoTorchButton {
-                camera: cam
+            CameraToolIcon {
                 visible: overlay.cam ? !overlay.cam.quirks.hasQuirk(Quirks.NoVideoTorch) : false
+                iconSource: settings.videoTorchOn ? cameraTheme.cameraTorchOnIconId : cameraTheme.cameraTorchOffIconId
+                onClicked: settings.videoTorchOn = !settings.videoTorchOn
             }
 
-            VideoSceneButton {
+            CameraToolIcon {
                 property bool hide: overlay.cam ? (overlay.recording && overlay.cam.quirks.hasQuirk(Quirks.NoSceneModeChangeDuringRecording)) || overlay.cam.quirks.hasQuirk(Quirks.NoNightSceneMode) : false
                 visible: !hide
-                onClicked: toolBar.push(tools)
+                iconSource: cameraTheme.videoSceneModeIcon(settings.videoSceneMode)
+                onClicked: toolBar.push(Qt.resolvedUrl("VideoSceneButton.qml"))
             }
 
-            VideoEvCompButton {
-                onClicked: toolBar.push(tools)
+            CameraToolIcon {
+                iconSource: settings.videoEvComp == 0 ? cameraTheme.cameraManualExposureIconId : ""
+                onClicked: toolBar.push(Qt.resolvedUrl("VideoEvCompButton.qml"))
+
+                CameraLabel {
+                    anchors.fill: parent
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    visible: settings.videoEvComp != 0
+                    text: settings.videoEvComp == 0 ? "" : settings.videoEvComp.toFixed(1)
+                }
             }
 
-            VideoWhiteBalanceButton {
-                onClicked: toolBar.push(tools)
+            CameraToolIcon {
+                iconSource: cameraTheme.whiteBalanceIcon(settings.videoWhiteBalance)
+                onClicked: toolBar.push(Qt.resolvedUrl("VideoWhiteBalanceButton.qml"))
             }
 
-            VideoColorFilterButton {
-                onClicked: toolBar.push(tools)
+            CameraToolIcon {
+                iconSource: cameraTheme.colorFilterIcon(settings.videoColorFilter)
+                onClicked: toolBar.push(Qt.resolvedUrl("VideoColorFilterButton.qml"))
             }
 
-            VideoMuteButton {
+            CameraToolIcon {
+                iconSource: settings.videoMuted ? cameraTheme.soundMuteOnIconId : cameraTheme.soundMuteOffIconId
+                onClicked: settings.videoMuted = !settings.videoMuted
             }
         }
     }

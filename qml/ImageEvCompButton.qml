@@ -23,40 +23,27 @@
 import QtQuick 2.0
 import QtCamera 1.0
 
-CameraToolIcon {
-    id: button
-
-    iconSource: settings.imageEvComp == 0 ? cameraTheme.cameraManualExposureIconId : ""
-
+CameraToolBarTools {
     CameraLabel {
-        anchors.fill: parent
+        height: parent.height
+        text: qsTr("EV")
         verticalAlignment: Text.AlignVCenter
-        visible: settings.imageEvComp != 0
-        text: settings.imageEvComp == 0 ? "" : settings.imageEvComp.toFixed(1)
     }
 
-    property CameraToolBarTools tools: CameraToolBarTools {
-        CameraLabel {
-            height: parent ? parent.height : 0
-            text: qsTr("EV")
-            verticalAlignment: Text.AlignVCenter
-        }
+    CameraSlider {
+        id: slider
+        orientation: Qt.Horizontal
+        minimumValue: cam ? cam.evComp.minimum : 0
+        maximumValue: cam ? cam.evComp.maximum : 0
+        value: settings.imageEvComp
+        valueIndicatorVisible: true
+        stepSize: 0.1
+        onValueChanged: settings.imageEvComp = value.toFixed(1)
+        Component.onCompleted: { slider.value = settings.imageEvComp.toFixed(1) }
+    }
 
-        CameraSlider {
-            id: slider
-            orientation: Qt.Horizontal
-            minimumValue: cam ? cam.evComp.minimum : 0
-            maximumValue: cam ? cam.evComp.maximum : 0
-            value: settings.imageEvComp
-            valueIndicatorVisible: true
-            stepSize: 0.1
-            onValueChanged: settings.imageEvComp = value.toFixed(1)
-            Component.onCompleted: { slider.value = settings.imageEvComp.toFixed(1) }
-        }
-
-        CameraToolIcon {
-            iconSource: cameraTheme.resetIconId
-            onClicked: slider.value = 0
-        }
+    CameraToolIcon {
+        iconSource: cameraTheme.resetIconId
+        onClicked: slider.value = 0
     }
 }

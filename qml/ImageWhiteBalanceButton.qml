@@ -23,11 +23,7 @@
 import QtQuick 2.0
 import QtCamera 1.0
 
-CameraToolIcon {
-    id: button
-
-    iconSource: cameraTheme.whiteBalanceIcon(settings.imageWhiteBalance)
-
+CameraToolBarTools {
     property list<ToolsModelItem> toolsModel: [
         ToolsModelItem {icon: cameraTheme.whiteBalanceAutoIconId; value: WhiteBalance.Auto },
         ToolsModelItem {icon: cameraTheme.whiteBalanceSunsetIconId; value: WhiteBalance.Sunset },
@@ -36,21 +32,19 @@ CameraToolIcon {
         ToolsModelItem {icon: cameraTheme.whiteBalanceTungstenIconId; value: WhiteBalance.Tungsten }
     ]
 
-    property CameraToolBarTools tools: CameraToolBarTools {
-        CameraLabel {
-            height: parent ? parent.height : 0
-            text: qsTr("WB")
-            verticalAlignment: Text.AlignVCenter
-        }
+    CameraLabel {
+        height: parent.height
+        text: qsTr("WB")
+        verticalAlignment: Text.AlignVCenter
+    }
 
-        Repeater {
-            model: parent != null && parent.visible ? toolsModel : undefined
+    Repeater {
+        model: toolsModel
 
-            delegate: CheckButton {
-                iconSource: icon
-                onClicked: settings.imageWhiteBalance = value
-                checked: settings.imageWhiteBalance == value
-            }
+        delegate: CheckButton {
+            iconSource: icon
+            onClicked: settings.imageWhiteBalance = value
+            checked: settings.imageWhiteBalance == value
         }
     }
 }

@@ -132,29 +132,43 @@ Item {
         expanded: settings.showToolBar
         onExpandedChanged: settings.showToolBar = expanded
         tools: CameraToolBarTools {
-            FlashButton {
-                onClicked: toolBar.push(tools)
+            CameraToolIcon {
+                iconSource: cameraTheme.flashIcon(settings.imageFlashMode)
+                onClicked: toolBar.push(Qt.resolvedUrl("FlashButton.qml"))
                 visible: overlay.cam ? !overlay.cam.quirks.hasQuirk(Quirks.NoFlash) : false
             }
 
-            ImageSceneButton {
-                onClicked: toolBar.push(tools)
+            CameraToolIcon {
+                iconSource: cameraTheme.imageSceneModeIcon(settings.imageSceneMode)
+                onClicked: toolBar.push(Qt.resolvedUrl("ImageSceneButton.qml"))
             }
 
-            ImageEvCompButton {
-                onClicked: toolBar.push(tools)
+            CameraToolIcon {
+                iconSource: settings.imageEvComp == 0 ? cameraTheme.cameraManualExposureIconId : ""
+                onClicked: toolBar.push(Qt.resolvedUrl("ImageEvCompButton.qml"))
+
+                CameraLabel {
+                    anchors.fill: parent
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    visible: settings.imageEvComp != 0
+                    text: settings.imageEvComp == 0 ? "" : settings.imageEvComp.toFixed(1)
+                }
             }
 
-            ImageWhiteBalanceButton {
-                onClicked: toolBar.push(tools)
+            CameraToolIcon {
+                iconSource: cameraTheme.whiteBalanceIcon(settings.imageWhiteBalance)
+                onClicked: toolBar.push(Qt.resolvedUrl("ImageWhiteBalanceButton.qml"))
             }
 
-            ImageColorFilterButton {
-                onClicked: toolBar.push(tools)
+            CameraToolIcon {
+                iconSource: cameraTheme.colorFilterIcon(settings.imageColorFilter)
+                onClicked: toolBar.push(Qt.resolvedUrl("ImageColorFilterButton.qml"))
             }
 
-            ImageIsoButton {
-                onClicked: toolBar.push(tools)
+            CameraToolIcon {
+                iconSource: cameraTheme.isoIcon(settings.imageIso)
+                onClicked: toolBar.push(Qt.resolvedUrl("ImageIsoButton.qml"))
             }
         }
     }

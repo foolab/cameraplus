@@ -273,6 +273,12 @@ Viewfinder {
         value: settings.faceDetectionEnabled && !focusReticle.pressed && !focusReticle.touchMode && cam.mode == Camera.ImageMode
     }
 
+    Binding {
+        target: cam.videoTorch
+        property: "on"
+        value: settings.videoTorchOn
+    }
+
     function policyLost() {
         if (loader.item) {
             loader.item.policyLost()

@@ -85,7 +85,13 @@ function createContainer(tools, dock, stack) {
 }
 
 function destroyContainer(container) {
-    container.tools.parent = container.owner;
+    if (container.comp) {
+	container.tools.destroy();
+	container.comp.destroy();
+    } else {
+	container.tools.parent = container.owner;
+    }
+
     container.tools = null;
     container.owner = null;
     container.destroy();
