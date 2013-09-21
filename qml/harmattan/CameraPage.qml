@@ -22,6 +22,7 @@
 
 import QtQuick 1.1
 
-Item {
+Rectangle {
     anchors.fill: parent
+    color: "black"
 }

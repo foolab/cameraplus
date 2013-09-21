@@ -24,8 +24,11 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 import CameraPlus 1.0
 
-Window {
+Item {
     id: window
+    width: screen.displayWidth
+    height: screen.displayHeight
+
     property Component initialPage
     property Item page
 
