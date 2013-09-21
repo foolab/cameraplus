@@ -59,6 +59,7 @@
 #include "phoneprofile.h"
 #include "platformquirks.h"
 #include "stack.h"
+#include "toolbarlayout.h"
 #include <MDeclarativeCache>
 
 #ifdef QMLJSDEBUGGER
@@ -154,6 +155,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<PhoneProfile>("CameraPlus", 1, 0, "PhoneProfile");
   qmlRegisterType<PlatformQuirks>("CameraPlus", 1, 0, "PlatformQuirks");
   qmlRegisterType<Stack>("CameraPlus", 1, 0, "Stack");
+  qmlRegisterType<ToolBarLayout>("CameraPlus", 1, 0, "ToolBarLayout");
 
   view->setSource(QUrl("qrc:/qml/main.qml"));
 

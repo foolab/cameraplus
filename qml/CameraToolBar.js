@@ -63,10 +63,12 @@ function show(container, dock, stack) {
     container.tools.width = dock.width;
     container.tools.height = dock.height;
     container.tools.visible = true;
+    dock.setItems(container.tools.children)
 }
 
 function hide(container, dock, stack) {
     container.tools.visible = false;
+    dock.clearItems()
 }
 
 function createContainer(tools, dock, stack) {
@@ -107,28 +109,4 @@ function showLast(dock, stack) {
 
 function hideLast(dock, stack) {
     hide(stack.peek(), dock, stack)
-}
-
-function calculateChildrenWidth(children) {
-    var totalWidth = 0;
-
-    for (var x = 0; x < children.length; x++) {
-	if (children[x].visible) {
-	    totalWidth += children[x].width;
-	}
-    }
-
-    return totalWidth;
-}
-
-function countVisibleChildren(children) {
-    var total = 0;
-
-    for (var x = 0; x < children.length; x++) {
-	if (children[x].visible) {
-	    ++total;
-	}
-    }
-
-    return total;
 }

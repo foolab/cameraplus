@@ -111,14 +111,11 @@ Rectangle {
         id: stack
     }
 
-    Item {
+    ToolBarLayout {
         id: dock
-        property real menuWidth: parent.hideBack ? 0 : menu.width
-        property real leftMargin: __currentTools ? (parent.width - __currentTools.childrenWidth - menuWidth) / __currentTools.childrenLen : 0
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         anchors.left: parent.hideBack ? parent.left : menu.right
-        anchors.leftMargin: parent.hideBack ? 0 : leftMargin
     }
 }

@@ -1,4 +1,4 @@
-// -*- qml -*-
+// -*- c++ -*-
 
 /*!
  * This file is part of CameraPlus.
@@ -20,14 +20,33 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-import QtQuick 2.0
+#ifndef TOOL_BAR_LAYOUT_H
+#define TOOL_BAR_LAYOUT_H
 
-Item {
-    visible: false
-    anchors.fill: parent
-    opacity: visible ? 1 : 0
+#include <QDeclarativeItem>
 
-    Behavior on opacity {
-        NumberAnimation { duration: 100 }
-    }
-}
+class ToolBarLayout : public QDeclarativeItem {
+  Q_OBJECT
+
+public:
+  ToolBarLayout(QDeclarativeItem *parent = 0);
+  ~ToolBarLayout();
+
+  void componentComplete();
+
+public slots:
+  void clearItems();
+  void setItems(const QVariant& children);
+
+protected:
+  void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
+  QVariant itemChange(GraphicsItemChange change, const QVariant& value);
+
+private slots:
+  void reposition();
+
+private:
+  QList<QDeclarativeItem *> m_items;
+};
+
+#endif /* TOOL_BAR_LAYOUT_H */
