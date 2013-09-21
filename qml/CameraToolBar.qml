@@ -78,43 +78,6 @@ Rectangle {
     border.color: "gray"
     radius: 20
 
-    states: [
-        State {
-            name: "expanded"
-            when: expanded
-        },
-        State {
-            name: "collapsed"
-            when: !expanded
-        }
-    ]
-
-    transitions: [
-        Transition {
-            from: "expanded"
-            to: "collapsed"
-
-            PropertyAnimation {
-                property: "rotation"
-                target: menu
-                from: 0
-                to: 180
-                duration: 250
-            }
-        },
-        Transition {
-            from: "collapsed"
-            to: "expanded"
-            PropertyAnimation {
-                property: "rotation"
-                target: menu
-                from: 180
-                to: 360
-                duration: 250
-            }
-        }
-    ]
-
     Behavior on width {
         PropertyAnimation { duration: 100 }
     }
@@ -122,10 +85,14 @@ Rectangle {
     CameraToolIcon {
         visible: !parent.hideBack
         id: menu
+        rotation: parent.expanded ? 360 : 180
         iconSource: cameraTheme.cameraToolBarMenuIcon
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+        Behavior on rotation {
+            NumberAnimation { duration: 250 }
+        }
 
         onClicked: {
             if (parent.manualBack) {
