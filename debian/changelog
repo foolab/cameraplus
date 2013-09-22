@@ -1,3 +1,16 @@
+cameraplus (0.0.9-1) unstable; urgency=low
+
+  * Added a QVGA resolution to video resolutions
+  * Fixed an error when we try to change between 16:9 and 4:3 video resolutions
+  * Fixed playing videos in post capture produces no sound
+  * Added the ability to control playback volume from post capture
+  * Restart mthemedaemon at the end of installation to reread the theme.
+  * Don't hide the indicators when the toolbar is expanded
+  * Reworked delete dialog for post capture and added some eye candy
+  * More start up time improvements
+
+ -- Mohammed Sameer <msameer@foolab.org>  Sun, 22 Sep 2013 22:56:35 +0300
+
 cameraplus (0.0.8-1) unstable; urgency=low
 
   * Reworked preview animation
