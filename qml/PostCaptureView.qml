@@ -132,8 +132,7 @@ Item {
         anchors.rightMargin: 20
         opacity: show ? 0.8 : 0.0
         visible: opacity > 0
-        property bool show: deleteDialog.visible ||
-            hideTimer.running ||
+        property bool show: deleteDialog.visible || hideTimer.running ||
             (view.currentItem != null && view.currentItem.error) && !view.currentItem.playing
 
         Behavior on opacity {
