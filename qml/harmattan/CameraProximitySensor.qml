@@ -21,9 +21,8 @@
  */
 
 import QtQuick 1.1
-import QtMobility.sensors 1.2
+import CameraPlus 1.0
 
-ProximitySensor {
-    property bool close: false
-    onReadingChanged: close = reading.close
+Proximity {
+
 }

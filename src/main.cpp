@@ -60,6 +60,7 @@
 #include "platformquirks.h"
 #include "stack.h"
 #include "toolbarlayout.h"
+#include "proximity.h"
 #include <MDeclarativeCache>
 
 #ifdef QMLJSDEBUGGER
@@ -156,6 +157,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<PlatformQuirks>("CameraPlus", 1, 0, "PlatformQuirks");
   qmlRegisterType<Stack>("CameraPlus", 1, 0, "Stack");
   qmlRegisterType<ToolBarLayout>("CameraPlus", 1, 0, "ToolBarLayout");
+  qmlRegisterType<Proximity>("CameraPlus", 1, 0, "Proximity");
 
   view->setSource(QUrl("qrc:/qml/main.qml"));
 
