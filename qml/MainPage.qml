@@ -27,6 +27,13 @@ import CameraPlus 1.0
 // TODO: flash not ready (battery low or flash not ready message)
 // TODO: Sounds
 // TODO: N950 conf
+// TODO: show busy indicators while loaders are loading
+// TODO: slider is loading crap too
+// TODO: split bindings per mode (image & video)
+// TODO: flash setting does not survive restarts
+// TODO: async policy
+// TODO: portrait layout
+// TODO: creator name not shown
 
 CameraPage {
     id: root
@@ -158,7 +165,7 @@ CameraPage {
             showError(qsTr("Failed to set camera device and mode. Please restart the application."))
             return false
         }
-
+// TODO: set resolution before the mode?
         if (mode == Camera.ImageMode) {
             imageSettings.setImageResolution()
         }

@@ -261,6 +261,7 @@ Viewfinder {
         value: cam.iso.value
     }
 
+ // TODO: check this too (similar to torch ?)
     Binding {
         target: cam.videoMute
         property: "enabled"
@@ -273,6 +274,7 @@ Viewfinder {
         value: settings.faceDetectionEnabled && !focusReticle.pressed && !focusReticle.touchMode && cam.mode == Camera.ImageMode
     }
 
+// TODO: switch on, go to image mode then back to video -> icon and torch not in sync
     Binding {
         target: cam.videoTorch
         property: "on"
