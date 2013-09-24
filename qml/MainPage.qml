@@ -38,7 +38,7 @@ import CameraPlus 1.0
 CameraPage {
     id: root
 
-    property bool deviceChangeInProgress: false
+    property bool deviceChangeInProgress
     property bool inCaptureMode: mainView.currentIndex == 1
 
     CameraTheme {
@@ -53,8 +53,8 @@ CameraPage {
             width: mainView.width
             height: mainView.height
 
-            property bool pressed: false
-            property bool inhibitDim: false
+            property bool pressed
+            property bool inhibitDim
             property int policyMode: settings.mode == Camera.VideoMode ? CameraResources.Video : CameraResources.Image
             opacity: item ? 1.0 : 0
 

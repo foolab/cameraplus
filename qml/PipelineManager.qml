@@ -33,9 +33,9 @@ Item {
     property alias hijacked: policy.hijacked
     property alias scaleAcquired: policy.scaleAcquired
 
-    property Camera camera: null
+    property Camera camera
     property Item currentItem
-    property bool error: false
+    property bool error
     property int currentPolicyMode: CameraResources.None
 
     onCurrentItemChanged: {
