@@ -13,7 +13,7 @@ PKGCONFIG = gstreamer-0.10 gstreamer-interfaces-0.10 gstreamer-video-0.10 gstrea
             gstreamer-pbutils-0.10
 
 harmattan:PKGCONFIG += meego-gstreamer-interfaces-0.10
-nemo:PKGCONFIG += nemo-gstreamer-interfaces-0.10
+sailfish:PKGCONFIG += nemo-gstreamer-interfaces-0.10 Qt5OpenGLExtensions
 
 HEADERS += qtcamconfig.h qtcamera.h qtcamscanner.h qtcamdevice.h qtcamviewfinder.h \
            qtcammode.h qtcamgstreamermessagehandler.h qtcamgstreamermessagelistener.h \
@@ -45,6 +45,8 @@ SOURCES += gst/gstcopy.cpp
 
 harmattan:SOURCES += qtcamviewfinderrenderermeego.cpp
 harmattan:HEADERS += qtcamviewfinderrenderermeego.h
+sailfish:SOURCES += qtcamviewfinderrenderernemo.cpp
+sailfish:HEADERS += qtcamviewfinderrenderernemo.h
 
 qt4:SOURCES += qtcamgraphicsviewfinder.cpp
 qt4:HEADERS += qtcamgraphicsviewfinder.h

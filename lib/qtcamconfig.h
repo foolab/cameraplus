@@ -34,6 +34,7 @@ class QtCamQuirks;
 #define SCANNER_TYPE_ENUM                     "enum"
 
 #define RENDERER_TYPE_MEEGO                   "meego"
+#define RENDERER_TYPE_NEMO                    "nemo"
 
 #ifndef DATA_DIR
 #define DATA_DIR                              "/usr/share/qtcamera/config/"
