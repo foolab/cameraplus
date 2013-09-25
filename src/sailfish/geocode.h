@@ -24,9 +24,9 @@
 #define GEOCODE_H
 
 #include <QObject>
-#include <QGeocodeReply>
+#include <QGeoCodeReply>
 #include <QGeoServiceProvider>
-#include <QGeocodingManager>
+#include <QGeoCodingManager>
 
 class Geocode : public QObject {
   Q_OBJECT
@@ -56,16 +56,16 @@ signals:
   void suburbChanged();
 
 private slots:
-  void finished(QGeocodeReply *reply);
-  void error(QGeocodeReply *reply, const QGeocodeReply::Error& error,
+  void finished(QGeoCodeReply *reply);
+  void error(QGeoCodeReply *reply, const QGeoCodeReply::Error& error,
 	     const QString& errorString = QString());
 
 private:
   void clear();
 
   QGeoServiceProvider *m_provider;
-  QGeocodingManager *m_manager;
-  QGeocodeReply *m_reply;
+  QGeoCodingManager *m_manager;
+  QGeoCodeReply *m_reply;
 
   bool m_active;
   QString m_country;

@@ -23,13 +23,26 @@
 #ifndef TOOL_BAR_LAYOUT_H
 #define TOOL_BAR_LAYOUT_H
 
+#if defined(QT4)
 #include <QDeclarativeItem>
+#elif defined(QT5)
+#include <QQuickItem>
+#endif
 
+#if defined(QT4)
 class ToolBarLayout : public QDeclarativeItem {
+#elif defined(QT5)
+class ToolBarLayout : public QQuickItem {
+#endif
+
   Q_OBJECT
 
 public:
+#if defined(QT4)
   ToolBarLayout(QDeclarativeItem *parent = 0);
+#elif defined(QT5)
+  ToolBarLayout(QQuickItem *parent = 0);
+#endif
   ~ToolBarLayout();
 
   void componentComplete();
@@ -40,13 +53,17 @@ public slots:
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
-  QVariant itemChange(GraphicsItemChange change, const QVariant& value);
 
 private slots:
   void reposition();
+  void itemVisibilityChanged();
 
 private:
+#if defined(QT4)
   QList<QDeclarativeItem *> m_items;
+#elif defined(QT5)
+  QList<QQuickItem *> m_items;
+#endif
 };
 
 #endif /* TOOL_BAR_LAYOUT_H */

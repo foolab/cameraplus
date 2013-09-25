@@ -57,10 +57,14 @@
 #include "platformsettings.h"
 #include "dbusservice.h"
 #include "phoneprofile.h"
+#ifdef HARMATTAN
 #include "platformquirks.h"
+#endif
 #include "stack.h"
 #include "toolbarlayout.h"
+#ifdef HARMATTAN
 #include "proximity.h"
+#endif
 #include <MDeclarativeCache>
 
 #ifdef QMLJSDEBUGGER
@@ -154,10 +158,14 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<DeviceKeys>("CameraPlus", 1, 0, "DeviceKeys");
   qmlRegisterType<PlatformSettings>("CameraPlus", 1, 0, "PlatformSettings");
   qmlRegisterType<PhoneProfile>("CameraPlus", 1, 0, "PhoneProfile");
+#ifdef HARMATTAN
   qmlRegisterType<PlatformQuirks>("CameraPlus", 1, 0, "PlatformQuirks");
+#endif
   qmlRegisterType<Stack>("CameraPlus", 1, 0, "Stack");
   qmlRegisterType<ToolBarLayout>("CameraPlus", 1, 0, "ToolBarLayout");
+#ifdef HARMATTAN
   qmlRegisterType<Proximity>("CameraPlus", 1, 0, "Proximity");
+#endif
 
   view->setSource(QUrl("qrc:/qml/main.qml"));
 

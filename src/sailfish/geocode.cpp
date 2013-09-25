@@ -53,11 +53,11 @@ Geocode::Geocode(QObject *parent) :
     return;
   }
 
-  QObject::connect(m_manager, SIGNAL(finished(QGeocodeReply *)),
-		   this, SLOT(finished(QGeocodeReply *)));
-  QObject::connect(m_manager, SIGNAL(error(QGeocodeReply *, const QGeocodeReply::Error&,
+  QObject::connect(m_manager, SIGNAL(finished(QGeoCodeReply *)),
+		   this, SLOT(finished(QGeoCodeReply *)));
+  QObject::connect(m_manager, SIGNAL(error(QGeoCodeReply *, const QGeoCodeReply::Error&,
 					   const QString&)),
-		   this, SLOT(error(QGeocodeReply *, const QGeocodeReply::Error&,
+		   this, SLOT(error(QGeoCodeReply *, const QGeoCodeReply::Error&,
 				    const QString&)));
 }
 
@@ -131,8 +131,8 @@ void Geocode::clear() {
   }
 }
 
-void Geocode::finished(QGeocodeReply *reply) {
-  if (reply->error() != QGeocodeReply::NoError) {
+void Geocode::finished(QGeoCodeReply *reply) {
+  if (reply->error() != QGeoCodeReply::NoError) {
     qWarning() << "Error while geocoding" << reply->error() << reply->errorString();
 
     reply->deleteLater();
@@ -176,7 +176,7 @@ void Geocode::finished(QGeocodeReply *reply) {
   }
 }
 
-void Geocode::error(QGeocodeReply *reply, const QGeocodeReply::Error& error,
+void Geocode::error(QGeoCodeReply *reply, const QGeoCodeReply::Error& error,
 		    const QString& errorString) {
 
   qWarning() << "Error while geocoding" << error << reply->errorString() << errorString;
