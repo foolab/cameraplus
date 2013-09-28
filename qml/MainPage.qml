@@ -188,6 +188,7 @@ CameraPage {
 
     CameraPositionSource {
         id: positionSource
+// TODO: isOn needed?
         active: viewfinder.camera.running && settings.useGps && displayState.isOn
         onPositionChanged: geocode.search(position.coordinate.longitude, position.coordinate.latitude)
     }
@@ -227,6 +228,7 @@ CameraPage {
 
     ReverseGeocode {
         id: geocode
+// TODO: isOn needed?
         active: viewfinder.camera.running && settings.useGps && settings.useGeotags && displayState.isOn
     }
 
