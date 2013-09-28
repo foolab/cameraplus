@@ -10,6 +10,8 @@ Missing big features:
 * point of exposure.
 * Night mode (dim viewfinder)
 * Left handed mode (reverse layout and UI)
+* Manual focus support
+* Pause video recording
 * Plugins:
   - Get hold of viewfinder frames to analyze them and render whatever to the screen
   - A way to add GStreamer elements to viewfinder filters and draw to the screen
