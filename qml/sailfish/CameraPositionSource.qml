@@ -21,7 +21,7 @@
  */
 
 import QtQuick 2.0
-import QtLocation 5.0
+import QtPositioning 5.0
 
 PositionSource {
     // NOTE: The source will not reset the position when we lose the signal.
