@@ -33,7 +33,9 @@
 #define PATH "/usr/share/cameraplus/config/cameraplus.ini"
 
 #define PREVIEW_SIZE                             QSize(854, 480)
-#define THUMBNAIL_FLAVOR_NAME                    QString("screen")
+#define PREVIEW_FLAVOR_NAME                      QString("screen")
+#define GRID_SIZE                                QSize(170, 170)
+#define GRID_FLAVOR_NAME                         QString("grid")
 #define TEMPORARY_FILE_PATH                      "%1%2.config%2quill%2tmp"
 #define THUMBNAIL_EXTENSION                      QString("jpeg")
 #define THUMBNAIL_CREATION_ENABLED               true
@@ -65,8 +67,16 @@ QSize PlatformSettings::previewSize() {
   return m_settings->value("quill/previewSize", PREVIEW_SIZE).toSize();
 }
 
-QString PlatformSettings::thumbnailFlavorName() {
-  return m_settings->value("quill/thumbnailFlavorName", THUMBNAIL_FLAVOR_NAME).toString();
+QString PlatformSettings::previewFlavorName() {
+  return m_settings->value("quill/previewFlavorName", PREVIEW_FLAVOR_NAME).toString();
+}
+
+QSize PlatformSettings::gridSize() {
+  return m_settings->value("quill/gridSize", GRID_SIZE).toSize();
+}
+
+QString PlatformSettings::gridFlavorName() {
+  return m_settings->value("quill/gridFlavorName", GRID_FLAVOR_NAME).toString();
 }
 
 QString PlatformSettings::thumbnailExtension() {
@@ -93,13 +103,16 @@ QString PlatformSettings::temporaryFilePath() {
 
 void PlatformSettings::init() {
 #ifdef HARMATTAN
-  Quill::setPreviewLevelCount(1);
+  Quill::setPreviewLevelCount(2);
   QSize size = previewSize();
 
   int len = qMax(size.width(), size.height());
 
-  Quill::setThumbnailFlavorName(0, thumbnailFlavorName());
+  Quill::setThumbnailFlavorName(0, previewFlavorName());
   Quill::setPreviewSize(0, QSize(len, len));
+
+  Quill::setThumbnailFlavorName(1, gridFlavorName());
+  Quill::setPreviewSize(1, gridSize());
 
   Quill::setThumbnailExtension(thumbnailExtension());
   Quill::setBackgroundRenderingColor(backgroundRenderingColor());

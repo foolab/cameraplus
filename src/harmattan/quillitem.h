@@ -41,7 +41,7 @@ public:
   bool error() const;
 
 public slots:
-  void initialize(const QUrl& url, const QString& mimeType);
+  void initialize(const QUrl& url, const QString& mimeType, int displayLevel);
 
 signals:
   void sourceChanged();

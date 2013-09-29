@@ -35,7 +35,7 @@ QuillItem::~QuillItem() {
   delete m_file; m_file = 0;
 }
 
-void QuillItem::initialize(const QUrl& url, const QString& mimeType) {
+void QuillItem::initialize(const QUrl& url, const QString& mimeType, int displayLevel) {
   if (m_error) {
     m_error = false;
     emit errorChanged();
@@ -58,7 +58,7 @@ void QuillItem::initialize(const QUrl& url, const QString& mimeType) {
     return;
   }
 
-  m_file->setDisplayLevel(0);
+  m_file->setDisplayLevel(displayLevel);
 
   if (fileError()) {
     return;

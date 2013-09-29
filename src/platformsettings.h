@@ -56,7 +56,10 @@ public:
   };
 
   QSize previewSize();
-  QString thumbnailFlavorName();
+  QString previewFlavorName();
+
+  QSize gridSize();
+  QString gridFlavorName();
 
   QString thumbnailExtension();
   QColor backgroundRenderingColor();

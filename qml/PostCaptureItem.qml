@@ -67,6 +67,7 @@ Item {
         id: image
         source: itemUrl
         mimeType: itemMimeType
+        displayLevel: 0
         rotation: calculateRotation(orientation.orientation)
         width: isPortrait ? parent.height : parent.width - 10
         height: isPortrait ? parent.width - 10 : parent.height

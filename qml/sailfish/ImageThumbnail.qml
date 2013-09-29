@@ -25,6 +25,7 @@ import Sailfish.Silica 1.0
 import org.nemomobile.thumbnailer 1.0
 
 Thumbnail {
+    property int displayLevel
     // TODO: rotate portrait images
     property bool error: status == Thumbnail.Error
     anchors.fill: parent

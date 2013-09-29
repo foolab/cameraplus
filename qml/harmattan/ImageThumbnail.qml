@@ -27,5 +27,7 @@ import CameraPlus 1.0
 QuillItem {
     property url source
     property string mimeType
-    Component.onCompleted: initialize(source, mimeType)
+    property int displayLevel
+
+    Component.onCompleted: initialize(source, mimeType, displayLevel)
 }
