@@ -25,9 +25,6 @@
 
 #include <QDeclarativeItem>
 
-#define LANDSCAPE_PREVIEW_LEVEL  0
-#define PORTRAIT_PREVIEW_LEVEL   1
-
 class QuillFile;
 
 class QuillItem : public QDeclarativeItem {
@@ -57,7 +54,6 @@ private slots:
   bool fileError();
 
 private:
-  bool isLandscape();
   void recreate();
   void updateImage();
 

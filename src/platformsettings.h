@@ -82,9 +82,6 @@ public slots:
 private:
   QString canonicalPath(const QString& path) const;
 
-  QSize portraitSize(const QSize& size);
-  QSize landscapeSize(const QSize& size);
-
   QSettings *m_settings;
 
   QString m_image;

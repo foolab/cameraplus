@@ -23,7 +23,6 @@
 #include <QSettings>
 #ifdef HARMATTAN
 #include <Quill>
-#include "quillitem.h"
 #endif
 #if defined(QT4)
 #include <QDeclarativeInfo>
@@ -92,31 +91,15 @@ QString PlatformSettings::temporaryFilePath() {
   return m_settings->value("quill/temporaryFilePath", defaultPath).toString();
 }
 
-QSize PlatformSettings::portraitSize(const QSize& size) {
-  return size.width() > size.height() ? QSize(size.height(), size.width()) : size;
-}
-
-QSize PlatformSettings::landscapeSize(const QSize& size) {
-  return size.width() > size.height() ? size : QSize(size.height(), size.width());
-}
-
 void PlatformSettings::init() {
 #ifdef HARMATTAN
-  // How we create thumbnails for portrait is really messy.
-  // I am sure there is a better way to tell Quill to generate proper
-  // portrait thumbnails without having 2 display levels but I don't know how.
-  // The issue is we generate screen sized thumbnails for landscape
-  // but we generate half screen sized thumbnails for portrait
-  Quill::setPreviewLevelCount(2);
+  Quill::setPreviewLevelCount(1);
   QSize size = previewSize();
 
-  // Landscape:
-  Quill::setThumbnailFlavorName(LANDSCAPE_PREVIEW_LEVEL, thumbnailFlavorName());
-  Quill::setPreviewSize(LANDSCAPE_PREVIEW_LEVEL, landscapeSize(size));
+  int len = qMax(size.width(), size.height());
 
-  // Portrait:
-  Quill::setThumbnailFlavorName(PORTRAIT_PREVIEW_LEVEL, thumbnailFlavorName());
-  Quill::setPreviewSize(PORTRAIT_PREVIEW_LEVEL, portraitSize(size));
+  Quill::setThumbnailFlavorName(0, thumbnailFlavorName());
+  Quill::setPreviewSize(0, QSize(len, len));
 
   Quill::setThumbnailExtension(thumbnailExtension());
   Quill::setBackgroundRenderingColor(backgroundRenderingColor());
