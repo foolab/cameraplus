@@ -9,7 +9,7 @@
 	<file>CameraSwitch.qml</file>
 	<file>CameraWindow.qml</file>
 	<file>CameraButtonStyle.qml</file>
-	<file>FullScreenThumbnail.qml</file>
+	<file>ImageThumbnail.qml</file>
 	<file>CameraPositionSource.qml</file>
 	<file>CameraPage.qml</file>
 	<file>CameraProximitySensor.qml</file>

@@ -63,7 +63,7 @@ Item {
         onFinished: loader.source = ""
     }
 
-    FullScreenThumbnail {
+    ImageThumbnail {
         id: image
         source: itemUrl
         mimeType: itemMimeType
