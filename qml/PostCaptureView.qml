@@ -28,32 +28,216 @@ Item {
     id: postCaptureView
 
     property Camera camera: viewfinder.camera
-    property bool pressed: view.currentItem ? view.currentItem.playing : false
-    property int policyMode: view.currentItem && view.currentItem.playing ?
-        CameraResources.Player : settings.mode == Camera.VideoMode ? CameraResources.Video :
-        CameraResources.Image
-    property bool inhibitDim: pressed
+    property bool pressed: image.playing
+    property int policyMode: image.playing ? CameraResources.Player : settings.mode == Camera.VideoMode ? CameraResources.Video : CameraResources.Image
+    property bool inhibitDim: image.playing
 
-    property bool isCurrent: mainView.currentIndex == 2 && !mainView.moving
-    property bool inCameraMode: root.inCaptureMode && !mainView.moving
+    property bool toggleImageList
+    property bool hideImageList: image.playing || toggleImageList
 
-    onIsCurrentChanged: {
-        if (isCurrent) {
-            postCaptureModel.reload()
+    Component.onCompleted: postCaptureModel.reload()
+
+    ImageThumbnail {
+        id: image
+        property url currentUrl
+        property string currentFileName
+        property bool isVideo
+        property bool playing: loader.source != ""
+        property bool busy: deleteAnimation.running
+
+        width: parent.width
+        height: parent.height
+
+        function deleteUrl() {
+            deleteAnimation.start()
+        }
+
+        SequentialAnimation {
+            id: deleteAnimation
+
+            PropertyAnimation {
+                target: image
+                properties: "x"
+                from: 0
+                to: width
+                duration: 250
+            }
+
+            ScriptAction {
+                script: {
+                    if (!remove.remove(image.currentUrl)) {
+                        showError(qsTr("Failed to delete item"))
+                    } else {
+                        postCaptureModel.remove(image.currentUrl)
+                    }
+
+                    image.x = 0
+                }
+            }
+        }
+
+        function load(url, mime, fileName) {
+            initialize(url, mime, 0)
+            currentUrl = url
+            currentFileName = fileName
+            isVideo = mime.search("video/") >= 0
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: toggleImageList = !toggleImageList
+        }
+
+        Column {
+            anchors.centerIn: parent
+            width: parent.width
+
+            CameraLabel {
+                id: errorLabel
+                width: parent.width
+                visible: image.error
+                text: qsTr("Failed to load preview")
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: 32
+            }
+
+            CameraToolIcon {
+                id: playIcon
+                anchors.horizontalCenter: parent.horizontalCenter
+                iconSource: cameraTheme.videoPlayIconId
+                visible: image.isVideo
+                onClicked: loader.startPlayback(image.currentUrl)
+            }
         }
     }
 
-    onInCameraModeChanged: {
-        if (inCameraMode) {
-            postCaptureModel.clear()
+    ListView {
+        id: thumbnails
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: hideImageList ? -120 : 0
+        anchors.right: parent.right
+        anchors.left: parent.left
+        height: 120
+        onCurrentItemChanged: currentItem.load()
+
+        orientation: ListView.Horizontal
+        model: postCaptureModel
+        visible: anchors.bottomMargin > -100
+        enabled: !image.busy
+
+        Behavior on anchors.bottomMargin {
+            NumberAnimation { duration: 200 }
+        }
+
+        delegate: Rectangle {
+            id: rectangle
+            property bool isVideo: mimeType.search("video/") >= 0
+            width: 120
+            height: 120
+            color: isVideo ? "blue" : "white"
+
+            scale: mouse.pressed ? 2 : 1
+            z: scale > 1 ? 1 : 0
+
+            transformOrigin: Item.Bottom
+
+            Behavior on scale {
+                NumberAnimation { duration: 200 }
+            }
+
+            function load() {
+                image.load(url, mimeType, fileName)
+            }
+
+            MouseArea {
+                id: mouse
+                anchors.fill: parent
+                onClicked: {
+                    if (thumbnails.currentItem == rectangle) {
+                        rectangle.load()
+                    } else {
+                        thumbnails.currentIndex = index
+                    }
+                }
+            }
+
+            ImageThumbnail {
+                id: thumbnail
+                width: 116
+                height: 116
+                anchors.centerIn: parent
+                source: url
+                mimeType: mimeType
+                displayLevel: 1
+            }
         }
     }
 
-    Connections {
-        target: view.currentItem
-        onPlayingChanged: {
-            if (view.currentItem.playing) {
-                hideTimer.running = false
+    Loader {
+        id: loader
+        anchors.fill: parent
+
+        function startPlayback(url) {
+            loader.source = Qt.resolvedUrl("VideoPlayerPage.qml")
+            loader.item.source = url
+            if (!loader.item.play()) {
+                showError(qsTr("Error playing video. Please try again."))
+                loader.source = ""
+            }
+        }
+
+        function stopPlayback() {
+            if (loader.item) {
+                loader.item.stop()
+            }
+        }
+
+        Connections {
+            target: loader.item
+            onFinished: loader.source = ""
+        }
+    }
+
+    CameraToolBar {
+        id: toolBar
+        anchors.top: parent.top
+        anchors.topMargin: hideImageList ? -100 : 20
+        anchors.left: parent.left
+        anchors.leftMargin: 20
+        opacity: 0.5
+        targetWidth: parent.width - (anchors.leftMargin * 2)
+        expanded: true
+        hideBack: true
+        enabled: !image.busy
+
+        Behavior on anchors.topMargin {
+            NumberAnimation { duration: 200 }
+        }
+
+        tools: CameraToolBarTools {
+            CameraToolIcon {
+                iconSource: cameraTheme.shareIconId
+                onClicked: share.shareUrl(image.currentUrl)
+            }
+
+            CameraToolIcon {
+                iconSource: cameraTheme.deleteIconId
+                onClicked: deleteDialog.deleteUrl(image.currentUrl, image.currentFileName)
+            }
+
+            CameraToolIcon {
+                iconSource: cameraTheme.galleryIconId
+                onClicked: gallery.launchGallery()
+            }
+
+            CameraLabel {
+                height: toolBar.height
+                text: image.currentFileName
+                width: 350
+                font.pixelSize: 32
+                font.bold: true
+                verticalAlignment: Text.AlignVCenter
             }
         }
     }
@@ -61,109 +245,21 @@ Item {
     ShareHelper {
         id: share
         settings: platformSettings
+
+        function shareUrl(url) {
+            if (url != "" && !share.share(url)) {
+                showError(qsTr("Failed to launch share service"))
+            }
+        }
     }
 
     GalleryHelper {
         id: gallery
         settings: platformSettings
-    }
 
-    ListView {
-        id: view
-        anchors.fill: parent
-        snapMode: ListView.SnapOneItem
-        cacheBuffer: height * 3
-        model: postCaptureModel
-        highlightRangeMode: ListView.StrictlyEnforceRange
-        interactive: view.currentItem && view.currentItem.playing ? false : true
-
-        delegate: PostCaptureItem {
-            property bool del
-
-            width: view.width
-            height: view.height
-            onClicked: hideTimer.running = !hideTimer.running
-            x: del ? view.width : 0
-            Behavior on x {
-                SequentialAnimation {
-                    NumberAnimation { duration: 250 }
-                    ScriptAction {
-                        script: {
-                            if (!remove.remove(view.currentItem.itemUrl)) {
-                                showError(qsTr("Failed to delete item"))
-                                x = 0
-                            } else {
-                                view.model.remove(view.currentItem.itemUrl)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        onFlickingChanged: {
-            if (flicking && hideTimer.running) {
-                restartTimer()
-            }
-        }
-    }
-
-    PostCaptureModel {
-        id: postCaptureModel
-        imagePath: platformSettings.imagePath
-        videoPath: platformSettings.videoPath
-    }
-
-    Timer {
-        id: hideTimer
-        running: false
-        interval: 3000
-    }
-
-    CameraToolBar {
-        id: toolBar
-        expanded: true
-        hideBack: true
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 20
-        anchors.left: parent.left
-        anchors.leftMargin: 20
-        anchors.right: parent.right
-        anchors.rightMargin: 20
-        opacity: show ? 0.8 : 0.0
-        visible: opacity > 0
-        property bool show: deleteDialog.visible || hideTimer.running ||
-            (view.currentItem != null && view.currentItem.error) && !view.currentItem.playing
-
-        Behavior on opacity {
-            PropertyAnimation { duration: view.currentItem && view.currentItem.playing ? 0 : 200 }
-        }
-
-        tools: CameraToolBarTools {
-            CameraToolIcon {
-                iconSource: cameraTheme.shareIconId
-                enabled: view.currentItem != null
-                onClicked: {
-                    shareCurrentItem()
-                    restartTimer()
-                }
-            }
-
-            CameraToolIcon {
-                iconSource: cameraTheme.deleteIconId
-                enabled: view.currentItem != null
-                onClicked: {
-                    deleteCurrentItem()
-                    restartTimer()
-                }
-            }
-
-            CameraToolIcon {
-                iconSource: cameraTheme.galleryIconId
-                onClicked: {
-                    launchGallery()
-                    restartTimer()
-                }
+        function launchGallery() {
+            if (!gallery.launch()) {
+                showError(qsTr("Failed to launch gallery"))
             }
         }
     }
@@ -174,80 +270,29 @@ Item {
         acceptButtonText: qsTr("Yes");
         rejectButtonText: qsTr("No");
 
-        onAccepted: view.currentItem.del = true
+        onAccepted: image.deleteUrl()
 
         DeleteHelper {
             id: remove
         }
-    }
 
-    Rectangle {
-        opacity: toolBar.opacity
-        anchors.top: parent.top
-        anchors.topMargin: 20
-        anchors.left: parent.left
-        anchors.leftMargin: 20
-        anchors.right: parent.right
-        anchors.rightMargin: 20
-        visible: toolBar.visible
-        height: screen.isPortrait ? toolBar.height * 2 : toolBar.height
-        color: toolBar.color
-        border.color: toolBar.border.color
-        radius: toolBar.radius
-
-        Flow {
-            width: parent.width - 40
-            x: 20
-            height: parent.height
-
-            CameraLabel {
-                text: view.currentItem ? view.currentItem.itemTitle : ""
-                width: parent.width / 2
-                height: parent.height
-                font.bold: true
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignLeft
+        function deleteUrl(url, fileName) {
+            if (url == "" || fileName == "") {
+                return
             }
 
-            CameraLabel {
-                text: view.currentItem ? view.currentItem.itemCreated : ""
-                width: parent.width / 2
-                height: parent.height
-                font.bold: true
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignRight
-            }
+            deleteDialog.messageText = fileName
+            deleteDialog.open()
         }
     }
 
-    function launchGallery() {
-        if (!gallery.launch()) {
-            showError(qsTr("Failed to launch gallery"))
-        }
-    }
-
-    function deleteCurrentItem() {
-        if (view.currentItem == null) {
-            return
-        }
-
-        deleteDialog.messageText = view.currentItem.itemFileName
-        deleteDialog.open()
-    }
-
-    function shareCurrentItem() {
-        if (view.currentItem != null && !share.share(view.currentItem.itemUrl)) {
-            showError(qsTr("Failed to launch share service"))
-        }
-    }
-
-    function restartTimer() {
-        hideTimer.restart()
+    PostCaptureModel {
+        id: postCaptureModel
+        imagePath: platformSettings.imagePath
+        videoPath: platformSettings.videoPath
     }
 
     function policyLost() {
-        if (view.currentItem && view.currentItem.playing) {
-            view.currentItem.stopPlayback()
-        }
+        loader.stopPlayback()
     }
 }

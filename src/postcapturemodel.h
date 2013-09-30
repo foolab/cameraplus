@@ -39,10 +39,8 @@ public:
 
   typedef enum {
     UrlRole = Qt::UserRole + 1,
-    TitleRole = Qt::UserRole + 2,
-    MimeTypeRole = Qt::UserRole + 3,
-    CreatedRole = Qt::UserRole + 4,
-    FileNameRole = Qt::UserRole + 5,
+    MimeTypeRole = Qt::UserRole + 2,
+    FileNameRole = Qt::UserRole + 3,
   } Roles;
 
   QString imagePath() const;

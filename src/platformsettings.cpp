@@ -105,14 +105,16 @@ void PlatformSettings::init() {
 #ifdef HARMATTAN
   Quill::setPreviewLevelCount(2);
   QSize size = previewSize();
-
   int len = qMax(size.width(), size.height());
 
   Quill::setThumbnailFlavorName(0, previewFlavorName());
   Quill::setPreviewSize(0, QSize(len, len));
 
+  size = gridSize();
+  len = qMax(size.width(), size.height());
   Quill::setThumbnailFlavorName(1, gridFlavorName());
-  Quill::setPreviewSize(1, gridSize());
+  Quill::setPreviewSize(1, QSize(len, len));
+  Quill::setMinimumPreviewSize(1, QSize(len, len));
 
   Quill::setThumbnailExtension(thumbnailExtension());
   Quill::setBackgroundRenderingColor(backgroundRenderingColor());

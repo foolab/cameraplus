@@ -59,6 +59,7 @@ private:
 
   QuillFile *m_file;
   bool m_error;
+  int m_displayLevel;
 };
 
 #endif /* QUILL_ITEM_H */

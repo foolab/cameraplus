@@ -26,7 +26,9 @@
 #include <QDir>
 
 QuillItem::QuillItem(QDeclarativeItem *parent) :
-  QDeclarativeItem(parent), m_file(0), m_error(false) {
+  QDeclarativeItem(parent), m_file(0),
+  m_error(false),
+  m_displayLevel(-1) {
 
   setFlag(QGraphicsItem::ItemHasNoContents, false);
 }
@@ -36,6 +38,12 @@ QuillItem::~QuillItem() {
 }
 
 void QuillItem::initialize(const QUrl& url, const QString& mimeType, int displayLevel) {
+  if (!url.isValid()) {
+    return;
+  }
+
+  m_displayLevel = displayLevel;
+
   if (m_error) {
     m_error = false;
     emit errorChanged();
@@ -46,13 +54,14 @@ void QuillItem::initialize(const QUrl& url, const QString& mimeType, int display
   }
 
   m_file = new QuillFile(url.toLocalFile(), mimeType);
+  m_file->setPriority(displayLevel == 0 ? QuillFile::Priority_High : QuillFile::Priority_Low);
 
   QObject::connect(m_file, SIGNAL(error(QuillError)),
 		   this, SLOT(fileError()), Qt::QueuedConnection);
   QObject::connect(m_file, SIGNAL(imageAvailable(QuillImageList)),
 		   this, SLOT(fileLoaded()), Qt::QueuedConnection);
   QObject::connect(m_file, SIGNAL(removed()),
-		   m_file, SLOT(deleteLater()), Qt::QueuedConnection);
+	   m_file, SLOT(deleteLater()), Qt::QueuedConnection);
 
   if (fileError()) {
     return;
@@ -63,6 +72,9 @@ void QuillItem::initialize(const QUrl& url, const QString& mimeType, int display
   if (fileError()) {
     return;
   }
+
+  // We call this just in case we are using 1 file with 2 display levels
+  update();
 }
 
 bool QuillItem::error() const {
@@ -80,7 +92,7 @@ void QuillItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     return;
   }
 
-  QImage image = m_file->image(0);
+  QImage image = m_file->image(m_displayLevel);
 
   if (image.isNull()) {
     return;
