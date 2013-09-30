@@ -46,8 +46,6 @@ QtObject {
     property string cameraToolBarMenuIcon: "image://theme/cameraplus-icon-m-toolbar-back-white"
     property string deleteIconId: "image://theme/cameraplus-icon-m-toolbar-delete-white"
     property string shareIconId: "image://theme/cameraplus-icon-m-toolbar-share-white"
-    property string favoriteMarkIconId: "image://theme/cameraplus-icon-m-toolbar-favorite-mark-white"
-    property string favoriteUnmarkIconId: "image://theme/cameraplus-icon-m-toolbar-favorite-unmark-white"
     property string galleryIconId: "image://theme/cameraplus-icon-m-camera-roll"
 
     property string flashAutoIconId: "image://theme/cameraplus-icon-m-camera-flash-auto"
