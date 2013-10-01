@@ -32,7 +32,7 @@ Item {
     property int policyMode: image.playing ? CameraResources.Player : settings.mode == Camera.VideoMode ? CameraResources.Video : CameraResources.Image
     property bool inhibitDim: image.playing
 
-    property bool toggleImageList
+    property bool toggleImageList: true
     property bool hideImageList: image.playing || toggleImageList
 
     Component.onCompleted: postCaptureModel.reload()
