@@ -35,7 +35,7 @@
 #define PREVIEW_SIZE                             QSize(854, 480)
 #define PREVIEW_FLAVOR_NAME                      QString("screen")
 #define GRID_SIZE                                QSize(170, 170)
-#define GRID_FLAVOR_NAME                         QString("grid")
+#define GRID_FLAVOR_NAME                         QString("cropped")
 #define TEMPORARY_FILE_PATH                      "%1%2.config%2quill%2tmp"
 #define THUMBNAIL_EXTENSION                      QString("jpeg")
 #define THUMBNAIL_CREATION_ENABLED               true
