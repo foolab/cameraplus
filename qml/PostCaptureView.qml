@@ -159,6 +159,18 @@ Item {
             MouseArea {
                 id: mouse
                 anchors.fill: parent
+                onPressed: {
+                    var x = mapToItem(ListView.view, mouse.x, mouse.y).x
+
+                    if (x <= rectangle.width) {
+                        rectangle.transformOrigin = Item.BottomLeft
+                    } else if (x >= thumbnails.width - rectangle.width) {
+                        rectangle.transformOrigin = Item.BottomRight
+                    } else {
+                        rectangle.transformOrigin = Item.Bottom
+                    }
+                }
+
                 onClicked: {
                     if (thumbnails.currentItem == rectangle) {
                         rectangle.load()
