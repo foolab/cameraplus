@@ -74,6 +74,10 @@ QString PostCaptureModelItem::fileName() const {
   return m_path.mid(m_path.lastIndexOf('/') + 1);
 }
 
+bool PostCaptureModelItem::isVideo() const {
+  return mimeType().startsWith("video/");
+}
+
 inline const struct stat& PostCaptureModelItem::stat() const {
   return m_stat;
 }

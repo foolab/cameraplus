@@ -80,6 +80,11 @@ Item {
             currentMedia = media
         }
 
+        function unload() {
+            clear()
+            currentMedia = null
+        }
+
         MouseArea {
             anchors.fill: parent
             onClicked: toggleImageList = !toggleImageList
@@ -103,7 +108,7 @@ Item {
                 id: playIcon
                 anchors.horizontalCenter: parent.horizontalCenter
                 iconSource: cameraTheme.videoPlayIconId
-                visible: image.isVideo
+                visible: image.currentMedia ? image.currentMedia.video : false
                 onClicked: loader.startPlayback(image.currentMedia.url)
             }
         }
@@ -116,7 +121,13 @@ Item {
         anchors.right: parent.right
         anchors.left: parent.left
         height: 120
-        onCurrentItemChanged: currentItem.load()
+        onCurrentItemChanged: {
+            if (currentItem) {
+                currentItem.load()
+            } else {
+                image.unload()
+            }
+        }
 
         orientation: ListView.Horizontal
         model: postCaptureModel
@@ -129,10 +140,9 @@ Item {
 
         delegate: Rectangle {
             id: rectangle
-            property bool isVideo: media.mimeType.search("video/") >= 0
             width: 120
             height: 120
-            color: isVideo ? "blue" : "white"
+            color: media.video ? "blue" : "white"
 
             scale: mouse.pressed ? 2 : 1
             z: scale > 1 ? 1 : 0
@@ -216,11 +226,13 @@ Item {
             CameraToolIcon {
                 iconSource: cameraTheme.shareIconId
                 onClicked: share.shareUrl(image.currentMedia.url)
+                enabled: image.currentMedia != null
             }
 
             CameraToolIcon {
                 iconSource: cameraTheme.deleteIconId
                 onClicked: deleteDialog.deleteUrl(image.currentMedia.url, image.currentMedia.fileName)
+                enabled: image.currentMedia != null
             }
 
             CameraToolIcon {
@@ -230,7 +242,7 @@ Item {
 
             CameraLabel {
                 height: toolBar.height
-                text: image.currentMedia.fileName
+                text: image.currentMedia ? image.currentMedia.fileName : ""
                 width: 350
                 font.pixelSize: 32
                 font.bold: true

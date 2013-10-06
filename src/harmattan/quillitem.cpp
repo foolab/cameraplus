@@ -77,6 +77,15 @@ void QuillItem::initialize(const QUrl& url, const QString& mimeType, int display
   update();
 }
 
+void QuillItem::clear() {
+  if (m_file) {
+    m_file->deleteLater();
+    m_file = 0;
+  }
+
+  update();
+}
+
 bool QuillItem::error() const {
   return m_error;
 }

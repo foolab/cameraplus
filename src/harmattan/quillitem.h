@@ -42,6 +42,7 @@ public:
 
 public slots:
   void initialize(const QUrl& url, const QString& mimeType, int displayLevel);
+  void clear();
 
 signals:
   void sourceChanged();

@@ -37,6 +37,7 @@ class PostCaptureModelItem : public QObject {
   Q_PROPERTY(QUrl url READ url CONSTANT);
   Q_PROPERTY(QString mimeType READ mimeType CONSTANT);
   Q_PROPERTY(QString fileName READ fileName CONSTANT);
+  Q_PROPERTY(bool video READ isVideo CONSTANT);
 
 public:
   PostCaptureModelItem(const QString& path, QObject *parent);
@@ -48,6 +49,7 @@ public:
   const QString& path() const;
   QString mimeType() const;
   QString fileName() const;
+  bool isVideo() const;
   inline const struct stat& stat() const;
 
 private:
