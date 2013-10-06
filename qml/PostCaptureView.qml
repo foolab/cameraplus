@@ -40,7 +40,6 @@ Item {
     ImageThumbnail {
         id: image
         property variant currentMedia
-        property bool isVideo: currentMedia ? currentMedia.mimeType.search("video/") >= 0 : false
         property bool playing: loader.source != ""
         property bool busy: deleteAnimation.running
 
