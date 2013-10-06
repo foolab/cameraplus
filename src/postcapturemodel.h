@@ -23,11 +23,39 @@
 #ifndef POST_CAPTURE_MODEL_H
 #define POST_CAPTURE_MODEL_H
 
-#include <QStandardItemModel>
+#include <QAbstractListModel>
+#include <QUrl>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 class QDir;
 
-class PostCaptureModel : public QStandardItemModel {
+class PostCaptureModelItem : public QObject {
+  Q_OBJECT
+
+  Q_PROPERTY(QUrl url READ url CONSTANT);
+  Q_PROPERTY(QString mimeType READ mimeType CONSTANT);
+  Q_PROPERTY(QString fileName READ fileName CONSTANT);
+
+public:
+  PostCaptureModelItem(const QString& path, QObject *parent);
+  ~PostCaptureModelItem();
+
+  bool init();
+
+  QUrl url() const;
+  const QString& path() const;
+  QString mimeType() const;
+  QString fileName() const;
+  inline const struct stat& stat() const;
+
+private:
+  struct stat m_stat;
+  QString m_path;
+};
+
+class PostCaptureModel : public QAbstractListModel {
   Q_OBJECT
 
   Q_PROPERTY(QString imagePath READ imagePath WRITE setImagePath NOTIFY imagePathChanged);
@@ -38,9 +66,7 @@ public:
   ~PostCaptureModel();
 
   typedef enum {
-    UrlRole = Qt::UserRole + 1,
-    MimeTypeRole = Qt::UserRole + 2,
-    FileNameRole = Qt::UserRole + 3,
+    MediaRole = Qt::UserRole + 1,
   } Roles;
 
   QString imagePath() const;
@@ -48,6 +74,9 @@ public:
 
   QString videoPath() const;
   void setVideoPath(const QString& path);
+
+  int rowCount(const QModelIndex& parent = QModelIndex()) const;
+  QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
 public slots:
   void reload();
@@ -59,10 +88,12 @@ signals:
   void videoPathChanged();
 
 private:
+  void loadDir(const QDir& dir, QList<PostCaptureModelItem *>& out);
+
   QString m_imagePath;
   QString m_videoPath;
 
-  void loadDir(const QDir& dir, QList<QStandardItem *>& out);
+  QList<PostCaptureModelItem *> m_items;
 
 #if defined(QT5)
   QHash<int, QByteArray> roleNames() const;

@@ -24,9 +24,6 @@
 #include <QUrl>
 #include <QStandardItem>
 #include <dirent.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
 #if defined(QT4)
 #include <QDeclarativeInfo>
 #elif defined(QT5)
@@ -35,81 +32,63 @@
 
 static QHash<QString, QString> m_mime;
 
-class PostCaptureModelItem : public QStandardItem {
-public:
-  PostCaptureModelItem(const QString& path) :
-    m_path(path) {
 
+PostCaptureModelItem::PostCaptureModelItem(const QString& path, QObject *parent) :
+  QObject(parent),
+  m_path(path) {
+
+}
+
+PostCaptureModelItem::~PostCaptureModelItem() {
+
+}
+
+bool PostCaptureModelItem::init() {
+  if (::stat(m_path.toLocal8Bit().constData(), &m_stat) != 0) {
+    perror("stat");
+    return false;
   }
 
-  ~PostCaptureModelItem() {
+  return true;
+}
 
+QUrl PostCaptureModelItem::url() const {
+  return QUrl::fromLocalFile(m_path);
+}
+
+const QString& PostCaptureModelItem::path() const {
+  return m_path;
+}
+
+QString PostCaptureModelItem::mimeType() const {
+  QString ext = m_path.mid(m_path.lastIndexOf('.') + 1);
+
+  if (m_mime.contains(ext)) {
+    return m_mime[ext];
   }
 
-  bool init() {
-    if (::stat(m_path.toLocal8Bit().constData(), &m_stat) != 0) {
-      perror("stat");
-      return false;
-    }
+  return QString();
+}
 
-    return true;
-  }
+QString PostCaptureModelItem::fileName() const {
+  return m_path.mid(m_path.lastIndexOf('/') + 1);
+}
 
-  int type() const {
-    return UserType;
-  }
+inline const struct stat& PostCaptureModelItem::stat() const {
+  return m_stat;
+}
 
-  inline const QString& path() const {
-    return m_path;
-  }
-
-  inline QString mimeType(const QString& ext) const {
-    if (m_mime.contains(ext)) {
-      return m_mime[ext];
-    }
-
-    return QString();
-  }
-
-  QVariant data (int role = Qt::UserRole + 1) const {
-    switch (role) {
-    case PostCaptureModel::UrlRole:
-      return QUrl::fromLocalFile(m_path);
-
-    case PostCaptureModel::MimeTypeRole:
-      return mimeType(m_path.mid(m_path.lastIndexOf('.') + 1));
-
-    case PostCaptureModel::FileNameRole:
-      return m_path.mid(m_path.lastIndexOf('/') + 1);
-
-    default:
-      return QVariant();
-    }
-  }
-
-  inline const struct stat& stat() const {
-    return m_stat;
-  }
-
-private:
-  struct stat m_stat;
-
-  QString m_path;
-};
-
-static bool lessThan(const QStandardItem *a1, const QStandardItem *a2) {
+static bool lessThan(const PostCaptureModelItem *a1, const PostCaptureModelItem *a2) {
   // we sort descending
   return dynamic_cast<const PostCaptureModelItem *>(a1)->stat().st_mtime >
     dynamic_cast<const PostCaptureModelItem *>(a2)->stat().st_mtime;
 }
 
 PostCaptureModel::PostCaptureModel(QObject *parent) :
-  QStandardItemModel(parent) {
+  QAbstractListModel(parent) {
 
   QHash<int, QByteArray> roles;
-  roles.insert(UrlRole, "url");
-  roles.insert(MimeTypeRole, "mimeType");
-  roles.insert(FileNameRole, "fileName");
+  roles.insert(MediaRole, "media");
 
   setRoleNames(roles);
 
@@ -147,7 +126,7 @@ void PostCaptureModel::setVideoPath(const QString& path) {
   }
 }
 
-void PostCaptureModel::loadDir(const QDir& dir, QList<QStandardItem *>& out) {
+void PostCaptureModel::loadDir(const QDir& dir, QList<PostCaptureModelItem *>& out) {
   QString path = dir.canonicalPath();
 
   DIR *d = opendir(path.toLocal8Bit().constData());
@@ -170,7 +149,8 @@ void PostCaptureModel::loadDir(const QDir& dir, QList<QStandardItem *>& out) {
       continue;
     }
 
-    PostCaptureModelItem *item = new PostCaptureModelItem(dir.absoluteFilePath(entry->d_name));
+    PostCaptureModelItem *item =
+      new PostCaptureModelItem(dir.absoluteFilePath(entry->d_name), this);
     if (!item->init()) {
       delete item;
       continue;
@@ -183,7 +163,9 @@ void PostCaptureModel::loadDir(const QDir& dir, QList<QStandardItem *>& out) {
 }
 
 void PostCaptureModel::reload() {
-  QList<QStandardItem *> files;
+  clear();
+
+  QList<PostCaptureModelItem *> files;
 
   QDir images(m_imagePath);
   QDir videos(m_videoPath);
@@ -196,24 +178,53 @@ void PostCaptureModel::reload() {
 
   qSort(files.begin(), files.end(), lessThan);
 
-  invisibleRootItem()->appendRows(files);
+  if (files.isEmpty()) {
+    return;
+  }
+
+  beginInsertRows(QModelIndex(), 0, files.size() - 1);
+  m_items = files;
+  endInsertRows();
 }
 
 void PostCaptureModel::clear() {
-  QStandardItemModel::clear();
+  if (m_items.isEmpty()) {
+    return;
+  }
+
+  beginRemoveRows(QModelIndex(), 0, m_items.size() - 1);
+  qDeleteAll(m_items);
+  endRemoveRows();
 }
 
 void PostCaptureModel::remove(const QUrl& file) {
-  QString path(file.toLocalFile());
+  QString path = file.toLocalFile();
 
-  int count = invisibleRootItem()->rowCount();
-
-  for (int x = 0; x < count; x++) {
-    if (dynamic_cast<PostCaptureModelItem *>(invisibleRootItem()->child(x))->path() == path) {
-      invisibleRootItem()->removeRow(x);
+  for (int x = 0; x < m_items.size(); x++) {
+    if (m_items[x]->path() == path) {
+      beginRemoveRows(QModelIndex(), x, x);
+      m_items.takeAt(x)->deleteLater();
+      endRemoveRows();
       return;
     }
   }
+}
+
+int PostCaptureModel::rowCount(const QModelIndex& parent) const {
+  if (!parent.isValid()) {
+    return m_items.size();
+  }
+
+  return 0;
+}
+
+QVariant PostCaptureModel::data(const QModelIndex& index, int role) const {
+  if (role == MediaRole && index.row() < m_items.size()) {
+    QObject *o = m_items[index.row()];
+    return QVariant::fromValue<QObject *>(o);
+  }
+
+  return QVariant();
 }
 
 #if defined(QT5)

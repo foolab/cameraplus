@@ -39,9 +39,8 @@ Item {
 
     ImageThumbnail {
         id: image
-        property url currentUrl
-        property string currentFileName
-        property bool isVideo
+        property variant currentMedia
+        property bool isVideo: currentMedia ? currentMedia.mimeType.search("video/") >= 0 : false
         property bool playing: loader.source != ""
         property bool busy: deleteAnimation.running
 
@@ -65,10 +64,10 @@ Item {
 
             ScriptAction {
                 script: {
-                    if (!remove.remove(image.currentUrl)) {
+                    if (!remove.remove(image.currentMedia.url)) {
                         showError(qsTr("Failed to delete item"))
                     } else {
-                        postCaptureModel.remove(image.currentUrl)
+                        postCaptureModel.remove(image.currentMedia.url)
                     }
 
                     image.x = 0
@@ -76,11 +75,9 @@ Item {
             }
         }
 
-        function load(url, mime, fileName) {
-            initialize(url, mime, 0)
-            currentUrl = url
-            currentFileName = fileName
-            isVideo = mime.search("video/") >= 0
+        function load(media) {
+            initialize(media.url, media.mimeType, 0)
+            currentMedia = media
         }
 
         MouseArea {
@@ -107,7 +104,7 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 iconSource: cameraTheme.videoPlayIconId
                 visible: image.isVideo
-                onClicked: loader.startPlayback(image.currentUrl)
+                onClicked: loader.startPlayback(image.currentMedia.url)
             }
         }
     }
@@ -132,7 +129,7 @@ Item {
 
         delegate: Rectangle {
             id: rectangle
-            property bool isVideo: mimeType.search("video/") >= 0
+            property bool isVideo: media.mimeType.search("video/") >= 0
             width: 120
             height: 120
             color: isVideo ? "blue" : "white"
@@ -147,7 +144,7 @@ Item {
             }
 
             function load() {
-                image.load(url, mimeType, fileName)
+                image.load(media);
             }
 
             MouseArea {
@@ -167,8 +164,8 @@ Item {
                 width: 116
                 height: 116
                 anchors.centerIn: parent
-                source: url
-                mimeType: mimeType
+                source: media.url
+                mimeType: media.mimeType
                 displayLevel: 1
             }
         }
@@ -218,12 +215,12 @@ Item {
         tools: CameraToolBarTools {
             CameraToolIcon {
                 iconSource: cameraTheme.shareIconId
-                onClicked: share.shareUrl(image.currentUrl)
+                onClicked: share.shareUrl(image.currentMedia.url)
             }
 
             CameraToolIcon {
                 iconSource: cameraTheme.deleteIconId
-                onClicked: deleteDialog.deleteUrl(image.currentUrl, image.currentFileName)
+                onClicked: deleteDialog.deleteUrl(image.currentMedia.url, image.currentMedia.fileName)
             }
 
             CameraToolIcon {
@@ -233,7 +230,7 @@ Item {
 
             CameraLabel {
                 height: toolBar.height
-                text: image.currentFileName
+                text: image.currentMedia.fileName
                 width: 350
                 font.pixelSize: 32
                 font.bold: true
