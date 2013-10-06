@@ -34,12 +34,12 @@ Item {
 
     property bool toggleImageList: true
     property bool hideImageList: image.playing || toggleImageList
+    property variant currentMedia
 
     Component.onCompleted: postCaptureModel.reload()
 
     ImageThumbnail {
         id: image
-        property variant currentMedia
         property bool playing: loader.source != ""
         property bool busy: deleteAnimation.running
 
@@ -63,10 +63,10 @@ Item {
 
             ScriptAction {
                 script: {
-                    if (!remove.remove(image.currentMedia.url)) {
+                    if (!remove.remove(postCaptureView.currentMedia.url)) {
                         showError(qsTr("Failed to delete item"))
                     } else {
-                        postCaptureModel.remove(image.currentMedia.url)
+                        postCaptureModel.remove(postCaptureView.currentMedia.url)
                     }
 
                     image.x = 0
@@ -76,12 +76,12 @@ Item {
 
         function load(media) {
             initialize(media.url, media.mimeType, 0)
-            currentMedia = media
+            postCaptureView.currentMedia = media
         }
 
         function unload() {
             clear()
-            currentMedia = null
+            postCaptureView.currentMedia = null
         }
 
         MouseArea {
@@ -107,8 +107,8 @@ Item {
                 id: playIcon
                 anchors.horizontalCenter: parent.horizontalCenter
                 iconSource: cameraTheme.videoPlayIconId
-                visible: image.currentMedia ? image.currentMedia.video : false
-                onClicked: loader.startPlayback(image.currentMedia.url)
+                visible: postCaptureView.currentMedia ? postCaptureView.currentMedia.video : false
+                onClicked: loader.startPlayback(postCaptureView.currentMedia.url)
             }
         }
     }
@@ -236,14 +236,15 @@ Item {
         tools: CameraToolBarTools {
             CameraToolIcon {
                 iconSource: cameraTheme.shareIconId
-                onClicked: share.shareUrl(image.currentMedia.url)
-                enabled: image.currentMedia != null
+                onClicked: share.shareUrl(postCaptureView.currentMedia.url)
+                enabled: postCaptureView.currentMedia != null
             }
 
             CameraToolIcon {
                 iconSource: cameraTheme.deleteIconId
-                onClicked: deleteDialog.deleteUrl(image.currentMedia.url, image.currentMedia.fileName)
-                enabled: image.currentMedia != null
+                onClicked: deleteDialog.deleteUrl(postCaptureView.currentMedia.url,
+                    postCaptureView.currentMedia.fileName)
+                enabled: postCaptureView.currentMedia != null
             }
 
             CameraToolIcon {
@@ -253,7 +254,7 @@ Item {
 
             CameraLabel {
                 height: toolBar.height
-                text: image.currentMedia ? image.currentMedia.fileName : ""
+                text: postCaptureView.currentMedia ? postCaptureView.currentMedia.fileName : ""
                 width: 350
                 font.pixelSize: 32
                 font.bold: true
