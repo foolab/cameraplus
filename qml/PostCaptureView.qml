@@ -140,7 +140,6 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: toggleImageList = !toggleImageList
-            // TODO:
             onDoubleClicked: image.resetZoom()
         }
 
