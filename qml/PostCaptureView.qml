@@ -38,55 +38,110 @@ Item {
 
     Component.onCompleted: postCaptureModel.reload()
 
-    ImageThumbnail {
-        id: image
-        property bool playing: loader.source != ""
-        property bool busy: deleteAnimation.running
-
+    Flickable {
+        id: flick
+        anchors.fill: parent
+        boundsBehavior: Flickable.StopAtBounds
         width: parent.width
         height: parent.height
+        contentWidth: width
+        contentHeight: height
 
-        function deleteUrl() {
-            deleteAnimation.start()
-        }
+        ImageThumbnail {
+            id: image
+            property bool playing: loader.source != ""
+            property bool busy: deleteAnimation.running
 
-        SequentialAnimation {
-            id: deleteAnimation
+            anchors.centerIn: parent
+            width: Math.max(flick.width, flick.contentWidth)
+            height: Math.max(flick.height, flick.contentHeight)
 
-            PropertyAnimation {
-                target: image
-                properties: "x"
-                from: 0
-                to: width
-                duration: 250
+            function resetZoom() {
+// TODO:
+                flick.resizeContent(postCaptureView.width, postCaptureView.height,
+                    Qt.point(postCaptureView.width / 2, postCaptureView.height / 2))
+//                flick.returnToBounds()
             }
 
-            ScriptAction {
-                script: {
-                    if (!remove.remove(postCaptureView.currentMedia.url)) {
-                        showError(qsTr("Failed to delete item"))
-                    } else {
-                        postCaptureModel.remove(postCaptureView.currentMedia.url)
-                    }
+            function load(media) {
+                resetZoom()
+                initialize(media.url, media.mimeType, 0)
+                postCaptureView.currentMedia = media
+            }
 
-                    image.x = 0
+            function unload() {
+                clear()
+                postCaptureView.currentMedia = null
+            }
+
+            function deleteUrl() {
+                deleteAnimation.start()
+            }
+
+            SequentialAnimation {
+                id: deleteAnimation
+
+                PropertyAnimation {
+                    target: image
+                    properties: "x"
+                    from: 0
+                    to: width
+                    duration: 250
+                }
+
+                ScriptAction {
+                    script: {
+                        if (!remove.remove(postCaptureView.currentMedia.url)) {
+                            showError(qsTr("Failed to delete item"))
+                        } else {
+                            postCaptureModel.remove(postCaptureView.currentMedia.url)
+                        }
+
+                        image.x = 0
+                    }
                 }
             }
+
         }
 
-        function load(media) {
-            initialize(media.url, media.mimeType, 0)
-            postCaptureView.currentMedia = media
-        }
+        PinchArea {
+            id: pinchArea
+            width: Math.max(flick.width, flick.contentWidth)
+            height: Math.max(flick.height, flick.contentHeight)
+            enabled: !playIcon.visible
+            property real initialWidth: image.width
+            property real initialHeight: image.height
 
-        function unload() {
-            clear()
-            postCaptureView.currentMedia = null
+            pinch.minimumScale: 1
+            pinch.maximumScale: 4
+            onPinchFinished: flick.returnToBounds()
+            onPinchStarted: {
+                initialWidth = image.width * image.scale
+                initialHeight = image.height * image.scale
+            }
+
+            onPinchUpdated: {
+                var scale = pinch.scale;
+                var newWidth = Math.max(initialWidth * scale, postCaptureView.width)
+                var newHeight = Math.max(initialHeight * scale, postCaptureView.height)
+                var center = pinch.center
+                if (newWidth == postCaptureView.width) {
+                    center.x = postCaptureView.width / 2
+                }
+
+                if (newHeight == postCaptureView.height) {
+                    center.y = postCaptureView.height / 2
+                }
+
+                flick.resizeContent(newWidth, newHeight, center)
+            }
         }
 
         MouseArea {
             anchors.fill: parent
             onClicked: toggleImageList = !toggleImageList
+            // TODO:
+            onDoubleClicked: image.resetZoom()
         }
 
         Column {
