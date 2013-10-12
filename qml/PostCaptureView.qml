@@ -40,7 +40,6 @@ Item {
 
     Flickable {
         id: flick
-        anchors.fill: parent
         boundsBehavior: Flickable.StopAtBounds
         width: parent.width
         height: parent.height
@@ -82,7 +81,7 @@ Item {
                 id: deleteAnimation
 
                 PropertyAnimation {
-                    target: image
+                    target: flick
                     properties: "x"
                     from: 0
                     to: width
@@ -97,7 +96,7 @@ Item {
                             postCaptureModel.remove(postCaptureView.currentMedia.url)
                         }
 
-                        image.x = 0
+                        flick.x = 0
                     }
                 }
             }
