@@ -57,10 +57,10 @@ Item {
             height: Math.max(flick.height, flick.contentHeight)
 
             function resetZoom() {
-// TODO:
                 flick.resizeContent(postCaptureView.width, postCaptureView.height,
                     Qt.point(postCaptureView.width / 2, postCaptureView.height / 2))
-//                flick.returnToBounds()
+                flick.contentX = 0
+                flick.contentY = 0
             }
 
             function load(media) {
