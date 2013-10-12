@@ -29,6 +29,7 @@
 	<file>ModeController.qml</file>
 	<file>PipelineManager.qml</file>
 	<file>PostCaptureView.qml</file>
+	<file>PostCaptureViewImage.qml</file>
 	<file>PreviewImage.qml</file>
 	<file>RecordingDurationLabel.qml</file>
 	<file>SectionHeader.qml</file>

@@ -28,141 +28,30 @@ Item {
     id: postCaptureView
 
     property Camera camera: viewfinder.camera
-    property bool pressed: image.playing
-    property int policyMode: image.playing ? CameraResources.Player : settings.mode == Camera.VideoMode ? CameraResources.Video : CameraResources.Image
-    property bool inhibitDim: image.playing
+    property bool pressed: view.currentItem ? view.currentItem.playing : false
+    property int policyMode: pressed ? CameraResources.Player : settings.mode == Camera.VideoMode ? CameraResources.Video : CameraResources.Image
+    property bool inhibitDim: pressed
 
     property bool toggleImageList: true
-    property bool hideImageList: image.playing || toggleImageList
-    property variant currentMedia
+    property bool hideImageList: pressed || toggleImageList
 
     Component.onCompleted: postCaptureModel.reload()
 
-    Flickable {
-        id: flick
-        boundsBehavior: Flickable.StopAtBounds
-        width: parent.width
-        height: parent.height
-        contentWidth: width
-        contentHeight: height
+    ListView {
+        id: view
+        anchors.fill: parent
+        orientation: ListView.Vertical
+        model: postCaptureModel
+        snapMode: ListView.SnapOneItem
+        onCurrentIndexChanged: thumbnails.positionViewAtIndex(currentIndex, ListView.Contain)
+        highlightFollowsCurrentItem: true
+        highlightMoveDuration: 1
+        highlightResizeDuration: 1
+        highlightRangeMode: ListView.StrictlyEnforceRange
 
-        ImageThumbnail {
-            id: image
-            property bool playing: loader.source != ""
-            property bool busy: deleteAnimation.running
-
-            anchors.centerIn: parent
-            width: Math.max(flick.width, flick.contentWidth)
-            height: Math.max(flick.height, flick.contentHeight)
-
-            function resetZoom() {
-                flick.resizeContent(postCaptureView.width, postCaptureView.height,
-                    Qt.point(postCaptureView.width / 2, postCaptureView.height / 2))
-                flick.contentX = 0
-                flick.contentY = 0
-            }
-
-            function load(media) {
-                resetZoom()
-                initialize(media.url, media.mimeType, 0)
-                postCaptureView.currentMedia = media
-            }
-
-            function unload() {
-                clear()
-                postCaptureView.currentMedia = null
-            }
-
-            function deleteUrl() {
-                deleteAnimation.start()
-            }
-
-            SequentialAnimation {
-                id: deleteAnimation
-
-                PropertyAnimation {
-                    target: flick
-                    properties: "x"
-                    from: 0
-                    to: width
-                    duration: 250
-                }
-
-                ScriptAction {
-                    script: {
-                        if (!remove.remove(postCaptureView.currentMedia.url)) {
-                            showError(qsTr("Failed to delete item"))
-                        } else {
-                            postCaptureModel.remove(postCaptureView.currentMedia.url)
-                        }
-
-                        flick.x = 0
-                    }
-                }
-            }
-
-        }
-
-        PinchArea {
-            id: pinchArea
-            width: Math.max(flick.width, flick.contentWidth)
-            height: Math.max(flick.height, flick.contentHeight)
-            enabled: !playIcon.visible
-            property real initialWidth: image.width
-            property real initialHeight: image.height
-
-            pinch.minimumScale: 1
-            pinch.maximumScale: 4
-            onPinchFinished: flick.returnToBounds()
-            onPinchStarted: {
-                initialWidth = image.width * image.scale
-                initialHeight = image.height * image.scale
-            }
-
-            onPinchUpdated: {
-                var scale = pinch.scale;
-                var newWidth = Math.max(initialWidth * scale, postCaptureView.width)
-                var newHeight = Math.max(initialHeight * scale, postCaptureView.height)
-                var center = pinch.center
-                if (newWidth == postCaptureView.width) {
-                    center.x = postCaptureView.width / 2
-                }
-
-                if (newHeight == postCaptureView.height) {
-                    center.y = postCaptureView.height / 2
-                }
-
-                flick.resizeContent(newWidth, newHeight, center)
-            }
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: toggleImageList = !toggleImageList
-            onDoubleClicked: image.resetZoom()
-        }
-
-        Column {
-            anchors.centerIn: parent
-            width: parent.width
-
-            CameraLabel {
-                id: errorLabel
-                width: parent.width
-                visible: image.error
-                text: qsTr("Failed to load preview")
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                font.pixelSize: 32
-            }
-
-            CameraToolIcon {
-                id: playIcon
-                anchors.horizontalCenter: parent.horizontalCenter
-                iconSource: cameraTheme.videoPlayIconId
-                visible: postCaptureView.currentMedia ? postCaptureView.currentMedia.video : false
-                onClicked: loader.startPlayback(postCaptureView.currentMedia.url)
-            }
+        delegate: PostCaptureViewImage {
+            width: view.width
+            height: view.height
         }
     }
 
@@ -173,18 +62,12 @@ Item {
         anchors.right: parent.right
         anchors.left: parent.left
         height: 120
-        onCurrentItemChanged: {
-            if (currentItem) {
-                currentItem.load()
-            } else {
-                image.unload()
-            }
-        }
-
+        onCurrentIndexChanged: view.currentIndex = currentIndex
+        highlightFollowsCurrentItem: true
         orientation: ListView.Horizontal
         model: postCaptureModel
         visible: anchors.bottomMargin > -100
-        enabled: !image.busy
+        enabled: view.currentItem ? !view.currentItem.busy : true
 
         Behavior on anchors.bottomMargin {
             NumberAnimation { duration: 200 }
@@ -205,10 +88,6 @@ Item {
                 NumberAnimation { duration: 200 }
             }
 
-            function load() {
-                image.load(media);
-            }
-
             MouseArea {
                 id: mouse
                 anchors.fill: parent
@@ -225,8 +104,10 @@ Item {
                 }
 
                 onClicked: {
-                    if (thumbnails.currentItem == rectangle) {
-                        rectangle.load()
+                    if (thumbnails.currentIndex == index) {
+                        if (view.currentItem) {
+                            view.currentItem.load()
+                        }
                     } else {
                         thumbnails.currentIndex = index
                     }
@@ -280,7 +161,7 @@ Item {
         targetWidth: parent.width - (anchors.leftMargin * 2)
         expanded: true
         hideBack: true
-        enabled: !image.busy
+        enabled: view.currentItem ? !view.currentItem.busy : true
 
         Behavior on anchors.topMargin {
             NumberAnimation { duration: 200 }
@@ -289,15 +170,15 @@ Item {
         tools: CameraToolBarTools {
             CameraToolIcon {
                 iconSource: cameraTheme.shareIconId
-                onClicked: share.shareUrl(postCaptureView.currentMedia.url)
-                enabled: postCaptureView.currentMedia != null
+                onClicked: share.shareUrl(view.currentItem.url)
+                enabled: view.currentItem != null
             }
 
             CameraToolIcon {
                 iconSource: cameraTheme.deleteIconId
-                onClicked: deleteDialog.deleteUrl(postCaptureView.currentMedia.url,
-                    postCaptureView.currentMedia.fileName)
-                enabled: postCaptureView.currentMedia != null
+                onClicked: deleteDialog.deleteUrl(view.currentItem.url,
+                    view.currentItem.fileName)
+                enabled: view.currentItem != null
             }
 
             CameraToolIcon {
@@ -307,7 +188,7 @@ Item {
 
             CameraLabel {
                 height: toolBar.height
-                text: postCaptureView.currentMedia ? postCaptureView.currentMedia.fileName : ""
+                text: view.currentItem ? view.currentItem.fileName : ""
                 width: 350
                 font.pixelSize: 32
                 font.bold: true
@@ -344,7 +225,7 @@ Item {
         acceptButtonText: qsTr("Yes");
         rejectButtonText: qsTr("No");
 
-        onAccepted: image.deleteUrl()
+        onAccepted: view.currentItem.deleteUrl()
 
         DeleteHelper {
             id: remove
