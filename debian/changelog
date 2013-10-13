@@ -1,3 +1,12 @@
+cameraplus (0.0.10-1) unstable; urgency=low
+
+  * Reworked post capture view
+  * Added pinch zoom to images in post capture view
+  * Fixed accidental capture when moving to post capture while proximity is closed
+  * Added a night mode option for dimming viewfinder
+
+ -- Mohammed Sameer <msameer@foolab.org>  Sun, 13 Oct 2013 14:11:49 +0300
+
 cameraplus (0.0.9-1) unstable; urgency=low
 
   * Added a QVGA resolution to video resolutions
