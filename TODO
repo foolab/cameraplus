@@ -7,7 +7,6 @@ Missing big features:
 * fcam like functionality for QtCamera (precise control over frame parameters)
 * portrait mode for image and video modes.
 * point of exposure.
-* Night mode (dim viewfinder)
 * Left handed mode (reverse layout and UI)
 * Manual focus support
 * Pause video recording

@@ -38,6 +38,12 @@ Viewfinder {
 
     Component.onDestruction: cam.stop()
 
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        opacity: settings.nightMode ? 0.7 : 0
+    }
+
     GridLines {
         x: viewfinder.renderArea.x
         y: viewfinder.renderArea.y

@@ -37,6 +37,7 @@
 #define DEFAULT_PROXIMITY_AS_SHUTTER    false
 #define DEFAULT_DEVICE                  0
 #define DEFAULT_ENABLE_PREVIEW          true
+#define DEFAULT_NIGHT_MODE              false
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -452,5 +453,16 @@ void Settings::setPreviewEnabled(bool enabled) {
     m_settings->setValue("camera/enablePreview", enabled);
 
     emit previewEnabledChanged();
+  }
+}
+
+bool Settings::isNightModeEnabled() const {
+  return m_settings->value("camera/nightMode", DEFAULT_NIGHT_MODE).toBool();
+}
+
+void Settings::setNightModeEnabled(bool enabled) {
+  if (isNightModeEnabled() != enabled) {
+    m_settings->setValue("camera/nightMode", enabled);
+    emit nightModeChanged();
   }
 }

@@ -104,6 +104,12 @@ Column {
     }
 
     CameraTextSwitch {
+        text: qsTr("Enable night mode (Viewfinder dimming)")
+        checked: settings.nightMode
+        onCheckedChanged: settings.nightMode = checked
+    }
+
+    CameraTextSwitch {
         id: useGps
         text: qsTr("Use GPS")
 

@@ -67,6 +67,7 @@ class Settings : public QObject {
   Q_PROPERTY(bool proximityAsShutter READ isProximityAsShutterEnabled WRITE setProximityAsShutterEnabled NOTIFY proximityAsShutterChanged);
   Q_PROPERTY(int device READ device WRITE setDevice NOTIFY deviceChanged);
   Q_PROPERTY(bool enablePreview READ isPreviewEnabled WRITE setPreviewEnabled NOTIFY previewEnabledChanged);
+  Q_PROPERTY(bool nightMode READ isNightModeEnabled WRITE setNightModeEnabled NOTIFY nightModeChanged);
 
 public:
   Settings(QObject *parent = 0);
@@ -162,6 +163,9 @@ public:
   bool isPreviewEnabled() const;
   void setPreviewEnabled(bool enabled);
 
+  bool isNightModeEnabled() const;
+  void setNightModeEnabled(bool enabled);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
@@ -192,6 +196,7 @@ signals:
   void deviceAboutToChange();
   void deviceChanged();
   void previewEnabledChanged();
+  void nightModeChanged();
 
 private:
   DeviceSettings *deviceSettings();
