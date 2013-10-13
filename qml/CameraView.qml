@@ -30,6 +30,7 @@ Viewfinder {
         || (loader.item ? loader.item.pressed : false)
     property int policyMode: loader.item ? loader.item.policyMode : CameraResources.None
     property bool inhibitDim: loader.item ? loader.item.inhibitDim : false
+    property bool inCaptureView: mainView.currentIndex == 1 && !mainView.moving
 
     camera: cam
     cameraConfig: cam.cameraConfig

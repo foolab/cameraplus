@@ -30,6 +30,7 @@ Item {
     property bool proximityClosed: false
     property bool canceled: false
     property bool showCancelBanner: (zoomPressed || proximityClosed) && state == "capturing"
+    property bool enable: true
 
     signal startCapture
     signal cancelCapture
@@ -54,6 +55,12 @@ Item {
     onStateChanged: {
         if (state == "idle") {
             captureControl.canceled = false
+        }
+    }
+
+    onEnableChanged: {
+        if (!enable) {
+            captureControl.canceled = true
         }
     }
 

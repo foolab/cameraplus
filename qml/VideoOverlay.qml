@@ -76,6 +76,7 @@ Item {
         zoomPressed: zoomCapture.zoomPressed
         proximityClosed: proximitySensor.sensorClosed
         onStartCapture: overlay.toggleRecording()
+        enable: inCaptureView
     }
 
     CaptureCancel {

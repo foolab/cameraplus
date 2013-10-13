@@ -33,7 +33,6 @@ import CameraPlus 1.0
 // TODO: flash setting does not survive restarts
 // TODO: async policy
 // TODO: portrait layout
-// TODO: hide proximity, go to post capture -> image will be captured
 
 CameraPage {
     id: root

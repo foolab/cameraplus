@@ -112,6 +112,7 @@ Item {
         proximityClosed: proximitySensor.sensorClosed
         onStartCapture: captureImage()
         onCancelCapture: stopAutoFocus()
+        enable: inCaptureView
     }
 
     CaptureCancel {
