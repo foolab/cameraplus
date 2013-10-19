@@ -28,7 +28,7 @@ Item {
     id: handler
 
     property bool showStandBy: state != "on"
-
+    property bool displayOn
     property alias acquired: policy.acquired
     property alias hijacked: policy.hijacked
     property alias scaleAcquired: policy.scaleAcquired
@@ -99,11 +99,11 @@ Item {
     states: [
         State {
             name: "on"
-            when: rootWindow.active && currentItem && currentItem.policyMode != CameraResources.None && !policy.hijacked
+            when: rootWindow.active && currentItem && currentItem.policyMode != CameraResources.None && !policy.hijacked && displayOn
         },
         State {
             name: "off"
-            when: (!rootWindow.active && camera.idle) || (currentItem && currentItem.policyMode == CameraResources.None && camera.idle)
+            when: (!rootWindow.active && camera.idle) || (currentItem && currentItem.policyMode == CameraResources.None && camera.idle) || !displayOn
         },
         State {
             name: "policyLost"

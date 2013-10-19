@@ -157,6 +157,7 @@ CameraPage {
         id: pipelineManager
         camera: viewfinder.camera
         currentItem: mainView.currentItem
+        displayOn: displayState.isOn
     }
 
     function resetCamera(deviceId, mode) {
@@ -187,8 +188,7 @@ CameraPage {
 
     CameraPositionSource {
         id: positionSource
-// TODO: isOn needed?
-        active: viewfinder.camera.running && settings.useGps && displayState.isOn
+        active: viewfinder.camera.running && settings.useGps
         onPositionChanged: geocode.search(position.coordinate.longitude, position.coordinate.latitude)
     }
 
@@ -227,8 +227,7 @@ CameraPage {
 
     ReverseGeocode {
         id: geocode
-// TODO: isOn needed?
-        active: viewfinder.camera.running && settings.useGps && settings.useGeotags && displayState.isOn
+        active: positionSource.active && settings.useGeotags
     }
 
     DeviceInfo {
