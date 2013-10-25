@@ -80,6 +80,10 @@ public:
   QString audioCaptureCaps() const;
 
   QStringList viewfinderFilters() const;
+  bool viewfinderFiltersUseAnalysisBin() const;
+
+  QStringList imageFilters() const;
+  bool imageFiltersUseAnalysisBin() const;
 
   QString roiElement() const;
   QString roiMessageName() const;

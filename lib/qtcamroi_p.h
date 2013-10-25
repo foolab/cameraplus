@@ -25,7 +25,6 @@
 
 #include "qtcamdevice.h"
 #include "qtcamdevice_p.h"
-#include "qtcamanalysisbin.h"
 #include "qtcamgstreamermessagehandler.h"
 #include "qtcamgstreamermessagelistener.h"
 #include "qtcamroi.h"
@@ -75,25 +74,13 @@ public:
   }
 
   void init() {
-    if (!dev->d_ptr->viewfinderFilters) {
-      return;
-    }
-
-    QList<GstElement *> elements =
-      dev->d_ptr->viewfinderFilters->lookup(dev->config()->roiElement());
-    if (elements.isEmpty()) {
+    roi = dev->d_ptr->findByFactory(dev->config()->roiElement().toUtf8().constData());
+    if (!roi) {
       qWarning() << "Cannot find element" << dev->config()->roiElement();
-    }
-    else if (elements.size() > 1) {
-      qWarning() << "Found multiple element of" << dev->config()->roiElement();
-    }
-    else {
-      roi = GST_ELEMENT(gst_object_ref(elements.at(0)));
     }
   }
 
   void installHandler() {
-
     if (dev->listener()) {
       handler = new QtCamGStreamerMessageHandler(dev->config()->roiMessage(), this);
       dev->listener()->addSyncHandler(handler);

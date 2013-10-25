@@ -237,6 +237,18 @@ QStringList QtCamConfig::viewfinderFilters() const {
   return d_ptr->conf->value("viewfinder-filters/elements").toStringList();
 }
 
+bool QtCamConfig::viewfinderFiltersUseAnalysisBin() const {
+  return d_ptr->conf->value("viewfinder-filters/use-analysis-bin").toBool();
+}
+
+QStringList QtCamConfig::imageFilters() const {
+  return d_ptr->conf->value("image-filters/elements").toStringList();
+}
+
+bool QtCamConfig::imageFiltersUseAnalysisBin() const {
+  return d_ptr->conf->value("image-filters/use-analysis-bin").toBool();
+}
+
 QString QtCamConfig::roiElement() const {
   return d_ptr->conf->value("roi/element").toString();
 }

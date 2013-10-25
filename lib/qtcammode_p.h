@@ -27,7 +27,6 @@
 #include <QFileInfo>
 #include <QDir>
 #include "qtcamdevice_p.h"
-#include "qtcamanalysisbin.h"
 #include <gst/pbutils/encoding-profile.h>
 #include <gst/pbutils/encoding-target.h>
 #include "qtcamgstreamermessagehandler.h"
@@ -209,13 +208,23 @@ public:
 
   void enableViewfinderFilters() {
     if (dev->viewfinderFilters) {
-      dev->viewfinderFilters->setBlocked(false);
+      if (!dev->conf->viewfinderFiltersUseAnalysisBin()) {
+	qWarning() << "Cannot enable viewfinder filters without a controlling bin";
+	return;
+      }
+
+      g_object_set(dev->viewfinderFilters, "bypass", FALSE, NULL);
     }
   }
 
   void disableViewfinderFilters() {
     if (dev->viewfinderFilters) {
-      dev->viewfinderFilters->setBlocked(true);
+      if (!dev->conf->viewfinderFiltersUseAnalysisBin()) {
+	qWarning() << "Cannot disable viewfinder filters without a controlling bin";
+	return;
+      }
+
+      g_object_set(dev->viewfinderFilters, "bypass", TRUE, NULL);
     }
   }
 

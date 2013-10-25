@@ -132,6 +132,136 @@ public:
     return true;
   }
 
+  GstElement *createAndAddFilters(const char *name, const char *prop,
+				  const QStringList& elements, bool useAnalysisBin) {
+
+    GstElement *bin = gst_bin_new (useAnalysisBin ? NULL : name);
+    GstElement *first = 0;
+    GstElement *last = 0;
+
+    foreach (const QString& elem, elements) {
+      GstElement *e = gst_element_factory_make (elem.toUtf8().constData(), NULL);
+      if (!e) {
+	qWarning() << "Failed to create element" << elem;
+	continue;
+      }
+
+      if (!first) {
+	first = e;
+      }
+
+      gst_bin_add (GST_BIN (bin), e);
+      if (last) {
+	gst_element_link (last, e);
+      }
+
+      last = e;
+    }
+
+    GstPad *pad = gst_element_get_static_pad(first, "sink");
+    gst_element_add_pad(bin, gst_ghost_pad_new("sink", pad));
+    gst_object_unref(GST_OBJECT(pad));
+
+    pad = gst_element_get_static_pad(last, "src");
+    gst_element_add_pad(bin, gst_ghost_pad_new("src", pad));
+    gst_object_unref(GST_OBJECT(pad));
+
+    if (!useAnalysisBin) {
+      g_object_set (cameraBin, prop, bin, NULL);
+      return bin;
+    }
+
+    GstElement *analysisBin = gst_element_factory_make ("analysisbin", name);
+    if (!analysisBin) {
+      qWarning() << "Failed to create analysisbin";
+      gst_object_unref(bin);
+      return NULL;
+    }
+
+    g_object_set (analysisBin, "analysis-filter", bin, NULL);
+    g_object_set (analysisBin, "bypass", FALSE, NULL);
+
+    g_object_set (cameraBin, prop, analysisBin, NULL);
+
+    return analysisBin;
+  }
+
+  static gint compare_factory(GstElement *elem, const char *factory) {
+    GstElementFactory *f = gst_element_get_factory(elem);
+    if (!f) {
+      gst_object_unref (elem);
+      return -1;
+    }
+
+    if (!GST_IS_PLUGIN_FEATURE (f)) {
+      gst_object_unref (elem);
+      return -1;
+    }
+
+    const char *name = gst_plugin_feature_get_name(GST_PLUGIN_FEATURE(f));
+    if (!name) {
+      gst_object_unref (elem);
+      return -1;
+    }
+
+    if (strcmp(name, factory) != 0) {
+      gst_object_unref (elem);
+      return -1;
+    }
+
+    return 0;
+  }
+
+  GstElement *findByFactory(const char *factory) {
+    if (!cameraBin) {
+      return NULL;
+    }
+
+    GstIterator *iter = gst_bin_iterate_recurse (GST_BIN(cameraBin));
+    gboolean done = FALSE;
+    GstElement *item = 0;
+
+    /* We have to do it the traditional way because gst_iterator_find_custom() is not
+     * working for whatever reason. */
+    while (!done) {
+      switch (gst_iterator_next (iter, (void **)&item)) {
+      case GST_ITERATOR_OK:
+	/* compare_factory() will unref if it does not match otherwise it will keep a
+	 * reference */
+	if (compare_factory (item, factory) == 0) {
+	  done = TRUE;
+	}
+
+	break;
+      case GST_ITERATOR_RESYNC:
+	gst_iterator_resync (iter);
+	break;
+      case GST_ITERATOR_ERROR:
+	done = TRUE;
+	break;
+      case GST_ITERATOR_DONE:
+	done = TRUE;
+	break;
+      }
+    }
+
+    gst_iterator_free (iter);
+
+    return item;
+  }
+
+  void createAndAddViewfinderFilters() {
+    QStringList filters = conf->viewfinderFilters();
+    viewfinderFilters = createAndAddFilters("QtCamViewfinderFilters", "viewfinder-filter",
+					    filters, conf->viewfinderFiltersUseAnalysisBin());
+  }
+
+  void createAndAddImageFilters() {
+    QStringList filters = conf->imageFilters();
+    createAndAddFilters("QtCamImageFilters", "image-filter",
+			filters, conf->imageFiltersUseAnalysisBin());
+  }
+
   void _d_error(const QString& message, int code, const QString& debug) {
     error = true;
 
@@ -234,7 +364,7 @@ public:
   bool error;
   QtCamNotifications *notifications;
   QtCamPropertySetter *propertySetter;
-  QtCamAnalysisBin *viewfinderFilters;
+  GstElement *viewfinderFilters;
 };
 
 #endif /* QT_CAM_DEVICE_P_H */
