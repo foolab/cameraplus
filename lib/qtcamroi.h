@@ -47,6 +47,7 @@ public:
   QtCamDevice *device();
 
 signals:
+  void reset();
   void regionsOfInterestUpdated(const QList<QRectF>& regions,
 				const QRectF& primary,
 				const QList<QRectF>& rest);

@@ -41,6 +41,7 @@ public:
     q_ptr(q),
     dev(device),
     roi(0),
+    enabled(false),
     msg(0) {
 
   }
@@ -75,9 +76,6 @@ public:
 
   void init() {
     roi = dev->d_ptr->findByFactory(dev->config()->roiElement().toUtf8().constData());
-    if (!roi) {
-      qWarning() << "Cannot find element" << dev->config()->roiElement();
-    }
   }
 
   void installHandler() {
@@ -86,6 +84,8 @@ public:
       dev->listener()->addSyncHandler(handler);
       QObject::connect(handler, SIGNAL(messageSent(GstMessage *)),
 		       this, SLOT(handleMessage(GstMessage *)), Qt::DirectConnection);
+      QObject::connect(dev->listener(), SIGNAL(starting()),
+		       this, SLOT(recheck()));
     }
   }
 
@@ -123,6 +123,22 @@ public slots:
   }
 
 private slots:
+  void recheck() {
+    if (roi) {
+      gst_object_unref(roi);
+    }
+
+    init();
+
+    if (!roi) {
+      qWarning() << "Cannot find element" << dev->config()->roiElement();
+    }
+
+    q_ptr->setEnabled(enabled);
+
+    emit q_ptr->reset();
+  }
+
   void processMessage() {
     GstMessage *message = msg.fetchAndStoreOrdered(0);
     if (!message) {
@@ -179,6 +195,7 @@ public:
   QtCamRoi *q_ptr;
   QtCamDevice *dev;
   GstElement *roi;
+  bool enabled;
   QPointer<QtCamGStreamerMessageHandler> handler;
   QAtomicPointer<GstMessage> msg;
 };

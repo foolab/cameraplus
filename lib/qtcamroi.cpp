@@ -100,6 +100,8 @@ void QtCamRoi::setEnabled(bool enabled) {
     return;
   }
 
+  d_ptr->enabled = enabled;
+
   if (!d_ptr->roi) {
     return;
   }
