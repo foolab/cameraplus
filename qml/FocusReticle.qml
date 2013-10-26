@@ -59,6 +59,12 @@ MouseArea {
     property variant allRoiRects
     property bool roiMode: allRoiRects != null && allRoiRects.length > 0 && !touchMode && !pressed && settings.faceDetectionEnabled
 
+    onRoiModeChanged: {
+        if (!roiMode) {
+            resetReticle()
+        }
+    }
+
     enabled: !cam.quirks.hasQuirk(Quirks.NoTouchFocus)
 
     property variant __initialPos
