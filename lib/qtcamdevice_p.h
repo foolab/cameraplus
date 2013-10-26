@@ -218,32 +218,8 @@ public:
     }
 
     GstIterator *iter = gst_bin_iterate_recurse (GST_BIN(cameraBin));
-    gboolean done = FALSE;
-    GstElement *item = 0;
-
-    /* We have to do it the traditional way because gst_iterator_find_custom() is not
-     * working for whatever reason. */
-    while (!done) {
-      switch (gst_iterator_next (iter, (void **)&item)) {
-      case GST_ITERATOR_OK:
-	/* compare_factory() will unref if it does not match otherwise it will keep a
-	 * reference */
-	if (compare_factory (item, factory) == 0) {
-	  done = TRUE;
-	}
-
-	break;
-      case GST_ITERATOR_RESYNC:
-	gst_iterator_resync (iter);
-	break;
-      case GST_ITERATOR_ERROR:
-	done = TRUE;
-	break;
-      case GST_ITERATOR_DONE:
-	done = TRUE;
-	break;
-      }
-    }
+    GstElement *item = (GstElement *)
+      gst_iterator_find_custom (iter, (GCompareFunc)compare_factory, (gpointer)factory);
 
     gst_iterator_free (iter);
 
