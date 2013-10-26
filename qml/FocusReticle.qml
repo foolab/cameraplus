@@ -57,7 +57,7 @@ MouseArea {
     property variant primaryRoiRect: Qt.rect(0, 0, 0, 0)
     property variant roiRects
     property variant allRoiRects
-    property bool roiMode: allRoiRects != null && allRoiRects.length > 0 && !touchMode && !pressed
+    property bool roiMode: allRoiRects != null && allRoiRects.length > 0 && !touchMode && !pressed && settings.faceDetectionEnabled
 
     enabled: !cam.quirks.hasQuirk(Quirks.NoTouchFocus)
 
