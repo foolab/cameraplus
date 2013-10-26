@@ -114,8 +114,6 @@ QtCamDevice::~QtCamDevice() {
 
   delete d_ptr->propertySetter;
 
-  delete d_ptr->viewfinderFilters;
-
   if (d_ptr->cameraBin) {
     gst_object_unref(d_ptr->cameraBin);
   }
