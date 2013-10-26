@@ -46,6 +46,7 @@ public:
 
 signals:
   void error(const QString& message, int code, const QString& debug);
+  void starting();
   void started();
   void stopped();
   void stopping();

@@ -107,7 +107,10 @@ public:
 
       GstState oldState, newState, pending;
       gst_message_parse_state_changed(message, &oldState, &newState, &pending);
-      if (oldState == GST_STATE_PAUSED && newState == GST_STATE_PLAYING) {
+      if (oldState == GST_STATE_NULL && newState == GST_STATE_READY) {
+	QMetaObject::invokeMethod(q_ptr, "starting");
+      }
+      else if (oldState == GST_STATE_PAUSED && newState == GST_STATE_PLAYING) {
 	QMetaObject::invokeMethod(q_ptr, "started");
       }
       else if (oldState == GST_STATE_PLAYING && newState == GST_STATE_PAUSED) {
