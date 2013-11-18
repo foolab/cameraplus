@@ -130,6 +130,8 @@ public:
   }
 
   void setCaps(const char *property, const QSize& resolution, int fps) {
+    QString mediaType = dev->conf->mediaType(property);
+
     if (!dev->cameraBin) {
       return;
     }
@@ -141,13 +143,13 @@ public:
     GstCaps *caps = 0;
 
     if (fps <= 0) {
-      caps = gst_caps_new_simple("video/x-raw-yuv",
+      caps = gst_caps_new_simple(mediaType.toLatin1().constData(),
 				 "width", G_TYPE_INT, resolution.width(),
 				 "height", G_TYPE_INT, resolution.height(),
 				 NULL);
     }
     else {
-      caps = gst_caps_new_simple("video/x-raw-yuv",
+      caps = gst_caps_new_simple(mediaType.toLatin1().constData(),
 				 "width", G_TYPE_INT, resolution.width(),
 				 "height", G_TYPE_INT, resolution.height(),
 				 "framerate",

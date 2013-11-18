@@ -268,3 +268,7 @@ QString QtCamConfig::roiMessage() const {
 bool QtCamConfig::isPreviewSupported() const {
   return d_ptr->conf->value("general/preview-supported").toBool();
 }
+
+QString QtCamConfig::mediaType(const QString& id) const {
+  return d_ptr->conf->value(QString("media-type/%1").arg(id)).toString();
+}

@@ -92,6 +92,8 @@ public:
 
   bool isPreviewSupported() const;
 
+  QString mediaType(const QString& id) const;
+
 private:
   QtCamConfigPrivate *d_ptr;
 };
