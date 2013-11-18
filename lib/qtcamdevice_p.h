@@ -228,14 +228,18 @@ public:
 
   void createAndAddViewfinderFilters() {
     QStringList filters = conf->viewfinderFilters();
-    viewfinderFilters = createAndAddFilters("QtCamViewfinderFilters", "viewfinder-filter",
-					    filters, conf->viewfinderFiltersUseAnalysisBin());
+    if (!filters.isEmpty()) {
+      viewfinderFilters = createAndAddFilters("QtCamViewfinderFilters", "viewfinder-filter",
+					      filters, conf->viewfinderFiltersUseAnalysisBin());
+    }
   }
 
   void createAndAddImageFilters() {
     QStringList filters = conf->imageFilters();
-    createAndAddFilters("QtCamImageFilters", "image-filter",
-			filters, conf->imageFiltersUseAnalysisBin());
+    if (!filters.isEmpty()) {
+      createAndAddFilters("QtCamImageFilters", "image-filter",
+			  filters, conf->imageFiltersUseAnalysisBin());
+    }
   }
 
   void _d_error(const QString& message, int code, const QString& debug) {
