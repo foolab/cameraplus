@@ -19,81 +19,59 @@
  */
 
 #include "devicekeys.h"
+#include <QCoreApplication>
 #include <QDebug>
+#include <QEvent>
+#include <QKeyEvent>
+#include <QTimer>
 
 DeviceKeys::DeviceKeys(QObject *parent) :
   QObject(parent),
-  m_keys(0),
-  m_repeating(true) {
+  m_repeating(true),
+  m_active(false),
+  m_timer(new QTimer(this)),
+  m_event(0),
+  m_key(0) {
 
+  m_timer->setInterval(100);
+  m_timer->setSingleShot(false);
+
+  QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(repeatEventsIfNeeded()));
+
+  QCoreApplication::instance()->installEventFilter(this);
 }
 
 DeviceKeys::~DeviceKeys() {
-  setActive(false);
+
+}
+
+bool DeviceKeys::eventFilter(QObject *obj, QEvent *event) {
+  if (!m_active) {
+    return QObject::eventFilter(obj, event);
+  }
+
+  int ev = event->type();
+  if (ev == QEvent::KeyPress || ev == QEvent::KeyRelease) {
+    QKeyEvent *e = dynamic_cast<QKeyEvent *>(event);
+    int key = e->key();
+
+    if (key == Qt::Key_VolumeUp || key == Qt::Key_VolumeDown) {
+      processKeyEvent(key, ev);
+    }
+  }
+
+  return QObject::eventFilter(obj, event);
 }
 
 bool DeviceKeys::isActive() const {
-  return m_keys != 0;
+  return m_active;
 }
 
 void DeviceKeys::setActive(bool active) {
-  if (active == isActive()) {
-    return;
+  if (m_active != active) {
+    m_active = active;
+    emit activeChanged();
   }
-
-  if (!active) {
-    m_keys->deleteLater();
-    m_keys = 0;
-    m_stats.clear();
-  }
-  else {
-    m_keys = new MeeGo::QmKeys(this);
-    QObject::connect(m_keys, SIGNAL(keyEvent(MeeGo::QmKeys::Key, MeeGo::QmKeys::State)),
-		     this, SLOT(keyEvent(MeeGo::QmKeys::Key, MeeGo::QmKeys::State)));
-  }
-
-  emit activeChanged();
-}
-
-void DeviceKeys::keyEvent(MeeGo::QmKeys::Key key, MeeGo::QmKeys::State state) {
-  if (!setStats(key, state)) {
-    return;
-  }
-
-  if (key == MeeGo::QmKeys::VolumeUp) {
-    if (state == MeeGo::QmKeys::KeyUp) {
-      emit volumeUpReleased();
-    }
-    else if (state == MeeGo::QmKeys::KeyDown) {
-      emit volumeUpPressed();
-    }
-  }
-  else if (key == MeeGo::QmKeys::VolumeDown) {
-    if (state == MeeGo::QmKeys::KeyUp) {
-      emit volumeDownReleased();
-    }
-    else if (state == MeeGo::QmKeys::KeyDown) {
-      emit volumeDownPressed();
-    }
-  }
-}
-
-bool DeviceKeys::setStats(MeeGo::QmKeys::Key key, MeeGo::QmKeys::State state) {
-  if (m_repeating) {
-    return true;
-  }
-
-  if (!m_stats.contains(key)) {
-    m_stats.insert(key, state);
-    return true;
-  }
-
-  if (m_stats[key] != state) {
-    m_stats[key] = state;
-    return true;
-  }
-
-  return false;
 }
 
 bool DeviceKeys::isRepeating() {
@@ -104,5 +82,41 @@ void DeviceKeys::doRepeat(bool repeat) {
   if (repeat != m_repeating) {
     m_repeating = repeat;
     emit repeatChanged();
+  }
+}
+
+void DeviceKeys::processKeyEvent(int key, int event) {
+  if (event == QEvent::KeyPress && key == Qt::Key_VolumeUp) {
+    emit volumeUpPressed();
+  } else if (event == QEvent::KeyRelease && key == Qt::Key_VolumeUp) {
+    emit volumeUpReleased();
+  } else if (event == QEvent::KeyPress && key == Qt::Key_VolumeDown) {
+    emit volumeDownPressed();
+  } else if (event == QEvent::KeyRelease && key == Qt::Key_VolumeDown) {
+    emit volumeDownReleased();
+  } else {
+    return;
+  }
+
+  if (!m_repeating) {
+    m_timer->stop();
+  }
+
+  if (event == QEvent::KeyRelease) {
+    m_timer->stop();
+  }
+
+  m_event = event;
+  m_key = key;
+
+  m_timer->start();
+}
+
+void DeviceKeys::repeatEventsIfNeeded() {
+  if (m_event != 0 && m_key != 0 && m_repeating) {
+    processKeyEvent(m_key, m_event);
+  }
+  else {
+    m_timer->stop();
   }
 }

@@ -24,8 +24,8 @@
 #define DEVICE_KEYS_H
 
 #include <QObject>
-#include <qmkeys.h>
-#include <QMap>
+
+class QTimer;
 
 class DeviceKeys : public QObject {
   Q_OBJECT
@@ -51,15 +51,20 @@ signals:
   void volumeDownReleased();
   void repeatChanged();
 
+protected:
+  bool eventFilter(QObject *obj, QEvent *event);
+
 private slots:
-  void keyEvent(MeeGo::QmKeys::Key key, MeeGo::QmKeys::State state);
+  void repeatEventsIfNeeded();
 
 private:
-  bool setStats(MeeGo::QmKeys::Key key, MeeGo::QmKeys::State state);
+  void processKeyEvent(int key, int event);
 
-  MeeGo::QmKeys *m_keys;
-  QMap<MeeGo::QmKeys::Key, MeeGo::QmKeys::State> m_stats;
   bool m_repeating;
+  bool m_active;
+  QTimer *m_timer;
+  int m_event;
+  int m_key;
 };
 
 #endif /* DEVICE_KEYS_H */
