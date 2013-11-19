@@ -261,8 +261,7 @@ void QtCamViewfinderRendererNemo::sink_caps_changed(GObject *obj, GParamSpec *ps
   }
 
   GstCaps *caps = GST_PAD_CAPS (pad);
-
-  if (gst_caps_get_size (caps) <= 0) {
+  if (gst_caps_get_size (caps) < 1) {
     return;
   }
 
