@@ -33,6 +33,7 @@ namespace MeeGo {
 class DisplayState : public QObject {
   Q_OBJECT
   Q_PROPERTY(bool inhibitDim READ isDimInhibited WRITE setInhibitDim NOTIFY inhibitDimChanged);
+  Q_PROPERTY(bool isOn READ isOn NOTIFY isOnChanged);
 
 public:
   DisplayState(QObject *parent = 0);
@@ -41,8 +42,11 @@ public:
   bool isDimInhibited() const;
   void setInhibitDim(bool inhibit);
 
+  bool isOn();
+
 signals:
   void inhibitDimChanged();
+  void isOnChanged();
 
 private slots:
   void timeout();

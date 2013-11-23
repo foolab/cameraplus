@@ -69,3 +69,7 @@ void DisplayState::timeout() {
     qWarning() << "Failed to inhibit display dimming!";
   }
 }
+
+bool DisplayState::isOn() {
+  return true;
+}
