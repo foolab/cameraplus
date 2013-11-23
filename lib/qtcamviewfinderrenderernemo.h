@@ -65,6 +65,7 @@ private:
   void calculateVertexCoords();
 
   void cleanup();
+  void updateCropInfo(const GstStructure *s, std::vector<GLfloat>& texCoords);
 
   QtCamConfig *m_conf;
   GstElement *m_sink;
@@ -75,8 +76,8 @@ private:
   bool m_needsInit;
   QGLShaderProgram *m_program;
   QMatrix4x4 m_projectionMatrix;
-  GLfloat m_vertexCoords[8];
-  GLfloat m_texCoords[8];
+  std::vector<GLfloat> m_vertexCoords;
+  std::vector<GLfloat> m_texCoords;
   QSizeF m_size;
   QSizeF m_videoSize;
   QRectF m_renderArea;

@@ -73,12 +73,17 @@ QtCamViewfinderRendererNemo::QtCamViewfinderRendererNemo(QtCamConfig *config,
   m_displaySet(false),
   m_img(0) {
 
+  m_texCoords.resize(8);
+  m_vertexCoords.resize(8);
+
   m_texCoords[0] = 0;       m_texCoords[1] = 0;
   m_texCoords[2] = 1;       m_texCoords[3] = 0;
   m_texCoords[4] = 1;       m_texCoords[5] = 1;
   m_texCoords[6] = 0;       m_texCoords[7] = 1;
 
-  bzero(&m_vertexCoords, 8);
+  for (int x = 0; x < 8; x++) {
+    m_vertexCoords[x] = 0;
+  }
 }
 
 QtCamViewfinderRendererNemo::~QtCamViewfinderRendererNemo() {
@@ -326,6 +331,16 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame
     return;
   }
 
+  std::vector<GLfloat> texCoords(m_texCoords);
+
+  // Now take into account cropping:
+  const GstStructure *s =
+    nemo_gst_video_texture_get_frame_qdata (sink,
+					    g_quark_from_string ("GstDroidCamSrcCropData"));
+  if (s) {
+    updateCropInfo(s, texCoords);
+  }
+
   if (!nemo_gst_video_texture_bind_frame(sink, &img)) {
     qDebug() << "Failed to bind frame";
     nemo_gst_video_texture_release_frame(sink, NULL);
@@ -346,8 +361,8 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame
   m_program->setUniformValue("matrix", m_projectionMatrix);
   m_program->setUniformValue("matrixWorld", matrix);
 
-  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, &m_vertexCoords);
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, &m_texCoords);
+  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, &m_vertexCoords[0]);
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, &texCoords[0]);
 
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
@@ -449,4 +464,44 @@ void QtCamViewfinderRendererNemo::cleanup() {
 
   g_object_remove_toggle_ref(G_OBJECT(m_sink), (GToggleNotify)sink_notify, this);
   m_sink = 0;
+}
+
+void QtCamViewfinderRendererNemo::updateCropInfo(const GstStructure *s,
+						 std::vector<GLfloat>& texCoords) {
+  int right = 0, bottom = 0, top = 0, left = 0;
+
+  if (!gst_structure_get_int(s, "top", &top) ||
+      !gst_structure_get_int(s, "left", &left) ||
+      !gst_structure_get_int(s, "bottom", &bottom) ||
+      !gst_structure_get_int(s, "right", &right)) {
+    qWarning() << "incomplete crop info";
+    return;
+  }
+
+  if ((right - left) <= 0 || (bottom - top) <= 0) {
+    // empty rect.
+    return;
+  }
+
+  int width = right - left;
+  int height = bottom - top;
+  qreal tx = 0.0f, ty = 0.0f, sx = 1.0f, sy = 1.0f;
+  int bufferWidth = m_videoSize.width();
+  int bufferHeight = m_videoSize.height();
+  if (width < bufferWidth) {
+    tx = (qreal)left / (qreal)bufferWidth;
+    sx = (qreal)right / (qreal)bufferWidth;
+  }
+
+  if (height < bufferHeight) {
+    ty = (qreal)top / (qreal)bufferHeight;
+    sy = (qreal)bottom / (qreal)bufferHeight;
+  }
+
+  texCoords[0] = tx;       texCoords[1] = ty;
+  texCoords[2] = sx;       texCoords[3] = ty;
+  texCoords[4] = sx;       texCoords[5] = sy;
+  texCoords[6] = tx;       texCoords[7] = sy;
+
+  //  qWarning() << top << left << bottom << right << tx << sx << ty << sy;
 }
