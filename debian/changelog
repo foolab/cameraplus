@@ -1,3 +1,12 @@
+cameraplus (0.0.11-1) unstable; urgency=low
+
+  * Enable Harmattan specific image post processing algorithms
+  * Reset focus reticle when face detection is disabled
+  * Don't show positions for last detected faces when face detection is disabled
+  * Fixed a bug that caused changes in camera settings to be ignored upon start up
+
+ -- Mohammed Sameer <msameer@foolab.org>  Sat, 26 Oct 2013 03:10:53 +0300
+
 cameraplus (0.0.10-1) unstable; urgency=low
 
   * Reworked post capture view
