@@ -24,7 +24,7 @@ import QtQuick 2.0
 import QtCamera 1.0
 
 Flickable {
-    property Camera camera: null
+    property Camera camera
 
     id: flick
 

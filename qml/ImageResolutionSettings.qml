@@ -24,9 +24,15 @@ import QtQuick 2.0
 import QtCamera 1.0
 
 Column {
-    property Camera camera: null
+    property Camera camera
 
     spacing: 10
+
+    Component.onCompleted: imageSettings.resolutions.aspectRatio = deviceSettings().imageAspectRatio
+    Connections {
+        target: camera
+        onDeviceChanged: imageSettings.resolutions.aspectRatio = deviceSettings().imageAspectRatio
+    }
 
     SectionHeader {
         text: qsTr("Aspect ratio")
@@ -46,7 +52,10 @@ Column {
                 width: aspectRatioRow.width / aspectRatios.count
                 text: qsTr(modelData)
                 checked: deviceSettings().imageAspectRatio == modelData
-                onClicked: deviceSettings().imageAspectRatio = modelData
+                onClicked: {
+                    imageSettings.resolutions.aspectRatio = modelData
+                    deviceSettings().imageAspectRatio = modelData
+                }
             }
         }
     }
@@ -61,12 +70,6 @@ Column {
         width: parent.width
         enabled: camera ? camera.idle : false
         visible: imageSettings.resolutions.count > 1
-
-        Binding {
-            target: imageSettings.resolutions
-            property: "aspectRatio"
-            value: deviceSettings().imageAspectRatio
-        }
 
         Repeater {
             id: resolutions
