@@ -43,8 +43,8 @@ CameraToolBarTools {
 
         delegate: CheckButton {
             iconSource: icon
-            onClicked: settings.imageWhiteBalance = value
-            checked: settings.imageWhiteBalance == value
+            onClicked: deviceSettings().imageWhiteBalance = value
+            checked: deviceSettings().imageWhiteBalance == value
         }
     }
 }

@@ -134,9 +134,10 @@ bool Camera::reset(const QVariant& deviceId, const CameraMode& mode) {
   if (setDeviceId(deviceId) && setMode(mode)) {
     if (oldId != m_id) {
       emit deviceIdChanged();
-      emit deviceChanged();
 
       resetCapabilities();
+
+      emit deviceChanged();
     }
 
     if (oldMode != m_mode) {

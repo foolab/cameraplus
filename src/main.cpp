@@ -65,6 +65,7 @@
 #ifdef HARMATTAN
 #include "proximity.h"
 #endif
+#include "devicesettings.h"
 #include <MDeclarativeCache>
 
 #ifdef QMLJSDEBUGGER
@@ -166,6 +167,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
 #ifdef HARMATTAN
   qmlRegisterType<Proximity>("CameraPlus", 1, 0, "Proximity");
 #endif
+  qmlRegisterType<DeviceSettings>();
+  qmlRegisterType<PrimaryDeviceSettings>("CameraPlus", 1, 0, "PrimaryDeviceSettings");
+  qmlRegisterType<SecondaryDeviceSettings>("CameraPlus", 1, 0, "SecondaryDeviceSettings");
 
   view->setSource(QUrl("qrc:/qml/main.qml"));
 

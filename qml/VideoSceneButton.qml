@@ -40,8 +40,15 @@ CameraToolBarTools {
 
         delegate: CheckButton {
             iconSource: icon
-            onClicked: settings.videoSceneMode = value
-            checked: settings.videoSceneMode == value
+            onClicked: {
+                if (deviceSettings().videoSceneMode != value) {
+                    deviceSettings().videoSceneMode = value
+                } else {
+                    deviceSettingsSetter().resetSceneMode()
+                }
+            }
+
+            checked: deviceSettings().videoSceneMode == value
         }
     }
 }

@@ -48,10 +48,10 @@ Column {
                 width: resoultionsRow.width / resolutions.count
                 capitalize: true
                 text: qsTr("%1 %2").arg(resolutionName).arg(resolution)
-                checked: settings.videoResolution == resolutionName
+                checked: deviceSettings().videoResolution == resolutionName
                 onClicked: {
-                    settings.videoAspectRatio = resolutionAspectRatio
-                    settings.videoResolution = resolutionName
+                    deviceSettings().videoAspectRatio = resolutionAspectRatio
+                    deviceSettings().videoResolution = resolutionName
                 }
             }
         }

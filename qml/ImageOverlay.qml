@@ -134,41 +134,41 @@ Item {
         onExpandedChanged: settings.showToolBar = expanded
         tools: CameraToolBarTools {
             CameraToolIcon {
-                iconSource: cameraTheme.flashIcon(settings.imageFlashMode)
+                iconSource: cameraTheme.flashIcon(deviceSettings().imageFlashMode)
                 onClicked: toolBar.push(Qt.resolvedUrl("FlashButton.qml"))
                 visible: overlay.cam ? !overlay.cam.quirks.hasQuirk(Quirks.NoFlash) : false
             }
 
             CameraToolIcon {
-                iconSource: cameraTheme.imageSceneModeIcon(settings.imageSceneMode)
+                iconSource: cameraTheme.imageSceneModeIcon(deviceSettings().imageSceneMode)
                 onClicked: toolBar.push(Qt.resolvedUrl("ImageSceneButton.qml"))
             }
 
             CameraToolIcon {
-                iconSource: settings.imageEvComp == 0 ? cameraTheme.cameraManualExposureIconId : ""
+                iconSource: deviceSettings().imageEvComp == 0 ? cameraTheme.cameraManualExposureIconId : ""
                 onClicked: toolBar.push(Qt.resolvedUrl("ImageEvCompButton.qml"))
 
                 CameraLabel {
                     anchors.fill: parent
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
-                    visible: settings.imageEvComp != 0
-                    text: settings.imageEvComp == 0 ? "" : settings.imageEvComp.toFixed(1)
+                    visible: deviceSettings().imageEvComp != 0
+                    text: deviceSettings().imageEvComp == 0 ? "" : deviceSettings().imageEvComp.toFixed(1)
                 }
             }
 
             CameraToolIcon {
-                iconSource: cameraTheme.whiteBalanceIcon(settings.imageWhiteBalance)
+                iconSource: cameraTheme.whiteBalanceIcon(deviceSettings().imageWhiteBalance)
                 onClicked: toolBar.push(Qt.resolvedUrl("ImageWhiteBalanceButton.qml"))
             }
 
             CameraToolIcon {
-                iconSource: cameraTheme.colorFilterIcon(settings.imageColorFilter)
+                iconSource: cameraTheme.colorFilterIcon(deviceSettings().imageColorFilter)
                 onClicked: toolBar.push(Qt.resolvedUrl("ImageColorFilterButton.qml"))
             }
 
             CameraToolIcon {
-                iconSource: cameraTheme.isoIcon(settings.imageIso)
+                iconSource: cameraTheme.isoIcon(deviceSettings().imageIso)
                 onClicked: toolBar.push(Qt.resolvedUrl("ImageIsoButton.qml"))
             }
         }
@@ -196,7 +196,7 @@ Item {
             Indicator {
                 id: flashIndicator
                 visible: !overlay.cam.quirks.hasQuirk(Quirks.NoFlash)
-                source: cameraTheme.flashIcon(settings.imageFlashMode)
+                source: cameraTheme.flashIcon(deviceSettings().imageFlashMode)
             }
 
             CameraLabel {
@@ -214,26 +214,26 @@ Item {
 
             Indicator {
                 id: wbIndicator
-                source: visible ? cameraTheme.whiteBalanceIcon(settings.imageWhiteBalance) : ""
-                visible: settings.imageWhiteBalance != WhiteBalance.Auto
+                source: visible ? cameraTheme.whiteBalanceIcon(deviceSettings().imageWhiteBalance) : ""
+                visible: deviceSettings().imageWhiteBalance != WhiteBalance.Auto
             }
 
             Indicator {
                 id: cfIndicator
-                source: visible ? cameraTheme.colorFilterIcon(settings.imageColorFilter) : ""
-                visible: settings.imageColorFilter != ColorTone.Normal
+                source: visible ? cameraTheme.colorFilterIcon(deviceSettings().imageColorFilter) : ""
+                visible: deviceSettings().imageColorFilter != ColorTone.Normal
             }
 
             Indicator {
                 id: isoIndicator
-                visible: settings.imageIso != 0
-                source: visible ? cameraTheme.isoIcon(settings.imageIso) : ""
+                visible: deviceSettings().imageIso != 0
+                source: visible ? cameraTheme.isoIcon(deviceSettings().imageIso) : ""
             }
 
             Indicator {
                 id: sceneIndicator
-                visible: settings.imageSceneMode != Scene.Auto
-                source: visible ? cameraTheme.imageSceneModeIcon(settings.imageSceneMode) : ""
+                visible: deviceSettings().imageSceneMode != Scene.Auto
+                source: visible ? cameraTheme.imageSceneModeIcon(deviceSettings().imageSceneMode) : ""
             }
 
             Indicator {

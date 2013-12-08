@@ -43,8 +43,8 @@ CameraToolBarTools {
 
         delegate: CheckButton {
             iconSource: icon
-            onClicked: settings.videoWhiteBalance = value
-            checked: settings.videoWhiteBalance == value
+            onClicked: deviceSettings().videoWhiteBalance = value
+            checked: deviceSettings().videoWhiteBalance == value
         }
     }
 }

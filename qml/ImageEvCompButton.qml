@@ -35,11 +35,11 @@ CameraToolBarTools {
         orientation: Qt.Horizontal
         minimumValue: cam ? cam.evComp.minimum : 0
         maximumValue: cam ? cam.evComp.maximum : 0
-        value: settings.imageEvComp
+        value: deviceSettings().imageEvComp
         valueIndicatorVisible: true
         stepSize: 0.1
-        onValueChanged: settings.imageEvComp = value.toFixed(1)
-        Component.onCompleted: { slider.value = settings.imageEvComp.toFixed(1) }
+        onValueChanged: deviceSettings().imageEvComp = value.toFixed(1)
+        Component.onCompleted: { slider.value = deviceSettings().imageEvComp.toFixed(1) }
     }
 
     CameraToolIcon {

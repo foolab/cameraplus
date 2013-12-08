@@ -120,43 +120,43 @@ Item {
         tools: CameraToolBarTools {
             CameraToolIcon {
                 visible: overlay.cam ? !overlay.cam.quirks.hasQuirk(Quirks.NoVideoTorch) : false
-                iconSource: settings.videoTorchOn ? cameraTheme.cameraTorchOnIconId : cameraTheme.cameraTorchOffIconId
-                onClicked: settings.videoTorchOn = !settings.videoTorchOn
+                iconSource: deviceSettings().videoTorchOn ? cameraTheme.cameraTorchOnIconId : cameraTheme.cameraTorchOffIconId
+                onClicked: deviceSettings().videoTorchOn = !deviceSettings().videoTorchOn
             }
 
             CameraToolIcon {
                 property bool hide: overlay.cam ? (overlay.recording && overlay.cam.quirks.hasQuirk(Quirks.NoSceneModeChangeDuringRecording)) || overlay.cam.quirks.hasQuirk(Quirks.NoNightSceneMode) : false
                 visible: !hide
-                iconSource: cameraTheme.videoSceneModeIcon(settings.videoSceneMode)
+                iconSource: cameraTheme.videoSceneModeIcon(deviceSettings().videoSceneMode)
                 onClicked: toolBar.push(Qt.resolvedUrl("VideoSceneButton.qml"))
             }
 
             CameraToolIcon {
-                iconSource: settings.videoEvComp == 0 ? cameraTheme.cameraManualExposureIconId : ""
+                iconSource: deviceSettings().videoEvComp == 0 ? cameraTheme.cameraManualExposureIconId : ""
                 onClicked: toolBar.push(Qt.resolvedUrl("VideoEvCompButton.qml"))
 
                 CameraLabel {
                     anchors.fill: parent
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
-                    visible: settings.videoEvComp != 0
-                    text: settings.videoEvComp == 0 ? "" : settings.videoEvComp.toFixed(1)
+                    visible: deviceSettings().videoEvComp != 0
+                    text: deviceSettings().videoEvComp == 0 ? "" : deviceSettings().videoEvComp.toFixed(1)
                 }
             }
 
             CameraToolIcon {
-                iconSource: cameraTheme.whiteBalanceIcon(settings.videoWhiteBalance)
+                iconSource: cameraTheme.whiteBalanceIcon(deviceSettings().videoWhiteBalance)
                 onClicked: toolBar.push(Qt.resolvedUrl("VideoWhiteBalanceButton.qml"))
             }
 
             CameraToolIcon {
-                iconSource: cameraTheme.colorFilterIcon(settings.videoColorFilter)
+                iconSource: cameraTheme.colorFilterIcon(deviceSettings().videoColorFilter)
                 onClicked: toolBar.push(Qt.resolvedUrl("VideoColorFilterButton.qml"))
             }
 
             CameraToolIcon {
-                iconSource: settings.videoMuted ? cameraTheme.soundMuteOnIconId : cameraTheme.soundMuteOffIconId
-                onClicked: settings.videoMuted = !settings.videoMuted
+                iconSource: deviceSettings().videoMuted ? cameraTheme.soundMuteOnIconId : cameraTheme.soundMuteOffIconId
+                onClicked: deviceSettings().videoMuted = !deviceSettings().videoMuted
             }
         }
     }
@@ -181,26 +181,26 @@ Item {
 
             Indicator {
                 id: resolutionIndicator
-                source: cameraTheme.videoIcon(settings.videoAspectRatio,
-                    settings.videoResolution, settings.device)
+                source: cameraTheme.videoIcon(deviceSettings().videoAspectRatio,
+                    deviceSettings().videoResolution, settings.device)
             }
 
             Indicator {
                 id: wbIndicator
-                source: visible ? cameraTheme.whiteBalanceIcon(settings.videoWhiteBalance) : ""
-                visible: settings.videoWhiteBalance != WhiteBalance.Auto
+                source: visible ? cameraTheme.whiteBalanceIcon(deviceSettings().videoWhiteBalance) : ""
+                visible: deviceSettings().videoWhiteBalance != WhiteBalance.Auto
             }
 
             Indicator {
                 id: cfIndicator
-                source: visible ? cameraTheme.colorFilterIcon(settings.videoColorFilter) : ""
-                visible: settings.videoColorFilter != ColorTone.Normal
+                source: visible ? cameraTheme.colorFilterIcon(deviceSettings().videoColorFilter) : ""
+                visible: deviceSettings().videoColorFilter != ColorTone.Normal
             }
 
             Indicator {
                 id: sceneIndicator
-                visible: settings.videoSceneMode != Scene.Auto && overlay.recording
-                source: visible ? cameraTheme.videoSceneModeIcon(settings.videoSceneMode) : ""
+                visible: deviceSettings().videoSceneMode != Scene.Auto && overlay.recording
+                source: visible ? cameraTheme.videoSceneModeIcon(deviceSettings().videoSceneMode) : ""
             }
 
             Indicator {

@@ -45,8 +45,8 @@ Column {
             delegate: CameraButton {
                 width: aspectRatioRow.width / aspectRatios.count
                 text: qsTr(modelData)
-                checked: settings.imageAspectRatio == modelData
-                onClicked: settings.imageAspectRatio = modelData
+                checked: deviceSettings().imageAspectRatio == modelData
+                onClicked: deviceSettings().imageAspectRatio = modelData
             }
         }
     }
@@ -65,20 +65,20 @@ Column {
         Binding {
             target: imageSettings.resolutions
             property: "aspectRatio"
-            value: settings.imageAspectRatio
+            value: deviceSettings().imageAspectRatio
         }
 
         Repeater {
             id: resolutions
-            model: imageSettings.resolutions.aspectRatio == settings.imageAspectRatio ?
+            model: imageSettings.resolutions.aspectRatio == deviceSettings().imageAspectRatio ?
                 imageSettings.resolutions : undefined
 
             delegate: CameraButton {
                 width: resolutionsRow.width / resolutions.count
                 capitalize: true
                 text: qsTr("%1 %2 Mpx").arg(resolutionName).arg(megaPixels)
-                checked: settings.imageResolution == resolutionName
-                onClicked: settings.imageResolution = resolutionName
+                checked: deviceSettings().imageResolution == resolutionName
+                onClicked: deviceSettings().imageResolution = resolutionName
             }
         }
     }

@@ -42,8 +42,8 @@ CameraToolBarTools {
         model: toolsModel
         delegate: CheckButton {
             iconSource: icon
-            onClicked: settings.imageIso = value
-            checked: settings.imageIso == value
+            onClicked: deviceSettings().imageIso = value
+            checked: deviceSettings().imageIso == value
         }
     }
 }

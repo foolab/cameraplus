@@ -41,14 +41,12 @@
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
-  m_settings(new QSettings(PATH, QSettings::IniFormat, this)),
-  m_device(0) {
+  m_settings(new QSettings(PATH, QSettings::IniFormat, this)) {
 
 }
 
 Settings::~Settings() {
   delete m_settings; m_settings = 0;
-  delete m_device; m_device = 0;
 }
 
 int Settings::mode() const {
@@ -122,17 +120,6 @@ void Settings::setToolBarShown(bool shown) {
   }
 }
 
-bool Settings::isVideoMuted() const {
-  return m_settings->value("video/mute", DEFAULT_VIDEO_MUTE).toBool();
-}
-
-void Settings::setVideoMuted(bool muted) {
-  if (isVideoMuted() != muted) {
-    m_settings->setValue("video/mute", muted);
-    emit videoMutedChanged();
-  }
-}
-
 bool Settings::isGridEnabled() const {
   return m_settings->value("camera/gridEnabled", DEFAULT_GRID_ENABLED).toBool();
 }
@@ -185,243 +172,17 @@ int Settings::device() const {
 
 void Settings::setDevice(int device) {
   if (device != Settings::device()) {
-    emit deviceAboutToChange();
-
     m_settings->setValue("camera/device", device);
-
-    delete m_device; m_device = 0;
-
-    if (mode() == DEFAULT_MODE) {
-      // image
-      emit imageSceneModeChanged();
-      emit imageColorFilterChanged();
-      emit imageWhiteBalanceChanged();
-      emit imageEvCompChanged();
-      emit imageFlashModeChanged();
-      emit imageIsoChanged();
-      emit imageAspectRatioChanged();
-      emit imageResolutionChanged();
-    }
-    else {
-      // video
-      emit videoSceneModeChanged();
-      emit videoColorFilterChanged();
-      emit videoWhiteBalanceChanged();
-      emit videoEvCompChanged();
-      emit videoAspectRatioChanged();
-      emit videoResolutionChanged();
-      emit videoTorchOnChanged();
-    }
-
     emit deviceChanged();
   }
 }
 
-DeviceSettings *Settings::deviceSettings() {
-  if (m_device) {
-    return m_device;
-  }
-
-  int device = Settings::device();
-
-  if (device == 0) {
-    m_device = new PrimaryDeviceSettings;
-  }
-  else {
-    m_device = new SecondaryDeviceSettings;
-  }
-
-  return m_device;
+QVariant Settings::value(const QString& key, const QVariant& defaultValue) const {
+  return m_settings->value(key, defaultValue);
 }
 
-QVariant Settings::deviceValue(const char *key, const QVariant& defaultValue) {
-  QString k = QString("%1/%2").arg(deviceSettings()->id()).arg(key);
-
-  return m_settings->value(k, defaultValue);
-}
-
-void Settings::setDeviceValue(const char *key, const QVariant& value) {
-  QString k = QString("%1/%2").arg(deviceSettings()->id()).arg(key);
-
-  m_settings->setValue(k, value);
-}
-
-// Device dependant settings
-
-int Settings::imageSceneMode() {
-  return deviceValue("image/sceneMode", deviceSettings()->defaultImageSceneMode()).toInt();
-}
-
-void Settings::setImageSceneMode(int mode) {
-  if (mode != imageSceneMode()) {
-    setDeviceValue("image/sceneMode", mode);
-  }
-
-  // We always emit the signal to reset scene and all scene associated values
-  emit imageSceneModeChanged();
-}
-
-int Settings::imageColorFilter() {
-  return deviceValue("image/colorFilter", deviceSettings()->defaultImageColorFilter()).toInt();
-}
-
-void Settings::setImageColorFilter(int filter) {
-  if (filter != imageColorFilter()) {
-    setDeviceValue("image/colorFilter", filter);
-
-    emit imageColorFilterChanged();
-  }
-}
-
-int Settings::imageWhiteBalance() {
-  return deviceValue("image/whiteBalance", deviceSettings()->defaultImageWhiteBalance()).toInt();
-}
-
-void Settings::setImageWhiteBalance(int wb) {
-  if (wb != imageWhiteBalance()) {
-    setDeviceValue("image/whiteBalance", wb);
-
-    emit imageWhiteBalanceChanged();
-  }
-}
-
-qreal Settings::imageEvComp() {
-  return deviceValue("image/evComp", deviceSettings()->defaultImageEvComp()).toReal();
-}
-
-void Settings::setImageEvComp(qreal ev) {
-  if (!qFuzzyCompare(ev, imageEvComp())) {
-    setDeviceValue("image/evComp", ev);
-
-    emit imageEvCompChanged();
-  }
-}
-
-int Settings::videoSceneMode() {
-  return deviceValue("video/sceneMode", deviceSettings()->defaultVideoSceneMode()).toInt();
-}
-
-void Settings::setVideoSceneMode(int mode) {
-  if (mode != videoSceneMode()) {
-    setDeviceValue("video/sceneMode", mode);
-  }
-
-  emit videoSceneModeChanged();
-}
-
-int Settings::videoColorFilter() {
-  return deviceValue("video/colorFilter", deviceSettings()->defaultVideoColorFilter()).toInt();
-}
-
-void Settings::setVideoColorFilter(int filter) {
-  if (filter != videoColorFilter()) {
-    setDeviceValue("video/colorFilter", filter);
-
-    emit videoColorFilterChanged();
-  }
-}
-
-int Settings::videoWhiteBalance() {
-  return deviceValue("video/whiteBalance", deviceSettings()->defaultVideoWhiteBalance()).toInt();
-}
-
-void Settings::setVideoWhiteBalance(int wb) {
-  if (wb != videoWhiteBalance()) {
-    setDeviceValue("video/whiteBalance", wb);
-
-    emit videoWhiteBalanceChanged();
-  }
-}
-
-qreal Settings::videoEvComp() {
-  return deviceValue("video/evComp", deviceSettings()->defaultVideoEvComp()).toReal();
-}
-
-void Settings::setVideoEvComp(qreal ev) {
-  if (!qFuzzyCompare(ev, videoEvComp())) {
-    setDeviceValue("video/evComp", ev);
-
-    emit videoEvCompChanged();
-  }
-}
-
-int Settings::imageFlashMode() {
-  return deviceValue("image/flashMode", deviceSettings()->defaultImageFlashMode()).toInt();
-}
-
-void Settings::setImageFlashMode(int mode) {
-  if (mode != imageFlashMode()) {
-    setDeviceValue("image/flashMode", mode);
-
-    emit imageFlashModeChanged();
-  }
-}
-
-int Settings::imageIso() {
-  return deviceValue("image/iso", deviceSettings()->defaultImageIso()).toInt();
-}
-
-void Settings::setImageIso(int iso) {
-  if (imageIso() != iso) {
-    setDeviceValue("image/iso", iso);
-    emit imageIsoChanged();
-  }
-}
-
-QString Settings::imageAspectRatio() {
-  return deviceValue("image/aspectRatio", deviceSettings()->defaultImageAspectRatio()).toString();
-}
-
-void Settings::setImageAspectRatio(const QString& aspectRatio) {
-  if (aspectRatio != imageAspectRatio()) {
-    setDeviceValue("image/aspectRatio", aspectRatio);
-    emit imageAspectRatioChanged();
-  }
-}
-
-QString Settings::imageResolution() {
-  return deviceValue("image/resolution", deviceSettings()->defaultImageResolution()).toString();
-}
-
-void Settings::setImageResolution(const QString& resolution) {
-  if (resolution != imageResolution()) {
-    setDeviceValue("image/resolution", resolution);
-    emit imageResolutionChanged();
-  }
-}
-
-QString Settings::videoAspectRatio() {
-  return deviceValue("video/aspectRatio", deviceSettings()->defaultVideoAspectRatio()).toString();
-}
-
-
-void Settings::setVideoAspectRatio(const QString& aspectRatio) {
-  if (Settings::videoAspectRatio() != aspectRatio) {
-    setDeviceValue("video/aspectRatio", aspectRatio);
-    emit videoAspectRatioChanged();
-  }
-}
-
-QString Settings::videoResolution() {
-  return deviceValue("video/resolution", deviceSettings()->defaultVideoResolution()).toString();
-}
-
-void Settings::setVideoResolution(const QString& resolution) {
-  if (resolution != videoResolution()) {
-    setDeviceValue("video/resolution", resolution);
-    emit videoResolutionChanged();
-  }
-}
-
-bool Settings::isVideoTorchOn() {
-  return deviceValue("video/torchOn", deviceSettings()->defaultVideoTorchOn()).toBool();
-}
-
-void Settings::setVideoTorchOn(bool on) {
-  if (isVideoTorchOn() != on) {
-    setDeviceValue("video/torchOn", on);
-    emit videoTorchOnChanged();
-  }
+void Settings::setValue(const QString& key, const QVariant& value)  {
+  m_settings->setValue(key, value);
 }
 
 QString Settings::fileNamingStamp(const QString& id) const {

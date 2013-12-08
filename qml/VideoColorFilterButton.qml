@@ -44,8 +44,8 @@ CameraToolBarTools {
 
         delegate: CheckButton {
             iconSource: icon
-            onClicked: settings.videoColorFilter = value
-            checked: settings.videoColorFilter == value
+            onClicked: deviceSettings().videoColorFilter = value
+            checked: deviceSettings().videoColorFilter == value
         }
     }
 }

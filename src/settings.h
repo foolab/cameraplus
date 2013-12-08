@@ -35,31 +35,8 @@ class Settings : public QObject {
   Q_PROPERTY(QString creatorName READ creatorName WRITE setCreatorName NOTIFY creatorNameChanged);
   Q_PROPERTY(bool useGps READ useGps WRITE setUseGps NOTIFY useGpsChanged);
   Q_PROPERTY(bool useGeotags READ useGeotags WRITE setUseGeotags NOTIFY useGeotagsChanged);
-  Q_PROPERTY(int imageSceneMode READ imageSceneMode WRITE setImageSceneMode NOTIFY imageSceneModeChanged);
-  Q_PROPERTY(int imageColorFilter READ imageColorFilter WRITE setImageColorFilter NOTIFY imageColorFilterChanged);
-  Q_PROPERTY(int imageWhiteBalance READ imageWhiteBalance WRITE setImageWhiteBalance NOTIFY imageWhiteBalanceChanged);
-  Q_PROPERTY(qreal imageEvComp READ imageEvComp WRITE setImageEvComp NOTIFY imageEvCompChanged);
-
-  Q_PROPERTY(int videoSceneMode READ videoSceneMode WRITE setVideoSceneMode NOTIFY videoSceneModeChanged);
-  Q_PROPERTY(int videoColorFilter READ videoColorFilter WRITE setVideoColorFilter NOTIFY videoColorFilterChanged);
-  Q_PROPERTY(int videoWhiteBalance READ videoWhiteBalance WRITE setVideoWhiteBalance NOTIFY videoWhiteBalanceChanged);
-  Q_PROPERTY(qreal videoEvComp READ videoEvComp WRITE setVideoEvComp NOTIFY videoEvCompChanged);
-
-  Q_PROPERTY(int imageFlashMode READ imageFlashMode WRITE setImageFlashMode NOTIFY imageFlashModeChanged);
-  Q_PROPERTY(int imageIso READ imageIso WRITE setImageIso NOTIFY imageIsoChanged);
-
-  Q_PROPERTY(QString imageAspectRatio READ imageAspectRatio WRITE setImageAspectRatio NOTIFY imageAspectRatioChanged);
-  Q_PROPERTY(QString imageResolution READ imageResolution WRITE setImageResolution NOTIFY imageResolutionChanged);
-
-  Q_PROPERTY(QString videoAspectRatio READ videoAspectRatio WRITE setVideoAspectRatio NOTIFY videoAspectRatioChanged);
-  Q_PROPERTY(QString videoResolution READ videoResolution WRITE setVideoResolution NOTIFY videoResolutionChanged);
-
   Q_PROPERTY(bool soundEnabled READ isSoundEnabled WRITE setSoundEnabled NOTIFY soundEnabledChanged);
-  Q_PROPERTY(bool videoTorchOn READ isVideoTorchOn WRITE setVideoTorchOn NOTIFY videoTorchOnChanged);
-
   Q_PROPERTY(bool showToolBar READ isToolBarShown WRITE setToolBarShown NOTIFY toolBarShownChanged);
-  Q_PROPERTY(bool videoMuted READ isVideoMuted WRITE setVideoMuted NOTIFY videoMutedChanged);
-
   Q_PROPERTY(bool gridEnabled READ isGridEnabled WRITE setGridEnabled NOTIFY gridEnabledChanged);
 
   Q_PROPERTY(bool faceDetectionEnabled READ isFaceDetectionEnabled WRITE setFaceDetectionEnabled NOTIFY faceDetectionEnabledChanged);
@@ -85,59 +62,11 @@ public:
   bool useGeotags() const;
   void setUseGeotags(bool enable);
 
-  int imageSceneMode();
-  void setImageSceneMode(int mode);
-
-  int imageColorFilter();
-  void setImageColorFilter(int filter);
-
-  int imageWhiteBalance();
-  void setImageWhiteBalance(int wb);
-
-  qreal imageEvComp();
-  void setImageEvComp(qreal ev);
-
-  int videoSceneMode();
-  void setVideoSceneMode(int mode);
-
-  int videoColorFilter();
-  void setVideoColorFilter(int filter);
-
-  int videoWhiteBalance();
-  void setVideoWhiteBalance(int wb);
-
-  qreal videoEvComp();
-  void setVideoEvComp(qreal ev);
-
-  int imageFlashMode();
-  void setImageFlashMode(int mode);
-
-  int imageIso();
-  void setImageIso(int iso);
-
-  QString imageAspectRatio();
-  void setImageAspectRatio(const QString& aspectRatio);
-
-  QString imageResolution();
-  void setImageResolution(const QString& resolution);
-
-  QString videoAspectRatio();
-  void setVideoAspectRatio(const QString& aspectRatio);
-
-  QString videoResolution();
-  void setVideoResolution(const QString& resolution);
-
   bool isSoundEnabled() const;
   void setSoundEnabled(bool enabled);
 
-  bool isVideoTorchOn();
-  void setVideoTorchOn(bool on);
-
   bool isToolBarShown() const;
   void setToolBarShown(bool shown);
-
-  bool isVideoMuted() const;
-  void setVideoMuted(bool muted);
 
   bool isGridEnabled() const;
   void setGridEnabled(bool enabled);
@@ -166,45 +95,26 @@ public:
   bool isNightModeEnabled() const;
   void setNightModeEnabled(bool enabled);
 
+  QVariant value(const QString& key, const QVariant& defaultValue) const;
+  void setValue(const QString& key, const QVariant& value);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
   void useGpsChanged();
   void useGeotagsChanged();
-  void imageSceneModeChanged();
-  void imageColorFilterChanged();
-  void imageWhiteBalanceChanged();
-  void imageEvCompChanged();
-  void videoSceneModeChanged();
-  void videoColorFilterChanged();
-  void videoWhiteBalanceChanged();
-  void videoEvCompChanged();
-  void imageFlashModeChanged();
-  void imageIsoChanged();
-  void imageAspectRatioChanged();
-  void imageResolutionChanged();
-  void videoAspectRatioChanged();
-  void videoResolutionChanged();
   void soundEnabledChanged();
-  void videoTorchOnChanged();
   void toolBarShownChanged();
-  void videoMutedChanged();
   void gridEnabledChanged();
   void faceDetectionEnabledChanged();
   void zoomAsShutterChanged();
   void proximityAsShutterChanged();
-  void deviceAboutToChange();
   void deviceChanged();
   void previewEnabledChanged();
   void nightModeChanged();
 
 private:
-  DeviceSettings *deviceSettings();
-  QVariant deviceValue(const char *key, const QVariant& defaultValue);
-  void setDeviceValue(const char *key, const QVariant& value);
-
   QSettings *m_settings;
-  DeviceSettings *m_device;
 };
 
 #endif /* SETTINGS_H */

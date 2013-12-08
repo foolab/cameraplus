@@ -29,15 +29,12 @@ import CameraPlus 1.0
 // TODO: N950 conf
 // TODO: show busy indicators while loaders are loading
 // TODO: slider is loading crap too
-// TODO: split bindings per mode (image & video)
-// TODO: flash setting does not survive restarts
 // TODO: async policy
 // TODO: portrait layout
 
 CameraPage {
     id: root
 
-    property bool deviceChangeInProgress
     property bool inCaptureMode: mainView.currentIndex == 1
 
     CameraTheme {
@@ -116,11 +113,34 @@ CameraPage {
         id: platformSettings
     }
 
+    PrimaryDeviceSettings {
+        id: primarySettings
+        settings: settings
+    }
+
+    DeviceSettingsSetter {
+        id: primarySetter
+        settings: primarySettings
+        camera: viewfinder.camera
+        imageSettings: imageSettings
+        videoSettings: videoSettings
+    }
+
+    SecondaryDeviceSettings {
+        id: secondarySettings
+        settings: settings
+    }
+
+    DeviceSettingsSetter {
+        id: secondarySetter
+        settings: secondarySettings
+        camera: viewfinder.camera
+        imageSettings: imageSettings
+        videoSettings: videoSettings
+    }
+
     Settings {
         id: settings
-        onDeviceAboutToChange: {
-            root.deviceChangeInProgress = true
-        }
 
         onDeviceChanged: {
             viewfinder.cameraDeviceChanged()
@@ -129,26 +149,7 @@ CameraPage {
             pipelineManager.error = false
 
             if (root.resetCamera(settings.device, settings.mode)) {
-                root.deviceChangeInProgress = false
                 pipelineManager.startCamera()
-            }
-        }
-
-        onImageAspectRatioChanged: {
-            if (!root.deviceChangeInProgress) {
-                imageSettings.setImageResolution()
-            }
-        }
-
-        onImageResolutionChanged: {
-            if (!root.deviceChangeInProgress) {
-                imageSettings.setImageResolution()
-            }
-        }
-
-        onVideoResolutionChanged: {
-            if (!root.deviceChangeInProgress) {
-                videoSettings.setVideoResolution()
             }
         }
     }
@@ -160,16 +161,38 @@ CameraPage {
         displayOn: displayState.isOn
     }
 
+    function deviceSettings() {
+        return viewfinder.camera.deviceId == 0 ? primarySettings : secondarySettings
+    }
+
+    function deviceSettingsSetter() {
+        return viewfinder.camera.deviceId == 0 ? primarySetter : secondarySetter
+    }
+
     function resetCamera(deviceId, mode) {
         if (!viewfinder.camera.reset(deviceId, mode)) {
             showError(qsTr("Failed to set camera device and mode. Please restart the application."))
             return false
         }
-// TODO: set resolution before the mode?
+
+        var s = deviceSettings()
         if (mode == Camera.ImageMode) {
+            viewfinder.camera.scene.value = s.imageSceneMode
+            viewfinder.camera.flash.value = s.imageFlashMode
+            viewfinder.camera.evComp.value = s.imageEvComp
+            viewfinder.camera.whiteBalance.value = s.imageWhiteBalance
+            viewfinder.camera.colorTone.value = s.imageColorFilter
+            viewfinder.camera.iso.value = s.imageIso
+
             imageSettings.setImageResolution()
-        }
-        else if (mode == Camera.VideoMode) {
+        } else {
+            viewfinder.camera.scene.value = s.videoSceneMode
+            viewfinder.camera.evComp.value = s.videoEvComp
+            viewfinder.camera.whiteBalance.value = s.videoWhiteBalance
+            viewfinder.camera.colorTone.value = s.videoColorFilter
+            viewfinder.camera.videoMute.enabled = s.videoMuted
+            viewfinder.camera.videoTorch.on = s.videoTorchOn
+
             videoSettings.setVideoResolution()
         }
 
@@ -266,7 +289,7 @@ CameraPage {
         camera: viewfinder.camera
 
         function setImageResolution() {
-            if (!imageSettings.setResolution(settings.imageAspectRatio, settings.imageResolution)) {
+            if (!imageSettings.setResolution(deviceSettings().imageAspectRatio, deviceSettings().imageResolution)) {
                 showError(qsTr("Failed to set required resolution"))
             }
         }
@@ -277,7 +300,7 @@ CameraPage {
         camera: viewfinder.camera
 
         function setVideoResolution() {
-            if (!videoSettings.setResolution(settings.videoAspectRatio, settings.videoResolution)) {
+            if (!videoSettings.setResolution(deviceSettings().videoAspectRatio, deviceSettings().videoResolution)) {
                 showError(qsTr("Failed to set required resolution"))
             }
         }

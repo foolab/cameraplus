@@ -21,7 +21,7 @@
  */
 
 #include "devicesettings.h"
-#include <QDebug>
+#include "settings.h"
 
 #define IMAGE_RESOLUTION_KEY        "imageResolution"
 #define IMAGE_ASPECT_RATIO_KEY      "imageAspectRatio"
@@ -38,144 +38,275 @@
 #define IMAGE_FLASH_MODE_KEY        "imageFlashMode"
 #define VIDEO_TORCH_ON_KEY          "videoTorchOn"
 #define IMAGE_ISO_KEY               "imageIso"
+#define VIDEO_MUTE_KEY              "videoMute"
 
-DeviceSettings::DeviceSettings(const QHash<QString, QVariant>& defaultSettings) :
-  m_settings(defaultSettings) {
+PrimaryDeviceSettings::PrimaryDeviceSettings(QObject *parent) :
+  DeviceSettings(parent) {
+
+  QHash<QString, QVariant> props;
+
+  props[IMAGE_RESOLUTION_KEY] = "high";
+  props[IMAGE_ASPECT_RATIO_KEY] = "16:9";
+  props[VIDEO_RESOLUTION_KEY] = "high";
+  props[VIDEO_ASPECT_RATIO_KEY] = "16:9";
+  props[IMAGE_SCENE_MODE_KEY] = 6;
+  props[VIDEO_SCENE_MODE_KEY] = 6;
+  props[IMAGE_COLOR_FILTER_KEY] = 0;
+  props[VIDEO_COLOR_FILTER_KEY] = 0;
+  props[IMAGE_WHITE_BALANCE_KEY] = 0;
+  props[VIDEO_WHITE_BALANCE_KEY] = 0;
+  props[IMAGE_EV_COMP_KEY] = 0.0;
+  props[VIDEO_EV_COMP_KEY] = 0.0;
+  props[IMAGE_FLASH_MODE_KEY] = 0;
+  props[VIDEO_TORCH_ON_KEY] = false;
+  props[IMAGE_ISO_KEY] = 0;
+  props[VIDEO_MUTE_KEY] = false;
+
+  init("primary", props);
+}
+
+SecondaryDeviceSettings::SecondaryDeviceSettings(QObject *parent) :
+  DeviceSettings(parent) {
+
+  QHash<QString, QVariant> props;
+
+  props[IMAGE_RESOLUTION_KEY] = "low";
+  props[IMAGE_ASPECT_RATIO_KEY] = "4:3";
+  props[VIDEO_RESOLUTION_KEY] = "low";
+  props[VIDEO_ASPECT_RATIO_KEY] = "4:3";
+  props[IMAGE_SCENE_MODE_KEY] = 6;
+  props[VIDEO_SCENE_MODE_KEY] = 6;
+  props[IMAGE_COLOR_FILTER_KEY] = 0;
+  props[VIDEO_COLOR_FILTER_KEY] = 0;
+  props[IMAGE_WHITE_BALANCE_KEY] = 0;
+  props[VIDEO_WHITE_BALANCE_KEY] = 0;
+  props[IMAGE_EV_COMP_KEY] = 0.0;
+  props[VIDEO_EV_COMP_KEY] = 0.0;
+  props[IMAGE_FLASH_MODE_KEY] = 0;
+  props[VIDEO_TORCH_ON_KEY] = false;
+  props[IMAGE_ISO_KEY] = 0;
+  props[VIDEO_MUTE_KEY] = false;
+
+  init("secondary", props);
+}
+
+DeviceSettings::DeviceSettings(QObject *parent) :
+  QObject(parent),
+  m_settings(0) {
 
 }
 
 DeviceSettings::~DeviceSettings() {
-
+  m_settings = 0;
 }
 
-QVariant DeviceSettings::value(const QString& key) const {
-  if (!m_settings.contains(key)) {
-    qFatal("%s not found", qPrintable(key));
+void DeviceSettings::init(const QString& id, const QHash<QString, QVariant>& props) {
+  m_id = id;
+  m_props = props;
+}
 
+Settings *DeviceSettings::settings() const {
+  return m_settings;
+}
+
+void DeviceSettings::setSettings(Settings *settings) {
+  if (m_settings != settings) {
+    m_settings = settings;
+
+    emit settingsChanged();
+  }
+}
+
+QVariant DeviceSettings::get(const QString& settingsKey, const QString& hashKey) const {
+  if (!m_props.contains(hashKey)) {
+    qFatal("%s not found", qPrintable(hashKey));
     return QVariant();
   }
 
-  return m_settings[key];
+  QVariant defaultValue = m_props[hashKey];
+  QString key = QString("%1/%2").arg(m_id).arg(settingsKey);
+
+  return m_settings->value(key, defaultValue);
 }
 
-QVariant DeviceSettings::defaultImageResolution() const {
-  return value(IMAGE_RESOLUTION_KEY);
+void DeviceSettings::set(const QString& key, const QVariant& value) {
+  QString settingsKey = QString("%1/%2").arg(m_id).arg(key);
+
+  m_settings->setValue(settingsKey, value);
 }
 
-QVariant DeviceSettings::defaultVideoResolution() const {
-  return value(VIDEO_RESOLUTION_KEY);
+int DeviceSettings::imageSceneMode() const {
+  return get("image/sceneMode", IMAGE_SCENE_MODE_KEY).toInt();
 }
 
-QVariant DeviceSettings::defaultImageAspectRatio() const {
-  return value(IMAGE_ASPECT_RATIO_KEY);
+void DeviceSettings::setImageSceneMode(int mode) {
+  if (imageSceneMode() != mode) {
+    set("image/sceneMode", mode);
+    emit imageSceneModeChanged();
+  }
 }
 
-QVariant DeviceSettings::defaultVideoAspectRatio() const {
-  return value(VIDEO_ASPECT_RATIO_KEY);
+int DeviceSettings::imageColorFilter() const {
+  return get("image/colorFilter", IMAGE_COLOR_FILTER_KEY).toInt();
 }
 
-QVariant DeviceSettings::defaultImageSceneMode() const {
-  return value(IMAGE_SCENE_MODE_KEY);
+void DeviceSettings::setImageColorFilter(int filter) {
+  if (imageColorFilter() != filter) {
+    set("image/colorFilter", filter);
+    emit imageColorFilterChanged();
+  }
 }
 
-QVariant DeviceSettings::defaultVideoSceneMode() const {
-  return value(VIDEO_SCENE_MODE_KEY);
+int DeviceSettings::imageWhiteBalance() const {
+  return get("image/whiteBalance", IMAGE_WHITE_BALANCE_KEY).toInt();
 }
 
-QVariant DeviceSettings::defaultImageColorFilter() const {
-  return value(IMAGE_COLOR_FILTER_KEY);
+void DeviceSettings::setImageWhiteBalance(int wb) {
+  if (imageWhiteBalance() != wb) {
+    set("image/whiteBalance", wb);
+    emit imageWhiteBalanceChanged();
+  }
 }
 
-QVariant DeviceSettings::defaultVideoColorFilter() const {
-  return value(VIDEO_COLOR_FILTER_KEY);
+qreal DeviceSettings::imageEvComp() const {
+  return get("image/evComp", IMAGE_EV_COMP_KEY).toReal();
 }
 
-QVariant DeviceSettings::defaultImageWhiteBalance() const {
-  return value(IMAGE_WHITE_BALANCE_KEY);
+void DeviceSettings::setImageEvComp(qreal ev) {
+  if (!qFuzzyCompare(imageEvComp(), ev)) {
+    set("image/evComp", ev);
+    emit imageEvCompChanged();
+  }
 }
 
-QVariant DeviceSettings::defaultVideoWhiteBalance() const {
-  return value(VIDEO_WHITE_BALANCE_KEY);
+int DeviceSettings::videoSceneMode() const {
+  return get("video/sceneMode", VIDEO_SCENE_MODE_KEY).toInt();
 }
 
-QVariant DeviceSettings::defaultImageEvComp() const {
-  return value(IMAGE_EV_COMP_KEY);
+void DeviceSettings::setVideoSceneMode(int mode) {
+  if (videoSceneMode() != mode) {
+    set("video/sceneMode", mode);
+    emit videoSceneModeChanged();
+  }
 }
 
-QVariant DeviceSettings::defaultVideoEvComp() const {
-  return value(VIDEO_EV_COMP_KEY);
+int DeviceSettings::videoColorFilter() const {
+  return get("video/colorFilter", VIDEO_COLOR_FILTER_KEY).toInt();
 }
 
-QVariant DeviceSettings::defaultImageFlashMode() const {
-  return value(IMAGE_FLASH_MODE_KEY);
+void DeviceSettings::setVideoColorFilter(int filter) {
+  if (videoColorFilter() != filter) {
+    set("video/colorFilter", filter);
+    emit videoColorFilterChanged();
+  }
 }
 
-QVariant DeviceSettings::defaultImageIso() const {
-  return value(IMAGE_ISO_KEY);
+int DeviceSettings::videoWhiteBalance() const {
+  return get("video/whiteBalance", VIDEO_WHITE_BALANCE_KEY).toInt();
 }
 
-QVariant DeviceSettings::defaultVideoTorchOn() const {
-  return value(VIDEO_TORCH_ON_KEY);
+void DeviceSettings::setVideoWhiteBalance(int wb) {
+  if (videoWhiteBalance() != wb) {
+    set("video/whiteBalance", wb);
+    emit videoWhiteBalanceChanged();
+  }
 }
 
-PrimaryDeviceSettings::PrimaryDeviceSettings() :
-  DeviceSettings(settings()) {
-
+qreal DeviceSettings::videoEvComp() const {
+  return get("video/evComp", VIDEO_EV_COMP_KEY).toReal();
 }
 
-QString PrimaryDeviceSettings::id() const {
-  return "primary";
+void DeviceSettings::setVideoEvComp(qreal ev) {
+  if (!qFuzzyCompare(videoEvComp(), ev)) {
+    set("video/evComp", ev);
+    emit videoEvCompChanged();
+  }
 }
 
-QHash<QString, QVariant> PrimaryDeviceSettings::settings() const {
-  QHash<QString, QVariant> hash;
-
-  hash[IMAGE_RESOLUTION_KEY] = "high";
-  hash[IMAGE_ASPECT_RATIO_KEY] = "16:9";
-  hash[VIDEO_RESOLUTION_KEY] = "high";
-  hash[VIDEO_ASPECT_RATIO_KEY] = "16:9";
-  hash[IMAGE_SCENE_MODE_KEY] = 6;
-  hash[VIDEO_SCENE_MODE_KEY] = 6;
-  hash[IMAGE_COLOR_FILTER_KEY] = 0;
-  hash[VIDEO_COLOR_FILTER_KEY] = 0;
-  hash[IMAGE_WHITE_BALANCE_KEY] = 0;
-  hash[VIDEO_WHITE_BALANCE_KEY] = 0;
-  hash[IMAGE_EV_COMP_KEY] = 0.0;
-  hash[VIDEO_EV_COMP_KEY] = 0.0;
-  hash[IMAGE_FLASH_MODE_KEY] = 0;
-  hash[VIDEO_TORCH_ON_KEY] = false;
-  hash[IMAGE_ISO_KEY] = 0;
-
-  return hash;
+int DeviceSettings::imageFlashMode() const {
+  return get("image/flashMode", IMAGE_FLASH_MODE_KEY).toInt();
 }
 
-SecondaryDeviceSettings::SecondaryDeviceSettings() :
-  DeviceSettings(settings()) {
-
+void DeviceSettings::setImageFlashMode(int mode) {
+  if (imageFlashMode() != mode) {
+    set("image/flashMode", mode);
+    emit imageFlashModeChanged();
+  }
 }
 
-QString SecondaryDeviceSettings::id() const {
-  return "secondary";
+int DeviceSettings::imageIso() const {
+  return get("image/iso", IMAGE_ISO_KEY).toInt();
 }
 
-QHash<QString, QVariant> SecondaryDeviceSettings::settings() const {
-  QHash<QString, QVariant> hash;
+void DeviceSettings::setImageIso(int iso) {
+  if (imageIso() != iso) {
+    set("image/iso", iso);
+    emit imageIsoChanged();
+  }
+}
 
-  hash[IMAGE_RESOLUTION_KEY] = "low";
-  hash[IMAGE_ASPECT_RATIO_KEY] = "4:3";
-  hash[VIDEO_RESOLUTION_KEY] = "low";
-  hash[VIDEO_ASPECT_RATIO_KEY] = "4:3";
-  hash[IMAGE_SCENE_MODE_KEY] = 6;
-  hash[VIDEO_SCENE_MODE_KEY] = 6;
-  hash[IMAGE_COLOR_FILTER_KEY] = 0;
-  hash[VIDEO_COLOR_FILTER_KEY] = 0;
-  hash[IMAGE_WHITE_BALANCE_KEY] = 0;
-  hash[VIDEO_WHITE_BALANCE_KEY] = 0;
-  hash[IMAGE_EV_COMP_KEY] = 0.0;
-  hash[VIDEO_EV_COMP_KEY] = 0.0;
-  hash[IMAGE_FLASH_MODE_KEY] = 0;
-  hash[VIDEO_TORCH_ON_KEY] = false;
-  hash[IMAGE_ISO_KEY] = 0;
+QString DeviceSettings::imageAspectRatio() const {
+  return get("image/aspectRatio", IMAGE_ASPECT_RATIO_KEY).toString();
+}
 
-  return hash;
+void DeviceSettings::setImageAspectRatio(const QString& aspectRatio) {
+  if (imageAspectRatio() != aspectRatio) {
+    set("image/aspectRatio", aspectRatio);
+    emit imageAspectRatioChanged();
+  }
+}
+
+QString DeviceSettings::imageResolution() const {
+  return get("image/resolution", IMAGE_RESOLUTION_KEY).toString();
+}
+
+void DeviceSettings::setImageResolution(const QString& resolution) {
+  if (imageResolution() != resolution) {
+    set("image/resolution", resolution);
+    emit imageResolutionChanged();
+  }
+}
+
+QString DeviceSettings::videoAspectRatio() const {
+  return get("video/aspectRatio", VIDEO_ASPECT_RATIO_KEY).toString();
+}
+
+void DeviceSettings::setVideoAspectRatio(const QString& aspectRatio) {
+  if (videoAspectRatio() != aspectRatio) {
+    set("video/aspectRatio", aspectRatio);
+    emit videoAspectRatioChanged();
+  }
+}
+
+QString DeviceSettings::videoResolution() const {
+  return get("video/resolution", VIDEO_RESOLUTION_KEY).toString();
+}
+
+void DeviceSettings::setVideoResolution(const QString& resolution) {
+  if (videoResolution() != resolution) {
+    set("video/resolution", resolution);
+    emit videoResolutionChanged();
+  }
+}
+
+bool DeviceSettings::isVideoTorchOn() const {
+  return get("video/torchOn", VIDEO_TORCH_ON_KEY).toBool();
+}
+
+void DeviceSettings::setVideoTorchOn(bool on) {
+  if (isVideoTorchOn() != on) {
+    set("video/torchOn", on);
+    emit videoTorchOnChanged();
+  }
+}
+
+bool DeviceSettings::isVideoMuted() const {
+  return get("video/mute", VIDEO_MUTE_KEY).toBool();
+}
+
+void DeviceSettings::setVideoMuted(bool muted) {
+  if (isVideoMuted() != muted) {
+    set("video/mute", muted);
+    emit videoMutedChanged();
+  }
 }

@@ -48,5 +48,6 @@
 	<file>CaptureCancel.qml</file>
 	<file>ZoomSlider.qml</file>
 	<file>CaptureControl.qml</file>
+	<file>DeviceSettingsSetter.qml</file>
     </qresource>
 </RCC>
