@@ -332,7 +332,7 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame
   }
 
   std::vector<GLfloat> texCoords(m_texCoords);
-
+  /*
   // Now take into account cropping:
   const GstStructure *s =
     nemo_gst_video_texture_get_frame_qdata (sink,
@@ -340,7 +340,7 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame
   if (s) {
     updateCropInfo(s, texCoords);
   }
-
+  */
   if (!nemo_gst_video_texture_bind_frame(sink, &img)) {
     qDebug() << "Failed to bind frame";
     nemo_gst_video_texture_release_frame(sink, NULL);
