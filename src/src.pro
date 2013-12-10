@@ -32,7 +32,7 @@ HEADERS += settings.h filenaming.h cameraresources.h \
            mountprotector.h devicesettings.h fileindex.h \
            stack.h toolbarlayout.h
 
-RESOURCES += ../qml/qml.qrc
+RESOURCES += ../qml/qml.qrc ../icons/icons.qrc
 
 contains(CONFIG, qmljsdebug) {
     message("Enabling QML/JS Debugging")
