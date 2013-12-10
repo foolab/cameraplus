@@ -34,8 +34,8 @@ Rectangle {
     Image {
         id: icon
         // Same dimensions as the image itself
-        width: 132
-        height: 132
+        width: 200
+        height: 200
         source: cameraTheme.standbyIcon
         anchors.centerIn: parent
         asynchronous: true
