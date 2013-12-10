@@ -2,12 +2,6 @@
 
 set -e
 
-case "$1" in
-    configure)
-        /usr/bin/restart-mthemedaemon.sh
-        ;;
-esac
-
 #DEBHELPER#
 
 exit 0
