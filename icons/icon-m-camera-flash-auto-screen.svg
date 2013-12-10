@@ -1,65 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generator: Adobe Illustrator 14.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 43363)  -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   version="1.1"
-   id="icon-m-camera-flash-auto-screen-layer"
-   x="0px"
-   y="0px"
-   width="48"
-   height="48"
-   viewBox="0 0 48 48"
-   xml:space="preserve"
-   inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="icon-m-camera-flash-auto-screen.svg"><metadata
-   id="metadata3001"><rdf:RDF><cc:Work
-       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
-   id="defs2999" /><sodipodi:namedview
-   pagecolor="#ffffff"
-   bordercolor="#666666"
-   borderopacity="1"
-   objecttolerance="10"
-   gridtolerance="10"
-   guidetolerance="10"
-   inkscape:pageopacity="0"
-   inkscape:pageshadow="2"
-   inkscape:window-width="1024"
-   inkscape:window-height="686"
-   id="namedview2997"
-   showgrid="false"
-   inkscape:zoom="9.8390732"
-   inkscape:cx="-0.21087642"
-   inkscape:cy="28.196271"
-   inkscape:window-x="0"
-   inkscape:window-y="30"
-   inkscape:window-maximized="1"
-   inkscape:current-layer="icon-m-camera-flash-auto-screen-layer" />
-<g
-   id="icon-m-camera-flash-auto-screen"
-   transform="matrix(1.3366679,0,0,1.3366679,2.6133136,2.6133136)">
-	<rect
-   style="fill:none"
-   width="32"
-   height="32"
-   id="rect2991"
-   x="0"
-   y="0" />
-	<polygon
-   style="fill:#ffffff"
-   points="18,0.498 3.5,12.498 11.5,17 1,31.5 21.5,15 13.5,11 "
-   id="polygon2993" />
-	<path
-   style="fill:#ffffff"
-   d="m 27.159,18 h -3.13 L 20,31.5 h 2.273 l 0.896,-3.097 h 4.516 l 0.896,3.097 h 2.534 L 27.159,18 z m -3.556,8.693 1.845,-6.671 1.826,6.7 -3.671,-0.029 z"
-   id="path2995"
-   inkscape:connector-curvature="0" />
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+	 id="icon-m-camera-flash-always-screen-layer" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" inkscape:version="0.48.3.1 r9886" sodipodi:docname="icon-m-camera-flash-always-screen.svg"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="48px" height="48px"
+	 viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
+<sodipodi:namedview  showgrid="false" inkscape:cy="16" inkscape:cx="4.5371794" inkscape:zoom="9.8390732" borderopacity="1" bordercolor="#666666" pagecolor="#ffffff" id="namedview8" inkscape:current-layer="icon-m-camera-flash-always-screen-layer" inkscape:pageshadow="2" inkscape:pageopacity="0" inkscape:window-maximized="1" inkscape:window-y="30" inkscape:window-x="0" inkscape:window-height="686" inkscape:window-width="1024" objecttolerance="10" guidetolerance="10" gridtolerance="10">
+	</sodipodi:namedview>
+<g id="icon-m-camera-flash-always-screen" transform="matrix(1.368429,0,0,1.368429,2.105136,2.105136)">
+	<rect id="rect4" x="0" y="0" fill="none" width="32" height="32"/>
+	<polygon id="polygon6" fill="#FFFFFF" points="18,-0.808 4.96,13.96 10.038,15.539 1,31.498 20.036,9.885 12.768,11 	"/>
 </g>
+<polyline id="rect2991" fill="none" points="46.387,1.613 46.387,44.387 3.613,44.387 "/>
+<path id="path2995" inkscape:connector-curvature="0" fill="#FFFFFF" d="M39.916,25.674h-4.184l-5.386,18.045h3.038l1.197-4.141
+	h6.037l1.197,4.141h3.387L39.916,25.674z M35.162,37.293l2.467-8.917l2.441,8.956L35.162,37.293z"/>
 </svg>

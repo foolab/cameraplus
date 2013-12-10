@@ -47,7 +47,7 @@ icon-m-camera-filter-sepia 48 48 filter-sepia.svg
 icon-m-camera-filter-solarize 48 48 filter-solarize.svg
 icon-m-camera-filter-vivid 48 48 filter-vivid.svg
 icon-m-camera-no-filter 48 48 filter-none.svg
-icon-m-toolbar-back-white 52 52 arrow-black.svg
+icon-m-toolbar-settings 52 52 settings.svg
 icon-m-camera-shutter 64 64 shutter.svg
 icon-m-camera-torch-off 48 48 torch-off.svg
 icon-m-camera-torch-on 48 48 torch-on.svg
