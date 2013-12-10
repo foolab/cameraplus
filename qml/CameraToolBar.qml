@@ -100,7 +100,7 @@ Rectangle {
     CameraToolIcon {
         visible: !parent.hideBack
         id: menu
-        rotation: parent.expanded ? 360 : 180
+        rotation: parent.expanded ? 0 : 90
         iconSource: cameraTheme.cameraToolBarMenuIcon
         anchors.left: parent.left
         anchors.top: parent.top
