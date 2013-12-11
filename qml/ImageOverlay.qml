@@ -76,8 +76,8 @@ Item {
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
         iconSource: cameraTheme.captureButtonImageIconId
-        width: 75
-        height: 75
+        width: 100
+        height: 100
         opacity: 0.5
         visible: controlsVisible
 
