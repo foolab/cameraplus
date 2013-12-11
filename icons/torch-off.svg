@@ -2,20 +2,11 @@
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1"
-	 id="svg3846" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:svg="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" inkscape:version="0.48.3.1 r9886" sodipodi:docname="torch-on.svg"
+	 id="svg3846" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" sodipodi:docname="torch-on.svg" inkscape:version="0.48.3.1 r9886"
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="48px" height="48px"
 	 viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
-<sodipodi:namedview  inkscape:cy="28.429458" inkscape:cx="-20.540809" inkscape:zoom="5.2828125" showgrid="false" bordercolor="#666666" id="base" pagecolor="#ffffff" borderopacity="1.0" inkscape:document-units="px" inkscape:window-width="1024" inkscape:pageopacity="0.0" inkscape:current-layer="layer1" inkscape:window-maximized="1" inkscape:window-x="0" inkscape:pageshadow="2" inkscape:window-height="686" inkscape:window-y="30">
+<sodipodi:namedview  id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:zoom="5.2828125" inkscape:cx="-20.540809" inkscape:cy="28.429458" showgrid="false" inkscape:window-maximized="1" inkscape:window-width="1024" inkscape:pageopacity="0.0" inkscape:window-height="686" inkscape:window-x="0" inkscape:current-layer="layer1" inkscape:window-y="30" inkscape:pageshadow="2" inkscape:document-units="px">
 	</sodipodi:namedview>
-<g id="layer1" transform="translate(0,-1004.3622)" inkscape:label="Layer 1" inkscape:groupmode="layer">
-	<g id="g3780" transform="matrix(0.05573128,0,0,0.05573128,53.310914,1004.5451)">
-		<rect id="rect3756" x="-588.579" y="340.822" fill="#FFFFFF" width="130.002" height="304.695"/>
-		
-			<path id="path3778" sodipodi:cx="-224.28572" sodipodi:cy="449.50504" sodipodi:rx="58.57143" sodipodi:ry="77.14286" sodipodi:type="arc" sodipodi:end="3.1415927" sodipodi:open="true" sodipodi:start="0" fill="#FFFFFF" d="
-			M-458.578,645.518c0,42.615-29.087,77.135-64.992,77.135s-65.01-34.52-65.01-77.135l0,0"/>
-	</g>
-	
-		<path id="path3784" sodipodi:cx="-407.14285" sodipodi:cy="182.36218" sodipodi:rx="184.28572" sodipodi:ry="110" sodipodi:type="arc" sodipodi:end="3.1415927" sodipodi:open="true" sodipodi:start="0" fill="#FFFFFF" d="
-		M31.534,1022.549c0,2.989-2.296,8.411-7.594,8.411c-5.299,0-7.594-5.422-7.594-8.411"/>
-</g>
+<path fill="#FFFFFF" d="M31.534,18.187l-15.188,0c0,2.239,1.289,5.844,4.163,7.511v10.461c0,2.375,1.622,4.299,3.623,4.299
+	s3.622-1.924,3.622-4.299V25.444C30.354,23.689,31.534,20.322,31.534,18.187z"/>
 </svg>
