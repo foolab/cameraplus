@@ -1,15 +1,68 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
-<g>
-	<path fill="#FFFFFF" d="M85.75,391.25h259v-185h-259V391.25z M110.75,230.25h209v137h-209V230.25z"/>
-	<path fill="#FFFFFF" d="M265.25,243.25c-16.001,0.001-51.271,67.001-57,67c0,0-29.001-25.5-36.001-25.5c-4,0-49,27.5-49,34.5
-		c0,20.799,0,36.5,0,36.5l187.999-1c0,0,0.007-19,0.001-43C311.249,307.749,275.249,243.25,265.25,243.25z"/>
-	<polygon fill="#FFFFFF" points="126.25,201.25 151.25,201.25 151.25,187.75 360.25,187.75 360.25,324.75 348.75,324.75 
-		348.75,348.75 385.25,348.75 385.25,163.75 126.25,163.75 	"/>
-	<polygon fill="#FFFFFF" points="167.25,120.75 167.25,158.25 192.25,158.25 192.25,144.75 401.25,144.75 401.25,281.75 
-		389.75,281.75 389.75,305.75 426.25,305.75 426.25,120.75 	"/>
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   width="512px"
+   height="512px"
+   viewBox="0 0 512 512"
+   enable-background="new 0 0 512 512"
+   xml:space="preserve"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="icon-m-camera-roll.svg"><metadata
+   id="metadata17"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+   id="defs15" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1024"
+   inkscape:window-height="686"
+   id="namedview13"
+   showgrid="false"
+   inkscape:zoom="0.82040137"
+   inkscape:cx="12.264817"
+   inkscape:cy="256"
+   inkscape:window-x="0"
+   inkscape:window-y="30"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="Layer_1" />
+<g
+   id="g3"
+   transform="matrix(1.3444561,0,0,1.3444561,-88.180762,-88.180762)">
+	<path
+   d="m 85.75,391.25 h 259 v -185 h -259 v 185 z m 25,-161 h 209 v 137 h -209 v -137 z"
+   id="path5"
+   inkscape:connector-curvature="0"
+   style="fill:#ffffff" />
+	<path
+   d="m 265.25,243.25 c -16.001,0.001 -51.271,67.001 -57,67 0,0 -29.001,-25.5 -36.001,-25.5 -4,0 -49,27.5 -49,34.5 0,20.799 0,36.5 0,36.5 l 187.999,-1 c 0,0 0.007,-19 0.001,-43 0,-4.001 -36,-68.5 -45.999,-68.5 z"
+   id="path7"
+   inkscape:connector-curvature="0"
+   style="fill:#ffffff" />
+	<polygon
+   points="151.25,187.75 360.25,187.75 360.25,324.75 348.75,324.75 348.75,348.75 385.25,348.75 385.25,163.75 126.25,163.75 126.25,201.25 151.25,201.25 "
+   id="polygon9"
+   style="fill:#ffffff" />
+	<polygon
+   points="192.25,158.25 192.25,144.75 401.25,144.75 401.25,281.75 389.75,281.75 389.75,305.75 426.25,305.75 426.25,120.75 167.25,120.75 167.25,158.25 "
+   id="polygon11"
+   style="fill:#ffffff" />
 </g>
 </svg>
