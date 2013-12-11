@@ -22,7 +22,7 @@
 
 import QtQuick 2.0
 
-Item {
+Rectangle {
     id: button
 
     property alias iconSource: icon.source
@@ -35,6 +35,11 @@ Item {
     signal clicked
     signal exited
 
+    color: mouse.pressed ? platformStyle.pressedColor : platformStyle.releasedColor
+    border.color: platformStyle.borderColor
+    border.width: 1
+    radius: width / 3
+
     MouseArea {
         id: mouse
         anchors.fill: parent
@@ -42,20 +47,11 @@ Item {
         onExited: button.exited()
     }
 
-    BorderImage {
-        id: background
-        anchors.fill: parent
-        border.left: button.platformStyle.backgroundMarginLeft
-        border.top: button.platformStyle.backgroundMarginTop
-        border.right: button.platformStyle.backgroundMarginRight
-        border.bottom: button.platformStyle.backgroundMarginBottom
-        source: pressed ? button.platformStyle.pressedBackground : button.platformStyle.background
-        asynchronous: true
-    }
-
     Image {
         id: icon
         anchors.centerIn: parent
+        width: parent.width * 0.75
+        height: parent.height * 0.75
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: -1
         visible: source != ""

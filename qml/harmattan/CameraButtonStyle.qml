@@ -21,7 +21,9 @@
  */
 
 import QtQuick 1.1
-import com.nokia.meego 1.1
 
-ButtonStyle {
+QtObject {
+    property color pressedColor: "blue"
+    property color releasedColor: "black"
+    property color borderColor: "gray"
 }

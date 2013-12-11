@@ -21,13 +21,9 @@
  */
 
 import QtQuick 2.0
-import Sailfish.Silica 1.0
-
+// TODO:
 QtObject {
-    property real backgroundMarginLeft
-    property real backgroundMarginTop
-    property real backgroundMarginRight
-    property real backgroundMarginBottom
-    property string pressedBackground
-    property string background
+    property color pressedColor: "blue"
+    property color releasedColor: "black"
+    property color borderColor: "gray"
 }
