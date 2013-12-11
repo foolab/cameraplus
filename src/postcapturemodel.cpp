@@ -149,7 +149,12 @@ void PostCaptureModel::loadDir(const QDir& dir, QList<PostCaptureModelItem *>& o
       continue;
     }
 
-    if (!(entry->d_type == DT_LNK || entry->d_type == DT_REG)) {
+    if (entry->d_type == DT_DIR) {
+      QDir newDir(dir.absoluteFilePath(entry->d_name));
+      loadDir(newDir, out);
+      continue;
+    }
+    else if (entry->d_type != DT_REG) {
       continue;
     }
 
