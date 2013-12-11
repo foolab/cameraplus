@@ -10,8 +10,11 @@ filter-vivid.svg
 filter-sepia.svg
 filter-none.svg
 
-settings.svg created by mcbook
-cameraplus.svg and cameraplus.ai by mcbook
+ by mcbook:
+settings.svg
+cameraplus.svg
+cameraplus.ai
+record-stop.svg
 
 The rest is based on icons from https://github.com/nemomobile/nemo-theme-default lgpl part
 

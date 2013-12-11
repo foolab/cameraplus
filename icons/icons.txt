@@ -36,6 +36,7 @@ icon-m-viewfinder-camera 48 48 icon-m-viewfinder-camera.svg
 icon-m-camera-roll 40 40 icon-m-camera-roll.svg
 icon-m-camera-scene-auto 48 48 icon-m-camera-scene-auto-screen.svg
 icon-m-camera-video-record 64 64 icon-m-camera-video.svg
+icon-m-camera-video-record-stop 64 64 record-stop.svg
 icon-m-camera-video-fine-resolution 32 32 icon-m-camera-video-fine-resolution.svg
 icon-m-camera-video-high-resolution 32 32 icon-m-camera-video-high-resolution.svg
 icon-m-camera-video-low-resolution 32 32 icon-m-camera-video-low-resolution.svg

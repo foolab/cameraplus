@@ -90,7 +90,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        iconSource: overlay.recording ? cameraTheme.captureButtonRecordingIconId : cameraTheme.captureButtonVideoIconId
+        iconSource: overlay.recording ? cameraTheme.captureButtonStopRecordingIconId : cameraTheme.captureButtonVideoIconId
         width: 75
         height: 75
         opacity: 0.5

@@ -42,7 +42,7 @@ QtObject {
     property string cameraImageIconId: "qrc:/images/cameraplus-icon-m-viewfinder-camera.png"
     property string captureButtonImageIconId: "qrc:/images/cameraplus-icon-m-camera-shutter.png"
     property string captureButtonVideoIconId: "qrc:/images/cameraplus-icon-m-camera-video-record.png"
-    property string captureButtonRecordingIconId: "qrc:/images/cameraplus-icon-m-camera-video-record.png"
+    property string captureButtonStopRecordingIconId: "qrc:/images/cameraplus-icon-m-camera-video-record-stop.png"
     property string cameraToolBarMenuIcon: "qrc:/images/cameraplus-icon-m-toolbar-settings.png"
     property string deleteIconId: "qrc:/images/cameraplus-icon-m-toolbar-delete-white.png"
     property string shareIconId: "qrc:/images/cameraplus-icon-m-toolbar-share-white.png"
