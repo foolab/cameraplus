@@ -21,6 +21,7 @@
  */
 
 import QtQuick 1.1
+import com.nokia.meego 1.0
 
 Item {
     id: button
@@ -34,7 +35,7 @@ Item {
     property alias text: label.text
     property alias pressed: mouse.pressed
     property alias enabled: mouse.enabled
-    property CameraButtonStyle platformStyle: CameraButtonStyle {}
+    property ButtonStyle platformStyle: ButtonStyle {}
 
     MouseArea {
         id: mouse
