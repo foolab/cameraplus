@@ -1,4 +1,4 @@
-icon-l-camera-standby 200 200 cameraplus.svg
+icon-l-camera-standby 200 200 cameraplus.ai
 icon-m-camera-face-detection-screen 32 32 icon-m-camera-face-detection-screen.svg
 icon-m-camera-flash-always 48 48 icon-m-camera-flash-always-screen.svg
 icon-m-camera-flash-auto 48 48 icon-m-camera-flash-auto-screen.svg
