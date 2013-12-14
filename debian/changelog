@@ -1,3 +1,12 @@
+cameraplus (0.0.12-1) unstable; urgency=low
+
+  * New logo (Thanks mcbook)
+  * Polishing for some icons (Thanks mcbook)
+  * Slightly increase the size of the capture button
+  * Show photos and videos in subdirectories of DCIM in post capture view
+
+ -- Mohammed Sameer <msameer@foolab.org>  Wed, 11 Dec 2013 01:45:34 +0200
+
 cameraplus (0.0.11-1) unstable; urgency=low
 
   * Enable Harmattan specific image post processing algorithms
