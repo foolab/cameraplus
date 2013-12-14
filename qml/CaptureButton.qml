@@ -53,7 +53,6 @@ Rectangle {
         width: parent.width * 0.75
         height: parent.height * 0.75
         anchors.verticalCenter: parent.verticalCenter
-        anchors.verticalCenterOffset: -1
         visible: source != ""
     }
 }
