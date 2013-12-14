@@ -24,8 +24,6 @@ icon-m-camera-whitebalance-fluorescent 48 48 icon-m-camera-whitebalance-fluoresc
 icon-m-camera-whitebalance-sunny 48 48 icon-m-camera-whitebalance-sunny-screen.svg
 icon-m-camera-whitebalance-tungsten 48 48 icon-m-camera-whitebalance-tungsten-screen.svg
 icon-m-toolbar-delete-white 40 40 icon-m-toolbar-delete.svg
-icon-m-toolbar-favorite-mark-white 40 40 icon-m-toolbar-favorite-mark.svg
-icon-m-toolbar-favorite-unmark-white 40 40 icon-m-toolbar-favorite-unmark.svg
 icon-m-toolbar-mediacontrol-pause-white 40 40 icon-m-toolbar-mediacontrol-pause.svg
 icon-m-toolbar-mediacontrol-play-white 40 40 icon-m-toolbar-mediacontrol-play.svg
 icon-m-toolbar-mediacontrol-stop-white 40 40 icon-m-toolbar-mediacontrol-stop.svg
