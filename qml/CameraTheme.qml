@@ -54,7 +54,7 @@ QtObject {
     property string flashRedEyeIconId: "qrc:/images/cameraplus-icon-m-camera-flash-red-eye.png"
 
     property string whiteBalanceAutoIconId: "qrc:/images/cameraplus-icon-m-camera-whitebalance-auto.png"
-    property string whiteBalanceSunsetIconId: "qrc:/images/cameraplus-icon-m-camera-whitebalance-sunny.png"
+    property string whiteBalanceSunnyIconId: "qrc:/images/cameraplus-icon-m-camera-whitebalance-sunny.png"
     property string whiteBalanceCloudyIconId: "qrc:/images/cameraplus-icon-m-camera-whitebalance-cloudy.png"
     property string whiteBalanceFlourescentIconId: "qrc:/images/cameraplus-icon-m-camera-whitebalance-fluorescent.png"
     property string whiteBalanceTungstenIconId: "qrc:/images/cameraplus-icon-m-camera-whitebalance-tungsten.png"
@@ -91,8 +91,8 @@ QtObject {
         switch (val) {
             case WhiteBalance.Auto:
                 return whiteBalanceAutoIconId
-            case WhiteBalance.Sunset:
-                return whiteBalanceSunsetIconId
+            case WhiteBalance.Daylight:
+                return whiteBalanceSunnyIconId
             case WhiteBalance.Cloudy:
                 return whiteBalanceCloudyIconId
             case WhiteBalance.Flourescent:

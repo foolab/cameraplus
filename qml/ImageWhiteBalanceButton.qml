@@ -26,7 +26,7 @@ import QtCamera 1.0
 CameraToolBarTools {
     property list<ToolsModelItem> toolsModel: [
         ToolsModelItem {icon: cameraTheme.whiteBalanceAutoIconId; value: WhiteBalance.Auto },
-        ToolsModelItem {icon: cameraTheme.whiteBalanceSunsetIconId; value: WhiteBalance.Sunset },
+        ToolsModelItem {icon: cameraTheme.whiteBalanceSunnyIconId; value: WhiteBalance.Daylight },
         ToolsModelItem {icon: cameraTheme.whiteBalanceCloudyIconId; value: WhiteBalance.Cloudy },
         ToolsModelItem {icon: cameraTheme.whiteBalanceFlourescentIconId; value: WhiteBalance.Flourescent },
         ToolsModelItem {icon: cameraTheme.whiteBalanceTungstenIconId; value: WhiteBalance.Tungsten }
