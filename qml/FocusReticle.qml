@@ -24,9 +24,6 @@ import QtQuick 2.0
 import QtCamera 1.0
 import CameraPlus 1.0
 
-// TODO: hide all controls when we are focusing
-// TODO: hide all controls when we are dragging
-
 MouseArea {
     id: mouse
     x: renderArea.x
