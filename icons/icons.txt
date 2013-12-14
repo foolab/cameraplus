@@ -35,8 +35,8 @@ icon-m-toolbar-volume-white-selected 40 40 icon-m-toolbar-volume.svg
 icon-m-viewfinder-camera 48 48 icon-m-viewfinder-camera.svg
 icon-m-camera-roll 40 40 icon-m-camera-roll.svg
 icon-m-camera-scene-auto 48 48 icon-m-camera-scene-auto-screen.svg
-icon-m-camera-video-record 64 64 icon-m-camera-video.svg
-icon-m-camera-video-record-stop 64 64 record-stop.svg
+icon-m-camera-video-record 75 75 icon-m-camera-video.svg
+icon-m-camera-video-record-stop 75 75 record-stop.svg
 icon-m-camera-video-fine-resolution 32 32 icon-m-camera-video-fine-resolution.svg
 icon-m-camera-video-high-resolution 32 32 icon-m-camera-video-high-resolution.svg
 icon-m-camera-video-low-resolution 32 32 icon-m-camera-video-low-resolution.svg
@@ -49,7 +49,7 @@ icon-m-camera-filter-solarize 48 48 filter-solarize.svg
 icon-m-camera-filter-vivid 48 48 filter-vivid.svg
 icon-m-camera-no-filter 48 48 filter-none.svg
 icon-m-toolbar-settings 52 52 settings.svg
-icon-m-camera-shutter 64 64 shutter.svg
+icon-m-camera-shutter 75 75 shutter.svg
 icon-m-camera-torch-off 48 48 torch-off.svg
 icon-m-camera-torch-on 48 48 torch-on.svg
 icon-m-settings-reset 48 48 icon-m-settings-reset.svg
