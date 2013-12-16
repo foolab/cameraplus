@@ -1,3 +1,12 @@
+cameraplus (0.0.13-1) unstable; urgency=low
+
+  * Fixed bad graphics for capture buttons
+  * Fixed icons for capture buttons not aligned vertically
+  * New share and delete icons from mcbook
+  * Don't use Sunset white balance mode. Use Daylight instead which is the correct mode
+
+ -- Mohammed Sameer <msameer@foolab.org>  Sat, 14 Dec 2013 21:58:26 +0200
+
 cameraplus (0.0.12-1) unstable; urgency=low
 
   * New logo (Thanks mcbook)
