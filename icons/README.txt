@@ -28,5 +28,7 @@ icon-m-camera-roll.svg
 icon-m-camera-video-night-screen.svg
 icon-m-camera-video.svg
 icon-m-toolbar-delete.svg
+icon-m-camera-location.svg
+icon-m-camera-video-night-screen.svg
 torch-off.svg
 torch-on.svg

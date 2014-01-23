@@ -1,16 +1,67 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="icon-m-camera-video-night-screen-layer"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px"
-	 viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
-<g id="icon-m-camera-video-night-screen">
-	<polyline fill="none" points="0,32 0,0 32,0 	"/>
-	<path fill="#FFFFFF" d="M29.848,0.74c0.571,0,1.125,0.078,1.649,0.223c-2.649,0.723-4.506,3.146-4.506,6.027
-		c0,2.879,1.856,5.303,4.506,6.027c-0.524,0.145-1.078,0.223-1.649,0.223c-3.451,0-6.188-2.799-6.188-6.25
-		C23.659,3.539,26.396,0.74,29.848,0.74z"/>
-</g>
-<path fill="#FFFFFF" d="M20.721,16c0.715,0,1.293,0.579,1.293,1.294v10.35c0,0.715-0.578,1.294-1.293,1.294H7.136
-	c-0.715,0-1.294-0.579-1.294-1.294v-10.35C5.842,16.579,6.421,16,7.136,16H20.721z"/>
-<polygon fill="#FFFFFF" points="27.118,27.18 22.906,25.196 22.906,19.741 27.118,17.758 "/>
-</svg>
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="icon-m-camera-video-layer"
+   x="0px"
+   y="0px"
+   width="48px"
+   height="48px"
+   viewBox="0 0 48 48"
+   enable-background="new 0 0 48 48"
+   xml:space="preserve"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="icon-m-camera-video-night-screen.svg"><metadata
+     id="metadata21"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+     id="defs19" /><sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1024"
+     inkscape:window-height="686"
+     id="namedview17"
+     showgrid="false"
+     inkscape:zoom="9.1995443"
+     inkscape:cx="8.8362054"
+     inkscape:cy="24"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="icon-m-camera-video-layer" /><g
+     id="g3"
+     transform="matrix(1.2112413,0,0,1.2112413,-6.8612171,-4.4266221)"><polygon
+       points="11.971,20.103 11.781,20.812 11.089,21.058 11.705,21.458 11.725,22.192 12.296,21.729 13,21.938 12.737,21.252 13.152,20.646 12.418,20.685 "
+       id="polygon5"
+       style="fill:none" /><path
+       d="m 24.965,15.889 c -0.604,-0.525 -1.263,-0.95 -1.951,-1.277 2.141,3.198 1.885,7.469 -0.757,10.517 -2.645,3.052 -6.833,3.914 -10.303,2.249 0.422,0.634 0.938,1.226 1.543,1.749 3.655,3.167 9.122,2.715 12.288,-0.941 3.165,-3.654 2.836,-9.129 -0.82,-12.297 z"
+       id="path7"
+       inkscape:connector-curvature="0"
+       style="fill:none" /><polygon
+       points="19.175,15.709 18.151,15.928 17.39,15.208 17.281,16.25 16.361,16.751 17.319,17.176 17.511,18.206 18.211,17.427 19.25,17.562 18.726,16.656 "
+       id="polygon9"
+       style="fill:none" /><polygon
+       points="10.582,14.64 10.574,15.417 9.929,15.852 10.666,16.1 10.88,16.847 11.343,16.223 12.121,16.25 11.669,15.616 11.936,14.886 11.194,15.119 "
+       id="polygon11"
+       style="fill:none" /><polygon
+       points="36.083,18.968 36.083,27.969 43.032,31.241 43.032,15.695 "
+       id="polygon13"
+       style="fill:#ffffff" /><path
+       d="M 32.477,12.795 H 10.062 c -1.18,0 -2.136,0.955 -2.136,2.135 v 17.077 c 0,1.181 0.956,2.136 2.136,2.136 h 22.415 c 1.181,0 2.133,-0.955 2.133,-2.136 V 14.93 c -10e-4,-1.18 -0.953,-2.135 -2.133,-2.135 z m -15.196,3.455 0.109,-1.042 0.761,0.72 1.024,-0.219 -0.45,0.946 0.524,0.907 -1.039,-0.135 -0.701,0.779 -0.192,-1.03 -0.958,-0.425 0.922,-0.501 z m -6.615,-0.15 -0.737,-0.248 0.645,-0.435 0.008,-0.777 0.612,0.479 0.742,-0.233 -0.267,0.73 0.451,0.634 -0.777,-0.027 -0.463,0.625 -0.214,-0.748 z m 1.039,5.358 -0.616,-0.4 0.692,-0.246 0.19,-0.709 0.447,0.582 0.733,-0.039 -0.415,0.605 0.264,0.687 -0.704,-0.208 -0.571,0.462 -0.02,-0.734 z m 14.079,6.728 c -3.166,3.656 -8.632,4.108 -12.288,0.941 -0.605,-0.523 -1.121,-1.115 -1.543,-1.749 3.47,1.665 7.659,0.803 10.303,-2.249 2.642,-3.048 2.897,-7.319 0.757,-10.517 0.688,0.327 1.347,0.752 1.951,1.277 3.657,3.168 3.986,8.643 0.82,12.297 z"
+       id="path15"
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff" /></g></svg>
