@@ -199,7 +199,7 @@ Item {
 
             Indicator {
                 id: sceneIndicator
-                visible: deviceSettings().videoSceneMode != Scene.Auto && overlay.recording
+                visible: deviceSettings().videoSceneMode != Scene.Auto
                 source: visible ? cameraTheme.videoSceneModeIcon(deviceSettings().videoSceneMode) : ""
             }
 
