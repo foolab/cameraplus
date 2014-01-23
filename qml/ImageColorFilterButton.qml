@@ -25,12 +25,12 @@ import QtCamera 1.0
 
 CameraToolBarTools {
     property list<ToolsModelItem> toolsModel: [
-        ToolsModelItem {icon: cameraTheme.colorFilterNormalIconId; value: ColorTone.Normal },
-        ToolsModelItem {icon: cameraTheme.colorFilterGrayScaleIconId; value: ColorTone.GrayScale },
-        ToolsModelItem {icon: cameraTheme.colorFilterSepiaIconId; value: ColorTone.Sepia },
-        ToolsModelItem {icon: cameraTheme.colorFilterVividIconId; value: ColorTone.Vivid },
-        ToolsModelItem {icon: cameraTheme.colorFilterNegativeIconId; value: ColorTone.Negative },
-        ToolsModelItem {icon: cameraTheme.colorFilterSolarizeIconId; value: ColorTone.Solarize }
+        ToolsModelItem {icon: cameraTheme.colorFilterNormalIconId; value: ColorTone.Normal; label: qsTr("Normal")},
+        ToolsModelItem {icon: cameraTheme.colorFilterGrayScaleIconId; value: ColorTone.GrayScale; label: qsTr("Gray scale")},
+        ToolsModelItem {icon: cameraTheme.colorFilterSepiaIconId; value: ColorTone.Sepia; label: qsTr("Sepia")},
+        ToolsModelItem {icon: cameraTheme.colorFilterVividIconId; value: ColorTone.Vivid; label: qsTr("Vivid")},
+        ToolsModelItem {icon: cameraTheme.colorFilterNegativeIconId; value: ColorTone.Negative; label: qsTr("Negative")},
+        ToolsModelItem {icon: cameraTheme.colorFilterSolarizeIconId; value: ColorTone.Solarize; label: qsTr("Solarize")}
     ]
 
     CameraLabel {
@@ -46,6 +46,11 @@ CameraToolBarTools {
             iconSource: icon
             onClicked: deviceSettings().imageColorFilter = value
             checked: deviceSettings().imageColorFilter == value
+            onCheckedChanged: {
+                if (checked) {
+                    selectedLabel.text = label
+                }
+            }
         }
     }
 }

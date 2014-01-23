@@ -25,11 +25,11 @@ import QtCamera 1.0
 
 CameraToolBarTools {
     property list<ToolsModelItem> toolsModel: [
-        ToolsModelItem {icon: cameraTheme.whiteBalanceAutoIconId; value: WhiteBalance.Auto },
-        ToolsModelItem {icon: cameraTheme.whiteBalanceSunnyIconId; value: WhiteBalance.Daylight },
-        ToolsModelItem {icon: cameraTheme.whiteBalanceCloudyIconId; value: WhiteBalance.Cloudy },
-        ToolsModelItem {icon: cameraTheme.whiteBalanceFlourescentIconId; value: WhiteBalance.Flourescent },
-        ToolsModelItem {icon: cameraTheme.whiteBalanceTungstenIconId; value: WhiteBalance.Tungsten }
+        ToolsModelItem {icon: cameraTheme.whiteBalanceAutoIconId; value: WhiteBalance.Auto; label: qsTr("Automatic")},
+        ToolsModelItem {icon: cameraTheme.whiteBalanceSunnyIconId; value: WhiteBalance.Daylight; label: qsTr("Sunny")},
+        ToolsModelItem {icon: cameraTheme.whiteBalanceCloudyIconId; value: WhiteBalance.Cloudy; label: qsTr("Cloudy")},
+        ToolsModelItem {icon: cameraTheme.whiteBalanceFlourescentIconId; value: WhiteBalance.Flourescent; label: qsTr("Flourescent")},
+        ToolsModelItem {icon: cameraTheme.whiteBalanceTungstenIconId; value: WhiteBalance.Tungsten; label: qsTr("Tungsten")}
     ]
 
     CameraLabel {
@@ -45,6 +45,11 @@ CameraToolBarTools {
             iconSource: icon
             onClicked: deviceSettings().videoWhiteBalance = value
             checked: deviceSettings().videoWhiteBalance == value
+            onCheckedChanged: {
+                if (checked) {
+                    selectedLabel.text = label
+                }
+            }
         }
     }
 }

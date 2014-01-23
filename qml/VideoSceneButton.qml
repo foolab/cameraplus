@@ -25,8 +25,8 @@ import QtCamera 1.0
 
 CameraToolBarTools {
     property list<ToolsModelItem> toolsModel: [
-        ToolsModelItem {icon: cameraTheme.videoSceneModeAutoIconId; value: Scene.Auto},
-        ToolsModelItem {icon: cameraTheme.videoSceneModeNightIconId; value: Scene.Night}
+        ToolsModelItem {icon: cameraTheme.videoSceneModeAutoIconId; value: Scene.Auto; label: qsTr("Automatic")},
+        ToolsModelItem {icon: cameraTheme.videoSceneModeNightIconId; value: Scene.Night; label: qsTr("Night")}
     ]
 
     CameraLabel {
@@ -49,6 +49,11 @@ CameraToolBarTools {
             }
 
             checked: deviceSettings().videoSceneMode == value
+            onCheckedChanged: {
+                if (checked) {
+                    selectedLabel.text = label
+                }
+            }
         }
     }
 }

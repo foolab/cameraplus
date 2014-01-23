@@ -105,6 +105,12 @@ Item {
         }
     }
 
+    CameraToolBarLabel {
+        id: selectedLabel
+        anchors.bottom: toolBar.top
+        anchors.bottomMargin: 20
+    }
+
     CameraToolBar {
         id: toolBar
         anchors.bottom: parent.bottom
@@ -128,7 +134,7 @@ Item {
                 property bool hide: overlay.cam ? (overlay.recording && overlay.cam.quirks.hasQuirk(Quirks.NoSceneModeChangeDuringRecording)) || overlay.cam.quirks.hasQuirk(Quirks.NoNightSceneMode) : false
                 visible: !hide
                 iconSource: cameraTheme.videoSceneModeIcon(deviceSettings().videoSceneMode)
-                onClicked: toolBar.push(Qt.resolvedUrl("VideoSceneButton.qml"))
+                onClicked: toolBar.push(Qt.resolvedUrl("VideoSceneButton.qml"), {"selectedLabel": selectedLabel})
             }
 
             CameraToolIcon {
@@ -146,12 +152,12 @@ Item {
 
             CameraToolIcon {
                 iconSource: cameraTheme.whiteBalanceIcon(deviceSettings().videoWhiteBalance)
-                onClicked: toolBar.push(Qt.resolvedUrl("VideoWhiteBalanceButton.qml"))
+                onClicked: toolBar.push(Qt.resolvedUrl("VideoWhiteBalanceButton.qml"), {"selectedLabel": selectedLabel})
             }
 
             CameraToolIcon {
                 iconSource: cameraTheme.colorFilterIcon(deviceSettings().videoColorFilter)
-                onClicked: toolBar.push(Qt.resolvedUrl("VideoColorFilterButton.qml"))
+                onClicked: toolBar.push(Qt.resolvedUrl("VideoColorFilterButton.qml"), {"selectedLabel": selectedLabel})
             }
 
             CameraToolIcon {

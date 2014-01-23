@@ -6,6 +6,7 @@
 	<file>CameraTheme.qml</file>
 	<file>CameraToolBar.js</file>
 	<file>CameraToolBar.qml</file>
+	<file>CameraToolBarLabel.qml</file>
 	<file>CameraToolBarTools.qml</file>
 	<file>CameraToolBarToolsContainer.qml</file>
 	<file>CameraView.qml</file>

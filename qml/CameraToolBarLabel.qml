@@ -3,7 +3,7 @@
 /*!
  * This file is part of CameraPlus.
  *
- * Copyright (C) 2012-2014 Mohammed Sameer <msameer@foolab.org>
+ * Copyright (C) 2012-2013 Mohammed Sameer <msameer@foolab.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,9 +22,12 @@
 
 import QtQuick 2.0
 
-QtObject {
-    property string icon
-    property int value
-    property bool enabled: true
-    property string label
+CameraLabel {
+    id: label
+
+    width: parent.width
+    horizontalAlignment: Text.AlignHCenter
+    color: "white"
+    styleColor: "black"
+    style: Text.Outline
 }

@@ -121,6 +121,12 @@ Item {
         onPressed:  captureControl.canceled = true
     }
 
+    CameraToolBarLabel {
+        id: selectedLabel
+        anchors.bottom: toolBar.top
+        anchors.bottomMargin: 20
+    }
+
     CameraToolBar {
         id: toolBar
         anchors.bottom: parent.bottom
@@ -135,13 +141,13 @@ Item {
         tools: CameraToolBarTools {
             CameraToolIcon {
                 iconSource: cameraTheme.flashIcon(deviceSettings().imageFlashMode)
-                onClicked: toolBar.push(Qt.resolvedUrl("FlashButton.qml"))
+                onClicked: toolBar.push(Qt.resolvedUrl("FlashButton.qml"), {"selectedLabel": selectedLabel})
                 visible: overlay.cam ? !overlay.cam.quirks.hasQuirk(Quirks.NoFlash) : false
             }
 
             CameraToolIcon {
                 iconSource: cameraTheme.imageSceneModeIcon(deviceSettings().imageSceneMode)
-                onClicked: toolBar.push(Qt.resolvedUrl("ImageSceneButton.qml"))
+                onClicked: toolBar.push(Qt.resolvedUrl("ImageSceneButton.qml"), {"selectedLabel": selectedLabel})
             }
 
             CameraToolIcon {
@@ -159,12 +165,12 @@ Item {
 
             CameraToolIcon {
                 iconSource: cameraTheme.whiteBalanceIcon(deviceSettings().imageWhiteBalance)
-                onClicked: toolBar.push(Qt.resolvedUrl("ImageWhiteBalanceButton.qml"))
+                onClicked: toolBar.push(Qt.resolvedUrl("ImageWhiteBalanceButton.qml"), {"selectedLabel": selectedLabel})
             }
 
             CameraToolIcon {
                 iconSource: cameraTheme.colorFilterIcon(deviceSettings().imageColorFilter)
-                onClicked: toolBar.push(Qt.resolvedUrl("ImageColorFilterButton.qml"))
+                onClicked: toolBar.push(Qt.resolvedUrl("ImageColorFilterButton.qml"), {"selectedLabel": selectedLabel})
             }
 
             CameraToolIcon {

@@ -23,11 +23,19 @@
 import QtQuick 2.0
 
 Item {
+    property Item selectedLabel
+
     visible: false
     anchors.fill: parent
     opacity: visible ? 1 : 0
 
     Behavior on opacity {
         NumberAnimation { duration: 100 }
+    }
+
+    Component.onDestruction: {
+        if (selectedLabel) {
+            selectedLabel.text = ""
+        }
     }
 }

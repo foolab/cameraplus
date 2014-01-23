@@ -25,12 +25,12 @@ import QtCamera 1.0
 
 CameraToolBarTools {
     property list<ToolsModelItem> toolsModel: [
-        ToolsModelItem {icon: cameraTheme.imageSceneModeAutoIconId; value: Scene.Auto},
-        ToolsModelItem {icon: cameraTheme.imageSceneModeCloseupIconId; value: Scene.Closeup},
-        ToolsModelItem {icon: cameraTheme.imageSceneModeLandscapeIconId; value: Scene.Landscape},
-        ToolsModelItem {icon: cameraTheme.imageSceneModePortraitIconId; value: Scene.Portrait},
-        ToolsModelItem {icon: cameraTheme.imageSceneModeNightIconId; value: Scene.Night},
-        ToolsModelItem {icon: cameraTheme.imageSceneModeSportIconId; value: Scene.Sport}
+        ToolsModelItem {icon: cameraTheme.imageSceneModeAutoIconId; value: Scene.Auto; label: qsTr("Automatic")},
+        ToolsModelItem {icon: cameraTheme.imageSceneModeCloseupIconId; value: Scene.Closeup; label: qsTr("Macro")},
+        ToolsModelItem {icon: cameraTheme.imageSceneModeLandscapeIconId; value: Scene.Landscape; label: qsTr("Landscape")},
+        ToolsModelItem {icon: cameraTheme.imageSceneModePortraitIconId; value: Scene.Portrait; label: qsTr("Portrait")},
+        ToolsModelItem {icon: cameraTheme.imageSceneModeNightIconId; value: Scene.Night; label: qsTr("Night")},
+        ToolsModelItem {icon: cameraTheme.imageSceneModeSportIconId; value: Scene.Sport; label: qsTr("Sport")}
     ]
 
     CameraLabel {
@@ -54,6 +54,11 @@ CameraToolBarTools {
 
             checked: deviceSettings().imageSceneMode == value
             visible: !(value == Scene.Night && overlay.cam.quirks.hasQuirk(Quirks.NoNightSceneMode))
+            onCheckedChanged: {
+                if (checked) {
+                    selectedLabel.text = label
+                }
+            }
         }
     }
 }

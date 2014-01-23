@@ -25,10 +25,10 @@ import QtCamera 1.0
 
 CameraToolBarTools {
     property list<ToolsModelItem> toolsModel: [
-        ToolsModelItem {icon: cameraTheme.flashAutoIconId; value: Flash.Auto },
-        ToolsModelItem {icon: cameraTheme.flashOnIconId; value: Flash.On },
-        ToolsModelItem {icon: cameraTheme.flashOffIconId; value: Flash.Off },
-        ToolsModelItem {icon: cameraTheme.flashRedEyeIconId; value: Flash.RedEye }
+        ToolsModelItem {icon: cameraTheme.flashAutoIconId; value: Flash.Auto; label: qsTr("Automatic")},
+        ToolsModelItem {icon: cameraTheme.flashOnIconId; value: Flash.On; label: qsTr("Always on")},
+        ToolsModelItem {icon: cameraTheme.flashOffIconId; value: Flash.Off; label: qsTr("Always off")},
+        ToolsModelItem {icon: cameraTheme.flashRedEyeIconId; value: Flash.RedEye; label: qsTr("Red eye")}
     ]
 
     CameraLabel {
@@ -45,6 +45,11 @@ CameraToolBarTools {
             onClicked: deviceSettings().imageFlashMode = value
             checked: deviceSettings().imageFlashMode == value
             visible: !(overlay.cam.quirks.hasQuirk(Quirks.NoRedEyeFlash) && value == Flash.RedEye)
+            onCheckedChanged: {
+                if (checked) {
+                    selectedLabel.text = label
+                }
+            }
         }
     }
 }
