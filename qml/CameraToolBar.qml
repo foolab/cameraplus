@@ -36,13 +36,18 @@ Rectangle {
     property CameraToolBarTools tools
     property CameraToolBarTools __currentTools
 
-    function push(tools) {
+    function push(tools, props) {
         var toolsToPush
         var comp
 
         if (typeof tools == "string") {
             comp = Qt.createComponent(tools)
-            toolsToPush = comp.createObject(dock)
+            if (typeof(props) === "undefined") {
+                toolsToPush = comp.createObject(dock)
+            }
+            else {
+                toolsToPush = comp.createObject(dock, props)
+            }
         }
         else {
             toolsToPush = tools
