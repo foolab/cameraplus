@@ -30,11 +30,11 @@ CameraToolIcon {
         anchors.centerIn: parent
         width: parent.width * 0.8
         height: parent.height * 0.8
-        color: "blue"
+        color: "#0080FF"
         opacity: checked ? 0.5 : 0.0
         visible: opacity > 0.0
         z: -1
-        radius: width / 2
+        radius: width / 4
         border.color: "steelblue"
         border.width: 1
         smooth: true
