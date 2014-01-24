@@ -52,6 +52,8 @@ Flickable {
 
     ImageThumbnail {
         id: image
+        displayLevel: 0
+
         property bool busy: deleteAnimation.running
 
         anchors.centerIn: parent
