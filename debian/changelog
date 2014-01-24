@@ -1,3 +1,15 @@
+cameraplus (0.0.14-1) unstable; urgency=medium
+
+  * Some small tweaks for icons
+  * Make sure video scene mode indicator is always visible when it's not set to auto
+  * Change the color of selected toolbar item to #0080FF
+  * Make the selected toolbar item background rectangular with rounded corners
+  * Added label to most of the toolbar options
+  * Limit image zooming in post capture to 4x
+  * Disable reverse geocoding if a communication error has occurred
+
+ -- Mohammed Sameer <msameer@foolab.org>  Thu, 23 Jan 2014 23:00:26 +0200
+
 cameraplus (0.0.13-1) unstable; urgency=low
 
   * Fixed bad graphics for capture buttons
