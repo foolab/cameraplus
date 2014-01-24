@@ -120,6 +120,13 @@ Flickable {
             var scale = pinch.scale;
             var newWidth = Math.max(initialWidth * scale, postCaptureView.width)
             var newHeight = Math.max(initialHeight * scale, postCaptureView.height)
+
+            newWidth = Math.max(newWidth, postCaptureView.width * pinchArea.pinch.minimumScale)
+            newWidth = Math.min(newWidth, postCaptureView.width * pinchArea.pinch.maximumScale)
+
+            newHeight = Math.max(newHeight, postCaptureView.height * pinchArea.pinch.minimumScale)
+            newHeight = Math.min(newHeight, postCaptureView.height * pinchArea.pinch.maximumScale)
+
             var center = pinch.center
             if (newWidth == postCaptureView.width) {
                 center.x = postCaptureView.width / 2
