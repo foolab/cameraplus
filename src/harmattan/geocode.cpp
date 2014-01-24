@@ -19,8 +19,8 @@
  */
 
 #include "geocode.h"
-#include <QDebug>
 #include <QStringList>
+#include <QDeclarativeInfo>
 
 Geocode::Geocode(QObject *parent) :
   QObject(parent),
@@ -35,7 +35,7 @@ Geocode::Geocode(QObject *parent) :
     m_provider = new QGeoServiceProvider(providers.at(0));
   }
   else {
-    qCritical() << "Cannot find any geo-service providers";
+    qmlInfo(this) << "Cannot find any geo-service providers";
     return;
   }
 
@@ -109,7 +109,7 @@ void Geocode::search(double longitude, double latitude) {
 
   m_reply = m_manager->reverseGeocode(QGeoCoordinate(latitude, longitude));
   if (!m_reply) {
-    qCritical() << "geo-search manager provided a null reply!";
+    qmlInfo(this) << "geo-search manager provided a null reply!";
     return;
   }
 }
@@ -133,7 +133,7 @@ void Geocode::clear() {
 
 void Geocode::finished(QGeoSearchReply *reply) {
   if (reply->error() != QGeoSearchReply::NoError) {
-    qWarning() << "Error while geocoding" << reply->error() << reply->errorString();
+    qmlInfo(this) << "Error while geocoding" << reply->error() << reply->errorString();
 
     reply->deleteLater();
 
@@ -165,7 +165,7 @@ void Geocode::finished(QGeoSearchReply *reply) {
     }
   }
   else {
-    qWarning() << "No places found";
+    qmlInfo(this) << "No places found";
     clear();
   }
 
@@ -179,12 +179,17 @@ void Geocode::finished(QGeoSearchReply *reply) {
 void Geocode::error(QGeoSearchReply *reply, const QGeoSearchReply::Error& error,
 		    const QString& errorString) {
 
-  qWarning() << "Error while geocoding" << error << reply->errorString() << errorString;
+  qmlInfo(this) << "Error while geocoding" << error << reply->errorString() << errorString;
 
   reply->deleteLater();
 
   if (reply == m_reply) {
     m_reply = 0;
     clear();
+  }
+
+  if (error == QGeoSearchReply::CommunicationError) {
+    // Network related error. We will disable ourselves for now.
+    setActive(false);
   }
 }
