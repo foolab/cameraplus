@@ -23,7 +23,7 @@
 import QtQuick 1.1
 
 QtObject {
-    property color pressedColor: "blue"
+    property color pressedColor: "#0080FF"
     property color releasedColor: "black"
     property color borderColor: "gray"
 }

@@ -27,10 +27,12 @@ CameraToolIcon {
     property bool checked: false
 
     Rectangle {
+        property CameraButtonStyle platformStyle: CameraButtonStyle {}
+
         anchors.centerIn: parent
         width: parent.width * 0.8
         height: parent.height * 0.8
-        color: "#0080FF"
+        color: platformStyle.pressedColor
         opacity: checked ? 0.5 : 0.0
         visible: opacity > 0.0
         z: -1
