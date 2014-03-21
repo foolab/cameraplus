@@ -21,9 +21,7 @@
 #include "platformsettings.h"
 #include <QDir>
 #include <QSettings>
-#ifdef HARMATTAN
 #include <Quill>
-#endif
 #if defined(QT4)
 #include <QDeclarativeInfo>
 #elif defined(QT5)
@@ -102,7 +100,6 @@ QString PlatformSettings::temporaryFilePath() {
 }
 
 void PlatformSettings::init() {
-#ifdef HARMATTAN
   Quill::setPreviewLevelCount(2);
   QSize size = previewSize();
   int len = qMax(size.width(), size.height());
@@ -124,7 +121,6 @@ void PlatformSettings::init() {
   QString tempPath = temporaryFilePath();
   QDir().mkpath(tempPath);
   Quill::setTemporaryFilePath(tempPath);
-#endif
 }
 
 PlatformSettings::Service PlatformSettings::service(const QString& id) {
