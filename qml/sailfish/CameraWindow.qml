@@ -25,4 +25,5 @@ import Sailfish.Silica 1.0
 
 ApplicationWindow {
     property bool active: Qt.application.active
+    cover: undefined
 }
