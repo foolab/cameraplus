@@ -9,12 +9,12 @@ CONFIG += link_pkgconfig
 
 qt4 {
     QT += declarative opengl
-    PKGCONFIG += QtSparql qmsystem2 libresourceqt1 qdeclarative-boostable
+    PKGCONFIG += QtSparql qmsystem2 libresourceqt1 qdeclarative-boostable quill
 }
 
 qt5 {
     QT += qml quick
-    PKGCONFIG += Qt5Sparql qmsystem2-qt5 libresourceqt5 qdeclarative5-boostable
+    PKGCONFIG += Qt5Sparql qmsystem2-qt5 libresourceqt5 qdeclarative5-boostable quill-qt5
 }
 
 SOURCES += main.cpp \
@@ -23,14 +23,14 @@ SOURCES += main.cpp \
            deletehelper.cpp galleryhelper.cpp postcapturemodel.cpp \
            gridlines.cpp platformsettings.cpp dbusservice.cpp \
            mountprotector.cpp devicesettings.cpp fileindex.cpp \
-           stack.cpp toolbarlayout.cpp
+           stack.cpp toolbarlayout.cpp quillitem.cpp
 
 HEADERS += settings.h filenaming.h cameraresources.h \
            trackerstore.h focusrectangle.h sharehelper.h \
            deletehelper.h galleryhelper.h postcapturemodel.h \
            gridlines.h platformsettings.h dbusservice.h \
            mountprotector.h devicesettings.h fileindex.h \
-           stack.h toolbarlayout.h
+           stack.h toolbarlayout.h quillitem.h
 
 RESOURCES += ../qml/qml.qrc ../icons/icons.qrc
 

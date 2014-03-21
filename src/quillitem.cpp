@@ -22,15 +22,23 @@
 #include <QuillFile>
 #include <QUrl>
 #include <QPainter>
-#include <QStyleOptionGraphicsItem>
 #include <QDir>
 
+#if defined(QT5)
+QuillItem::QuillItem(QQuickItem *parent) :
+  QQuickPaintedItem(parent),
+#else
 QuillItem::QuillItem(QDeclarativeItem *parent) :
-  QDeclarativeItem(parent), m_file(0),
+  QDeclarativeItem(parent),
+#endif
+  m_file(0),
   m_error(false),
   m_displayLevel(-1) {
 
+#if defined(QT4)
   setFlag(QGraphicsItem::ItemHasNoContents, false);
+#endif
+
 }
 
 QuillItem::~QuillItem() {
@@ -90,9 +98,13 @@ bool QuillItem::error() const {
   return m_error;
 }
 
+#if defined(QT4)
 void QuillItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
   Q_UNUSED(widget);
   Q_UNUSED(option);
+#elif defined(QT5)
+void QuillItem::paint(QPainter* painter) {
+#endif
 
   QRectF rect = boundingRect();
   painter->fillRect(rect, Qt::black);

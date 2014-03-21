@@ -21,16 +21,12 @@
  */
 
 import QtQuick 2.0
-import Sailfish.Silica 1.0
-import org.nemomobile.thumbnailer 1.0
+import CameraPlus 1.0
 
-Thumbnail {
+QuillItem {
+    property url source
+    property string mimeType
     property int displayLevel
-    // TODO: rotate portrait images
-    property bool error: status == Thumbnail.Error
-    anchors.fill: parent
-    fillMode: Thumbnail.PreserveAspectFit
-    priority: Thumbnail.HighPriority
-    sourceSize.width: width
-    sourceSize.height: height
+
+    Component.onCompleted: initialize(source, mimeType, displayLevel)
 }

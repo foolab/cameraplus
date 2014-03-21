@@ -23,20 +23,37 @@
 #ifndef QUILL_ITEM_H
 #define QUILL_ITEM_H
 
+#if defined(QT5)
+#include <QQuickPaintedItem>
+#else
 #include <QDeclarativeItem>
+#endif
 
 class QuillFile;
 
+#if defined(QT5)
+class QuillItem : public QQuickPaintedItem {
+#else
 class QuillItem : public QDeclarativeItem {
+#endif
+
   Q_OBJECT
 
   Q_PROPERTY(bool error READ error NOTIFY errorChanged);
 
 public:
+#if defined(QT4)
   QuillItem(QDeclarativeItem *parent = 0);
+#else
+  QuillItem(QQuickItem *parent = 0);
+#endif
   ~QuillItem();
 
+#if defined(QT4)
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+#else
+  void paint(QPainter* painter);
+#endif
 
   bool error() const;
 

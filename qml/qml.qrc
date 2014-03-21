@@ -50,5 +50,6 @@
 	<file>ZoomSlider.qml</file>
 	<file>CaptureControl.qml</file>
 	<file>DeviceSettingsSetter.qml</file>
+	<file>ImageThumbnail.qml</file>
     </qresource>
 </RCC>
