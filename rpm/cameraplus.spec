@@ -29,6 +29,7 @@ BuildRequires:  pkgconfig(qmsystem2-qt5)
 BuildRequires:  pkgconfig(libresourceqt5)
 BuildRequires:  pkgconfig(Qt5SystemInfo)
 BuildRequires:  pkgconfig(Qt5OpenGLExtensions)
+BuildRequires:  pkgconfig(quill-qt5)
 BuildRequires:  desktop-file-utils
 Requires:       qt5-qtdeclarative-import-location
 Requires:       qt5-qtlocation-plugin-geoservices-nokia
