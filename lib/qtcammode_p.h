@@ -36,7 +36,11 @@
 #endif /* GST_USE_UNSTABLE_API */
 #include <gst/interfaces/photography.h>
 
+#if GST_CHECK_VERSION(1,0,0)
+#define PREVIEW_CAPS "video/x-raw, format = (string)BGRx, width = (int) %1, height = (int) %2"
+#else
 #define PREVIEW_CAPS "video/x-raw-rgb, width = (int) %1, height = (int) %2, bpp = (int) 32, depth = (int) 24, red_mask = (int) 65280, green_mask = (int) 16711680, blue_mask = (int) -16777216"
+#endif
 
 #define CAPS_NO_FPS "%s, width=(int)%d,height=(int)%d"
 #define CAPS_FPS "%s, width=(int)%d,height=(int)%d,framerate=(fraction)[%d/%d,%d/%d]"
