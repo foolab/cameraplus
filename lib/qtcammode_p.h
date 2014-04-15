@@ -38,6 +38,9 @@
 
 #define PREVIEW_CAPS "video/x-raw-rgb, width = (int) %1, height = (int) %2, bpp = (int) 32, depth = (int) 24, red_mask = (int) 65280, green_mask = (int) 16711680, blue_mask = (int) -16777216"
 
+#define CAPS_NO_FPS "%s, width=(int)%d,height=(int)%d"
+#define CAPS_FPS "%s, width=(int)%d,height=(int)%d,framerate=(fraction)[%d/%d,%d/%d]"
+
 class QtCamDevicePrivate;
 class PreviewImageHandler;
 class DoneHandler;
@@ -131,6 +134,8 @@ public:
 
   void setCaps(const char *property, const QSize& resolution, int fps) {
     QString mediaType = dev->conf->mediaType(property);
+    QByteArray arr = mediaType.toLatin1();
+    const gchar *media = arr.constData();
 
     if (!dev->cameraBin) {
       return;
@@ -143,18 +148,19 @@ public:
     GstCaps *caps = 0;
 
     if (fps <= 0) {
-      caps = gst_caps_new_simple(mediaType.toLatin1().constData(),
-				 "width", G_TYPE_INT, resolution.width(),
-				 "height", G_TYPE_INT, resolution.height(),
-				 NULL);
+      gchar *tpl = g_strdup_printf (CAPS_NO_FPS, media,
+				    resolution.width(),
+				    resolution.height());
+      caps = gst_caps_from_string (tpl);
+      g_free (tpl);
     }
     else {
-      caps = gst_caps_new_simple(mediaType.toLatin1().constData(),
-				 "width", G_TYPE_INT, resolution.width(),
-				 "height", G_TYPE_INT, resolution.height(),
-				 "framerate",
-				 GST_TYPE_FRACTION_RANGE, fps - 1, 1, fps + 1, 1,
-				 NULL);
+      gchar *tpl = g_strdup_printf (CAPS_FPS, media,
+				    resolution.width(),
+				    resolution.height(),
+				    fps - 1, 1, fps + 1, 1);
+      caps = gst_caps_from_string (tpl);
+      g_free (tpl);
     }
 
     GstCaps *old = 0;
