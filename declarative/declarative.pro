@@ -8,6 +8,9 @@ CONFIG += link_pkgconfig plugin
 
 PKGCONFIG = gstreamer-pbutils-0.10 libcanberra
 
+sailfish:PKGCONFIG += gstreamer-1.0
+harmattan:PKGCONFIG += gstreamer-0.10
+
 LIBS += -L../lib/ -lqtcamera
 
 QT += dbus

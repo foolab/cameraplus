@@ -9,11 +9,12 @@ QT += opengl
 
 CONFIG += link_pkgconfig
 
-PKGCONFIG = gstreamer-0.10 gstreamer-interfaces-0.10 gstreamer-video-0.10 gstreamer-tag-0.10 \
-            gstreamer-pbutils-0.10
+harmattan:PKGCONFIG = gstreamer-0.10 gstreamer-interfaces-0.10 gstreamer-video-0.10 \
+                      gstreamer-tag-0.10 gstreamer-pbutils-0.10 meego-gstreamer-interfaces-0.10
+sailfish:PKGCONFIG = gstreamer-1.0 gstreamer-video-1.0 gstreamer-tag-1.0 \
+                     gstreamer-pbutils-1.0 nemo-gstreamer-interfaces-1.0
 
-harmattan:PKGCONFIG += meego-gstreamer-interfaces-0.10
-sailfish:PKGCONFIG += nemo-gstreamer-interfaces-0.10 Qt5OpenGLExtensions
+sailfish:PKGCONFIG += Qt5OpenGLExtensions
 
 HEADERS += qtcamconfig.h qtcamera.h qtcamscanner.h qtcamdevice.h qtcamviewfinder.h \
            qtcammode.h qtcamgstreamermessagehandler.h qtcamgstreamermessagelistener.h \
@@ -38,7 +39,8 @@ SOURCES += qtcamconfig.cpp qtcamera.cpp qtcamscanner.cpp qtcamdevice.cpp qtcamvi
 HEADERS += qtcammode_p.h qtcamdevice_p.h qtcamcapability_p.h qtcamautofocus_p.h \
            qtcamnotifications_p.h qtcamflash_p.h qtcamroi_p.h
 
-LIBS += -lgstphotography-0.10
+harmattan:LIBS += -lgstphotography-0.10
+sailfish:LIBS += -lgstphotography-1.0
 
 harmattan:SOURCES += qtcamviewfinderrenderermeego.cpp
 harmattan:HEADERS += qtcamviewfinderrenderermeego.h

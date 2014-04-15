@@ -31,6 +31,12 @@
 #include <QMatrix4x4>
 #include <cmath>
 
+#if GST_CHECK_VERSION(1,0,0)
+#define PLAYBIN "playbin"
+#else
+#define PLAYBIN "playbin2"
+#endif
+
 #if defined(QT4)
 VideoPlayer::VideoPlayer(QDeclarativeItem *parent) :
   QDeclarativeItem(parent),
@@ -102,9 +108,9 @@ void VideoPlayer::classBegin() {
   QQuickPaintedItem::classBegin();
 #endif
 
-  m_bin = gst_element_factory_make ("playbin2", "VideoPlayerBin");
+  m_bin = gst_element_factory_make (PLAYBIN, "VideoPlayerBin");
   if (!m_bin) {
-    qmlInfo(this) << "Failed to create playbin2";
+    qmlInfo(this) << "Failed to create " << PLAYBIN;
     return;
   }
 
@@ -161,8 +167,14 @@ qint64 VideoPlayer::duration() const {
     return 0;
   }
 
-  GstFormat format = GST_FORMAT_TIME;
   qint64 dur = 0;
+
+#if GST_CHECK_VERSION(1,0,0)
+  if (!gst_element_query_duration(m_bin, GST_FORMAT_TIME, &dur)) {
+    return 0;
+  }
+#else
+  GstFormat format = GST_FORMAT_TIME;
   if (!gst_element_query_duration(m_bin, &format, &dur)) {
     return 0;
   }
@@ -171,6 +183,7 @@ qint64 VideoPlayer::duration() const {
     qmlInfo(this) << "Pipeline format is not time";
     return 0;
   }
+#endif
 
   dur /= 1000000;
 
@@ -182,8 +195,14 @@ qint64 VideoPlayer::position() {
     return 0;
   }
 
-  GstFormat format = GST_FORMAT_TIME;
   qint64 pos = 0;
+
+#if GST_CHECK_VERSION(1,0,0)
+  if (!gst_element_query_position(m_bin, GST_FORMAT_TIME, &pos)) {
+    return m_pos;
+  }
+#else
+  GstFormat format = GST_FORMAT_TIME;
   if (!gst_element_query_position(m_bin, &format, &pos)) {
     return m_pos;
   }
@@ -192,6 +211,7 @@ qint64 VideoPlayer::position() {
     qmlInfo(this) << "Pipeline format is not time";
     return m_pos;
   }
+#endif
 
   pos /= 1000000;
 
@@ -214,7 +234,7 @@ bool VideoPlayer::play() {
 
 bool VideoPlayer::seek(qint64 offset) {
   if (!m_bin) {
-    qmlInfo(this) << "no playbin2";
+    qmlInfo(this) << "no " << PLAYBIN;
     return false;
   }
 
@@ -293,7 +313,7 @@ bool VideoPlayer::setState(const VideoPlayer::State& state) {
   }
 
   if (!m_bin) {
-    qmlInfo(this) << "no playbin2";
+    qmlInfo(this) << "no " << PLAYBIN;
     return false;
   }
 

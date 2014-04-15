@@ -58,15 +58,24 @@ public:
 
     int width, height;
     GstVideoFormat fmt;
+
+#warning FIX ME
+#if !GST_CHECK_VERSION(1,0,0)
     if (!gst_video_format_parse_caps(buffer->caps, &fmt, &width, &height)) {
       return;
     }
+#endif
 
     if (fmt !=  GST_VIDEO_FORMAT_BGRx || width <= 0 || height <= 0) {
       return;
     }
 
+#warning FIX ME
+#if GST_CHECK_VERSION(1,0,0)
+    QImage image;
+#else
     QImage image(buffer->data, width, height, QImage::Format_RGB32);
+#endif
 
     // We need to copy because GStreamer will free the buffer after we return
     // and since QImage doesn't copythe data by default we will end up with garbage.

@@ -40,18 +40,32 @@ public:
     }
 
     bool done = false;
+
     GstElement *elem = 0;
 
+#if GST_CHECK_VERSION(1,0,0)
+    GValue val = G_VALUE_INIT;
+#endif
+
     while (!done) {
+#if GST_CHECK_VERSION(1,0,0)
+      switch (gst_iterator_next(iter, &val)) {
+#else
       switch (gst_iterator_next(iter, (gpointer *)&elem)) {
+#endif
       case GST_ITERATOR_OK:
+#if GST_CHECK_VERSION(1,0,0)
+	elem = (GstElement *)g_value_get_object (&val);
+#endif
 	if (GST_IS_BIN(elem)) {
 	  binAdded(elem);
 	}
 	else {
 	  setProperties(elem);
 	}
-
+#if GST_CHECK_VERSION(1,0,0)
+	g_value_unset (&val);
+#endif
 	gst_object_unref(elem);
 	break;
 

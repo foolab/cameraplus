@@ -218,9 +218,18 @@ public:
     }
 
     GstIterator *iter = gst_bin_iterate_recurse (GST_BIN(cameraBin));
+
+#if GST_CHECK_VERSION(1,0,0)
+    GValue val = G_VALUE_INIT;
+    GstElement *item = NULL;
+    if (gst_iterator_find_custom (iter, (GCompareFunc)compare_factory, &val, (gpointer)factory)) {
+      item = (GstElement *)g_value_get_object (&val);
+      g_value_unset (&val);
+    }
+#else
     GstElement *item = (GstElement *)
       gst_iterator_find_custom (iter, (GCompareFunc)compare_factory, (gpointer)factory);
-
+#endif
     gst_iterator_free (iter);
 
     return item;

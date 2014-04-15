@@ -40,7 +40,12 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
   d_ptr->id = id;
   d_ptr->conf = config;
 
+#if GST_CHECK_VERSION(1,0,0)
+  d_ptr->cameraBin = gst_element_factory_make("camerabin", "QtCameraCameraBin");
+#else
   d_ptr->cameraBin = gst_element_factory_make("camerabin2", "QtCameraCameraBin");
+#endif
+
   if (!d_ptr->cameraBin) {
     qCritical() << "Failed to create camerabin";
     return;

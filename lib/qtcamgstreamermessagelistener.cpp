@@ -202,12 +202,20 @@ QtCamGStreamerMessageListener::QtCamGStreamerMessageListener(GstBus *bus,
 
   d_ptr->watchId = gst_bus_add_watch(d_ptr->bus, async_handler, d_ptr);
 
+#if GST_CHECK_VERSION(1,0,0)
+  gst_bus_set_sync_handler(d_ptr->bus, sync_handler, d_ptr, NULL);
+#else
   gst_bus_set_sync_handler(d_ptr->bus, sync_handler, d_ptr);
+#endif
 }
 
 QtCamGStreamerMessageListener::~QtCamGStreamerMessageListener() {
   g_source_remove(d_ptr->watchId);
+#if GST_CHECK_VERSION(1,0,0)
+  gst_bus_set_sync_handler(d_ptr->bus, NULL, NULL, NULL);
+#else
   gst_bus_set_sync_handler(d_ptr->bus, NULL, NULL);
+#endif
 
   qDeleteAll(d_ptr->handlers);
 

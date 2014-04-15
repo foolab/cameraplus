@@ -261,20 +261,22 @@ void QtCamViewfinderRendererNemo::sink_caps_changed(GObject *obj, GParamSpec *ps
   }
 
   GstPad *pad = GST_PAD (obj);
-  if (!GST_PAD_CAPS (pad)) {
-    return;
-  }
-
-  GstCaps *caps = GST_PAD_CAPS (pad);
+  GstCaps *caps = gst_pad_get_current_caps (pad);
   if (gst_caps_get_size (caps) < 1) {
+    gst_caps_unref (caps);
     return;
   }
 
-  int width, height;
-  if (gst_video_get_size(pad, &width, &height)) {
-    QMetaObject::invokeMethod(q, "setVideoSize", Qt::QueuedConnection,
-			      Q_ARG(QSizeF, QSizeF(width, height)));
+  GstVideoInfo info;
+  if (!gst_video_info_from_caps (&info, caps)) {
+    gst_caps_unref (caps);
+    return;
   }
+
+  gst_caps_unref (caps);
+
+  QMetaObject::invokeMethod(q, "setVideoSize", Qt::QueuedConnection,
+			    Q_ARG(QSizeF, QSizeF(info.width, info.height)));
 }
 
 void QtCamViewfinderRendererNemo::calculateProjectionMatrix(const QRectF& rect) {
