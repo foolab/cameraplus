@@ -186,7 +186,13 @@ public:
     return analysisBin;
   }
 
+#if GST_CHECK_VERSION(1,0,0)
+  static gint compare_factory(const GValue *val, const char *factory) {
+    GstElement *elem = (GstElement *)g_value_get_object (val);
+    gst_object_ref (elem);
+#else
   static gint compare_factory(GstElement *elem, const char *factory) {
+#endif
     GstElementFactory *f = gst_element_get_factory(elem);
     if (!f) {
       gst_object_unref (elem);
@@ -209,6 +215,10 @@ public:
       return -1;
     }
 
+#if GST_CHECK_VERSION(1,0,0)
+    gst_object_unref (elem);
+#endif
+
     return 0;
   }
 
@@ -223,7 +233,7 @@ public:
     GValue val = G_VALUE_INIT;
     GstElement *item = NULL;
     if (gst_iterator_find_custom (iter, (GCompareFunc)compare_factory, &val, (gpointer)factory)) {
-      item = (GstElement *)g_value_get_object (&val);
+      item = (GstElement *)g_value_dup_object (&val);
       g_value_unset (&val);
     }
 #else

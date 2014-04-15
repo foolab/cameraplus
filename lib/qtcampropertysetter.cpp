@@ -64,9 +64,10 @@ public:
 	  setProperties(elem);
 	}
 #if GST_CHECK_VERSION(1,0,0)
-	g_value_unset (&val);
-#endif
+	g_value_reset (&val);
+#else
 	gst_object_unref(elem);
+#endif
 	break;
 
       case GST_ITERATOR_RESYNC:
