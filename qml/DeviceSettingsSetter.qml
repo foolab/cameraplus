@@ -26,7 +26,7 @@ import CameraPlus 1.0
 
 Item {
     id: setter
-    // I don't know why but seems having Connections as the roor element breaks something
+    // I don't know why but seems having Connections as the root element breaks something
     // And I get an error qrc:/qml/MainPage.qml:123: ReferenceError: Can't find variable: camera
     // whenever a settings property changes
     property QtObject settings
