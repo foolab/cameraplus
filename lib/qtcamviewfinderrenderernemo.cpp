@@ -208,10 +208,7 @@ GstElement *QtCamViewfinderRendererNemo::sinkElement() {
   }
 
   m_dpy = eglGetCurrentDisplay();
-  if (m_dpy == EGL_NO_DISPLAY) {
-    qCritical() << "Failed to obtain EGL Display";
-  }
-  else {
+  if (m_dpy != EGL_NO_DISPLAY) {
     g_object_set(G_OBJECT(m_sink), "egl-display", m_dpy, NULL);
     m_displaySet = true;
   }
