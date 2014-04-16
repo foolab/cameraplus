@@ -133,7 +133,6 @@ void QtCamViewfinderRendererNemo::paint(const QMatrix4x4& matrix, const QRectF& 
 
   if (m_dpy == EGL_NO_DISPLAY) {
     qCritical() << "Failed to obtain EGL Display";
-    //    return;
   }
 
   if (m_sink && m_dpy != EGL_NO_DISPLAY && !m_displaySet) {

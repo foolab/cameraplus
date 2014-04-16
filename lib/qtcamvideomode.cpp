@@ -197,6 +197,7 @@ void QtCamVideoMode::stopRecording(bool sync) {
     g_signal_emit_by_name(d_ptr->dev->cameraBin, "stop-capture", NULL);
 
     if (sync) {
+      // TODO: this can block forever
       handler->wait();
       handler->unlock();
     }
