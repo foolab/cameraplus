@@ -77,7 +77,7 @@ private:
   QGLShaderProgram *m_program;
   QMatrix4x4 m_projectionMatrix;
   std::vector<GLfloat> m_vertexCoords;
-  std::vector<GLfloat> m_texCoords;
+  std::vector<GLfloat> m_texCoords[2];
   QSizeF m_size;
   QSizeF m_videoSize;
   QRectF m_renderArea;
