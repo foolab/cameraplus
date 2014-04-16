@@ -17,8 +17,8 @@ presence=1
 pass=0
 variableframerate=true
 
-#[streamprofile-mpeg4-video-1]
-#parent=video-profile
-#type=audio
-#format=audio/mpeg, mpegversion=(int)4
-#presence=1
+[streamprofile-mpeg4-video-1]
+parent=video-profile
+type=audio
+format=audio/mpeg, mpegversion=(int)4
+presence=1
