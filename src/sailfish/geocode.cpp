@@ -107,6 +107,11 @@ void Geocode::search(double longitude, double latitude) {
     delete m_reply;
   }
 
+  if (!m_manager) {
+    qCritical() << "no geo-search manager";
+    return;
+  }
+
   m_reply = m_manager->reverseGeocode(QGeoCoordinate(latitude, longitude));
   if (!m_reply) {
     qCritical() << "geo-search manager provided a null reply!";
