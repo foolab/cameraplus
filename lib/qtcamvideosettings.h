@@ -35,8 +35,9 @@ class QtCamVideoResolutionPrivate;
 class QtCamVideoResolution {
 public:
   QtCamVideoResolution(const QString& id, const QString& name, const QSize& capture,
-		       const QSize& preview, int fps, int nightFps,
-		       const QString& aspectRatio, const QString& resolution);
+		       const QSize& preview, const QSize& viewfinder,
+		       int fps, int nightFps, const QString& aspectRatio,
+		       const QString& resolution);
   QtCamVideoResolution(const QtCamVideoResolution& other);
   QtCamVideoResolution& operator=(const QtCamVideoResolution& other);
 
@@ -45,6 +46,7 @@ public:
   QString id() const;
   QString name() const;
   QSize captureResolution() const;
+  QSize viewfinderResolution() const;
   QSize previewResolution() const;
   int frameRate() const;
   int nightFrameRate() const;

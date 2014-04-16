@@ -37,6 +37,7 @@ VideoResolution::VideoResolution(const QtCamVideoResolution& resolution, QObject
   m_commonName(resolution.resolution()),
   m_capture(resolution.captureResolution()),
   m_preview(resolution.previewResolution()),
+  m_viewfinder(resolution.viewfinderResolution()),
   m_fps(resolution.frameRate()),
   m_nightFps(resolution.nightFrameRate()) {
 
@@ -48,7 +49,7 @@ VideoResolution::~VideoResolution() {
 
 QtCamVideoResolution VideoResolution::resolution() {
   return QtCamVideoResolution(m_resolutionId, m_name, m_capture,
-			      m_preview, m_fps, m_nightFps,
+			      m_preview, m_viewfinder, m_fps, m_nightFps,
 			      m_aspectRatio, m_commonName);
 }
 
@@ -109,6 +110,18 @@ void VideoResolution::setPreview(const QSize& preview) {
     m_preview = preview;
 
     emit previewChanged();
+  }
+}
+
+QSize VideoResolution::viewfinder() const {
+  return m_viewfinder;
+}
+
+void VideoResolution::setViewfinder(const QSize& viewfinder) {
+  if (m_viewfinder != viewfinder) {
+    m_viewfinder = viewfinder;
+
+    emit viewfinderChanged();
   }
 }
 

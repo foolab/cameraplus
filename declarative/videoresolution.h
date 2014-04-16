@@ -34,6 +34,7 @@ class VideoResolution : public QObject {
   Q_PROPERTY(QString aspectRatio READ aspectRatio WRITE setAspectRatio NOTIFY aspectRatioChanged);
   Q_PROPERTY(QSize captureResolution READ capture WRITE setCapture NOTIFY captureChanged);
   Q_PROPERTY(QSize previewResolution READ preview WRITE setPreview NOTIFY previewChanged);
+  Q_PROPERTY(QSize viewfinderResolution READ viewfinder WRITE setViewfinder NOTIFY viewfinderChanged);
   Q_PROPERTY(int frameRate READ fps WRITE setFps NOTIFY fpsChanged);
   Q_PROPERTY(int nightFrameRate READ nightFps WRITE setNightFps NOTIFY nightFpsChanged);
   Q_PROPERTY(QString commonName READ commonName WRITE setCommonName NOTIFY commonNameChanged);
@@ -60,6 +61,9 @@ public:
   QSize preview() const;
   void setPreview(const QSize& preview);
 
+  QSize viewfinder() const;
+  void setViewfinder(const QSize& viewfinder);
+
   int fps() const;
   void setFps(int fps);
 
@@ -74,6 +78,7 @@ signals:
   void nameChanged();
   void captureChanged();
   void previewChanged();
+  void viewfinderChanged();
   void fpsChanged();
   void nightFpsChanged();
   void aspectRatioChanged();
@@ -86,6 +91,7 @@ private:
   QString m_commonName;
   QSize m_capture;
   QSize m_preview;
+  QSize m_viewfinder;
   int m_fps;
   int m_nightFps;
 };

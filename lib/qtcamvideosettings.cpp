@@ -26,6 +26,7 @@ public:
   QString name;
   QSize capture;
   QSize preview;
+  QSize viewfinder;
   int fps;
   int nightFps;
   QString aspectRatio;
@@ -43,7 +44,7 @@ public:
 
 QtCamVideoResolution::QtCamVideoResolution(const QString& id, const QString& name,
 					   const QSize& capture, const QSize& preview,
-					   int fps, int nightFps,
+					   const QSize& viewfinder, int fps, int nightFps,
 					   const QString& aspectRatio,
 					   const QString& resolution) :
   d_ptr(new QtCamVideoResolutionPrivate) {
@@ -51,6 +52,7 @@ QtCamVideoResolution::QtCamVideoResolution(const QString& id, const QString& nam
   d_ptr->name = name;
   d_ptr->capture = capture;
   d_ptr->preview = preview;
+  d_ptr->viewfinder = viewfinder;
   d_ptr->fps = fps;
   d_ptr->nightFps = nightFps;
   d_ptr->aspectRatio = aspectRatio;
@@ -82,6 +84,10 @@ QString QtCamVideoResolution::name() const {
 
 QSize QtCamVideoResolution::captureResolution() const {
   return d_ptr->capture;
+}
+
+QSize QtCamVideoResolution::viewfinderResolution() const {
+  return d_ptr->viewfinder;
 }
 
 QSize QtCamVideoResolution::previewResolution() const {
@@ -151,7 +157,7 @@ QString QtCamVideoSettings::profilePath() const {
 QtCamVideoResolution QtCamVideoSettings::defaultResolution(const QString& aspectRatio) const {
   if (d_ptr->resolutions.isEmpty()) {
     return QtCamVideoResolution(QString(), QString(), QSize(), QSize(),
-				-1, -1, QString(), QString());
+				QSize(), -1, -1, QString(), QString());
   }
 
   if (aspectRatio.isEmpty()) {

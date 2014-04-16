@@ -129,7 +129,7 @@ void QtCamVideoMode::applySettings() {
 
   int fps = night ? d->resolution.nightFrameRate() : d->resolution.frameRate();
 
-  d_ptr->setCaps("viewfinder-caps", d->resolution.captureResolution(), fps);
+  d_ptr->setCaps("viewfinder-caps", d->resolution.viewfinderResolution(), fps);
 
   d_ptr->setCaps("video-capture-caps", d->resolution.captureResolution(), fps);
 

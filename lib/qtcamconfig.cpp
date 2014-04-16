@@ -158,6 +158,7 @@ QtCamVideoSettings *QtCamConfig::videoSettings(const QVariant& id) {
     QString name = d_ptr->conf->value("name").toString();
     QSize capture = d_ptr->readResolution("capture");
     QSize preview = d_ptr->readResolution("preview");
+    QSize viewfinder = d_ptr->readResolution("viewfinder");
     int fps = d_ptr->conf->value("fps").toInt();
     int nightFps = d_ptr->conf->value("night").toInt();
     QString aspectRatio = d_ptr->conf->value("aspectratio").toString();
@@ -165,7 +166,7 @@ QtCamVideoSettings *QtCamConfig::videoSettings(const QVariant& id) {
 
     d_ptr->conf->endGroup();
 
-    resolutions << QtCamVideoResolution(id, name, capture, preview,
+    resolutions << QtCamVideoResolution(id, name, capture, preview, viewfinder,
 					fps, nightFps, aspectRatio, resolution);
   }
 
