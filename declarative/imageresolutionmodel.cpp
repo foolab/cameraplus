@@ -100,6 +100,7 @@ void ImageResolutionModel::setAspectRatio(const QString& aspectRatio) {
 
     beginResetModel();
 
+    // TODO: there is a crash here when we switch devices
     m_resolutions = m_settings->resolutions(m_aspectRatio);
 
     endResetModel();
