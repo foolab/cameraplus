@@ -21,8 +21,14 @@
 #include "qtcamcolortone.h"
 #include "qtcamcapability_p.h"
 
+#if GST_CHECK_VERSION(1,0,0)
+#define COLOR_TONE "color-tone-mode"
+#else
+#define COLOR_TONE "colour-tone-mode"
+#endif
+
 QtCamColorTone::QtCamColorTone(QtCamDevice *dev, QObject *parent) :
-  QtCamCapability(new QtCamCapabilityPrivate(dev, QtCamCapability::ColourTone, "colour-tone-mode"),
+  QtCamCapability(new QtCamCapabilityPrivate(dev, QtCamCapability::ColourTone, COLOR_TONE),
 		  parent) {
 
 }
