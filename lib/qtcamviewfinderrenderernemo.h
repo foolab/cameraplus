@@ -28,6 +28,7 @@
 #include <QMutex>
 #include <QMatrix4x4>
 #include <qgl.h>
+#include <gst/video/video.h>
 
 class QGLShaderProgram;
 typedef void *EGLDisplay;
@@ -65,7 +66,7 @@ private:
   void calculateVertexCoords();
 
   void cleanup();
-  void updateCropInfo(const GstStructure *s, std::vector<GLfloat>& texCoords);
+  void updateCropInfo(const GstVideoCropMeta *crop, std::vector<GLfloat>& texCoords);
 
   QtCamConfig *m_conf;
   GstElement *m_sink;

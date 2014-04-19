@@ -355,15 +355,15 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame
   }
 
   std::vector<GLfloat> texCoords(m_texCoords[dev]);
-  /*
+
   // Now take into account cropping:
-  const GstStructure *s =
-    nemo_gst_video_texture_get_frame_qdata (sink,
-					    g_quark_from_string ("GstDroidCamSrcCropData"));
-  if (s) {
-    updateCropInfo(s, texCoords);
+  GstMeta *crop =
+    nemo_gst_video_texture_get_frame_meta(sink, GST_VIDEO_CROP_META_API_TYPE);
+
+  if (crop) {
+    updateCropInfo((GstVideoCropMeta *)crop, texCoords);
   }
-  */
+
   if (!nemo_gst_video_texture_bind_frame(sink, &img)) {
     qDebug() << "Failed to bind frame";
     nemo_gst_video_texture_release_frame(sink, NULL);
@@ -489,23 +489,18 @@ void QtCamViewfinderRendererNemo::cleanup() {
   m_sink = 0;
 }
 
-void QtCamViewfinderRendererNemo::updateCropInfo(const GstStructure *s,
-						 std::vector<GLfloat>& texCoords) {
-  int right = 0, bottom = 0, top = 0, left = 0;
-
-  if (!gst_structure_get_int(s, "top", &top) ||
-      !gst_structure_get_int(s, "left", &left) ||
-      !gst_structure_get_int(s, "bottom", &bottom) ||
-      !gst_structure_get_int(s, "right", &right)) {
-    qWarning() << "incomplete crop info";
-    return;
-  }
+void QtCamViewfinderRendererNemo::updateCropInfo(const GstVideoCropMeta *crop,
+						  std::vector<GLfloat>& texCoords) {
+  int right = -1 * (crop->width - m_videoSize.width() + crop->x);
+  int bottom = -1 * (crop->height -  m_videoSize.height() + crop->y);
+  int top = crop->y;
+  int left = crop->x;
 
   if ((right - left) <= 0 || (bottom - top) <= 0) {
     // empty rect.
     return;
   }
-
+  // TODO: review this
   int width = right - left;
   int height = bottom - top;
   qreal tx = 0.0f, ty = 0.0f, sx = 1.0f, sy = 1.0f;
