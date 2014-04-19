@@ -34,17 +34,6 @@ public:
     dev(d),
     cap(c),
     prop(p),
-    bin(0),
-    src(0),
-    handler(0),
-    q_ptr(0) {
-
-  }
-
-  QtCamCapabilityPrivate(QtCamDevice *d, const QtCamCapability::Capability& c) :
-    dev(d),
-    cap(c),
-    bin(0),
     src(0),
     handler(0),
     q_ptr(0) {
@@ -156,7 +145,6 @@ public:
   QtCamDevice *dev;
   QtCamCapability::Capability cap;
   QString prop;
-  GstElement *bin;
   GstElement *src;
   gulong handler;
   QtCamCapability *q_ptr;

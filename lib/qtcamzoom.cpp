@@ -25,80 +25,36 @@
 class QtCamZoomPrivate : public QtCamCapabilityPrivate {
 public:
   QtCamZoomPrivate(QtCamDevice *d, QtCamZoom *q) :
-    QtCamCapabilityPrivate(d, QtCamCapability::Zoom), q_ptr(q), binHandler(0) {
-
+    QtCamCapabilityPrivate(d, QtCamCapability::Zoom, "zoom"), q_ptr(q), handler(0) {
   }
 
   ~QtCamZoomPrivate() {
-    if (binHandler) {
-      g_signal_handler_disconnect(bin, binHandler);
+    if (handler > 0) {
+      g_signal_handler_disconnect(src, handler);
     }
   }
 
-  void init() {
-    if (bin) {
-      binHandler = g_signal_connect(bin, "notify", G_CALLBACK(camera_bin_notify), this);
-    }
-  }
-
-  static void camera_bin_notify(GObject *gobject, GParamSpec *pspec, QtCamZoomPrivate *d) {
+  static void max_zoom_notify(GObject *gobject, GParamSpec *pspec, QtCamZoomPrivate *d) {
     Q_UNUSED(gobject);
+    Q_UNUSED(pspec);
 
-    QLatin1String name(pspec->name);
-    if (name == QLatin1String("max-zoom")) {
-      QMetaObject::invokeMethod(d->q_ptr, "maximumValueChanged", Qt::QueuedConnection);
-    }
-    else if (name == QLatin1String("zoom")) {
-      QMetaObject::invokeMethod(d->q_ptr, "valueChanged", Qt::QueuedConnection);
-    }
-  }
-
-  qreal zoom() {
-    if (!bin) {
-      return 1.0;
-    }
-
-    gfloat v = 1.0;
-
-    g_object_get(bin, "zoom", &v, NULL);
-
-    return v;
-  }
-
-  qreal maxZoom() {
-    if (!bin) {
-      return 1.0;
-    }
-
-    gfloat v = 1.0;
-
-    g_object_get(bin, "max-zoom", &v, NULL);
-
-    return v;
-  }
-
-  bool setZoom(qreal zoom) {
-    if (!bin) {
-      return false;
-    }
-
-    if (qFuzzyCompare(QtCamZoomPrivate::zoom(), zoom)) {
-	return false;
-      }
-
-    g_object_set(bin, "zoom", zoom, NULL);
-
-    return true;
+    QMetaObject::invokeMethod(d->q_ptr, "maximumValueChanged", Qt::QueuedConnection);
   }
 
   QtCamZoom *q_ptr;
-  gulong binHandler;
+  gulong handler;
 };
 
 QtCamZoom::QtCamZoom(QtCamDevice *dev, QObject *parent) :
   QtCamCapability(new QtCamZoomPrivate(dev, this), parent) {
 
-  dynamic_cast<QtCamZoomPrivate *>(d_ptr)->init();
+  // QtCamCapabilityPrivate::src is initialized in QtCamCapability itself
+  // not in the private class so we have to connect to the signal from here.
+  QtCamZoomPrivate *d = dynamic_cast<QtCamZoomPrivate *>(d_ptr);
+
+  d->handler =
+    g_signal_connect(d->src, "notify::max-zoom",
+		     G_CALLBACK(QtCamZoomPrivate::max_zoom_notify), d);
 }
 
 QtCamZoom::~QtCamZoom() {
@@ -106,31 +62,41 @@ QtCamZoom::~QtCamZoom() {
 }
 
 qreal QtCamZoom::value() {
-  return dynamic_cast<QtCamZoomPrivate *>(d_ptr)->zoom();
+  qreal val = defaultValue();
+
+  d_ptr->floatValue(&val);
+
+  return val;
 }
 
 bool QtCamZoom::setValue(qreal zoom) {
-  if (dynamic_cast<QtCamZoomPrivate *>(d_ptr)->setZoom(zoom)) {
-    emit valueChanged();
-    return true;
-  }
-
-  return false;
+  return d_ptr->setFloatValue(zoom);
 }
 
 qreal QtCamZoom::minimumValue() {
-  if (!d_ptr->bin) {
-    return 1.0;
-  }
+  GParamSpec *p = d_ptr->paramSpec();
 
-  GParamSpec *pspec = g_object_class_find_property(G_OBJECT_GET_CLASS(d_ptr->bin), "max-zoom");
-  if (pspec && G_IS_PARAM_SPEC_FLOAT(pspec)) {
-    return G_PARAM_SPEC_FLOAT(pspec)->minimum;
+  if (p && G_IS_PARAM_SPEC_FLOAT(p)) {
+    return G_PARAM_SPEC_FLOAT(p)->minimum;
   }
 
   return 1.0;
 }
 
 qreal QtCamZoom::maximumValue() {
-  return dynamic_cast<QtCamZoomPrivate *>(d_ptr)->maxZoom();
+  gfloat max = 1.0;
+
+  g_object_get (d_ptr->src, "max-zoom", &max, NULL);
+
+  return max;
+}
+
+qreal QtCamZoom::defaultValue() {
+  GParamSpec *p = d_ptr->paramSpec();
+
+  if (p && G_IS_PARAM_SPEC_FLOAT(p)) {
+    return G_PARAM_SPEC_FLOAT(p)->default_value;
+  }
+
+  return 1.0;
 }

@@ -43,19 +43,14 @@ QtCamCapability::Capabilities QtCamCapability::capabilities(QtCamDevice *dev) {
 
 QtCamCapability::QtCamCapability(QtCamCapabilityPrivate *d, QObject *parent) :
   QObject(parent), d_ptr(d) {
-  d_ptr->bin = d_ptr->dev->d_ptr->cameraBin;
   d_ptr->src = d_ptr->dev->d_ptr->videoSource;
   d_ptr->q_ptr = this;
 
-  if (!d_ptr->prop.isEmpty()) {
-    d_ptr->startMonitoring();
-  }
+  d_ptr->startMonitoring();
 }
 
 QtCamCapability::~QtCamCapability() {
-  if (!d_ptr->prop.isEmpty()) {
-    d_ptr->stopMonitoring();
-  }
+  d_ptr->stopMonitoring();
 
   delete d_ptr; d_ptr = 0;
 }

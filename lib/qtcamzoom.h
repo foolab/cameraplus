@@ -32,6 +32,7 @@ public:
   QtCamZoom(QtCamDevice *dev, QObject *parent = 0);
   ~QtCamZoom();
 
+  qreal defaultValue();
   qreal value();
   bool setValue(qreal zoom);
   qreal minimumValue();
