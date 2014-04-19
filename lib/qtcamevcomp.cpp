@@ -22,10 +22,57 @@
 #include "qtcamcapability_p.h"
 #include <QDebug>
 
-QtCamEvComp::QtCamEvComp(QtCamDevice *dev, QObject *parent) :
-  QtCamCapability(new QtCamCapabilityPrivate(dev, QtCamCapability::EvComp, "ev-compensation"),
-		  parent) {
+class QtCamEvCompPrivate : public QtCamCapabilityPrivate {
+public:
+  QtCamEvCompPrivate(QtCamDevice *d, QtCamEvComp *q) :
+    QtCamCapabilityPrivate(d, QtCamCapability::EvComp, "ev-compensation"),
+    q_ptr(q),
+    minHandler(0),
+    maxHandler(0) {
 
+  }
+
+  ~QtCamEvCompPrivate() {
+    if (minHandler > 0) {
+      g_signal_handler_disconnect(src, minHandler);
+    }
+
+    if (maxHandler > 0) {
+      g_signal_handler_disconnect(src, maxHandler);
+    }
+  }
+
+  static void min_ev_notify(GObject *gobject, GParamSpec *pspec, QtCamEvCompPrivate *d) {
+    Q_UNUSED(gobject);
+    Q_UNUSED(pspec);
+
+    QMetaObject::invokeMethod(d->q_ptr, "minimumValueChanged", Qt::QueuedConnection);
+  }
+
+  static void max_ev_notify(GObject *gobject, GParamSpec *pspec, QtCamEvCompPrivate *d) {
+    Q_UNUSED(gobject);
+    Q_UNUSED(pspec);
+
+    QMetaObject::invokeMethod(d->q_ptr, "maximumValueChanged", Qt::QueuedConnection);
+  }
+
+  QtCamEvComp *q_ptr;
+  gulong minHandler;
+  gulong maxHandler;
+};
+
+QtCamEvComp::QtCamEvComp(QtCamDevice *dev, QObject *parent) :
+  QtCamCapability(new QtCamEvCompPrivate(dev, this), parent) {
+
+  QtCamEvCompPrivate *d = dynamic_cast<QtCamEvCompPrivate *>(d_ptr);
+
+  d->minHandler =
+    g_signal_connect(d->src, "notify::min-ev-compensation",
+		     G_CALLBACK(QtCamEvCompPrivate::min_ev_notify), d);
+
+  d->maxHandler =
+    g_signal_connect(d->src, "notify::max-ev-compensation",
+		     G_CALLBACK(QtCamEvCompPrivate::max_ev_notify), d);
 }
 
 QtCamEvComp::~QtCamEvComp() {
@@ -45,6 +92,14 @@ bool QtCamEvComp::setValue(qreal val) {
 }
 
 qreal QtCamEvComp::minimumValue() {
+  QtCamEvCompPrivate *d = dynamic_cast<QtCamEvCompPrivate *>(d_ptr);
+  if (d->minHandler > 0) {
+    gfloat val = 0.0;
+    g_object_get (d_ptr->src, "min-ev-compensation", &val, NULL);
+
+    return val;
+  }
+
   GParamSpec *p = d_ptr->paramSpec();
 
   if (p && G_IS_PARAM_SPEC_FLOAT(p)) {
@@ -55,6 +110,14 @@ qreal QtCamEvComp::minimumValue() {
 }
 
 qreal QtCamEvComp::maximumValue() {
+  QtCamEvCompPrivate *d = dynamic_cast<QtCamEvCompPrivate *>(d_ptr);
+  if (d->maxHandler > 0) {
+    gfloat val = 0.0;
+    g_object_get (d_ptr->src, "max-ev-compensation", &val, NULL);
+
+    return val;
+  }
+
   GParamSpec *p = d_ptr->paramSpec();
 
   if (p && G_IS_PARAM_SPEC_FLOAT(p)) {
