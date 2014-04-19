@@ -41,7 +41,7 @@ CameraToolBarTools {
         model: toolsModel
 
         delegate: CheckButton {
-            iconSource: icon
+            iconSource: modelData.icon
             onClicked: deviceSettings().imageFlashMode = value
             checked: deviceSettings().imageFlashMode == value
             visible: !(overlay.cam.quirks.hasQuirk(Quirks.NoRedEyeFlash) && value == Flash.RedEye)

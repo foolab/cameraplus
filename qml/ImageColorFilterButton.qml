@@ -43,7 +43,7 @@ CameraToolBarTools {
         model: toolsModel
 
         delegate: CheckButton {
-            iconSource: icon
+            iconSource: modelData.icon
             onClicked: deviceSettings().imageColorFilter = value
             checked: deviceSettings().imageColorFilter == value
             onCheckedChanged: {

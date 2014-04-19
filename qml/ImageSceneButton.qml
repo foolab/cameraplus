@@ -43,7 +43,7 @@ CameraToolBarTools {
         model: toolsModel
 
         delegate: CheckButton {
-            iconSource: icon
+            iconSource: modelData.icon
             onClicked: {
                 if (deviceSettings().imageSceneMode != value) {
                     deviceSettings().imageSceneMode = value

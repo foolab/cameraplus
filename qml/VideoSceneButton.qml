@@ -39,7 +39,7 @@ CameraToolBarTools {
         model: toolsModel
 
         delegate: CheckButton {
-            iconSource: icon
+            iconSource: modelData.icon
             onClicked: {
                 if (deviceSettings().videoSceneMode != value) {
                     deviceSettings().videoSceneMode = value

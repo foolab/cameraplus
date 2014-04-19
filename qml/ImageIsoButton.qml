@@ -41,7 +41,7 @@ CameraToolBarTools {
     Repeater {
         model: toolsModel
         delegate: CheckButton {
-            iconSource: icon
+            iconSource: modelData.icon
             onClicked: deviceSettings().imageIso = value
             checked: deviceSettings().imageIso == value
         }

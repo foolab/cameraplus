@@ -42,7 +42,7 @@ CameraToolBarTools {
         model: toolsModel
 
         delegate: CheckButton {
-            iconSource: icon
+            iconSource: modelData.icon
             onClicked: deviceSettings().imageWhiteBalance = value
             checked: deviceSettings().imageWhiteBalance == value
             onCheckedChanged: {
