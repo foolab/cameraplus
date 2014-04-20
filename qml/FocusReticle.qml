@@ -121,7 +121,7 @@ MouseArea {
         ry = ry / videoResolution.height
         rheight = rheight / videoResolution.height
 
-        // console.log("Setting ROI to: " + rx + "x" + ry)
+        // console.log("Setting ROI to: " + rx + "x" + ry + " -> " + rwidth + "x" + rheight)
         cam.roi.setRegionOfInterest(Qt.rect(rx, ry, rwidth, rheight))
     }
 
