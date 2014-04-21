@@ -30,8 +30,8 @@ Column {
 
     Component.onCompleted: imageSettings.resolutions.aspectRatio = deviceSettings().imageAspectRatio
     Connections {
-        target: camera
-        onDeviceChanged: imageSettings.resolutions.aspectRatio = deviceSettings().imageAspectRatio
+        target: imageSettings
+        onResolutionsChanged: imageSettings.resolutions.aspectRatio = deviceSettings().imageAspectRatio
     }
 
     SectionHeader {
