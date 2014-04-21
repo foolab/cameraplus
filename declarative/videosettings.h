@@ -77,6 +77,7 @@ signals:
 
 private slots:
   void deviceChanged();
+  void prepareForDeviceChange();
 
 private:
   bool setResolution(const QtCamVideoResolution& resolution);

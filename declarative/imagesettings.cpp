@@ -64,12 +64,16 @@ void ImageSettings::setCamera(Camera *camera) {
 
   if (m_cam) {
     QObject::disconnect(m_cam, SIGNAL(deviceChanged()), this, SLOT(deviceChanged()));
+    QObject::disconnect(m_cam, SIGNAL(prepareForDeviceChange()),
+			this, SLOT(prepareForDeviceChange()));
   }
 
   m_cam = camera;
 
   if (m_cam) {
     QObject::connect(m_cam, SIGNAL(deviceChanged()), this, SLOT(deviceChanged()));
+    QObject::connect(m_cam, SIGNAL(prepareForDeviceChange()),
+		     this, SLOT(prepareForDeviceChange()));
   }
 
   emit cameraChanged();
@@ -100,6 +104,10 @@ void ImageSettings::deviceChanged() {
   emit aspectRatioCountChanged();
   emit resolutionsChanged();
   emit currentResolutionChanged();
+}
+
+void ImageSettings::prepareForDeviceChange() {
+  m_settings = 0;
 }
 
 ImageResolutionModel *ImageSettings::resolutions() {
