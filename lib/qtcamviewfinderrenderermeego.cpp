@@ -148,6 +148,10 @@ void QtCamViewfinderRendererMeeGo::reset() {
   m_frame = -1;
 }
 
+void QtCamViewfinderRendererMeeGo::start() {
+
+}
+
 GstElement *QtCamViewfinderRendererMeeGo::sinkElement() {
   if (!QGLContext::currentContext()) {
     qCritical() << "Cannot create the GStreamer element without an OpenGL context.";

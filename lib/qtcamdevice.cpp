@@ -184,6 +184,9 @@ bool QtCamDevice::start() {
     d_ptr->active->applySettings();
   }
 
+  // start viewfinder.
+  d_ptr->viewfinder->start();
+
   // Set sink.
   if (!d_ptr->setViewfinderSink()) {
     return false;

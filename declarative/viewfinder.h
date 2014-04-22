@@ -77,6 +77,7 @@ public:
 #endif
 
   GstElement *sinkElement();
+  void start();
   void stop();
 
 signals:

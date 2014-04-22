@@ -243,6 +243,12 @@ GstElement *Viewfinder::sinkElement() {
   return m_renderer ? m_renderer->sinkElement() : 0;
 }
 
+void Viewfinder::start() {
+  if (m_renderer) {
+    m_renderer->start();
+  }
+}
+
 void Viewfinder::stop() {
   if (m_renderer) {
     m_renderer->reset();

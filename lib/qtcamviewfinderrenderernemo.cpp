@@ -72,6 +72,7 @@ QtCamViewfinderRendererNemo::QtCamViewfinderRendererNemo(QtCamConfig *config,
   m_needsInit(true),
   m_program(0),
   m_displaySet(false),
+  m_started(false),
   m_img(0) {
 
   int back = NEMO_GST_META_DEVICE_DIRECTION_BACK;
@@ -116,6 +117,11 @@ bool QtCamViewfinderRendererNemo::needsNativePainting() {
 }
 
 void QtCamViewfinderRendererNemo::paint(const QMatrix4x4& matrix, const QRectF& viewport) {
+  if (!m_started) {
+    qWarning() << "renderer not started yet";
+    return;
+  }
+
   if (!m_img) {
     QOpenGLContext *ctx = QOpenGLContext::currentContext();
     if (!ctx) {
@@ -202,10 +208,17 @@ void QtCamViewfinderRendererNemo::reset() {
   m_frame = -1;
   m_displaySet = false;
 
+  m_started = false;
   // TODO: more? delete m_progrem, m_img and set m_needsInit?
 }
 
+void QtCamViewfinderRendererNemo::start() {
+  m_started = true;
+}
+
 GstElement *QtCamViewfinderRendererNemo::sinkElement() {
+  m_started = true;
+
   if (!m_sink) {
     m_sink = gst_element_factory_make(m_conf->viewfinderSink().toLatin1().data(),
 				      "QtCamViewfinderRendererNemoSink");

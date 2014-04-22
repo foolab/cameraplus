@@ -45,6 +45,7 @@ public:
   virtual void paint(const QMatrix4x4& matrix, const QRectF& viewport);
   virtual void resize(const QSizeF& size);
   virtual void reset();
+  virtual void start();
   virtual GstElement *sinkElement();
 
   QRectF renderArea();
@@ -84,6 +85,7 @@ private:
   QRectF m_renderArea;
   EGLDisplay m_dpy;
   bool m_displaySet;
+  bool m_started;
   QOpenGLExtension_OES_EGL_image *m_img;
 };
 

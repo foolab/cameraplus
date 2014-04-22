@@ -43,6 +43,7 @@ public:
   virtual void paint(const QMatrix4x4& matrix, const QRectF& viewport);
   virtual void resize(const QSizeF& size);
   virtual void reset();
+  virtual void start();
   virtual GstElement *sinkElement();
 
   QRectF renderArea();

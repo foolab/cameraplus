@@ -44,6 +44,7 @@ public:
   virtual void paint(const QMatrix4x4& matrix, const QRectF& viewport) = 0;
   virtual void resize(const QSizeF& size) = 0;
   virtual void reset() = 0;
+  virtual void start() = 0;
   virtual GstElement *sinkElement() = 0;
 
   virtual QRectF renderArea() = 0;
