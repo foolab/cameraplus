@@ -63,10 +63,9 @@ Item {
 
     ModeButton {
         id: modeButton
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        anchors.rightMargin: 20
-        anchors.bottomMargin: 20
+        anchors.horizontalCenter: capture.horizontalCenter
+        anchors.top: capture.bottom
+        anchors.topMargin: 20
         visible: controlsVisible
     }
 
@@ -134,7 +133,7 @@ Item {
         anchors.left: parent.left
         anchors.leftMargin: 20
         opacity: 0.5
-        targetWidth: parent.width - (anchors.leftMargin * 2) - (66 * 1.5)
+        targetWidth: parent.width - (anchors.leftMargin * 2)
         visible: controlsVisible
         expanded: settings.showToolBar
         onExpandedChanged: settings.showToolBar = expanded
