@@ -176,6 +176,18 @@ Item {
                 iconSource: cameraTheme.isoIcon(deviceSettings().imageIso)
                 onClicked: toolBar.push(Qt.resolvedUrl("ImageIsoButton.qml"))
             }
+
+            CameraToolIcon {
+                iconSource: cameraTheme.cameraImageIconId
+                enabled: camera.idle
+                onClicked: {
+                    if (settings.device == 0) {
+                        settings.device = 1
+                    } else {
+                        settings.device = 0
+                    }
+                }
+            }
         }
     }
 

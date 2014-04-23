@@ -36,29 +36,6 @@ Column {
         width: parent.width
     }
 
-    SectionHeader {
-        text: qsTr("Camera")
-    }
-
-    Row {
-        anchors.horizontalCenter: parent.horizontalCenter
-        enabled: camera != null && camera.running && camera.idle
-
-        CameraButton {
-            text: qsTr("Back (Primary)");
-            checkable: true
-            checked: settings.device == 0
-            onClicked: settings.device = 0
-        }
-
-        CameraButton {
-            text: qsTr("Front (Secondary)");
-            checkable: true
-            checked: settings.device == 1
-            onClicked: settings.device = 1
-        }
-    }
-
     CameraTextSwitch {
         text: qsTr("Show grid lines")
 

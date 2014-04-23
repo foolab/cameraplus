@@ -163,6 +163,23 @@ Item {
                 iconSource: deviceSettings().videoMuted ? cameraTheme.soundMuteOnIconId : cameraTheme.soundMuteOffIconId
                 onClicked: deviceSettings().videoMuted = !deviceSettings().videoMuted
             }
+
+            RecordingDurationLabel {
+                visible: overlay.recording
+                duration: recordingDuration.duration
+            }
+
+            CameraToolIcon {
+                iconSource: cameraTheme.cameraImageIconId
+                visible: !overlay.recording
+                onClicked: {
+                    if (settings.device == 0) {
+                        settings.device = 1
+                    } else {
+                        settings.device = 0
+                    }
+                }
+            }
         }
     }
 
@@ -254,11 +271,6 @@ Item {
             }
 
         }
-    }
-
-    RecordingDurationLabel {
-        visible: overlay.recording
-        duration: recordingDuration.duration
     }
 
     function resetToolBar() {
