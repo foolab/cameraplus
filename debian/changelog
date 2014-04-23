@@ -1,3 +1,14 @@
+cameraplus (0.0.15-1) unstable; urgency=medium
+
+  * Updated some icons
+  * Make the pressed background for all buttons a bit brighter to match harmattan style
+  * Changes to how touch focus works:
+    - Touch focus can be done only by tapping and not dragging.
+    - Tapping the center or double tapping the reticle clears touch focus.
+  * Move the camera device selector to the toolbar
+
+ -- Mohammed Sameer <msameer@foolab.org>  Sat, 25 Jan 2014 18:15:21 +0200
+
 cameraplus (0.0.14-1) unstable; urgency=medium
 
   * Some small tweaks for icons
