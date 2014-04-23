@@ -31,6 +31,7 @@ Item {
     property bool canceled: false
     property bool showCancelBanner: (zoomPressed || proximityClosed) && state == "capturing"
     property bool enable: true
+    property bool capturing: state == "capturing"
 
     signal startCapture
     signal cancelCapture

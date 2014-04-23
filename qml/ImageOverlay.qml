@@ -58,7 +58,7 @@ Item {
         anchors.top: parent.top
         anchors.topMargin: 0
         anchors.horizontalCenter: parent.horizontalCenter
-        visible: controlsVisible
+        visible: controlsVisible && !captureControl.capturing
     }
 
     ModeButton {
@@ -66,7 +66,7 @@ Item {
         anchors.horizontalCenter: capture.horizontalCenter
         anchors.top: capture.bottom
         anchors.topMargin: 20
-        visible: controlsVisible
+        visible: controlsVisible && !captureControl.capturing
     }
 
     CaptureButton {
@@ -117,13 +117,14 @@ Item {
     CaptureCancel {
         anchors.fill: parent
         enabled: captureControl.showCancelBanner
-        onPressed:  captureControl.canceled = true
+        onPressed: captureControl.canceled = true
     }
 
     CameraToolBarLabel {
         id: selectedLabel
         anchors.bottom: toolBar.top
         anchors.bottomMargin: 20
+        visible: controlsVisible && !captureControl.capturing
     }
 
     CameraToolBar {
@@ -134,7 +135,7 @@ Item {
         anchors.leftMargin: 20
         opacity: 0.5
         targetWidth: parent.width - (anchors.leftMargin * 2)
-        visible: controlsVisible
+        visible: controlsVisible && !captureControl.capturing
         expanded: settings.showToolBar
         onExpandedChanged: settings.showToolBar = expanded
         tools: CameraToolBarTools {
@@ -203,7 +204,7 @@ Item {
         border.color: "gray"
         radius: 20
         opacity: 0.5
-        visible: controlsVisible
+        visible: controlsVisible && !captureControl.capturing
 
         Column {
             id: col
