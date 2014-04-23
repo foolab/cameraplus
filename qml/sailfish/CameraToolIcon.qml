@@ -25,6 +25,7 @@ import Sailfish.Silica 1.0
 
 IconButton {
     property string iconSource
+    // TODO: make sure that enabled state is different than disabled state look and feel wise
     width: 64
     height: 64
     Component.onCompleted: icon.source = iconSource

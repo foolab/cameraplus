@@ -26,7 +26,7 @@ Item {
     signal clicked
     width: 80
     height: 64
-
+    opacity: enabled ? 1.0 : 0.5
     property url iconSource
 
     MouseArea {
