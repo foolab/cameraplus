@@ -30,8 +30,7 @@ Rectangle {
     anchors.rightMargin: 20
     anchors.bottomMargin: 20
 
-    color: "black"
-    opacity: 0.5
+    color: "transparent"
     width: 100
     height: 30
 
