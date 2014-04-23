@@ -30,10 +30,6 @@ MouseArea {
     y: renderArea.y
     width: renderArea.width
     height: renderArea.height
-    drag.minimumX: 0
-    drag.minimumY: 0
-    drag.maximumX: width - reticle.width
-    drag.maximumY: height - reticle.height
 
     property variant videoResolution
     property variant renderArea
@@ -78,14 +74,16 @@ MouseArea {
     }
 
     onReleased: {
-        calculateTouchPoint(mouse.x, mouse.y)
         locked = false
     }
 
-    onPositionChanged: calculateTouchPoint(mouse.x, mouse.y)
     onCanceled: {
         calculateTouchPoint(__initialPos.x, __initialPos.y)
         locked = false
+    }
+
+    onDoubleClicked: {
+        resetReticle()
     }
 
     function resetReticle() {
@@ -171,8 +169,8 @@ MouseArea {
         id: reticle
         width: mouse.pressed ? 150 : mouse.touchMode ? 200 : roiMode ? primaryRoiRect.width : 250
         height: mouse.pressed ? 90 : mouse.touchMode ? 120 : roiMode ? primaryRoiRect.height : 150
-        x: Math.min(Math.max(mouse.touchPoint.x - (width / 2), drag.minimumX), drag.maximumX)
-        y: Math.min(Math.max(mouse.touchPoint.y - (height / 2), drag.minimumY), drag.maximumY)
+        x: Math.min(Math.max(mouse.touchPoint.x - (width / 2), 0), mouse.width - reticle.width)
+        y: Math.min(Math.max(mouse.touchPoint.y - (height / 2), 0), mouse.height - reticle.height)
         color: predictColor(cafStatus, status)
 
         onXChanged: setRegionOfInterest()
