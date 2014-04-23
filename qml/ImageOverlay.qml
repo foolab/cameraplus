@@ -178,7 +178,7 @@ Item {
             }
 
             CameraToolIcon {
-                iconSource: cameraTheme.cameraImageIconId
+                iconSource: cameraTheme.switchCameraIconId
                 enabled: camera.idle
                 onClicked: {
                     if (settings.device == 0) {

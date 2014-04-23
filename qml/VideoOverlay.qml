@@ -170,7 +170,7 @@ Item {
             }
 
             CameraToolIcon {
-                iconSource: cameraTheme.cameraImageIconId
+                iconSource: cameraTheme.switchCameraIconId
                 visible: !overlay.recording
                 onClicked: {
                     if (settings.device == 0) {

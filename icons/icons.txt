@@ -51,3 +51,4 @@ icon-m-camera-shutter 75 75 shutter.svg
 icon-m-camera-torch-off 48 48 torch-off.svg
 icon-m-camera-torch-on 48 48 torch-on.svg
 icon-m-settings-reset 48 48 icon-m-settings-reset.svg
+icon-m-camera-switch 48 48 switch-camera.svg

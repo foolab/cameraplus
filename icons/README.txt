@@ -9,8 +9,9 @@ filter-solarize.svg
 filter-vivid.svg
 filter-sepia.svg
 filter-none.svg
+switch-camera.svg (based on icon-m-viewfinder-camera.svg and icon-m-settings-reset.svg)
 
- by mcbook:
+by mcbook:
 settings.svg
 cameraplus.svg
 cameraplus.ai
