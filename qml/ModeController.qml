@@ -37,7 +37,7 @@ Rectangle {
         id: animation
 
         alwaysRunToEnd: true
-        running: cam.mode != settings.mode
+        running: cam.mode != settings.mode || cam.deviceId != settings.device
 
         PropertyAnimation {
             properties: "opacity"
@@ -47,7 +47,24 @@ Rectangle {
         }
 
         PauseAnimation { duration: 50 }
-        ScriptAction { script: root.resetCamera(cam.deviceId, settings.mode) }
+        ScriptAction {
+                script: {
+                        var restart = false
+
+                        if (cam.deviceId != settings.device) {
+                                viewfinder.cameraDeviceChanged()
+                                // Reset pipeline manager error
+                                pipelineManager.error = false
+                                restart = true
+                        }
+
+                        root.resetCamera(settings.device, settings.mode)
+
+                        if (restart) {
+                                pipelineManager.startCamera()
+                        }
+                }
+        }
 
         PropertyAnimation {
             properties: "opacity"

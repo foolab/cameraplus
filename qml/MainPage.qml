@@ -138,17 +138,6 @@ CameraPage {
 
     Settings {
         id: settings
-
-        onDeviceChanged: {
-            viewfinder.cameraDeviceChanged()
-
-            // Reset pipeline manager error
-            pipelineManager.error = false
-
-            if (root.resetCamera(settings.device, settings.mode)) {
-                pipelineManager.startCamera()
-            }
-        }
     }
 
     PipelineManager {
