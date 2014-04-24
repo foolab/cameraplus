@@ -169,16 +169,8 @@ Item {
                 duration: recordingDuration.duration
             }
 
-            CameraToolIcon {
-                iconSource: cameraTheme.switchCameraIconId
+            DeviceSelector {
                 visible: !overlay.recording
-                onClicked: {
-                    if (settings.device == 0) {
-                        settings.device = 1
-                    } else {
-                        settings.device = 0
-                    }
-                }
             }
         }
     }

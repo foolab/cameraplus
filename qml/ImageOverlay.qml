@@ -178,16 +178,8 @@ Item {
                 onClicked: toolBar.push(Qt.resolvedUrl("ImageIsoButton.qml"))
             }
 
-            CameraToolIcon {
-                iconSource: cameraTheme.switchCameraIconId
+            DeviceSelector {
                 enabled: camera.idle
-                onClicked: {
-                    if (settings.device == 0) {
-                        settings.device = 1
-                    } else {
-                        settings.device = 0
-                    }
-                }
             }
         }
     }

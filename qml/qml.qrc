@@ -51,5 +51,6 @@
 	<file>CaptureControl.qml</file>
 	<file>DeviceSettingsSetter.qml</file>
 	<file>ImageThumbnail.qml</file>
+	<file>DeviceSelector.qml</file>
     </qresource>
 </RCC>
