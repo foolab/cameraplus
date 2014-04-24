@@ -1,5 +1,7 @@
 debian/cameraplus.desktop usr/share/applications/
 data/n9/qtcamera.ini usr/share/qtcamera/config/
+data/n9/resolutions.ini usr/share/qtcamera/config/
+data/n9/n950_resolutions.ini usr/share/qtcamera/config/
 data/n9/properties.ini usr/share/qtcamera/config/
 data/n9/cameraplus.ini usr/share/cameraplus/config/
 data/n9/image.gep usr/share/qtcamera/config/
