@@ -66,13 +66,19 @@ QtCamEvComp::QtCamEvComp(QtCamDevice *dev, QObject *parent) :
 
   QtCamEvCompPrivate *d = dynamic_cast<QtCamEvCompPrivate *>(d_ptr);
 
-  d->minHandler =
-    g_signal_connect(d->src, "notify::min-ev-compensation",
-		     G_CALLBACK(QtCamEvCompPrivate::min_ev_notify), d);
+  GObjectClass *klass = G_OBJECT_GET_CLASS(d->src);
 
-  d->maxHandler =
-    g_signal_connect(d->src, "notify::max-ev-compensation",
-		     G_CALLBACK(QtCamEvCompPrivate::max_ev_notify), d);
+  if (g_object_class_find_property (klass, "min-ev-compensation")) {
+    d->minHandler =
+      g_signal_connect(d->src, "notify::min-ev-compensation",
+		       G_CALLBACK(QtCamEvCompPrivate::min_ev_notify), d);
+  }
+
+  if (g_object_class_find_property (klass, "max-ev-compensation")) {
+    d->maxHandler =
+      g_signal_connect(d->src, "notify::max-ev-compensation",
+		       G_CALLBACK(QtCamEvCompPrivate::max_ev_notify), d);
+  }
 }
 
 QtCamEvComp::~QtCamEvComp() {
