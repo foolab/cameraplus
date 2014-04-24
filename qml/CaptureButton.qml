@@ -22,37 +22,14 @@
 
 import QtQuick 2.0
 
-Rectangle {
+CameraToolIcon {
     id: button
 
-    property alias iconSource: icon.source
     property CameraButtonStyle platformStyle: CameraButtonStyle {}
 
-    property alias pressed: mouse.pressed
-    property alias mouseX: mouse.mouseX
-    property alias mouseY: mouse.mouseY
-
-    signal clicked
-    signal exited
-
-    color: mouse.pressed ? platformStyle.pressedColor : platformStyle.releasedColor
+    color: pressed ? platformStyle.pressedColor : platformStyle.releasedColor
     border.color: platformStyle.borderColor
     border.width: 1
     radius: width / 3
-
-    MouseArea {
-        id: mouse
-        anchors.fill: parent
-        onClicked: button.clicked()
-        onExited: button.exited()
-    }
-
-    Image {
-        id: icon
-        anchors.centerIn: parent
-        width: parent.width * 0.75
-        height: parent.height * 0.75
-        anchors.verticalCenter: parent.verticalCenter
-        visible: source != ""
-    }
+    opacity: 1.0
 }

@@ -24,12 +24,20 @@
 import QtQuick 2.0
 import QtCamera 1.0
 
-CaptureButton {
+CameraToolIcon {
     width: 55
     height: 55
     opacity: 0.5
 
+    border.color: platformStyle.borderColor
+    border.width: 1
+    radius: width / 3
+
+    property CameraButtonStyle platformStyle: CameraButtonStyle {}
+    color: pressed ? platformStyle.pressedColor : platformStyle.releasedColor
+
     iconSource: settings.mode == Camera.VideoMode ? cameraTheme.cameraImageIconId : cameraTheme.cameraVideoIconId
+
     onClicked: {
         if (settings.mode == Camera.VideoMode) {
             settings.mode = Camera.ImageMode
