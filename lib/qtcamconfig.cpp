@@ -26,8 +26,15 @@
 #include <QStringList>
 #include <QDebug>
 #include <QMetaEnum>
+#include <QFile>
+#ifdef QT4
+#include <QSystemDeviceInfo>
+#else
+#include <QDeviceInfo>
+#endif
 
 #define CONFIGURATION_FILE                    DATA_DIR"/qtcamera.ini"
+#define RESOLUTIONS_FILE                      DATA_DIR"/%1resolutions.ini"
 
 class QtCamConfigPrivate {
 public:
@@ -36,20 +43,26 @@ public:
   }
 
   QSize readResolution(const QString key) {
-    QList<QString> parts = conf->value(key).toString().trimmed().split("x");
+    QList<QString> parts = resolutions->value(key).toString().trimmed().split("x");
     return QSize(parts[0].toInt(), parts[1].toInt());
   }
 
-  QVariant readWithFallback(const QString& generic, const QString& specific, const QString& key) {
+  QVariant readWithFallback(const QString& generic, const QString& specific, const QString& key,
+			    QSettings *settings = 0) {
+    if (!settings) {
+      settings = conf;
+    }
+
     QString genericKey = QString("%1/%2").arg(generic).arg(key);
     QString specificKey = QString("%1/%2").arg(specific).arg(key);
 
-    QVariant var = conf->value(genericKey);
+    QVariant var = settings->value(genericKey);
 
-    return conf->value(specificKey, var);
+    return settings->value(specificKey, var);
   }
 
   QSettings *conf;
+  QSettings *resolutions;
 
   QList<QtCamImageSettings> imageSettings;
   QList<QtCamVideoSettings> videoSettings;
@@ -58,13 +71,20 @@ public:
 QtCamConfig::QtCamConfig(QObject *parent) :
   QObject(parent), d_ptr(new QtCamConfigPrivate) {
 
+#ifdef QT4
+  QString dev = QtMobility::QSystemDeviceInfo().model();
+#else
+  QString dev = QDeviceInfo().model();
+#endif
+
   d_ptr->conf = new QSettings(CONFIGURATION_FILE, QSettings::IniFormat, this);
-}
 
-QtCamConfig::QtCamConfig(const QString& configPath, QObject *parent) :
-  QObject(parent), d_ptr(new QtCamConfigPrivate) {
+  QString resolutions = QString(RESOLUTIONS_FILE).arg(dev.toLower() + "_");
+  if (!QFile(resolutions).exists()) {
+    resolutions = QString(RESOLUTIONS_FILE).arg(QString());
+  }
 
-  d_ptr->conf = new QSettings(configPath, QSettings::IniFormat, this);
+  d_ptr->resolutions = new QSettings(resolutions, QSettings::IniFormat, this);
 }
 
 QtCamConfig::~QtCamConfig() {
@@ -114,24 +134,25 @@ QtCamImageSettings *QtCamConfig::imageSettings(const QVariant& id) {
   QString profileName = d_ptr->readWithFallback(generic, specific, "profile-name").toString();
   QString profilePath = d_ptr->readWithFallback(generic, specific, "profile-path").toString();
   QString suffix = d_ptr->readWithFallback(generic, specific, "extension").toString();
-  QStringList presets = d_ptr->readWithFallback(generic, specific, "presets").toStringList();
+  QStringList presets = d_ptr->readWithFallback(generic, specific, "presets",
+						d_ptr->resolutions).toStringList();
 
   QList<QtCamImageResolution> resolutions;
 
   foreach (const QString& preset, presets) {
-    d_ptr->conf->beginGroup(preset);
+    d_ptr->resolutions->beginGroup(preset);
 
     QString id = preset;
-    QString name = d_ptr->conf->value("name").toString();
+    QString name = d_ptr->resolutions->value("name").toString();
     QSize capture = d_ptr->readResolution("capture");
     QSize preview = d_ptr->readResolution("preview");
     QSize viewfinder = d_ptr->readResolution("viewfinder");
-    int fps = d_ptr->conf->value("fps").toInt();
-    int nightFps = d_ptr->conf->value("night").toInt();
-    int megaPixels = d_ptr->conf->value("megapixels").toInt();
-    QString aspectRatio = d_ptr->conf->value("aspectratio").toString();
+    int fps = d_ptr->resolutions->value("fps").toInt();
+    int nightFps = d_ptr->resolutions->value("night").toInt();
+    int megaPixels = d_ptr->resolutions->value("megapixels").toInt();
+    QString aspectRatio = d_ptr->resolutions->value("aspectratio").toString();
 
-    d_ptr->conf->endGroup();
+    d_ptr->resolutions->endGroup();
 
     resolutions << QtCamImageResolution(id, name, capture, preview, viewfinder,
 					fps, nightFps, megaPixels, aspectRatio);
@@ -147,24 +168,25 @@ QtCamVideoSettings *QtCamConfig::videoSettings(const QVariant& id) {
   QString profileName = d_ptr->readWithFallback(generic, specific, "profile-name").toString();
   QString profilePath = d_ptr->readWithFallback(generic, specific, "profile-path").toString();
   QString suffix = d_ptr->readWithFallback(generic, specific, "extension").toString();
-  QStringList presets = d_ptr->readWithFallback(generic, specific, "presets").toStringList();
+  QStringList presets = d_ptr->readWithFallback(generic, specific, "presets",
+						d_ptr->resolutions).toStringList();
 
   QList<QtCamVideoResolution> resolutions;
 
   foreach (const QString& preset, presets) {
-    d_ptr->conf->beginGroup(preset);
+    d_ptr->resolutions->beginGroup(preset);
 
     QString id = preset;
-    QString name = d_ptr->conf->value("name").toString();
+    QString name = d_ptr->resolutions->value("name").toString();
     QSize capture = d_ptr->readResolution("capture");
     QSize preview = d_ptr->readResolution("preview");
     QSize viewfinder = d_ptr->readResolution("viewfinder");
-    int fps = d_ptr->conf->value("fps").toInt();
-    int nightFps = d_ptr->conf->value("night").toInt();
-    QString aspectRatio = d_ptr->conf->value("aspectratio").toString();
-    QString resolution = d_ptr->conf->value("resolution").toString();
+    int fps = d_ptr->resolutions->value("fps").toInt();
+    int nightFps = d_ptr->resolutions->value("night").toInt();
+    QString aspectRatio = d_ptr->resolutions->value("aspectratio").toString();
+    QString resolution = d_ptr->resolutions->value("resolution").toString();
 
-    d_ptr->conf->endGroup();
+    d_ptr->resolutions->endGroup();
 
     resolutions << QtCamVideoResolution(id, name, capture, preview, viewfinder,
 					fps, nightFps, aspectRatio, resolution);

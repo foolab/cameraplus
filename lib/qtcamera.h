@@ -36,7 +36,6 @@ class QtCamera : public QObject {
 
 public:
   QtCamera(QObject *parent = 0);
-  QtCamera(const QString& configPath, QObject *parent = 0);
   QtCamera(QtCamConfig *config, QObject *parent = 0);
 
   ~QtCamera();

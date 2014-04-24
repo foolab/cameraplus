@@ -47,7 +47,6 @@ class QtCamConfig : public QObject {
 
 public:
   QtCamConfig(QObject *parent = 0);
-  QtCamConfig(const QString& configPath, QObject *parent = 0);
 
   virtual ~QtCamConfig();
 

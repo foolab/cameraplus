@@ -41,17 +41,6 @@ QtCamera::QtCamera(QObject *parent) :
   refreshDevices();
 }
 
-QtCamera::QtCamera(const QString& configPath, QObject *parent) :
-  QObject(parent), d_ptr(new QtCameraPrivate) {
-
-  gst_init(0, 0);
-
-  d_ptr->conf = new QtCamConfig(configPath, this);
-  d_ptr->scanner = new QtCamScanner(d_ptr->conf, this);
-
-  refreshDevices();
-}
-
 QtCamera::QtCamera(QtCamConfig *config, QObject *parent) :
   QObject(parent), d_ptr(new QtCameraPrivate) {
 

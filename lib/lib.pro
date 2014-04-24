@@ -10,9 +10,12 @@ QT += opengl
 CONFIG += link_pkgconfig
 
 harmattan:PKGCONFIG = gstreamer-0.10 gstreamer-interfaces-0.10 gstreamer-video-0.10 \
-                      gstreamer-tag-0.10 gstreamer-pbutils-0.10 meego-gstreamer-interfaces-0.10
+                      gstreamer-tag-0.10 gstreamer-pbutils-0.10 meego-gstreamer-interfaces-0.10 \
+                      QtSystemInfo
+
 sailfish:PKGCONFIG = gstreamer-1.0 gstreamer-video-1.0 gstreamer-tag-1.0 \
-                     gstreamer-pbutils-1.0 nemo-gstreamer-interfaces-1.0 nemo-gstreamer-meta-1.0
+                     gstreamer-pbutils-1.0 nemo-gstreamer-interfaces-1.0 nemo-gstreamer-meta-1.0 \
+                     Qt5SystemInfo
 
 sailfish:PKGCONFIG += Qt5OpenGLExtensions
 
