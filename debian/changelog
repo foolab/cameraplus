@@ -1,3 +1,12 @@
+cameraplus (0.0.16-1) unstable; urgency=medium
+
+  * Decrease the camera device switcher opacity when switching is not possible
+  * Hide all image mode controls when we tap the capture button
+  * Increase the height of the indicators rectangle so icons stay within the rectangle
+  * Fixed a problem that was causing ev comp bounds to be reported as 0 thus breaking the ev slider
+
+ -- Mohammed Sameer <msameer@foolab.org>  Thu, 24 Apr 2014 00:16:59 +0300
+
 cameraplus (0.0.15-1) unstable; urgency=medium
 
   * Updated some icons
