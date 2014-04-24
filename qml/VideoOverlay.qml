@@ -181,7 +181,7 @@ Item {
         anchors.left: parent.left
         anchors.leftMargin: 20
         width: 48
-        height: col.height
+        height: col.height + radius * 2
         color: "black"
         border.color: "gray"
         radius: 20
@@ -192,6 +192,7 @@ Item {
             id: col
             width: parent.width
             spacing: 5
+            anchors.centerIn: parent
 
             Indicator {
                 id: resolutionIndicator
