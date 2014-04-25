@@ -17,6 +17,7 @@ cameraplus.svg
 cameraplus.ai
 record-stop.svg
 switch-camera.svg
+icon-m-viewfinder-camera.svg
 
 The rest is based on icons from https://github.com/nemomobile/nemo-theme-default lgpl part
 
