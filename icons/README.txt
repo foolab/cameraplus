@@ -35,3 +35,4 @@ icon-m-camera-location.svg
 icon-m-camera-video-night-screen.svg
 torch-off.svg
 torch-on.svg
+icon-m-camera-location.svg
