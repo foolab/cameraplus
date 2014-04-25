@@ -201,3 +201,23 @@ bool ImageSettings::setResolution(const QtCamImageResolution& resolution) {
 
   return false;
 }
+
+QString ImageSettings::bestResolution(const QString& aspectRatio, const QString& resolution) {
+  if (!isReady()) {
+    return QString();
+  }
+
+  QList<QtCamImageResolution> res = m_settings->resolutions(aspectRatio);
+
+  foreach (const QtCamImageResolution& r, res) {
+    if (r.name() == resolution) {
+      return resolution;
+    }
+  }
+
+  if (!res.isEmpty()) {
+    return res[0].name();
+  }
+
+  return QString();
+}

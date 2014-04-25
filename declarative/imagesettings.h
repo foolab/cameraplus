@@ -65,6 +65,8 @@ public:
 
   Q_INVOKABLE bool setResolution(const QString& aspectRatio, const QString& resolution);
 
+  Q_INVOKABLE QString bestResolution(const QString& aspectRatio, const QString& resolution);
+
   int aspectRatioCount() const;
 
 signals:
