@@ -26,7 +26,6 @@ import CameraPlus 1.0
 
 // TODO: flash not ready (battery low or flash not ready message)
 // TODO: Sounds
-// TODO: N950 conf
 // TODO: portrait layout
 
 CameraPage {

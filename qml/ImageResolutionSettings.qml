@@ -55,6 +55,8 @@ Column {
                 onClicked: {
                     imageSettings.resolutions.aspectRatio = modelData
                     deviceSettings().imageAspectRatio = modelData
+                    deviceSettings().imageResolution = imageSettings.bestResolution(modelData, deviceSettings().imageResolution)
+                    imageSettings.setImageResolution()
                 }
             }
         }

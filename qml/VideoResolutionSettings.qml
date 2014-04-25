@@ -52,6 +52,7 @@ Column {
                 onClicked: {
                     deviceSettings().videoAspectRatio = resolutionAspectRatio
                     deviceSettings().videoResolution = resolutionName
+                    videoSettings.setVideoResolution()
                 }
             }
         }

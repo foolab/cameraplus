@@ -83,9 +83,5 @@ Item {
 
         onVideoTorchOnChanged: camera.videoTorch.on = settings.videoTorchOn
         onVideoMutedChanged: camera.videoMute.enabled = settings.videoMuted
-
-        onImageAspectRatioChanged: imageSettings.setImageResolution()
-        onImageResolutionChanged: imageSettings.setImageResolution()
-        onVideoResolutionChanged: videoSettings.setVideoResolution()
     }
 }
