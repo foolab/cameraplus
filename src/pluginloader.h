@@ -71,7 +71,9 @@ public:
   QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
   Q_INVOKABLE Plugin *get(const QString& id);
-  Q_INVOKABLE bool load();
+
+public slots:
+  void load();
 
 private:
   QList<Plugin *> m_items;

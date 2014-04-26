@@ -131,9 +131,9 @@ Plugin *PluginLoader::get(const QString& id) {
   return 0;
 }
 
-bool PluginLoader::load() {
+void PluginLoader::load() {
   if (!m_items.isEmpty()) {
-    return true;
+    return;
   }
 
   QDir dir(PLUGIN_PATH);
@@ -149,8 +149,6 @@ bool PluginLoader::load() {
       m_items << plugin;
     }
   }
-
-  return m_items.isEmpty() ? false : true;
 }
 
 #if defined(QT5)
