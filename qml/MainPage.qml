@@ -32,6 +32,11 @@ CameraPage {
 
     property bool inCaptureMode: mainView.currentIndex == 1
 
+    PluginLoader {
+        id: plugins
+        Component.onCompleted: load()
+    }
+
     CameraTheme {
         id: cameraTheme
     }

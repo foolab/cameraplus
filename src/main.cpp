@@ -64,6 +64,7 @@
 #include "proximity.h"
 #endif
 #include "devicesettings.h"
+#include "pluginloader.h"
 #include <MDeclarativeCache>
 
 #ifdef QMLJSDEBUGGER
@@ -166,6 +167,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<DeviceSettings>();
   qmlRegisterType<PrimaryDeviceSettings>("CameraPlus", 1, 0, "PrimaryDeviceSettings");
   qmlRegisterType<SecondaryDeviceSettings>("CameraPlus", 1, 0, "SecondaryDeviceSettings");
+  qmlRegisterType<PluginLoader>("CameraPlus", 1, 0, "PluginLoader");
 
   view->setSource(QUrl("qrc:/qml/main.qml"));
 
