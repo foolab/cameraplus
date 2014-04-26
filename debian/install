@@ -7,3 +7,4 @@ data/n9/cameraplus.ini usr/share/cameraplus/config/
 data/n9/image.gep usr/share/qtcamera/config/
 data/n9/video.gep usr/share/qtcamera/config/
 debian/cameraplus.png usr/share/themes/base/meegotouch/icons/
+sounds/*.wav usr/share/cameraplus/sounds/
