@@ -106,7 +106,8 @@ PostCaptureModel::PostCaptureModel(QObject *parent) :
 }
 
 PostCaptureModel::~PostCaptureModel() {
-
+  qDeleteAll(m_items);
+  m_items.clear();
 }
 
 QString PostCaptureModel::imagePath() const {
