@@ -52,5 +52,6 @@
 	<file>DeviceSettingsSetter.qml</file>
 	<file>ImageThumbnail.qml</file>
 	<file>DeviceSelector.qml</file>
+	<file>PluginSelector.qml</file>
     </qresource>
 </RCC>

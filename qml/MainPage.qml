@@ -344,86 +344,34 @@ CameraPage {
 
     MouseArea {
         anchors.fill: parent
-        enabled: pluginSelector.visible
+        enabled: pluginSelector.source != ""
         onClicked: pluginSelector.hide()
     }
 
-    Rectangle {
+    Loader {
         id: pluginSelector
+        property bool _show
         anchors.centerIn: parent
         width: parent.width - 40
         height: 200
-        opacity: 0
-        color: "black"
-        border.color: "gray"
-        radius: 20
-        visible: opacity > 0
+        opacity: _show ? 0.8 : 0
+
+        Behavior on opacity {
+            SequentialAnimation {
+                NumberAnimation { duration: 200; }
+                ScriptAction { script: if (!pluginSelector._show) { pluginSelector.source = "" } }
+            }
+        }
 
         function show() {
-            opacity = 0.8
+            _show = true
+            pluginSelector.source = Qt.resolvedUrl("PluginSelector.qml")
         }
 
         function hide() {
-            opacity = 0
+            _show = false
         }
 
-        Behavior on opacity {
-            NumberAnimation { duration: 200; }
-        }
-
-        ListView {
-            anchors.centerIn: parent
-            height: 150
-            width: Math.min(parent.width, (count - 1) * 100)
-            orientation: ListView.Horizontal
-            model: plugins
-            delegate: Rectangle {
-                property CameraButtonStyle platformStyle: CameraButtonStyle {}
-
-                anchors {
-                    top: parent.top
-                    topMargin: 20
-                    bottom: parent.bottom
-                    bottomMargin: 20
-                }
-
-                width: visible ? 100 : 0
-                color: mouse.pressed ? platformStyle.pressedColor : "transparent"
-                visible: plugin.uuid != activePlugin.uuid
-
-                MouseArea {
-                    id: mouse
-                    anchors.fill: parent
-                    onClicked: {
-                        settings.plugin = plugin.uuid
-                        pluginSelector.hide()
-                    }
-                }
-
-                Image {
-                    anchors {
-                        top: parent.top
-                        horizontalCenter: parent.horizontalCenter
-                    }
-
-                    source: plugin.icon
-                    width: parent.width - 20
-                    height: width
-                }
-
-                CameraLabel {
-                    width: parent.width - 20
-                    height: 60
-                    text: plugin.name
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    anchors {
-                        bottom: parent.bottom
-                        horizontalCenter: parent.horizontalCenter
-                    }
-                }
-            }
-        }
     }
 
     Standby {
