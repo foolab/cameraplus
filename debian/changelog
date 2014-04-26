@@ -1,3 +1,12 @@
+cameraplus (0.0.18-1) unstable; urgency=medium
+
+  * New camera sounds (from Android)
+  * Fixed a bug that caused recording not to stop if the battery reaches a critical level
+  * Fixed a potential crash in post capture
+  * Fixed a bug which caused the image resolution selected not to be applied until restart
+
+ -- Mohammed Sameer <msameer@debian.org>  Sat, 26 Apr 2014 15:30:04 +0300
+
 cameraplus (0.0.17-1) unstable; urgency=medium
 
   * Added 12MP for N950 running Harmattan
