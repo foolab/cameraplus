@@ -38,6 +38,7 @@
 #define DEFAULT_DEVICE                  0
 #define DEFAULT_ENABLE_PREVIEW          true
 #define DEFAULT_NIGHT_MODE              false
+#define DEFAULT_PLUGIN                  "org.foolab.cameraplus.image"
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -225,5 +226,16 @@ void Settings::setNightModeEnabled(bool enabled) {
   if (isNightModeEnabled() != enabled) {
     m_settings->setValue("camera/nightMode", enabled);
     emit nightModeChanged();
+  }
+}
+
+QString Settings::plugin() const {
+  return m_settings->value("camera/plugin", DEFAULT_PLUGIN).toString();
+}
+
+void Settings::setPlugin(const QString& plugin) {
+  if (Settings::plugin() != plugin) {
+    m_settings->setValue("camera/plugin", plugin);
+    emit pluginChanged();
   }
 }

@@ -45,6 +45,7 @@ class Settings : public QObject {
   Q_PROPERTY(int device READ device WRITE setDevice NOTIFY deviceChanged);
   Q_PROPERTY(bool enablePreview READ isPreviewEnabled WRITE setPreviewEnabled NOTIFY previewEnabledChanged);
   Q_PROPERTY(bool nightMode READ isNightModeEnabled WRITE setNightModeEnabled NOTIFY nightModeChanged);
+  Q_PROPERTY(QString plugin READ plugin WRITE setPlugin NOTIFY pluginChanged);
 
 public:
   Settings(QObject *parent = 0);
@@ -95,6 +96,9 @@ public:
   bool isNightModeEnabled() const;
   void setNightModeEnabled(bool enabled);
 
+  QString plugin() const;
+  void setPlugin(const QString& plugin);
+
   QVariant value(const QString& key, const QVariant& defaultValue) const;
   void setValue(const QString& key, const QVariant& value);
 
@@ -112,6 +116,7 @@ signals:
   void deviceChanged();
   void previewEnabledChanged();
   void nightModeChanged();
+  void pluginChanged();
 
 private:
   QSettings *m_settings;
