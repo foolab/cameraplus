@@ -31,7 +31,8 @@
 
 #define PLUGIN_PATH "/usr/share/cameraplus/modes/"
 
-Plugin::Plugin(const QDir& dir, const QString& fileName, QObject * parent) {
+Plugin::Plugin(const QDir& dir, const QString& fileName, QObject * parent) :
+  QObject(parent) {
   QSettings settings(dir.absoluteFilePath(fileName), QSettings::IniFormat);
   m_id = settings.value("mode/id").toString();
   m_name = settings.value("mode/name").toString();
