@@ -34,7 +34,6 @@
 
 static QHash<QString, QString> m_mime;
 
-
 PostCaptureModelItem::PostCaptureModelItem(const QString& path, QObject *parent) :
   QObject(parent),
   m_path(path) {
