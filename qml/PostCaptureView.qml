@@ -29,7 +29,7 @@ Item {
 
     property Camera camera: viewfinder.camera
     property bool pressed: view.currentItem ? view.currentItem.playing : false
-    property int policyMode: pressed ? CameraResources.Player : settings.mode == Camera.VideoMode ? CameraResources.Video : CameraResources.Image
+    property int policyMode: pressed ? CameraResources.Player : activePlugin.mode == Camera.VideoMode ? CameraResources.Video : CameraResources.Image
     property bool inhibitDim: pressed
 
     property bool toggleImageList: true

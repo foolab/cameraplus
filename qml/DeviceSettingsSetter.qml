@@ -55,7 +55,7 @@ Item {
     }
 
     function resetSceneMode() {
-        if (settings.mode == Camera.VideoMode) {
+        if (activePlugin.mode == Camera.VideoMode) {
             resetVideoSceneMode()
         } else {
             resetImageSceneMode()

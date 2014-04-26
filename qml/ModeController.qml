@@ -37,7 +37,7 @@ Rectangle {
         id: animation
 
         alwaysRunToEnd: true
-        running: cam.mode != settings.mode || cam.deviceId != settings.device
+        running: activePlugin.uuid != settings.plugin || cam.deviceId != settings.device
 
         PropertyAnimation {
             properties: "opacity"
@@ -58,7 +58,7 @@ Rectangle {
                                 restart = true
                         }
 
-                        root.resetCamera(settings.device, settings.mode)
+                        root.resetCamera(settings.device)
 
                         if (restart) {
                                 pipelineManager.startCamera()

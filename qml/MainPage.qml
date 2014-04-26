@@ -51,7 +51,7 @@ CameraPage {
 
             property bool pressed
             property bool inhibitDim
-            property int policyMode: settings.mode == Camera.VideoMode ? CameraResources.Video : CameraResources.Image
+            property int policyMode: activePlugin.mode == Camera.VideoMode ? CameraResources.Video : CameraResources.Image
             opacity: item ? 1.0 : 0
 
             Behavior on opacity {
@@ -69,7 +69,7 @@ CameraPage {
             id: postCaptureLoader
             property bool pressed: item ? item.pressed : false
             property bool inhibitDim: item ? item.inhibitDim : false
-            property int policyMode: item ? item.policyMode : settings.mode == Camera.VideoMode ? CameraResources.Video : CameraResources.Image
+            property int policyMode: item ? item.policyMode : activePlugin.mode == Camera.VideoMode ? CameraResources.Video : CameraResources.Image
 
             width: mainView.width
             height: mainView.height
@@ -106,7 +106,7 @@ CameraPage {
 
     Component.onCompleted: {
         platformSettings.init()
-        root.resetCamera(settings.device, settings.mode)
+        root.resetCamera(settings.device)
     }
 
     PlatformSettings {
@@ -158,14 +158,25 @@ CameraPage {
         return viewfinder.camera.deviceId == 0 ? primarySetter : secondarySetter
     }
 
-    function resetCamera(deviceId, mode) {
-        if (!viewfinder.camera.reset(deviceId, mode)) {
+    function resetCamera(deviceId) {
+        // load the plugin:
+        if (!activePlugin || !activePlugin.valid || activePlugin.uuid != settings.plugin) {
+            var newPlugin = plugins.get(settings.plugin)
+            if (!newPlugin || !newPlugin.valid) {
+                showError(qsTr("Failed to load required camera plugin. Please reinstall!"))
+                return false
+            }
+
+            activePlugin = newPlugin
+        }
+
+        if (!viewfinder.camera.reset(deviceId, activePlugin.mode)) {
             showError(qsTr("Failed to set camera device and mode. Please restart the application."))
             return false
         }
 
         var s = deviceSettings()
-        if (mode == Camera.ImageMode) {
+        if (activePlugin.mode == Camera.ImageMode) {
             viewfinder.camera.scene.value = s.imageSceneMode
             viewfinder.camera.flash.value = s.imageFlashMode
             viewfinder.camera.evComp.value = s.imageEvComp

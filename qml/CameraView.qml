@@ -141,7 +141,7 @@ Viewfinder {
 
     Loader {
         id: loader
-        property string src: cam.mode == Camera.VideoMode ? "VideoOverlay.qml" : "ImageOverlay.qml"
+        property string src: activePlugin.overlay
         anchors.fill: parent
         source: Qt.resolvedUrl(src)
     }

@@ -30,7 +30,7 @@ Item {
     Loader {
         id: loader
         anchors.fill: parent
-        source: settings.mode == Camera.VideoMode ? Qt.resolvedUrl("VideoModeSettings.qml") : Qt.resolvedUrl("ImageModeSettings.qml")
+        source: activePlugin.settings
     }
 
     Binding {
