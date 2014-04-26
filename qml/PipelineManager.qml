@@ -60,6 +60,9 @@ Item {
     function startCamera() {
         if (error) {
             return
+        } else if (!activePlugin) {
+            showError("Failed to load required camera plugin. Please reinstall!")
+            return
         } else if ((currentPolicyMode == currentItem.policyMode) && camera.running) {
             return
         } else if (!policy.acquire(currentItem.policyMode)) {
