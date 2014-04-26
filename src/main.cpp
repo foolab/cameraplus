@@ -168,6 +168,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<PrimaryDeviceSettings>("CameraPlus", 1, 0, "PrimaryDeviceSettings");
   qmlRegisterType<SecondaryDeviceSettings>("CameraPlus", 1, 0, "SecondaryDeviceSettings");
   qmlRegisterType<PluginLoader>("CameraPlus", 1, 0, "PluginLoader");
+  qmlRegisterType<Plugin>("CameraPlus", 1, 0, "Plugin");
 
   view->setSource(QUrl("qrc:/qml/main.qml"));
 

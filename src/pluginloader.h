@@ -28,6 +28,8 @@ class QDir;
 
 class Plugin : public QObject {
   Q_OBJECT
+  Q_PROPERTY(bool valid READ isValid CONSTANT);
+  Q_PROPERTY(QString uuid READ uuid CONSTANT);
   Q_PROPERTY(QString name READ name CONSTANT);
   Q_PROPERTY(QUrl icon READ icon CONSTANT);
   Q_PROPERTY(QUrl overlay READ overlay CONSTANT);
@@ -36,11 +38,11 @@ class Plugin : public QObject {
 
 public:
   Plugin(const QDir& dir, const QString& fileName, QObject * parent = 0);
+  Plugin(QObject * parent = 0);
   ~Plugin();
 
-  bool isValid();
-
-  QString id() const;
+  bool isValid() const;
+  QString uuid() const;
   QString name() const;
   QUrl icon() const;
   QUrl overlay() const;
@@ -48,7 +50,7 @@ public:
   int mode() const;
 
 private:
-  QString m_id;
+  QString m_uuid;
   QString m_name;
   QUrl m_icon;
   QUrl m_overlay;
@@ -70,12 +72,11 @@ public:
   int rowCount(const QModelIndex& parent = QModelIndex()) const;
   QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
-  Q_INVOKABLE Plugin *get(const QString& id);
-
-public slots:
-  void load();
+  Q_INVOKABLE Plugin *get(const QString& uuid);
 
 private:
+  void load();
+
   QList<Plugin *> m_items;
 
 #if defined(QT5)

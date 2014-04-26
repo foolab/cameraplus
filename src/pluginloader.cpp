@@ -34,7 +34,7 @@
 Plugin::Plugin(const QDir& dir, const QString& fileName, QObject * parent) :
   QObject(parent) {
   QSettings settings(dir.absoluteFilePath(fileName), QSettings::IniFormat);
-  m_id = settings.value("mode/id").toString();
+  m_uuid = settings.value("mode/uuid").toString();
   m_name = settings.value("mode/name").toString();
   m_icon = settings.value("mode/icon").toUrl();
   m_overlay = settings.value("mode/overlay").toUrl();
@@ -42,12 +42,18 @@ Plugin::Plugin(const QDir& dir, const QString& fileName, QObject * parent) :
   m_mode = settings.value("mode/mode").toInt();
 }
 
+Plugin::Plugin(QObject * parent) :
+  QObject(parent),
+  m_mode(0) {
+
+}
+
 Plugin::~Plugin() {
 
 }
 
-bool Plugin::isValid() {
-  return !m_id.isEmpty() &&
+bool Plugin::isValid() const {
+  return !m_uuid.isEmpty() &&
     !m_name.isEmpty() &&
     m_icon.isValid() &&
     m_overlay.isValid() &&
@@ -55,8 +61,8 @@ bool Plugin::isValid() {
     (m_mode == 1 || m_mode == 2);
 }
 
-QString Plugin::id() const {
-  return m_id;
+QString Plugin::uuid() const {
+  return m_uuid;
 }
 
 QString Plugin::name() const {
@@ -86,6 +92,8 @@ PluginLoader::PluginLoader(QObject *parent) :
   roles[PluginRole] = "plugin";
 
   setRoleNames(roles);
+
+  load();
 }
 
 PluginLoader::~PluginLoader() {
@@ -117,14 +125,15 @@ QVariant PluginLoader::data(const QModelIndex& index, int role) const {
   return QVariant();
 }
 
-Plugin *PluginLoader::get(const QString& id) {
+Plugin *PluginLoader::get(const QString& uuid) {
   foreach (Plugin *plugin, m_items) {
-    if (plugin->id() == id) {
+    if (plugin->uuid() == uuid) {
 #if defined(QT5)
       QQmlEngine::setObjectOwnership(plugin, QQmlEngine::CppOwnership);
 #else
       QDeclarativeEngine::setObjectOwnership(plugin, QDeclarativeEngine::CppOwnership);
 #endif
+      return plugin;
     }
   }
 
@@ -132,16 +141,13 @@ Plugin *PluginLoader::get(const QString& id) {
 }
 
 void PluginLoader::load() {
-  if (!m_items.isEmpty()) {
-    return;
-  }
-
   QDir dir(PLUGIN_PATH);
 
   QStringList entries = dir.entryList(QStringList() << "*.ini");
 
   foreach (const QString& entry, entries) {
     Plugin *plugin = new Plugin(dir, entry, this);
+
     if (!plugin->isValid()) {
       delete plugin;
     }
