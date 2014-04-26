@@ -26,8 +26,10 @@
 #include <dirent.h>
 #if defined(QT4)
 #include <QDeclarativeInfo>
+#include <QDeclarativeEngine>
 #elif defined(QT5)
 #include <QQmlInfo>
+#include <QQmlEngine>
 #endif
 
 static QHash<QString, QString> m_mime;
@@ -230,6 +232,13 @@ int PostCaptureModel::rowCount(const QModelIndex& parent) const {
 QVariant PostCaptureModel::data(const QModelIndex& index, int role) const {
   if (role == MediaRole && index.row() < m_items.size()) {
     QObject *o = m_items[index.row()];
+
+#if defined(QT5)
+    QQmlEngine::setObjectOwnership(o, QQmlEngine::CppOwnership);
+#else
+    QDeclarativeEngine::setObjectOwnership(o, QDeclarativeEngine::CppOwnership);
+#endif
+
     return QVariant::fromValue<QObject *>(o);
   }
 
