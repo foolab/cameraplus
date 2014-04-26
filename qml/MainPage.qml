@@ -201,6 +201,7 @@ CameraPage {
 
     function showError(msg) {
         error.text = msg
+        console.log("Error: " + msg);
         error.show()
     }
 
