@@ -83,7 +83,10 @@ Column {
                 capitalize: true
                 text: qsTr("%1 %2 Mpx").arg(resolutionName).arg(megaPixels)
                 checked: deviceSettings().imageResolution == resolutionName
-                onClicked: deviceSettings().imageResolution = resolutionName
+                onClicked: {
+                    deviceSettings().imageResolution = resolutionName
+                    imageSettings.setImageResolution()
+                }
             }
         }
     }
