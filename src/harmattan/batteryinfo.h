@@ -33,7 +33,7 @@ class BatteryInfo : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(bool charging READ isCharging NOTIFY chargingChanged);
-  Q_PROPERTY(bool critical READ isCritical NOTIFY criticalChanged);
+  Q_PROPERTY(bool critical READ isCritical NOTIFY chargingChanged);
   Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged);
 
 public:
@@ -48,7 +48,6 @@ public:
 
 signals:
   void chargingChanged();
-  void criticalChanged();
   void activeChanged();
 
 private:
