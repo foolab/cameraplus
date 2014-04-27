@@ -55,5 +55,6 @@
 	<file>PluginSelector.qml</file>
 	<file>ImageModeIndicators.qml</file>
 	<file>ImageModeToolBar.qml</file>
+	<file>ImageTimerOverlay.qml</file>
     </qresource>
 </RCC>
