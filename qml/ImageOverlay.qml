@@ -118,61 +118,10 @@ Item {
         visible: controlsVisible && !captureControl.capturing
     }
 
-    CameraToolBar {
+    ImageModeToolBar {
         id: toolBar
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 20
-        anchors.left: parent.left
-        anchors.leftMargin: 20
-        opacity: 0.5
-        targetWidth: parent.width - (anchors.leftMargin * 2)
+        selectedLabel: selectedLabel
         visible: controlsVisible && !captureControl.capturing
-        expanded: settings.showToolBar
-        onExpandedChanged: settings.showToolBar = expanded
-        tools: CameraToolBarTools {
-            CameraToolIcon {
-                iconSource: cameraTheme.flashIcon(deviceSettings().imageFlashMode)
-                onClicked: toolBar.push(Qt.resolvedUrl("FlashButton.qml"), {"selectedLabel": selectedLabel})
-                visible: overlay.cam ? !overlay.cam.quirks.hasQuirk(Quirks.NoFlash) : false
-            }
-
-            CameraToolIcon {
-                iconSource: cameraTheme.imageSceneModeIcon(deviceSettings().imageSceneMode)
-                onClicked: toolBar.push(Qt.resolvedUrl("ImageSceneButton.qml"), {"selectedLabel": selectedLabel})
-            }
-
-            CameraToolIcon {
-                iconSource: deviceSettings().imageEvComp == 0 ? cameraTheme.cameraManualExposureIconId : ""
-                onClicked: toolBar.push(Qt.resolvedUrl("ImageEvCompButton.qml"))
-
-                CameraLabel {
-                    anchors.fill: parent
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignHCenter
-                    visible: deviceSettings().imageEvComp != 0
-                    text: deviceSettings().imageEvComp == 0 ? "" : deviceSettings().imageEvComp.toFixed(1)
-                }
-            }
-
-            CameraToolIcon {
-                iconSource: cameraTheme.whiteBalanceIcon(deviceSettings().imageWhiteBalance)
-                onClicked: toolBar.push(Qt.resolvedUrl("ImageWhiteBalanceButton.qml"), {"selectedLabel": selectedLabel})
-            }
-
-            CameraToolIcon {
-                iconSource: cameraTheme.colorFilterIcon(deviceSettings().imageColorFilter)
-                onClicked: toolBar.push(Qt.resolvedUrl("ImageColorFilterButton.qml"), {"selectedLabel": selectedLabel})
-            }
-
-            CameraToolIcon {
-                iconSource: cameraTheme.isoIcon(deviceSettings().imageIso)
-                onClicked: toolBar.push(Qt.resolvedUrl("ImageIsoButton.qml"))
-            }
-
-            DeviceSelector {
-                enabled: camera.idle
-            }
-        }
     }
 
     ImageModeIndicators {

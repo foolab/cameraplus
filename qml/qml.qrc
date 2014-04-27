@@ -54,5 +54,6 @@
 	<file>DeviceSelector.qml</file>
 	<file>PluginSelector.qml</file>
 	<file>ImageModeIndicators.qml</file>
+	<file>ImageModeToolBar.qml</file>
     </qresource>
 </RCC>
