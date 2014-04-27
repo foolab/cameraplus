@@ -31,5 +31,10 @@ CameraToolIcon {
     border.color: platformStyle.borderColor
     border.width: 1
     radius: width / 3
-    opacity: 1.0
+    anchors.right: parent.right
+    anchors.rightMargin: 20
+    anchors.verticalCenter: parent.verticalCenter
+    width: 100
+    height: 100
+    opacity: 0.5
 }

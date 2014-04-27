@@ -69,6 +69,9 @@ CameraSlider {
     value: camera ? camera.zoom.value : 0
     minimumValue: camera ? camera.zoom.minimum : 0
     maximumValue: camera ? camera.zoom.maximum : 0
+    anchors.top: parent.top
+    anchors.topMargin: 0
+    anchors.horizontalCenter: parent.horizontalCenter
 
     state: "hidden"
     states: [

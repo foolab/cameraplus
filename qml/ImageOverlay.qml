@@ -55,9 +55,6 @@ Item {
     ZoomSlider {
         id: zoomSlider
         camera: cam
-        anchors.top: parent.top
-        anchors.topMargin: 0
-        anchors.horizontalCenter: parent.horizontalCenter
         visible: controlsVisible && !captureControl.capturing
     }
 
@@ -71,13 +68,7 @@ Item {
 
     CaptureButton {
         id: capture
-        anchors.right: parent.right
-        anchors.rightMargin: 20
-        anchors.verticalCenter: parent.verticalCenter
         iconSource: cameraTheme.captureButtonImageIconId
-        width: 100
-        height: 100
-        opacity: 0.5
         visible: controlsVisible
 
         onExited: {
