@@ -26,6 +26,9 @@ import CameraPlus 1.0
 
 // TODO: flash not ready (battery low or flash not ready message)
 // TODO: portrait layout
+// TODO: stock camera ends up using our sounds
+// TODO: we need a sound for focus failed
+// TODO: we need to play focus acquired sound even if caf has focus
 
 CameraPage {
     id: root

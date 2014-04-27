@@ -24,9 +24,9 @@ import QtQuick 2.0
 import QtCamera 1.0
 import CameraPlus 1.0
 
-// TODO: stop timer when camera stops
 // TODO: icons
 // TODO: show count down label
+// TODO: capture; cancel; capture again does not work.
 
 Item {
     id: overlay
