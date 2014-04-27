@@ -172,6 +172,15 @@ Item {
         visible: controlsVisible && !captureControl.capturing
     }
 
+    Connections {
+        target: rootWindow
+        onActiveChanged: {
+            if (!rootWindow.active && captureTimer.running) {
+                overlay.policyLost()
+            }
+        }
+    }
+
     function cameraError() {
         mountProtector.unlock(platformSettings.imagePath)
         policyLost()
