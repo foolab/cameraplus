@@ -189,6 +189,7 @@ Item {
     function policyLost() {
         captureTimer.stop()
         stopAutoFocus()
+        mountProtector.unlock(platformSettings.imagePath)
     }
 
     function batteryLow() {
