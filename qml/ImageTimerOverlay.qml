@@ -34,7 +34,7 @@ Item {
     property Camera cam
     property bool animationRunning: false
     property int policyMode: CameraResources.Image
-    property bool pressed: capture.pressed || zoomSlider.pressed || modeButton.pressed
+    property bool pressed: capture.pressed || zoomSlider.pressed || modeButton.pressed || captureTimer.running
     property bool controlsVisible: imageMode.canCapture && cam.running && !animationRunning
         && !modeController.busy && !captureTimer.running
     property bool inhibitDim: captureTimer.running
