@@ -25,23 +25,9 @@ import QtQuick 2.0
 Rectangle {
     id: pluginSelector
     anchors.fill: parent
-//    opacity: 0
     color: "black"
     border.color: "gray"
     radius: 20
-//    visible: opacity > 0
-
-    function show() {
-        opacity = 0.8
-    }
-
-    function hide() {
-        opacity = 0
-    }
-
-    Behavior on opacity {
-        NumberAnimation { duration: 200; }
-    }
 
     ListView {
         anchors.centerIn: parent
@@ -68,7 +54,7 @@ Rectangle {
                 anchors.fill: parent
                 onClicked: {
                     settings.plugin = plugin.uuid
-                    pluginSelector.hide()
+                    pluginSelector.parent.hide()
                 }
             }
 
