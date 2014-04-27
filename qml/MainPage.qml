@@ -353,7 +353,7 @@ CameraPage {
         property bool _show
         anchors.centerIn: parent
         width: parent.width - 40
-        height: 200
+        height: 150
         opacity: _show ? 0.8 : 0
 
         Behavior on opacity {
