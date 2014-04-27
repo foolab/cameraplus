@@ -73,7 +73,7 @@ Item {
     CaptureButton {
         id: capture
         iconSource: cameraTheme.captureButtonImageIconId
-        visible: controlsVisible || true
+        visible: controlsVisible
 
         onExited: {
             if (mouseX <= 0 || mouseY <= 0 || mouseX > width || mouseY > height) {
@@ -132,6 +132,12 @@ Item {
         onPressed: captureControl.canceled = true
     }
 
+    CaptureCancel {
+        anchors.fill: parent
+        enabled: captureTimer.running
+        onPressed: policyLost()
+    }
+
     CameraSlider {
         id: delay
         anchors.bottom: toolBar.top
@@ -168,10 +174,12 @@ Item {
 
     function cameraError() {
         mountProtector.unlock(platformSettings.imagePath)
+        policyLost()
     }
 
     function policyLost() {
-        // Nothing
+        captureTimer.stop()
+        stopAutoFocus()
     }
 
     function batteryLow() {
