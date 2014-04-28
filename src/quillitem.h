@@ -40,6 +40,7 @@ class QuillItem : public QDeclarativeItem {
   Q_OBJECT
 
   Q_PROPERTY(bool error READ error NOTIFY errorChanged);
+  Q_ENUMS(PreviewLevel)
 
 public:
 #if defined(QT4)
@@ -48,6 +49,12 @@ public:
   QuillItem(QQuickItem *parent = 0);
 #endif
   ~QuillItem();
+
+  typedef enum {
+    PreviewThumbnail = 0,
+    PreviewFullScreen,
+    PreviewLarge,
+  } PreviewLevel;
 
 #if defined(QT4)
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
