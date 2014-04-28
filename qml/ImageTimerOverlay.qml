@@ -24,7 +24,6 @@ import QtQuick 2.0
 import QtCamera 1.0
 import CameraPlus 1.0
 
-// TODO: show count down label
 // TODO: save delay value
 
 Item {
@@ -59,6 +58,32 @@ Item {
         id: zoomSlider
         camera: cam
         visible: controlsVisible && !captureControl.capturing
+    }
+
+    CameraLabel {
+        id: countDown
+        property int value
+
+        anchors.centerIn: parent
+        visible: captureTimer.running
+        text: value
+        color: "white"
+        styleColor: "black"
+        style: Text.Outline
+        font.pixelSize: 36
+
+        onVisibleChanged: {
+            if (visible) {
+                countDown.value = delay.value
+            }
+        }
+
+        Timer {
+            interval: 1000
+            running: captureTimer.running
+            onTriggered: countDown.value--
+            repeat: true
+        }
     }
 
     ModeButton {
@@ -182,7 +207,6 @@ Item {
     }
 
     function cameraError() {
-        mountProtector.unlock(platformSettings.imagePath)
         policyLost()
     }
 
