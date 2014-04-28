@@ -25,7 +25,7 @@ import QtCamera 1.0
 import CameraPlus 1.0
 
 // TODO: show count down label
-// TODO: capture; cancel; capture again does not work.
+// TODO: save delay value
 
 Item {
     id: overlay
@@ -122,19 +122,13 @@ Item {
         proximityClosed: proximitySensor.sensorClosed
         onStartCapture: captureImage()
         onCancelCapture: stopAutoFocus()
-        enable: inCaptureView && !captureTimer.running
+        enable: inCaptureView
     }
 
     CaptureCancel {
         anchors.fill: parent
         enabled: captureControl.showCancelBanner
         onPressed: captureControl.canceled = true
-    }
-
-    CaptureCancel {
-        anchors.fill: parent
-        enabled: captureTimer.running
-        onPressed: policyLost()
     }
 
     CameraSlider {
@@ -178,6 +172,12 @@ Item {
                 overlay.policyLost()
             }
         }
+    }
+
+    CaptureCancel {
+            anchors.fill: parent
+            enabled: captureTimer.running
+            onClicked: policyLost()
     }
 
     function cameraError() {
