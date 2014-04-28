@@ -165,8 +165,13 @@ CameraPage {
         if (!activePlugin || !activePlugin.valid || activePlugin.uuid != settings.plugin) {
             var newPlugin = plugins.get(settings.plugin)
             if (!newPlugin || !newPlugin.valid) {
-                showError(qsTr("Failed to load required camera plugin. Please reinstall!"))
-                return false
+                // We failed. Try to load the image plugin.
+                settings.plugin = "org.foolab.cameraplus.image"
+                newPlugin = plugins.get("org.foolab.cameraplus.image")
+                if (!newPlugin || !newPlugin.valid) {
+                    showError(qsTr("Failed to load required camera plugin. Please reinstall!"))
+                    return false
+                }
             }
 
             activePlugin = newPlugin
