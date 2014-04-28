@@ -27,7 +27,6 @@
 #elif defined(QT5)
 #include <QQmlInfo>
 #endif
-#include "quillitem.h"
 
 #define PATH "/usr/share/cameraplus/config/cameraplus.ini"
 
@@ -40,7 +39,6 @@
 #define THUMBNAIL_CREATION_ENABLED               true
 #define DBUS_THUMBNAILING_ENABLED                true
 #define BACKGROUND_RENDERING_COLOR               QColor(Qt::black)
-#define MAX_TEXTURE_SIZE                         QSize(2048, 2048)
 
 #ifdef HARMATTAN
 #define IMAGE_PATH QString("%1%2MyDocs%2DCIM%2").arg(QDir::homePath()).arg(QDir::separator())
@@ -102,24 +100,18 @@ QString PlatformSettings::temporaryFilePath() {
 }
 
 void PlatformSettings::init() {
-  Quill::setPreviewLevelCount(3);
-
-  /* full screen preview */
+  Quill::setPreviewLevelCount(2);
   QSize size = previewSize();
   int len = qMax(size.width(), size.height());
 
-  Quill::setThumbnailFlavorName(QuillItem::PreviewFullScreen, previewFlavorName());
-  Quill::setPreviewSize(QuillItem::PreviewFullScreen, QSize(len, len));
+  Quill::setThumbnailFlavorName(0, previewFlavorName());
+  Quill::setPreviewSize(0, QSize(len, len));
 
-  /* cropped preview thumbnail */
   size = gridSize();
   len = qMax(size.width(), size.height());
-  Quill::setThumbnailFlavorName(QuillItem::PreviewThumbnail, gridFlavorName());
-  Quill::setPreviewSize(QuillItem::PreviewThumbnail, QSize(len, len));
-  Quill::setMinimumPreviewSize(QuillItem::PreviewThumbnail, QSize(len, len));
-
-  // no flavor name because we on't want caching.
-  Quill::setPreviewSize(QuillItem::PreviewLarge, MAX_TEXTURE_SIZE);
+  Quill::setThumbnailFlavorName(1, gridFlavorName());
+  Quill::setPreviewSize(1, QSize(len, len));
+  Quill::setMinimumPreviewSize(1, QSize(len, len));
 
   Quill::setThumbnailExtension(thumbnailExtension());
   Quill::setBackgroundRenderingColor(backgroundRenderingColor());
