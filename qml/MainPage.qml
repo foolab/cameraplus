@@ -29,7 +29,6 @@ import CameraPlus 1.0
 // TODO: we need a sound for focus failed
 // TODO: we need to play focus acquired sound even if caf has focus
 // TODO: indicators are pixelated. Regenerate all our icons with proper sizes
-// TODO: zooming in post capture distorts images
 // TODO: post capture cannot play videos which don't use HW accelerated codecs.
 
 CameraPage {
