@@ -39,7 +39,6 @@ Flickable {
     Component.onCompleted: {
         fileName = media.fileName
         url = media.url
-        load()
     }
 
     function load() {
@@ -50,16 +49,15 @@ Flickable {
         deleteAnimation.start()
     }
 
-    ImageThumbnail {
+    QuillItem {
         id: image
-        displayLevel: QuillItem.DisplayLevelFullScreen
-
         property bool busy: deleteAnimation.running
 
         anchors.centerIn: parent
         width: Math.max(flick.width, flick.contentWidth)
         height: Math.max(flick.height, flick.contentHeight)
 
+        Component.onCompleted: initialize(media.url, media.mimeType, QuillItem.DisplayLevelFullScreen)
         function resetZoom() {
             flick.resizeContent(postCaptureView.width, postCaptureView.height,
                 Qt.point(postCaptureView.width / 2, postCaptureView.height / 2))
@@ -69,7 +67,6 @@ Flickable {
 
         function load(media) {
             resetZoom()
-            initialize(media.url, media.mimeType, image.displayLevel)
         }
 
         function unload() {

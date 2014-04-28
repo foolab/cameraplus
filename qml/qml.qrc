@@ -50,7 +50,6 @@
 	<file>ZoomSlider.qml</file>
 	<file>CaptureControl.qml</file>
 	<file>DeviceSettingsSetter.qml</file>
-	<file>ImageThumbnail.qml</file>
 	<file>DeviceSelector.qml</file>
 	<file>PluginSelector.qml</file>
 	<file>ImageModeIndicators.qml</file>

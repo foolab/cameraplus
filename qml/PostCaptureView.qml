@@ -114,14 +114,12 @@ Item {
                 }
             }
 
-            ImageThumbnail {
+            QuillItem {
                 id: thumbnail
                 width: 116
                 height: 116
                 anchors.centerIn: parent
-                source: media.url
-                mimeType: media.mimeType
-                displayLevel: QuillItem.DisplayLevelCropped
+                Component.onCompleted: initialize(media.url, media.mimeType, QuillItem.DisplayLevelCropped)
             }
         }
     }
