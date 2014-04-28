@@ -136,6 +136,7 @@ Item {
         anchors.bottom: toolBar.top
         anchors.horizontalCenter: toolBar.horizontalCenter
         visible: controlsVisible && !captureControl.capturing && !selectedLabel.visible
+        width: 500
         opacity: 0.8
         minimumValue: 1
         maximumValue: 20
