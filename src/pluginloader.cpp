@@ -101,6 +101,10 @@ PluginLoader::~PluginLoader() {
   m_items.clear();
 }
 
+int PluginLoader::count() const {
+  return rowCount(QModelIndex());
+}
+
 int PluginLoader::rowCount(const QModelIndex& parent) const {
   if (!parent.isValid()) {
     return m_items.size();
@@ -138,6 +142,22 @@ Plugin *PluginLoader::get(const QString& uuid) {
   }
 
   return 0;
+}
+
+Plugin *PluginLoader::at(int pos) {
+  if (pos >= m_items.size()) {
+    return 0;
+  }
+
+  Plugin *plugin = m_items.at(pos);
+
+#if defined(QT5)
+      QQmlEngine::setObjectOwnership(plugin, QQmlEngine::CppOwnership);
+#else
+      QDeclarativeEngine::setObjectOwnership(plugin, QDeclarativeEngine::CppOwnership);
+#endif
+
+      return plugin;
 }
 
 void PluginLoader::load() {

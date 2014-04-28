@@ -39,6 +39,19 @@ CameraToolIcon {
     iconSource: activePlugin && activePlugin.mode == Camera.VideoMode ? cameraTheme.cameraImageIconId : cameraTheme.cameraVideoIconId
 
     onClicked: {
-        pluginSelector.show()
+        if (plugins.count <= 1) {
+            return;
+        } else if (plugins.count == 2) {
+            // just switch
+            var plugin = plugins.at(0)
+            if (plugin.uuid != settings.plugin) {
+                settings.plugin = plugin.uuid;
+            } else {
+                plugin = plugins.at(1)
+                settings.plugin = plugin.uuid;
+            }
+        } else {
+            pluginSelector.show()
+        }
     }
 }

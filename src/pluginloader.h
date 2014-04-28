@@ -60,6 +60,7 @@ private:
 
 class PluginLoader : public QAbstractListModel {
   Q_OBJECT
+  Q_PROPERTY(int count READ count CONSTANT);
 
 public:
   PluginLoader(QObject * parent = 0);
@@ -72,7 +73,10 @@ public:
   int rowCount(const QModelIndex& parent = QModelIndex()) const;
   QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
+  int count() const;
+
   Q_INVOKABLE Plugin *get(const QString& uuid);
+  Q_INVOKABLE Plugin *at(int pos);
 
 private:
   void load();
