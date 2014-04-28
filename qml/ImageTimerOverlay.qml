@@ -24,8 +24,6 @@ import QtQuick 2.0
 import QtCamera 1.0
 import CameraPlus 1.0
 
-// TODO: save delay value
-
 Item {
     id: overlay
 
@@ -166,6 +164,12 @@ Item {
         minimumValue: 1
         maximumValue: 20
         stepSize: 1
+        value: settings.captureTimerDelay
+        onValueChanged: {
+            if (pressed) {
+                settings.captureTimerDelay = value
+            }
+        }
         valueIndicatorVisible: true
         valueIndicatorText: formatValue(value)
         function formatValue(value) {
