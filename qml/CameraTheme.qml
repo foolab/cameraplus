@@ -83,6 +83,7 @@ QtObject {
     property string iso800IconId: "qrc:/images/cameraplus-icon-m-camera-iso-800.png"
     property string resetIconId: "qrc:/images/cameraplus-icon-m-settings-reset.png"
     property string switchCameraIconId: "qrc:/images/cameraplus-icon-m-camera-switch.png"
+    property string selfTimerIconId: "qrc:/images/cameraplus-icon-m-camera-self-timer.png"
 
     function videoIcon(ratio, res, device) {
         return "qrc:/images/cameraplus-icon-m-camera-video-"+ res + "-resolution.png"

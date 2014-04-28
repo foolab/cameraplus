@@ -9,7 +9,7 @@ filter-solarize.svg
 filter-vivid.svg
 filter-sepia.svg
 filter-none.svg
-
+icon-m-camera-self-timer.svg based on icon-m-camera-postcapture-view-5sec.svg
 
 by mcbook:
 settings.svg

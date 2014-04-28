@@ -24,7 +24,6 @@ import QtQuick 2.0
 import QtCamera 1.0
 import CameraPlus 1.0
 
-// TODO: icons
 // TODO: show count down label
 // TODO: capture; cancel; capture again does not work.
 
@@ -72,7 +71,7 @@ Item {
 
     CaptureButton {
         id: capture
-        iconSource: cameraTheme.captureButtonImageIconId
+        iconSource: cameraTheme.selfTimerIconId
         visible: controlsVisible
 
         onExited: {
