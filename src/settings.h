@@ -46,6 +46,7 @@ class Settings : public QObject {
   Q_PROPERTY(bool enablePreview READ isPreviewEnabled WRITE setPreviewEnabled NOTIFY previewEnabledChanged);
   Q_PROPERTY(bool nightMode READ isNightModeEnabled WRITE setNightModeEnabled NOTIFY nightModeChanged);
   Q_PROPERTY(QString plugin READ plugin WRITE setPlugin NOTIFY pluginChanged);
+  Q_PROPERTY(int captureTimerDelay READ captureTimerDelay WRITE setCaptureTimerDelay NOTIFY captureTimerDelayChanged);
 
 public:
   Settings(QObject *parent = 0);
@@ -99,6 +100,9 @@ public:
   QString plugin() const;
   void setPlugin(const QString& plugin);
 
+  int captureTimerDelay() const;
+  void setCaptureTimerDelay(int delay);
+
   QVariant value(const QString& key, const QVariant& defaultValue) const;
   void setValue(const QString& key, const QVariant& value);
 
@@ -117,6 +121,7 @@ signals:
   void previewEnabledChanged();
   void nightModeChanged();
   void pluginChanged();
+  void captureTimerDelayChanged();
 
 private:
   QSettings *m_settings;

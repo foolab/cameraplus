@@ -39,6 +39,7 @@
 #define DEFAULT_ENABLE_PREVIEW          true
 #define DEFAULT_NIGHT_MODE              false
 #define DEFAULT_PLUGIN                  "org.foolab.cameraplus.image"
+#define DEFAULT_CAPTURE_TIMER_DELAY     5
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -237,5 +238,16 @@ void Settings::setPlugin(const QString& plugin) {
   if (Settings::plugin() != plugin) {
     m_settings->setValue("camera/plugin", plugin);
     emit pluginChanged();
+  }
+}
+
+int Settings::captureTimerDelay() const {
+  return m_settings->value("captureTimer/delay", DEFAULT_CAPTURE_TIMER_DELAY).toInt();
+}
+
+void Settings::setCaptureTimerDelay(int delay) {
+  if (delay != captureTimerDelay()) {
+    m_settings->setValue("captureTimer/delay", delay);
+    emit captureTimerDelayChanged();
   }
 }
