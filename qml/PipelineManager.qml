@@ -106,7 +106,7 @@ Item {
         },
         State {
             name: "off"
-            when: (!rootWindow.active && camera.idle) || (currentItem && currentItem.policyMode == CameraResources.None && camera.idle) || !displayOn
+            when: (!rootWindow.active && camera.idle) || (currentItem && currentItem.policyMode == CameraResources.None && camera.idle) || (!displayOn && camera.idle)
         },
         State {
             name: "policyLost"
