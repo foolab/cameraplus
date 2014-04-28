@@ -31,11 +31,12 @@
 #include <QQmlInfo>
 #endif
 
-#define CAMERA_IMAGE_START_SOUND_ID  "camera-image-start"
-#define CAMERA_IMAGE_END_SOUND_ID    "camera-image-end"
-#define CAMERA_VIDEO_START_SOUND_ID  "camera-video-start"
-#define CAMERA_VIDEO_STOP_SOUND_ID   "camera-video-stop"
-#define CAMERA_FOCUS_SOUND_ID        "camera-focus"
+#define CAMERA_IMAGE_START_SOUND_ID  "cameraplus-image-start"
+#define CAMERA_IMAGE_END_SOUND_ID    "cameraplus-image-end"
+#define CAMERA_VIDEO_START_SOUND_ID  "cameraplus-video-start"
+#define CAMERA_VIDEO_STOP_SOUND_ID   "cameraplus-video-stop"
+#define CAMERA_FOCUS_SOUND_ID        "cameraplus-focus"
+#define MEDIA_ROLE "camera-sound-effect"
 
 // Odd, volume has to be a char *
 #define CANBERRA_FULL_VOLUME         "0.0"
@@ -154,7 +155,7 @@ void Sounds::reload() {
   }
 
   code = ca_context_change_props(m_ctx,
-				 CA_PROP_MEDIA_ROLE, "camera-sound-effect",
+				 CA_PROP_MEDIA_ROLE, MEDIA_ROLE,
 				 NULL);
   if (code != CA_SUCCESS) {
     qWarning() << "Failed to set context properties" << ca_strerror(code) << code;
@@ -202,7 +203,7 @@ void Sounds::play(const char *id) {
   int code = ca_context_play(m_ctx, 0,
 			     CA_PROP_CANBERRA_VOLUME, volume,
 			     CA_PROP_EVENT_ID, id,
-			     CA_PROP_MEDIA_ROLE, "camera-sound-effect",
+			     CA_PROP_MEDIA_ROLE, MEDIA_ROLE,
 			     NULL);
   if (code != CA_SUCCESS) {
     qmlInfo(this) << "Failed to play sound" << ca_strerror(code) << code;
@@ -231,7 +232,7 @@ void Sounds::playAndBlock(const char *id) {
 
   ca_proplist_sets(p, CA_PROP_CANBERRA_VOLUME, CANBERRA_FULL_VOLUME);
   ca_proplist_sets(p, CA_PROP_EVENT_ID, id);
-  ca_proplist_sets(p, CA_PROP_MEDIA_ROLE, "camera-sound-effect");
+  ca_proplist_sets(p, CA_PROP_MEDIA_ROLE, MEDIA_ROLE);
 
   QPair<QMutex *, QWaitCondition *> data = qMakePair<QMutex *, QWaitCondition *>(&mutex, &cond);
 
