@@ -220,7 +220,7 @@ Item {
                     from: 0.2
                     to: 1.0
                     duration: 1000
-                    running: settings.useGps && !positionSource.position.longitudeValid
+                    running: settings.useGps && !positionSource.position.longitudeValid && viewfinder.camera.running
                     alwaysRunToEnd: true
                 }
             }
