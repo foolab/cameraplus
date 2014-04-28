@@ -40,6 +40,7 @@ class QuillItem : public QDeclarativeItem {
   Q_OBJECT
 
   Q_PROPERTY(bool error READ error NOTIFY errorChanged);
+  Q_ENUMS(DisplayLevel);
 
 public:
 #if defined(QT4)
@@ -48,6 +49,16 @@ public:
   QuillItem(QQuickItem *parent = 0);
 #endif
   ~QuillItem();
+
+  // TODO: something is really wrong somewhere in Quill.
+  // If I replace cropped and full screen levels then loading
+  // of full screen previews gets hurt significantly.
+  typedef enum {
+    DisplayLevelInvalid = -1,
+    DisplayLevelFullScreen = 0,
+    DisplayLevelCropped = 1,
+    DisplayLevelLarge = 2,
+  } DisplayLevel;
 
 #if defined(QT4)
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);

@@ -52,7 +52,7 @@ Flickable {
 
     ImageThumbnail {
         id: image
-        displayLevel: 0
+        displayLevel: QuillItem.DisplayLevelFullScreen
 
         property bool busy: deleteAnimation.running
 
@@ -69,7 +69,7 @@ Flickable {
 
         function load(media) {
             resetZoom()
-            initialize(media.url, media.mimeType, 0)
+            initialize(media.url, media.mimeType, image.displayLevel)
         }
 
         function unload() {

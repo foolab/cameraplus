@@ -62,7 +62,8 @@ void QuillItem::initialize(const QUrl& url, const QString& mimeType, int display
   }
 
   m_file = new QuillFile(url.toLocalFile(), mimeType);
-  m_file->setPriority(displayLevel == 0 ? QuillFile::Priority_High : QuillFile::Priority_Low);
+  m_file->setPriority(displayLevel == QuillItem::DisplayLevelFullScreen ?
+		      QuillFile::Priority_High : QuillFile::Priority_Low);
 
   QObject::connect(m_file, SIGNAL(error(QuillError)),
 		   this, SLOT(fileError()), Qt::QueuedConnection);

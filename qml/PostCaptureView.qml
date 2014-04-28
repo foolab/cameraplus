@@ -121,7 +121,7 @@ Item {
                 anchors.centerIn: parent
                 source: media.url
                 mimeType: media.mimeType
-                displayLevel: 1
+                displayLevel: QuillItem.DisplayLevelCropped
             }
         }
     }

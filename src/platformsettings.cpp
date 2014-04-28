@@ -27,6 +27,7 @@
 #elif defined(QT5)
 #include <QQmlInfo>
 #endif
+#include "quillitem.h"
 
 #define PATH "/usr/share/cameraplus/config/cameraplus.ini"
 
@@ -102,19 +103,27 @@ QString PlatformSettings::temporaryFilePath() {
 
 void PlatformSettings::init() {
   Quill::setPreviewLevelCount(3);
-  QSize size = previewSize();
-  int len = qMax(size.width(), size.height());
 
-  Quill::setThumbnailFlavorName(0, previewFlavorName());
-  Quill::setPreviewSize(0, QSize(len, len));
+  {
+    // cropped display level
+    QSize size = gridSize();
+    int len = qMax(size.width(), size.height());
+    Quill::setThumbnailFlavorName(QuillItem::DisplayLevelCropped, gridFlavorName());
+    Quill::setPreviewSize(QuillItem::DisplayLevelCropped, QSize(len, len));
+    Quill::setMinimumPreviewSize(QuillItem::DisplayLevelCropped, QSize(len, len));
+  }
 
-  size = gridSize();
-  len = qMax(size.width(), size.height());
-  Quill::setThumbnailFlavorName(1, gridFlavorName());
-  Quill::setPreviewSize(1, QSize(len, len));
-  Quill::setMinimumPreviewSize(1, QSize(len, len));
+  {
+    // full screen display level
+    QSize size = previewSize();
+    int len = qMax(size.width(), size.height());
 
-  Quill::setPreviewSize(2, MAX_TEXTURE_SIZE);
+    Quill::setThumbnailFlavorName(QuillItem::DisplayLevelFullScreen, previewFlavorName());
+    Quill::setPreviewSize(QuillItem::DisplayLevelFullScreen, QSize(len, len));
+  }
+
+  // large display level
+  Quill::setPreviewSize(QuillItem::DisplayLevelLarge, MAX_TEXTURE_SIZE);
 
   Quill::setThumbnailExtension(thumbnailExtension());
   Quill::setBackgroundRenderingColor(backgroundRenderingColor());
