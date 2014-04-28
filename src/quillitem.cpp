@@ -185,7 +185,13 @@ void QuillItem::paint(QPainter* painter) {
   QImage image = m_file->image(m_displayLevel);
 
   if (image.isNull()) {
-    return;
+    if (m_displayLevel == QuillItem::DisplayLevelLarge
+	&& m_file->hasThumbnail(QuillItem::DisplayLevelFullScreen)) {
+      image = m_file->image(QuillItem::DisplayLevelFullScreen);
+      qmlInfo(this) << "Using fullscreen preview until the large preview gets loaded";
+    } else {
+      return;
+    }
   }
 
   QSizeF imageSize = QSizeF(image.size());

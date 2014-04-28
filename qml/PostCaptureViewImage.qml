@@ -116,6 +116,7 @@ Flickable {
         onPinchStarted: {
             initialWidth = image.width * image.scale
             initialHeight = image.height * image.scale
+            image.displayLevel = QuillItem.DisplayLevelLarge
         }
 
         onPinchUpdated: {
