@@ -40,7 +40,11 @@ class QuillItem : public QDeclarativeItem {
   Q_OBJECT
 
   Q_PROPERTY(bool error READ error NOTIFY errorChanged);
-  Q_ENUMS(DisplayLevel);
+  Q_PROPERTY(QUrl url READ url WRITE setUrl NOTIFY urlChanged);
+  Q_PROPERTY(QString mimeType READ mimeType WRITE setMimeType NOTIFY mimeTypeChanged);
+  Q_PROPERTY(DisplayLevel displayLevel READ displayLevel WRITE setDisplayLevel NOTIFY displayLevelChanged);
+  Q_PROPERTY(Priority priority READ priority WRITE setPriority NOTIFY priorityChanged);
+  Q_ENUMS(DisplayLevel Priority);
 
 public:
 #if defined(QT4)
@@ -60,6 +64,11 @@ public:
     DisplayLevelLarge = 2,
   } DisplayLevel;
 
+  typedef enum {
+    PriorityLow,
+    PriorityHigh,
+  } Priority;
+
 #if defined(QT4)
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 #else
@@ -68,15 +77,27 @@ public:
 
   bool error() const;
 
-public slots:
-  void initialize(const QUrl& url, const QString& mimeType, int displayLevel);
-  void clear();
+  void componentComplete();
+
+  QUrl url() const;
+  void setUrl(const QUrl& url);
+
+  QString mimeType() const;
+  void setMimeType(const QString& mimeType);
+
+  DisplayLevel displayLevel() const;
+  void setDisplayLevel(const DisplayLevel& level);
+
+  Priority priority() const;
+  void setPriority(const Priority& priority);
 
 signals:
-  void sourceChanged();
   void error(const QString& err);
+  void urlChanged();
   void mimeTypeChanged();
+  void displayLevelChanged();
   void errorChanged();
+  void priorityChanged();
 
 private slots:
   void fileLoaded();
@@ -88,7 +109,10 @@ private:
 
   QuillFile *m_file;
   bool m_error;
-  int m_displayLevel;
+  DisplayLevel m_displayLevel;
+  Priority m_priority;
+  QUrl m_url;
+  QString m_mimeType;
 };
 
 #endif /* QUILL_ITEM_H */

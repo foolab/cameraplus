@@ -119,7 +119,10 @@ Item {
                 width: 116
                 height: 116
                 anchors.centerIn: parent
-                Component.onCompleted: initialize(media.url, media.mimeType, QuillItem.DisplayLevelCropped)
+                url: media.url
+                mimeType: media.mimeType
+                displayLevel: QuillItem.DisplayLevelCropped
+                priority: QuillItem.PriorityLow
             }
         }
     }

@@ -56,8 +56,11 @@ Flickable {
         anchors.centerIn: parent
         width: Math.max(flick.width, flick.contentWidth)
         height: Math.max(flick.height, flick.contentHeight)
+        url: media.url
+        mimeType: media.mimeType
+        displayLevel: QuillItem.DisplayLevelFullScreen
+        priority: QuillItem.PriorityHigh
 
-        Component.onCompleted: initialize(media.url, media.mimeType, QuillItem.DisplayLevelFullScreen)
         function resetZoom() {
             flick.resizeContent(postCaptureView.width, postCaptureView.height,
                 Qt.point(postCaptureView.width / 2, postCaptureView.height / 2))
