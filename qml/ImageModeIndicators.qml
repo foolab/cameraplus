@@ -25,10 +25,13 @@ import QtCamera 1.0
 
 Rectangle {
     id: indicators
-    anchors.top: parent.top
-    anchors.topMargin: 20
-    anchors.left: parent.left
-    anchors.leftMargin: 20
+    anchors {
+        top: parent.top
+        topMargin: 20
+        left: parent.left
+        leftMargin: 20
+    }
+
     width: 48
     height: col.height + radius * 2
     color: "black"
@@ -50,12 +53,12 @@ Rectangle {
         }
 
         CameraLabel {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.leftMargin: 5
-            anchors.rightMargin: 5
-            anchors.topMargin: 5
-            anchors.bottomMargin: 5
+            anchors {
+                left: parent.left
+                right: parent.right
+                margins: 5
+            }
+
             text: imageSettings.currentResolution ? qsTr("%1M").arg(imageSettings.currentResolution.megaPixels) : qsTr("?M")
             font.bold: true
             verticalAlignment: Text.AlignVCenter

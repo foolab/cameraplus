@@ -167,10 +167,12 @@ Item {
     }
 
     Rectangle {
-        anchors.top: parent.top
-        anchors.topMargin: 20
-        anchors.left: parent.left
-        anchors.leftMargin: 20
+        anchors {
+            top: parent.top
+            topMargin: 20
+            left: parent.left
+            leftMargin: 20
+        }
         width: 48
         height: col.height + radius * 2
         color: "black"
