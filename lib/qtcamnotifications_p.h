@@ -59,6 +59,8 @@ public slots:
     if (gst_structure_get_int(s, "status", &st)) {
       if (st == GST_PHOTOGRAPHY_FOCUS_STATUS_SUCCESS) {
 	emit q_ptr->autoFocusAcquired();
+      } else if (st == GST_PHOTOGRAPHY_FOCUS_STATUS_FAIL) {
+	emit q_ptr->autoFocusFailed();
       }
     }
   }

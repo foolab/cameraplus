@@ -47,6 +47,7 @@ signals:
   void videoRecordingEnded();
 
   void autoFocusAcquired();
+  void autoFocusFailed();
 
 private:
   Q_PRIVATE_SLOT(d_ptr, void autoFocusStatusChanged(GstMessage *));
