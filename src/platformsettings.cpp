@@ -171,6 +171,10 @@ QString PlatformSettings::autoFocusAcquiredSound() const {
   return m_settings->value("sounds/autoFocusAcquired").toString();
 }
 
+QString PlatformSettings::autoFocusFailedSound() const {
+  return m_settings->value("sounds/autoFocusFailed").toString();
+}
+
 QString PlatformSettings::imagePath() {
   if (m_image.isEmpty()) {
     m_image = canonicalPath(IMAGE_PATH);

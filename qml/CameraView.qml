@@ -67,6 +67,7 @@ Viewfinder {
             videoRecordingStart: platformSettings.videoRecordingStartedSound
             videoRecordingEnd: platformSettings.videoRecordingEndedSound
             autoFocusAcquired: platformSettings.autoFocusAcquiredSound
+            autoFocusFailed: platformSettings.autoFocusFailedSound
         }
 
         onFocusChanged: focus.value = Focus.ContinuousNormal
