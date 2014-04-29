@@ -54,8 +54,9 @@ Flickable {
         property bool busy: deleteAnimation.running
 
         anchors.centerIn: parent
-        width: Math.max(flick.width, flick.contentWidth)
-        height: Math.max(flick.height, flick.contentHeight)
+        width: isPortrait ? parent.height : parent.width
+        height: isPortrait ? parent.width : parent.height
+
         url: media.url
         mimeType: media.mimeType
         displayLevel: QuillItem.DisplayLevelFullScreen
@@ -99,13 +100,11 @@ Flickable {
                 }
             }
         }
-
     }
 
     PinchArea {
         id: pinchArea
-        width: Math.max(flick.width, flick.contentWidth)
-        height: Math.max(flick.height, flick.contentHeight)
+        anchors.fill: parent
         enabled: !playIcon.visible
         property real initialWidth: image.width
         property real initialHeight: image.height

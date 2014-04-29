@@ -34,6 +34,8 @@ Item {
 
     property bool toggleImageList: true
     property bool hideImageList: pressed || toggleImageList
+    property bool isPortrait: orientation.orientation == CameraOrientation.Portrait ||
+        orientation.orientation == CameraOrientation.InversePortrait
 
     Component.onCompleted: postCaptureModel.reload()
 
@@ -50,6 +52,12 @@ Item {
         highlightRangeMode: ListView.StrictlyEnforceRange
 
         delegate: PostCaptureViewImage {
+            rotation: media.video ? 0 : isPortrait ? -90 : 0
+
+            Behavior on rotation {
+                NumberAnimation { duration: 200; }
+            }
+
             width: view.width
             height: view.height
         }
