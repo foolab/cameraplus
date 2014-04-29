@@ -30,6 +30,8 @@ Flickable {
     property string fileName
     property url url
 
+    signal playClicked
+
     boundsBehavior: Flickable.StopAtBounds
     width: parent.width
     height: parent.height
@@ -167,7 +169,7 @@ Flickable {
             anchors.horizontalCenter: parent.horizontalCenter
             iconSource: cameraTheme.videoPlayIconId
             visible: media.video
-            onClicked: loader.startPlayback(media.url)
+            onClicked: flick.playClicked()
         }
     }
 }

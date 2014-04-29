@@ -60,6 +60,7 @@ Item {
 
             width: view.width
             height: view.height
+            onPlayClicked: loader.startPlayback(media.url)
         }
     }
 
