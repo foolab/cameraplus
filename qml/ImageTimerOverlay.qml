@@ -113,6 +113,8 @@ Item {
         onTriggered: {
             if (cam.autoFocus.cafStatus != AutoFocus.Success) {
                 startAutoFocus()
+            } else {
+                cam.sounds.playAutoFocusAcquiredSound()
             }
         }
     }

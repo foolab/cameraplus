@@ -26,7 +26,6 @@ import CameraPlus 1.0
 
 // TODO: flash not ready (battery low or flash not ready message)
 // TODO: portrait layout
-// TODO: we need to play focus acquired sound even if caf has focus
 // TODO: indicators are pixelated. Regenerate all our icons with proper sizes
 // TODO: post capture cannot play videos which don't use HW accelerated codecs.
 // TODO: allow flicking to settings/post capture if we start dragging from the focus reticle
