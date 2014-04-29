@@ -50,13 +50,6 @@ public:
     VolumeHigh,
   } Volume;
 
-  void playImageCaptureStartedSound();
-  void playImageCaptureEndedSound();
-  void playVideoRecordingStartedSound();
-  void playVideoRecordingEndedSound();
-  void playAutoFocusAcquiredSound();
-  void playAutoFocusFailedSound();
-
   bool isMuted() const;
   void setMuted(bool mute);
 
@@ -82,6 +75,14 @@ public:
 
   QString autoFocusFailed() const;
   void setAutoFocusFailed(const QString& path);
+
+public slots:
+  void playImageCaptureStartedSound();
+  void playImageCaptureEndedSound();
+  void playVideoRecordingStartedSound();
+  void playVideoRecordingEndedSound();
+  void playAutoFocusAcquiredSound();
+  void playAutoFocusFailedSound();
 
 signals:
   void muteChanged();
