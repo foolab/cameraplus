@@ -37,6 +37,7 @@ class Sounds : public QObject {
   Q_PROPERTY(QString videoRecordingStart READ videoRecordingStart WRITE setVideoRecordingStart NOTIFY videoRecordingStartChanged);
   Q_PROPERTY(QString videoRecordingEnd READ videoRecordingEnd WRITE setVideoRecordingEnd NOTIFY videoRecordingEndChanged);
   Q_PROPERTY(QString autoFocusAcquired READ autoFocusAcquired WRITE setAutoFocusAcquired NOTIFY autoFocusAcquiredChanged);
+  Q_PROPERTY(QString autoFocusFailed READ autoFocusFailed WRITE setAutoFocusFailed NOTIFY autoFocusFailedChanged);
   Q_PROPERTY(Volume volume READ volume WRITE setVolume NOTIFY volumeChanged);
   Q_ENUMS(Volume);
 
@@ -54,6 +55,7 @@ public:
   void playVideoRecordingStartedSound();
   void playVideoRecordingEndedSound();
   void playAutoFocusAcquiredSound();
+  void playAutoFocusFailedSound();
 
   bool isMuted() const;
   void setMuted(bool mute);
@@ -78,6 +80,9 @@ public:
   QString autoFocusAcquired() const;
   void setAutoFocusAcquired(const QString& path);
 
+  QString autoFocusFailed() const;
+  void setAutoFocusFailed(const QString& path);
+
 signals:
   void muteChanged();
   void volumeChanged();
@@ -86,6 +91,7 @@ signals:
   void videoRecordingStartChanged();
   void videoRecordingEndChanged();
   void autoFocusAcquiredChanged();
+  void autoFocusFailedChanged();
 
 private slots:
   void serviceOwnerChanged(const QString& serviceName, const QString& oldOwner,
@@ -106,6 +112,7 @@ private:
   QString m_videoRecordingStart;
   QString m_videoRecordingEnd;
   QString m_autoFocusAcquired;
+  QString m_autoFocusFailed;
 };
 
 #endif /* SOUNDS_H */

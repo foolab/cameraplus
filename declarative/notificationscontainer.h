@@ -47,6 +47,7 @@ private slots:
   void videoRecordingStarted();
   void videoRecordingEnded();
   void autoFocusAcquired();
+  void autoFocusFailed();
 
 private:
   QPointer<QtCamDevice> m_dev;

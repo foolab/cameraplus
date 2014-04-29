@@ -31,12 +31,13 @@
 #include <QQmlInfo>
 #endif
 
-#define CAMERA_IMAGE_START_SOUND_ID  "cameraplus-image-start"
-#define CAMERA_IMAGE_END_SOUND_ID    "cameraplus-image-end"
-#define CAMERA_VIDEO_START_SOUND_ID  "cameraplus-video-start"
-#define CAMERA_VIDEO_STOP_SOUND_ID   "cameraplus-video-stop"
-#define CAMERA_FOCUS_SOUND_ID        "cameraplus-focus"
-#define MEDIA_ROLE "camera-sound-effect"
+#define CAMERA_IMAGE_START_SOUND_ID     "cameraplus-image-start"
+#define CAMERA_IMAGE_END_SOUND_ID       "cameraplus-image-end"
+#define CAMERA_VIDEO_START_SOUND_ID     "cameraplus-video-start"
+#define CAMERA_VIDEO_STOP_SOUND_ID      "cameraplus-video-stop"
+#define CAMERA_FOCUS_SUCCESS_SOUND_ID   "cameraplus-focus-success"
+#define CAMERA_FOCUS_FAILURE_SOUND_ID   "cameraplus-focus-failure"
+#define MEDIA_ROLE                      "camera-sound-effect"
 
 // Odd, volume has to be a char *
 #define CANBERRA_FULL_VOLUME         "0.0"
@@ -121,7 +122,15 @@ void Sounds::playAutoFocusAcquiredSound() {
     return;
   }
 
-  play(CAMERA_FOCUS_SOUND_ID);
+  play(CAMERA_FOCUS_SUCCESS_SOUND_ID);
+}
+
+void Sounds::playAutoFocusFailedSound() {
+  if (isMuted() || !m_ctx) {
+    return;
+  }
+
+  play(CAMERA_FOCUS_FAILURE_SOUND_ID);
 }
 
 bool Sounds::isMuted() const {
@@ -173,7 +182,8 @@ void Sounds::reload() {
   cache(m_imageCaptureEnd, CAMERA_IMAGE_END_SOUND_ID);
   cache(m_videoRecordingStart, CAMERA_VIDEO_START_SOUND_ID);
   cache(m_videoRecordingEnd, CAMERA_VIDEO_STOP_SOUND_ID);
-  cache(m_autoFocusAcquired, CAMERA_FOCUS_SOUND_ID);
+  cache(m_autoFocusAcquired, CAMERA_FOCUS_SUCCESS_SOUND_ID);
+  cache(m_autoFocusFailed, CAMERA_FOCUS_FAILURE_SOUND_ID);
 }
 
 void Sounds::cache(const QString& path, const char *id) {
@@ -308,8 +318,20 @@ QString Sounds::autoFocusAcquired() const {
 void Sounds::setAutoFocusAcquired(const QString& path) {
   if (path != m_autoFocusAcquired) {
     m_autoFocusAcquired = path;
-    cache(m_autoFocusAcquired, CAMERA_FOCUS_SOUND_ID);
+    cache(m_autoFocusAcquired, CAMERA_FOCUS_SUCCESS_SOUND_ID);
     emit autoFocusAcquiredChanged();
+  }
+}
+
+QString Sounds::autoFocusFailed() const {
+  return m_autoFocusFailed;
+}
+
+void Sounds::setAutoFocusFailed(const QString& path) {
+  if (path != m_autoFocusFailed) {
+    m_autoFocusFailed = path;
+    cache(m_autoFocusFailed, CAMERA_FOCUS_FAILURE_SOUND_ID);
+    emit autoFocusFailedChanged();
   }
 }
 
