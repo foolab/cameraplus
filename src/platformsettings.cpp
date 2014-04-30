@@ -29,7 +29,7 @@
 #endif
 #include "quillitem.h"
 
-#ifdef SAILFISH
+#ifdef HARMATTAN
 #define PATH "/usr/share/cameraplus/config/cameraplus.ini"
 #else
 #define PATH "/usr/share/harbour-cameraplus/share/cameraplus/config/cameraplus.ini"
