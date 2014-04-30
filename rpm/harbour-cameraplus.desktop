@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Cameraplus
+Icon=harbour-cameraplus
+Exec=harbour-cameraplus
+X-Nemo-Application-Type=silica-qt5

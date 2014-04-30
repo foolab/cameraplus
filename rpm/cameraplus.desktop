@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Camera+
-Icon=cameraplus-logo
-Exec=invoker -s --type=silica-qt5 /usr/bin/cameraplus

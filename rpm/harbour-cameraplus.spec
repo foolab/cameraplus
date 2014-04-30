@@ -1,13 +1,13 @@
-Name:           cameraplus
-Summary:        Camera+
+Name:           harbour-cameraplus
+Summary:        Cameraplus is an advanced easy to use camera
 Version:        0
 Release:        1
 Group:          Applications/Multimedia
 License:        LGPL v2.1+
 URL:            http://gitorious.org/cameraplus
 Source0:        %{name}-%{version}.tar.gz
-Source1:        cameraplus.desktop
-Source2:        cameraplus-logo.png
+Source1:        harbour-cameraplus.desktop
+Source2:        harbour-cameraplus.png
 BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(gstreamer-plugins-base-1.0)
 BuildRequires:  pkgconfig(gstreamer-video-1.0)
@@ -36,7 +36,7 @@ Requires:       qt5-qtlocation-plugin-geoservices-nokia
 Requires:       qt5-qtlocation-plugin-geoservices-osm
 
 %description
-Camera+
+Cameraplus is an advanced easy to use camera
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -52,8 +52,8 @@ make %{?jobs:-j%jobs}
 %install
 %qmake5_install
 
-mkdir -p $RPM_BUILD_ROOT/usr/share/themes/jolla-ambient/meegotouch/icons/
-cp %SOURCE2 $RPM_BUILD_ROOT/usr/share/themes/jolla-ambient/meegotouch/icons/
+mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/86x86/apps/
+cp %SOURCE2 $RPM_BUILD_ROOT/usr/share/icons/hicolor/86x86/apps/
 
 mkdir -p $RPM_BUILD_ROOT/usr/share/qtcamera/config/
 cp data/sailfish/qtcamera.ini $RPM_BUILD_ROOT/usr/share/qtcamera/config/
@@ -72,6 +72,8 @@ desktop-file-install --delete-original                   \
   --dir %{buildroot}%{_datadir}/applications             \
    %{buildroot}%{_datadir}/applications/*.desktop
 
+mv $RPM_BUILD_ROOT/usr/bin/cameraplus $RPM_BUILD_ROOT/usr/bin/harbour-cameraplus
+
 mv $RPM_BUILD_ROOT/usr/lib/libqtcamera.so.1.0.0 $RPM_BUILD_ROOT/usr/lib/libqtcamera.so.1
 rm $RPM_BUILD_ROOT/usr/lib/libqtcamera.so.1.0
 rm $RPM_BUILD_ROOT/usr/lib/libqtcamera.so
@@ -88,11 +90,10 @@ cp modes/*.ini $RPM_BUILD_ROOT/usr/share/cameraplus/modes/
 
 %files
 %defattr(-,root,root,-)
-%{_bindir}/cameraplus
+%{_bindir}/harbour-cameraplus
 %{_libdir}/libqtcamera.so.1
 %{_datadir}/cameraplus/*
 %{_datadir}/qtcamera/*
-%{_datadir}/themes/jolla-ambient/meegotouch/icons/*
 %{_libdir}/qt5/qml/QtCamera/*
-%{_datadir}/applications/cameraplus.desktop
-%{_datadir}/themes/jolla-ambient/meegotouch/icons/
+%{_datadir}/applications/harbour-cameraplus.desktop
+%{_datadir}/icons/hicolor/86x86/apps/harbour-cameraplus.png
