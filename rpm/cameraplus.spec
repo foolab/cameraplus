@@ -52,8 +52,6 @@ make %{?jobs:-j%jobs}
 %install
 %qmake5_install
 
-mkdir -p $RPM_BUILD_ROOT/usr/share/themes/jolla-ambient/meegotouch/icons/
-cp icons/*.png $RPM_BUILD_ROOT/usr/share/themes/jolla-ambient/meegotouch/icons/
 cp %SOURCE2 $RPM_BUILD_ROOT/usr/share/themes/jolla-ambient/meegotouch/icons/
 
 mkdir -p $RPM_BUILD_ROOT/usr/share/qtcamera/config/
