@@ -8,6 +8,7 @@ URL:            http://gitorious.org/cameraplus
 Source0:        %{name}-%{version}.tar.gz
 Source1:        harbour-cameraplus.desktop
 Source2:        harbour-cameraplus.png
+Source3:        qmake.conf
 BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(gstreamer-plugins-base-1.0)
 BuildRequires:  pkgconfig(gstreamer-video-1.0)
@@ -45,6 +46,7 @@ Cameraplus is an advanced easy to use camera
 %setup -q
 
 %build
+cp %SOURCE3 .qmake.conf
 %qmake5
 
 make %{?jobs:-j%jobs}
@@ -55,12 +57,8 @@ make %{?jobs:-j%jobs}
 mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/86x86/apps/
 cp %SOURCE2 $RPM_BUILD_ROOT/usr/share/icons/hicolor/86x86/apps/
 
-mkdir -p $RPM_BUILD_ROOT/usr/share/qtcamera/config/
-cp data/sailfish/qtcamera.ini $RPM_BUILD_ROOT/usr/share/qtcamera/config/
-cp data/sailfish/resolutions.ini $RPM_BUILD_ROOT/usr/share/qtcamera/config/
-cp data/sailfish/properties.ini $RPM_BUILD_ROOT/usr/share/qtcamera/config/
-cp data/sailfish/image.gep $RPM_BUILD_ROOT/usr/share/qtcamera/config/
-cp data/sailfish/video.gep $RPM_BUILD_ROOT/usr/share/qtcamera/config/
+mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
+cp data/sailfish/* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
 
 mkdir -p $RPM_BUILD_ROOT/usr/share/cameraplus/config/
 cp data/sailfish/cameraplus.ini $RPM_BUILD_ROOT/usr/share/cameraplus/config/
@@ -93,7 +91,7 @@ cp modes/*.ini $RPM_BUILD_ROOT/usr/share/cameraplus/modes/
 %{_bindir}/harbour-cameraplus
 %{_libdir}/libqtcamera.so.1
 %{_datadir}/cameraplus/*
-%{_datadir}/qtcamera/*
+%{_datadir}/harbour-cameraplus/share/qtcamera/*
 %{_libdir}/qt5/qml/QtCamera/*
 %{_datadir}/applications/harbour-cameraplus.desktop
 %{_datadir}/icons/hicolor/86x86/apps/harbour-cameraplus.png
