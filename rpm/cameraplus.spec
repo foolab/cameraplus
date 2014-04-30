@@ -57,6 +57,7 @@ cp %SOURCE2 $RPM_BUILD_ROOT/usr/share/themes/jolla-ambient/meegotouch/icons/
 
 mkdir -p $RPM_BUILD_ROOT/usr/share/qtcamera/config/
 cp data/sailfish/qtcamera.ini $RPM_BUILD_ROOT/usr/share/qtcamera/config/
+cp data/sailfish/resolutions.ini $RPM_BUILD_ROOT/usr/share/qtcamera/config/
 cp data/sailfish/properties.ini $RPM_BUILD_ROOT/usr/share/qtcamera/config/
 cp data/sailfish/image.gep $RPM_BUILD_ROOT/usr/share/qtcamera/config/
 cp data/sailfish/video.gep $RPM_BUILD_ROOT/usr/share/qtcamera/config/
