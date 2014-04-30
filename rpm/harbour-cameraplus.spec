@@ -96,6 +96,8 @@ cp modes/*.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
 %{_libdir}/libqtcamera.so.1
 %{_datadir}/harbour-cameraplus/share/cameraplus/*
 %{_datadir}/harbour-cameraplus/share/qtcamera/*
+%{_datadir}/harbour-cameraplus/share/sounds/*
+%{_datadir}/harbour-cameraplus/share/modes/*
 %{_datadir}/harbour-cameraplus/lib/qt5/qml/QtCamera/*
 %{_datadir}/applications/harbour-cameraplus.desktop
 %{_datadir}/icons/hicolor/86x86/apps/harbour-cameraplus.png
