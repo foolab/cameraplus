@@ -76,8 +76,10 @@ desktop-file-install --delete-original                   \
 
 mv $RPM_BUILD_ROOT/usr/bin/cameraplus $RPM_BUILD_ROOT/usr/bin/harbour-cameraplus
 
-mv $RPM_BUILD_ROOT/usr/lib/libqtcamera.so.1.0.0 $RPM_BUILD_ROOT/usr/lib/libqtcamera.so.1
+mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+mv $RPM_BUILD_ROOT/usr/lib/libqtcamera.so.1.0.0 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/libqtcamera.so.1
 rm $RPM_BUILD_ROOT/usr/lib/libqtcamera.so.1.0
+rm $RPM_BUILD_ROOT/usr/lib/libqtcamera.so.1
 rm $RPM_BUILD_ROOT/usr/lib/libqtcamera.so
 
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/qt5/qml
@@ -93,7 +95,7 @@ cp modes/*.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
 %files
 %defattr(-,root,root,-)
 %{_bindir}/harbour-cameraplus
-%{_libdir}/libqtcamera.so.1
+%{_datadir}/harbour-cameraplus/lib/libqtcamera.so.1
 %{_datadir}/harbour-cameraplus/share/cameraplus/*
 %{_datadir}/harbour-cameraplus/share/qtcamera/*
 %{_datadir}/harbour-cameraplus/share/sounds/*
