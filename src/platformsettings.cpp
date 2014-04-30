@@ -29,7 +29,11 @@
 #endif
 #include "quillitem.h"
 
+#ifdef SAILFISH
 #define PATH "/usr/share/cameraplus/config/cameraplus.ini"
+#else
+#define PATH "/usr/share/harbour-cameraplus/share/cameraplus/config/cameraplus.ini"
+#endif
 
 #define PREVIEW_SIZE                             QSize(854, 480)
 #define PREVIEW_FLAVOR_NAME                      QString("screen")

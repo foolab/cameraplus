@@ -54,15 +54,19 @@ make %{?jobs:-j%jobs}
 %install
 %qmake5_install
 
+# icon
 mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/86x86/apps/
 cp %SOURCE2 $RPM_BUILD_ROOT/usr/share/icons/hicolor/86x86/apps/
 
+# qtcamera configuration
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
 cp data/sailfish/* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
 
-mkdir -p $RPM_BUILD_ROOT/usr/share/cameraplus/config/
-cp data/sailfish/cameraplus.ini $RPM_BUILD_ROOT/usr/share/cameraplus/config/
+# cameraplus configuration
+mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/cameraplus/config/
+cp data/sailfish/cameraplus.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/cameraplus/config/
 
+# desktop file
 mkdir -p $RPM_BUILD_ROOT/usr/share/applications/
 cp %SOURCE1 $RPM_BUILD_ROOT/usr/share/applications/
 
@@ -80,17 +84,17 @@ mkdir -p $RPM_BUILD_ROOT/usr/lib/qt5/qml
 mv $RPM_BUILD_ROOT/usr/lib/qt5/imports/QtCamera $RPM_BUILD_ROOT/usr/lib/qt5/qml/
 rm -rf $RPM_BUILD_ROOT/usr/lib/qt5/imports
 
-mkdir -p $RPM_BUILD_ROOT/usr/share/cameraplus/sounds/
-cp sounds/*.wav $RPM_BUILD_ROOT/usr/share/cameraplus/sounds/
+mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/sounds/
+cp sounds/*.wav $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/sounds/
 
-mkdir -p $RPM_BUILD_ROOT/usr/share/cameraplus/modes/
-cp modes/*.ini $RPM_BUILD_ROOT/usr/share/cameraplus/modes/
+mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
+cp modes/*.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
 
 %files
 %defattr(-,root,root,-)
 %{_bindir}/harbour-cameraplus
 %{_libdir}/libqtcamera.so.1
-%{_datadir}/cameraplus/*
+%{_datadir}/harbour-cameraplus/share/cameraplus/*
 %{_datadir}/harbour-cameraplus/share/qtcamera/*
 %{_libdir}/qt5/qml/QtCamera/*
 %{_datadir}/applications/harbour-cameraplus.desktop
