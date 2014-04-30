@@ -1,0 +1,4 @@
+from Config import *
+addFilter("E: library-without-ldconfig-postun")
+addFilter("E: library-without-ldconfig-postin")
+addFilter("E: arch-dependent-file-in-usr-share")
