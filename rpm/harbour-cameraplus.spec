@@ -80,8 +80,8 @@ mv $RPM_BUILD_ROOT/usr/lib/libqtcamera.so.1.0.0 $RPM_BUILD_ROOT/usr/lib/libqtcam
 rm $RPM_BUILD_ROOT/usr/lib/libqtcamera.so.1.0
 rm $RPM_BUILD_ROOT/usr/lib/libqtcamera.so
 
-mkdir -p $RPM_BUILD_ROOT/usr/lib/qt5/qml
-mv $RPM_BUILD_ROOT/usr/lib/qt5/imports/QtCamera $RPM_BUILD_ROOT/usr/lib/qt5/qml/
+mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/qt5/qml
+mv $RPM_BUILD_ROOT/usr/lib/qt5/imports/QtCamera $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/qt5/qml/
 rm -rf $RPM_BUILD_ROOT/usr/lib/qt5/imports
 
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/sounds/
@@ -96,6 +96,6 @@ cp modes/*.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
 %{_libdir}/libqtcamera.so.1
 %{_datadir}/harbour-cameraplus/share/cameraplus/*
 %{_datadir}/harbour-cameraplus/share/qtcamera/*
-%{_libdir}/qt5/qml/QtCamera/*
+%{_datadir}/harbour-cameraplus/lib/qt5/qml/QtCamera/*
 %{_datadir}/applications/harbour-cameraplus.desktop
 %{_datadir}/icons/hicolor/86x86/apps/harbour-cameraplus.png

@@ -66,6 +66,9 @@
 #include "devicesettings.h"
 #include "pluginloader.h"
 #include <MDeclarativeCache>
+#ifdef SAILFISH
+#include <QQmlEngine>
+#endif
 
 #ifdef QMLJSDEBUGGER
 #include "qt_private/qdeclarativedebughelper_p.h"
@@ -169,6 +172,10 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<SecondaryDeviceSettings>("CameraPlus", 1, 0, "SecondaryDeviceSettings");
   qmlRegisterType<PluginLoader>("CameraPlus", 1, 0, "PluginLoader");
   qmlRegisterType<Plugin>("CameraPlus", 1, 0, "Plugin");
+
+#ifdef SAILFISH
+  view->engine()->addImportPath("/usr/share/harbour-cameraplus/lib/qt5/qml/");
+#endif
 
   view->setSource(QUrl("qrc:/qml/main.qml"));
 
