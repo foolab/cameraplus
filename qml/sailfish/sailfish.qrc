@@ -3,7 +3,6 @@
     <qresource prefix="/qml">
 	<file>CameraLabel.qml</file>
 	<file>CameraTextField.qml</file>
-	<file>CameraToolIcon.qml</file>
 	<file>CameraButton.qml</file>
 	<file>CameraSlider.qml</file>
 	<file>CameraSwitch.qml</file>

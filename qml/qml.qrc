@@ -55,5 +55,6 @@
 	<file>ImageModeIndicators.qml</file>
 	<file>ImageModeToolBar.qml</file>
 	<file>ImageTimerOverlay.qml</file>
+	<file>CameraToolIcon.qml</file>
     </qresource>
 </RCC>

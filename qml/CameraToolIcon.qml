@@ -21,13 +21,34 @@
  */
 
 import QtQuick 2.0
-import Sailfish.Silica 1.0
 
-IconButton {
-    property string iconSource
-    // TODO: make sure that enabled state is different than disabled state look and feel wise
+Rectangle {
+    color: "transparent"
     width: 64
     height: 64
-    Component.onCompleted: icon.source = iconSource
-    onIconSourceChanged: icon.source = iconSource
+    opacity: enabled ? 1.0 : 0.5
+
+    property alias pressed: mouse.pressed
+    property alias mouseX: mouse.mouseX
+    property alias mouseY: mouse.mouseY
+    property alias iconSource: icon.source
+
+    signal clicked
+    signal exited
+
+    MouseArea {
+        id: mouse
+        anchors.fill: parent
+        onClicked: parent.clicked()
+        onExited: parent.exited()
+    }
+
+    Image {
+        id: icon
+        anchors.centerIn: parent
+        asynchronous: true
+        width: parent.width * 0.75
+        height: parent.height * 0.75
+        visible: source != ""
+    }
 }
