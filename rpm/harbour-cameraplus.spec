@@ -9,7 +9,6 @@ Source0:        %{name}-%{version}.tar.gz
 Source1:        harbour-cameraplus.desktop
 Source2:        harbour-cameraplus.png
 Source3:        qmake.conf
-Source4:        bin.tgz
 BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(gstreamer-plugins-base-1.0)
 BuildRequires:  pkgconfig(gstreamer-video-1.0)
@@ -90,13 +89,10 @@ cp sounds/*.wav $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/sounds/
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
 cp modes/*.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
 
-tar -zxvf %SOURCE4 -C $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/
-
 %files
 %defattr(-,root,root,-)
 %{_bindir}/harbour-cameraplus
-%{_datadir}/harbour-cameraplus/lib/*
-%{_datadir}/harbour-cameraplus/libexec/*
+%{_datadir}/harbour-cameraplus/lib/libqtcamera.so.1
 %{_datadir}/harbour-cameraplus/share/cameraplus/*
 %{_datadir}/harbour-cameraplus/share/qtcamera/*
 %{_datadir}/harbour-cameraplus/share/sounds/*
