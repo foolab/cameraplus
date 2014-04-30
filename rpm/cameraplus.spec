@@ -78,6 +78,12 @@ mkdir -p $RPM_BUILD_ROOT/usr/lib/qt5/qml
 mv $RPM_BUILD_ROOT/usr/lib/qt5/imports/QtCamera $RPM_BUILD_ROOT/usr/lib/qt5/qml/
 rm -rf $RPM_BUILD_ROOT/usr/lib/qt5/imports
 
+mkdir -p $RPM_BUILD_ROOT/usr/share/cameraplus/sounds/
+cp sounds/*.wav $RPM_BUILD_ROOT/usr/share/cameraplus/sounds/
+
+mkdir -p $RPM_BUILD_ROOT/usr/share/cameraplus/modes/
+cp modes/*.ini $RPM_BUILD_ROOT/usr/share/cameraplus/modes/
+
 %files
 %defattr(-,root,root,-)
 %{_bindir}/cameraplus
