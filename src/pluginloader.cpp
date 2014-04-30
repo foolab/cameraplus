@@ -29,7 +29,11 @@
 #include <QDir>
 #include <QSettings>
 
+#ifdef HARMATTAN
 #define PLUGIN_PATH "/usr/share/cameraplus/modes/"
+#else
+#define PLUGIN_PATH "/usr/share/harbour-cameraplus/share/modes/"
+#endif
 
 Plugin::Plugin(const QDir& dir, const QString& fileName, QObject * parent) :
   QObject(parent) {
