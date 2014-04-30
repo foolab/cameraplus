@@ -39,9 +39,6 @@ Requires:       qt5-qtlocation-plugin-geoservices-osm
 %description
 Cameraplus is an advanced easy to use camera
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
-
 %prep
 %setup -q
 
