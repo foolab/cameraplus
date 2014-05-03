@@ -74,8 +74,11 @@ Item {
     VideoPlayer {
         CameraSlider {
             id: volumeControl
-            anchors.top: parent.top
-            anchors.left: parent.left
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
             minimumValue: 0
             maximumValue: width
             value: (width * video.volume) / 100
