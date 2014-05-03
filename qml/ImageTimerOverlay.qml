@@ -72,7 +72,7 @@ Item {
 
         onVisibleChanged: {
             if (visible) {
-                countDown.value = delay.value
+                countDown.value = delay.value.toFixed(0)
             }
         }
 
@@ -121,7 +121,7 @@ Item {
 
     Timer {
         id: captureTimer
-        interval: delay.value * 1000
+        interval: delay.value.toFixed(0) * 1000
         onTriggered: {
             metaData.setMetaData()
 
@@ -165,17 +165,16 @@ Item {
         opacity: 0.8
         minimumValue: 1
         maximumValue: 20
-        stepSize: 1
         value: settings.captureTimerDelay
         onValueChanged: {
             if (pressed) {
-                settings.captureTimerDelay = value
+                settings.captureTimerDelay = value.toFixed(0)
             }
         }
         valueIndicatorVisible: true
         valueIndicatorText: formatValue(value)
         function formatValue(value) {
-            return qsTr("%1 seconds").arg(value)
+            return qsTr("%1 seconds").arg(value.toFixed(0))
         }
     }
 
