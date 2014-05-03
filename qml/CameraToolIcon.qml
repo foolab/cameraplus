@@ -32,13 +32,18 @@ Rectangle {
     property alias mouseX: mouse.mouseX
     property alias mouseY: mouse.mouseY
     property alias iconSource: icon.source
+    property real overflowMargins
 
     signal clicked
     signal exited
 
     MouseArea {
         id: mouse
-        anchors.fill: parent
+        anchors {
+            fill: parent
+            margins: -parent.overflowMargins
+        }
+
         onClicked: parent.clicked()
         onExited: parent.exited()
     }
