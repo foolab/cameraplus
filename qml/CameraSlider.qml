@@ -47,8 +47,6 @@ MouseArea {
         positionAtMinimum: 0
         positionAtMaximum: width - knob.width
         inverted: false
-
-            onPositionChanged: console.log(position)
     }
 
     Rectangle {
