@@ -1,3 +1,10 @@
+cameraplus (0.0.21-1) unstable; urgency=medium
+
+  * Fixed zoom not working with rocker keys
+  * Revert the fix for preventing accidental focus reticle movement
+
+ -- Mohammed Sameer <msameer@foolab.org>  Sun, 04 May 2014 01:59:49 +0300
+
 cameraplus (0.0.20-1) unstable; urgency=medium
 
   * Play a notification sound if camera fails to focus
