@@ -41,19 +41,12 @@
 #ifndef QRANGEMODEL_H
 #define QRANGEMODEL_H
 
-#include <QtCore/qobject.h>
-#include <QtGui/qgraphicsitem.h>
-#include <QtGui/qabstractslider.h>
-#include <QtDeclarative/qdeclarative.h>
+#include <QObject>
 
-#include <kernel/common.h>
-
-class QRangeModelPrivate;
-
-class Q_COMPONENTS_EXPORT QRangeModel : public QObject
+class QRangeModel : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(qreal value READ value WRITE setValue NOTIFY valueChanged USER true)
+    Q_PROPERTY(qreal value READ value WRITE setValue NOTIFY valueChanged)
     Q_PROPERTY(qreal minimumValue READ minimum WRITE setMinimum NOTIFY minimumChanged)
     Q_PROPERTY(qreal maximumValue READ maximum WRITE setMaximum NOTIFY maximumChanged)
     Q_PROPERTY(qreal stepSize READ stepSize WRITE setStepSize NOTIFY stepSizeChanged)
@@ -112,16 +105,43 @@ Q_SIGNALS:
     void positionAtMinimumChanged(qreal min);
     void positionAtMaximumChanged(qreal max);
 
-protected:
-    QRangeModel(QRangeModelPrivate &dd, QObject *parent);
-    QRangeModelPrivate* d_ptr;
-
 private:
-    Q_DISABLE_COPY(QRangeModel)
-    Q_DECLARE_PRIVATE(QRangeModel)
+    inline qreal effectivePosAtMin() const {
+        return m_inverted ? m_posatmax : m_posatmin;
+    }
 
+    inline qreal effectivePosAtMax() const {
+        return m_inverted ? m_posatmin : m_posatmax;
+    }
+
+    inline qreal equivalentPosition(qreal value) const {
+        // Return absolute position from absolute value
+        const qreal valueRange = m_maximum - m_minimum;
+        if (valueRange == 0)
+            return effectivePosAtMin();
+
+        const qreal scale = (effectivePosAtMax() - effectivePosAtMin()) / valueRange;
+        return (value - m_minimum) * scale + effectivePosAtMin();
+    }
+
+    inline qreal equivalentValue(qreal pos) const {
+        // Return absolute value from absolute position
+        const qreal posRange = effectivePosAtMax() - effectivePosAtMin();
+        if (posRange == 0)
+            return m_minimum;
+
+        const qreal scale = (m_maximum - m_minimum) / posRange;
+        return (pos - effectivePosAtMin()) * scale + m_minimum;
+    }
+
+    qreal publicPosition(qreal position) const;
+    qreal publicValue(qreal value) const;
+    void emitValueAndPositionIfChanged(const qreal oldValue, const qreal oldPosition);
+
+    qreal m_posatmin, m_posatmax;
+    qreal m_minimum, m_maximum, m_stepSize, m_pos, m_value;
+
+    bool m_inverted;
 };
-
-QML_DECLARE_TYPE(QRangeModel)
 
 #endif // QRANGEMODEL_H
