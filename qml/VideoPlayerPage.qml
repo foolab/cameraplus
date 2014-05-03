@@ -72,13 +72,15 @@ Item {
     }
 
     VideoPlayer {
-        Rectangle {
+        CameraSlider {
             id: volumeControl
             anchors.top: parent.top
             anchors.left: parent.left
-            width: (parent.width * video.volume) / 100
-            color: cameraStyle.pressedColor
-            border.color: "black"
+            minimumValue: 0
+            maximumValue: width
+            value: (width * video.volume) / 100
+            handleVisible: false
+            valueIndicatorVisible: false
             height: 25
             opacity: timer.running ? 1.0 : 0.0
 
@@ -97,6 +99,7 @@ Item {
         anchors.fill: parent
         cameraConfig: camera.cameraConfig
         onPositionChanged: slider.value = position
+        onVolumeChanged: volumeControl.value = (width * video.volume) / 100
         onError: showError(qsTr("Error playing video. Please try again or restart the application"))
 
         function toggle() {
