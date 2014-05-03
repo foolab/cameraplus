@@ -1,3 +1,13 @@
+cameraplus (0.0.20-1) unstable; urgency=medium
+
+  * Play a notification sound if camera fails to focus
+  * Play focus acquired sound even if we have focus
+  * Rotate images in post capture view to follow device orientation
+  * Reworked the Slider component
+  * Try to prevent accidental focus reticle movement when capture button is missed
+
+ -- Mohammed Sameer <msameer@foolab.org>  Tue, 29 Apr 2014 04:05:41 +0300
+
 cameraplus (0.0.19-1) unstable; urgency=medium
 
   * Fixed a bug that caused stock camera to use our sound effects
