@@ -29,12 +29,11 @@ CameraToolIcon {
     height: 55
     opacity: 0.5
 
-    border.color: platformStyle.borderColor
+    border.color: cameraStyle.borderColor
     border.width: 1
     radius: width / 3
 
-    property CameraButtonStyle platformStyle: CameraButtonStyle {}
-    color: pressed ? platformStyle.pressedColor : platformStyle.releasedColor
+    color: pressed ? cameraStyle.pressedColor : cameraStyle.releasedColor
 
     iconSource: activePlugin && activePlugin.mode == Camera.VideoMode ? cameraTheme.cameraImageIconId : cameraTheme.cameraVideoIconId
 

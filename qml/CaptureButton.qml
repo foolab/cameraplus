@@ -24,11 +24,8 @@ import QtQuick 2.0
 
 CameraToolIcon {
     id: button
-
-    property CameraButtonStyle platformStyle: CameraButtonStyle {}
-
-    color: pressed ? platformStyle.pressedColor : platformStyle.releasedColor
-    border.color: platformStyle.borderColor
+    color: pressed ? cameraStyle.pressedColor : cameraStyle.releasedColor
+    border.color: cameraStyle.borderColor
     border.width: 1
     radius: width / 3
     anchors.right: parent.right

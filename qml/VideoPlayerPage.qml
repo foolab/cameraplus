@@ -77,7 +77,7 @@ Item {
             anchors.top: parent.top
             anchors.left: parent.left
             width: (parent.width * video.volume) / 100
-            color: "blue"
+            color: cameraStyle.pressedColor
             border.color: "black"
             height: 25
             opacity: timer.running ? 1.0 : 0.0
@@ -96,7 +96,7 @@ Item {
         id: video
         anchors.fill: parent
         cameraConfig: camera.cameraConfig
-
+        onPositionChanged: slider.value = position
         onError: showError(qsTr("Error playing video. Please try again or restart the application"))
 
         function toggle() {
@@ -149,16 +149,10 @@ Item {
 
             CameraSlider {
                 id: slider
-                height: toolBar.height
                 anchors.verticalCenter: parent.verticalCenter
-
-                handleBackground: ""
-                handleBackgroundPressed: ""
-
+                handleVisible: false
                 minimumValue: 0
                 maximumValue: video.duration
-                value: video.position
-                orientation: Qt.Horizontal
 
                 onPressedChanged: {
                     if (!slider.pressed) {

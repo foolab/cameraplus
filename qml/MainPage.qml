@@ -36,6 +36,10 @@ CameraPage {
     property bool inCaptureMode: mainView.currentIndex == 1
     property Plugin activePlugin
 
+    CameraStyle {
+        id: cameraStyle
+    }
+
     PluginLoader {
         id: plugins
     }

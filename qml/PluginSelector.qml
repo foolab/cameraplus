@@ -36,8 +36,6 @@ Rectangle {
         orientation: ListView.Horizontal
         model: plugins
         delegate: Rectangle {
-            property CameraButtonStyle platformStyle: CameraButtonStyle {}
-
             anchors {
                 top: parent.top
                 topMargin: 20
@@ -46,7 +44,7 @@ Rectangle {
             }
 
             width: visible ? 100 : 0
-            color: mouse.pressed ? platformStyle.pressedColor : "transparent"
+            color: mouse.pressed ? cameraStyle.pressedColor : "transparent"
             visible: plugin.uuid != activePlugin.uuid
 
             MouseArea {

@@ -4,13 +4,12 @@
 	<file>CameraLabel.qml</file>
 	<file>CameraTextField.qml</file>
 	<file>CameraButton.qml</file>
-	<file>CameraSlider.qml</file>
 	<file>CameraSwitch.qml</file>
 	<file>CameraButtonRow.qml</file>
 	<file>CameraQueryDialog.qml</file>
 	<file>CameraWindow.qml</file>
 	<file>CameraInfoBanner.qml</file>
-	<file>CameraButtonStyle.qml</file>
+	<file>CameraStyle.qml</file>
 	<file>CameraPositionSource.qml</file>
 	<file>CameraPage.qml</file>
 	<file>CameraProximitySensor.qml</file>
