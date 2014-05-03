@@ -21,19 +21,35 @@
  */
 
 import QtQuick 2.0
+import CameraPlus 1.0
 
 MouseArea {
     id: mouse
 
-    property real minimumValue: 0.0
-    property real maximumValue: 1.0
-    property real value: 0.0
+    property alias minimumValue: range.minimumValue
+    property alias maximumValue: range.maximumValue
+    property alias value: range.value
+    property alias stepSize: range.stepSize
+
     property bool valueIndicatorVisible: mouse.pressed
     property string valueIndicatorText: value.toFixed(1)
     property bool handleVisible: true
 
     width: 500
     height: 40
+
+    RangeModel {
+        id: range
+        minimumValue: 0.0
+        maximumValue: 1.0
+        value: 0.0
+        stepSize: 0.0
+        positionAtMinimum: 0
+        positionAtMaximum: width - knob.width
+        inverted: false
+
+            onPositionChanged: console.log(position)
+    }
 
     Rectangle {
         visible: opacity > 0
@@ -66,55 +82,35 @@ MouseArea {
     drag {
         target: knob
         axis: Drag.XAxis
-        minimumX: 0
-        maximumX: width - knob.width
+        minimumX: range.positionAtMinimum
+        maximumX: range.positionAtMaximum
     }
 
-    property bool __hack
-    property bool __completed
-    property real val: ((knob.x / drag.maximumX) * (maximumValue - minimumValue)) + minimumValue
-
-    onValChanged: {
-        if (!__completed) {
-            return
-        }
-
-        __hack = true
-        value = val
-        __hack = false
+    // when there is no mouse interaction, the handle's position binds to the value
+    Binding {
+        when: !mouse.drag.active
+        target: knob
+        property: "x"
+        value: range.position
     }
 
-    Component.onCompleted: {
-        __completed = true
-        setPosition()
-    }
-
-    onValueChanged: setPosition()
-    onMinimumValueChanged: setPosition()
-    onMaximumValueChanged: setPosition()
-
-    function setPosition() {
-        if (__hack) {
-            return
-        }
-
-        var pos = ((value - minimumValue) / (maximumValue - minimumValue)) * drag.maximumX
-        Math.max(pos, drag.minimumX)
-        Math.min(pos, drag.maximumX)
-        knob.x = pos
+    // when the slider is dragged, the value binds to the handle's position
+    Binding {
+        when: mouse.drag.active
+        target: range
+        property: "position"
+        value: knob.x
     }
 
     property real __oldPos
     onPressed: {
-        __oldPos = knob.x
-        knob.x = mouse.x - knob.width / 2
+        __oldPos = range.position
+        range.position = mouse.x - knob.width / 2
     }
 
     onCanceled: {
-        knob.x = __oldPos
+        range.position = __oldPos
     }
-
-    onClicked: knob.x = mouse.x - knob.width / 2
 
     Rectangle {
         id: groove
