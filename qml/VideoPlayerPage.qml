@@ -98,8 +98,6 @@ Item {
         id: video
         anchors.fill: parent
         cameraConfig: camera.cameraConfig
-        onPositionChanged: slider.value = position
-        onVolumeChanged: volumeControl.value = (width * video.volume) / 100
         onError: showError(qsTr("Error playing video. Please try again or restart the application"))
 
         function toggle() {
@@ -156,7 +154,7 @@ Item {
                 handleVisible: false
                 minimumValue: 0
                 maximumValue: video.duration
-
+                value: video.position
                 onPressedChanged: {
                     if (!slider.pressed) {
                         video.position = slider.value
