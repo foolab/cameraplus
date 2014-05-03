@@ -39,7 +39,7 @@ MouseArea {
         visible: opacity > 0
         color: "white"
         height: parent.height
-        width: height * 3
+        width: label.width * 2
         radius: height / 3
         opacity: valueIndicatorVisible ? 1.0 : 0.0
 
