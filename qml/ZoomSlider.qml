@@ -27,9 +27,6 @@ CameraSlider {
     id: slider
     property Camera camera
 
-    handleBackground: ""
-    handleBackgroundPressed: ""
-
     Binding {
         target: camera ? camera.zoom : null
         property: "value"
@@ -64,11 +61,12 @@ CameraSlider {
     }
 
     width: 500
-    height: 50
-    stepSize:0.1
+    height: 40
     value: camera ? camera.zoom.value : 0
     minimumValue: camera ? camera.zoom.minimum : 0
     maximumValue: camera ? camera.zoom.maximum : 0
+    valueIndicatorVisible: false
+    handleVisible: false
     anchors.top: parent.top
     anchors.topMargin: 0
     anchors.horizontalCenter: parent.horizontalCenter
