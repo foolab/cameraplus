@@ -42,6 +42,10 @@ Rectangle {
 
         if (typeof tools == "string") {
             comp = Qt.createComponent(tools)
+            if (comp.status == Component.Error) {
+                console.log("error creating " + tools + ": " + comp.errorString())
+            }
+
             if (typeof(props) === "undefined") {
                 toolsToPush = comp.createObject(dock)
             }
