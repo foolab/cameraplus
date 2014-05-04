@@ -142,12 +142,12 @@ Flickable {
 
             flick.resizeContent(newWidth, newHeight, center)
         }
-    }
 
-    MouseArea {
-        anchors.fill: parent
-        onClicked: toggleImageList = !toggleImageList
-        onDoubleClicked: image.resetZoom()
+        MouseArea {
+            anchors.fill: parent
+            onClicked: toggleImageList = !toggleImageList
+            onDoubleClicked: image.resetZoom()
+        }
     }
 
     Column {
