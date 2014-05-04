@@ -1,0 +1,16 @@
+* pinch zoom is not working
+* zoom jumps in the beginning while pressing the rocker keys
+* thumbnails list animation is broken when you tap the rightmost item in the list
+* some video thumbnails are in 4:3
+* some lockups while playing some videos especially short ones
+* there is at least 1 crash that might happen while recording videos
+* face detection is broken
+* not all UI settings are supported by the camera
+* delete from post capture does not use remorse timers
+* post capture launch gallery is not functional
+* post capture share is not functional
+* EXIF tags in images are not saved
+* No preview from camera
+* We don't use platform icons
+* Front camera needs resolutions
+* probably more...
