@@ -61,7 +61,7 @@ CameraSlider {
     }
 
     width: 500
-    stepSize: 0.1
+    stepSize: cameraStyle.zoomSliderStepSize
     height: 40
     value: camera ? camera.zoom.value : 0
     minimumValue: camera ? camera.zoom.minimum : 0

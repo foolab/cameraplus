@@ -26,4 +26,5 @@ QtObject {
     property color pressedColor: "blue"
     property color releasedColor: "black"
     property color borderColor: "gray"
+    property real zoomSliderStepSize: 1.0
 }
