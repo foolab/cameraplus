@@ -31,8 +31,12 @@ Geocode::Geocode(QObject *parent) :
   m_active(false) {
 
   QStringList providers = QGeoServiceProvider::availableServiceProviders();
+  int index = providers.indexOf("osm");
 
-  if (!providers.isEmpty()) {
+  if (index != -1) {
+    m_provider = new QGeoServiceProvider(providers.at(index));
+  }
+  else if (!providers.isEmpty()) {
     m_provider = new QGeoServiceProvider(providers.at(0));
   }
   else {
