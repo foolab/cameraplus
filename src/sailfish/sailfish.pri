@@ -24,3 +24,5 @@ SOURCES += sailfish/soundvolumecontrol.cpp \
            sailfish/batteryinfo.cpp \
            sailfish/devicekeys.cpp \
            sailfish/phoneprofile.cpp
+
+LIBS += -Wl,-rpath=/usr/share/harbour-cameraplus/lib/
