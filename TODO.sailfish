@@ -1,6 +1,5 @@
-* pinch zoom is not working
+* pinch zoom is not smooth
 * zoom jumps in the beginning while pressing the rocker keys
-* thumbnails list animation is broken when you tap the rightmost item in the list
 * some video thumbnails are in 4:3
 * some lockups while playing some videos especially short ones
 * there is at least 1 crash that might happen while recording videos
@@ -11,6 +10,6 @@
 * post capture share is not functional
 * EXIF tags in images are not saved
 * No preview from camera
-* We don't use platform icons
+* Need to review the icons and resize them
 * Front camera needs resolutions
 * probably more...

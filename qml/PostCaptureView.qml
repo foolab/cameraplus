@@ -101,8 +101,9 @@ Item {
                 id: mouse
                 anchors.fill: parent
                 onPressed: {
-                    var x = mapToItem(ListView.view, mouse.x, mouse.y).x
-
+                    // If we use ListView.view then QtQuick 2.0 seems to break
+                    // and mapToItem() returns a weird coordinate.
+                    var x = mapToItem(thumbnails, mouse.x, mouse.y).x
                     if (x <= rectangle.width) {
                         rectangle.transformOrigin = Item.BottomLeft
                     } else if (x >= thumbnails.width - rectangle.width) {
