@@ -25,7 +25,7 @@ import QtCamera 1.0
 import CameraPlus 1.0
 
 CameraToolIcon {
-    iconSource: cameraTheme.switchCameraIconId
+    iconSource: settings.device == 1 ? cameraTheme.primaryCameraIconId : cameraTheme.secondaryCameraIconId
     onClicked: {
         if (settings.device == 0) {
             settings.device = 1
