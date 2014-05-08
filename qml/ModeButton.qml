@@ -35,7 +35,7 @@ CameraToolIcon {
 
     color: pressed ? cameraStyle.pressedColor : cameraStyle.releasedColor
 
-    iconSource: activePlugin && activePlugin.mode == Camera.VideoMode ? cameraTheme.cameraImageIconId : cameraTheme.cameraVideoIconId
+    iconSource: cameraTheme.modeButtonIconId
 
     onClicked: {
         if (plugins.count <= 1) {

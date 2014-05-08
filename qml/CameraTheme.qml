@@ -38,8 +38,6 @@ QtObject {
     property string videoPauseIconId: "qrc:/images/cameraplus-icon-m-toolbar-mediacontrol-pause-white.png"
     property string videoPlayIconId: "qrc:/images/cameraplus-icon-m-toolbar-mediacontrol-play-white.png"
     property string cameraManualExposureIconId: "qrc:/images/cameraplus-icon-m-camera-manual-exposure.png"
-    property string cameraVideoIconId: "qrc:/images/cameraplus-icon-m-camera-video.png"
-    property string cameraImageIconId: "qrc:/images/cameraplus-icon-m-viewfinder-camera.png"
     property string captureButtonImageIconId: "qrc:/images/cameraplus-icon-m-camera-shutter.png"
     property string captureButtonVideoIconId: "qrc:/images/cameraplus-icon-m-camera-video-record.png"
     property string captureButtonStopRecordingIconId: "qrc:/images/cameraplus-icon-m-camera-video-record-stop.png"
@@ -82,8 +80,9 @@ QtObject {
     property string iso400IconId: "qrc:/images/cameraplus-icon-m-camera-iso-400.png"
     property string iso800IconId: "qrc:/images/cameraplus-icon-m-camera-iso-800.png"
     property string resetIconId: "qrc:/images/cameraplus-icon-m-settings-reset.png"
-    property string primaryCameraIconId: "qrc:/images/cameraplus-icon-m-camera-switch.png"
-    property string secondaryCameraIconId: "qrc:/images/cameraplus-icon-m-camera-switch.png"
+    property string primaryCameraIconId: "qrc:/images/cameraplus-icon-m-camera-switch-to-back.png"
+    property string secondaryCameraIconId: "qrc:/images/cameraplus-icon-m-camera-switch-to-front.png"
+    property string modeButtonIconId: "qrc:/images/cameraplus-icon-m-mode-switch.png"
     property string selfTimerIconId: "qrc:/images/cameraplus-icon-m-camera-self-timer.png"
 
     function videoIcon(ratio, res, device) {

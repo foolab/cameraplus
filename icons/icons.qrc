@@ -30,14 +30,14 @@
       <file>cameraplus-icon-m-camera-scene-sports.png</file>
       <file>cameraplus-icon-m-camera-self-timer.png</file>
       <file>cameraplus-icon-m-camera-shutter.png</file>
-      <file>cameraplus-icon-m-camera-switch.png</file>
+      <file>cameraplus-icon-m-camera-switch-to-back.png</file>
+      <file>cameraplus-icon-m-camera-switch-to-front.png</file>
       <file>cameraplus-icon-m-camera-torch-off.png</file>
       <file>cameraplus-icon-m-camera-torch-on.png</file>
       <file>cameraplus-icon-m-camera-video-fine-resolution.png</file>
       <file>cameraplus-icon-m-camera-video-high-resolution.png</file>
       <file>cameraplus-icon-m-camera-video-low-resolution.png</file>
       <file>cameraplus-icon-m-camera-video-night.png</file>
-      <file>cameraplus-icon-m-camera-video.png</file>
       <file>cameraplus-icon-m-camera-video-record.png</file>
       <file>cameraplus-icon-m-camera-video-record-stop.png</file>
       <file>cameraplus-icon-m-camera-video-tiny-resolution.png</file>
@@ -46,6 +46,7 @@
       <file>cameraplus-icon-m-camera-whitebalance-fluorescent.png</file>
       <file>cameraplus-icon-m-camera-whitebalance-sunny.png</file>
       <file>cameraplus-icon-m-camera-whitebalance-tungsten.png</file>
+      <file>cameraplus-icon-m-mode-switch.png</file>
       <file>cameraplus-icon-m-settings-reset.png</file>
       <file>cameraplus-icon-m-toolbar-delete-white.png</file>
       <file>cameraplus-icon-m-toolbar-mediacontrol-pause-white.png</file>
@@ -55,6 +56,5 @@
       <file>cameraplus-icon-m-toolbar-share-white.png</file>
       <file>cameraplus-icon-m-toolbar-volume-off-white-selected.png</file>
       <file>cameraplus-icon-m-toolbar-volume-white-selected.png</file>
-      <file>cameraplus-icon-m-viewfinder-camera.png</file>
     </qresource>
 </RCC>
