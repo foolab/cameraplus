@@ -4,7 +4,6 @@
 * there is at least 1 crash that might happen while recording videos
 * face detection is broken
 * not all UI settings are supported by the camera
-* post capture launch gallery is not functional
 * post capture share is not functional
 * EXIF tags in images are not saved
 * No preview for captured images and recorded videos (Might be possible with GStreamer 1.3+)
