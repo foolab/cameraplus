@@ -39,6 +39,11 @@ Item {
 
     Component.onCompleted: postCaptureModel.reload()
 
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+    }
+
     ListView {
         id: view
         anchors.fill: parent
