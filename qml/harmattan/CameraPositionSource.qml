@@ -31,6 +31,8 @@ PositionSource {
     // If we ever need street level updates then this will be an issue.
     id: positionSource
 
+    updateInterval: 60000 // Once every 60 seconds should be enough.
+
     property double longitude: position.coordinate.longitude
     property double latitude: position.coordinate.latitude
     property double altitude: position.coordinate.altitude

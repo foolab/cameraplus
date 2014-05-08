@@ -29,6 +29,9 @@ PositionSource {
     // If we ever need street level updates then this will be an issue.
     id: positionSource
 
+    // TODO: is that thing working?
+    updateInterval: 60000 // Once every 60 seconds should be enough.
+
     property real longitude
     property real latitude
     property real altitude
