@@ -24,11 +24,11 @@
 #define GEOCODE_H
 
 #include <QObject>
-#include <QGeoSearchReply>
-#include <QGeoServiceProvider>
-#include <QGeoSearchManager>
+#include <geolocationservice.h>
 
 using namespace QtMobility;
+
+class GeoLocationService;
 
 class Geocode : public QObject {
   Q_OBJECT
@@ -58,17 +58,15 @@ signals:
   void suburbChanged();
 
 private slots:
-  void finished(QGeoSearchReply *reply);
-  void error(QGeoSearchReply *reply, const QGeoSearchReply::Error& error,
-	     const QString& errorString = QString());
+  void addressQueryResult(uint queryId, const GeoLocation& location);
+  void addressQueryFinished(uint queryId, GeoLocationService::GeoLocationError error);
+  void initialized(bool success);
 
 private:
   void clear();
-
-  QGeoServiceProvider *m_provider;
-  QGeoSearchManager *m_manager;
-  QGeoSearchReply *m_reply;
-
+  GeoLocationService *m_service;
+  QGeoCoordinate m_pending;
+  uint m_id;
   bool m_active;
   QString m_country;
   QString m_city;

@@ -24,65 +24,40 @@
 
 Geocode::Geocode(QObject *parent) :
   QObject(parent),
-  m_provider(0),
-  m_manager(0),
-  m_reply(0),
-  m_active(false) {
+  m_service(0),
+  m_id(0) {
 
-  QStringList providers = QGeoServiceProvider::availableServiceProviders();
-
-  if (!providers.isEmpty()) {
-    m_provider = new QGeoServiceProvider(providers.at(0));
-  }
-  else {
-    qmlInfo(this) << "Cannot find any geo-service providers";
-    return;
-  }
-
-  m_manager = m_provider->searchManager();
-  if (!m_manager) {
-    qCritical() << "Cannot get hold of the geo-search manager" << m_provider->errorString();
-    return;
-  }
-
-  if (!m_manager->supportsReverseGeocoding()) {
-    qCritical() << "geo-search manager does not support reverse geocoding";
-
-    delete m_provider; m_provider = 0;
-    m_manager = 0;
-    return;
-  }
-
-  QObject::connect(m_manager, SIGNAL(finished(QGeoSearchReply *)),
-		   this, SLOT(finished(QGeoSearchReply *)));
-  QObject::connect(m_manager, SIGNAL(error(QGeoSearchReply *, const QGeoSearchReply::Error&,
-					   const QString&)),
-		   this, SLOT(error(QGeoSearchReply *, const QGeoSearchReply::Error&,
-				    const QString&)));
 }
 
 Geocode::~Geocode() {
   setActive(false);
-
-  delete m_provider; m_provider = 0;
 }
 
 bool Geocode::isActive() const {
-  return m_active;
+  return m_service != 0;
 }
 
 void Geocode::setActive(bool active) {
-  if (active != m_active) {
-    m_active = active;
-
-    if (!m_active && m_reply) {
-      m_reply->deleteLater(); m_reply = 0;
-    }
-
-    clear();
-
-    emit activeChanged();
+  if (active == Geocode::isActive()) {
+    return;
   }
+
+  if (!active) {
+    delete m_service;
+    m_service = 0;
+    clear();
+  }
+  else {
+    m_service = new GeoLocationService(this);
+    QObject::connect(m_service, SIGNAL(addressQueryResult(uint, const GeoLocation&)),
+		     this, SLOT(addressQueryResult(uint, const GeoLocation&)));
+    QObject::connect(m_service, SIGNAL(addressQueryFinished(uint, GeoLocationService::GeoLocationError)),
+		     this, SLOT(addressQueryFinished(uint, GeoLocationService::GeoLocationError)));
+
+    m_service->init();
+  }
+
+  emit activeChanged();
 }
 
 QString Geocode::country() const {
@@ -98,28 +73,32 @@ QString Geocode::suburb() const {
 }
 
 void Geocode::search(double longitude, double latitude) {
-  if (!m_active || !m_provider) {
+  if (!isActive()) {
+    qmlInfo(this) << "geocoding is not active";
     return;
   }
 
-  if (m_reply) {
-    m_reply->abort();
-    delete m_reply;
-  }
-
-  if (!m_manager) {
-    qCritical() << "no geo-search manager";
+  if (!m_service->isInitialized()) {
+    m_pending = QGeoCoordinate(latitude, longitude);
     return;
   }
 
-  m_reply = m_manager->reverseGeocode(QGeoCoordinate(latitude, longitude));
-  if (!m_reply) {
-    qmlInfo(this) << "geo-search manager provided a null reply!";
-    return;
+  m_id = 0;
+  QGeoCoordinate coords(latitude, longitude);
+  GeoLocationService::GeoLocationError err = m_service->addressQuery(coords, 1, &m_id);
+  if (err == GeoLocationService::QueryFailedError) {
+    setActive(false);
+  }
+
+  if (err != GeoLocationService::NoError) {
+    qmlInfo(this) << "error" << err << "from GeoLocationService";
   }
 }
 
 void Geocode::clear() {
+  m_id = 0;
+  m_pending = QGeoCoordinate();
+
   if (!m_country.isEmpty()) {
     m_country.clear();
     emit countryChanged();
@@ -136,65 +115,53 @@ void Geocode::clear() {
   }
 }
 
-void Geocode::finished(QGeoSearchReply *reply) {
-  if (reply->error() != QGeoSearchReply::NoError) {
-    qmlInfo(this) << "Error while geocoding" << reply->error() << reply->errorString();
-
-    reply->deleteLater();
-
-    if (reply == m_reply) {
-      m_reply = 0;
-    }
-
-    clear();
-
+void Geocode::addressQueryResult(uint queryId, const GeoLocation& location) {
+  if (m_id != queryId) {
+    // We don't care about old queries.
     return;
   }
 
-  QList<QGeoPlace> places = reply->places();
-  if (!places.isEmpty()) {
-    QGeoAddress address = places.at(0).address();
-    if (m_country != address.country()) {
-      m_country = address.country();
-      emit countryChanged();
-    }
-
-    if (m_city != address.city()) {
-      m_city = address.city();
-      emit cityChanged();
-    }
-
-    if (m_suburb != address.district()) {
-      m_suburb = address.district();
-      emit suburbChanged();
-    }
-  }
-  else {
-    qmlInfo(this) << "No places found";
-    clear();
+  if (m_country != location.address().country()) {
+    m_country = location.address().country();
+    emit countryChanged();
   }
 
-  reply->deleteLater();
+  if (m_city != location.address().city()) {
+    m_city = location.address().city();
+    emit cityChanged();
+  }
 
-  if (reply == m_reply) {
-    m_reply = 0;
+  if (m_suburb != location.address().district()) {
+    m_suburb = location.address().district();
+    emit suburbChanged();
   }
 }
 
-void Geocode::error(QGeoSearchReply *reply, const QGeoSearchReply::Error& error,
-		    const QString& errorString) {
-
-  qmlInfo(this) << "Error while geocoding" << error << reply->errorString() << errorString;
-
-  reply->deleteLater();
-
-  if (reply == m_reply) {
-    m_reply = 0;
-    clear();
+void Geocode::addressQueryFinished(uint queryId, GeoLocationService::GeoLocationError error) {
+  if (m_id != queryId) {
+    // We don't care about old queries.
+    return;
   }
 
-  if (error == QGeoSearchReply::CommunicationError) {
-    // Network related error. We will disable ourselves for now.
+  if (error == GeoLocationService::QueryFailedError) {
     setActive(false);
+  }
+
+  if (error != GeoLocationService::NoError) {
+    clear();
+    qmlInfo(this) << "Error while geocoding" << error;
+  }
+}
+
+void Geocode::initialized(bool success) {
+  if (!success) {
+    qmlInfo(this) << "Error initializing geocoding";
+    setActive(false);
+    return;
+  }
+
+  if (m_pending.isValid()) {
+    search(m_pending.longitude(), m_pending.latitude());
+    m_pending = QGeoCoordinate();
   }
 }

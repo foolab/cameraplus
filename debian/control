@@ -6,7 +6,7 @@ Build-Depends: debhelper (>= 7.1), applauncherd-dev, libqmsystem2-dev, libresour
 	       libquill-dev, meego-gstreamer0.10-interfaces-dev, libgstreamer0.10-dev,
 	       libgstreamer-plugins-base0.10-dev, gstreamer0.10-plugins-bad-dev,
 	       libcanberra-dev, libcontextsubscriber-dev, libqtm-location-dev,
-	       libqtsparql-dev, libqtm-systeminfo-dev,
+	       libqtsparql-dev, libqtm-systeminfo-dev, liblocationextras-dev
 	       aegis-builder
 Standards-Version: 3.9.1
 

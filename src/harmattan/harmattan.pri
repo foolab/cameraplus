@@ -1,7 +1,7 @@
 DEPENDPATH += harmattan .
 INCLUDEPATH += harmattan .
 
-PKGCONFIG += contextsubscriber-1.0 QtLocation QtSystemInfo
+PKGCONFIG += contextsubscriber-1.0 QtLocation QtSystemInfo locationextras
 
 HEADERS += soundvolumecontrol.h deviceinfo.h geocode.h \
 	   batteryinfo.h compass.h devicekeys.h \
