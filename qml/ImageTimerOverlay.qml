@@ -159,7 +159,7 @@ Item {
     CameraSlider {
         id: delay
         anchors.bottom: toolBar.top
-        anchors.horizontalCenter: toolBar.horizontalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
         visible: controlsVisible && !captureControl.capturing && !selectedLabel.visible
         width: 500
         opacity: 0.8
