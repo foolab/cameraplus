@@ -3,11 +3,6 @@
     <qresource prefix="/images">
       <file>cameraplus-icon-l-camera-standby.png</file>
       <file>cameraplus-icon-m-camera-face-detection-screen.png</file>
-      <file>cameraplus-icon-m-camera-filter-black-white.png</file>
-      <file>cameraplus-icon-m-camera-filter-negative.png</file>
-      <file>cameraplus-icon-m-camera-filter-sepia.png</file>
-      <file>cameraplus-icon-m-camera-filter-solarize.png</file>
-      <file>cameraplus-icon-m-camera-filter-vivid.png</file>
       <file>cameraplus-icon-m-camera-flash-always.png</file>
       <file>cameraplus-icon-m-camera-flash-auto.png</file>
       <file>cameraplus-icon-m-camera-flash-off.png</file>
@@ -18,43 +13,50 @@
       <file>cameraplus-icon-m-camera-iso-800.png</file>
       <file>cameraplus-icon-m-camera-iso-auto.png</file>
       <file>cameraplus-icon-m-camera-location.png</file>
-      <file>cameraplus-icon-m-camera-manual-exposure.png</file>
       <file>cameraplus-icon-m-camera-night.png</file>
-      <file>cameraplus-icon-m-camera-no-filter.png</file>
       <file>cameraplus-icon-m-camera-ongoing-recording.png</file>
-      <file>cameraplus-icon-m-camera-roll.png</file>
-      <file>cameraplus-icon-m-camera-scene-auto.png</file>
       <file>cameraplus-icon-m-camera-scene-landscape.png</file>
       <file>cameraplus-icon-m-camera-scene-macro.png</file>
       <file>cameraplus-icon-m-camera-scene-portrait.png</file>
       <file>cameraplus-icon-m-camera-scene-sports.png</file>
-      <file>cameraplus-icon-m-camera-self-timer.png</file>
-      <file>cameraplus-icon-m-camera-shutter.png</file>
-      <file>cameraplus-icon-m-camera-switch-to-back.png</file>
-      <file>cameraplus-icon-m-camera-switch-to-front.png</file>
-      <file>cameraplus-icon-m-camera-torch-off.png</file>
-      <file>cameraplus-icon-m-camera-torch-on.png</file>
-      <file>cameraplus-icon-m-camera-video-fine-resolution.png</file>
-      <file>cameraplus-icon-m-camera-video-high-resolution.png</file>
-      <file>cameraplus-icon-m-camera-video-low-resolution.png</file>
       <file>cameraplus-icon-m-camera-video-night.png</file>
-      <file>cameraplus-icon-m-camera-video-record.png</file>
-      <file>cameraplus-icon-m-camera-video-record-stop.png</file>
-      <file>cameraplus-icon-m-camera-video-tiny-resolution.png</file>
+      <file>cameraplus-icon-m-camera-video.png</file>
       <file>cameraplus-icon-m-camera-whitebalance-auto.png</file>
       <file>cameraplus-icon-m-camera-whitebalance-cloudy.png</file>
       <file>cameraplus-icon-m-camera-whitebalance-fluorescent.png</file>
       <file>cameraplus-icon-m-camera-whitebalance-sunny.png</file>
       <file>cameraplus-icon-m-camera-whitebalance-tungsten.png</file>
-      <file>cameraplus-icon-m-mode-switch.png</file>
-      <file>cameraplus-icon-m-settings-reset.png</file>
       <file>cameraplus-icon-m-toolbar-delete-white.png</file>
       <file>cameraplus-icon-m-toolbar-mediacontrol-pause-white.png</file>
       <file>cameraplus-icon-m-toolbar-mediacontrol-play-white.png</file>
       <file>cameraplus-icon-m-toolbar-mediacontrol-stop-white.png</file>
-      <file>cameraplus-icon-m-toolbar-settings.png</file>
       <file>cameraplus-icon-m-toolbar-share-white.png</file>
       <file>cameraplus-icon-m-toolbar-volume-off-white-selected.png</file>
       <file>cameraplus-icon-m-toolbar-volume-white-selected.png</file>
+      <file>cameraplus-icon-m-viewfinder-camera.png</file>
+      <file>cameraplus-icon-m-camera-roll.png</file>
+      <file>cameraplus-icon-m-camera-scene-auto.png</file>
+      <file>cameraplus-icon-m-camera-video-record.png</file>
+      <file>cameraplus-icon-m-camera-video-record-stop.png</file>
+      <file>cameraplus-icon-m-camera-video-fine-resolution.png</file>
+      <file>cameraplus-icon-m-camera-video-high-resolution.png</file>
+      <file>cameraplus-icon-m-camera-video-low-resolution.png</file>
+      <file>cameraplus-icon-m-camera-video-tiny-resolution.png</file>
+      <file>cameraplus-icon-m-camera-manual-exposure.png</file>
+      <file>cameraplus-icon-m-camera-filter-black-white.png</file>
+      <file>cameraplus-icon-m-camera-filter-negative.png</file>
+      <file>cameraplus-icon-m-camera-filter-sepia.png</file>
+      <file>cameraplus-icon-m-camera-filter-solarize.png</file>
+      <file>cameraplus-icon-m-camera-filter-vivid.png</file>
+      <file>cameraplus-icon-m-camera-no-filter.png</file>
+      <file>cameraplus-icon-m-toolbar-settings.png</file>
+      <file>cameraplus-icon-m-camera-shutter.png</file>
+      <file>cameraplus-icon-m-camera-torch-off.png</file>
+      <file>cameraplus-icon-m-camera-torch-on.png</file>
+      <file>cameraplus-icon-m-settings-reset.png</file>
+      <file>cameraplus-icon-m-camera-self-timer.png</file>
+      <file>cameraplus-icon-m-camera-switch-to-back.png</file>
+      <file>cameraplus-icon-m-camera-switch-to-front.png</file>
+      <file>cameraplus-icon-m-mode-switch.png</file>
     </qresource>
 </RCC>

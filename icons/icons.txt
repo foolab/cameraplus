@@ -17,6 +17,7 @@ icon-m-camera-scene-macro 48 48 icon-m-camera-scene-macro-screen.svg
 icon-m-camera-scene-portrait 48 48 icon-m-camera-scene-portrait-screen.svg
 icon-m-camera-scene-sports 48 48 icon-m-camera-scene-sports-screen.svg
 icon-m-camera-video-night 48 48 icon-m-camera-video-night-screen.svg
+icon-m-camera-video 48 48 icon-m-camera-video.svg
 icon-m-camera-whitebalance-auto 48 48 icon-m-camera-whitebalance-auto-screen.svg
 icon-m-camera-whitebalance-cloudy 48 48 icon-m-camera-whitebalance-cloudy-screen.svg
 icon-m-camera-whitebalance-fluorescent 48 48 icon-m-camera-whitebalance-fluorescent-screen.svg
@@ -29,6 +30,7 @@ icon-m-toolbar-mediacontrol-stop-white 40 40 icon-m-toolbar-mediacontrol-stop.sv
 icon-m-toolbar-share-white 40 40 icon-m-toolbar-share.svg
 icon-m-toolbar-volume-off-white-selected 40 40 icon-m-toolbar-volume-off.svg
 icon-m-toolbar-volume-white-selected 40 40 icon-m-toolbar-volume.svg
+icon-m-viewfinder-camera 48 48 icon-m-viewfinder-camera.svg
 icon-m-camera-roll 40 40 icon-m-camera-roll.svg
 icon-m-camera-scene-auto 48 48 icon-m-camera-scene-auto-screen.svg
 icon-m-camera-video-record 75 75 icon-m-camera-video.svg

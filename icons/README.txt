@@ -19,6 +19,7 @@ record-stop.svg
 camera-switch-to-back.svg
 camera-switch-to-front.svg
 mode-switch.svg
+icon-m-viewfinder-camera.svg
 
 The rest is based on icons from https://github.com/nemomobile/nemo-theme-default lgpl part
 
