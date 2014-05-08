@@ -92,7 +92,7 @@ Flickable {
 
             ScriptAction {
                 script: {
-                    if (!remove.remove(media.url)) {
+                    if (!deleteHelper.remove(media.url)) {
                         showError(qsTr("Failed to delete item"))
                     } else {
                         postCaptureModel.remove(media.url)

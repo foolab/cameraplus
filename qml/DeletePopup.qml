@@ -25,13 +25,7 @@ import QtQuick 2.0
 MouseArea {
     id: dialog
 
-    property alias titleText: title.text
-    property alias acceptButtonText: acceptButton.text
-    property alias rejectButtonText: rejectButton.text
-    property alias messageText: message.text
-
-    signal accepted
-    signal rejected
+    signal triggered
 
     anchors.fill: parent
     visible: opacity > 0
@@ -42,7 +36,8 @@ MouseArea {
         NumberAnimation { duration: 100 }
     }
 
-    function open() {
+    function open(item, message) {
+        message.text = message
         opacity = 1
     }
 
@@ -53,7 +48,7 @@ MouseArea {
     Rectangle {
         anchors.fill: parent
         color: "black"
-        opacity: 0.7
+        opacity: 0.8
     }
 
     Column {
@@ -61,11 +56,11 @@ MouseArea {
         spacing: 20
 
         CameraLabel {
-            id: title
             width: parent.width
             font.pixelSize: 36
             font.bold: true
             horizontalAlignment: Text.AlignHCenter
+            text: qsTr("Delete item?")
         }
 
         CameraLabel {
@@ -76,17 +71,16 @@ MouseArea {
         }
 
         CameraButton {
-            id: acceptButton
+            text: qsTr("Yes")
             onClicked: {
-                dialog.accepted()
+                dialog.triggered()
                 dialog.close()
             }
         }
 
         CameraButton {
-            id: rejectButton
+            text: qsTr("No")
             onClicked: {
-                dialog.rejected()
                 dialog.close()
             }
         }

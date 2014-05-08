@@ -230,25 +230,21 @@ Item {
         }
     }
 
-    CameraQueryDialog {
+    DeleteHelper {
+        id: deleteHelper
+    }
+
+    DeletePopup {
         id: deleteDialog
-        titleText: qsTr("Delete item?");
-        acceptButtonText: qsTr("Yes");
-        rejectButtonText: qsTr("No");
 
-        onAccepted: view.currentItem.deleteUrl()
-
-        DeleteHelper {
-            id: remove
-        }
+        onTriggered: view.currentItem.deleteUrl()
 
         function deleteUrl(url, fileName) {
             if (url == "" || fileName == "") {
                 return
             }
 
-            deleteDialog.messageText = fileName
-            deleteDialog.open()
+            deleteDialog.open(view, fileName)
         }
     }
 
