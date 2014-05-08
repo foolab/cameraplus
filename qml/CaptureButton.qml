@@ -27,13 +27,11 @@ CameraToolIcon {
     color: pressed ? cameraStyle.pressedColor : cameraStyle.releasedColor
     border.color: cameraStyle.borderColor
     border.width: 1
-    radius: iconWidth / 3
+    radius: width / 3
     anchors.right: parent.right
-    anchors.rightMargin: 0
+    anchors.rightMargin: 20
     anchors.verticalCenter: parent.verticalCenter
-    width: 140
-    height: 140
-    iconWidth: 100
-    iconHeight: 100
+    width: 100
+    height: 100
     opacity: 0.5
 }

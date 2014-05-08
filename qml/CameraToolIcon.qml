@@ -22,33 +22,33 @@
 
 import QtQuick 2.0
 
-MouseArea {
-    property alias iconSource: icon.source
-    property alias color: background.color
-    property alias border: background.border
-    property alias radius: background.radius
-    property alias iconWidth: background.width
-    property alias iconHeight: background.height
-
+Rectangle {
+    color: "transparent"
     width: 64
     height: 64
-
     opacity: enabled ? 1.0 : 0.5
 
-    Rectangle {
-        id: background
-        color: "transparent"
-        width: 64
-        height: 64
-        anchors.centerIn: parent
+    property alias pressed: mouse.pressed
+    property alias mouseX: mouse.mouseX
+    property alias mouseY: mouse.mouseY
+    property alias iconSource: icon.source
 
-        Image {
-            id: icon
-            anchors.centerIn: parent
-            asynchronous: true
-            width: parent.width * 0.75
-            height: parent.height * 0.75
-            visible: source != ""
-        }
+    signal clicked
+    signal exited
+
+    MouseArea {
+        id: mouse
+        anchors.fill: parent
+        onClicked: parent.clicked()
+        onExited: parent.exited()
+    }
+
+    Image {
+        id: icon
+        anchors.centerIn: parent
+        asynchronous: true
+        width: parent.width * 0.75
+        height: parent.height * 0.75
+        visible: source != ""
     }
 }
