@@ -10,7 +10,6 @@
 	<file>CameraToolBarTools.qml</file>
 	<file>CameraToolBarToolsContainer.qml</file>
 	<file>CameraView.qml</file>
-	<file>DeletePopup.qml</file>
 	<file>CaptureButton.qml</file>
 	<file>CheckButton.qml</file>
 	<file>FlashButton.qml</file>

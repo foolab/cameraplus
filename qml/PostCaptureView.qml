@@ -246,7 +246,7 @@ Item {
                 return
             }
 
-            deleteDialog.open(view, fileName)
+            deleteDialog.open(fileName)
         }
     }
 

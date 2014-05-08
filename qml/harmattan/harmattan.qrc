@@ -11,5 +11,6 @@
 	<file>CameraProximitySensor.qml</file>
 	<file>CameraTextSwitch.qml</file>
 	<file>CameraStyle.qml</file>
+	<file>DeletePopup.qml</file>
     </qresource>
 </RCC>

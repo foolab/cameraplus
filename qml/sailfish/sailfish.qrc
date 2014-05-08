@@ -6,7 +6,6 @@
 	<file>CameraButton.qml</file>
 	<file>CameraSwitch.qml</file>
 	<file>CameraButtonRow.qml</file>
-	<file>CameraQueryDialog.qml</file>
 	<file>CameraWindow.qml</file>
 	<file>CameraInfoBanner.qml</file>
 	<file>CameraStyle.qml</file>
@@ -14,5 +13,6 @@
 	<file>CameraPage.qml</file>
 	<file>CameraProximitySensor.qml</file>
 	<file>CameraTextSwitch.qml</file>
+	<file>DeletePopup.qml</file>
     </qresource>
 </RCC>

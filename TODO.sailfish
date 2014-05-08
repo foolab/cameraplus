@@ -5,11 +5,13 @@
 * there is at least 1 crash that might happen while recording videos
 * face detection is broken
 * not all UI settings are supported by the camera
-* delete from post capture does not use remorse timers
 * post capture launch gallery is not functional
 * post capture share is not functional
 * EXIF tags in images are not saved
 * No preview for captured images and recorded videos (Might be possible with GStreamer 1.3+)
 * Need to review the icons and resize them
 * Front camera needs resolutions
+* postcapture:
+  - image does not removed if we leave it while RemorsePopup is running
+  - the whole view is non interactive when RemorsePopup is executing
 * probably more...

@@ -36,8 +36,8 @@ MouseArea {
         NumberAnimation { duration: 100 }
     }
 
-    function open(item, message) {
-        message.text = message
+    function open(fileName) {
+        message.text = fileName
         opacity = 1
     }
 
