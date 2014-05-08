@@ -56,8 +56,8 @@ Flickable {
         property bool busy: deleteAnimation.running
 
         anchors.centerIn: parent
-        width: isPortrait ? parent.height : parent.width
-        height: isPortrait ? parent.width : parent.height
+        width: media.video ? parent.width : isPortrait ? parent.height : parent.width
+        height: media.video ? parent.height : isPortrait ? parent.width : parent.height
 
         url: media.url
         mimeType: media.mimeType
