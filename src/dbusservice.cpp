@@ -28,10 +28,12 @@
 #endif
 #include <QDBusPendingCall>
 
-// We cannot use ADBusInterface because it will try to introspect the service upon
+// We cannot use A DBusInterface because it will try to introspect the service upon
 // creation. This will lead to services being launched when we create the interfaces.
 DbusService::DbusService(QObject *parent) :
-  QObject(parent), m_settings(0), m_enabled(false) {
+  QObject(parent),
+  m_settings(0),
+  m_enabled(false) {
 
 }
 
@@ -87,30 +89,12 @@ void DbusService::init() {
   m_path = service.m_path;
   m_interface = service.m_interface;
   m_dest = service.m_dest;
-
-  QStringList methods = service.m_method.split('|');
-  foreach (const QString& method, methods) {
-    QStringList parts = method.split(':');
-    if (parts.size() != 2) {
-      qmlInfo(this) << "Cannot parse dbus method description" << method;
-      continue;
-    }
-
-    QString id = parts[0].trimmed();
-    QString val = parts[1].trimmed();
-    if (id.isEmpty() || val.isEmpty()) {
-      qmlInfo(this) << "Empty id or value";
-      continue;
-    }
-
-    m_methods[id] = val;
-  }
-
+  m_method = service.m_method;
   m_enabled = service.m_enabled;
   emit isEnabledChanged();
 }
 
-bool DbusService::asyncCall(const QString& method, const QVariant& arg) {
+bool DbusService::asyncCall(const QVariant& arg) {
   if (!m_settings) {
     qmlInfo(this) << "Empty settings.";
     return false;
@@ -121,24 +105,12 @@ bool DbusService::asyncCall(const QString& method, const QVariant& arg) {
     return false;
   }
 
-  if (m_dest.isEmpty() || m_path.isEmpty() || m_interface.isEmpty()) {
+  if (m_dest.isEmpty() || m_path.isEmpty() || m_interface.isEmpty() || m_method.isEmpty()) {
     qmlInfo(this) << "Unable to construct DBus method call.";
     return false;
   }
 
-  if (method.isEmpty()) {
-    qmlInfo(this) << "Empty method call";
-    return false;
-  }
-
-  if (!m_methods.contains(method)) {
-    qmlInfo(this) << "Unknown method call ID" << method;
-    return false;
-  }
-
-  QString call = m_methods[method];
-
-  QDBusMessage msg = QDBusMessage::createMethodCall(m_dest, m_path, m_interface, call);
+  QDBusMessage msg = QDBusMessage::createMethodCall(m_dest, m_path, m_interface, m_method);
   msg.setAutoStartService(true);
   if (arg.isValid()) {
     msg.setArguments(QList<QVariant>() << arg);

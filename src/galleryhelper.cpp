@@ -32,5 +32,5 @@ GalleryHelper::~GalleryHelper() {
 }
 
 bool GalleryHelper::launch() {
-  return asyncCall("camera-roll");
+  return asyncCall();
 }

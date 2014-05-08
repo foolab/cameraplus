@@ -38,5 +38,5 @@ bool ShareHelper::share(const QUrl& path) {
 
   QVariant var(args);
 
-  return asyncCall("share", args);
+  return asyncCall(args);
 }

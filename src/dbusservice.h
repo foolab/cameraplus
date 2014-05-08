@@ -46,7 +46,7 @@ public:
 
   bool isEnabled() const;
 
-  bool asyncCall(const QString& method, const QVariant& arg = QVariant());
+  bool asyncCall(const QVariant& arg = QVariant());
 
 signals:
   void settingsChanged();
@@ -62,6 +62,7 @@ private:
   QString m_path;
   QString m_interface;
   QString m_dest;
+  QString m_method;
 
   bool m_enabled;
 
