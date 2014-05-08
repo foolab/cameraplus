@@ -6,7 +6,7 @@ cat <<EOF  > icons.qrc
     <qresource prefix="/images">
 EOF
 
-for i in *.png; do echo "      <file>"$i"</file>"; done  >> icons.qrc
+for i in `cat icons.txt  | cut -d \  -f 1`; do echo "      <file>cameraplus-"$i".png</file>"; done >> icons.qrc
 
 cat <<EOF  >> icons.qrc
     </qresource>
