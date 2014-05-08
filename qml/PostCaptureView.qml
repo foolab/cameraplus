@@ -50,6 +50,7 @@ Item {
         highlightMoveDuration: 1
         highlightResizeDuration: 1
         highlightRangeMode: ListView.StrictlyEnforceRange
+        interactive: deleteDialog.visible ? false : currentItem ? !currentItem.busy : true
 
         delegate: PostCaptureViewImage {
             rotation: media.video ? 0 : isPortrait ? -90 : 0
@@ -76,7 +77,7 @@ Item {
         orientation: ListView.Horizontal
         model: postCaptureModel
         visible: anchors.bottomMargin > -100
-        enabled: view.currentItem ? !view.currentItem.busy : true
+        interactive: view.interactive
 
         Behavior on anchors.bottomMargin {
             NumberAnimation { duration: 200 }
@@ -87,6 +88,7 @@ Item {
             width: 120
             height: 120
             color: media.video ? "blue" : "white"
+            enabled: view.interactive
 
             scale: mouse.pressed ? 2 : 1
             z: scale > 1 ? 1 : 0
@@ -172,7 +174,7 @@ Item {
         targetWidth: parent.width - (anchors.leftMargin * 2)
         expanded: true
         hideBack: true
-        enabled: view.currentItem ? !view.currentItem.busy : true
+        enabled: view.interactive
 
         Behavior on anchors.topMargin {
             NumberAnimation { duration: 200 }
