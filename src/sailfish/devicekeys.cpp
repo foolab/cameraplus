@@ -19,11 +19,12 @@
  */
 
 #include "devicekeys.h"
-#include <QCoreApplication>
+#include <QGuiApplication>
 #include <QDebug>
 #include <QEvent>
 #include <QKeyEvent>
 #include <QTimer>
+#include <QWindow>
 
 DeviceKeys::DeviceKeys(QObject *parent) :
   QObject(parent),
@@ -38,7 +39,7 @@ DeviceKeys::DeviceKeys(QObject *parent) :
 
   QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(repeatEventsIfNeeded()));
 
-  QCoreApplication::instance()->installEventFilter(this);
+  QGuiApplication::instance()->installEventFilter(this);
 }
 
 DeviceKeys::~DeviceKeys() {
@@ -47,6 +48,11 @@ DeviceKeys::~DeviceKeys() {
 
 bool DeviceKeys::eventFilter(QObject *obj, QEvent *event) {
   if (!m_active) {
+    return QObject::eventFilter(obj, event);
+  }
+
+  QWindow *win = dynamic_cast<QWindow *>(obj);
+  if (!win || !QGuiApplication::allWindows().contains(win)) {
     return QObject::eventFilter(obj, event);
   }
 
