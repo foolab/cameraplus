@@ -9,7 +9,6 @@
 * Need to review the icons and resize them
 * Front camera needs resolutions
 * all our sound effect are not played because policy engine uncorks only ngfd.
-* review video recording duration label position
 * postcapture:
   - image does not removed if we leave it while RemorsePopup is running
   - the whole view is non interactive when RemorsePopup is executing
