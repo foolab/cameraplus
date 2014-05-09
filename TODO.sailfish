@@ -1,4 +1,5 @@
-* some video thumbnails are in 4:3
+* touch focus. is it really working?
+* zoom. Are we rendering the viewfinder correctly?
 * some lockups while playing some videos especially short ones
 * there is at least 1 crash that might happen while recording videos
 * face detection is broken
