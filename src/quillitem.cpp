@@ -43,8 +43,10 @@ QuillItem::QuillItem(QDeclarativeItem *parent) :
 
 #if defined(QT4)
   setFlag(QGraphicsItem::ItemHasNoContents, false);
+#else
+  // TODO: causes GL to run out of memory
+  //  setRenderTarget(QQuickPaintedItem::FramebufferObject);
 #endif
-
 }
 
 QuillItem::~QuillItem() {
