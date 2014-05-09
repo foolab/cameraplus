@@ -248,14 +248,14 @@ Item {
         onTriggered: {
             duration = duration + 1
 
-            if (duration == 3600) {
+            if (platformSettings.maximumVideoDuration != -1 &&
+                duration >= platformSettings.maximumVideoDuration) {
                 overlay.stopRecording()
                 showError(qsTr("Maximum recording time reached."))
             } else if (!fileSystem.hasFreeSpace(platformSettings.temporaryVideoPath)) {
                 page.stopRecording()
                 showError(qsTr("Not enough space to continue recording."))
             }
-
         }
     }
 

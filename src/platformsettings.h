@@ -41,6 +41,7 @@ class PlatformSettings : public QObject {
   Q_PROPERTY(QString imagePath READ imagePath CONSTANT);
   Q_PROPERTY(QString videoPath READ videoPath CONSTANT);
   Q_PROPERTY(QString temporaryVideoPath READ temporaryVideoPath CONSTANT);
+  Q_PROPERTY(int maximumVideoDuration READ maximumVideoDuration CONSTANT);
 
 public:
   PlatformSettings(QObject *parent = 0);
@@ -80,6 +81,8 @@ public:
   QString imagePath();
   QString videoPath();
   QString temporaryVideoPath();
+
+  int maximumVideoDuration() const;
 
 public slots:
   void init();

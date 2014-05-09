@@ -221,3 +221,11 @@ QString PlatformSettings::canonicalPath(const QString& path) const {
 
   return newPath;
 }
+
+int PlatformSettings::maximumVideoDuration() const {
+#ifdef SAILFISH
+  return -1;
+#else
+  return 3600;
+#endif
+}

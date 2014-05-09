@@ -10,7 +10,6 @@
 * Front camera needs resolutions
 * all our sound effect are not played because policy engine uncorks only ngfd.
 * review video recording duration label position
-* maximum video length is hardcoded to 1 hour
 * postcapture:
   - image does not removed if we leave it while RemorsePopup is running
   - the whole view is non interactive when RemorsePopup is executing
