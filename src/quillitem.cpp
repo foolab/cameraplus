@@ -186,7 +186,7 @@ bool QuillItem::error() const {
 void QuillItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
   Q_UNUSED(widget);
   Q_UNUSED(option);
-  painter->fillRect(boundingRect(), Qt::black);
+
   painter->drawImage(m_targetRect, m_image, m_sourceRect);
 }
 #endif
