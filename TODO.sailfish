@@ -12,6 +12,5 @@
 * postcapture:
   - image does not removed if we leave it while RemorsePopup is running
   - the whole view is non interactive when RemorsePopup is executing
-  - pinch zoom is not smooth. We are using raster paint engine. Using a FBO causes out of GL memory
   - rotation shows the neighboring images for a fraction.
 * probably more...

@@ -92,7 +92,9 @@ Item {
             id: rectangle
             width: 120
             height: 120
-            color: media.video ? "blue" : "white"
+            border.color: media.video ? "blue" : "white"
+            border.width: 2
+            color: "black"
             enabled: view.interactive
 
             scale: mouse.pressed ? 2 : 1

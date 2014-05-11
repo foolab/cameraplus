@@ -20,18 +20,19 @@
 
 #include "quillitem.h"
 #include <QuillFile>
-#include <QUrl>
-#include <QPainter>
-#include <QDir>
 #if defined(QT4)
+#include <QPainter>
 #include <QDeclarativeInfo>
 #elif defined(QT5)
 #include <QQmlInfo>
+#include <QQuickWindow>
+#include <QSGNode>
+#include <QSGSimpleTextureNode>
 #endif
 
 #if defined(QT5)
 QuillItem::QuillItem(QQuickItem *parent) :
-  QQuickPaintedItem(parent),
+  QQuickItem(parent),
 #else
 QuillItem::QuillItem(QDeclarativeItem *parent) :
   QDeclarativeItem(parent),
@@ -44,8 +45,7 @@ QuillItem::QuillItem(QDeclarativeItem *parent) :
 #if defined(QT4)
   setFlag(QGraphicsItem::ItemHasNoContents, false);
 #else
-  // TODO: causes GL to run out of memory
-  //  setRenderTarget(QQuickPaintedItem::FramebufferObject);
+  setFlag(QQuickItem::ItemHasContents, true);
 #endif
 }
 
@@ -60,7 +60,7 @@ void QuillItem::componentComplete() {
 #if defined(QT4)
   QDeclarativeItem::componentComplete();
 #elif defined(QT5)
-  QQuickPaintedItem::componentComplete();
+  QQuickItem::componentComplete();
 #endif
 
   m_file = new QuillFile(m_url.toLocalFile(), m_mimeType);
@@ -84,8 +84,19 @@ void QuillItem::componentComplete() {
   }
 
   m_file->setDisplayLevel(m_displayLevel);
-
   fileError();
+
+  updateImage();
+}
+
+void QuillItem::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
+#if defined(QT4)
+  QDeclarativeItem::geometryChanged(newGeometry, oldGeometry);
+#elif defined(QT5)
+  QQuickItem::geometryChanged(newGeometry, oldGeometry);
+#endif
+
+  updateImage();
 }
 
 QUrl QuillItem::url() const {
@@ -143,6 +154,8 @@ void QuillItem::setDisplayLevel(const QuillItem::DisplayLevel& level) {
   }
 
   emit displayLevelChanged();
+
+  updateImage();
 }
 
 QuillItem::Priority QuillItem::priority() const {
@@ -173,40 +186,13 @@ bool QuillItem::error() const {
 void QuillItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
   Q_UNUSED(widget);
   Q_UNUSED(option);
-#elif defined(QT5)
-void QuillItem::paint(QPainter* painter) {
+  painter->fillRect(boundingRect(), Qt::black);
+  painter->drawImage(m_targetRect, m_image, m_sourceRect);
+}
 #endif
 
-  QRectF rect = boundingRect();
-  painter->fillRect(rect, Qt::black);
-
-  if (!m_file) {
-    return;
-  }
-
-  QImage image = m_file->image(m_displayLevel);
-
-  if (image.isNull()) {
-    if (m_displayLevel == QuillItem::DisplayLevelLarge
-	&& m_file->hasThumbnail(QuillItem::DisplayLevelFullScreen)) {
-      image = m_file->image(QuillItem::DisplayLevelFullScreen);
-    } else {
-      return;
-    }
-  }
-
-  QSizeF imageSize = QSizeF(image.size());
-  QSizeF widgetSize = rect.size();
-  imageSize.scale(widgetSize, Qt::KeepAspectRatio);
-
-  QPointF pos = QPointF(widgetSize.width() - imageSize.width(),
-			widgetSize.height() - imageSize.height()) / 2;
-
-  painter->drawImage(QRectF(pos, imageSize), image, QRect(0, 0, image.width(), image.height()));
-}
-
 void QuillItem::fileLoaded() {
-  update();
+  updateImage();
 }
 
 bool QuillItem::fileError() {
@@ -236,3 +222,95 @@ bool QuillItem::fileError() {
 
   return false;
 }
+
+void QuillItem::updateImage() {
+  if (m_file) {
+    QImage image = m_file->image(m_displayLevel);
+    if (!image.isNull()) {
+      m_image = image;
+      QRectF br = boundingRect();
+      QRectF rect = QRectF(br.x(), br.y(), br.width() * scale(), br.height() * scale());
+      QRectF target = rect;
+      QSizeF size = m_image.size();
+      size.scale(rect.size(), Qt::KeepAspectRatio);
+      target.setSize(size);
+      QPointF pos(qAbs((rect.width() - target.width()) / 2),
+		  qAbs((rect.height() - target.height()) / 2));
+      target.moveTo(pos);
+      m_sourceRect = QRectF(QPointF(0, 0), m_image.size());
+      m_targetRect = target;
+      update();
+    }
+  }
+}
+
+#ifdef QT5
+class QuillNode : public QSGNode {
+public:
+  QuillNode(QQuickWindow *window);
+  ~QuillNode();
+
+  void setImage(const QImage& image, const QRectF& target);
+
+private:
+  QQuickWindow *m_window;
+  QSGTexture *m_texture;
+  QSGSimpleTextureNode *m_textureNode;
+};
+
+QuillNode::QuillNode(QQuickWindow *window) :
+  m_window(window),
+  m_texture(0),
+  m_textureNode(0) {
+
+}
+
+QuillNode::~QuillNode() {
+  if (m_texture) {
+    delete m_texture;
+  }
+
+  if (m_textureNode) {
+    removeChildNode(m_textureNode);
+    delete m_textureNode;
+  }
+}
+
+void QuillNode::setImage(const QImage& image, const QRectF& target) {
+  if (m_texture) {
+    delete m_texture;
+  }
+
+  m_texture = m_window->createTextureFromImage(image);
+
+  if (m_textureNode) {
+    removeChildNode(m_textureNode);
+    delete m_textureNode;
+  }
+
+  m_textureNode = new QSGSimpleTextureNode;
+  m_textureNode->setTexture(m_texture);
+  m_textureNode->setRect(target);
+  m_textureNode->setFiltering(QSGTexture::Linear);
+  appendChildNode(m_textureNode);
+}
+
+QSGNode *QuillItem::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
+  Q_UNUSED(updatePaintNodeData);
+
+  QuillNode *node = dynamic_cast<QuillNode *>(oldNode);
+
+  if (width() <= 0 || height() <= 0) {
+    delete node;
+    return 0;
+  }
+
+  if (!node) {
+    node = new QuillNode(window());
+  }
+
+  node->setImage(m_image, m_targetRect);
+
+  return node;
+}
+#endif

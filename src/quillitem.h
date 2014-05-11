@@ -24,15 +24,16 @@
 #define QUILL_ITEM_H
 
 #if defined(QT5)
-#include <QQuickPaintedItem>
+#include <QQuickItem>
 #else
 #include <QDeclarativeItem>
 #endif
+#include <QImage>
 
 class QuillFile;
 
 #if defined(QT5)
-class QuillItem : public QQuickPaintedItem {
+class QuillItem : public QQuickItem {
 #else
 class QuillItem : public QDeclarativeItem {
 #endif
@@ -71,13 +72,12 @@ public:
 
 #if defined(QT4)
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-#else
-  void paint(QPainter* painter);
 #endif
 
   bool error() const;
 
   void componentComplete();
+  void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
 
   QUrl url() const;
   void setUrl(const QUrl& url);
@@ -90,6 +90,11 @@ public:
 
   Priority priority() const;
   void setPriority(const Priority& priority);
+
+#ifdef QT5
+protected:
+  QSGNode *updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData);
+#endif
 
 signals:
   void error(const QString& err);
@@ -104,7 +109,6 @@ private slots:
   bool fileError();
 
 private:
-  void recreate();
   void updateImage();
 
   QuillFile *m_file;
@@ -113,6 +117,9 @@ private:
   Priority m_priority;
   QUrl m_url;
   QString m_mimeType;
+  QImage m_image;
+  QRectF m_sourceRect;
+  QRectF m_targetRect;
 };
 
 #endif /* QUILL_ITEM_H */
