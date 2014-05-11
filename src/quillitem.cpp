@@ -239,6 +239,7 @@ void QuillItem::updateImage(bool callUpdate) {
     QPointF pos(qAbs((rect.width() - target.width()) / 2),
 		qAbs((rect.height() - target.height()) / 2));
     target.moveTo(pos);
+    m_sourceRect = QRectF(QPointF(0, 0), m_image.size());
     m_targetRect = target;
 
     if (callUpdate) {
