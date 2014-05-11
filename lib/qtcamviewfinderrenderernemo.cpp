@@ -494,7 +494,9 @@ void QtCamViewfinderRendererNemo::cleanup() {
   }
 
   if (m_notify) {
-    g_signal_handler_disconnect(m_sink, m_notify);
+    GstPad *pad = gst_element_get_static_pad(m_sink, "sink");
+    g_signal_handler_disconnect(pad, m_notify);
+    gst_object_unref(pad);
     m_notify = 0;
   }
 
