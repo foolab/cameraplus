@@ -109,7 +109,7 @@ private slots:
   bool fileError();
 
 private:
-  void updateImage();
+  void updateImage(bool callUpdate);
 
   QuillFile *m_file;
   bool m_error;

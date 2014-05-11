@@ -86,7 +86,7 @@ void QuillItem::componentComplete() {
   m_file->setDisplayLevel(m_displayLevel);
   fileError();
 
-  updateImage();
+  updateImage(false);
 }
 
 void QuillItem::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
@@ -96,7 +96,7 @@ void QuillItem::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeom
   QQuickItem::geometryChanged(newGeometry, oldGeometry);
 #endif
 
-  updateImage();
+  updateImage(false);
 }
 
 QUrl QuillItem::url() const {
@@ -155,7 +155,7 @@ void QuillItem::setDisplayLevel(const QuillItem::DisplayLevel& level) {
 
   emit displayLevelChanged();
 
-  updateImage();
+  updateImage(true);
 }
 
 QuillItem::Priority QuillItem::priority() const {
@@ -192,7 +192,7 @@ void QuillItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
 #endif
 
 void QuillItem::fileLoaded() {
-  updateImage();
+  updateImage(true);
 }
 
 bool QuillItem::fileError() {
@@ -223,22 +223,25 @@ bool QuillItem::fileError() {
   return false;
 }
 
-void QuillItem::updateImage() {
+void QuillItem::updateImage(bool callUpdate) {
   if (m_file) {
     QImage image = m_file->image(m_displayLevel);
     if (!image.isNull()) {
       m_image = image;
-      QRectF br = boundingRect();
-      QRectF rect = QRectF(br.x(), br.y(), br.width() * scale(), br.height() * scale());
-      QRectF target = rect;
-      QSizeF size = m_image.size();
-      size.scale(rect.size(), Qt::KeepAspectRatio);
-      target.setSize(size);
-      QPointF pos(qAbs((rect.width() - target.width()) / 2),
-		  qAbs((rect.height() - target.height()) / 2));
-      target.moveTo(pos);
-      m_sourceRect = QRectF(QPointF(0, 0), m_image.size());
-      m_targetRect = target;
+    }
+
+    QRectF br = boundingRect();
+    QRectF rect = QRectF(br.x(), br.y(), br.width() * scale(), br.height() * scale());
+    QRectF target = rect;
+    QSizeF size = m_image.size();
+    size.scale(rect.size(), Qt::KeepAspectRatio);
+    target.setSize(size);
+    QPointF pos(qAbs((rect.width() - target.width()) / 2),
+		qAbs((rect.height() - target.height()) / 2));
+    target.moveTo(pos);
+    m_targetRect = target;
+
+    if (callUpdate) {
       update();
     }
   }
