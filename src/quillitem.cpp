@@ -86,7 +86,7 @@ void QuillItem::componentComplete() {
   m_file->setDisplayLevel(m_displayLevel);
   fileError();
 
-  updateImage(false);
+  updateImage(false, true, true);
 }
 
 void QuillItem::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
@@ -96,7 +96,7 @@ void QuillItem::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeom
   QQuickItem::geometryChanged(newGeometry, oldGeometry);
 #endif
 
-  updateImage(false);
+  updateImage(false, false, true);
 }
 
 QUrl QuillItem::url() const {
@@ -155,7 +155,7 @@ void QuillItem::setDisplayLevel(const QuillItem::DisplayLevel& level) {
 
   emit displayLevelChanged();
 
-  updateImage(true);
+  updateImage(true, true, true);
 }
 
 QuillItem::Priority QuillItem::priority() const {
@@ -192,7 +192,7 @@ void QuillItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
 #endif
 
 void QuillItem::fileLoaded() {
-  updateImage(true);
+  updateImage(true, true, true);
 }
 
 bool QuillItem::fileError() {
@@ -223,13 +223,15 @@ bool QuillItem::fileError() {
   return false;
 }
 
-void QuillItem::updateImage(bool callUpdate) {
-  if (m_file) {
+void QuillItem::updateImage(bool callUpdate, bool resetImage, bool resetGeometry) {
+  if (m_file && resetImage) {
     QImage image = m_file->image(m_displayLevel);
     if (!image.isNull()) {
       m_image = image;
     }
+  }
 
+  if (resetGeometry) {
     QRectF br = boundingRect();
     QRectF rect = QRectF(br.x(), br.y(), br.width() * scale(), br.height() * scale());
     QRectF target = rect;
@@ -241,10 +243,10 @@ void QuillItem::updateImage(bool callUpdate) {
     target.moveTo(pos);
     m_sourceRect = QRectF(QPointF(0, 0), m_image.size());
     m_targetRect = target;
+  }
 
-    if (callUpdate) {
-      update();
-    }
+  if (callUpdate) {
+    update();
   }
 }
 
