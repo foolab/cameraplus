@@ -1,3 +1,14 @@
+cameraplus (0.0.22-1) unstable; urgency=medium
+
+  * Fix country names being in capital letters
+  * Prevent the self timer delay slider from changing position when the tool bar is closed
+  * Increase the GPS position update interval to 60 seconds
+  * New mode switch, front camera switch and back camera switch icons from mcbook
+  * Don't rotate video preview in post capture
+  * Reworked the post capture rotation animation
+
+ -- Mohammed Sameer <msameer@foolab.org>  Mon, 05 May 2014 00:13:30 +0300
+
 cameraplus (0.0.21-1) unstable; urgency=medium
 
   * Fixed zoom not working with rocker keys
