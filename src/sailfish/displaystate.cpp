@@ -21,7 +21,7 @@
 #include "displaystate.h"
 #include <qmdisplaystate.h>
 #include <QTimer>
-#include <QDebug>
+#include <QQmlInfo>
 
 DisplayState::DisplayState(QObject *parent) :
   QObject(parent), m_state(new MeeGo::QmDisplayState(this)), m_timer(new QTimer(this)) {
@@ -47,17 +47,13 @@ void DisplayState::setInhibitDim(bool inhibit) {
 
   if (!inhibit) {
     if (!m_state->cancelBlankingPause()) {
-      qWarning() << "Failed to cancel display dimming!";
+      qmlInfo(this) << "Failed to cancel display dimming!";
     }
 
     m_timer->stop();
   }
   else {
-    if (!m_state->setBlankingPause()) {
-      qWarning() << "Failed to inhibit display dimming!";
-      return;
-    }
-
+    timeout();
     m_timer->start();
   }
 
@@ -66,10 +62,10 @@ void DisplayState::setInhibitDim(bool inhibit) {
 
 void DisplayState::timeout() {
   if (!m_state->setBlankingPause()) {
-    qWarning() << "Failed to inhibit display dimming!";
+    qmlInfo(this) << "Failed to inhibit display dimming!";
   }
 }
 
 bool DisplayState::isOn() {
-  return true;
+  return m_state->get() == MeeGo::QmDisplayState::On;
 }
