@@ -25,11 +25,11 @@ import com.nokia.meego 1.0
 
 Item {
     id: button
-
     width: platformStyle.buttonWidth
     height: platformStyle.buttonHeight
 
     signal clicked
+    property bool checked
     property alias text: label.text
     property alias pressed: mouse.pressed
     property alias enabled: mouse.enabled
@@ -47,9 +47,12 @@ Item {
         border { left: button.platformStyle.backgroundMarginLeft; top: button.platformStyle.backgroundMarginTop;
                  right: button.platformStyle.backgroundMarginRight; bottom: button.platformStyle.backgroundMarginBottom }
 
-        source: !enabled ? button.platformStyle.disabledBackground :
+        source: !enabled ?
+                  (checked ? button.platformStyle.checkedDisabledBackground : button.platformStyle.disabledBackground) :
                   pressed ?
                       button.platformStyle.pressedBackground :
+                  checked ?
+                      button.platformStyle.checkedBackground :
                       button.platformStyle.background;
     }
 
@@ -62,8 +65,10 @@ Item {
         anchors.leftMargin: 10
         horizontalAlignment: Text.AlignHCenter
         font.bold: true
+        font.capitalization: Font.Capitalize
         color: !enabled ? button.platformStyle.disabledTextColor :
                pressed ? button.platformStyle.pressedTextColor :
+               checked ? button.platformStyle.checkedTextColor :
                          button.platformStyle.textColor;
         elide: Text.ElideRight
     }

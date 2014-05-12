@@ -4,6 +4,7 @@
 	<file>CameraLabel.qml</file>
 	<file>CameraTextField.qml</file>
 	<file>CameraButton.qml</file>
+	<file>CameraCheckButton.qml</file>
 	<file>CameraWindow.qml</file>
 	<file>CameraPositionSource.qml</file>
 	<file>CameraPage.qml</file>

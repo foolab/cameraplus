@@ -48,7 +48,7 @@ Column {
         Repeater {
             id: aspectRatios
             model: imageSettings.aspectRatios
-            delegate: CameraButton {
+            delegate: CameraCheckButton {
                 width: aspectRatioRow.width / aspectRatios.count
                 text: qsTr(modelData)
                 checked: deviceSettings().imageAspectRatio == modelData
@@ -78,9 +78,8 @@ Column {
             model: imageSettings.resolutions.aspectRatio == deviceSettings().imageAspectRatio ?
                 imageSettings.resolutions : undefined
 
-            delegate: CameraButton {
+            delegate: CameraCheckButton {
                 width: resolutionsRow.width / resolutions.count
-                capitalize: true
                 text: qsTr("%1 %2 Mpx").arg(resolutionName).arg(megaPixels)
                 checked: deviceSettings().imageResolution == resolutionName
                 onClicked: {

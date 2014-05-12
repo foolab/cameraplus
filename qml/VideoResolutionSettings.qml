@@ -44,9 +44,8 @@ Column {
 
             model: videoSettings.resolutions
 
-            delegate: CameraButton {
+            delegate: CameraCheckButton {
                 width: resoultionsRow.width / resolutions.count
-                capitalize: true
                 text: qsTr("%1 %2").arg(resolutionName).arg(resolution)
                 checked: deviceSettings().videoResolution == resolutionName
                 onClicked: {

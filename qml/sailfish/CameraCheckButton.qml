@@ -23,6 +23,30 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-Button {
-    Component.onCompleted: console.log("WARNING: not implemented")
+MouseArea {
+    property alias checked: switchItem.checked
+    property alias text: label.text
+    property bool down: pressed && containsMouse
+
+    width: switchItem.width + label.width
+    height: Math.max(switchItem.height, label.height)
+
+    Switch {
+        id: switchItem
+        width: Theme.itemSizeExtraSmall
+        height: Theme.itemSizeSmall
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        automaticCheck: false
+    }
+
+    CameraLabel {
+        id: label
+        height: Theme.itemSizeSmall
+        anchors.left: switchItem.right
+        anchors.verticalCenter: parent.verticalCenter
+        verticalAlignment: Text.AlignVCenter
+        color: down ? Theme.highlightColor : Theme.primaryColor
+        font.capitalization: Font.Capitalize
+    }
 }
