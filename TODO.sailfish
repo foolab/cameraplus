@@ -1,6 +1,5 @@
 * touch focus. is it really working?
 * zoom. Are we rendering the viewfinder correctly?
-* some lockups while playing some videos especially short ones
 * there is at least 1 crash that might happen while recording videos
 * face detection is broken
 * not all UI settings are supported by the camera
@@ -12,5 +11,4 @@
 * postcapture:
   - image does not removed if we leave it while RemorsePopup is running
   - the whole view is non interactive when RemorsePopup is executing
-  - rotation shows the neighboring images for a fraction.
 * probably more...
