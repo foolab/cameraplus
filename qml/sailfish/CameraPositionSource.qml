@@ -27,27 +27,17 @@ PositionSource {
     // NOTE: The source will not reset the position when we lose the signal.
     // This shouldn't be a big problem as we are course enough.
     // If we ever need street level updates then this will be an issue.
+    // And we monitor horizontalAccuracyValid anyway
     id: positionSource
 
-    // TODO: is that thing working?
     updateInterval: 60000 // Once every 60 seconds should be enough.
 
-    property real longitude
-    property real latitude
-    property real altitude
-    property real horizontalAccuracy
-    property bool longitudeValid
-    property bool latitudeValid
-    property bool altitudeValid
-    property bool horizontalAccuracyValid
-/*
-    property alias longitude: position.coordinate.longitude
-    property alias latitude: position.coordinate.latitude
-    property alias altitude: position.coordinate.altitude
-    property alias longitudeValid: position.longitudeValid
-    property alias latitudeValid: position.latitudeValid
-    property alias altitudeValid: position.altitudeValid
-    property alias horizontalAccuracy: position.horizontalAccuracy
-    property alias horizontalAccuracyValid: position.horizontalAccuracyValid
-*/
+    property real longitude: position.coordinate.longitude
+    property real latitude: position.coordinate.latitude
+    property real altitude: position.coordinate.altitude
+    property real horizontalAccuracy: position.horizontalAccuracy
+    property bool longitudeValid: position.longitudeValid
+    property bool latitudeValid: position.latitudeValid
+    property bool altitudeValid: position.altitudeValid
+    property bool horizontalAccuracyValid: position.horizontalAccuracyValid
 }
