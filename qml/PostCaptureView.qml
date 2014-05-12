@@ -58,12 +58,6 @@ Item {
         interactive: deleteDialog.visible ? false : currentItem ? !currentItem.busy : true
 
         delegate: PostCaptureViewImage {
-            rotation: media.video ? 0 : isPortrait ? -90 : 0
-
-            Behavior on rotation {
-                NumberAnimation { duration: 200; }
-            }
-
             width: view.width
             height: view.height
             onPlayClicked: loader.startPlayback(media.url)

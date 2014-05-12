@@ -56,8 +56,55 @@ Flickable {
         property bool busy: deleteAnimation.running
 
         anchors.centerIn: parent
-        width: media.video ? parent.width : isPortrait ? parent.height : parent.width
-        height: media.video ? parent.height : isPortrait ? parent.width : parent.height
+        width: parent.width
+        height: parent.height
+
+        Behavior on rotation {
+            NumberAnimation { duration: 200; }
+        }
+
+        state: "landscape"
+        states: [
+            State {
+                name: "portrait"
+                when: isPortrait && !media.video
+            },
+            State {
+                name: "landscape"
+                when: !isPortrait || media.video
+            }
+        ]
+
+        transitions: [
+            Transition {
+                to: "landscape"
+                SequentialAnimation {
+                    ParallelAnimation {
+                        PropertyAnimation { property: "width"; duration: 100; to: image.width / 2; target: image}
+                        PropertyAnimation { property: "height"; duration: 100; to: image.height / 2; target: image}
+                    }
+                    PropertyAnimation { property: "rotation"; duration: 200; to: 0; target: image}
+                    ParallelAnimation {
+                        PropertyAnimation { property: "width"; duration: 100; to: image.parent.width; target: image}
+                        PropertyAnimation { property: "height"; duration: 100; to: image.parent.height; target: image}
+                    }
+                }
+            },
+            Transition {
+                to: "portrait"
+                SequentialAnimation {
+                    ParallelAnimation {
+                        PropertyAnimation { property: "width"; duration: 100; to: image.width / 2; target: image}
+                        PropertyAnimation { property: "height"; duration: 100; to: image.height / 2; target: image}
+                    }
+                    PropertyAnimation { property: "rotation"; duration: 200; to: -90; target: image}
+                    ParallelAnimation {
+                        PropertyAnimation { property: "width"; duration: 100; to: image.parent.height; target: image}
+                        PropertyAnimation { property: "height"; duration: 100; to: image.parent.width; target: image}
+                    }
+                }
+            }
+        ]
 
         url: media.url
         mimeType: media.mimeType
