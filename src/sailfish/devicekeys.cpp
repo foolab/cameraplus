@@ -26,6 +26,8 @@
 #include <QTimer>
 #include <QWindow>
 
+#define KEY_REPEAT_TIMEOUT 75
+
 DeviceKeys::DeviceKeys(QObject *parent) :
   QObject(parent),
   m_repeating(true),
@@ -34,7 +36,7 @@ DeviceKeys::DeviceKeys(QObject *parent) :
   m_event(0),
   m_key(0) {
 
-  m_timer->setInterval(100);
+  m_timer->setInterval(KEY_REPEAT_TIMEOUT);
   m_timer->setSingleShot(false);
 
   QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(repeatEventsIfNeeded()));
