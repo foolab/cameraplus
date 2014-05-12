@@ -225,7 +225,11 @@ CameraPage {
     CameraPositionSource {
         id: positionSource
         active: viewfinder.camera.running && settings.useGps
-        onPositionChanged: geocode.search(position.coordinate.longitude, position.coordinate.latitude)
+        onPositionChanged: {
+            if (positionSource.horizontalAccuracyValid) {
+                geocode.search(position.coordinate.longitude, position.coordinate.latitude)
+            }
+        }
     }
 
     MetaData {
