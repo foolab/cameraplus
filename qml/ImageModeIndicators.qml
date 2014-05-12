@@ -100,7 +100,7 @@ Rectangle {
                 from: 0.2
                 to: 1.0
                 duration: 1000
-                running: settings.useGps && !positionSource.position.longitudeValid && viewfinder.camera.running
+                running: settings.useGps && !positionSource.position.horizontalAccuracyValid && viewfinder.camera.running
                 alwaysRunToEnd: true
             }
         }
