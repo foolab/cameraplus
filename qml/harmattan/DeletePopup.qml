@@ -29,7 +29,6 @@ MouseArea {
     property Item item
     property Item page
 
-    signal triggered
     z: 1
     anchors.fill: parent
     parent: visible ? page : item
@@ -77,7 +76,7 @@ MouseArea {
         CameraButton {
             text: qsTr("Yes")
             onClicked: {
-                dialog.triggered()
+                item.deleteUrl()
                 dialog.close()
             }
         }

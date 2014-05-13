@@ -29,6 +29,6 @@ RemorseItem {
     property Item page
 
     function open() {
-        execute(item, qsTr("Deleting %1").arg(file))
+        execute(item, qsTr("Deleting %1").arg(file), function() { item.deleteUrl() })
     }
 }

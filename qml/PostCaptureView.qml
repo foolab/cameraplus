@@ -75,7 +75,6 @@ Item {
                 page: postCaptureView
                 item: image
                 file: fileName
-                onTriggered: image.deleteUrl()
             }
         }
     }
