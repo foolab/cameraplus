@@ -19,13 +19,13 @@
  */
 
 #include "displaystate.h"
-#include <qmdisplaystate.h>
 #include <QTimer>
 #include <QDeclarativeInfo>
 
 DisplayState::DisplayState(QObject *parent) :
   QObject(parent),
   m_state(new MeeGo::QmDisplayState(this)),
+  m_dpy(MeeGo::QmDisplayState::Unknown),
   m_timer(new QTimer(this)) {
 
   m_timer->setSingleShot(false);
@@ -34,7 +34,7 @@ DisplayState::DisplayState(QObject *parent) :
   QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
 
   QObject::connect(m_state, SIGNAL(displayStateChanged(MeeGo::QmDisplayState::DisplayState)),
-		   this, SLOT(displayStateChanged()));
+		   this, SLOT(displayStateChanged(MeeGo::QmDisplayState::DisplayState)));
 }
 
 DisplayState::~DisplayState() {
@@ -72,9 +72,14 @@ void DisplayState::timeout() {
 }
 
 bool DisplayState::isOn() {
-  return m_state->get() == MeeGo::QmDisplayState::On;
+  if (m_dpy == MeeGo::QmDisplayState::Unknown) {
+    m_dpy = m_state->get();
+  }
+
+  return m_dpy == MeeGo::QmDisplayState::On;
 }
 
-void DisplayState::displayStateChanged() {
+void DisplayState::displayStateChanged(MeeGo::QmDisplayState::DisplayState state) {
+  m_dpy = state;
   emit isOnChanged();
 }

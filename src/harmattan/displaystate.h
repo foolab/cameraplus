@@ -24,11 +24,9 @@
 #define DISPLAY_STATE_H
 
 #include <QObject>
+#include <qmdisplaystate.h>
 
 class QTimer;
-namespace MeeGo {
-  class QmDisplayState;
-};
 
 class DisplayState : public QObject {
   Q_OBJECT
@@ -50,10 +48,11 @@ signals:
 
 private slots:
   void timeout();
-  void displayStateChanged();
+  void displayStateChanged(MeeGo::QmDisplayState::DisplayState state);
 
 private:
   MeeGo::QmDisplayState *m_state;
+  MeeGo::QmDisplayState::DisplayState m_dpy;
   QTimer *m_timer;
 };
 
