@@ -6,16 +6,17 @@ include(../cameraplus.pri)
 
 QT += dbus
 CONFIG += link_pkgconfig
-PKGCONFIG += contextsubscriber-1.0
 
 qt4 {
     QT += declarative opengl
-    PKGCONFIG += QtSparql qmsystem2 libresourceqt1 qdeclarative-boostable quill
+    PKGCONFIG += QtSparql qmsystem2 libresourceqt1 qdeclarative-boostable quill \
+                 contextsubscriber-1.0
 }
 
 qt5 {
     QT += qml quick
-    PKGCONFIG += Qt5Sparql qmsystem2-qt5 libresourceqt5 qdeclarative5-boostable quill-qt5
+    PKGCONFIG += Qt5Sparql qmsystem2-qt5 libresourceqt5 qdeclarative5-boostable quill-qt5 \
+                 contextkit-statefs
 }
 
 SOURCES += main.cpp \
