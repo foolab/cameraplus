@@ -238,6 +238,8 @@ CameraPage {
         onPositionChanged: {
             if (positionSource.horizontalAccuracyValid) {
                 geocode.search(position.coordinate.longitude, position.coordinate.latitude)
+            } else {
+                geocode.clear()
             }
         }
     }
