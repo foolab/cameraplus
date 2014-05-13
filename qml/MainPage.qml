@@ -36,6 +36,15 @@ CameraPage {
     property bool inCaptureMode: mainView.currentIndex == 1
     property Plugin activePlugin
 
+    Connections {
+        target: rootWindow
+        onActiveChanged: {
+            if (!rootWindow.active) {
+                mainView.currentIndex = 1
+            }
+        }
+    }
+
     CameraStyle {
         id: cameraStyle
     }
@@ -96,6 +105,7 @@ CameraPage {
         model: mainModel
         snapMode: ListView.SnapOneItem
         highlightRangeMode: ListView.StrictlyEnforceRange
+        highlightMoveDuration: 0
         boundsBehavior: Flickable.StopAtBounds
         currentIndex: 1
         interactive: !currentItem.pressed
