@@ -50,6 +50,7 @@ public:
 
 public slots:
   void search(double longitude, double latitude);
+  void clear();
 
 signals:
   void activeChanged();
@@ -63,7 +64,6 @@ private slots:
   void initialized(bool success);
 
 private:
-  void clear();
   GeoLocationService *m_service;
   QGeoCoordinate m_pending;
   uint m_id;

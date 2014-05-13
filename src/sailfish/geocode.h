@@ -48,6 +48,7 @@ public:
 
 public slots:
   void search(double longitude, double latitude);
+  void clear();
 
 signals:
   void activeChanged();
@@ -61,8 +62,6 @@ private slots:
 	     const QString& errorString = QString());
 
 private:
-  void clear();
-
   QGeoServiceProvider *m_provider;
   QGeoCodingManager *m_manager;
   QGeoCodeReply *m_reply;

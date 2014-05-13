@@ -124,6 +124,11 @@ void Geocode::search(double longitude, double latitude) {
 }
 
 void Geocode::clear() {
+  if (m_reply) {
+    m_reply->deleteLater();
+    m_reply = 0;
+  }
+
   if (!m_country.isEmpty()) {
     m_country.clear();
     emit countryChanged();
