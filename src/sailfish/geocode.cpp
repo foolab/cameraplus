@@ -22,6 +22,7 @@
 #include <QDebug>
 #include <QStringList>
 #include <QGeoAddress>
+#include <QQmlInfo>
 
 Geocode::Geocode(QObject *parent) :
   QObject(parent),
@@ -76,17 +77,17 @@ bool Geocode::isActive() const {
 }
 
 void Geocode::setActive(bool active) {
-  if (active != m_active) {
-    m_active = active;
-
-    if (!m_active && m_reply) {
-      m_reply->deleteLater(); m_reply = 0;
-    }
-
-    clear();
-
-    emit activeChanged();
+  if (active == m_active) {
+    return;
   }
+
+  m_active = active;
+
+  if (!m_active) {
+    clear();
+  }
+
+  emit activeChanged();
 }
 
 QString Geocode::country() const {
@@ -147,15 +148,19 @@ void Geocode::clear() {
 
 void Geocode::finished(QGeoCodeReply *reply) {
   if (reply->error() != QGeoCodeReply::NoError) {
-    qWarning() << "Error while geocoding" << reply->error() << reply->errorString();
+    qmlInfo(this) << "Error while geocoding" << reply->errorString();
 
     reply->deleteLater();
 
     if (reply == m_reply) {
-      m_reply = 0;
-    }
+      if (reply->error() == QGeoCodeReply::CommunicationError) {
+	// Network related error. We will disable ourselves for now.
+	setActive(false);
+      }
 
-    clear();
+      m_reply = 0;
+      clear();
+    }
 
     return;
   }
@@ -179,7 +184,7 @@ void Geocode::finished(QGeoCodeReply *reply) {
     }
   }
   else {
-    qWarning() << "No places found";
+    qmlInfo(this) << "No places found";
     clear();
   }
 
@@ -193,12 +198,17 @@ void Geocode::finished(QGeoCodeReply *reply) {
 void Geocode::error(QGeoCodeReply *reply, const QGeoCodeReply::Error& error,
 		    const QString& errorString) {
 
-  qWarning() << "Error while geocoding" << error << reply->errorString() << errorString;
+  qmlInfo(this) << "Error while geocoding" << errorString;
 
   reply->deleteLater();
 
   if (reply == m_reply) {
     m_reply = 0;
     clear();
+
+    if (error == QGeoCodeReply::CommunicationError) {
+      // Network related error. We will disable ourselves for now.
+      setActive(false);
+    }
   }
 }
