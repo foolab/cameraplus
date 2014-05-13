@@ -55,12 +55,28 @@ Item {
         highlightMoveDuration: 1
         highlightResizeDuration: 1
         highlightRangeMode: ListView.StrictlyEnforceRange
-        interactive: deleteDialog.visible ? false : currentItem ? !currentItem.busy : true
+        interactive: currentItem ? !currentItem.busy : true
 
         delegate: PostCaptureViewImage {
+            id: image
             width: view.width
             height: view.height
             onPlayClicked: loader.startPlayback(media.url)
+            function remove() {
+                if (media.url == "" || media.fileName == "") {
+                    return
+                }
+
+                popup.open()
+            }
+
+            DeletePopup {
+                id: popup
+                page: postCaptureView
+                item: image
+                file: fileName
+                onTriggered: image.deleteUrl()
+            }
         }
     }
 
@@ -190,8 +206,7 @@ Item {
 
             CameraToolIcon {
                 iconSource: cameraTheme.deleteIconId
-                onClicked: deleteDialog.deleteUrl(view.currentItem.url,
-                    view.currentItem.fileName)
+                onClicked: view.currentItem.remove()
                 enabled: view.currentItem != null
             }
 
@@ -235,20 +250,6 @@ Item {
 
     DeleteHelper {
         id: deleteHelper
-    }
-
-    DeletePopup {
-        id: deleteDialog
-
-        onTriggered: view.currentItem.deleteUrl()
-
-        function deleteUrl(url, fileName) {
-            if (url == "" || fileName == "") {
-                return
-            }
-
-            deleteDialog.open(fileName)
-        }
     }
 
     PostCaptureModel {

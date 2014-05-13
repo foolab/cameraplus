@@ -25,9 +25,14 @@ import QtQuick 2.0
 MouseArea {
     id: dialog
 
-    signal triggered
+    property alias file: message.text
+    property Item item
+    property Item page
 
+    signal triggered
+    z: 1
     anchors.fill: parent
+    parent: visible ? page : item
     visible: opacity > 0
     enabled: visible
     opacity: 0
@@ -36,8 +41,7 @@ MouseArea {
         NumberAnimation { duration: 100 }
     }
 
-    function open(fileName) {
-        message.text = fileName
+    function open() {
         opacity = 1
     }
 

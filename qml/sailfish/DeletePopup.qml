@@ -23,8 +23,12 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-RemorsePopup {
-    function open(fileName) {
-        execute(qsTr("Deleting %1").arg(fileName))
+RemorseItem {
+    property string file
+    property Item item
+    property Item page
+
+    function open() {
+        execute(item, qsTr("Deleting %1").arg(file))
     }
 }
