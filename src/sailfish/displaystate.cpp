@@ -67,5 +67,7 @@ void DisplayState::timeout() {
 }
 
 bool DisplayState::isOn() {
-  return m_state->get() == MeeGo::QmDisplayState::On;
+  // TODO: does not work :|
+  //  return m_state->get() == MeeGo::QmDisplayState::On;
+  return true;
 }
