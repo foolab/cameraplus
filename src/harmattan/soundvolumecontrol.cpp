@@ -44,7 +44,7 @@ bool SoundVolumeControl::fullVolume() {
 }
 
 void SoundVolumeControl::audioConnectionChanged() {
-  m_fullVolume = m_audioRoute->value().toString() == QLatin1String(AUDIO_ROUTE_SPEAKERS);
+  m_fullVolume = (m_audioRoute->value().toString() == QLatin1String(AUDIO_ROUTE_SPEAKERS));
 
   emit fullVolumeChanges();
 }
