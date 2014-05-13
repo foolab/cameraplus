@@ -75,9 +75,8 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
   d_ptr->setAudioCaptureCaps();
 
   d_ptr->createAndAddImageFilters();
-  d_ptr->createAndAddViewfinderFilters();
 
-  if (!d_ptr->viewfinderFilters) {
+  if (!d_ptr->createAndAddViewfinderFilters()) {
     qWarning() << "Failed to create viewfinder filters";
   }
 

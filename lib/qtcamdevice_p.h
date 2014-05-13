@@ -245,12 +245,15 @@ public:
     return item;
   }
 
-  void createAndAddViewfinderFilters() {
+  bool createAndAddViewfinderFilters() {
     QStringList filters = conf->viewfinderFilters();
     if (!filters.isEmpty()) {
       viewfinderFilters = createAndAddFilters("QtCamViewfinderFilters", "viewfinder-filter",
 					      filters, conf->viewfinderFiltersUseAnalysisBin());
+      return viewfinderFilters != 0;
     }
+
+    return true;
   }
 
   void createAndAddImageFilters() {
