@@ -41,12 +41,12 @@ Geocode::Geocode(QObject *parent) :
     m_provider = new QGeoServiceProvider(providers.at(0));
   }
   else {
-    qCritical() << "Cannot find any geo-service providers";
+    qmlInfo(this) << "Cannot find any geo-service providers";
     return;
   }
 
   if (!m_provider->geocodingFeatures().testFlag(QGeoServiceProvider::ReverseGeocodingFeature)) {
-    qCritical() << "geo-search manager does not support reverse geocoding";
+    qmlInfo(this) << "geo-search manager does not support reverse geocoding";
 
     m_manager = 0;
     return;
@@ -54,7 +54,7 @@ Geocode::Geocode(QObject *parent) :
 
   m_manager = m_provider->geocodingManager();
   if (!m_manager) {
-    qCritical() << "Cannot get hold of the geocode manager" << m_provider->errorString();
+    qmlInfo(this) << "Cannot get hold of the geocode manager" << m_provider->errorString();
     return;
   }
 
@@ -113,13 +113,13 @@ void Geocode::search(double longitude, double latitude) {
   }
 
   if (!m_manager) {
-    qCritical() << "no geo-search manager";
+    qmlInfo(this) << "no geo-search manager";
     return;
   }
 
   m_reply = m_manager->reverseGeocode(QGeoCoordinate(latitude, longitude));
   if (!m_reply) {
-    qCritical() << "geo-search manager provided a null reply!";
+    qmlInfo(this) << "geo-search manager provided a null reply!";
     return;
   }
 }
