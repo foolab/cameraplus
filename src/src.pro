@@ -6,6 +6,7 @@ include(../cameraplus.pri)
 
 QT += dbus
 CONFIG += link_pkgconfig
+PKGCONFIG += contextsubscriber-1.0
 
 qt4 {
     QT += declarative opengl
@@ -24,7 +25,7 @@ SOURCES += main.cpp \
            gridlines.cpp platformsettings.cpp dbusservice.cpp \
            mountprotector.cpp devicesettings.cpp fileindex.cpp \
            stack.cpp toolbarlayout.cpp quillitem.cpp pluginloader.cpp \
-           qrangemodel.cpp
+           qrangemodel.cpp phoneprofile.cpp
 
 HEADERS += settings.h filenaming.h cameraresources.h \
            trackerstore.h focusrectangle.h sharehelper.h \
@@ -32,7 +33,7 @@ HEADERS += settings.h filenaming.h cameraresources.h \
            gridlines.h platformsettings.h dbusservice.h \
            mountprotector.h devicesettings.h fileindex.h \
            stack.h toolbarlayout.h quillitem.h pluginloader.h \
-           qrangemodel.h
+           qrangemodel.h phoneprofile.h
 
 RESOURCES += ../qml/qml.qrc ../icons/icons.qrc
 

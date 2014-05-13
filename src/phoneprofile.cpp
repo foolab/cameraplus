@@ -21,7 +21,7 @@
  */
 
 #include "phoneprofile.h"
-#include <contextsubscriber/contextproperty.h>
+#include <contextproperty.h>
 
 #define PHONE_PROFILE_PROPERTY "Profile.Name"
 #define SILENT_PROFILE_NAME    "silent"
