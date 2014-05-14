@@ -69,11 +69,17 @@ SecondaryDeviceSettings::SecondaryDeviceSettings(QObject *parent) :
   DeviceSettings(parent) {
 
   QHash<QString, QVariant> props;
-
+#ifdef SAILFISH
+  props[IMAGE_RESOLUTION_KEY] = "high";
+  props[IMAGE_ASPECT_RATIO_KEY] = "16:9";
+  props[VIDEO_RESOLUTION_KEY] = "high";
+  props[VIDEO_ASPECT_RATIO_KEY] = "16:9";
+#else
   props[IMAGE_RESOLUTION_KEY] = "low";
   props[IMAGE_ASPECT_RATIO_KEY] = "4:3";
   props[VIDEO_RESOLUTION_KEY] = "low";
   props[VIDEO_ASPECT_RATIO_KEY] = "4:3";
+#endif
   props[IMAGE_SCENE_MODE_KEY] = 6;
   props[VIDEO_SCENE_MODE_KEY] = 6;
   props[IMAGE_COLOR_FILTER_KEY] = 0;
