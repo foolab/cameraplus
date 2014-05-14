@@ -51,6 +51,18 @@ Flickable {
         deleteAnimation.start()
     }
 
+    function deleteUrlNow() {
+        deleteAnimation.stop()
+
+        if (!deleteHelper.remove(media.url)) {
+            return false
+        }
+
+        postCaptureModel.remove(media.url)
+
+        return true
+    }
+
     QuillItem {
         id: image
         property bool busy: deleteAnimation.running
@@ -139,10 +151,8 @@ Flickable {
 
             ScriptAction {
                 script: {
-                    if (!deleteHelper.remove(media.url)) {
+                    if (!deleteUrlNow()) {
                         showError(qsTr("Failed to delete item"))
-                    } else {
-                        postCaptureModel.remove(media.url)
                     }
 
                     flick.x = 0

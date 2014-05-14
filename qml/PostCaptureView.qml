@@ -74,7 +74,7 @@ Item {
                 id: popup
                 page: postCaptureView
                 item: image
-                file: fileName
+                file: media.fileName
             }
         }
     }

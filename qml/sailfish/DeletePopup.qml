@@ -28,7 +28,20 @@ RemorseItem {
     property Item item
     property Item page
 
+    property bool _triggered
+
+    function doDelete() {
+        _triggered = true
+        item.deleteUrl()
+    }
+
+    Component.onDestruction: {
+        if (_triggered) {
+            item.deleteUrlNow()
+        }
+    }
+
     function open() {
-        execute(item, qsTr("Deleting %1").arg(file), function() { item.deleteUrl() })
+        execute(item, qsTr("Deleting %1").arg(file), doDelete)
     }
 }
