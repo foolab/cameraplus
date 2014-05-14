@@ -42,6 +42,8 @@ CameraPage {
             if (!rootWindow.active) {
                 mainView.currentIndex = 1
             }
+
+            rootWindow.popAll()
         }
     }
 

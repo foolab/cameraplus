@@ -26,4 +26,10 @@ import Sailfish.Silica 1.0
 ApplicationWindow {
     property bool active: Qt.application.active
     cover: undefined
+
+    function popAll() {
+        while (pageStack.depth > 1) {
+            pageStack.pop(null, PageStackAction.Immediate)
+        }
+    }
 }

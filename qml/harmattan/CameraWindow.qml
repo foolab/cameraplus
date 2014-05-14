@@ -48,4 +48,8 @@ Item {
             page.visible = true
         }
     }
+
+    function popAll() {
+        // Nothing
+    }
 }
