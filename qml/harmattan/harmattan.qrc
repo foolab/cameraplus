@@ -7,6 +7,7 @@
 	<file>CameraCheckButton.qml</file>
 	<file>CameraWindow.qml</file>
 	<file>CameraPositionSource.qml</file>
+	<file>CameraShareHelper.qml</file>
 	<file>CameraPage.qml</file>
 	<file>CameraProximitySensor.qml</file>
 	<file>CameraTextSwitch.qml</file>

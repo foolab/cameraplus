@@ -29,6 +29,7 @@ Flickable {
     property bool playing: loader.source != ""
     property string fileName
     property url url
+    property string mime
 
     signal playClicked
 
@@ -41,6 +42,7 @@ Flickable {
     Component.onCompleted: {
         fileName = media.fileName
         url = media.url
+        mime = media.mimeType
     }
 
     function load() {

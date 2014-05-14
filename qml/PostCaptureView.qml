@@ -199,7 +199,12 @@ Item {
         tools: CameraToolBarTools {
             CameraToolIcon {
                 iconSource: cameraTheme.shareIconId
-                onClicked: share.shareUrl(view.currentItem.url)
+                onClicked: {
+                    if (!share.shareUrl(view.currentItem.url, view.currentItem.mime, view.currentItem.fileName)) {
+                        showError(qsTr("Failed to launch share service"))
+                    }
+                }
+
                 enabled: view.currentItem != null
             }
 
@@ -225,15 +230,9 @@ Item {
         }
     }
 
-    ShareHelper {
+    CameraShareHelper {
         id: share
         settings: platformSettings
-
-        function shareUrl(url) {
-            if (url != "" && !share.share(url)) {
-                showError(qsTr("Failed to launch share service"))
-            }
-        }
     }
 
     GalleryHelper {
