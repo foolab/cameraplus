@@ -12,7 +12,7 @@ format=video/quicktime, variant=(string)iso
 [streamprofile-mpeg4-video-0]
 parent=video-profile
 type=video
-format=video/mpeg, mpegversion=(int)4
+format=video/x-h264
 presence=1
 pass=0
 variableframerate=true
