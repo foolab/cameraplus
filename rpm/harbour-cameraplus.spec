@@ -59,6 +59,9 @@ cp %SOURCE2 $RPM_BUILD_ROOT/usr/share/icons/hicolor/86x86/apps/
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
 cp data/sailfish/* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
 
+# this file does not belong here
+rm -f $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/cameraplus.ini
+
 # cameraplus configuration
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/cameraplus/config/
 cp data/sailfish/cameraplus.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/cameraplus/config/
@@ -100,3 +103,5 @@ cp modes/*.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
 %{_datadir}/harbour-cameraplus/lib/qt5/qml/QtCamera/*
 %{_datadir}/applications/harbour-cameraplus.desktop
 %{_datadir}/icons/hicolor/86x86/apps/harbour-cameraplus.png
+
+%changelog
