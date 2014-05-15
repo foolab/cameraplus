@@ -121,7 +121,8 @@ Item {
             }
 
             CameraToolIcon {
-                visible: !overlay.recording
+                property bool hide: overlay.cam ? (overlay.recording && overlay.cam.quirks.hasQuirk(Quirks.NoSceneModeChangeDuringRecording)) || overlay.cam.quirks.hasQuirk(Quirks.NoNightSceneMode) : false
+                visible: !hide
                 iconSource: cameraTheme.videoSceneModeIcon(deviceSettings().videoSceneMode)
                 onClicked: toolBar.push(Qt.resolvedUrl("VideoSceneButton.qml"), {"selectedLabel": selectedLabel})
             }

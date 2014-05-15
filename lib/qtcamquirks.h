@@ -39,6 +39,7 @@ public:
     NoFlash = 0x2,
     NoVideoTorch = 0x4,
     NoAutoFocus = 0x8,
+    NoSceneModeChangeDuringRecording = 0x10,
     NoRedEyeFlash = 0x20,
     NoTouchFocus = 0x40,
     NoFaceDetection = 0x80,

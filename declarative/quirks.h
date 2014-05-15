@@ -40,6 +40,7 @@ public:
     NoFlash = QtCamQuirks::NoFlash,
     NoVideoTorch = QtCamQuirks::NoVideoTorch,
     NoAutoFocus = QtCamQuirks::NoAutoFocus,
+    NoSceneModeChangeDuringRecording = QtCamQuirks::NoSceneModeChangeDuringRecording,
     NoRedEyeFlash = QtCamQuirks::NoRedEyeFlash,
     NoTouchFocus = QtCamQuirks::NoTouchFocus,
     NoFaceDetection = QtCamQuirks::NoFaceDetection,
