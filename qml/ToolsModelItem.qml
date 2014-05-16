@@ -27,4 +27,5 @@ QtObject {
     property int value
     property bool enabled: true
     property string label
+    property bool visible: false
 }

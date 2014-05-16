@@ -25,12 +25,12 @@ import QtCamera 1.0
 
 CameraToolBarTools {
     property list<ToolsModelItem> toolsModel: [
-        ToolsModelItem {icon: cameraTheme.colorFilterNormalIconId; value: ColorTone.Normal; label: qsTr("Normal")},
-        ToolsModelItem {icon: cameraTheme.colorFilterGrayScaleIconId; value: ColorTone.GrayScale; label: qsTr("Gray scale")},
-        ToolsModelItem {icon: cameraTheme.colorFilterSepiaIconId; value: ColorTone.Sepia; label: qsTr("Sepia")},
-        ToolsModelItem {icon: cameraTheme.colorFilterVividIconId; value: ColorTone.Vivid; label: qsTr("Vivid")},
-        ToolsModelItem {icon: cameraTheme.colorFilterNegativeIconId; value: ColorTone.Negative; label: qsTr("Negative")},
-        ToolsModelItem {icon: cameraTheme.colorFilterSolarizeIconId; value: ColorTone.Solarize; label: qsTr("Solarize")}
+        ToolsModelItem {icon: cameraTheme.colorFilterNormalIconId; value: ColorTone.Normal; label: qsTr("Normal"); visible: deviceFeatures().isNormalImageColorToneSupported},
+        ToolsModelItem {icon: cameraTheme.colorFilterGrayScaleIconId; value: ColorTone.GrayScale; label: qsTr("Gray scale"); visible: deviceFeatures().isGrayScaleImageColorToneSupported},
+        ToolsModelItem {icon: cameraTheme.colorFilterSepiaIconId; value: ColorTone.Sepia; label: qsTr("Sepia"); visible: deviceFeatures().isSepiaImageColorToneSupported},
+        ToolsModelItem {icon: cameraTheme.colorFilterVividIconId; value: ColorTone.Vivid; label: qsTr("Vivid"); visible: deviceFeatures().isVividImageColorToneSupported},
+        ToolsModelItem {icon: cameraTheme.colorFilterNegativeIconId; value: ColorTone.Negative; label: qsTr("Negative"); visible: deviceFeatures().isNegativeImageColorToneSupported},
+        ToolsModelItem {icon: cameraTheme.colorFilterSolarizeIconId; value: ColorTone.Solarize; label: qsTr("Solarize"); visible: deviceFeatures().isSolarizeImageColorToneSupported}
     ]
 
     CameraLabel {
@@ -46,6 +46,7 @@ CameraToolBarTools {
             iconSource: modelData.icon
             onClicked: deviceSettings().imageColorFilter = value
             checked: deviceSettings().imageColorFilter == value
+            visible: modelData.visible
             onCheckedChanged: {
                 if (checked) {
                     selectedLabel.text = label

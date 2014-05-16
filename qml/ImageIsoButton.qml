@@ -25,11 +25,11 @@ import QtCamera 1.0
 
 CameraToolBarTools {
     property list<ToolsModelItem> toolsModel: [
-        ToolsModelItem {icon: cameraTheme.isoAudoIconId; value: 0 },
-        ToolsModelItem {icon: cameraTheme.iso100IconId; value: 100 },
-        ToolsModelItem {icon: cameraTheme.iso200IconId; value: 200 },
-        ToolsModelItem {icon: cameraTheme.iso400IconId; value: 400 },
-        ToolsModelItem {icon: cameraTheme.iso800IconId; value: 800 }
+        ToolsModelItem {icon: cameraTheme.isoAudoIconId; value: 0; visible: deviceFeatures().is0IsoModeSupported},
+        ToolsModelItem {icon: cameraTheme.iso100IconId; value: 100; visible: deviceFeatures().is100IsoModeSupported},
+        ToolsModelItem {icon: cameraTheme.iso200IconId; value: 200; visible: deviceFeatures().is200IsoModeSupported},
+        ToolsModelItem {icon: cameraTheme.iso400IconId; value: 400; visible: deviceFeatures().is400IsoModeSupported},
+        ToolsModelItem {icon: cameraTheme.iso800IconId; value: 800; visible: deviceFeatures().is800IsoModeSupported}
     ]
 
     CameraLabel {
@@ -44,6 +44,7 @@ CameraToolBarTools {
             iconSource: modelData.icon
             onClicked: deviceSettings().imageIso = value
             checked: deviceSettings().imageIso == value
+            visible: modelData.visible
         }
     }
 }

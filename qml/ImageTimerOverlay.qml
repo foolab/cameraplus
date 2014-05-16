@@ -248,13 +248,13 @@ Item {
     }
 
     function startAutoFocus() {
-        if (!overlay.cam.quirks.hasQuirk(Quirks.NoAutoFocus)) {
+        if (deviceFeatures().isAutoFocusSupported) {
             cam.autoFocus.startAutoFocus()
         }
     }
 
     function stopAutoFocus() {
-        if (!overlay.cam.quirks.hasQuirk(Quirks.NoAutoFocus)) {
+        if (deviceFeatures().isAutoFocusSupported) {
             if (!autoFocusTimer.running) {
                 cam.autoFocus.stopAutoFocus()
             }

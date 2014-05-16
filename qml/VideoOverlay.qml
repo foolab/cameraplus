@@ -115,14 +115,13 @@ Item {
 
         tools: CameraToolBarTools {
             CameraToolIcon {
-                visible: overlay.cam ? !overlay.cam.quirks.hasQuirk(Quirks.NoVideoTorch) : false
+                visible: deviceFeatures().isVideoTorchSupported
                 iconSource: deviceSettings().videoTorchOn ? cameraTheme.cameraTorchOnIconId : cameraTheme.cameraTorchOffIconId
                 onClicked: deviceSettings().videoTorchOn = !deviceSettings().videoTorchOn
             }
 
             CameraToolIcon {
-                property bool hide: overlay.cam ? (overlay.recording && overlay.cam.quirks.hasQuirk(Quirks.NoSceneModeChangeDuringRecording)) || overlay.cam.quirks.hasQuirk(Quirks.NoNightSceneMode) : false
-                visible: !hide
+                visible: deviceFeatures().numberOfVideoSceneModes > 1 && !overlay.recording
                 iconSource: cameraTheme.videoSceneModeIcon(deviceSettings().videoSceneMode)
                 onClicked: toolBar.push(Qt.resolvedUrl("VideoSceneButton.qml"), {"selectedLabel": selectedLabel})
             }
@@ -143,11 +142,13 @@ Item {
             CameraToolIcon {
                 iconSource: cameraTheme.whiteBalanceIcon(deviceSettings().videoWhiteBalance)
                 onClicked: toolBar.push(Qt.resolvedUrl("VideoWhiteBalanceButton.qml"), {"selectedLabel": selectedLabel})
+                visible: deviceFeatures().numberOfVideoWhiteBalanceModes > 1
             }
 
             CameraToolIcon {
                 iconSource: cameraTheme.colorFilterIcon(deviceSettings().videoColorFilter)
                 onClicked: toolBar.push(Qt.resolvedUrl("VideoColorFilterButton.qml"), {"selectedLabel": selectedLabel})
+                visible: deviceFeatures().numberOfVideoColorTones > 1
             }
 
             CameraToolIcon {

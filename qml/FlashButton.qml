@@ -25,10 +25,10 @@ import QtCamera 1.0
 
 CameraToolBarTools {
     property list<ToolsModelItem> toolsModel: [
-        ToolsModelItem {icon: cameraTheme.flashAutoIconId; value: Flash.Auto; label: qsTr("Automatic")},
-        ToolsModelItem {icon: cameraTheme.flashOnIconId; value: Flash.On; label: qsTr("Always on")},
-        ToolsModelItem {icon: cameraTheme.flashOffIconId; value: Flash.Off; label: qsTr("Always off")},
-        ToolsModelItem {icon: cameraTheme.flashRedEyeIconId; value: Flash.RedEye; label: qsTr("Red eye")}
+        ToolsModelItem {icon: cameraTheme.flashAutoIconId; value: Flash.Auto; label: qsTr("Automatic"); visible: deviceFeatures().isAutoFlashModeSupported},
+        ToolsModelItem {icon: cameraTheme.flashOnIconId; value: Flash.On; label: qsTr("Always on"); visible: deviceFeatures().isOnFlashModeSupported},
+        ToolsModelItem {icon: cameraTheme.flashOffIconId; value: Flash.Off; label: qsTr("Always off"); visible: deviceFeatures().isOffFlashModeSupported},
+        ToolsModelItem {icon: cameraTheme.flashRedEyeIconId; value: Flash.RedEye; label: qsTr("Red eye"); visible: deviceFeatures().isRedEyeFlashModeSupported}
     ]
 
     CameraLabel {
@@ -44,7 +44,7 @@ CameraToolBarTools {
             iconSource: modelData.icon
             onClicked: deviceSettings().imageFlashMode = value
             checked: deviceSettings().imageFlashMode == value
-            visible: !(overlay.cam.quirks.hasQuirk(Quirks.NoRedEyeFlash) && value == Flash.RedEye)
+            visible: modelData.visible
             onCheckedChanged: {
                 if (checked) {
                     selectedLabel.text = label

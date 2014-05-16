@@ -39,12 +39,13 @@ CameraToolBar {
         CameraToolIcon {
             iconSource: cameraTheme.flashIcon(deviceSettings().imageFlashMode)
             onClicked: toolBar.push(Qt.resolvedUrl("FlashButton.qml"), {"selectedLabel": selectedLabel})
-            visible: overlay.cam ? !overlay.cam.quirks.hasQuirk(Quirks.NoFlash) : false
+            visible: deviceFeatures().numberOfFlashModes > 1
         }
 
         CameraToolIcon {
             iconSource: cameraTheme.imageSceneModeIcon(deviceSettings().imageSceneMode)
             onClicked: toolBar.push(Qt.resolvedUrl("ImageSceneButton.qml"), {"selectedLabel": selectedLabel})
+            visible: deviceFeatures().numberOfImageSceneModes > 1
         }
 
         CameraToolIcon {
@@ -63,16 +64,19 @@ CameraToolBar {
         CameraToolIcon {
             iconSource: cameraTheme.whiteBalanceIcon(deviceSettings().imageWhiteBalance)
             onClicked: toolBar.push(Qt.resolvedUrl("ImageWhiteBalanceButton.qml"), {"selectedLabel": selectedLabel})
+            visible: deviceFeatures().numberOfImageWhiteBalanceModes > 1
         }
 
         CameraToolIcon {
             iconSource: cameraTheme.colorFilterIcon(deviceSettings().imageColorFilter)
             onClicked: toolBar.push(Qt.resolvedUrl("ImageColorFilterButton.qml"), {"selectedLabel": selectedLabel})
+            visible: deviceFeatures().numberOfImageColorTones > 1
         }
 
         CameraToolIcon {
             iconSource: cameraTheme.isoIcon(deviceSettings().imageIso)
             onClicked: toolBar.push(Qt.resolvedUrl("ImageIsoButton.qml"))
+            visible: deviceFeatures().numberOfIsoModes > 1
         }
 
         DeviceSelector {

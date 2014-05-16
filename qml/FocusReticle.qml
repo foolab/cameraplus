@@ -58,7 +58,7 @@ MouseArea {
         }
     }
 
-    enabled: !cam.quirks.hasQuirk(Quirks.NoTouchFocus)
+    enabled: deviceFeatures().isTouchFocusSupported
 
     property variant __initialPos
     onPressed: {

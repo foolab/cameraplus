@@ -158,6 +158,14 @@ CameraPage {
         videoSettings: videoSettings
     }
 
+    PrimaryDeviceFeatures {
+        id: primaryDeviceFeatures
+    }
+
+    SecondaryDeviceFeatures {
+        id: secondaryDeviceFeatures
+    }
+
     Settings {
         id: settings
     }
@@ -175,6 +183,10 @@ CameraPage {
 
     function deviceSettingsSetter() {
         return viewfinder.camera.deviceId == 0 ? primarySetter : secondarySetter
+    }
+
+    function deviceFeatures() {
+        return viewfinder.camera.deviceId == 0 ? primaryDeviceFeatures : secondaryDeviceFeatures
     }
 
     function resetCamera(deviceId) {

@@ -25,11 +25,11 @@ import QtCamera 1.0
 
 CameraToolBarTools {
     property list<ToolsModelItem> toolsModel: [
-        ToolsModelItem {icon: cameraTheme.whiteBalanceAutoIconId; value: WhiteBalance.Auto; label: qsTr("Automatic")},
-        ToolsModelItem {icon: cameraTheme.whiteBalanceSunnyIconId; value: WhiteBalance.Daylight; label: qsTr("Sunny")},
-        ToolsModelItem {icon: cameraTheme.whiteBalanceCloudyIconId; value: WhiteBalance.Cloudy; label: qsTr("Cloudy")},
-        ToolsModelItem {icon: cameraTheme.whiteBalanceFlourescentIconId; value: WhiteBalance.Flourescent; label: qsTr("Flourescent")},
-        ToolsModelItem {icon: cameraTheme.whiteBalanceTungstenIconId; value: WhiteBalance.Tungsten; label: qsTr("Tungsten")}
+        ToolsModelItem {icon: cameraTheme.whiteBalanceAutoIconId; value: WhiteBalance.Auto; label: qsTr("Automatic"); visible: deviceFeatures().isAutoImageWhiteBalanceModeSupported},
+        ToolsModelItem {icon: cameraTheme.whiteBalanceSunnyIconId; value: WhiteBalance.Daylight; label: qsTr("Sunny"); visible: deviceFeatures().isSunnyImageWhiteBalanceModeSupported},
+        ToolsModelItem {icon: cameraTheme.whiteBalanceCloudyIconId; value: WhiteBalance.Cloudy; label: qsTr("Cloudy"); visible: deviceFeatures().isCloudyImageWhiteBalanceModeSupported},
+        ToolsModelItem {icon: cameraTheme.whiteBalanceFlourescentIconId; value: WhiteBalance.Flourescent; label: qsTr("Flourescent"); visible: deviceFeatures().isFlourescentImageWhiteBalanceModeSupported},
+        ToolsModelItem {icon: cameraTheme.whiteBalanceTungstenIconId; value: WhiteBalance.Tungsten; label: qsTr("Tungsten"); visible: deviceFeatures().isTungstenImageWhiteBalanceModeSupported}
     ]
 
     CameraLabel {
@@ -45,6 +45,7 @@ CameraToolBarTools {
             iconSource: modelData.icon
             onClicked: deviceSettings().imageWhiteBalance = value
             checked: deviceSettings().imageWhiteBalance == value
+            visible: modelData.visible
             onCheckedChanged: {
                 if (checked) {
                     selectedLabel.text = label

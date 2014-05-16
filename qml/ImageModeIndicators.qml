@@ -48,7 +48,7 @@ Rectangle {
 
         Indicator {
             id: flashIndicator
-            visible: !overlay.cam.quirks.hasQuirk(Quirks.NoFlash)
+            visible: deviceFeatures().numberOfFlashModes > 1
             source: cameraTheme.flashIcon(deviceSettings().imageFlashMode)
         }
 

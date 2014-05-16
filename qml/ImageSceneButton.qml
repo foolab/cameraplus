@@ -25,12 +25,12 @@ import QtCamera 1.0
 
 CameraToolBarTools {
     property list<ToolsModelItem> toolsModel: [
-        ToolsModelItem {icon: cameraTheme.imageSceneModeAutoIconId; value: Scene.Auto; label: qsTr("Automatic")},
-        ToolsModelItem {icon: cameraTheme.imageSceneModeCloseupIconId; value: Scene.Closeup; label: qsTr("Macro")},
-        ToolsModelItem {icon: cameraTheme.imageSceneModeLandscapeIconId; value: Scene.Landscape; label: qsTr("Landscape")},
-        ToolsModelItem {icon: cameraTheme.imageSceneModePortraitIconId; value: Scene.Portrait; label: qsTr("Portrait")},
-        ToolsModelItem {icon: cameraTheme.imageSceneModeNightIconId; value: Scene.Night; label: qsTr("Night")},
-        ToolsModelItem {icon: cameraTheme.imageSceneModeSportIconId; value: Scene.Sport; label: qsTr("Sport")}
+        ToolsModelItem {icon: cameraTheme.imageSceneModeAutoIconId; value: Scene.Auto; label: qsTr("Automatic"); visible: deviceFeatures().isAutoImageSceneModeSupported},
+        ToolsModelItem {icon: cameraTheme.imageSceneModeCloseupIconId; value: Scene.Closeup; label: qsTr("Macro"); visible: deviceFeatures().isCloseupImageSceneModeSupported},
+        ToolsModelItem {icon: cameraTheme.imageSceneModeLandscapeIconId; value: Scene.Landscape; label: qsTr("Landscape"); visible: deviceFeatures().isLandscapeImageSceneModeSupported},
+        ToolsModelItem {icon: cameraTheme.imageSceneModePortraitIconId; value: Scene.Portrait; label: qsTr("Portrait"); visible: deviceFeatures().isPortraitImageSceneModeSupported},
+        ToolsModelItem {icon: cameraTheme.imageSceneModeNightIconId; value: Scene.Night; label: qsTr("Night"); visible: deviceFeatures().isNightImageSceneModeSupported},
+        ToolsModelItem {icon: cameraTheme.imageSceneModeSportIconId; value: Scene.Sport; label: qsTr("Sport"); visible: deviceFeatures().isSportImageSceneModeSupported}
     ]
 
     CameraLabel {
@@ -53,7 +53,8 @@ CameraToolBarTools {
             }
 
             checked: deviceSettings().imageSceneMode == value
-            visible: !(value == Scene.Night && overlay.cam.quirks.hasQuirk(Quirks.NoNightSceneMode))
+            visible: modelData.visible
+
             onCheckedChanged: {
                 if (checked) {
                     selectedLabel.text = label

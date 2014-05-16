@@ -51,7 +51,7 @@ Flickable {
             text: qsTr("Enable face detection")
             checked: settings.faceDetectionEnabled
             onCheckedChanged: settings.faceDetectionEnabled = checked
-            visible: camera ? !camera.quirks.hasQuirk(Quirks.NoFaceDetection) : false
+            visible: deviceFeatures().isFaceDetectionSupported
         }
 
         CameraSettings {
