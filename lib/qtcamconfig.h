@@ -28,7 +28,6 @@
 
 class QtCamImageSettings;
 class QtCamVideoSettings;
-class QtCamQuirks;
 
 #define SCANNER_TYPE_V4L2                     "v4l2"
 #define SCANNER_TYPE_ENUM                     "enum"
@@ -65,7 +64,6 @@ public:
 
   QtCamImageSettings *imageSettings(const QVariant& id);
   QtCamVideoSettings *videoSettings(const QVariant& id);
-  QtCamQuirks *quirks(const QVariant& id);
 
   QString imageEncodingProfileName() const;
   QString imageEncodingProfilePath() const;

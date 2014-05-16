@@ -48,7 +48,6 @@ class Roi;
 class VideoMute;
 class VideoTorch;
 class CameraConfig;
-class Quirks;
 
 class Camera : public QObject {
   Q_OBJECT
@@ -77,8 +76,6 @@ class Camera : public QObject {
 
   Q_PROPERTY(VideoMute *videoMute READ videoMute NOTIFY videoMuteChanged);
   Q_PROPERTY(VideoTorch *videoTorch READ videoTorch NOTIFY videoTorchChanged);
-
-  Q_PROPERTY(Quirks *quirks READ quirks NOTIFY quirksChanged);
 
   Q_PROPERTY(CameraConfig *cameraConfig READ cameraConfig CONSTANT);
 
@@ -133,8 +130,6 @@ public:
   VideoMute *videoMute() const;
   VideoTorch *videoTorch() const;
 
-  Quirks *quirks() const;
-
   CameraConfig *cameraConfig() const;
 
 signals:
@@ -168,7 +163,6 @@ signals:
   void videoMuteChanged();
   void videoTorchChanged();
   void renderingEnabledChanged();
-  void quirksChanged();
 
 private:
   bool applyMode();
@@ -201,7 +195,6 @@ private:
 
   VideoMute *m_videoMute;
   VideoTorch *m_videoTorch;
-  Quirks *m_quirks;
 };
 
 #endif /* CAMERA_H */

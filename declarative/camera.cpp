@@ -51,7 +51,6 @@
 #include "videomute.h"
 #include "videotorch.h"
 #include "cameraconfig.h"
-#include "quirks.h"
 
 Camera::Camera(QObject *parent) :
   QObject(parent),
@@ -75,8 +74,7 @@ Camera::Camera(QObject *parent) :
   m_autoFocus(0),
   m_roi(0),
   m_videoMute(0),
-  m_videoTorch(0),
-  m_quirks(0) {
+  m_videoTorch(0) {
 
 }
 
@@ -107,7 +105,6 @@ Camera::~Camera() {
   delete m_roi;
   delete m_videoMute;
   delete m_videoTorch;
-  delete m_quirks;
 }
 
 int Camera::deviceCount() const {
@@ -328,10 +325,6 @@ void Camera::resetCapabilities() {
   delete m_videoTorch;
   m_videoTorch = new VideoTorch(dev, this);
   emit videoTorchChanged();
-
-  delete m_quirks;
-  m_quirks = new Quirks(dev->config()->quirks(dev->id()), this);
-  emit quirksChanged();
 }
 
 Zoom *Camera::zoom() const {
@@ -400,8 +393,4 @@ VideoTorch *Camera::videoTorch() const {
 
 CameraConfig *Camera::cameraConfig() const {
   return m_config;
-}
-
-Quirks *Camera::quirks() const {
-  return m_quirks;
 }
