@@ -60,10 +60,6 @@ int DeviceFeatures::numberOfFlashModes() const {
   return m_settings->value(QString("%1/%2").arg(m_id).arg("flash-modes")).toList().size();
 }
 
-bool DeviceFeatures::isManualImageSceneModeSupported() const {
-  return m_settings->value(QString("%1/%2").arg(m_id).arg("image-scene-modes")).toList().contains("manual");
-}
-
 bool DeviceFeatures::isCloseupImageSceneModeSupported() const {
   return m_settings->value(QString("%1/%2").arg(m_id).arg("image-scene-modes")).toList().contains("closeup");
 }
@@ -90,10 +86,6 @@ bool DeviceFeatures::isAutoImageSceneModeSupported() const {
 
 int DeviceFeatures::numberOfImageSceneModes() const {
   return m_settings->value(QString("%1/%2").arg(m_id).arg("image-scene-modes")).toList().size();
-}
-
-bool DeviceFeatures::isManualVideoSceneModeSupported() const {
-  return m_settings->value(QString("%1/%2").arg(m_id).arg("video-scene-modes")).toList().contains("manual");
 }
 
 bool DeviceFeatures::isCloseupVideoSceneModeSupported() const {

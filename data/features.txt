@@ -2,10 +2,10 @@
 values=auto,on,off,red-eye
 
 [image-scene-modes]
-values=manual,closeup,portrait,landscape,sport,night,auto
+values=closeup,portrait,landscape,sport,night,auto
 
 [video-scene-modes]
-values=manual,closeup,portrait,landscape,sport,night,auto
+values=closeup,portrait,landscape,sport,night,auto
 
 [image-color-tones]
 values=normal,sepia,negative,gray-scale,vivid,solarize

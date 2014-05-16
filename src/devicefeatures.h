@@ -34,7 +34,6 @@ class DeviceFeatures : public QObject {
   Q_PROPERTY(bool isOffFlashModeSupported READ isOffFlashModeSupported CONSTANT);
   Q_PROPERTY(bool isRedEyeFlashModeSupported READ isRedEyeFlashModeSupported CONSTANT);
   Q_PROPERTY(int numberOfFlashModes READ numberOfFlashModes CONSTANT);
-  Q_PROPERTY(bool isManualImageSceneModeSupported READ isManualImageSceneModeSupported CONSTANT);
   Q_PROPERTY(bool isCloseupImageSceneModeSupported READ isCloseupImageSceneModeSupported CONSTANT);
   Q_PROPERTY(bool isPortraitImageSceneModeSupported READ isPortraitImageSceneModeSupported CONSTANT);
   Q_PROPERTY(bool isLandscapeImageSceneModeSupported READ isLandscapeImageSceneModeSupported CONSTANT);
@@ -42,7 +41,6 @@ class DeviceFeatures : public QObject {
   Q_PROPERTY(bool isNightImageSceneModeSupported READ isNightImageSceneModeSupported CONSTANT);
   Q_PROPERTY(bool isAutoImageSceneModeSupported READ isAutoImageSceneModeSupported CONSTANT);
   Q_PROPERTY(int numberOfImageSceneModes READ numberOfImageSceneModes CONSTANT);
-  Q_PROPERTY(bool isManualVideoSceneModeSupported READ isManualVideoSceneModeSupported CONSTANT);
   Q_PROPERTY(bool isCloseupVideoSceneModeSupported READ isCloseupVideoSceneModeSupported CONSTANT);
   Q_PROPERTY(bool isPortraitVideoSceneModeSupported READ isPortraitVideoSceneModeSupported CONSTANT);
   Q_PROPERTY(bool isLandscapeVideoSceneModeSupported READ isLandscapeVideoSceneModeSupported CONSTANT);
@@ -96,7 +94,6 @@ public:
   bool isOffFlashModeSupported() const;
   bool isRedEyeFlashModeSupported() const;
   int numberOfFlashModes() const;
-  bool isManualImageSceneModeSupported() const;
   bool isCloseupImageSceneModeSupported() const;
   bool isPortraitImageSceneModeSupported() const;
   bool isLandscapeImageSceneModeSupported() const;
@@ -104,7 +101,6 @@ public:
   bool isNightImageSceneModeSupported() const;
   bool isAutoImageSceneModeSupported() const;
   int numberOfImageSceneModes() const;
-  bool isManualVideoSceneModeSupported() const;
   bool isCloseupVideoSceneModeSupported() const;
   bool isPortraitVideoSceneModeSupported() const;
   bool isLandscapeVideoSceneModeSupported() const;
