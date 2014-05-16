@@ -70,6 +70,7 @@
 #include <QQmlEngine>
 #endif
 #include "qrangemodel.h"
+#include "devicefeatures.h"
 
 #ifdef QMLJSDEBUGGER
 #include "qt_private/qdeclarativedebughelper_p.h"
@@ -174,6 +175,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<PluginLoader>("CameraPlus", 1, 0, "PluginLoader");
   qmlRegisterType<Plugin>("CameraPlus", 1, 0, "Plugin");
   qmlRegisterType<QRangeModel>("CameraPlus", 1, 0, "RangeModel");
+  qmlRegisterType<PrimaryDeviceFeatures>("CameraPlus", 1, 0, "PrimaryDeviceFeatures");
+  qmlRegisterType<SecondaryDeviceFeatures>("CameraPlus", 1, 0, "SecondaryDeviceFeatures");
 
 #ifdef SAILFISH
   view->engine()->addImportPath("/usr/share/harbour-cameraplus/lib/qt5/qml/");

@@ -26,7 +26,7 @@ SOURCES += main.cpp \
            gridlines.cpp platformsettings.cpp dbusservice.cpp \
            mountprotector.cpp devicesettings.cpp fileindex.cpp \
            stack.cpp toolbarlayout.cpp quillitem.cpp pluginloader.cpp \
-           qrangemodel.cpp phoneprofile.cpp
+           qrangemodel.cpp phoneprofile.cpp devicefeatures.cpp
 
 HEADERS += settings.h filenaming.h cameraresources.h \
            trackerstore.h focusrectangle.h sharehelper.h \
@@ -34,7 +34,7 @@ HEADERS += settings.h filenaming.h cameraresources.h \
            gridlines.h platformsettings.h dbusservice.h \
            mountprotector.h devicesettings.h fileindex.h \
            stack.h toolbarlayout.h quillitem.h pluginloader.h \
-           qrangemodel.h phoneprofile.h
+           qrangemodel.h phoneprofile.h devicefeatures.h
 
 RESOURCES += ../qml/qml.qrc ../icons/icons.qrc
 
