@@ -66,6 +66,7 @@ cp data/sailfish/properties.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/sha
 # cameraplus configuration
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/cameraplus/config/
 cp data/sailfish/cameraplus.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/cameraplus/config/
+cp data/sailfish/features.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/cameraplus/config/
 
 # desktop file
 mkdir -p $RPM_BUILD_ROOT/usr/share/applications/

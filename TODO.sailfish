@@ -1,7 +1,6 @@
 * touch focus. is it really working?
 * zoom. Are we rendering the viewfinder correctly?
 * face detection is broken
-* not all UI settings are supported by the camera
 * No preview for captured images and recorded videos (Might be possible with GStreamer 1.3+)
 * icons:
   - review and resize needed ones
