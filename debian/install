@@ -4,6 +4,7 @@ data/n9/resolutions.ini usr/share/qtcamera/config/
 data/n9/n950_resolutions.ini usr/share/qtcamera/config/
 data/n9/properties.ini usr/share/qtcamera/config/
 data/n9/cameraplus.ini usr/share/cameraplus/config/
+data/n9/features.ini usr/share/cameraplus/config/
 data/n9/image.gep usr/share/qtcamera/config/
 data/n9/video.gep usr/share/qtcamera/config/
 debian/cameraplus.png usr/share/themes/base/meegotouch/icons/
