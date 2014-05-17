@@ -24,9 +24,12 @@
 #define SOUNDS_H
 
 #include <QObject>
-#include <canberra.h>
+#include <QHash>
 
+typedef struct pa_context pa_context;
+typedef struct pa_threaded_mainloop pa_threaded_mainloop;
 class QDBusServiceWatcher;
+class SoundFileInfo;
 
 class Sounds : public QObject {
   Q_OBJECT
@@ -99,21 +102,19 @@ private slots:
 			   const QString& newOwner);
 
 private:
-  void cache(const QString& path, const char *id);
+  void cache(const QString& id);
   void play(const char *id);
   void playAndBlock(const char *id);
+  void destroy();
+  bool setFile(const QString& path, const QString& id);
+  QString file(const QString& id) const;
 
   bool m_muted;
-  ca_context *m_ctx;
+  pa_context *m_ctx;
+  pa_threaded_mainloop *m_loop;
   Volume m_volume;
   QDBusServiceWatcher *m_watcher;
-  QString m_volumeString;
-  QString m_imageCaptureStart;
-  QString m_imageCaptureEnd;
-  QString m_videoRecordingStart;
-  QString m_videoRecordingEnd;
-  QString m_autoFocusAcquired;
-  QString m_autoFocusFailed;
+  QHash<QString, SoundFileInfo *> m_files;
 };
 
 #endif /* SOUNDS_H */

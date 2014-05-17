@@ -6,7 +6,7 @@ include(../cameraplus.pri)
 
 CONFIG += link_pkgconfig plugin
 
-PKGCONFIG = libcanberra
+PKGCONFIG = sndfile libpulse
 
 sailfish:PKGCONFIG += gstreamer-1.0
 harmattan:PKGCONFIG += gstreamer-0.10

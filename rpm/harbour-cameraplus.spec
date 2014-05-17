@@ -32,6 +32,8 @@ BuildRequires:  pkgconfig(Qt5SystemInfo)
 BuildRequires:  pkgconfig(Qt5OpenGLExtensions)
 BuildRequires:  pkgconfig(quill-qt5)
 BuildRequires:  pkgconfig(contextkit-statefs)
+BuildRequires:  pkgconfig(sndfile)
+BuildRequires:  pkgconfig(libpulse)
 BuildRequires:  desktop-file-utils
 Requires:       qt5-qtdeclarative-import-location
 Requires:       qt5-qtlocation-plugin-geoservices-osm
