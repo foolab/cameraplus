@@ -482,19 +482,18 @@ void Sounds::cache(const QString& id) {
 
     switch (pa_stream_get_state(stream)) {
     case PA_STREAM_FAILED:
-    case PA_STREAM_TERMINATED:
       qmlInfo(this) << "Failed to connect our stream to pulse audio " << pa_strerror(pa_context_errno(m_ctx));
       pa_stream_disconnect(stream);
       pa_stream_unref(stream);
       pa_threaded_mainloop_unlock(m_loop);
-;
       return;
 
-    case PA_STREAM_READY:
+    case PA_STREAM_TERMINATED:
       pa_threaded_mainloop_unlock(m_loop);
       out = true;
       break;
 
+    case PA_STREAM_READY:
     case PA_STREAM_UNCONNECTED:
     case PA_STREAM_CREATING:
       pa_threaded_mainloop_wait(m_loop);
