@@ -25,9 +25,12 @@
 
 #include <QObject>
 #include <QHash>
+#define __STDC_LIMIT_MACROS
+#include <stdint.h>
 
 typedef struct pa_context pa_context;
 typedef struct pa_threaded_mainloop pa_threaded_mainloop;
+typedef uint32_t pa_volume_t;
 class QDBusServiceWatcher;
 class SoundFileInfo;
 
@@ -108,6 +111,7 @@ private:
   void destroy();
   bool setFile(const QString& path, const QString& id);
   QString file(const QString& id) const;
+  pa_volume_t playbackVolume() const;
 
   bool m_muted;
   pa_context *m_ctx;

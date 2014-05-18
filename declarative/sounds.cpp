@@ -38,8 +38,8 @@
 #define CAMERA_FOCUS_FAILURE_SOUND_ID   "cameraplus-focus-failure"
 #define MEDIA_ROLE                      "camera-sound-effect"
 
-#define FULL_VOLUME         0.0
-#define HEADSET_VOLUME      -24.0
+#define FULL_VOLUME         65536
+#define HEADSET_VOLUME      26090
 
 // EVERYTHING between #ifdef SAILFISH #else is _A BIG FAT UGLY HACK_
 // DO NOT COPY AND PASTE IT. You WILL GET NIGHTMARES.
@@ -71,7 +71,7 @@ private:
 class SoundFileInfo {
 public:
   SoundFileInfo(const QString& path) :
-  m_duration(0) {
+    m_duration(0) {
 
     reset(path);
   }
@@ -306,6 +306,10 @@ void Sounds::setMuted(bool mute) {
   }
 }
 
+pa_volume_t Sounds::playbackVolume() const {
+  return m_volume == Sounds::VolumeLow ? HEADSET_VOLUME : FULL_VOLUME;
+}
+
 void Sounds::reload() {
   if (m_ctx) {
     destroy();
@@ -501,10 +505,7 @@ void Sounds::play(const char *id) {
     return;
   }
 
-  double v = m_volume == Sounds::VolumeLow ?
-    HEADSET_VOLUME : FULL_VOLUME;
-
-  pa_operation *o = pa_context_play_sample(m_ctx, id, NULL, pa_sw_volume_from_dB(v), NULL, NULL);
+  pa_operation *o = pa_context_play_sample(m_ctx, id, NULL, playbackVolume(), NULL, NULL);
 
   if (o) {
     pa_operation_unref(o);
@@ -533,11 +534,8 @@ void Sounds::playAndBlock(const char *id) {
     return;
   }
 
-  double v = m_volume == Sounds::VolumeLow ?
-    HEADSET_VOLUME : FULL_VOLUME;
-
   pa_threaded_mainloop_lock(m_loop);
-  pa_operation *o = pa_context_play_sample(m_ctx, id, NULL, pa_sw_volume_from_dB(v),
+  pa_operation *o = pa_context_play_sample(m_ctx, id, NULL, playbackVolume(),
 					   (pa_context_success_cb_t)contextSuccessCallback,
 					   m_loop);
 
