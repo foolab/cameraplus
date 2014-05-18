@@ -227,7 +227,7 @@ Sounds::Sounds(QObject *parent) :
   QObject(parent),
   m_muted(false),
   m_ctx(0),
-  m_loop(pa_threaded_mainloop_new()),
+  m_loop(0),
   m_volume(Sounds::VolumeHigh),
   m_watcher(new QDBusServiceWatcher("org.pulseaudio.Server",
 #ifdef SAILFISH
@@ -246,19 +246,23 @@ Sounds::Sounds(QObject *parent) :
 Sounds::~Sounds() {
   destroy();
 
-  pa_threaded_mainloop_free(m_loop);
-  m_loop = 0;
-
   qDeleteAll(m_files);
 }
 
 void Sounds::destroy() {
-  pa_threaded_mainloop_stop(m_loop);
+  if (m_loop) {
+    pa_threaded_mainloop_stop(m_loop);
+  }
 
   if (m_ctx) {
     pa_context_disconnect(m_ctx);
     pa_context_unref(m_ctx);
     m_ctx = 0;
+  }
+
+  if (m_loop) {
+    pa_threaded_mainloop_free(m_loop);
+    m_loop = 0;
   }
 }
 
@@ -318,6 +322,13 @@ void Sounds::reload() {
   if (m_ctx) {
     destroy();
   }
+
+  // This can not happen but just in case
+  if (m_loop) {
+    destroy();
+  }
+
+  m_loop = pa_threaded_mainloop_new();
 
   pa_proplist *prop = pa_proplist_new();
 #ifdef SAILFISH
