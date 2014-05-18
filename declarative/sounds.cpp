@@ -230,7 +230,11 @@ Sounds::Sounds(QObject *parent) :
   m_loop(pa_threaded_mainloop_new()),
   m_volume(Sounds::VolumeHigh),
   m_watcher(new QDBusServiceWatcher("org.pulseaudio.Server",
+#ifdef SAILFISH
+				    QDBusConnection::sessionBus(),
+#else
 				    QDBusConnection::systemBus(),
+#endif
 				    QDBusServiceWatcher::WatchForOwnerChange)) {
 
   QObject::connect(m_watcher,
