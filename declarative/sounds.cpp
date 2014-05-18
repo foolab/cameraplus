@@ -41,6 +41,9 @@
 #define FULL_VOLUME         0.0
 #define HEADSET_VOLUME      -24.0
 
+// EVERYTHING between #ifdef SAILFISH #else is _A BIG FAT UGLY HACK_
+// DO NOT COPY AND PASTE IT. You WILL GET NIGHTMARES.
+
 class FileReader {
 public:
   typedef enum {
@@ -309,9 +312,17 @@ void Sounds::reload() {
   }
 
   pa_proplist *prop = pa_proplist_new();
+#ifdef SAILFISH
+  pa_proplist_sets(prop, PA_PROP_MEDIA_ROLE, "event");
+#else
   pa_proplist_sets(prop, PA_PROP_MEDIA_ROLE, MEDIA_ROLE);
+#endif
+
   pa_proplist_sets(prop, PA_PROP_APPLICATION_NAME,
 		   qPrintable(QCoreApplication::instance()->applicationName()));
+#ifdef SAILFISH
+  pa_proplist_sets(prop, PA_PROP_APPLICATION_PROCESS_BINARY, "ngfd");
+#endif
 
   m_ctx = pa_context_new_with_proplist(pa_threaded_mainloop_get_api(m_loop), NULL, prop);
   pa_proplist_free(prop);
@@ -413,12 +424,23 @@ void Sounds::cache(const QString& id) {
 
   pa_proplist *prop = pa_proplist_new();
   pa_proplist_sets(prop, PA_PROP_MEDIA_ROLE, "event");
+#ifdef SAILFISH
+  pa_proplist_sets(prop, PA_PROP_MEDIA_NAME, "camera-event");
+#else
   pa_proplist_sets(prop, PA_PROP_MEDIA_NAME, qPrintable(id));
+#endif
   pa_proplist_sets(prop, PA_PROP_EVENT_ID, qPrintable(id));
   pa_proplist_sets(prop, PA_PROP_MEDIA_FILENAME, qPrintable(info->path()));
 
-  pa_stream *stream = pa_stream_new_with_proplist(m_ctx, id.toUtf8().constData(),
+#ifdef SAILFISH
+  pa_proplist_sets(prop, PA_PROP_APPLICATION_PROCESS_BINARY, "ngfd");
+  pa_stream *stream = pa_stream_new_with_proplist(m_ctx, "camera-event",
 						  spec, NULL, prop);
+#else
+  pa_stream *stream = pa_stream_new_with_proplist(m_ctx, qPrintable(id),
+						  spec, NULL, prop);
+#endif
+
   pa_proplist_free(prop);
   if (!stream) {
     qmlInfo(this) << "Failed to create a pulse audio stream";
