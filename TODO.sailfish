@@ -8,7 +8,6 @@
 * sound effects:
   - image capture fires twice and is too high
   - video ones are low
-  - focus failed does not fire
 * src/sailfish/soundvolumecontrol.cpp is just a template
 * Use H264 for video
 * probably more...
