@@ -557,7 +557,9 @@ void Sounds::playAndBlock(const char *id) {
   pa_operation_unref(o);
 
   // Sleep for the duration of the file:
-  usleep(info->duration());
+  if (sleep) {
+    usleep(info->duration());
+  }
 }
 
 QString Sounds::imageCaptureStart() const {
