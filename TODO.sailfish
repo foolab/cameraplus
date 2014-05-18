@@ -5,9 +5,8 @@
 * icons:
   - review and resize needed ones
   - 1080p video resolution has no icon
-* sound effects:
-  - image capture fires twice and is too high
-  - video ones are low
+* sound effects for video recording are not working.
+* assist light sometimes does not switch off
 * src/sailfish/soundvolumecontrol.cpp is just a template
 * Use H264 for video
 * probably more...
