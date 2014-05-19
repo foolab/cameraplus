@@ -37,7 +37,9 @@ BuildRequires:  pkgconfig(libpulse)
 BuildRequires:  desktop-file-utils
 Requires:       qt5-qtdeclarative-import-location
 Requires:       qt5-qtlocation-plugin-geoservices-osm
-
+Requires:       qt5-qtdeclarative-import-positioning
+Requires:       qt5-qtdeclarative-import-sensors
+Requires:       gstreamer1.0-plugins-good
 %description
 Cameraplus is an advanced easy to use camera
 
