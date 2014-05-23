@@ -37,8 +37,6 @@ QtCamera::QtCamera(QObject *parent) :
 
   d_ptr->conf = new QtCamConfig(this);
   d_ptr->scanner = new QtCamScanner(d_ptr->conf, this);
-
-  refreshDevices();
 }
 
 QtCamera::QtCamera(QtCamConfig *config, QObject *parent) :
@@ -48,8 +46,6 @@ QtCamera::QtCamera(QtCamConfig *config, QObject *parent) :
 
   d_ptr->conf = config;
   d_ptr->scanner = new QtCamScanner(d_ptr->conf, this);
-
-  refreshDevices();
 }
 
 QtCamera::~QtCamera() {
@@ -63,6 +59,14 @@ void QtCamera::refreshDevices() {
 }
 
 QList<QPair<QString, QVariant> > QtCamera::devices() const {
+  QList<QPair<QString, QVariant> > devices = d_ptr->scanner->devices();
+
+  if (!devices.isEmpty()) {
+    return devices;
+  }
+
+  const_cast<QtCamera *>(this)->refreshDevices();
+
   return d_ptr->scanner->devices();
 }
 
