@@ -39,7 +39,6 @@ public:
   }
 
   bool applyFastCapture() {
-    // TODO:
     GstElement *src = dev->videoSource;
     if (dev->wrapperVideoSource) {
       src = dev->wrapperVideoSource;
@@ -97,9 +96,23 @@ bool QtCamImageMode::canCapture() {
 }
 
 void QtCamImageMode::applySettings() {
-  bool night = d_ptr->inNightMode();
+  int fps = d->resolution.frameRate();
 
-  int fps = night ? d->resolution.nightFrameRate() : d->resolution.frameRate();
+  if (d_ptr->inNightMode()) {
+    int nightFps = d->resolution.nightFrameRate();
+    // No warning for night mode because we might have night scene mode enabled
+    // even though we use the same frame rate as the other scene modes
+    if (nightFps > 0) {
+      fps = nightFps;
+    }
+  } else if (d->fastCaptureEnabled) {
+    int zslFps = d->resolution.zslFrameRate();
+    if (zslFps > 0) {
+      fps = zslFps;
+    } else {
+      qWarning() << "QtCamImageMode::applySettings: resolution does not support fast capture";
+    }
+  }
 
   d_ptr->setCaps("viewfinder-caps", d->resolution.viewfinderResolution(), fps);
 
