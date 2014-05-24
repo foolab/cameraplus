@@ -28,9 +28,9 @@
 
 class Camera;
 class QtCamVideoSettings;
-class VideoResolutionModel;
-class VideoResolution;
-class QtCamVideoResolution;
+class ResolutionModel;
+class Resolution;
+class QtCamResolution;
 
 class VideoSettings : public QObject {
   Q_OBJECT
@@ -39,9 +39,9 @@ class VideoSettings : public QObject {
   Q_PROPERTY(QString suffix READ suffix NOTIFY settingsChanged);
   Q_PROPERTY(QStringList aspectRatios READ aspectRatios NOTIFY settingsChanged);
   Q_PROPERTY(int aspectRatioCount READ aspectRatioCount NOTIFY aspectRatioCountChanged);
-  Q_PROPERTY(VideoResolutionModel *resolutions READ resolutions NOTIFY resolutionsChanged);
+  Q_PROPERTY(ResolutionModel *resolutions READ resolutions NOTIFY resolutionsChanged);
   Q_PROPERTY(bool ready READ isReady NOTIFY readyChanged);
-  Q_PROPERTY(VideoResolution *currentResolution READ currentResolution NOTIFY currentResolutionChanged);
+  Q_PROPERTY(Resolution *currentResolution READ currentResolution NOTIFY currentResolutionChanged);
 
 public:
   VideoSettings(QObject *parent = 0);
@@ -53,15 +53,15 @@ public:
   Camera *camera();
   void setCamera(Camera *camera);
 
-  VideoResolutionModel *resolutions();
+  ResolutionModel *resolutions();
 
   bool isReady() const;
 
-  VideoResolution *currentResolution();
+  Resolution *currentResolution();
 
-  Q_INVOKABLE VideoResolution *findResolution(const QString& aspectRatio,
+  Q_INVOKABLE Resolution *findResolution(const QString& aspectRatio,
 					      const QString& name);
-  Q_INVOKABLE bool setResolution(VideoResolution *resolution);
+  Q_INVOKABLE bool setResolution(Resolution *resolution);
 
   Q_INVOKABLE bool setResolution(const QString& aspectRatio, const QString& resolution);
 
@@ -80,12 +80,12 @@ private slots:
   void prepareForDeviceChange();
 
 private:
-  bool setResolution(const QtCamVideoResolution& resolution);
+  bool setResolution(const QtCamResolution& resolution);
 
   Camera *m_cam;
   QtCamVideoSettings *m_settings;
-  VideoResolutionModel *m_resolutions;
-  VideoResolution *m_currentResolution;
+  ResolutionModel *m_resolutions;
+  Resolution *m_currentResolution;
 };
 
 #endif /* VIDEO_SETTINGS_H */

@@ -38,7 +38,7 @@ public:
   }
 
   QtCamImageSettings *settings;
-  QtCamImageResolution resolution;
+  QtCamResolution resolution;
 };
 
 QtCamImageMode::QtCamImageMode(QtCamDevicePrivate *dev, QObject *parent) :
@@ -112,7 +112,7 @@ bool QtCamImageMode::capture(const QString& fileName) {
   return true;
 }
 
-bool QtCamImageMode::setResolution(const QtCamImageResolution& resolution) {
+bool QtCamImageMode::setResolution(const QtCamResolution& resolution) {
   d->resolution = resolution;
 
   if (!d_ptr->dev->q_ptr->isRunning()) {
@@ -144,7 +144,7 @@ QtCamImageSettings *QtCamImageMode::settings() const {
   return d->settings;
 }
 
-QtCamImageResolution QtCamImageMode::currentResolution() {
+QtCamResolution QtCamImageMode::currentResolution() {
   return d->resolution;
 }
 

@@ -41,16 +41,14 @@
 #include "videomute.h"
 #include "metadata.h"
 #include "imagesettings.h"
-#include "imageresolutionmodel.h"
+#include "resolutionmodel.h"
 #include "videosettings.h"
-#include "videoresolutionmodel.h"
 #include "sounds.h"
 #include "cameraconfig.h"
 #include "videoplayer.h"
 #include "viewfinder.h"
 #include "capability.h"
-#include "imageresolution.h"
-#include "videoresolution.h"
+#include "resolution.h"
 #if defined(QT4)
 #include <QDeclarativeEngine>
 #elif defined(QT5)
@@ -113,10 +111,8 @@ void Plugin::registerTypes(const char *uri) {
   qmlRegisterType<VideoSettings>(uri, MAJOR, MINOR, "VideoSettings");
   qmlRegisterType<Sounds>(uri, MAJOR, MINOR, "Sounds");
 
-  qmlRegisterUncreatableType<ImageResolutionModel>(uri, MAJOR, MINOR, "ImageResolutionModel",
-			  "ImageResolutionModel can be obtained from ImageSettings");
-  qmlRegisterUncreatableType<VideoResolutionModel>(uri, MAJOR, MINOR, "VideoResolutionModel",
-			  "VideoResolutionModel can be obtained from VideoSettings");
+  qmlRegisterUncreatableType<ResolutionModel>(uri, MAJOR, MINOR, "ResolutionModel",
+			  "ResolutionModel can be obtained from the corresponding mode");
 
   qmlRegisterType<Mode>();
   qmlRegisterType<CameraConfig>(uri, MAJOR, MINOR, "CameraConfig");
@@ -125,8 +121,7 @@ void Plugin::registerTypes(const char *uri) {
   qmlRegisterType<Viewfinder>(uri, MAJOR, MINOR, "Viewfinder");
   qmlRegisterType<Capability>();
 
-  qmlRegisterType<ImageResolution>(uri, MAJOR, MINOR, "ImageResolution");
-  qmlRegisterType<VideoResolution>(uri, MAJOR, MINOR, "VideoResolution");
+  qmlRegisterType<Resolution>(uri, MAJOR, MINOR, "Resolution");
 }
 
 #if defined(QT4)

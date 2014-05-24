@@ -28,7 +28,7 @@
 
 class QtCamDevicePrivate;
 class QtCamVideoModePrivate;
-class QtCamVideoResolution;
+class QtCamResolution;
 class QtCamVideoSettings;
 
 class QtCamVideoMode : public QtCamMode {
@@ -47,9 +47,9 @@ public:
 
   bool startRecording(const QString& fileName, const QString& tmpFileName = QString());
 
-  bool setResolution(const QtCamVideoResolution& resolution);
+  bool setResolution(const QtCamResolution& resolution);
 
-  QtCamVideoResolution currentResolution();
+  QtCamResolution currentResolution();
 
   void setProfile(GstEncodingProfile *profile);
 

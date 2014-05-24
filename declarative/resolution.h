@@ -20,13 +20,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef IMAGE_RESOLUTION_H
-#define IMAGE_RESOLUTION_H
+#ifndef RESOLUTION_H
+#define RESOLUTION_H
 
 #include <QObject>
 #include "qtcamimagesettings.h"
 
-class ImageResolution : public QObject {
+class Resolution : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(QString resolutionLd READ resolutionId WRITE setResolutionId NOTIFY resolutionIdChanged);
@@ -37,14 +37,14 @@ class ImageResolution : public QObject {
   Q_PROPERTY(QSize viewfinderResolution READ viewfinder WRITE setViewfinder NOTIFY viewfinderChanged);
   Q_PROPERTY(int frameRate READ fps WRITE setFps NOTIFY fpsChanged);
   Q_PROPERTY(int nightFrameRate READ nightFps WRITE setNightFps NOTIFY nightFpsChanged);
-  Q_PROPERTY(int megaPixels READ megaPixels WRITE setMegaPixels NOTIFY megaPixelsChanged);
+  Q_PROPERTY(float megaPixels READ megaPixels WRITE setMegaPixels NOTIFY megaPixelsChanged);
 
 public:
-  ImageResolution(QObject *parent = 0);
-  ImageResolution(const QtCamImageResolution& resolution, QObject *parent = 0);
-  ~ImageResolution();
+  Resolution(QObject *parent = 0);
+  Resolution(const QtCamResolution& resolution, QObject *parent = 0);
+  ~Resolution();
 
-  QtCamImageResolution resolution();
+  QtCamResolution resolution();
 
   QString resolutionId() const;
   void setResolutionId(const QString& resolutionId);
@@ -70,8 +70,8 @@ public:
   int nightFps() const;
   void setNightFps(int nightFps);
 
-  int megaPixels() const;
-  void setMegaPixels(int megaPixels);
+  float megaPixels() const;
+  void setMegaPixels(float megaPixels);
 
 signals:
   void resolutionIdChanged();
@@ -85,15 +85,7 @@ signals:
   void aspectRatioChanged();
 
 private:
-  QString m_resolutionId;
-  QString m_name;
-  QString m_aspectRatio;
-  QSize m_capture;
-  QSize m_preview;
-  QSize m_viewfinder;
-  int m_fps;
-  int m_nightFps;
-  int m_megaPixels;
+  QtCamResolution m_resolution;
 };
 
-#endif /* IMAGE_RESOLUTION_H */
+#endif /* RESOLUTION_H */

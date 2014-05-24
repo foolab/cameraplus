@@ -18,13 +18,37 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "imageresolutionmodel.h"
+#include "resolutionmodel.h"
 #include "qtcamimagesettings.h"
+#include "qtcamvideosettings.h"
 #include <QDebug>
 
-ImageResolutionModel::ImageResolutionModel(QtCamImageSettings *settings, QObject *parent) :
-  QAbstractListModel(parent), m_settings(settings) {
+ResolutionModel::ResolutionModel(QtCamImageSettings *settings, QObject *parent) :
+  QAbstractListModel(parent),
+  m_image(settings),
+  m_video(0) {
 
+  init();
+
+  m_resolutions = m_image->resolutions(m_aspectRatio);
+}
+
+ResolutionModel::ResolutionModel(QtCamVideoSettings *settings, QObject *parent) :
+  QAbstractListModel(parent),
+  m_image(0),
+  m_video(settings) {
+
+  init();
+
+  m_resolutions = m_video->resolutions(m_aspectRatio);
+}
+
+ResolutionModel::~ResolutionModel() {
+  m_image = 0;
+  m_video = 0;
+}
+
+void ResolutionModel::init() {
   QHash<int, QByteArray> roles;
   roles[IdRole] = "resolutionId";
   roles[NameRole] = "resolutionName";
@@ -32,19 +56,14 @@ ImageResolutionModel::ImageResolutionModel(QtCamImageSettings *settings, QObject
   roles[PreviewRole] = "previewResolution";
   roles[FpsRole] = "frameRate";
   roles[NightFpsRole] = "nightFrameRate";
+  roles[ResolutionRole] = "resolution";
   roles[MegaPixelsRole] = "megaPixels";
   roles[AspectRatioRole] = "resolutionAspectRatio";
 
   setRoleNames(roles);
-
-  m_resolutions = m_settings->resolutions(m_aspectRatio);
 }
 
-ImageResolutionModel::~ImageResolutionModel() {
-  m_settings = 0;
-}
-
-int ImageResolutionModel::rowCount(const QModelIndex& parent) const {
+int ResolutionModel::rowCount(const QModelIndex& parent) const {
   if (!parent.isValid()) {
     return m_resolutions.size();
   }
@@ -52,12 +71,12 @@ int ImageResolutionModel::rowCount(const QModelIndex& parent) const {
   return 0;
 }
 
-QVariant ImageResolutionModel::data(const QModelIndex& index, int role) const {
+QVariant ResolutionModel::data(const QModelIndex& index, int role) const {
   if (index.row() < 0 || index.row() >= m_resolutions.size()) {
     return QVariant();
   }
 
-  const QtCamImageResolution& res = m_resolutions[index.row()];
+  const QtCamResolution& res = m_resolutions[index.row()];
 
   switch (role) {
   case IdRole:
@@ -84,16 +103,19 @@ QVariant ImageResolutionModel::data(const QModelIndex& index, int role) const {
   case AspectRatioRole:
     return res.aspectRatio();
 
+  case ResolutionRole:
+    return res.commonName();
+
   default:
     return QVariant();
   }
 }
 
-QString ImageResolutionModel::aspectRatio() const {
+QString ResolutionModel::aspectRatio() const {
   return m_aspectRatio;
 }
 
-void ImageResolutionModel::setAspectRatio(const QString& aspectRatio) {
+void ResolutionModel::setAspectRatio(const QString& aspectRatio) {
   if (aspectRatio != m_aspectRatio) {
 
     m_aspectRatio = aspectRatio;
@@ -101,7 +123,12 @@ void ImageResolutionModel::setAspectRatio(const QString& aspectRatio) {
     beginResetModel();
 
     // TODO: there is a crash here when we switch devices
-    m_resolutions = m_settings->resolutions(m_aspectRatio);
+    if (m_image) {
+      m_resolutions = m_image->resolutions(m_aspectRatio);
+    }
+    else if (m_video) {
+      m_resolutions = m_video->resolutions(m_aspectRatio);
+    }
 
     endResetModel();
 
@@ -110,16 +137,16 @@ void ImageResolutionModel::setAspectRatio(const QString& aspectRatio) {
   }
 }
 
-int ImageResolutionModel::count() const {
+int ResolutionModel::count() const {
   return rowCount();
 }
 
 #if defined(QT5)
-QHash<int, QByteArray> ImageResolutionModel::roleNames() const {
+QHash<int, QByteArray> ResolutionModel::roleNames() const {
   return m_roles;
 }
 
-void ImageResolutionModel::setRoleNames(const QHash<int, QByteArray>& roles) {
+void ResolutionModel::setRoleNames(const QHash<int, QByteArray>& roles) {
   m_roles = roles;
 }
 #endif

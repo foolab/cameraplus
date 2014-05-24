@@ -23,8 +23,8 @@
 #include "camera.h"
 #include "qtcamdevice.h"
 #include "qtcamvideomode.h"
-#include "videoresolutionmodel.h"
-#include "videoresolution.h"
+#include "resolutionmodel.h"
+#include "resolution.h"
 #include <QDebug>
 
 VideoSettings::VideoSettings(QObject *parent) :
@@ -110,13 +110,13 @@ void VideoSettings::prepareForDeviceChange() {
   m_settings = 0;
 }
 
-VideoResolutionModel *VideoSettings::resolutions() {
+ResolutionModel *VideoSettings::resolutions() {
   if (!m_settings) {
     return 0;
   }
 
   if (!m_resolutions) {
-    m_resolutions = new VideoResolutionModel(m_settings, this);
+    m_resolutions = new ResolutionModel(m_settings, this);
   }
 
   return m_resolutions;
@@ -131,9 +131,9 @@ bool VideoSettings::setResolution(const QString& aspectRatio, const QString& res
     return false;
   }
 
-  QList<QtCamVideoResolution> res = m_settings->resolutions(aspectRatio);
+  QList<QtCamResolution> res = m_settings->resolutions(aspectRatio);
 
-  foreach (const QtCamVideoResolution& r, res) {
+  foreach (const QtCamResolution& r, res) {
     if (r.name() == resolution) {
       return setResolution(r);
     }
@@ -146,7 +146,7 @@ int VideoSettings::aspectRatioCount() const {
   return aspectRatios().count();
 }
 
-VideoResolution *VideoSettings::currentResolution() {
+Resolution *VideoSettings::currentResolution() {
   if (m_currentResolution) {
     return m_currentResolution;
   }
@@ -155,33 +155,33 @@ VideoResolution *VideoSettings::currentResolution() {
     return 0;
   }
 
-  m_currentResolution = new VideoResolution(m_cam->device()->videoMode()->currentResolution());
+  m_currentResolution = new Resolution(m_cam->device()->videoMode()->currentResolution());
 
   return m_currentResolution;
 }
 
-VideoResolution *VideoSettings::findResolution(const QString& aspectRatio,
-					       const QString& name) {
+Resolution *VideoSettings::findResolution(const QString& aspectRatio,
+					  const QString& name) {
   if (!isReady()) {
     return 0;
   }
 
-  QList<QtCamVideoResolution> res = m_settings->resolutions(aspectRatio);
+  QList<QtCamResolution> res = m_settings->resolutions(aspectRatio);
 
-  foreach (const QtCamVideoResolution& r, res) {
+  foreach (const QtCamResolution& r, res) {
     if (r.name() == name) {
-      return new VideoResolution(r);
+      return new Resolution(r);
     }
   }
 
   return 0;
 }
 
-bool VideoSettings::setResolution(VideoResolution *resolution) {
+bool VideoSettings::setResolution(Resolution *resolution) {
   return setResolution(resolution->resolution());
 }
 
-bool VideoSettings::setResolution(const QtCamVideoResolution& resolution) {
+bool VideoSettings::setResolution(const QtCamResolution& resolution) {
   if (!isReady()) {
     return false;
   }

@@ -22,99 +22,18 @@
 #include <QSharedData>
 #include <QDebug>
 
-class QtCamImageResolutionPrivate : public QSharedData {
-public:
-  QString id;
-  QString name;
-  QSize capture;
-  QSize preview;
-  QSize viewfinder;
-  int fps;
-  int nightFps;
-  int megaPixels;
-  QString aspectRatio;
-};
-
 class QtCamImageSettingsPrivate : public QSharedData {
 public:
   QString id;
   QString suffix;
   QString profileName;
   QString profilePath;
-  QList<QtCamImageResolution> resolutions;
+  QList<QtCamResolution> resolutions;
 };
-
-
-QtCamImageResolution::QtCamImageResolution(const QString& id, const QString& name,
-					   const QSize& capture, const QSize& preview,
-					   const QSize& viewfinder, int fps, int nightFps,
-					   int megaPixels, QString aspectRatio) :
-  d_ptr(new QtCamImageResolutionPrivate) {
-  d_ptr->id = id;
-  d_ptr->name = name;
-  d_ptr->capture = capture;
-  d_ptr->preview = preview;
-  d_ptr->viewfinder = viewfinder;
-  d_ptr->fps = fps;
-  d_ptr->nightFps = nightFps;
-  d_ptr->megaPixels = megaPixels;
-  d_ptr->aspectRatio = aspectRatio;
-}
-
-QtCamImageResolution::QtCamImageResolution(const QtCamImageResolution& other) :
-  d_ptr(other.d_ptr) {
-
-}
-
-QtCamImageResolution& QtCamImageResolution::operator=(const QtCamImageResolution& other) {
-  d_ptr = other.d_ptr;
-
-  return *this;
-}
-
-QtCamImageResolution::~QtCamImageResolution() {
-  // QSharedData will take care of reference counting.
-}
-
-QString QtCamImageResolution::id() const {
-  return d_ptr->id;
-}
-
-QString QtCamImageResolution::name() const {
-  return d_ptr->name;
-}
-
-QSize QtCamImageResolution::captureResolution() const {
-  return d_ptr->capture;
-}
-
-QSize QtCamImageResolution::viewfinderResolution() const {
-  return d_ptr->viewfinder;
-}
-
-QSize QtCamImageResolution::previewResolution() const {
-  return d_ptr->preview;
-}
-
-int QtCamImageResolution::frameRate() const {
-  return d_ptr->fps;
-}
-
-int QtCamImageResolution::nightFrameRate() const {
-  return d_ptr->nightFps;
-}
-
-int QtCamImageResolution::megaPixels() const {
-  return d_ptr->megaPixels;
-}
-
-QString QtCamImageResolution::aspectRatio() const {
-  return d_ptr->aspectRatio;
-}
 
 QtCamImageSettings::QtCamImageSettings(const QString& id, const QString& suffix,
 				       const QString& profileName, const QString& profilePath,
-				       const QList<QtCamImageResolution>& resolutions) :
+				       const QList<QtCamResolution>& resolutions) :
   d_ptr(new QtCamImageSettingsPrivate) {
 
   d_ptr->id = id;
@@ -155,18 +74,16 @@ QString QtCamImageSettings::profilePath() const {
   return d_ptr->profilePath;
 }
 
-QtCamImageResolution QtCamImageSettings::defaultResolution(const QString& aspectRatio) const {
+QtCamResolution QtCamImageSettings::defaultResolution(const QString& aspectRatio) const {
   if (d_ptr->resolutions.isEmpty()) {
-    return QtCamImageResolution(QString(), QString(),
-				QSize(), QSize(), QSize(),
-				-1, -1, -1, QString());
+    return QtCamResolution();
   }
 
   if (aspectRatio.isEmpty()) {
     return d_ptr->resolutions[0];
   }
 
-  foreach (const QtCamImageResolution& r, d_ptr->resolutions) {
+  foreach (const QtCamResolution& r, d_ptr->resolutions) {
     if (r.aspectRatio() == aspectRatio) {
       return r;
     }
@@ -175,14 +92,14 @@ QtCamImageResolution QtCamImageSettings::defaultResolution(const QString& aspect
   return d_ptr->resolutions[0];
 }
 
-QList<QtCamImageResolution> QtCamImageSettings::resolutions(const QString& aspectRatio) const {
+QList<QtCamResolution> QtCamImageSettings::resolutions(const QString& aspectRatio) const {
   if (aspectRatio.isEmpty()) {
     return d_ptr->resolutions;
   }
 
-  QList<QtCamImageResolution> res;
+  QList<QtCamResolution> res;
 
-  foreach (const QtCamImageResolution& r, d_ptr->resolutions) {
+  foreach (const QtCamResolution& r, d_ptr->resolutions) {
     if (r.aspectRatio() == aspectRatio) {
       res << r;
     }
@@ -194,7 +111,7 @@ QList<QtCamImageResolution> QtCamImageSettings::resolutions(const QString& aspec
 QStringList QtCamImageSettings::aspectRatios() const {
   QStringList aspects;
 
-  foreach (const QtCamImageResolution& r, d_ptr->resolutions) {
+  foreach (const QtCamResolution& r, d_ptr->resolutions) {
     if (aspects.indexOf(r.aspectRatio()) == -1) {
       aspects << r.aspectRatio();
     }

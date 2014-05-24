@@ -20,15 +20,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef VIDEO_RESOLUTION_MODEL_H
-#define VIDEO_RESOLUTION_MODEL_H
+#ifndef RESOLUTION_MODEL_H
+#define RESOLUTION_MODEL_H
 
 #include <QAbstractListModel>
 
+class QtCamImageSettings;
 class QtCamVideoSettings;
-class QtCamVideoResolution;
+class QtCamResolution;
 
-class VideoResolutionModel : public QAbstractListModel {
+class ResolutionModel : public QAbstractListModel {
   Q_OBJECT
 
   Q_PROPERTY(QString aspectRatio READ aspectRatio WRITE setAspectRatio NOTIFY aspectRatioChanged);
@@ -43,12 +44,14 @@ public:
     PreviewRole,
     FpsRole,
     NightFpsRole,
+    MegaPixelsRole,
     ResolutionRole,
     AspectRatioRole,
   };
 
-  VideoResolutionModel(QtCamVideoSettings *settings, QObject *parent = 0);
-  ~VideoResolutionModel();
+  ResolutionModel(QtCamImageSettings *settings, QObject *parent = 0);
+  ResolutionModel(QtCamVideoSettings *settings, QObject *parent = 0);
+  ~ResolutionModel();
 
   int rowCount(const QModelIndex& parent = QModelIndex()) const;
 
@@ -64,11 +67,14 @@ signals:
   void countChanged();
 
 private:
+  void init();
+
   QString m_aspectRatio;
 
-  QtCamVideoSettings *m_settings;
+  QtCamImageSettings *m_image;
+  QtCamVideoSettings *m_video;
 
-  QList<QtCamVideoResolution> m_resolutions;
+  QList<QtCamResolution> m_resolutions;
 
 #if defined(QT5)
   QHash<int, QByteArray> roleNames() const;
@@ -77,4 +83,4 @@ private:
 #endif
 };
 
-#endif /* VIDEO_RESOLUTION_MODEL_H */
+#endif /* RESOLUTION_MODEL_H */

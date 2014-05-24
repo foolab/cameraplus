@@ -28,9 +28,9 @@
 
 class Camera;
 class QtCamImageSettings;
-class ImageResolutionModel;
-class ImageResolution;
-class QtCamImageResolution;
+class ResolutionModel;
+class Resolution;
+class QtCamResolution;
 
 class ImageSettings : public QObject {
   Q_OBJECT
@@ -39,9 +39,9 @@ class ImageSettings : public QObject {
   Q_PROPERTY(QString suffix READ suffix NOTIFY settingsChanged);
   Q_PROPERTY(QStringList aspectRatios READ aspectRatios NOTIFY settingsChanged);
   Q_PROPERTY(int aspectRatioCount READ aspectRatioCount NOTIFY aspectRatioCountChanged);
-  Q_PROPERTY(ImageResolutionModel *resolutions READ resolutions NOTIFY resolutionsChanged);
+  Q_PROPERTY(ResolutionModel *resolutions READ resolutions NOTIFY resolutionsChanged);
   Q_PROPERTY(bool ready READ isReady NOTIFY readyChanged);
-  Q_PROPERTY(ImageResolution *currentResolution READ currentResolution NOTIFY currentResolutionChanged);
+  Q_PROPERTY(Resolution *currentResolution READ currentResolution NOTIFY currentResolutionChanged);
 
 public:
   ImageSettings(QObject *parent = 0);
@@ -53,15 +53,15 @@ public:
   Camera *camera();
   void setCamera(Camera *camera);
 
-  ImageResolutionModel *resolutions();
+  ResolutionModel *resolutions();
 
   bool isReady() const;
 
-  ImageResolution *currentResolution();
+  Resolution *currentResolution();
 
-  Q_INVOKABLE ImageResolution *findResolution(const QString& aspectRatio,
+  Q_INVOKABLE Resolution *findResolution(const QString& aspectRatio,
 					      const QString& name);
-  Q_INVOKABLE bool setResolution(ImageResolution *resolution);
+  Q_INVOKABLE bool setResolution(Resolution *resolution);
 
   Q_INVOKABLE bool setResolution(const QString& aspectRatio, const QString& resolution);
 
@@ -82,12 +82,12 @@ private slots:
   void prepareForDeviceChange();
 
 private:
-  bool setResolution(const QtCamImageResolution& resolution);
+  bool setResolution(const QtCamResolution& resolution);
 
   Camera *m_cam;
   QtCamImageSettings *m_settings;
-  ImageResolutionModel *m_resolutions;
-  ImageResolution *m_currentResolution;
+  ResolutionModel *m_resolutions;
+  Resolution *m_currentResolution;
 };
 
 #endif /* IMAGE_SETTINGS_H */

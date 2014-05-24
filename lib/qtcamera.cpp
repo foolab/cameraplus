@@ -31,7 +31,8 @@ public:
 };
 
 QtCamera::QtCamera(QObject *parent) :
-  QObject(parent), d_ptr(new QtCameraPrivate) {
+  QObject(parent),
+  d_ptr(new QtCameraPrivate) {
 
   gst_init(0, 0);
 
@@ -40,7 +41,8 @@ QtCamera::QtCamera(QObject *parent) :
 }
 
 QtCamera::QtCamera(QtCamConfig *config, QObject *parent) :
-  QObject(parent), d_ptr(new QtCameraPrivate) {
+  QObject(parent),
+  d_ptr(new QtCameraPrivate) {
 
   gst_init(0, 0);
 

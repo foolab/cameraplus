@@ -49,7 +49,7 @@ public:
   }
 
   QtCamVideoSettings *settings;
-  QtCamVideoResolution resolution;
+  QtCamResolution resolution;
 };
 
 class VideoDoneHandler : public DoneHandler {
@@ -204,7 +204,7 @@ void QtCamVideoMode::stopRecording(bool sync) {
   }
 }
 
-bool QtCamVideoMode::setResolution(const QtCamVideoResolution& resolution) {
+bool QtCamVideoMode::setResolution(const QtCamResolution& resolution) {
   d->resolution = resolution;
 
   if (!d_ptr->dev->q_ptr->isRunning()) {
@@ -236,7 +236,7 @@ QtCamVideoSettings *QtCamVideoMode::settings() {
   return d->settings;
 }
 
-QtCamVideoResolution QtCamVideoMode::currentResolution() {
+QtCamResolution QtCamVideoMode::currentResolution() {
   return d->resolution;
 }
 

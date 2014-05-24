@@ -28,39 +28,14 @@
 #include <QString>
 #include <QSharedDataPointer>
 #include <QStringList>
+#include "qtcamresolution.h"
 
 class QtCamImageSettingsPrivate;
-class QtCamImageResolutionPrivate;
-
-class QtCamImageResolution {
-public:
-  QtCamImageResolution(const QString& id, const QString& name, const QSize& capture,
-		       const QSize& preview, const QSize& viewfinder,
-		       int fps, int nightFps, int megaPixels, QString aspectRatio);
-  QtCamImageResolution(const QtCamImageResolution& other);
-
-  QtCamImageResolution& operator=(const QtCamImageResolution& other);
-
-  ~QtCamImageResolution();
-
-  QString id() const;
-  QString name() const;
-  QSize captureResolution() const;
-  QSize viewfinderResolution() const;
-  QSize previewResolution() const;
-  int frameRate() const;
-  int nightFrameRate() const;
-  int megaPixels() const;
-  QString aspectRatio() const;
-
-private:
-  QSharedDataPointer<QtCamImageResolutionPrivate> d_ptr;
-};
 
 class QtCamImageSettings {
 public:
   QtCamImageSettings(const QString& id, const QString& suffix, const QString& profileName,
-		     const QString& profilePath, const QList<QtCamImageResolution>& resolutions);
+		     const QString& profilePath, const QList<QtCamResolution>& resolutions);
   QtCamImageSettings(const QtCamImageSettings& other);
 
   QtCamImageSettings& operator=(const QtCamImageSettings& other);
@@ -72,8 +47,8 @@ public:
   QString profileName() const;
   QString profilePath() const;
 
-  QtCamImageResolution defaultResolution(const QString& aspectRatio = QString()) const;
-  QList<QtCamImageResolution> resolutions(const QString& aspectRatio = QString()) const;
+  QtCamResolution defaultResolution(const QString& aspectRatio = QString()) const;
+  QList<QtCamResolution> resolutions(const QString& aspectRatio = QString()) const;
   QStringList aspectRatios() const;
 
 private:
