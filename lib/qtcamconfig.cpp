@@ -266,3 +266,7 @@ bool QtCamConfig::isPreviewSupported() const {
 QString QtCamConfig::mediaType(const QString& id) const {
   return d_ptr->conf->value(QString("media-type/%1").arg(id)).toString();
 }
+
+QString QtCamConfig::fastCaptureProperty() const {
+  return d_ptr->conf->value("fast-capture/property").toString();
+}

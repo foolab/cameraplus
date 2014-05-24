@@ -91,6 +91,8 @@ public:
 
   QString mediaType(const QString& id) const;
 
+  QString fastCaptureProperty() const;
+
 private:
   QtCamConfigPrivate *d_ptr;
 };

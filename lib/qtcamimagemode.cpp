@@ -29,7 +29,8 @@ public:
   QtCamImageModePrivate(QtCamDevicePrivate *dev) :
   QtCamModePrivate(dev),
   settings(dev->conf->imageSettings(dev->id)),
-  resolution(settings->defaultResolution()) {
+  resolution(settings->defaultResolution()),
+  fastCaptureEnabled(false) {
 
   }
 
@@ -37,8 +38,36 @@ public:
     delete settings;
   }
 
+  bool applyFastCapture() {
+    // TODO:
+    GstElement *src = dev->videoSource;
+    if (dev->wrapperVideoSource) {
+      src = dev->wrapperVideoSource;
+    }
+
+    if (!src) {
+      qWarning() << "applyFastCapture: no source element";
+      return false;
+    }
+
+    QString prop = dev->conf->fastCaptureProperty();
+    if (prop.isEmpty()) {
+      qWarning() << "applyFastCapture: not supported";
+      return false;
+    }
+
+    if (fastCaptureEnabled) {
+      g_object_set(src, prop.toUtf8().constData(), TRUE, NULL);
+    } else {
+      g_object_set(src, prop.toUtf8().constData(), FALSE, NULL);
+    }
+
+    return true;
+  }
+
   QtCamImageSettings *settings;
   QtCamResolution resolution;
+  bool fastCaptureEnabled;
 };
 
 QtCamImageMode::QtCamImageMode(QtCamDevicePrivate *dev, QObject *parent) :
@@ -85,6 +114,8 @@ void QtCamImageMode::applySettings() {
   // If we don't reset the caps then: if we switch from video to image then we fail
   // the next time we restart the pipeline.
   d_ptr->resetCaps("video-capture-caps");
+
+  d->applyFastCapture();
 }
 
 void QtCamImageMode::start() {
@@ -150,4 +181,32 @@ QtCamResolution QtCamImageMode::currentResolution() {
 
 void QtCamImageMode::enablePreview() {
   d_ptr->setPreviewSize(d->resolution.previewResolution());
+}
+
+bool QtCamImageMode::enableFastCapture() {
+  if (d->fastCaptureEnabled) {
+    qWarning() << "fast capture is already enabled";
+    return false;
+  }
+
+  d->fastCaptureEnabled = true;
+
+  if (d->applyFastCapture()) {
+    return true;
+  }
+
+  d->fastCaptureEnabled = false;
+
+  return false;
+}
+
+void QtCamImageMode::disableFastCapture() {
+  if (!d->fastCaptureEnabled) {
+    qWarning() << "fast capture is already disabled";
+    return;
+  }
+
+  d->fastCaptureEnabled = false;
+
+  d->applyFastCapture();
 }

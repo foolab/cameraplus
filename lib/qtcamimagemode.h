@@ -53,6 +53,9 @@ public:
 
   void enablePreview();
 
+  bool enableFastCapture();
+  void disableFastCapture();
+
 signals:
   void captureStarted();
   void captureEnded();
