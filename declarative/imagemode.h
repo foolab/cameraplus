@@ -35,6 +35,10 @@ public:
   ~ImageMode();
 
   Q_INVOKABLE bool capture(const QString& fileName);
+  Q_INVOKABLE bool enableFastCapture();
+
+public slots:
+  void disableFastCapture();
 
 signals:
   void captureStarted();

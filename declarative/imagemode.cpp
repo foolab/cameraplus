@@ -59,3 +59,17 @@ void ImageMode::postChangeMode() {
 void ImageMode::changeMode() {
   m_mode = m_cam->device()->imageMode();
 }
+
+bool ImageMode::enableFastCapture() {
+  if (m_image) {
+    return m_image->enableFastCapture();
+  }
+
+  return false;
+}
+
+void ImageMode::disableFastCapture() {
+  if (m_image) {
+    m_image->disableFastCapture();
+  }
+}
