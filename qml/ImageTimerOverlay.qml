@@ -43,7 +43,11 @@ Item {
         id: imageMode
         camera: cam
 
-        onCaptureEnded: stopAutoFocus()
+        onCaptureEnded: {
+            if (deviceFeatures().isAutoFocusSupported) {
+                stopAutoFocus()
+            }
+        }
 
         enablePreview: settings.enablePreview
 
