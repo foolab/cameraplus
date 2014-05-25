@@ -45,7 +45,7 @@ Rectangle {
 
             width: visible ? 100 : 0
             color: mouse.pressed ? cameraStyle.pressedColor : "transparent"
-            visible: plugin.uuid != activePlugin.uuid
+            visible: plugin.uuid != activePlugin.uuid && ((settings.device == 0 && plugin.primaryCameraSupported) || (settings.device == 1 && plugin.secondaryCameraSupported))
 
             MouseArea {
                 id: mouse
