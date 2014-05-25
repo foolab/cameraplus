@@ -59,11 +59,7 @@ public:
 
   Resolution *currentResolution();
 
-  Q_INVOKABLE Resolution *findResolution(const QString& aspectRatio,
-					      const QString& name);
-  Q_INVOKABLE bool setResolution(Resolution *resolution);
-
-  Q_INVOKABLE bool setResolution(const QString& aspectRatio, const QString& resolution);
+  Q_INVOKABLE bool setResolution(const QString& resolution);
 
   int aspectRatioCount() const;
 

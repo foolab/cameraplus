@@ -26,12 +26,14 @@ import QtCamera 1.0
 Column {
     property Camera camera
 
+    property string currentAspectRatio:
+        imageSettings.aspectRatioForResolution(deviceSettings().imageResolution);
     spacing: 10
 
-    Component.onCompleted: imageSettings.resolutions.aspectRatio = deviceSettings().imageAspectRatio
-    Connections {
-        target: imageSettings
-        onResolutionsChanged: imageSettings.resolutions.aspectRatio = deviceSettings().imageAspectRatio
+    Binding {
+        target: imageSettings.resolutions
+        property: "aspectRatio"
+        value: currentAspectRatio
     }
 
     SectionHeader {
@@ -51,10 +53,8 @@ Column {
             delegate: CameraCheckButton {
                 width: aspectRatioRow.width / aspectRatios.count
                 text: qsTr(modelData)
-                checked: deviceSettings().imageAspectRatio == modelData
+                checked: currentAspectRatio == modelData
                 onClicked: {
-                    imageSettings.resolutions.aspectRatio = modelData
-                    deviceSettings().imageAspectRatio = modelData
                     deviceSettings().imageResolution = imageSettings.bestResolution(modelData, deviceSettings().imageResolution)
                     imageSettings.setImageResolution()
                 }
@@ -75,15 +75,15 @@ Column {
 
         Repeater {
             id: resolutions
-            model: imageSettings.resolutions.aspectRatio == deviceSettings().imageAspectRatio ?
+            model: imageSettings.resolutions.aspectRatio == currentAspectRatio ?
                 imageSettings.resolutions : undefined
 
             delegate: CameraCheckButton {
                 width: resolutionsRow.width / resolutions.count
                 text: qsTr("%1 %2 Mpx").arg(resolutionName).arg(megaPixels)
-                checked: deviceSettings().imageResolution == resolutionName
+                checked: deviceSettings().imageResolution == resolutionId
                 onClicked: {
-                    deviceSettings().imageResolution = resolutionName
+                    deviceSettings().imageResolution = resolutionId
                     imageSettings.setImageResolution()
                 }
             }

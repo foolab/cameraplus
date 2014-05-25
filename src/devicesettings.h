@@ -42,9 +42,7 @@ class DeviceSettings : public QObject {
   Q_PROPERTY(qreal videoEvComp READ videoEvComp WRITE setVideoEvComp NOTIFY videoEvCompChanged);
   Q_PROPERTY(int imageFlashMode READ imageFlashMode WRITE setImageFlashMode NOTIFY imageFlashModeChanged);
   Q_PROPERTY(int imageIso READ imageIso WRITE setImageIso NOTIFY imageIsoChanged);
-  Q_PROPERTY(QString imageAspectRatio READ imageAspectRatio WRITE setImageAspectRatio NOTIFY imageAspectRatioChanged);
   Q_PROPERTY(QString imageResolution READ imageResolution WRITE setImageResolution NOTIFY imageResolutionChanged);
-  Q_PROPERTY(QString videoAspectRatio READ videoAspectRatio WRITE setVideoAspectRatio NOTIFY videoAspectRatioChanged);
   Q_PROPERTY(QString videoResolution READ videoResolution WRITE setVideoResolution NOTIFY videoResolutionChanged);
   Q_PROPERTY(bool videoTorchOn READ isVideoTorchOn WRITE setVideoTorchOn NOTIFY videoTorchOnChanged);
   Q_PROPERTY(bool videoMuted READ isVideoMuted WRITE setVideoMuted NOTIFY videoMutedChanged);
@@ -86,14 +84,8 @@ public:
   int imageIso() const;
   void setImageIso(int iso);
 
-  QString imageAspectRatio() const;
-  void setImageAspectRatio(const QString& aspectRatio);
-
   QString imageResolution() const;
   void setImageResolution(const QString& resolution);
-
-  QString videoAspectRatio() const;
-  void setVideoAspectRatio(const QString& aspectRatio);
 
   QString videoResolution() const;
   void setVideoResolution(const QString& resolution);
@@ -116,9 +108,7 @@ signals:
   void videoEvCompChanged();
   void imageFlashModeChanged();
   void imageIsoChanged();
-  void imageAspectRatioChanged();
   void imageResolutionChanged();
-  void videoAspectRatioChanged();
   void videoResolutionChanged();
   void videoTorchOnChanged();
   void videoMutedChanged();

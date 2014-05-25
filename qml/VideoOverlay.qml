@@ -192,8 +192,7 @@ Item {
 
             Indicator {
                 id: resolutionIndicator
-                source: cameraTheme.videoIcon(deviceSettings().videoAspectRatio,
-                    deviceSettings().videoResolution, settings.device)
+                source: cameraTheme.videoIcon(deviceSettings().videoResolution, settings.device)
             }
 
             Indicator {

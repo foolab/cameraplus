@@ -332,7 +332,7 @@ CameraPage {
         camera: viewfinder.camera
 
         function setImageResolution() {
-            if (!imageSettings.setResolution(deviceSettings().imageAspectRatio, deviceSettings().imageResolution)) {
+            if (!imageSettings.setResolution(deviceSettings().imageResolution)) {
                 showError(qsTr("Failed to set required resolution"))
             }
         }
@@ -343,7 +343,7 @@ CameraPage {
         camera: viewfinder.camera
 
         function setVideoResolution() {
-            if (!videoSettings.setResolution(deviceSettings().videoAspectRatio, deviceSettings().videoResolution)) {
+            if (!videoSettings.setResolution(deviceSettings().videoResolution)) {
                 showError(qsTr("Failed to set required resolution"))
             }
         }

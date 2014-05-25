@@ -86,6 +86,7 @@ QtObject {
     property string selfTimerIconId: "qrc:/images/cameraplus-icon-m-camera-self-timer.png"
 
     function videoIcon(ratio, res, device) {
+// TODO: broke after removing aspect ratio
         return "qrc:/images/cameraplus-icon-m-camera-video-"+ res + "-resolution.png"
     }
 

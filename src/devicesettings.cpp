@@ -24,9 +24,7 @@
 #include "settings.h"
 
 #define IMAGE_RESOLUTION_KEY        "imageResolution"
-#define IMAGE_ASPECT_RATIO_KEY      "imageAspectRatio"
 #define VIDEO_RESOLUTION_KEY        "videoResolution"
-#define VIDEO_ASPECT_RATIO_KEY      "videoAspectRatio"
 #define IMAGE_SCENE_MODE_KEY        "imageSceneMode"
 #define VIDEO_SCENE_MODE_KEY        "videoSceneMode"
 #define IMAGE_COLOR_FILTER_KEY      "imageColorFilter"
@@ -45,10 +43,8 @@ PrimaryDeviceSettings::PrimaryDeviceSettings(QObject *parent) :
 
   QHash<QString, QVariant> props;
 
-  props[IMAGE_RESOLUTION_KEY] = "high";
-  props[IMAGE_ASPECT_RATIO_KEY] = "16:9";
-  props[VIDEO_RESOLUTION_KEY] = "high";
-  props[VIDEO_ASPECT_RATIO_KEY] = "16:9";
+  props[IMAGE_RESOLUTION_KEY] = "image-high-16:9";
+  props[VIDEO_RESOLUTION_KEY] = "video-high";
   props[IMAGE_SCENE_MODE_KEY] = 6;
   props[VIDEO_SCENE_MODE_KEY] = 6;
   props[IMAGE_COLOR_FILTER_KEY] = 0;
@@ -70,15 +66,11 @@ SecondaryDeviceSettings::SecondaryDeviceSettings(QObject *parent) :
 
   QHash<QString, QVariant> props;
 #ifdef SAILFISH
-  props[IMAGE_RESOLUTION_KEY] = "high";
-  props[IMAGE_ASPECT_RATIO_KEY] = "16:9";
-  props[VIDEO_RESOLUTION_KEY] = "high";
-  props[VIDEO_ASPECT_RATIO_KEY] = "16:9";
+  props[IMAGE_RESOLUTION_KEY] = "sec-image-high-16:9";
+  props[VIDEO_RESOLUTION_KEY] = "sec-video-high-16:9";
 #else
-  props[IMAGE_RESOLUTION_KEY] = "low";
-  props[IMAGE_ASPECT_RATIO_KEY] = "4:3";
-  props[VIDEO_RESOLUTION_KEY] = "low";
-  props[VIDEO_ASPECT_RATIO_KEY] = "4:3";
+  props[IMAGE_RESOLUTION_KEY] = "sec-image-low";
+  props[VIDEO_RESOLUTION_KEY] = "sec-video-low";
 #endif
   props[IMAGE_SCENE_MODE_KEY] = 6;
   props[VIDEO_SCENE_MODE_KEY] = 6;
@@ -251,17 +243,6 @@ void DeviceSettings::setImageIso(int iso) {
   }
 }
 
-QString DeviceSettings::imageAspectRatio() const {
-  return get("image/aspectRatio", IMAGE_ASPECT_RATIO_KEY).toString();
-}
-
-void DeviceSettings::setImageAspectRatio(const QString& aspectRatio) {
-  if (imageAspectRatio() != aspectRatio) {
-    set("image/aspectRatio", aspectRatio);
-    emit imageAspectRatioChanged();
-  }
-}
-
 QString DeviceSettings::imageResolution() const {
   return get("image/resolution", IMAGE_RESOLUTION_KEY).toString();
 }
@@ -270,17 +251,6 @@ void DeviceSettings::setImageResolution(const QString& resolution) {
   if (imageResolution() != resolution) {
     set("image/resolution", resolution);
     emit imageResolutionChanged();
-  }
-}
-
-QString DeviceSettings::videoAspectRatio() const {
-  return get("video/aspectRatio", VIDEO_ASPECT_RATIO_KEY).toString();
-}
-
-void DeviceSettings::setVideoAspectRatio(const QString& aspectRatio) {
-  if (videoAspectRatio() != aspectRatio) {
-    set("video/aspectRatio", aspectRatio);
-    emit videoAspectRatioChanged();
   }
 }
 

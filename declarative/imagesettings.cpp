@@ -126,15 +126,15 @@ bool ImageSettings::isReady() const {
   return m_settings != 0;
 }
 
-bool ImageSettings::setResolution(const QString& aspectRatio, const QString& resolution) {
+bool ImageSettings::setResolution(const QString& resolution) {
   if (!isReady()) {
     return false;
   }
 
-  QList<QtCamResolution> res = m_settings->resolutions(aspectRatio);
+  QList<QtCamResolution> res = m_settings->resolutions();
 
   foreach (const QtCamResolution& r, res) {
-    if (r.name() == resolution) {
+    if (r.id() == resolution) {
       return setResolution(r);
     }
   }
@@ -158,27 +158,6 @@ Resolution *ImageSettings::currentResolution() {
   m_currentResolution = new Resolution(m_cam->device()->imageMode()->currentResolution());
 
   return m_currentResolution;
-}
-
-Resolution *ImageSettings::findResolution(const QString& aspectRatio,
-					  const QString& name) {
-  if (!isReady()) {
-    return 0;
-  }
-
-  QList<QtCamResolution> res = m_settings->resolutions(aspectRatio);
-
-  foreach (const QtCamResolution& r, res) {
-    if (r.name() == name) {
-      return new Resolution(r);
-    }
-  }
-
-  return 0;
-}
-
-bool ImageSettings::setResolution(Resolution *resolution) {
-  return setResolution(resolution->resolution());
 }
 
 bool ImageSettings::setResolution(const QtCamResolution& resolution) {
@@ -210,13 +189,29 @@ QString ImageSettings::bestResolution(const QString& aspectRatio, const QString&
   QList<QtCamResolution> res = m_settings->resolutions(aspectRatio);
 
   foreach (const QtCamResolution& r, res) {
-    if (r.name() == resolution) {
+    if (r.id() == resolution) {
       return resolution;
     }
   }
 
   if (!res.isEmpty()) {
-    return res[0].name();
+    return res[0].id();
+  }
+
+  return QString();
+}
+
+QString ImageSettings::aspectRatioForResolution(const QString& resolution) {
+  if (!isReady()) {
+    return QString();
+  }
+
+  QList<QtCamResolution> res = m_settings->resolutions();
+
+  foreach (const QtCamResolution& r, res) {
+    if (r.id() == resolution) {
+      return r.aspectRatio();
+    }
   }
 
   return QString();
