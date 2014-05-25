@@ -56,5 +56,6 @@
 	<file>ImageTimerOverlay.qml</file>
 	<file>CameraToolIcon.qml</file>
 	<file>CameraSlider.qml</file>
+	<file>FastCaptureOverlay.qml</file>
     </qresource>
 </RCC>
