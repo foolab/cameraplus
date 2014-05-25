@@ -52,19 +52,6 @@ Rectangle {
             source: cameraTheme.flashIcon(deviceSettings().imageFlashMode)
         }
 
-        CameraLabel {
-            anchors {
-                left: parent.left
-                right: parent.right
-                margins: 5
-            }
-
-            text: imageSettings.currentResolution ? qsTr("%1M").arg(imageSettings.currentResolution.megaPixels) : qsTr("?M")
-            font.bold: true
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
-
         Indicator {
             id: wbIndicator
             source: visible ? cameraTheme.whiteBalanceIcon(deviceSettings().imageWhiteBalance) : ""

@@ -35,10 +35,6 @@ icon-m-camera-roll 40 40 icon-m-camera-roll.svg
 icon-m-camera-scene-auto 48 48 icon-m-camera-scene-auto-screen.svg
 icon-m-camera-video-record 75 75 icon-m-camera-video.svg
 icon-m-camera-video-record-stop 75 75 record-stop.svg
-icon-m-camera-video-fine-resolution 32 32 icon-m-camera-video-fine-resolution.svg
-icon-m-camera-video-high-resolution 32 32 icon-m-camera-video-high-resolution.svg
-icon-m-camera-video-low-resolution 32 32 icon-m-camera-video-low-resolution.svg
-icon-m-camera-video-tiny-resolution 32 32 icon-m-camera-video-tiny-resolution.svg
 icon-m-camera-manual-exposure 48 48 exposure.svg
 icon-m-camera-filter-black-white 48 48 filter-black-white.svg
 icon-m-camera-filter-negative 48 48 filter-negative.svg

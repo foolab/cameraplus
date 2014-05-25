@@ -114,6 +114,13 @@ Item {
         onExpandedChanged: settings.showToolBar = expanded;
 
         tools: CameraToolBarTools {
+            CameraLabel {
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                text: videoSettings.currentResolution ? videoSettings.currentResolution.commonName : ""
+                font.bold: true
+            }
+
             CameraToolIcon {
                 visible: deviceFeatures().isVideoTorchSupported
                 iconSource: deviceSettings().videoTorchOn ? cameraTheme.cameraTorchOnIconId : cameraTheme.cameraTorchOffIconId
@@ -189,11 +196,6 @@ Item {
             width: parent.width
             spacing: 5
             anchors.centerIn: parent
-
-            Indicator {
-                id: resolutionIndicator
-                source: cameraTheme.videoIcon(deviceSettings().videoResolution, settings.device)
-            }
 
             Indicator {
                 id: wbIndicator
