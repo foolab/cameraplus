@@ -29,10 +29,13 @@ class QtCamImageMode;
 
 class ImageMode : public Mode {
   Q_OBJECT
+  Q_PROPERTY(bool fastCaptureEnabled READ isFastCaptureEnabled NOTIFY fastCaptureEnabledChanged);
 
 public:
   ImageMode(QObject *parent = 0);
   ~ImageMode();
+
+  bool isFastCaptureEnabled() const;
 
   Q_INVOKABLE bool capture(const QString& fileName);
   Q_INVOKABLE bool enableFastCapture();
@@ -43,6 +46,7 @@ public slots:
 signals:
   void captureStarted();
   void captureEnded();
+  void fastCaptureEnabledChanged();
 
 protected:
   virtual void preChangeMode();
@@ -51,6 +55,7 @@ protected:
 
 private:
   QtCamImageMode *m_image;
+  bool m_fastCaptureEnabled;
 };
 
 #endif /* IMAGE_MODE_H */

@@ -25,7 +25,8 @@
 
 ImageMode::ImageMode(QObject *parent) :
   Mode(parent),
-  m_image(0) {
+  m_image(0),
+  m_fastCaptureEnabled(false) {
 
 }
 
@@ -61,15 +62,35 @@ void ImageMode::changeMode() {
 }
 
 bool ImageMode::enableFastCapture() {
-  if (m_image) {
-    return m_image->enableFastCapture();
+  if (m_fastCaptureEnabled) {
+    return true;
   }
 
-  return false;
+  if (m_image) {
+    m_fastCaptureEnabled = m_image->enableFastCapture();
+  } else {
+    m_fastCaptureEnabled = false;
+  }
+
+  emit fastCaptureEnabledChanged();
+
+  return m_fastCaptureEnabled;
 }
 
 void ImageMode::disableFastCapture() {
+  if (!m_fastCaptureEnabled) {
+    return;
+  }
+
   if (m_image) {
     m_image->disableFastCapture();
   }
+
+  m_fastCaptureEnabled = false;
+
+  emit fastCaptureEnabledChanged();
+}
+
+bool ImageMode::isFastCaptureEnabled() const {
+  return m_fastCaptureEnabled;
 }
