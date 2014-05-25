@@ -81,6 +81,7 @@ CameraToolBar {
 
         DeviceSelector {
             enabled: camera.idle
+            visible: activePlugin.primaryCameraSupported && activePlugin.secondaryCameraSupported
         }
     }
 }

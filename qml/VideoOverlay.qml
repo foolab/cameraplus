@@ -163,6 +163,8 @@ Item {
 
             DeviceSelector {
                 visible: !overlay.recording
+                    && activePlugin.primaryCameraSupported
+                    && activePlugin.secondaryCameraSupported
             }
         }
     }
