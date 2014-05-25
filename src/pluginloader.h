@@ -35,6 +35,8 @@ class Plugin : public QObject {
   Q_PROPERTY(QUrl overlay READ overlay CONSTANT);
   Q_PROPERTY(QUrl settings READ settings CONSTANT);
   Q_PROPERTY(int mode READ mode CONSTANT);
+  Q_PROPERTY(bool primaryCameraSupported READ isPrimaryCameraSupported CONSTANT);
+  Q_PROPERTY(bool secondaryCameraSupported READ isSecondaryCameraSupported CONSTANT);
 
 public:
   Plugin(const QDir& dir, const QString& fileName, QObject * parent = 0);
@@ -48,6 +50,8 @@ public:
   QUrl overlay() const;
   QUrl settings() const;
   int mode() const;
+  bool isPrimaryCameraSupported() const;
+  bool isSecondaryCameraSupported() const;
 
 private:
   QString m_uuid;
@@ -56,6 +60,8 @@ private:
   QUrl m_overlay;
   QUrl m_settings;
   int m_mode;
+  bool m_primarySupported;
+  bool m_secondarySupported;
 };
 
 class PluginLoader : public QAbstractListModel {

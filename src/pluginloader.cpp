@@ -44,11 +44,15 @@ Plugin::Plugin(const QDir& dir, const QString& fileName, QObject * parent) :
   m_overlay = settings.value("mode/overlay").toUrl();
   m_settings = settings.value("mode/settings").toUrl();
   m_mode = settings.value("mode/mode").toInt();
+  m_primarySupported = settings.value("mode/primary-camera", false).toBool();
+  m_secondarySupported = settings.value("mode/secondary-camera", false).toBool();
 }
 
 Plugin::Plugin(QObject * parent) :
   QObject(parent),
-  m_mode(0) {
+  m_mode(0),
+  m_primarySupported(false),
+  m_secondarySupported(false) {
 
 }
 
@@ -87,6 +91,14 @@ QUrl Plugin::settings() const {
 
 int Plugin::mode() const {
   return m_mode;
+}
+
+bool Plugin::isPrimaryCameraSupported() const {
+  return m_primarySupported;
+}
+
+bool Plugin::isSecondaryCameraSupported() const {
+  return m_secondarySupported;
 }
 
 PluginLoader::PluginLoader(QObject *parent) :
