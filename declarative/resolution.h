@@ -32,6 +32,7 @@ class Resolution : public QObject {
   Q_PROPERTY(QString resolutionLd READ resolutionId WRITE setResolutionId NOTIFY resolutionIdChanged);
   Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged);
   Q_PROPERTY(QString aspectRatio READ aspectRatio WRITE setAspectRatio NOTIFY aspectRatioChanged);
+  Q_PROPERTY(QString commonName READ commonName WRITE setCommonName NOTIFY commonNameChanged);
   Q_PROPERTY(QSize captureResolution READ capture WRITE setCapture NOTIFY captureChanged);
   Q_PROPERTY(QSize previewResolution READ preview WRITE setPreview NOTIFY previewChanged);
   Q_PROPERTY(QSize viewfinderResolution READ viewfinder WRITE setViewfinder NOTIFY viewfinderChanged);
@@ -54,6 +55,9 @@ public:
 
   QString aspectRatio() const;
   void setAspectRatio(const QString& aspectRatio);
+
+  QString commonName() const;
+  void setCommonName(const QString& commonName);
 
   QSize capture() const;
   void setCapture(const QSize& capture);
@@ -83,6 +87,7 @@ signals:
   void nightFpsChanged();
   void megaPixelsChanged();
   void aspectRatioChanged();
+  void commonNameChanged();
 
 private:
   QtCamResolution m_resolution;

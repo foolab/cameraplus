@@ -140,3 +140,14 @@ void Resolution::setMegaPixels(float megaPixels) {
     emit megaPixelsChanged();
   }
 }
+
+QString Resolution::commonName() const {
+  return m_resolution.commonName();
+}
+
+void Resolution::setCommonName(const QString& commonName) {
+  if (m_resolution.commonName() != commonName) {
+    m_resolution.setCommonName(commonName);
+    emit commonNameChanged();
+  }
+}
