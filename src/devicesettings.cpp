@@ -25,6 +25,7 @@
 
 #define IMAGE_RESOLUTION_KEY        "imageResolution"
 #define VIDEO_RESOLUTION_KEY        "videoResolution"
+#define FAST_CAPTURE_RESOLUTION_KEY "imageFastCaptureResolution"
 #define IMAGE_SCENE_MODE_KEY        "imageSceneMode"
 #define VIDEO_SCENE_MODE_KEY        "videoSceneMode"
 #define IMAGE_COLOR_FILTER_KEY      "imageColorFilter"
@@ -45,6 +46,7 @@ PrimaryDeviceSettings::PrimaryDeviceSettings(QObject *parent) :
 
   props[IMAGE_RESOLUTION_KEY] = "image-high-16:9";
   props[VIDEO_RESOLUTION_KEY] = "video-high";
+  props[FAST_CAPTURE_RESOLUTION_KEY] = "image-medium-16:9";
   props[IMAGE_SCENE_MODE_KEY] = 6;
   props[VIDEO_SCENE_MODE_KEY] = 6;
   props[IMAGE_COLOR_FILTER_KEY] = 0;
@@ -72,6 +74,7 @@ SecondaryDeviceSettings::SecondaryDeviceSettings(QObject *parent) :
   props[IMAGE_RESOLUTION_KEY] = "sec-image-low";
   props[VIDEO_RESOLUTION_KEY] = "sec-video-low";
 #endif
+  props[FAST_CAPTURE_RESOLUTION_KEY] = "";
   props[IMAGE_SCENE_MODE_KEY] = 6;
   props[VIDEO_SCENE_MODE_KEY] = 6;
   props[IMAGE_COLOR_FILTER_KEY] = 0;
@@ -284,5 +287,16 @@ void DeviceSettings::setVideoMuted(bool muted) {
   if (isVideoMuted() != muted) {
     set("video/mute", muted);
     emit videoMutedChanged();
+  }
+}
+
+QString DeviceSettings::fastCaptureResolution() const {
+  return get("image/fastCaptureResolution", FAST_CAPTURE_RESOLUTION_KEY).toString();
+}
+
+void DeviceSettings::setFastCaptureResolution(const QString& resolution) {
+  if (fastCaptureResolution() != resolution) {
+    set("image/fastCaptureResolution", resolution);
+    emit fastCaptureResolutionChanged();
   }
 }
