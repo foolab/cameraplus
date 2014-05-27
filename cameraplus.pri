@@ -1,3 +1,5 @@
+LIBS += -Wl,--as-needed
+
 contains(MEEGO_EDITION, "harmattan") {
     message("Building for harmattan")
     DEFINES += HARMATTAN
