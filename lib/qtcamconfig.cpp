@@ -267,6 +267,10 @@ QString QtCamConfig::mediaType(const QString& id) const {
   return d_ptr->conf->value(QString("media-type/%1").arg(id)).toString();
 }
 
+QString QtCamConfig::mediaFourcc(const QString& id) const {
+  return d_ptr->conf->value(QString("media-type/%1-fourcc").arg(id)).toString();
+}
+
 QString QtCamConfig::fastCaptureProperty() const {
   return d_ptr->conf->value("fast-capture/property").toString();
 }

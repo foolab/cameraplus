@@ -90,6 +90,7 @@ public:
   bool isPreviewSupported() const;
 
   QString mediaType(const QString& id) const;
+  QString mediaFourcc(const QString& id) const;
 
   QString fastCaptureProperty() const;
 

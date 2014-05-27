@@ -141,6 +141,15 @@ public:
     QByteArray arr = mediaType.toLatin1();
     const gchar *media = arr.constData();
 
+    QString format = dev->conf->mediaFourcc(property);
+    QByteArray mediaArr = format.toLatin1();
+
+#if GST_CHECK_VERSION(1,0,0)
+    const gchar *fourcc = mediaArr.constData();
+#else
+    unsigned long fourcc = GST_STR_FOURCC(mediaArr.constData());
+#endif
+
     if (!dev->cameraBin) {
       return;
     }
@@ -165,6 +174,14 @@ public:
 				    fps - 1, 1, fps + 1, 1);
       caps = gst_caps_from_string (tpl);
       g_free (tpl);
+    }
+
+    if (fourcc) {
+#if GST_CHECK_VERSION(1,0,0)
+      gst_caps_set_simple (caps, "format", G_TYPE_STRING, fourcc, NULL);
+#else
+      gst_caps_set_simple (caps, "format", GST_TYPE_FOURCC, fourcc, NULL);
+#endif
     }
 
     GstCaps *old = 0;
