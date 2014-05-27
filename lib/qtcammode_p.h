@@ -139,13 +139,13 @@ public:
   void setCaps(const char *property, const QSize& resolution, int fps) {
     QString mediaType = dev->conf->mediaType(property);
     QByteArray arr = mediaType.toLatin1();
-    const gchar *media = arr.constData();
+    const gchar *media = arr.isEmpty() ? NULL : arr.constData();
 
     QString format = dev->conf->mediaFourcc(property);
     QByteArray mediaArr = format.toLatin1();
 
 #if GST_CHECK_VERSION(1,0,0)
-    const gchar *fourcc = mediaArr.constData();
+    const gchar *fourcc = mediaArr.isEmpty() ? NULL : mediaArr.constData();
 #else
     unsigned long fourcc = GST_STR_FOURCC(mediaArr.constData());
 #endif
