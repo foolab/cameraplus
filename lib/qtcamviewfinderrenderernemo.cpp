@@ -22,10 +22,10 @@
 #include <QDebug>
 #include <gst/video/video.h>
 #include "qtcamconfig.h"
-#include <QGLShaderProgram>
 #include <gst/interfaces/nemovideotexture.h>
 #include <EGL/egl.h>
 #include <gst/meta/nemometa.h>
+#include <QOpenGLContext>
 
 QT_CAM_VIEWFINDER_RENDERER(RENDERER_TYPE_NEMO, QtCamViewfinderRendererNemo);
 
@@ -115,6 +115,12 @@ void QtCamViewfinderRendererNemo::paint(const QMatrix4x4& matrix, const QRectF& 
     return;
   }
 
+  QOpenGLContext *ctx = QOpenGLContext::currentContext();
+  if (!ctx) {
+    qWarning() << "A current OpenGL context is required";
+    return;
+  }
+
   if (m_dpy == EGL_NO_DISPLAY) {
     m_dpy = eglGetCurrentDisplay();
   }
@@ -138,7 +144,7 @@ void QtCamViewfinderRendererNemo::paint(const QMatrix4x4& matrix, const QRectF& 
 
     if (!glEGLImageTargetTexture2DOES) {
       glEGLImageTargetTexture2DOES =
-	(PFNGLEGLIMAGETARGETTEXTURE2DOESPROC)eglGetProcAddress("glEGLImageTargetTexture2DOES");
+	(PFNGLEGLIMAGETARGETTEXTURE2DOESPROC)ctx->getProcAddress("glEGLImageTargetTexture2DOES");
     }
 
     if (!eglCreateSyncKHR && m_conf->viewfinderUseFence()) {
@@ -290,14 +296,14 @@ void QtCamViewfinderRendererNemo::createProgram() {
     delete m_program;
   }
 
-  m_program = new QGLShaderProgram;
+  m_program = new QOpenGLShaderProgram;
 
-  if (!m_program->addShaderFromSourceCode(QGLShader::Vertex, VERTEX_SHADER)) {
+  if (!m_program->addShaderFromSourceCode(QOpenGLShader::Vertex, VERTEX_SHADER)) {
     qCritical() << "Failed to add vertex shader";
     return;
   }
 
-  if (!m_program->addShaderFromSourceCode(QGLShader::Fragment, FRAGMENT_SHADER)) {
+  if (!m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, FRAGMENT_SHADER)) {
     qCritical() << "Failed to add fragment shader";
     return;
   }

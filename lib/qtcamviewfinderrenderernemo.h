@@ -24,15 +24,12 @@
 #define QT_CAM_VIEWFINDER_RENDERER_MEEGO_H
 
 #include "qtcamviewfinderrenderer.h"
-#include <QImage>
 #include <QMutex>
 #include <QMatrix4x4>
-#include <qgl.h>
 #include <gst/video/video.h>
+#include <QOpenGLShaderProgram>
 
-class QGLShaderProgram;
 typedef void *EGLDisplay;
-class QOpenGLExtension_OES_EGL_image;
 
 class QtCamViewfinderRendererNemo : public QtCamViewfinderRenderer {
   Q_OBJECT
@@ -76,7 +73,7 @@ private:
   unsigned long m_id;
   unsigned long m_notify;
   bool m_needsInit;
-  QGLShaderProgram *m_program;
+  QOpenGLShaderProgram *m_program;
   QMatrix4x4 m_projectionMatrix;
   std::vector<GLfloat> m_vertexCoords;
   std::vector<GLfloat> m_texCoords[2];

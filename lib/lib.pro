@@ -5,7 +5,7 @@ INCLUDEPATH += .
 
 include(../cameraplus.pri)
 
-QT += opengl
+harmattan:QT += opengl
 
 CONFIG += link_pkgconfig
 
