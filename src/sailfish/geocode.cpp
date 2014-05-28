@@ -133,12 +133,14 @@ void Geocode::replyFinished() {
   }
 
   if (reply->error() != QNetworkReply::NoError) {
-    qmlInfo(this) << "Error while geocoding" << reply->errorString();
-
-    reply->deleteLater();
+    qmlInfo(this) << "Error while geocoding " << reply->errorString();
 
     // Network related error. We will disable ourselves for now.
-    setActive(false);
+    if (reply->error() != QNetworkReply::OperationCanceledError) {
+      setActive(false);
+    }
+
+    reply->deleteLater();
 
     m_reply = 0;
     clear();
