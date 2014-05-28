@@ -19,22 +19,32 @@
  */
 
 #include "displaystate.h"
+#include <contextproperty.h>
 #include <QTimer>
 #include <QQmlInfo>
+#include <QDBusConnection>
+#include <QDBusMessage>
+#include <QDBusPendingCall>
+
+#define CONTEXT_PROPERTY "Screen.Blanked"
+#define DBUS_IFACE       "com.nokia.mce.request"
+#define DBUS_PATH        "/com/nokia/mce/request"
+#define DBUS_DEST        "com.nokia.mce"
+#define BLANKING_PAUSE   "req_display_blanking_pause"
+#define BLANKING_RESUME  "req_display_cancel_blanking_pause"
 
 DisplayState::DisplayState(QObject *parent) :
   QObject(parent),
-  m_state(new MeeGo::QmDisplayState(this)),
-  m_dpy(MeeGo::QmDisplayState::Unknown),
+  m_state(new ContextProperty(CONTEXT_PROPERTY, this)),
   m_timer(new QTimer(this)) {
 
   m_timer->setSingleShot(false);
   m_timer->setInterval(50 * 1000);
 
   QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
+  QObject::connect(m_state, SIGNAL(valueChanged()), this, SIGNAL(isOnChanged()));
 
-  QObject::connect(m_state, SIGNAL(displayStateChanged(MeeGo::QmDisplayState::DisplayState)),
-		   this, SLOT(displayStateChanged(MeeGo::QmDisplayState::DisplayState)));
+  m_state->waitForSubscription(true);
 }
 
 DisplayState::~DisplayState() {
@@ -51,8 +61,14 @@ void DisplayState::setInhibitDim(bool inhibit) {
   }
 
   if (!inhibit) {
-    if (!m_state->cancelBlankingPause()) {
-      qmlInfo(this) << "Failed to cancel display dimming!";
+    QDBusMessage msg =
+      QDBusMessage::createMethodCall(DBUS_DEST, DBUS_PATH, DBUS_IFACE, BLANKING_RESUME);
+
+    QDBusConnection conn = QDBusConnection::systemBus();
+    if (!conn.isConnected()) {
+      qmlInfo(this) << "Unable to connect to DBus system bus.";
+    } else {
+      conn.asyncCall(msg);
     }
 
     m_timer->stop();
@@ -66,21 +82,17 @@ void DisplayState::setInhibitDim(bool inhibit) {
 }
 
 void DisplayState::timeout() {
-  if (!m_state->setBlankingPause()) {
-    qmlInfo(this) << "Failed to inhibit display dimming!";
+  QDBusMessage msg =
+    QDBusMessage::createMethodCall(DBUS_DEST, DBUS_PATH, DBUS_IFACE, BLANKING_PAUSE);
+
+  QDBusConnection conn = QDBusConnection::systemBus();
+  if (!conn.isConnected()) {
+    qmlInfo(this) << "Unable to connect to DBus system bus.";
+  } else {
+    conn.asyncCall(msg);
   }
 }
 
 bool DisplayState::isOn() {
-  if (m_dpy == MeeGo::QmDisplayState::Unknown) {
-    m_dpy = m_state->get();
-  }
-
-  return m_dpy == MeeGo::QmDisplayState::On;
-}
-
-void DisplayState::displayStateChanged(MeeGo::QmDisplayState::DisplayState state) {
-  m_dpy = state;
-
-  emit isOnChanged();
+  return m_state->value().toInt() != 1;
 }

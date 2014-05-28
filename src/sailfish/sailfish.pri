@@ -1,6 +1,8 @@
 DEPENDPATH += sailfish .
 INCLUDEPATH += sailfish .
 
+QT += dbus
+
 PKGCONFIG += Qt5SystemInfo Qt5Network
 
 HEADERS += sailfish/soundvolumecontrol.h \
