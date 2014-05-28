@@ -36,7 +36,7 @@ typedef EGLSyncKHR(EGLAPIENTRYP PFNEGLCREATESYNCKHRPROC)(EGLDisplay dpy, EGLenum
 							  const EGLint *attrib_list);
 
 PFNEGLCREATESYNCKHRPROC eglCreateSyncKHR = 0;
-PFNGLEGLIMAGETARGETTEXTURE2DOESPROC glEGLImageTargetTexture2DOES = 0;
+PFNGLEGLIMAGETARGETTEXTURE2DOESPROC m_glEGLImageTargetTexture2DOES = 0;
 
 static const QString FRAGMENT_SHADER = ""
     "#extension GL_OES_EGL_image_external: enable\n"
@@ -142,8 +142,8 @@ void QtCamViewfinderRendererNemo::paint(const QMatrix4x4& matrix, const QRectF& 
   if (m_needsInit) {
     calculateProjectionMatrix(viewport);
 
-    if (!glEGLImageTargetTexture2DOES) {
-      glEGLImageTargetTexture2DOES =
+    if (!m_glEGLImageTargetTexture2DOES) {
+      m_glEGLImageTargetTexture2DOES =
 	(PFNGLEGLIMAGETARGETTEXTURE2DOESPROC)ctx->getProcAddress("glEGLImageTargetTexture2DOES");
     }
 
@@ -374,7 +374,7 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame
 
   m_program->bind();
 
-  glEGLImageTargetTexture2DOES (GL_TEXTURE_EXTERNAL_OES, (GLeglImageOES)img);
+  m_glEGLImageTargetTexture2DOES (GL_TEXTURE_EXTERNAL_OES, (GLeglImageOES)img);
 
   m_program->setUniformValue("matrix", m_projectionMatrix);
   m_program->setUniformValue("matrixWorld", matrix);
