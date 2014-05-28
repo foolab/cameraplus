@@ -21,69 +21,45 @@
 #include "geocode.h"
 #include <QDebug>
 #include <QStringList>
-#include <QGeoAddress>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QUrlQuery>
 #include <QQmlInfo>
+#include <QXmlStreamReader>
 
 Geocode::Geocode(QObject *parent) :
   QObject(parent),
-  m_provider(0),
   m_manager(0),
-  m_reply(0),
-  m_active(false) {
+  m_reply(0) {
 
-  QStringList providers = QGeoServiceProvider::availableServiceProviders();
-  int index = providers.indexOf("osm");
-
-  if (index != -1) {
-    m_provider = new QGeoServiceProvider(providers.at(index));
-  }
-  else if (!providers.isEmpty()) {
-    m_provider = new QGeoServiceProvider(providers.at(0));
-  }
-  else {
-    qmlInfo(this) << "Cannot find any geo-service providers";
-    return;
-  }
-
-  if (!m_provider->geocodingFeatures().testFlag(QGeoServiceProvider::ReverseGeocodingFeature)) {
-    qmlInfo(this) << "geo-search manager does not support reverse geocoding";
-
-    m_manager = 0;
-    return;
-  }
-
-  m_manager = m_provider->geocodingManager();
-  if (!m_manager) {
-    qmlInfo(this) << "Cannot get hold of the geocode manager" << m_provider->errorString();
-    return;
-  }
-
-  QObject::connect(m_manager, SIGNAL(finished(QGeoCodeReply *)),
-		   this, SLOT(finished(QGeoCodeReply *)));
-  QObject::connect(m_manager, SIGNAL(error(QGeoCodeReply *, const QGeoCodeReply::Error&,
-					   const QString&)),
-		   this, SLOT(error(QGeoCodeReply *, const QGeoCodeReply::Error&,
-				    const QString&)));
 }
 
 Geocode::~Geocode() {
   setActive(false);
-
-  delete m_provider; m_provider = 0;
 }
 
 bool Geocode::isActive() const {
-  return m_active;
+  return m_manager != 0;
 }
 
 void Geocode::setActive(bool active) {
-  if (active == m_active) {
+  if (active == isActive()) {
     return;
   }
 
-  m_active = active;
+  if (active) {
+    m_manager = new QNetworkAccessManager(this);
+  } else {
+    m_manager->deleteLater();
+    m_manager = 0;
 
-  if (!m_active) {
+    if (m_reply) {
+      m_reply->deleteLater();
+      m_reply = 0;
+    }
+  }
+
+  if (!active) {
     clear();
   }
 
@@ -103,25 +79,29 @@ QString Geocode::suburb() const {
 }
 
 void Geocode::search(double longitude, double latitude) {
-  if (!m_active || !m_provider) {
+  if (!isActive()) {
     return;
   }
 
   if (m_reply) {
     m_reply->abort();
     delete m_reply;
+    m_reply = 0;
   }
 
-  if (!m_manager) {
-    qmlInfo(this) << "no geo-search manager";
-    return;
-  }
 
-  m_reply = m_manager->reverseGeocode(QGeoCoordinate(latitude, longitude));
-  if (!m_reply) {
-    qmlInfo(this) << "geo-search manager provided a null reply!";
-    return;
-  }
+  QUrl url(QStringLiteral("http://nominatim.openstreetmap.org/reverse"));
+  QUrlQuery query;
+  query.addQueryItem(QStringLiteral("format"), QStringLiteral("xml"));
+  query.addQueryItem(QStringLiteral("accept-language"), QStringLiteral("en"));
+  query.addQueryItem(QStringLiteral("lat"), QString::number(latitude));
+  query.addQueryItem(QStringLiteral("lon"), QString::number(longitude));
+  query.addQueryItem(QStringLiteral("zoom"), QStringLiteral("18"));
+  query.addQueryItem(QStringLiteral("addressdetails"), QStringLiteral("1"));
+  url.setQuery(query);
+
+  m_reply = m_manager->get(QNetworkRequest(url));
+  QObject::connect(m_reply, SIGNAL(finished()), this, SLOT(replyFinished()));
 }
 
 void Geocode::clear() {
@@ -146,69 +126,53 @@ void Geocode::clear() {
   }
 }
 
-void Geocode::finished(QGeoCodeReply *reply) {
-  if (reply->error() != QGeoCodeReply::NoError) {
+void Geocode::replyFinished() {
+  QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+  if (!reply || reply != m_reply) {
+    return;
+  }
+
+  if (reply->error() != QNetworkReply::NoError) {
     qmlInfo(this) << "Error while geocoding" << reply->errorString();
 
     reply->deleteLater();
 
-    if (reply == m_reply) {
-      if (reply->error() == QGeoCodeReply::CommunicationError) {
-	// Network related error. We will disable ourselves for now.
-	setActive(false);
-      }
+    // Network related error. We will disable ourselves for now.
+    setActive(false);
 
-      m_reply = 0;
-      clear();
-    }
+    m_reply = 0;
+    clear();
 
     return;
   }
 
-  QList<QGeoLocation> places = reply->locations();
-  if (!places.isEmpty()) {
-    QGeoAddress address = places.at(0).address();
-    if (m_country != address.country()) {
-      m_country = address.country();
-      emit countryChanged();
-    }
-
-    if (m_city != address.city()) {
-      m_city = address.city();
-      emit cityChanged();
-    }
-
-    if (m_suburb != address.district()) {
-      m_suburb = address.district();
-      emit suburbChanged();
-    }
-  }
-  else {
-    qmlInfo(this) << "No places found";
-    clear();
-  }
-
-  reply->deleteLater();
-
-  if (reply == m_reply) {
-    m_reply = 0;
-  }
-}
-
-void Geocode::error(QGeoCodeReply *reply, const QGeoCodeReply::Error& error,
-		    const QString& errorString) {
-
-  qmlInfo(this) << "Error while geocoding" << errorString;
-
-  reply->deleteLater();
-
-  if (reply == m_reply) {
-    m_reply = 0;
-    clear();
-
-    if (error == QGeoCodeReply::CommunicationError) {
-      // Network related error. We will disable ourselves for now.
-      setActive(false);
+  QXmlStreamReader reader(m_reply);
+  while (!reader.atEnd()) {
+    reader.readNext();
+    if (reader.isStartElement()) {
+      QStringRef name = reader.name();
+      if (name == "suburb") {
+	QString suburb = reader.readElementText();
+	if (m_suburb != suburb) {
+	  m_suburb = suburb;
+	  emit suburbChanged();
+	}
+      } else if (name == "city") {
+	QString city = reader.readElementText();
+	if (m_city != city) {
+	  m_city = city;
+	  emit cityChanged();
+	}
+      } else if (name == "country") {
+	QString country = reader.readElementText();
+	if (m_country != country) {
+	  m_country = country;
+	  emit countryChanged();
+	}
+      }
     }
   }
+
+  m_reply->deleteLater();
+  m_reply = 0;
 }
