@@ -19,32 +19,26 @@
  */
 
 #include "compass.h"
-#include <qmcompass.h>
+#include <QCompass>
 #include <QDebug>
 
 Compass::Compass(QObject *parent) :
   QObject(parent),
-  m_compass(new MeeGo::QmCompass(this)),
+  m_compass(new QCompass(this)),
   m_degree(-1),
   m_valid(false) {
 
-  m_compass->setUseDeclination(true);
-
-  QObject::connect(m_compass, SIGNAL(dataAvailable(const MeeGo::QmCompassReading&)),
-		   this, SLOT(dataAvailable(const MeeGo::QmCompassReading&)));
-
-  if (m_compass->requestSession(MeeGo::QmSensor::SessionTypeListen)
-      == MeeGo::QmSensor::SessionTypeNone) {
-    qDebug() << "Failed to get listen session:" << m_compass->lastError();
-  }
+  QObject::connect(m_compass, SIGNAL(readingChanged()),
+		   this, SLOT(readingChanged()));
 }
 
 Compass::~Compass() {
-  m_compass->stop();
+  delete m_compass;
+  m_compass = 0;
 }
 
 bool Compass::isActive() const {
-  return m_compass->isRunning();
+  return m_compass->isActive();
 }
 
 void Compass::setActive(bool active) {
@@ -73,12 +67,14 @@ bool Compass::isDirectionValid() const {
   return m_valid;
 }
 
-void Compass::dataAvailable(const MeeGo::QmCompassReading& value) {
-  bool degreeChanged = (m_degree != value.degrees);
-  bool validityChanged = m_valid != (value.level >= 2);
+void Compass::readingChanged() {
+  QCompassReading *value = m_compass->reading();
 
-  m_degree = value.degrees;
-  m_valid = (value.level >= 2);
+  bool degreeChanged = (m_degree != value->azimuth());
+  bool validityChanged = m_valid != true;
+
+  m_degree = value->azimuth();
+  m_valid = true;
 
   if (validityChanged) {
     emit directionValidChanged();

@@ -25,10 +25,7 @@
 
 #include <QObject>
 
-namespace MeeGo {
-  class QmOrientation;
-  class QmOrientationReading;
-};
+class QOrientationSensor;
 
 class Orientation : public QObject {
   Q_OBJECT
@@ -61,10 +58,10 @@ signals:
   void orientationChanged();
 
 private slots:
-  void onOrientationChanged(const MeeGo::QmOrientationReading& value);
+  void readingChanged();
 
 private:
-  MeeGo::QmOrientation *m_orientation;
+  QOrientationSensor *m_sensor;
   OrientationDirection m_direction;
 };
 

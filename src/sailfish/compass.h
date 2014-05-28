@@ -25,10 +25,7 @@
 
 #include <QObject>
 
-namespace MeeGo {
-  class QmCompass;
-  class QmCompassReading;
-};
+class QCompass;
 
 class Compass : public QObject {
   Q_OBJECT
@@ -53,10 +50,10 @@ signals:
   void directionValidChanged();
 
 private slots:
-  void dataAvailable(const MeeGo::QmCompassReading& value);
+  void readingChanged();
 
 private:
-  MeeGo::QmCompass *m_compass;
+  QCompass *m_compass;
   int m_degree;
   bool m_valid;
 };

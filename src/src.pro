@@ -16,7 +16,7 @@ qt4 {
 qt5 {
     QT += qml quick
     PKGCONFIG += Qt5Sparql qmsystem2-qt5 libresourceqt5 qdeclarative5-boostable quill-qt5 \
-                 contextkit-statefs
+                 contextkit-statefs Qt5Sensors
 }
 
 SOURCES += main.cpp \

@@ -19,29 +19,25 @@
  */
 
 #include "orientation.h"
-#include <qmorientation.h>
+#include <QOrientationSensor>
 #include <QDebug>
 
 Orientation::Orientation(QObject *parent) :
   QObject(parent),
-  m_orientation(new MeeGo::QmOrientation(this)),
+  m_sensor(new QOrientationSensor(this)),
   m_direction(Unknown) {
 
-  QObject::connect(m_orientation, SIGNAL(orientationChanged(const MeeGo::QmOrientationReading&)),
-		   this, SLOT(onOrientationChanged(const MeeGo::QmOrientationReading&)));
-
-  if (m_orientation->requestSession(MeeGo::QmSensor::SessionTypeListen)
-      == MeeGo::QmSensor::SessionTypeNone) {
-    qDebug() << "Failed to get listen session:" << m_orientation->lastError();
-  }
+  QObject::connect(m_sensor, SIGNAL(readingChanged()),
+		   this, SLOT(readingChanged()));
 }
 
 Orientation::~Orientation() {
-  m_orientation->stop();
+  delete m_sensor;
+  m_sensor = 0;
 }
 
 bool Orientation::isActive() const {
-  return m_orientation->isRunning();
+  return m_sensor->isActive();
 }
 
 void Orientation::setActive(bool active) {
@@ -50,11 +46,11 @@ void Orientation::setActive(bool active) {
   }
 
   if (active) {
-    m_orientation->start();
-    onOrientationChanged(m_orientation->orientation());
+    m_sensor->start();
+    readingChanged();
   }
   else {
-    m_orientation->stop();
+    m_sensor->stop();
     m_direction = Unknown;
 
     emit orientationChanged();
@@ -67,23 +63,25 @@ Orientation::OrientationDirection Orientation::orientation() const {
   return m_direction;
 }
 
-void Orientation::onOrientationChanged(const MeeGo::QmOrientationReading& value) {
+void Orientation::readingChanged() {
   OrientationDirection direction = Unknown;
 
-  switch (value.value) {
-  case MeeGo::QmOrientation::BottomUp:
+  QOrientationReading *value = m_sensor->reading();
+
+  switch (value->orientation()) {
+  case QOrientationReading::LeftUp:
     direction = InvertedLandscape;
     break;
 
-  case MeeGo::QmOrientation::BottomDown:
+  case QOrientationReading::RightUp:
     direction = Landscape;
     break;
 
-  case MeeGo::QmOrientation::LeftUp:
+  case QOrientationReading::TopUp:
     direction = Portrait;
     break;
 
-  case MeeGo::QmOrientation::RightUp:
+  case QOrientationReading::TopDown:
     direction = InvertedPortrait;
     break;
 
