@@ -17,8 +17,6 @@ sailfish:PKGCONFIG = gstreamer-1.0 gstreamer-video-1.0 gstreamer-tag-1.0 \
                      gstreamer-pbutils-1.0 nemo-gstreamer-interfaces-1.0 nemo-gstreamer-meta-1.0 \
                      Qt5SystemInfo
 
-sailfish:PKGCONFIG += Qt5OpenGLExtensions
-
 HEADERS += qtcamconfig.h qtcamera.h qtcamscanner.h qtcamdevice.h qtcamviewfinder.h \
            qtcammode.h qtcamgstreamermessagehandler.h qtcamgstreamermessagelistener.h \
            qtcamviewfinderrenderer.h qtcamimagesettings.h qtcamvideosettings.h \

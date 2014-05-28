@@ -86,7 +86,6 @@ private:
   EGLDisplay m_dpy;
   bool m_displaySet;
   bool m_started;
-  QOpenGLExtension_OES_EGL_image *m_img;
 };
 
 #endif /* QT_CAM_VIEWFINDER_RENDERER_MEEGO_H */

@@ -25,8 +25,6 @@
 #include <QGLShaderProgram>
 #include <gst/interfaces/nemovideotexture.h>
 #include <EGL/egl.h>
-#include <QOpenGLContext>
-#include <QOpenGLExtensions>
 #include <gst/meta/nemometa.h>
 
 QT_CAM_VIEWFINDER_RENDERER(RENDERER_TYPE_NEMO, QtCamViewfinderRendererNemo);
@@ -38,6 +36,7 @@ typedef EGLSyncKHR(EGLAPIENTRYP PFNEGLCREATESYNCKHRPROC)(EGLDisplay dpy, EGLenum
 							  const EGLint *attrib_list);
 
 PFNEGLCREATESYNCKHRPROC eglCreateSyncKHR = 0;
+PFNGLEGLIMAGETARGETTEXTURE2DOESPROC glEGLImageTargetTexture2DOES = 0;
 
 static const QString FRAGMENT_SHADER = ""
     "#extension GL_OES_EGL_image_external: enable\n"
@@ -72,8 +71,7 @@ QtCamViewfinderRendererNemo::QtCamViewfinderRendererNemo(QtCamConfig *config,
   m_needsInit(true),
   m_program(0),
   m_displaySet(false),
-  m_started(false),
-  m_img(0) {
+  m_started(false) {
 
   int back = NEMO_GST_META_DEVICE_DIRECTION_BACK;
   int front = NEMO_GST_META_DEVICE_DIRECTION_FRONT;
@@ -105,11 +103,6 @@ QtCamViewfinderRendererNemo::~QtCamViewfinderRendererNemo() {
     delete m_program;
     m_program = 0;
   }
-
-  if (m_img) {
-    delete m_img;
-    m_img = 0;
-  }
 }
 
 bool QtCamViewfinderRendererNemo::needsNativePainting() {
@@ -120,28 +113,6 @@ void QtCamViewfinderRendererNemo::paint(const QMatrix4x4& matrix, const QRectF& 
   if (!m_started) {
     qWarning() << "renderer not started yet";
     return;
-  }
-
-  if (!m_img) {
-    QOpenGLContext *ctx = QOpenGLContext::currentContext();
-    if (!ctx) {
-      qCritical() << "No current OpenGL context";
-      return;
-    }
-
-    if (!ctx->hasExtension("GL_OES_EGL_image")) {
-      qCritical() << "GL_OES_EGL_image not supported";
-      return;
-    }
-
-    m_img = new QOpenGLExtension_OES_EGL_image;
-
-    if (!m_img->initializeOpenGLFunctions()) {
-      qCritical() << "Failed to initialize GL_OES_EGL_image";
-      delete m_img;
-      m_img = 0;
-      return;
-    }
   }
 
   if (m_dpy == EGL_NO_DISPLAY) {
@@ -164,6 +135,11 @@ void QtCamViewfinderRendererNemo::paint(const QMatrix4x4& matrix, const QRectF& 
 
   if (m_needsInit) {
     calculateProjectionMatrix(viewport);
+
+    if (!glEGLImageTargetTexture2DOES) {
+      glEGLImageTargetTexture2DOES =
+	(PFNGLEGLIMAGETARGETTEXTURE2DOESPROC)eglGetProcAddress("glEGLImageTargetTexture2DOES");
+    }
 
     if (!eglCreateSyncKHR && m_conf->viewfinderUseFence()) {
       eglCreateSyncKHR = (PFNEGLCREATESYNCKHRPROC)eglGetProcAddress("eglCreateSyncKHR");
@@ -209,7 +185,7 @@ void QtCamViewfinderRendererNemo::reset() {
   m_displaySet = false;
 
   m_started = false;
-  // TODO: more? delete m_progrem, m_img and set m_needsInit?
+  // TODO: more? delete m_progrem, and set m_needsInit?
 }
 
 void QtCamViewfinderRendererNemo::start() {
@@ -392,7 +368,7 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame
 
   m_program->bind();
 
-  m_img->glEGLImageTargetTexture2DOES (GL_TEXTURE_EXTERNAL_OES, (GLeglImageOES)img);
+  glEGLImageTargetTexture2DOES (GL_TEXTURE_EXTERNAL_OES, (GLeglImageOES)img);
 
   m_program->setUniformValue("matrix", m_projectionMatrix);
   m_program->setUniformValue("matrixWorld", matrix);
