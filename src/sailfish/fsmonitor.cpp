@@ -19,7 +19,6 @@
  */
 
 #include "fsmonitor.h"
-#include <qmusbmode.h>
 #include <sys/statvfs.h>
 #include <cstdio>
 
