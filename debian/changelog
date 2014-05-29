@@ -1,3 +1,13 @@
+cameraplus (0.0.23-1) unstable; urgency=medium
+
+  * Don't try to reverse geocode if we don't have a valid position from the GPS
+  * Reset camera back to viewfinder mode if it is minimized while in another view
+  * Clear geocoding data when we get an invalid position from the GPS
+  * Reworked how the sound effects are being played
+  * Move the resolution indicator to the toolbar
+
+ -- Mohammed Sameer <msameer@foolab.org>  Mon, 12 May 2014 23:27:27 +0300
+
 cameraplus (0.0.22-1) unstable; urgency=medium
 
   * Fix country names being in capital letters
