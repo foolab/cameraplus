@@ -98,9 +98,6 @@ cp sounds/*.wav $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/sounds/
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
 cp modes/*.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
 
-#remove fast capture for now:
-rm -rf $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/fast-capture.ini
-
 tar -zpxvf %SOURCE10 -C $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/
 tar -zpxvf %SOURCE11 -C $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/
 

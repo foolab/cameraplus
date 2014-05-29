@@ -46,13 +46,15 @@ Plugin::Plugin(const QDir& dir, const QString& fileName, QObject * parent) :
   m_mode = settings.value("mode/mode").toInt();
   m_primarySupported = settings.value("mode/primary-camera", false).toBool();
   m_secondarySupported = settings.value("mode/secondary-camera", false).toBool();
+  m_enabled = settings.value("mode/enabled", true).toBool();
 }
 
 Plugin::Plugin(QObject * parent) :
   QObject(parent),
   m_mode(0),
   m_primarySupported(false),
-  m_secondarySupported(false) {
+  m_secondarySupported(false),
+  m_enabled(false) {
 
 }
 
@@ -67,6 +69,10 @@ bool Plugin::isValid() const {
     m_overlay.isValid() &&
     m_settings.isValid() &&
     (m_mode == 1 || m_mode == 2);
+}
+
+bool Plugin::isEnabled() const {
+  return m_enabled;
 }
 
 QString Plugin::uuid() const {
@@ -184,7 +190,7 @@ void PluginLoader::load() {
   foreach (const QString& entry, entries) {
     Plugin *plugin = new Plugin(dir, entry, this);
 
-    if (!plugin->isValid()) {
+    if (!plugin->isValid() || !plugin->isEnabled()) {
       delete plugin;
     }
     else {

@@ -43,6 +43,7 @@ public:
   Plugin(QObject * parent = 0);
   ~Plugin();
 
+  bool isEnabled() const;
   bool isValid() const;
   QString uuid() const;
   QString name() const;
@@ -62,6 +63,7 @@ private:
   int m_mode;
   bool m_primarySupported;
   bool m_secondarySupported;
+  bool m_enabled;
 };
 
 class PluginLoader : public QAbstractListModel {
