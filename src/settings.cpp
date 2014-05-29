@@ -23,7 +23,11 @@
 #include <QDir>
 #include "devicesettings.h"
 
-#define PATH QString("%1%2.config%2/cameraplus.conf").arg(QDir::homePath()).arg(QDir::separator())
+#ifdef SAILFISH
+#define PATH QString("%1%2.config%2harbour-cameraplus%2harbour-cameraplus.conf").arg(QDir::homePath()).arg(QDir::separator())
+#else
+#define PATH QString("%1%2.config%2cameraplus.conf").arg(QDir::homePath()).arg(QDir::separator())
+#endif
 
 #define DEFAULT_MODE                    1
 #define DEFAULT_USE_GPS                 true
