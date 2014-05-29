@@ -13,6 +13,7 @@ Source1:        harbour-cameraplus.desktop
 Source2:        harbour-cameraplus.png
 Source3:        qmake.conf
 Source10:       binaries.tgz
+Source11:       binaries-droid.tgz
 BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(gstreamer-plugins-base-1.0)
 BuildRequires:  pkgconfig(gstreamer-video-1.0)
@@ -102,6 +103,10 @@ cp modes/*.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
 rm -rf $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/fast-capture.ini
 
 tar -zpxvf %SOURCE10 -C $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/
+tar -zpxvf %SOURCE11 -C $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/
+
+# for now we remove libgstvideoparsersbad.so
+rm -rf $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/gstreamer-1.0/libgstvideoparsersbad.so
 
 cp /usr/lib/libsndfile.so.1 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 cp /lib/libdl.so.2 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
@@ -138,5 +143,6 @@ cp /lib/libm.so.6 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 %{_datadir}/harbour-cameraplus/share/*
 %{_datadir}/harbour-cameraplus/lib/*
 %{_datadir}/harbour-cameraplus/libexec/*
+%{_datadir}/harbour-cameraplus/etc/*
 
 %changelog
