@@ -71,6 +71,10 @@ QString MultiFileIndex::stamp(const Type& type) {
   case Video:
     return m_settings->fileNamingStamp("videoStamp");
   }
+
+  qFatal("should not be reached");
+
+  return QString();
 }
 
 void MultiFileIndex::setStamp(const Type& type, const QString& stamp) {
@@ -91,6 +95,10 @@ int MultiFileIndex::counter(const Type& type) {
   case Video:
     return m_settings->fileNamingCounter("videoCounter");
   }
+
+  qFatal("should not be reached");
+
+  return -1;
 }
 
 void MultiFileIndex::setCounter(const Type& type, int counter) {
