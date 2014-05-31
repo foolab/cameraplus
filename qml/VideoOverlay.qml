@@ -114,13 +114,6 @@ Item {
         onExpandedChanged: settings.showToolBar = expanded;
 
         tools: CameraToolBarTools {
-            CameraLabel {
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                text: videoSettings.currentResolution ? videoSettings.currentResolution.commonName : ""
-                font.bold: true
-            }
-
             CameraToolIcon {
                 visible: deviceFeatures().isVideoTorchSupported
                 iconSource: deviceSettings().videoTorchOn ? cameraTheme.cameraTorchOnIconId : cameraTheme.cameraTorchOffIconId
@@ -176,59 +169,39 @@ Item {
         }
     }
 
-    Rectangle {
+    Row {
         anchors {
             top: parent.top
             topMargin: 20
             left: parent.left
             leftMargin: 20
         }
-        width: 48
-        height: col.height + radius * 2
-        color: "black"
-        border.color: "gray"
-        radius: 20
-        opacity: 0.5
+
+        height: 32
+        spacing: 5
         visible: controlsVisible
 
-        Column {
-            id: col
-            width: parent.width
-            spacing: 5
-            anchors.centerIn: parent
+        CameraLabel {
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            text: videoSettings.currentResolution ? videoSettings.currentResolution.commonName : ""
+            font.bold: true
+            height: parent.height
+        }
 
-            Indicator {
-                id: wbIndicator
-                source: visible ? cameraTheme.whiteBalanceIcon(deviceSettings().videoWhiteBalance) : ""
-                visible: deviceSettings().videoWhiteBalance != WhiteBalance.Auto
-            }
+        Indicator {
+            id: gpsIndicator
+            visible: settings.useGps
+            source: cameraTheme.gpsIndicatorIcon
 
-            Indicator {
-                id: cfIndicator
-                source: visible ? cameraTheme.colorFilterIcon(deviceSettings().videoColorFilter) : ""
-                visible: deviceSettings().videoColorFilter != ColorTone.Normal
-            }
-
-            Indicator {
-                id: sceneIndicator
-                visible: deviceSettings().videoSceneMode != Scene.Auto
-                source: visible ? cameraTheme.videoSceneModeIcon(deviceSettings().videoSceneMode) : ""
-            }
-
-            Indicator {
-                id: gpsIndicator
-                visible: settings.useGps
-                source: cameraTheme.gpsIndicatorIcon
-
-                PropertyAnimation on opacity  {
-                    easing.type: Easing.OutSine
-                    loops: Animation.Infinite
-                    from: 0.2
-                    to: 1.0
-                    duration: 1000
-                    running: settings.useGps && !positionSource.position.horizontalAccuracyValid && viewfinder.camera.running
-                    alwaysRunToEnd: true
-                }
+            PropertyAnimation on opacity  {
+                easing.type: Easing.OutSine
+                loops: Animation.Infinite
+                from: 0.2
+                to: 1.0
+                duration: 1000
+                running: settings.useGps && !positionSource.position.horizontalAccuracyValid && viewfinder.camera.running
+                alwaysRunToEnd: true
             }
         }
     }

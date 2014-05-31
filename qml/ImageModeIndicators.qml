@@ -23,8 +23,9 @@
 import QtQuick 2.0
 import QtCamera 1.0
 
-Rectangle {
+Row {
     id: indicators
+
     anchors {
         top: parent.top
         topMargin: 20
@@ -32,70 +33,37 @@ Rectangle {
         leftMargin: 20
     }
 
-    width: 48
-    height: col.height + radius * 2
-    color: "black"
-    border.color: "gray"
-    radius: 20
-    opacity: 0.5
+    height: 32
+    spacing: 5
     visible: controlsVisible && !captureControl.capturing
 
-    Column {
-        id: col
-        width: parent.width
-        spacing: 5
-        anchors.centerIn: parent
+    CameraLabel {
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        text: imageSettings.currentResolution ? qsTr("%1M").arg(imageSettings.currentResolution.megaPixels) : qsTr("?M")
+        font.bold: true
+        height: parent.height
+    }
 
-        Indicator {
-            id: flashIndicator
-            visible: deviceFeatures().numberOfFlashModes > 1
-            source: cameraTheme.flashIcon(deviceSettings().imageFlashMode)
+    Indicator {
+        id: gpsIndicator
+        visible: settings.useGps
+        source: cameraTheme.gpsIndicatorIcon
+
+        PropertyAnimation on opacity  {
+            easing.type: Easing.OutSine
+            loops: Animation.Infinite
+            from: 0.2
+            to: 1.0
+            duration: 1000
+            running: settings.useGps && !positionSource.position.horizontalAccuracyValid && viewfinder.camera.running
+            alwaysRunToEnd: true
         }
+    }
 
-        Indicator {
-            id: wbIndicator
-            source: visible ? cameraTheme.whiteBalanceIcon(deviceSettings().imageWhiteBalance) : ""
-            visible: deviceSettings().imageWhiteBalance != WhiteBalance.Auto
-        }
-
-        Indicator {
-            id: cfIndicator
-            source: visible ? cameraTheme.colorFilterIcon(deviceSettings().imageColorFilter) : ""
-            visible: deviceSettings().imageColorFilter != ColorTone.Normal
-        }
-
-        Indicator {
-            id: isoIndicator
-            visible: deviceSettings().imageIso != 0
-            source: visible ? cameraTheme.isoIcon(deviceSettings().imageIso) : ""
-        }
-
-        Indicator {
-            id: sceneIndicator
-            visible: deviceSettings().imageSceneMode != Scene.Auto
-            source: visible ? cameraTheme.imageSceneModeIcon(deviceSettings().imageSceneMode) : ""
-        }
-
-        Indicator {
-            id: gpsIndicator
-            visible: settings.useGps
-            source: cameraTheme.gpsIndicatorIcon
-
-            PropertyAnimation on opacity  {
-                easing.type: Easing.OutSine
-                loops: Animation.Infinite
-                from: 0.2
-                to: 1.0
-                duration: 1000
-                running: settings.useGps && !positionSource.position.horizontalAccuracyValid && viewfinder.camera.running
-                alwaysRunToEnd: true
-            }
-        }
-
-        Indicator {
-            id: faceDetectionIndicator
-            visible: settings.faceDetectionEnabled
-            source: cameraTheme.faceDetectionIndicatorIcon
-        }
+    Indicator {
+        id: faceDetectionIndicator
+        visible: settings.faceDetectionEnabled
+        source: cameraTheme.faceDetectionIndicatorIcon
     }
 }

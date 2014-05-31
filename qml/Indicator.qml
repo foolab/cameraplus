@@ -24,12 +24,11 @@ import QtQuick 2.0
 
 Image {
     anchors {
-        left: parent.left
-        right: parent.right
-        margins: 5
+        top: parent.top
+        bottom: parent.bottom
     }
 
     asynchronous: true
 
-    height: width
+    width: height
 }

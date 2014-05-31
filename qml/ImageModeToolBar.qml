@@ -36,13 +36,6 @@ CameraToolBar {
     onExpandedChanged: settings.showToolBar = expanded
 
     tools: CameraToolBarTools {
-        CameraLabel {
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            text: imageSettings.currentResolution ? qsTr("%1M").arg(imageSettings.currentResolution.megaPixels) : qsTr("?M")
-            font.bold: true
-        }
-
         CameraToolIcon {
             iconSource: cameraTheme.flashIcon(deviceSettings().imageFlashMode)
             onClicked: toolBar.push(Qt.resolvedUrl("FlashButton.qml"), {"selectedLabel": selectedLabel})
