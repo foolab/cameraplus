@@ -28,9 +28,14 @@ CameraToolIcon {
     border.color: cameraStyle.borderColor
     border.width: 1
     radius: width / 3
-    anchors.right: parent.right
-    anchors.rightMargin: 20
-    anchors.verticalCenter: parent.verticalCenter
+    anchors {
+        right: settings.leftHandedMode ? undefined : parent.right
+        rightMargin: 20
+        left: settings.leftHandedMode ? parent.left : undefined
+        leftMargin: 20
+        verticalCenter: parent.verticalCenter
+    }
+
     width: 100
     height: 100
     opacity: 0.5

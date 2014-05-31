@@ -47,6 +47,7 @@ class Settings : public QObject {
   Q_PROPERTY(bool nightMode READ isNightModeEnabled WRITE setNightModeEnabled NOTIFY nightModeChanged);
   Q_PROPERTY(QString plugin READ plugin WRITE setPlugin NOTIFY pluginChanged);
   Q_PROPERTY(int captureTimerDelay READ captureTimerDelay WRITE setCaptureTimerDelay NOTIFY captureTimerDelayChanged);
+  Q_PROPERTY(bool leftHandedMode READ isLeftHandedModeEnabled WRITE setLeftHandedModeEnabled NOTIFY leftHandedModeChanged);
 
 public:
   Settings(QObject *parent = 0);
@@ -106,6 +107,9 @@ public:
   QVariant value(const QString& key, const QVariant& defaultValue) const;
   void setValue(const QString& key, const QVariant& value);
 
+  bool isLeftHandedModeEnabled();
+  void setLeftHandedModeEnabled(bool enabled);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
@@ -122,6 +126,7 @@ signals:
   void nightModeChanged();
   void pluginChanged();
   void captureTimerDelayChanged();
+  void leftHandedModeChanged();
 
 private:
   QSettings *m_settings;

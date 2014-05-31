@@ -87,6 +87,12 @@ Column {
     }
 
     CameraTextSwitch {
+        text: qsTr("Left handed mode (requires restart)")
+        checked: settings.leftHandedMode
+        onCheckedChanged: settings.leftHandedMode = checked
+    }
+
+    CameraTextSwitch {
         id: useGps
         text: qsTr("Use GPS")
 

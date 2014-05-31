@@ -44,6 +44,7 @@
 #define DEFAULT_NIGHT_MODE              false
 #define DEFAULT_PLUGIN                  "org.foolab.cameraplus.image"
 #define DEFAULT_CAPTURE_TIMER_DELAY     5
+#define DEFAULT_LEFT_HANDED_MODE        false
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -253,5 +254,17 @@ void Settings::setCaptureTimerDelay(int delay) {
   if (delay != captureTimerDelay()) {
     m_settings->setValue("captureTimer/delay", delay);
     emit captureTimerDelayChanged();
+  }
+}
+
+bool Settings::isLeftHandedModeEnabled() {
+  return m_settings->value("camera/leftHandedMode", DEFAULT_LEFT_HANDED_MODE).toBool();
+}
+
+void Settings::setLeftHandedModeEnabled(bool enabled) {
+  if (isLeftHandedModeEnabled() != enabled) {
+    m_settings->setValue("camera/leftHandedMode", enabled);
+
+    emit leftHandedModeChanged();
   }
 }

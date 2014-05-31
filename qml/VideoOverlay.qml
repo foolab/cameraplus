@@ -173,8 +173,10 @@ Item {
         anchors {
             top: parent.top
             topMargin: 20
-            left: parent.left
+            left: settings.leftHandedMode ? undefined: parent.left
             leftMargin: 20
+            right: settings.leftHandedMode ? parent.right : undefined
+            rightMargin: 20
         }
 
         height: 32
