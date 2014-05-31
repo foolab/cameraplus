@@ -8,6 +8,5 @@
 * assist light sometimes does not switch off
 * src/sailfish/soundvolumecontrol.cpp is just a template
 * Use H264 for video
-* first launch after RPM installation/update does not work sometimes
 * video playback for post capture is not perfect (last second or so can be chopped off).
 * probably more...
