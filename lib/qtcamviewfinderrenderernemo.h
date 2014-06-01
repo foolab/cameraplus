@@ -51,6 +51,8 @@ public:
 
   bool needsNativePainting();
 
+  virtual void setApplicationOrientationAngle(int angle);
+
 private slots:
   void setVideoSize(const QSizeF& size);
 
@@ -84,6 +86,7 @@ private:
   EGLDisplay m_dpy;
   bool m_displaySet;
   bool m_started;
+  int m_angle;
 };
 
 #endif /* QT_CAM_VIEWFINDER_RENDERER_MEEGO_H */

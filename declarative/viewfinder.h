@@ -48,6 +48,7 @@ class Viewfinder : public QQuickPaintedItem, public QtCamViewfinder {
   Q_PROPERTY(bool renderingEnabled READ isRenderingEnabled WRITE setRenderingEnabled NOTIFY renderingEnabledChanged);
   Q_PROPERTY(Camera *camera READ camera WRITE setCamera NOTIFY cameraChanged);
   Q_PROPERTY(CameraConfig *cameraConfig READ cameraConfig WRITE setCameraConfig NOTIFY cameraConfigChanged);
+  Q_PROPERTY(int applicationOrientationAngle READ applicationOrientationAngle WRITE setApplicationOrientationAngle NOTIFY applicationOrientationAngleChanged);
 
 public:
 #if defined(QT4)
@@ -70,6 +71,9 @@ public:
   CameraConfig *cameraConfig() const;
   void setCameraConfig(CameraConfig *config);
 
+  int applicationOrientationAngle() const;
+  void setApplicationOrientationAngle(int angle);
+
 #if defined(QT4)
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 #elif defined(QT5)
@@ -86,6 +90,7 @@ signals:
   void renderingEnabledChanged();
   void cameraChanged();
   void cameraConfigChanged();
+  void applicationOrientationAngleChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
@@ -104,6 +109,7 @@ private:
   CameraConfig *m_conf;
   QtCamDevice *m_dev;
   bool m_enabled;
+  int m_angle;
 };
 
 #endif /* VIEWFINDER_H */

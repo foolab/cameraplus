@@ -44,7 +44,8 @@ Viewfinder::Viewfinder(QQuickItem *parent) :
   m_cam(0),
   m_conf(0),
   m_dev(0),
-  m_enabled(true) {
+  m_enabled(true),
+  m_angle(0) {
 
 #if defined(QT4)
   setFlag(QGraphicsItem::ItemHasNoContents, false);
@@ -279,8 +280,25 @@ void Viewfinder::createRenderer() {
     return;
   }
 
+  m_renderer->setApplicationOrientationAngle(m_angle);
   m_renderer->resize(QSizeF(width(), height()));
   QObject::connect(m_renderer, SIGNAL(updateRequested()), this, SLOT(updateRequested()));
   QObject::connect(m_renderer, SIGNAL(renderAreaChanged()), this, SIGNAL(renderAreaChanged()));
   QObject::connect(m_renderer, SIGNAL(videoResolutionChanged()), this, SIGNAL(videoResolutionChanged()));
+}
+
+int Viewfinder::applicationOrientationAngle() const {
+  return m_angle;
+}
+
+void Viewfinder::setApplicationOrientationAngle(int angle) {
+  if (m_angle != angle) {
+    m_angle = angle;
+
+    if (m_renderer) {
+      m_renderer->setApplicationOrientationAngle(m_angle);
+    }
+
+    emit applicationOrientationAngleChanged();
+  }
 }

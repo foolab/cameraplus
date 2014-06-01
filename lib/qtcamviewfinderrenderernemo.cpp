@@ -28,8 +28,6 @@
 
 QT_CAM_VIEWFINDER_RENDERER(RENDERER_TYPE_NEMO, QtCamViewfinderRendererNemo);
 
-// NOTE: We assume landscape rendering.
-
 typedef void *EGLSyncKHR;
 #define EGL_SYNC_FENCE_KHR                       0x30F9
 
@@ -72,11 +70,10 @@ QtCamViewfinderRendererNemo::QtCamViewfinderRendererNemo(QtCamConfig *config,
   m_needsInit(true),
   m_program(0),
   m_displaySet(false),
-  m_started(false) {
+  m_started(false),
+  m_angle(0) {
 
-  for (int x = 0; x < 8; x++) {
-    m_vertexCoords[x] = 0;
-  }
+  memset(m_vertexCoords, 0x0, 8 * sizeof (GLfloat));
 }
 
 QtCamViewfinderRendererNemo::~QtCamViewfinderRendererNemo() {
@@ -489,8 +486,7 @@ void QtCamViewfinderRendererNemo::updateTextureCoordinates(NemoGstBufferOrientat
   int o = angles[CLAMP(meta->orientation, 0, 4)];
   int dir = meta->direction;
 
-  int rotation = 90; // we assume landscape
-  int degrees = 90;
+  int degrees = m_angle;
 
   // This is based on android setCameraDisplayOrientation()
   int result;
@@ -544,4 +540,8 @@ void QtCamViewfinderRendererNemo::updateCropInfo(const GstVideoCropMeta *crop,
   texCoords[6] = tx;       texCoords[7] = sy;
 
   //  qWarning() << top << left << bottom << right << tx << sx << ty << sy;
+}
+
+void QtCamViewfinderRendererNemo::setApplicationOrientationAngle(int angle) {
+  m_angle = angle;
 }

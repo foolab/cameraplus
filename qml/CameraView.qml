@@ -35,6 +35,7 @@ Viewfinder {
     camera: cam
     cameraConfig: cam.cameraConfig
     renderingEnabled: mainView.currentItem == viewfinder
+    applicationOrientationAngle: orientationAngle
 
     Component.onDestruction: cam.stop()
 

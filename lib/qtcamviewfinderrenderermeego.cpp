@@ -377,3 +377,7 @@ void QtCamViewfinderRendererMeeGo::setVideoSize(const QSizeF& size) {
   emit renderAreaChanged();
   emit videoResolutionChanged();
 }
+
+void QtCamViewfinderRendererMeeGo::setApplicationOrientationAngle(int angle) {
+  Q_UNUSED(angle);
+}

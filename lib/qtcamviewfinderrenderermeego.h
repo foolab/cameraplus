@@ -51,6 +51,8 @@ public:
 
   bool needsNativePainting();
 
+  virtual void setApplicationOrientationAngle(int angle);
+
 private slots:
   void setVideoSize(const QSizeF& size);
 

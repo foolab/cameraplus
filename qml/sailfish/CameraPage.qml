@@ -25,4 +25,6 @@ import Sailfish.Silica 1.0
 
 Page {
     allowedOrientations: Orientation.Landscape | Orientation.LandscapeInverted
+
+    property int orientationAngle: orientation == Orientation.Landscape ? 90 : orientation == Orientation.LandscapeInverted ? 270 : 0
 }
