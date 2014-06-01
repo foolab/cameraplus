@@ -24,10 +24,11 @@
 #include "qtcamconfig.h"
 #include <gst/interfaces/nemovideotexture.h>
 #include <EGL/egl.h>
-#include <gst/meta/nemometa.h>
 #include <QOpenGLContext>
 
 QT_CAM_VIEWFINDER_RENDERER(RENDERER_TYPE_NEMO, QtCamViewfinderRendererNemo);
+
+// NOTE: We assume landscape rendering.
 
 typedef void *EGLSyncKHR;
 #define EGL_SYNC_FENCE_KHR                       0x30F9
@@ -72,24 +73,6 @@ QtCamViewfinderRendererNemo::QtCamViewfinderRendererNemo(QtCamConfig *config,
   m_program(0),
   m_displaySet(false),
   m_started(false) {
-
-  int back = NEMO_GST_META_DEVICE_DIRECTION_BACK;
-  int front = NEMO_GST_META_DEVICE_DIRECTION_FRONT;
-
-  m_texCoords[back].resize(8);
-  m_texCoords[front].resize(8);
-
-  m_vertexCoords.resize(8);
-
-  m_texCoords[back][0] = 0;       m_texCoords[back][1] = 0;
-  m_texCoords[back][2] = 1;       m_texCoords[back][3] = 0;
-  m_texCoords[back][4] = 1;       m_texCoords[back][5] = 1;
-  m_texCoords[back][6] = 0;       m_texCoords[back][7] = 1;
-
-  m_texCoords[front][0] = 0;      m_texCoords[front][1] = 1;
-  m_texCoords[front][2] = 1;      m_texCoords[front][3] = 1;
-  m_texCoords[front][4] = 1;      m_texCoords[front][5] = 0;
-  m_texCoords[front][6] = 0;      m_texCoords[front][7] = 0;
 
   for (int x = 0; x < 8; x++) {
     m_vertexCoords[x] = 0;
@@ -340,23 +323,26 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame
     return;
   }
 
-  int dev = NEMO_GST_META_DEVICE_DIRECTION_BACK;
   GstMeta *meta =
     nemo_gst_video_texture_get_frame_meta(sink, NEMO_GST_BUFFER_ORIENTATION_META_API_TYPE);
 
+  NemoGstBufferOrientationMeta *nemoMeta = 0;
+
   if (meta) {
-    NemoGstBufferOrientationMeta *nemoMeta = (NemoGstBufferOrientationMeta *) meta;
-    dev = nemoMeta->direction;
+    nemoMeta = (NemoGstBufferOrientationMeta *) meta;
   }
 
-  std::vector<GLfloat> texCoords(m_texCoords[dev]);
+  GLfloat coords[8] = {0, 0, 1, 0, 1, 1, 0, 1};
+  if (nemoMeta) {
+    updateTextureCoordinates(nemoMeta, coords);
+  }
 
   // Now take into account cropping:
   GstMeta *crop =
     nemo_gst_video_texture_get_frame_meta(sink, GST_VIDEO_CROP_META_API_TYPE);
 
   if (crop) {
-    updateCropInfo((GstVideoCropMeta *)crop, texCoords);
+    updateCropInfo((GstVideoCropMeta *)crop, coords);
   }
 
   if (!nemo_gst_video_texture_bind_frame(sink, &img)) {
@@ -380,7 +366,7 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame
   m_program->setUniformValue("matrixWorld", matrix);
 
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, &m_vertexCoords[0]);
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, &texCoords[0]);
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, coords);
 
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
@@ -486,8 +472,47 @@ void QtCamViewfinderRendererNemo::cleanup() {
   m_sink = 0;
 }
 
+void QtCamViewfinderRendererNemo::updateTextureCoordinates(NemoGstBufferOrientationMeta *meta,
+							   GLfloat *texCoords) {
+  // TODO: we don't do any flipping as android does.
+  // android flips the front camera and the end result is that
+  // you don't see what you are actually recording. We don't do
+  // that and prefer recording what the user sees exactly.
+  static GLfloat coordinates[4][8] = {
+    {0, 0, 1, 0, 1, 1, 0, 1}, // 0
+    {0, 0, 1, 0, 1, 1, 0, 1}, // 90       // TODO:
+    {1, 1, 0, 1, 0, 0, 1, 0}, // 180
+    {0, 0, 1, 0, 1, 1, 0, 1}, // 270      // TODO:
+  };
+
+  static int angles[4] = {0, 90, 180, 270};
+  int o = angles[CLAMP(meta->orientation, 0, 4)];
+  int dir = meta->direction;
+
+  int rotation = 90; // we assume landscape
+  int degrees = 90;
+
+  // This is based on android setCameraDisplayOrientation()
+  int result;
+  if (dir == NEMO_GST_META_DEVICE_DIRECTION_FRONT) {
+    result = (o + degrees) % 360;
+    result = (360 - result) % 360;  // compensate the mirror
+  } else {  // back-facing
+    result = (o - degrees + 360) % 360;
+  }
+
+  result /= 90;
+  if (result == 4) {
+    result = 0;
+  }
+
+  result = CLAMP(result, 0, 3);
+
+  memcpy(texCoords, coordinates[result], 8 * sizeof (GLfloat));
+}
+
 void QtCamViewfinderRendererNemo::updateCropInfo(const GstVideoCropMeta *crop,
-						  std::vector<GLfloat>& texCoords) {
+						 GLfloat *texCoords) {
   int right = -1 * (crop->width - m_videoSize.width() + crop->x);
   int bottom = -1 * (crop->height -  m_videoSize.height() + crop->y);
   int top = crop->y;

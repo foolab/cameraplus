@@ -28,6 +28,7 @@
 #include <QMatrix4x4>
 #include <gst/video/video.h>
 #include <QOpenGLShaderProgram>
+#include <gst/meta/nemometa.h>
 
 typedef void *EGLDisplay;
 
@@ -64,7 +65,8 @@ private:
   void calculateVertexCoords();
 
   void cleanup();
-  void updateCropInfo(const GstVideoCropMeta *crop, std::vector<GLfloat>& texCoords);
+  void updateCropInfo(const GstVideoCropMeta *crop, GLfloat *texCoords);
+  void updateTextureCoordinates(NemoGstBufferOrientationMeta *meta, GLfloat *texCoords);
 
   QtCamConfig *m_conf;
   GstElement *m_sink;
@@ -75,8 +77,7 @@ private:
   bool m_needsInit;
   QOpenGLShaderProgram *m_program;
   QMatrix4x4 m_projectionMatrix;
-  std::vector<GLfloat> m_vertexCoords;
-  std::vector<GLfloat> m_texCoords[2];
+  GLfloat m_vertexCoords[8];
   QSizeF m_size;
   QSizeF m_videoSize;
   QRectF m_renderArea;
