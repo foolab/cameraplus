@@ -329,18 +329,17 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame
     nemoMeta = (NemoGstBufferOrientationMeta *) meta;
   }
 
-  GLfloat coords[8] = {0, 0, 1, 0, 1, 1, 0, 1};
+  int index = 0;
   if (nemoMeta) {
-    updateTextureCoordinates(nemoMeta, coords);
+    index = orientationIndex(nemoMeta);
   }
 
   // Now take into account cropping:
   GstMeta *crop =
     nemo_gst_video_texture_get_frame_meta(sink, GST_VIDEO_CROP_META_API_TYPE);
 
-  if (crop) {
-    updateCropInfo((GstVideoCropMeta *)crop, coords);
-  }
+  GLfloat coords[8];
+  updateCropInfo(crop ? (GstVideoCropMeta *)crop : 0, coords, index);
 
   if (!nemo_gst_video_texture_bind_frame(sink, &img)) {
     qDebug() << "Failed to bind frame";
@@ -469,18 +468,11 @@ void QtCamViewfinderRendererNemo::cleanup() {
   m_sink = 0;
 }
 
-void QtCamViewfinderRendererNemo::updateTextureCoordinates(NemoGstBufferOrientationMeta *meta,
-							   GLfloat *texCoords) {
+int QtCamViewfinderRendererNemo::orientationIndex(NemoGstBufferOrientationMeta *meta) {
   // TODO: we don't do any flipping as android does.
   // android flips the front camera and the end result is that
   // you don't see what you are actually recording. We don't do
   // that and prefer recording what the user sees exactly.
-  static GLfloat coordinates[4][8] = {
-    {0, 0, 1, 0, 1, 1, 0, 1}, // 0
-    {0, 0, 1, 0, 1, 1, 0, 1}, // 90       // TODO:
-    {1, 1, 0, 1, 0, 0, 1, 0}, // 180
-    {0, 0, 1, 0, 1, 1, 0, 1}, // 270      // TODO:
-  };
 
   static int angles[4] = {0, 90, 180, 270};
   int o = angles[CLAMP(meta->orientation, 0, 4)];
@@ -502,44 +494,52 @@ void QtCamViewfinderRendererNemo::updateTextureCoordinates(NemoGstBufferOrientat
     result = 0;
   }
 
-  result = CLAMP(result, 0, 3);
-
-  memcpy(texCoords, coordinates[result], 8 * sizeof (GLfloat));
+  return CLAMP(result, 0, 3);
 }
 
 void QtCamViewfinderRendererNemo::updateCropInfo(const GstVideoCropMeta *crop,
-						 GLfloat *texCoords) {
-  int right = -1 * (crop->width - m_videoSize.width() + crop->x);
-  int bottom = -1 * (crop->height -  m_videoSize.height() + crop->y);
-  int top = crop->y;
-  int left = crop->x;
+						 GLfloat *texCoords, int index) {
+  qreal tx = 0.0f, ty = 1.0f, sx = 1.0f, sy = 0.0f;
 
-  if ((right - left) <= 0 || (bottom - top) <= 0) {
-    // empty rect.
-    return;
+  if (crop) {
+    int top = crop->y;
+    int left = crop->x;
+    int right = crop->width + left;
+    int bottom = crop->height + top;
+
+    if ((right - left) <= 0 || (bottom - top) <= 0) {
+      // empty crop rectangle.
+      goto out;
+    }
+
+    int width = right - left;
+    int height = bottom - top;
+
+    int bufferWidth = m_videoSize.width();
+    int bufferHeight = m_videoSize.height();
+
+    if (width < bufferWidth) {
+      tx = (qreal)left / (qreal)bufferWidth;
+      sx = (qreal)(left + crop->width) / (qreal)bufferWidth;
+    }
+
+    if (height < bufferHeight) {
+      // Our texture is inverted (sensor image Y goes downwards but OpenGL Y goes upwards)
+      // so texture coordinate 0,0.75 means crop 25% from the _bottom_
+      ty = (qreal)bottom / (qreal)bufferHeight;
+      sy = (qreal)(top) / (qreal)bufferHeight;
+    }
   }
-  // TODO: review this
-  int width = right - left;
-  int height = bottom - top;
-  qreal tx = 0.0f, ty = 0.0f, sx = 1.0f, sy = 1.0f;
-  int bufferWidth = m_videoSize.width();
-  int bufferHeight = m_videoSize.height();
-  if (width < bufferWidth) {
-    tx = (qreal)left / (qreal)bufferWidth;
-    sx = (qreal)right / (qreal)bufferWidth;
-  }
 
-  if (height < bufferHeight) {
-    ty = (qreal)top / (qreal)bufferHeight;
-    sy = (qreal)bottom / (qreal)bufferHeight;
-  }
+out:
+  GLfloat coordinates[4][8] = {
+    {tx, sy, sx, sy, sx, ty, tx, ty}, // 0
+    {0, 0, 1, 0, 1, 1, 0, 1}, // 90       // TODO:
+    {sx, ty, tx, ty, tx, sy, sx, sy}, // 180
+    {0, 0, 1, 0, 1, 1, 0, 1}, // 270      // TODO:
+  };
 
-  texCoords[0] = tx;       texCoords[1] = ty;
-  texCoords[2] = sx;       texCoords[3] = ty;
-  texCoords[4] = sx;       texCoords[5] = sy;
-  texCoords[6] = tx;       texCoords[7] = sy;
-
-  //  qWarning() << top << left << bottom << right << tx << sx << ty << sy;
+  memcpy(texCoords, coordinates[index], 8 * sizeof(GLfloat));
 }
 
 void QtCamViewfinderRendererNemo::setApplicationOrientationAngle(int angle) {

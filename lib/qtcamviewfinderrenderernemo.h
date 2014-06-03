@@ -67,8 +67,8 @@ private:
   void calculateVertexCoords();
 
   void cleanup();
-  void updateCropInfo(const GstVideoCropMeta *crop, GLfloat *texCoords);
-  void updateTextureCoordinates(NemoGstBufferOrientationMeta *meta, GLfloat *texCoords);
+  void updateCropInfo(const GstVideoCropMeta *crop, GLfloat *texCoords, int index);
+  int orientationIndex(NemoGstBufferOrientationMeta *meta);
 
   QtCamConfig *m_conf;
   GstElement *m_sink;
