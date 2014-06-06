@@ -43,7 +43,7 @@ class MetaData : public QObject {
   Q_PROPERTY(bool latitudeValid READ isLatitudeValid WRITE setLatitudeValid NOTIFY latitudeValidChanged);
   Q_PROPERTY(double elevation READ elevation WRITE setElevation NOTIFY elevationChanged);
   Q_PROPERTY(bool elevationValid READ isElevationValid WRITE setElevationValid NOTIFY elevationValidChanged);
-  Q_PROPERTY(Orientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged);
+  Q_PROPERTY(int orientationAngle READ orientationAngle WRITE setOrientationAngle NOTIFY orientationAngleChanged);
   Q_PROPERTY(QString artist READ artist WRITE setArtist NOTIFY artistChanged);
   Q_PROPERTY(int captureDirection READ captureDirection WRITE setCaptureDirection NOTIFY captureDirectionChanged);
   Q_PROPERTY(bool captureDirectionValid READ isCaptureDirectionValid WRITE setCaptureDirectionValid NOTIFY captureDirectionValidChanged);
@@ -53,14 +53,6 @@ class MetaData : public QObject {
   Q_ENUMS(Orientation);
 
 public:
-  typedef enum {
-    Unknown = -1,
-    Landscape = QtCamMetaData::Landscape,
-    Portrait = QtCamMetaData::Portrait,
-    InvertedLandscape = QtCamMetaData::InvertedLandscape,
-    InvertedPortrait = QtCamMetaData::InvertedPortrait
-  } Orientation;
-
   MetaData(QObject *parent = 0);
   ~MetaData();
 
@@ -91,8 +83,8 @@ public:
   double elevation() const;
   void setElevation(double elevation);
 
-  Orientation orientation() const;
-  void setOrientation(const Orientation& orientation);
+  int orientationAngle() const;
+  void setOrientationAngle(int angle);
 
   QString artist() const;
   void setArtist(const QString& artist);
@@ -134,7 +126,7 @@ signals:
   void longitudeChanged();
   void latitudeChanged();
   void elevationChanged();
-  void orientationChanged();
+  void orientationAngleChanged();
   void artistChanged();
   void dateTimeChanged();
   void captureDirectionChanged();
@@ -160,7 +152,7 @@ private:
   double m_longitude;
   double m_latitude;
   double m_elevation;
-  Orientation m_orientation;
+  int m_orientationAngle;
   QString m_artist;
   int m_captureDirection;
   double m_horizontalError;

@@ -78,6 +78,7 @@ class Camera : public QObject {
   Q_PROPERTY(VideoTorch *videoTorch READ videoTorch NOTIFY videoTorchChanged);
 
   Q_PROPERTY(CameraConfig *cameraConfig READ cameraConfig CONSTANT);
+  Q_PROPERTY(int sensorOrientationAngle READ sensorOrientationAngle NOTIFY sensorOrientationAngleChanged);
 
   Q_ENUMS(CameraMode);
 
@@ -132,6 +133,8 @@ public:
 
   CameraConfig *cameraConfig() const;
 
+  int sensorOrientationAngle();
+
 signals:
   void deviceCountChanged();
   void deviceIdChanged();
@@ -163,6 +166,7 @@ signals:
   void videoMuteChanged();
   void videoTorchChanged();
   void renderingEnabledChanged();
+  void sensorOrientationAngleChanged();
 
 private:
   bool applyMode();

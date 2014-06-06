@@ -259,6 +259,13 @@ CameraPage {
         }
     }
 
+    ExifOrientation {
+        id: exifOrientation
+        orientation: orientation.orientation
+        sensorOrientation: viewfinder.camera.sensorOrientationAngle
+        frontCamera: viewfinder.camera.deviceId == 1
+    }
+
     MetaData {
         id: metaData
         camera: viewfinder.camera
@@ -273,7 +280,7 @@ CameraPage {
         latitudeValid: positionSource.latitudeValid && settings.useGps
         elevation: positionSource.altitude
         elevationValid: positionSource.altitudeValid && settings.useGps
-        orientation: orientation.orientation
+        orientationAngle: exifOrientation.orientationAngle
         artist: settings.creatorName
         captureDirection: compass.direction
         captureDirectionValid: compass.directionValid

@@ -135,6 +135,8 @@ bool Camera::reset(const QVariant& deviceId, const CameraMode& mode) {
       resetCapabilities();
 
       emit deviceChanged();
+
+      emit sensorOrientationAngleChanged();
     }
 
     if (oldMode != m_mode) {
@@ -170,6 +172,8 @@ bool Camera::setDeviceId(const QVariant& deviceId) {
   QObject::connect(m_dev, SIGNAL(idleStateChanged(bool)), this, SIGNAL(idleStateChanged()));
   QObject::connect(m_dev, SIGNAL(error(const QString&, int, const QString&)),
 		   this, SIGNAL(error(const QString&, int, const QString&)));
+  QObject::connect(m_dev, SIGNAL(sensorOrientationAngleChanged()),
+		   this, SIGNAL(sensorOrientationAngleChanged()));
 
   m_notifications->setDevice(m_dev);
 
@@ -393,4 +397,8 @@ VideoTorch *Camera::videoTorch() const {
 
 CameraConfig *Camera::cameraConfig() const {
   return m_config;
+}
+
+int Camera::sensorOrientationAngle() {
+  return m_dev ? m_dev->sensorOrientationAngle() : -1;
 }

@@ -29,7 +29,7 @@ MetaData::MetaData(QObject *parent) :
   m_longitude(0),
   m_latitude(0),
   m_elevation(0),
-  m_orientation(MetaData::Unknown),
+  m_orientationAngle(-1),
   m_captureDirection(0),
   m_horizontalError(0),
   m_longitudeValid(false),
@@ -153,14 +153,14 @@ void MetaData::setElevation(double elevation) {
   }
 }
 
-MetaData::Orientation MetaData::orientation() const {
-  return m_orientation;
+int MetaData::orientationAngle() const {
+  return m_orientationAngle;
 }
 
-void MetaData::setOrientation(const MetaData::Orientation& orientation) {
-  if (m_orientation != orientation) {
-    m_orientation = orientation;
-    emit orientationChanged();
+void MetaData::setOrientationAngle(int angle) {
+  if (m_orientationAngle != angle) {
+    m_orientationAngle = angle;
+    emit orientationAngleChanged();
   }
 }
 
@@ -236,8 +236,8 @@ void MetaData::setMetaData() {
     m_data->setElevation(m_elevation);
   }
 
-  if (m_orientation != MetaData::Unknown) {
-    m_data->setOrientation((QtCamMetaData::Orientation)m_orientation);
+  if (m_orientationAngle != -1) {
+    m_data->setOrientationAngle(m_orientationAngle);
 
     // TODO:
     //    qDebug() << m_orientation << m_captureDirection << m_captureDirectionValid;

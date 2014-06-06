@@ -29,13 +29,6 @@
 #include <QPointer>
 #include <ctime>
 
-const char *orientations[] = {
-  "rotate-0",
-  "rotate-90",
-  "rotate-180",
-  "rotate-270"
-};
-
 class QtCamMetaDataPrivate {
 public:
   void addTag(const char *tag, const QString& value) {
@@ -133,14 +126,15 @@ void QtCamMetaData::setElevation(double elevation) {
   d_ptr->addTag(GST_TAG_GEO_LOCATION_ELEVATION, elevation);
 }
 
-void QtCamMetaData::setOrientation(Orientation orientation) {
-  int len = sizeof(orientations) / sizeof(orientations[0]);
-
-  if (orientation <= 0 || orientation >= len) {
-    orientation = Landscape;
+void QtCamMetaData::setOrientationAngle(int angle) {
+  if (angle == -1) {
+    qWarning() << "QtCamMetaData::setOrientationAngle called with an unknown angle";
+    return;
   }
 
-  d_ptr->addTag(GST_TAG_IMAGE_ORIENTATION, orientations[orientation]);
+  gchar *orientation = g_strdup_printf("rotate-%d", angle);
+  d_ptr->addTag(GST_TAG_IMAGE_ORIENTATION, orientation);
+  g_free(orientation);
 }
 
 void QtCamMetaData::setArtist(const QString& artist) {

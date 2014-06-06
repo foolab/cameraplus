@@ -33,14 +33,6 @@ class QtCamMetaData : public QObject {
   Q_OBJECT
 
 public:
-
-  typedef enum {
-    Landscape = 0,
-    Portrait,
-    InvertedLandscape,
-    InvertedPortrait
-  } Orientation;
-
   QtCamMetaData(QObject *parent = 0);
   ~QtCamMetaData();
 
@@ -54,7 +46,7 @@ public:
   void setLongitude(double longitude);
   void setLatitude(double latitude);
   void setElevation(double elevetion);
-  void setOrientation(Orientation orientation);
+  void setOrientationAngle(int angle);
   void setArtist(const QString& artist);
   void setDateTime(const QDateTime& dateTime);
   void setCaptureDirection(double direction);
