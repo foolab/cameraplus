@@ -330,8 +330,10 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame
   }
 
   int index = 0;
+  bool isFront = false;
   if (nemoMeta) {
     index = orientationIndex(nemoMeta);
+    isFront = (nemoMeta->direction == NEMO_GST_META_DEVICE_DIRECTION_FRONT);
   }
 
   // Now take into account cropping:
@@ -339,7 +341,7 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame
     nemo_gst_video_texture_get_frame_meta(sink, GST_VIDEO_CROP_META_API_TYPE);
 
   GLfloat coords[8];
-  updateCropInfo(crop ? (GstVideoCropMeta *)crop : 0, coords, index);
+  updateCropInfo(crop ? (GstVideoCropMeta *)crop : 0, coords, index, isFront);
 
   if (!nemo_gst_video_texture_bind_frame(sink, &img)) {
     qDebug() << "Failed to bind frame";
@@ -469,11 +471,6 @@ void QtCamViewfinderRendererNemo::cleanup() {
 }
 
 int QtCamViewfinderRendererNemo::orientationIndex(NemoGstBufferOrientationMeta *meta) {
-  // TODO: we don't do any flipping as android does.
-  // android flips the front camera and the end result is that
-  // you don't see what you are actually recording. We don't do
-  // that and prefer recording what the user sees exactly.
-
   static int angles[4] = {0, 90, 180, 270};
   int o = angles[CLAMP(meta->orientation, 0, 4)];
   int dir = meta->direction;
@@ -498,7 +495,7 @@ int QtCamViewfinderRendererNemo::orientationIndex(NemoGstBufferOrientationMeta *
 }
 
 void QtCamViewfinderRendererNemo::updateCropInfo(const GstVideoCropMeta *crop,
-						 GLfloat *texCoords, int index) {
+						 GLfloat *texCoords, int index, bool isFront) {
   qreal tx = 0.0f, ty = 1.0f, sx = 1.0f, sy = 0.0f;
 
   if (crop) {
@@ -532,14 +529,23 @@ void QtCamViewfinderRendererNemo::updateCropInfo(const GstVideoCropMeta *crop,
   }
 
 out:
-  GLfloat coordinates[4][8] = {
+  GLfloat back_coordinates[4][8] = {
     {tx, sy, sx, sy, sx, ty, tx, ty}, // 0
     {0, 0, 1, 0, 1, 1, 0, 1}, // 90       // TODO:
     {sx, ty, tx, ty, tx, sy, sx, sy}, // 180
     {0, 0, 1, 0, 1, 1, 0, 1}, // 270      // TODO:
   };
 
-  memcpy(texCoords, coordinates[index], 8 * sizeof(GLfloat));
+  // Front has x axis flipped (See note about flipped Y axis above)
+  GLfloat front_coordinates[4][8] = {
+    {sx, sy, tx, sy, tx, ty, sx, ty}, // 0
+    {1, 0, 0, 0, 0, 1, 1, 1}, // 90       // TODO:
+    {tx, ty, sx, ty, sx, sy, tx, sy}, // 180
+    {1, 0, 0, 0, 0, 1, 1, 1}, // 270      // TODO:
+  };
+
+  memcpy(texCoords, isFront ? front_coordinates[index] : back_coordinates[index],
+	 8 * sizeof(GLfloat));
 }
 
 void QtCamViewfinderRendererNemo::setApplicationOrientationAngle(int angle) {

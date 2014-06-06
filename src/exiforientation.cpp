@@ -89,6 +89,7 @@ int ExifOrientation::orientationAngle() const {
 
 // based on this:
 // http://developer.android.com/reference/android/hardware/Camera.Parameters.html#setRotation(int)
+// This is simply madness: http://www.impulseadventure.com/photo/exif-orientation.html
 void ExifOrientation::calculate() {
   // Nothing is known:
   if (m_direction == Orientation::Unknown) {
