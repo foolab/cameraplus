@@ -38,6 +38,10 @@ MouseArea {
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
         automaticCheck: false
+
+        // We need to propagate the mouse click event to the "parent" MouseArea
+        propagateComposedEvents: true
+        onClicked: mouse.accepted = false
     }
 
     CameraLabel {
