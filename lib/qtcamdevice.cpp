@@ -101,6 +101,11 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
 		     G_CALLBACK(QtCamDevicePrivate::on_ready_for_capture_changed), d_ptr);
   }
 
+  if (d_ptr->videoSource) {
+    g_signal_connect(d_ptr->videoSource, "notify::sensor-orientation",
+		     G_CALLBACK(QtCamDevicePrivate::on_sensor_orientation_changed), d_ptr);
+  }
+
   d_ptr->image = new QtCamImageMode(d_ptr, this);
   d_ptr->video = new QtCamVideoMode(d_ptr, this);
 
@@ -320,6 +325,20 @@ QtCamGStreamerMessageListener *QtCamDevice::listener() const {
 
 QtCamNotifications *QtCamDevice::notifications() const {
   return d_ptr->notifications;
+}
+
+int QtCamDevice::sensorOrientationAngle() {
+  // TODO: this is Sailfish OS specific.
+  if (d_ptr->videoSource) {
+    GObjectClass *klass = G_OBJECT_GET_CLASS(d_ptr->videoSource);
+    if (g_object_class_find_property (klass, "sensor-orientation")) {
+      int angle = -1;
+      g_object_get(d_ptr->videoSource, "sensor-orientation", &angle, NULL);
+      return angle;
+    }
+  }
+
+  return -1;
 }
 
 #include "moc_qtcamdevice.cpp"

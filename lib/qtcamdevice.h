@@ -65,6 +65,8 @@ public:
 
   QtCamNotifications *notifications() const;
 
+  int sensorOrientationAngle();
+
 signals:
   void error(const QString& message, int code, const QString& debug);
   void started();
@@ -73,6 +75,7 @@ signals:
   void idleStateChanged(bool isIdle);
   void modeChanged();
   void runningStateChanged(bool running);
+  void sensorOrientationAngleChanged();
 
 private:
   Q_PRIVATE_SLOT(d_ptr, void _d_error(const QString&, int, const QString&))
