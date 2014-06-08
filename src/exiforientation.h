@@ -35,7 +35,7 @@ class ExifOrientation : public QObject {
   Q_PROPERTY(int orientationAngle READ orientationAngle NOTIFY orientationAngleChanged);
 
 public:
-  ExifOrientation();
+  ExifOrientation(QObject *parent = 0);
   ~ExifOrientation();
 
   Orientation::OrientationDirection orientation() const;

@@ -22,7 +22,8 @@
 
 #include "exiforientation.h"
 
-ExifOrientation::ExifOrientation() :
+ExifOrientation::ExifOrientation(QObject *parent) :
+  QObject(parent),
   m_direction(Orientation::Unknown),
   m_sensorAngle(-1),
   m_isFront(false),
