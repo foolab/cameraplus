@@ -1,3 +1,11 @@
+cameraplus (0.0.24-1) unstable; urgency=medium
+
+  * GPS and face detection are the only visible indicators
+  * Move the resolution label back beside the indicators.
+  * Added left handed mode
+
+ -- Mohammed Sameer <msameer@foolab.org>  Thu, 29 May 2014 18:23:14 +0300
+
 cameraplus (0.0.23-1) unstable; urgency=medium
 
   * Don't try to reverse geocode if we don't have a valid position from the GPS

@@ -142,3 +142,14 @@ cp /lib/libm.so.6 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 %{_datadir}/harbour-cameraplus/etc/*
 
 %changelog
+* Thu May 29 2014 Mohammed Sameer <msameer@foolab.org> 0.0.24-1
+- GPS and face detection are the only visible indicators
+- Move the resolution label back beside the indicators.
+- Added left handed mode
+- Take into account sensor orientation when rendering the viewfinder
+- Make sure we render the viewfinder correctly while zooming
+- Set proper exif orientation data to captured images
+- Fixed tapping the glowing dot in the resolutions settings page not switching the resolution
+
+* Thu May 29 2014 Mohammed Sameer <msameer@foolab.org> 0.0.23-1
+- Initial RPM release
