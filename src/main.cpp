@@ -72,6 +72,7 @@
 #include "qrangemodel.h"
 #include "devicefeatures.h"
 #include "exiforientation.h"
+#include "position.h"
 
 #ifdef QMLJSDEBUGGER
 #include "qt_private/qdeclarativedebughelper_p.h"
@@ -193,6 +194,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<PrimaryDeviceFeatures>("CameraPlus", 1, 0, "PrimaryDeviceFeatures");
   qmlRegisterType<SecondaryDeviceFeatures>("CameraPlus", 1, 0, "SecondaryDeviceFeatures");
   qmlRegisterType<ExifOrientation>("CameraPlus", 1, 0, "ExifOrientation");
+  qmlRegisterType<Position>("CameraPlus", 1, 0, "Position");
 
 #ifdef SAILFISH
   view->engine()->addImportPath("/usr/share/harbour-cameraplus/lib/qt5/qml/");

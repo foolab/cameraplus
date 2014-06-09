@@ -25,7 +25,8 @@
 Orientation::Orientation(QObject *parent) :
   QObject(parent),
   m_orientation(new MeeGo::QmOrientation(this)),
-  m_direction(Unknown) {
+  m_direction(Unknown),
+  m_orientationAngle(-1) {
 
   QObject::connect(m_orientation, SIGNAL(orientationChanged(const MeeGo::QmOrientationReading&)),
 		   this, SLOT(onOrientationChanged(const MeeGo::QmOrientationReading&)));
@@ -58,6 +59,8 @@ void Orientation::setActive(bool active) {
     m_direction = Unknown;
 
     emit orientationChanged();
+
+    setOrientationAngle(-1);
   }
 
   emit activeChanged();
@@ -72,22 +75,27 @@ void Orientation::onOrientationChanged(const MeeGo::QmOrientationReading& value)
 
   switch (value.value) {
   case MeeGo::QmOrientation::BottomUp:
+    setOrientationAngle(180);
     direction = InvertedLandscape;
     break;
 
   case MeeGo::QmOrientation::BottomDown:
+    setOrientationAngle(0);
     direction = Landscape;
     break;
 
   case MeeGo::QmOrientation::LeftUp:
+    setOrientationAngle(90);
     direction = Portrait;
     break;
 
   case MeeGo::QmOrientation::RightUp:
+    setOrientationAngle(270);
     direction = InvertedPortrait;
     break;
 
   default:
+    setOrientationAngle(-1);
     direction = Unknown;
     break;
   }
@@ -97,4 +105,15 @@ void Orientation::onOrientationChanged(const MeeGo::QmOrientationReading& value)
 
     emit orientationChanged();
   }
+}
+
+void Orientation::setOrientationAngle(int angle) {
+  if (m_orientationAngle != angle) {
+    m_orientationAngle = angle;
+    emit orientationAngleChanged();
+  }
+}
+
+int Orientation::orientationAngle() const {
+  return m_orientationAngle;
 }

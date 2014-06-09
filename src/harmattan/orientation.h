@@ -35,7 +35,7 @@ class Orientation : public QObject {
 
   Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged);
   Q_PROPERTY(OrientationDirection orientation READ orientation NOTIFY orientationChanged);
-
+  Q_PROPERTY(int orientationAngle READ orientationAngle NOTIFY orientationAngleChanged);
   Q_ENUMS(OrientationDirection);
 
 public:
@@ -56,9 +56,13 @@ public:
 
   OrientationDirection orientation() const;
 
+  int orientationAngle() const;
+  void setOrientationAngle(int angle);
+
 signals:
   void activeChanged();
   void orientationChanged();
+  void orientationAngleChanged();
 
 private slots:
   void onOrientationChanged(const MeeGo::QmOrientationReading& value);
@@ -66,6 +70,7 @@ private slots:
 private:
   MeeGo::QmOrientation *m_orientation;
   OrientationDirection m_direction;
+  int m_orientationAngle;
 };
 
 #endif /* ORIENTATION_H */

@@ -190,19 +190,11 @@ void Position::update() {
     // based on this:
     // http://developer.android.com/reference/android/hardware/Camera.Parameters.html#setRotation(int)
     // This is simply madness: http://www.impulseadventure.com/photo/exif-orientation.html
-
-    // our sensors offer different angles
-    int angle = m_deviceOrientationAngle;
-    if (angle == 90) {
-      angle = 270;
-    } else if (angle == 270) {
-      angle = 90;
-    }
-
+    // NOTE: our Orientation implementation behaves as android does
     if (m_isFront) {
-      setExifRotationAngle((m_sensorOrientationAngle - angle + 360) % 360);
+      setExifRotationAngle((m_sensorOrientationAngle - m_deviceOrientationAngle + 360) % 360);
     } else {
-      setExifRotationAngle((m_sensorOrientationAngle + angle) % 360);
+      setExifRotationAngle((m_sensorOrientationAngle + m_deviceOrientationAngle) % 360);
     }
   }
 }

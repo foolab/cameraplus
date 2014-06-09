@@ -25,7 +25,8 @@
 Orientation::Orientation(QObject *parent) :
   QObject(parent),
   m_sensor(new QOrientationSensor(this)),
-  m_direction(Unknown) {
+  m_direction(Unknown),
+  m_orientationAngle(-1) {
 
   QObject::connect(m_sensor, SIGNAL(readingChanged()),
 		   this, SLOT(readingChanged()));
@@ -70,22 +71,27 @@ void Orientation::readingChanged() {
 
   switch (value->orientation()) {
   case QOrientationReading::LeftUp:
+    setOrientationAngle(90);
     direction = InvertedLandscape;
     break;
 
   case QOrientationReading::RightUp:
+    setOrientationAngle(270);
     direction = Landscape;
     break;
 
   case QOrientationReading::TopUp:
+    setOrientationAngle(0);
     direction = Portrait;
     break;
 
   case QOrientationReading::TopDown:
+    setOrientationAngle(180);
     direction = InvertedPortrait;
     break;
 
   default:
+    setOrientationAngle(-1);
     direction = Unknown;
     break;
   }
@@ -95,4 +101,15 @@ void Orientation::readingChanged() {
 
     emit orientationChanged();
   }
+}
+
+void Orientation::setOrientationAngle(int angle) {
+  if (m_orientationAngle != angle) {
+    m_orientationAngle = angle;
+    emit orientationAngleChanged();
+  }
+}
+
+int Orientation::orientationAngle() const {
+  return m_orientationAngle;
 }
