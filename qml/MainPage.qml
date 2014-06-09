@@ -252,11 +252,15 @@ CameraPage {
         }
     }
 
-    ExifOrientation {
-        id: exifOrientation
-        orientation: orientation.orientation
-        sensorOrientation: viewfinder.camera.sensorOrientationAngle
+    Position {
+        id: cameraPosition
+        property int primarySensorOrientationAngle: platformSettings.primarySensorOrientationAngle == -1 ? viewfinder.camera.sensorOrientationAngle : platformSettings.primarySensorOrientationAngle
+        property int secondarySensorOrientationAngle: platformSettings.secondarySensorOrientationAngle == -1 ? viewfinder.camera.sensorOrientationAngle : platformSettings.secondarySensorOrientationAngle
+        deviceOrientationAngle: orientation.orientationAngle
+        sensorOrientationAngle: frontCamera ? secondarySensorOrientationAngle : primarySensorOrientationAngle
         frontCamera: viewfinder.camera.deviceId == 1
+        applicationOrientationAngle: orientationAngle
+        naturalOrientation: platformSettings.naturalOrientationIsLandscape ? Position.Landscape : Position.Portrait
     }
 
     MetaData {
@@ -273,7 +277,7 @@ CameraPage {
         latitudeValid: positionSource.latitudeValid && settings.useGps
         elevation: positionSource.altitude
         elevationValid: positionSource.altitudeValid && settings.useGps
-        orientationAngle: exifOrientation.orientationAngle
+        orientationAngle: cameraPosition.exifRotationAngle
         artist: settings.creatorName
         captureDirection: compass.direction
         captureDirectionValid: compass.directionValid

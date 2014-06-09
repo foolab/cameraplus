@@ -48,7 +48,8 @@ class Viewfinder : public QQuickPaintedItem, public QtCamViewfinder {
   Q_PROPERTY(bool renderingEnabled READ isRenderingEnabled WRITE setRenderingEnabled NOTIFY renderingEnabledChanged);
   Q_PROPERTY(Camera *camera READ camera WRITE setCamera NOTIFY cameraChanged);
   Q_PROPERTY(CameraConfig *cameraConfig READ cameraConfig WRITE setCameraConfig NOTIFY cameraConfigChanged);
-  Q_PROPERTY(int applicationOrientationAngle READ applicationOrientationAngle WRITE setApplicationOrientationAngle NOTIFY applicationOrientationAngleChanged);
+  Q_PROPERTY(int viewfinderRotationAngle READ viewfinderRotationAngle WRITE setViewfinderRotationAngle NOTIFY viewfinderRotationAngleChanged);
+  Q_PROPERTY(bool viewfinderFlipped READ viewfinderFlipped WRITE setViewfinderFlipped NOTIFY viewfinderFlippedChanged);
 
 public:
 #if defined(QT4)
@@ -71,8 +72,11 @@ public:
   CameraConfig *cameraConfig() const;
   void setCameraConfig(CameraConfig *config);
 
-  int applicationOrientationAngle() const;
-  void setApplicationOrientationAngle(int angle);
+  int viewfinderRotationAngle() const;
+  void setViewfinderRotationAngle(int angle);
+
+  bool viewfinderFlipped() const;
+  void setViewfinderFlipped(bool flipped);
 
 #if defined(QT4)
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
@@ -90,7 +94,8 @@ signals:
   void renderingEnabledChanged();
   void cameraChanged();
   void cameraConfigChanged();
-  void applicationOrientationAngleChanged();
+  void viewfinderRotationAngleChanged();
+  void viewfinderFlippedChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
@@ -110,6 +115,7 @@ private:
   QtCamDevice *m_dev;
   bool m_enabled;
   int m_angle;
+  bool m_flipped;
 };
 
 #endif /* VIEWFINDER_H */

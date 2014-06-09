@@ -229,3 +229,27 @@ int PlatformSettings::maximumVideoDuration() const {
   return 3600;
 #endif
 }
+
+int PlatformSettings::naturalOrientationIsLandscape() const {
+#ifdef SAILFISH
+  return false;
+#else
+  return true;
+#endif
+}
+
+int PlatformSettings::primarySensorOrientationAngle() const {
+#ifdef SAILFISH
+  return -1;
+#else
+  return 0;
+#endif
+}
+
+int PlatformSettings::secondarySensorOrientationAngle() const {
+#ifdef SAILFISH
+  return -1;
+#else
+  return 0;
+#endif
+}

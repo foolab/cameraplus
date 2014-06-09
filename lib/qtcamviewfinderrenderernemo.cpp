@@ -71,7 +71,8 @@ QtCamViewfinderRendererNemo::QtCamViewfinderRendererNemo(QtCamConfig *config,
   m_program(0),
   m_displaySet(false),
   m_started(false),
-  m_angle(0) {
+  m_angle(0),
+  m_flipped(false) {
 
   memset(m_vertexCoords, 0x0, 8 * sizeof (GLfloat));
 }
@@ -320,28 +321,14 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame
     return;
   }
 
-  GstMeta *meta =
-    nemo_gst_video_texture_get_frame_meta(sink, NEMO_GST_BUFFER_ORIENTATION_META_API_TYPE);
-
-  NemoGstBufferOrientationMeta *nemoMeta = 0;
-
-  if (meta) {
-    nemoMeta = (NemoGstBufferOrientationMeta *) meta;
-  }
-
-  int index = 0;
-  bool isFront = false;
-  if (nemoMeta) {
-    index = orientationIndex(nemoMeta);
-    isFront = (nemoMeta->direction == NEMO_GST_META_DEVICE_DIRECTION_FRONT);
-  }
+  int index = m_angle == 0 ? 0 : m_angle == -1 ? 0 : 360 / m_angle;
 
   // Now take into account cropping:
   GstMeta *crop =
     nemo_gst_video_texture_get_frame_meta(sink, GST_VIDEO_CROP_META_API_TYPE);
 
   GLfloat coords[8];
-  updateCropInfo(crop ? (GstVideoCropMeta *)crop : 0, coords, index, isFront);
+  updateCropInfo(crop ? (GstVideoCropMeta *)crop : 0, coords, index);
 
   if (!nemo_gst_video_texture_bind_frame(sink, &img)) {
     qDebug() << "Failed to bind frame";
@@ -470,32 +457,8 @@ void QtCamViewfinderRendererNemo::cleanup() {
   m_sink = 0;
 }
 
-int QtCamViewfinderRendererNemo::orientationIndex(NemoGstBufferOrientationMeta *meta) {
-  static int angles[4] = {0, 90, 180, 270};
-  int o = angles[CLAMP(meta->orientation, 0, 4)];
-  int dir = meta->direction;
-
-  int degrees = m_angle;
-
-  // This is based on android setCameraDisplayOrientation()
-  int result;
-  if (dir == NEMO_GST_META_DEVICE_DIRECTION_FRONT) {
-    result = (o + degrees) % 360;
-    result = (360 - result) % 360;  // compensate the mirror
-  } else {  // back-facing
-    result = (o - degrees + 360) % 360;
-  }
-
-  result /= 90;
-  if (result == 4) {
-    result = 0;
-  }
-
-  return CLAMP(result, 0, 3);
-}
-
 void QtCamViewfinderRendererNemo::updateCropInfo(const GstVideoCropMeta *crop,
-						 GLfloat *texCoords, int index, bool isFront) {
+						 GLfloat *texCoords, int index) {
   qreal tx = 0.0f, ty = 1.0f, sx = 1.0f, sy = 0.0f;
 
   if (crop) {
@@ -544,10 +507,14 @@ out:
     {1, 0, 0, 0, 0, 1, 1, 1}, // 270      // TODO:
   };
 
-  memcpy(texCoords, isFront ? front_coordinates[index] : back_coordinates[index],
+  memcpy(texCoords, m_flipped ? front_coordinates[index] : back_coordinates[index],
 	 8 * sizeof(GLfloat));
 }
 
-void QtCamViewfinderRendererNemo::setApplicationOrientationAngle(int angle) {
+void QtCamViewfinderRendererNemo::setViewfinderRotationAngle(int angle) {
   m_angle = angle;
+}
+
+void QtCamViewfinderRendererNemo::setViewfinderFlipped(bool flipped) {
+  m_flipped = flipped;
 }

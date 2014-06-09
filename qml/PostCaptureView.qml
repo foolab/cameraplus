@@ -34,8 +34,7 @@ Item {
 
     property bool toggleImageList: true
     property bool hideImageList: pressed || toggleImageList
-    property bool isPortrait: orientation.orientation == CameraOrientation.Portrait ||
-        orientation.orientation == CameraOrientation.InversePortrait
+    property bool isPortrait: cameraPosition.isPortrait
 
     Component.onCompleted: postCaptureModel.reload()
 

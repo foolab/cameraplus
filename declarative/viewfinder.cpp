@@ -45,7 +45,8 @@ Viewfinder::Viewfinder(QQuickItem *parent) :
   m_conf(0),
   m_dev(0),
   m_enabled(true),
-  m_angle(0) {
+  m_angle(0),
+  m_flipped(false) {
 
 #if defined(QT4)
   setFlag(QGraphicsItem::ItemHasNoContents, false);
@@ -280,25 +281,43 @@ void Viewfinder::createRenderer() {
     return;
   }
 
-  m_renderer->setApplicationOrientationAngle(m_angle);
+  m_renderer->setViewfinderRotationAngle(m_angle);
+  m_renderer->setViewfinderFlipped(m_flipped);
   m_renderer->resize(QSizeF(width(), height()));
+
   QObject::connect(m_renderer, SIGNAL(updateRequested()), this, SLOT(updateRequested()));
   QObject::connect(m_renderer, SIGNAL(renderAreaChanged()), this, SIGNAL(renderAreaChanged()));
   QObject::connect(m_renderer, SIGNAL(videoResolutionChanged()), this, SIGNAL(videoResolutionChanged()));
 }
 
-int Viewfinder::applicationOrientationAngle() const {
+int Viewfinder::viewfinderRotationAngle() const {
   return m_angle;
 }
 
-void Viewfinder::setApplicationOrientationAngle(int angle) {
+void Viewfinder::setViewfinderRotationAngle(int angle) {
   if (m_angle != angle) {
     m_angle = angle;
 
     if (m_renderer) {
-      m_renderer->setApplicationOrientationAngle(m_angle);
+      m_renderer->setViewfinderRotationAngle(m_angle);
     }
 
-    emit applicationOrientationAngleChanged();
+    emit viewfinderRotationAngleChanged();
+  }
+}
+
+bool Viewfinder::viewfinderFlipped() const {
+  return m_flipped;
+}
+
+void Viewfinder::setViewfinderFlipped(bool flipped) {
+  if (m_flipped != flipped) {
+    m_flipped = flipped;
+
+    if (m_renderer) {
+      m_renderer->setViewfinderFlipped(m_flipped);
+    }
+
+    emit viewfinderFlippedChanged();
   }
 }

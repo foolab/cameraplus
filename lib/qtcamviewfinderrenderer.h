@@ -52,7 +52,8 @@ public:
 
   virtual bool needsNativePainting() = 0;
 
-  virtual void setApplicationOrientationAngle(int angle) = 0;
+  virtual void setViewfinderRotationAngle(int angle) = 0;
+  virtual void setViewfinderFlipped(bool flipped) = 0;
 
 protected:
   QtCamViewfinderRenderer(QtCamConfig *config, QObject *parent = 0);

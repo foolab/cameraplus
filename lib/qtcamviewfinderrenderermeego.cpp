@@ -378,6 +378,10 @@ void QtCamViewfinderRendererMeeGo::setVideoSize(const QSizeF& size) {
   emit videoResolutionChanged();
 }
 
-void QtCamViewfinderRendererMeeGo::setApplicationOrientationAngle(int angle) {
+void QtCamViewfinderRendererMeeGo::setViewfinderRotationAngle(int angle) {
   Q_UNUSED(angle);
+}
+
+void QtCamViewfinderRendererMeeGo::setViewfinderFlipped(bool flipped) {
+  Q_UNUSED(flipped);
 }

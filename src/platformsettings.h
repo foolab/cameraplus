@@ -42,6 +42,9 @@ class PlatformSettings : public QObject {
   Q_PROPERTY(QString videoPath READ videoPath CONSTANT);
   Q_PROPERTY(QString temporaryVideoPath READ temporaryVideoPath CONSTANT);
   Q_PROPERTY(int maximumVideoDuration READ maximumVideoDuration CONSTANT);
+  Q_PROPERTY(bool naturalOrientationIsLandscape READ naturalOrientationIsLandscape CONSTANT);
+  Q_PROPERTY(int primarySensorOrientationAngle READ primarySensorOrientationAngle CONSTANT);
+  Q_PROPERTY(int secondarySensorOrientationAngle READ secondarySensorOrientationAngle CONSTANT);
 
 public:
   PlatformSettings(QObject *parent = 0);
@@ -83,6 +86,11 @@ public:
   QString temporaryVideoPath();
 
   int maximumVideoDuration() const;
+
+  int naturalOrientationIsLandscape() const;
+
+  int primarySensorOrientationAngle() const;
+  int secondarySensorOrientationAngle() const;
 
 public slots:
   void init();

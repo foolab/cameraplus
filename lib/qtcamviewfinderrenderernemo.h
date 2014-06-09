@@ -51,7 +51,8 @@ public:
 
   bool needsNativePainting();
 
-  virtual void setApplicationOrientationAngle(int angle);
+  virtual void setViewfinderRotationAngle(int angle);
+  virtual void setViewfinderFlipped(bool flipped);
 
 private slots:
   void setVideoSize(const QSizeF& size);
@@ -67,8 +68,7 @@ private:
   void calculateVertexCoords();
 
   void cleanup();
-  void updateCropInfo(const GstVideoCropMeta *crop, GLfloat *texCoords, int index, bool isFront);
-  int orientationIndex(NemoGstBufferOrientationMeta *meta);
+  void updateCropInfo(const GstVideoCropMeta *crop, GLfloat *texCoords, int index);
 
   QtCamConfig *m_conf;
   GstElement *m_sink;
@@ -87,6 +87,7 @@ private:
   bool m_displaySet;
   bool m_started;
   int m_angle;
+  bool m_flipped;
 };
 
 #endif /* QT_CAM_VIEWFINDER_RENDERER_MEEGO_H */
