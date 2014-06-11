@@ -23,43 +23,9 @@
 #include "qtcamdevice.h"
 #include "qtcamviewfinder.h"
 
-class UnNormalizer {
-public:
-  void init(const QRectF& renderArea, bool normalize) {
-    m_area = renderArea;
-    m_normalize = normalize;
-  }
-
-  QRectF unNormalize(const QRectF& rect) {
-    if (m_normalize) {
-      return rect;
-    }
-
-    return QRectF(rect.x() * m_area.width(),
-		  rect.y() * m_area.height(),
-		  rect.width() * m_area.width(),
-		  rect.height() * m_area.height());
-  }
-
-  QVariantList unNormalize(const QList<QRectF>& rects) {
-    QVariantList vars;
-
-    foreach (const QRectF& rect, rects) {
-      vars.append(QVariant::fromValue(unNormalize(rect)));
-    }
-
-    return vars;
-  }
-
-private:
-  QRectF m_area;
-  bool m_normalize;
-};
-
 Roi::Roi(QtCamDevice *device, QObject *parent) :
   QObject(parent),
-  m_roi(new QtCamRoi(device)),
-  m_normalize(true) {
+  m_roi(new QtCamRoi(device)) {
 
   QObject::connect(m_roi,
 		   SIGNAL(regionsOfInterestUpdated(const QList<QRectF>&, const QRectF&, const QList<QRectF>&)),
@@ -84,7 +50,14 @@ bool Roi::isEnabled() {
 }
 
 void Roi::setRegionOfInterest(const QRectF& region) {
-  m_roi->setRegionOfInterest(region);
+  QRectF area = m_roi->device()->viewfinder()->renderArea();
+
+  QRectF rect(region.x() / area.width(),
+	      region.y() / area.height(),
+	      region.width() / area.width(),
+	      region.height() / area.height());
+
+  m_roi->setRegionOfInterest(rect);
 }
 
 void Roi::resetRegionOfInterest() {
@@ -94,24 +67,28 @@ void Roi::resetRegionOfInterest() {
 void Roi::handleRegionsChanged(const QList<QRectF>& regions, const QRectF& primary,
 			       const QList<QRectF>& rest) {
 
-  UnNormalizer n;
+  QRectF area = m_roi->device()->viewfinder()->renderArea();
+  QVariantList regionsList;
+  QVariantList restList;
 
-  n.init(m_roi->device()->viewfinder()->renderArea(), m_normalize);
+  foreach (const QRectF& rect, regions) {
+    regionsList << QRectF(rect.x() * area.width(),
+			  rect.y() * area.height(),
+			  rect.width() * area.width(),
+			  rect.height() * area.height());
+  }
 
-  QVariantList regionsList = n.unNormalize(regions);
-  QVariantList restList = n.unNormalize(rest);
-  QVariant primaryRect = QVariant::fromValue(n.unNormalize(primary));
+  foreach (const QRectF& rect, rest) {
+    restList << QRectF(rect.x() * area.width(),
+		       rect.y() * area.height(),
+		       rect.width() * area.width(),
+		       rect.height() * area.height());
+  }
+
+  QVariant primaryRect = QVariant::fromValue(QRectF(primary.x() * area.width(),
+						    primary.y() * area.height(),
+						    primary.width() * area.width(),
+						    primary.height() * area.height()));
 
   emit regionsChanged(regionsList, primaryRect, restList);
-}
-
-bool Roi::normalize() const {
-  return m_normalize;
-}
-
-void Roi::setNormalize(bool normalize) {
-  if (normalize != m_normalize) {
-    m_normalize = normalize;
-    emit normalizeChanged();
-  }
 }

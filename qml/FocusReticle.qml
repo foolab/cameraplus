@@ -106,21 +106,8 @@ MouseArea {
             return
         }
 
-        // TODO: rework this and move to unnormalized coordinates
-        // in terms of video resolution:
-        var rx = (videoResolution.width * reticle.x) / mouse.width
-        var rwidth = (videoResolution.width * reticle.width) / mouse.width
-        var ry = (videoResolution.height * reticle.y) / mouse.height
-        var rheight = (videoResolution.height * reticle.height) / mouse.height
-
-        // Translate to normalized coordinates (1x1 square) as expected by our C++ backend
-        rx = rx / videoResolution.width
-        rwidth = rwidth / videoResolution.width
-        ry = ry / videoResolution.height
-        rheight = rheight / videoResolution.height
-
-        // console.log("Setting ROI to: " + rx + "x" + ry + " -> " + rwidth + "x" + rheight)
-        cam.roi.setRegionOfInterest(Qt.rect(rx, ry, rwidth, rheight))
+//        console.log("Setting ROI to: " + reticle.x + "x" + reticle.y + " -> " + reticle.width + "x" + reticle.height)
+        cam.roi.setRegionOfInterest(Qt.rect(reticle.x, reticle.y, reticle.width, reticle.height))
     }
 
     function calculateTouchPoint(x, y) {

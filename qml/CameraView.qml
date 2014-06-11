@@ -73,7 +73,6 @@ Viewfinder {
         }
 
         onFocusChanged: focus.value = Focus.ContinuousNormal
-        onRoiChanged: roi.normalize = false
 
         onRunningChanged: {
             if (!cam.running) {
