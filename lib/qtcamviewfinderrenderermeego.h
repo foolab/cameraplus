@@ -77,11 +77,12 @@ private:
   QGLShaderProgram *m_program;
   QMatrix4x4 m_projectionMatrix;
   GLfloat m_vertexCoords[8];
-  GLfloat m_texCoords[8];
   QSizeF m_size;
   QSizeF m_videoSize;
   QRectF m_renderArea;
   EGLDisplay m_dpy;
+  int m_angle;
+  bool m_flipped;
 };
 
 #endif /* QT_CAM_VIEWFINDER_RENDERER_MEEGO_H */

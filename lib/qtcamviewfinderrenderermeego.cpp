@@ -71,14 +71,9 @@ QtCamViewfinderRendererMeeGo::QtCamViewfinderRendererMeeGo(QtCamConfig *config,
   m_id(0),
   m_notify(0),
   m_needsInit(true),
-  m_program(0) {
-
-  // Texture coordinates:
-  // Reversed because of Qt reversed coordinate system
-  m_texCoords[0] = 0;       m_texCoords[1] = 1;
-  m_texCoords[2] = 1;       m_texCoords[3] = 1;
-  m_texCoords[4] = 1;       m_texCoords[5] = 0;
-  m_texCoords[6] = 0;       m_texCoords[7] = 0;
+  m_program(0),
+  m_angle(0),
+  m_flipped(false) {
 
   bzero(&m_vertexCoords, 8);
 }
@@ -270,6 +265,17 @@ void QtCamViewfinderRendererMeeGo::createProgram() {
 }
 
 void QtCamViewfinderRendererMeeGo::paintFrame(const QMatrix4x4& matrix, int frame) {
+
+  // TODO: we don't flip the front camera
+  static GLfloat back_coordinates[4][8] = {
+    {0, 1, 1, 1, 1, 0, 0, 0}, // 0
+    {0, 1, 1, 1, 1, 0, 0, 0}, // 90 // TODO:
+    {1, 0, 0, 0, 0, 1, 1, 1}, // 180
+    {0, 1, 1, 1, 1, 0, 0, 0}, // 270 // TODO:
+  };
+
+  int index = m_angle == 0 ? 0 : m_angle == -1 ? 0 : 360 / m_angle;
+
   EGLSyncKHR sync = 0;
 
   if (frame == -1) {
@@ -297,7 +303,7 @@ void QtCamViewfinderRendererMeeGo::paintFrame(const QMatrix4x4& matrix, int fram
   glEnableVertexAttribArray(1);
 
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, &m_vertexCoords);
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, &m_texCoords);
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, back_coordinates[index]);
 
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
@@ -379,9 +385,9 @@ void QtCamViewfinderRendererMeeGo::setVideoSize(const QSizeF& size) {
 }
 
 void QtCamViewfinderRendererMeeGo::setViewfinderRotationAngle(int angle) {
-  Q_UNUSED(angle);
+  m_angle = angle;
 }
 
 void QtCamViewfinderRendererMeeGo::setViewfinderFlipped(bool flipped) {
-  Q_UNUSED(flipped);
+  m_flipped = flipped;
 }
