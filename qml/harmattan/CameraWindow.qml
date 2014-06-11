@@ -38,9 +38,19 @@ Item {
         id: platformQuirks
     }
 
+    Binding {
+        target: window
+        property: "rotation"
+        value: screen.rotation
+    }
+
+    Behavior on rotation {
+        PropertyAnimation { duration: 200 }
+    }
+
     Component.onDestruction: page.destroy()
     Component.onCompleted: {
-        screen.setAllowedOrientations(Screen.Landscape)
+        screen.setAllowedOrientations(Screen.Landscape | Screen.LandscapeInverted)
         theme.inverted = true
 
         if (initialPage) {

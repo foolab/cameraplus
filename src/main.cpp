@@ -141,6 +141,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
 #endif
 
 #if defined(QT4)
+  view->setBackgroundBrush(QBrush(Qt::black));
   view->setAttribute(Qt::WA_NoSystemBackground);
   view->setViewport(new QGLWidget);
   view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
@@ -150,7 +151,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
 
 #if defined(QT5)
   view->setResizeMode(QQuickView::SizeRootObjectToView);
-  // TODO:
 #endif
 
   qmlRegisterType<Settings>("CameraPlus", 1, 0, "Settings");
