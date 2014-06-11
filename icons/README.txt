@@ -14,7 +14,7 @@ icon-m-camera-self-timer.svg based on icon-m-camera-postcapture-view-5sec.svg
 by mcbook:
 settings.svg
 cameraplus_sailfish.svg
-cameraplus.ai
+cameraplus.svg
 record-stop.svg
 camera-switch-to-back.svg
 camera-switch-to-front.svg
