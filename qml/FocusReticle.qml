@@ -34,8 +34,6 @@ MouseArea {
     property variant videoResolution
     property variant renderArea
 
-    property bool locked: false
-
     property int cafStatus
     property int status
     property Camera cam
@@ -66,20 +64,14 @@ MouseArea {
             mouse.y >= reticle.y &&
             mouse.x <= reticle.x + reticle.width &&
             mouse.y <= reticle.y + reticle.height) {
-            locked = true
         }
 
         __initialPos = touchPoint
         calculateTouchPoint(mouse.x, mouse.y)
     }
 
-    onReleased: {
-        locked = false
-    }
-
     onCanceled: {
         calculateTouchPoint(__initialPos.x, __initialPos.y)
-        locked = false
     }
 
     onDoubleClicked: {
