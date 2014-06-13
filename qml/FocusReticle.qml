@@ -165,15 +165,13 @@ MouseArea {
     }
 
     Connections {
-        target: settings
-        // Changing mode (which implies changing pages) will not reset ROI
-        // thus we do it here
-        onModeChanged: resetReticle()
+        target: cam
+        onRunningChanged: resetReticle()
     }
 
     Connections {
-        target: cam
-        onRunningChanged: resetReticle()
+        target: root
+        onActivePluginChanged: resetReticle()
     }
 
     Connections {
