@@ -137,8 +137,8 @@ Viewfinder {
 
         visible: loader.item != null && loader.item.controlsVisible &&
             cam.autoFocus.canFocus(cam.scene.value)
-        cafStatus: cam ? cam.autoFocus.cafStatus : -1
-        status: cam ? cam.autoFocus.status : -1
+        cafStatus: cam ? cam.autoFocus.cafStatus : AutoFocus.None
+        status: cam ? cam.autoFocus.status : AutoFocus.None
     }
 
     Loader {

@@ -36,8 +36,8 @@ MouseArea {
 
     property bool locked: false
 
-    property int cafStatus: AutoFocus.None
-    property int status: AutoFocus.None
+    property int cafStatus
+    property int status
     property Camera cam
     property bool touchMode
 
