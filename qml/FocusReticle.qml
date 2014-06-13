@@ -176,6 +176,11 @@ MouseArea {
     }
 
     Connections {
+        target: cameraPosition
+        onApplicationOrientationAngleChanged: resetReticle()
+    }
+
+    Connections {
         target: cam.roi
         onRegionsChanged: {
             allRoiRects = regions
