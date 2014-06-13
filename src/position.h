@@ -24,6 +24,7 @@
 #define POSITION_H
 
 #include <QObject>
+#include <QRectF>
 
 class Position : public QObject {
   Q_OBJECT
@@ -79,6 +80,9 @@ public:
 
   bool isPortrait() const;
   void setPortrait(bool portrait);
+
+  Q_INVOKABLE QRectF fromSensorCoordinates(const QRectF& rect, const QPointF& center) const;
+  Q_INVOKABLE QRectF toSensorCoordinates(const QRectF& rect, const QPointF& center) const;
 
 signals:
   void deviceOrientationAngleChanged();

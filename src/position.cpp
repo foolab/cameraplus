@@ -198,3 +198,40 @@ void Position::update() {
     }
   }
 }
+
+QRectF Position::fromSensorCoordinates(const QRectF& rect, const QPointF& center) const {
+  // This is a nice video to kind of help anyone playing with this code:
+  // https://www.youtube.com/watch?v=FqiGuTtjmMg
+
+  switch (m_viewfinderRotationAngle) {
+  case 180:
+    return QRectF((2 * center.x()) - (rect.x() + rect.width()),
+		  (2 * center.y()) - (rect.y() + rect.height()),
+		  rect.width(), rect.height());
+
+  case 90: // TODO:
+  case 270: // TODO:
+
+
+  case 0: // No transformation needed
+  default:
+    return rect;
+  }
+}
+
+QRectF Position::toSensorCoordinates(const QRectF& rect, const QPointF& center) const {
+  switch (m_viewfinderRotationAngle) {
+  case 180:
+    return QRectF((2 * center.x()) - (rect.x() + rect.width()),
+		  (2 * center.y()) - (rect.y() + rect.height()),
+		  rect.width(), rect.height());
+
+  case 90: // TODO:
+  case 270: // TODO:
+
+
+  case 0: // No transformation needed
+  default:
+    return rect;
+  }
+}
