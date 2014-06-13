@@ -98,7 +98,7 @@ MouseArea {
         }
 
 //        console.log("Setting ROI to: " + reticle.x + "x" + reticle.y + " -> " + reticle.width + "x" + reticle.height)
-        cam.roi.setRegionOfInterest(Qt.rect(reticle.x, reticle.y, reticle.width, reticle.height))
+        cam.roi.setRegionOfInterest(cameraPosition.toSensorCoordinates(Qt.rect(reticle.x, reticle.y, reticle.width, reticle.height), Qt.point(mouse.width / 2, mouse.height / 2)))
     }
 
     function calculateTouchPoint(x, y) {
@@ -133,10 +133,11 @@ MouseArea {
         model: roiMode ? roiRects : 0
 
         delegate: Rectangle {
-            x: modelData.x
-            y: modelData.y
-            width: modelData.width
-            height: modelData.height
+            property variant roiRect: cameraPosition.fromSensorCoordinates(modelData, Qt.point(mouse.width / 2, mouse.height / 2))
+            x: roiRect.x
+            y: roiRect.y
+            width: roiRect.width
+            height: roiRect.height
             color: "transparent"
             border.color: "gray"
             border.width: 2
@@ -178,7 +179,8 @@ MouseArea {
         target: cam.roi
         onRegionsChanged: {
             allRoiRects = regions
-            primaryRoiRect = primary
+            // Repeater delegate will take care of transforming the rest of the rectangles.
+            primaryRoiRect = cameraPosition.fromSensorCoordinates(primary, Qt.point(mouse.width / 2, mouse.height / 2))
             roiRects = rest
 
             if (regions.length == 0) {
