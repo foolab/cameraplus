@@ -32,6 +32,8 @@ MouseArea {
     height: renderArea.height
 
     property variant videoResolution
+    onVideoResolutionChanged: resetReticle()
+
     property variant renderArea
 
     property int cafStatus
@@ -172,7 +174,6 @@ MouseArea {
     Connections {
         target: cam
         onRunningChanged: resetReticle()
-        onVideoResolutionChanged: resetReticle()
     }
 
     Connections {
