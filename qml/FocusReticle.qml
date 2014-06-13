@@ -86,9 +86,6 @@ MouseArea {
         if (!cam) {
             // console.log("Cannot set ROI without camera object")
             return
-        } else if (mouse.pressed) {
-            // console.log("Will not set ROI while pressed")
-            return
         } else if (!touchMode && !roiMode) {
             // console.log("resetting ROI")
             if (cam.roi) {
