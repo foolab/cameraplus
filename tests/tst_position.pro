@@ -3,7 +3,7 @@ QT += testlib
 DEPENDPATH += ../src/
 INCLUDEPATH += ../src/
 
-SOURCES += position.cpp
-HEADERS += position.h
+SOURCES += ../src/position.cpp
+HEADERS += ../src/position.h
 
 SOURCES += tst_position.cpp
