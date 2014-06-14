@@ -1,3 +1,14 @@
+cameraplus (0.0.25-1) unstable; urgency=medium
+
+  * Updated icon from mcbook
+  * Added inverted landscape support
+  * Do not prevent the flick to settings or post capture if the drag starts from the focus reticle
+  * Set RoI when a quick tap happens near the edge of the screen
+  * Changing image resolution aspect ratio should re-position focus reticle correctly
+  * Reset touch focus when we switch between image and timer modes
+
+ -- Mohammed Sameer <msameer@foolab.org>  Sat, 14 Jun 2014 15:13:35 +0300
+
 cameraplus (0.0.24-1) unstable; urgency=medium
 
   * GPS and face detection are the only visible indicators

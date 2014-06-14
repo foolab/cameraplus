@@ -142,6 +142,13 @@ cp /lib/libm.so.6 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 %{_datadir}/harbour-cameraplus/etc/*
 
 %changelog
+* Sat Jun 14 2014 Mohammed Sameer <msameer@foolab.org> 0.0.25-1
+- New icon by mcbook
+- Do not prevent the flick to settings or post capture if the drag starts from the focus reticle
+- Changing image resolution aspect ratio should re-position focus reticle correctly
+- Reset touch focus when we switch between image and timer modes
+- Touch focus now takes into account inverted landscape orientation
+
 * Thu May 29 2014 Mohammed Sameer <msameer@foolab.org> 0.0.24-1
 - GPS and face detection are the only visible indicators
 - Move the resolution label back beside the indicators.
