@@ -33,8 +33,13 @@ Rectangle {
     color: "black"
     border.color: "gray"
     radius: 20
+    opacity: shown ? 1.0 : 0
 
     Behavior on y {
+        NumberAnimation {duration: 200}
+    }
+
+    Behavior on opacity {
         NumberAnimation {duration: 200}
     }
 
