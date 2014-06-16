@@ -34,7 +34,7 @@ public:
   ShareHelper(QObject *parent = 0);
   ~ShareHelper();
 
-  Q_INVOKABLE bool share(const QUrl& path);
+  Q_INVOKABLE bool share(const QUrl& url);
 };
 
 #endif /* SHARE_HELPER_H */

@@ -30,11 +30,12 @@ ShareHelper::ShareHelper(QObject *parent) :
 }
 
 ShareHelper::~ShareHelper() {
+
 }
 
-bool ShareHelper::share(const QUrl& path) {
+bool ShareHelper::share(const QUrl& url) {
   QStringList args;
-  args << path.toLocalFile();
+  args << url.toLocalFile();
 
   QVariant var(args);
 

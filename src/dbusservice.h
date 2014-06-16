@@ -34,6 +34,7 @@ class DbusService : public QObject {
 
   Q_PROPERTY(PlatformSettings* settings READ settings WRITE setSettings NOTIFY settingsChanged);
   Q_PROPERTY(bool enabled READ isEnabled NOTIFY isEnabledChanged);
+  Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged);
 
 public:
   DbusService(QObject *parent = 0);
@@ -42,6 +43,7 @@ public:
   PlatformSettings *settings() const;
   void setSettings(PlatformSettings *settings);
 
+  QString name() const;
   void setName(const QString& name);
 
   bool isEnabled() const;
@@ -65,8 +67,6 @@ private:
   QString m_method;
 
   bool m_enabled;
-
-  QMap<QString, QString> m_methods;
 };
 
 #endif /* DBUS_SERVICE_H */

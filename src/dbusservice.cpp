@@ -55,6 +55,10 @@ void DbusService::setSettings(PlatformSettings *settings) {
   }
 }
 
+QString DbusService::name() const {
+  return m_name;
+}
+
 void DbusService::setName(const QString& name) {
   if (m_name != name) {
     m_name = name;

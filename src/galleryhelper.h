@@ -34,7 +34,7 @@ public:
   GalleryHelper(QObject *parent = 0);
   ~GalleryHelper();
 
-  Q_INVOKABLE bool launch();
+  Q_INVOKABLE bool launch(const QUrl& url);
 };
 
 #endif /* GALLERY_HELPER_H */

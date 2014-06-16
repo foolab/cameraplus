@@ -239,7 +239,7 @@ Item {
         settings: platformSettings
 
         function launchGallery() {
-            if (!gallery.launch()) {
+            if (!gallery.launch(view.currentItem.url)) {
                 showError(qsTr("Failed to launch gallery"))
             }
         }

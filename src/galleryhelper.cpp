@@ -31,6 +31,8 @@ GalleryHelper::~GalleryHelper() {
 
 }
 
-bool GalleryHelper::launch() {
-  return asyncCall();
+bool GalleryHelper::launch(const QUrl& url) {
+  QStringList args;
+  args << url.toString();
+  return asyncCall(QVariant(args));
 }
