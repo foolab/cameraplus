@@ -174,7 +174,7 @@ Viewfinder {
     Binding {
         target: cam.roi
         property: "enabled"
-        value: settings.faceDetectionEnabled && !focusReticle.pressed && !focusReticle.touchMode && cam.mode == Camera.ImageMode
+        value: deviceFeatures().isFaceDetectionSupported ? settings.faceDetectionEnabled && !focusReticle.pressed && !focusReticle.touchMode && cam.mode == Camera.ImageMode : false
     }
 
     function policyLost() {
