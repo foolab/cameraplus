@@ -108,20 +108,6 @@ Viewfinder {
     BatteryInfo {
         id: batteryMonitor
         active: cam.running
-
-        function check() {
-            if (!checkBattery()) {
-                loader.item.batteryLow()
-            }
-        }
-
-        onChargingChanged: {
-            batteryMonitor.check()
-        }
-
-        onCriticalChanged: {
-            batteryMonitor.check()
-        }
     }
 
     PreviewImage {
@@ -181,20 +167,6 @@ Viewfinder {
         if (loader.item) {
             loader.item.policyLost()
         }
-    }
-
-    function checkBattery() {
-        // We are fine if we are connected to the charger:
-        if (batteryMonitor.charging) {
-            return true
-        }
-
-        // If we have enough battery then we are fine:
-        if (!batteryMonitor.critical) {
-            return true
-        }
-
-        return false
     }
 
     function cameraDeviceChanged() {

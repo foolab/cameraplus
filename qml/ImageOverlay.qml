@@ -139,15 +139,11 @@ Item {
         // Nothing
     }
 
-    function batteryLow() {
-        // Nothing
-    }
-
     function captureImage() {
         if (!imageMode.canCapture) {
             showError(qsTr("Camera is already capturing an image."))
             stopAutoFocus()
-        } else if (!checkBattery()) {
+        } else if (!batteryMonitor.good) {
             showError(qsTr("Not enough battery to capture images."))
             stopAutoFocus()
         } else if (!fileSystem.available) {

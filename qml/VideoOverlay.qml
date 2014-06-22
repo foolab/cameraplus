@@ -217,6 +217,15 @@ Item {
         }
     }
 
+    Connections {
+        target: batteryMonitor
+        onGoodChanged: {
+            if (!batteryMonitor.good) {
+                overlay.batteryLow()
+            }
+        }
+    }
+
     Timer {
         id: recordingDuration
         property int duration: 0
@@ -288,7 +297,7 @@ Item {
     function startRecording() {
         if (!fileSystem.available) {
             showError(qsTr("Camera cannot record videos in mass storage mode."))
-        } else if (!checkBattery()) {
+        } else if (!batteryMonitor.good) {
             showError(qsTr("Not enough battery to record video."))
         } else if (!fileSystem.hasFreeSpace(platformSettings.videoPath) || !fileSystem.hasFreeSpace(platformSettings.temporaryVideoPath)) {
             showError(qsTr("Not enough space to record video."))
@@ -326,7 +335,7 @@ Item {
             return
         }
 
-        if (!checkBattery()) {
+        if (!batteryMonitor.good) {
             overlay.stopRecording()
             showError(qsTr("Not enough battery to record video."))
         }

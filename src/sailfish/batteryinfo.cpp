@@ -28,7 +28,8 @@
 
 BatteryInfo::BatteryInfo(QObject *parent) :
   QObject(parent),
-  m_battery(0) {
+  m_battery(0),
+  m_isGood(false) {
 
 }
 
@@ -36,32 +37,8 @@ BatteryInfo::~BatteryInfo() {
   setActive(false);
 }
 
-bool BatteryInfo::isCharging() const {
-  if (!m_battery) {
-    qmlInfo(this) << "BatteryInfo has to be activated first";
-    return false;
-  }
-
-  QBatteryInfo::ChargingState state = m_battery->chargingState(0);
-  if (state == QBatteryInfo::Charging) {
-    return true;
-  }
-
-  return false;
-}
-
-bool BatteryInfo::isCritical() const {
-  if (!m_battery) {
-    qmlInfo(this) << "BatteryInfo has to be activated first";
-    return true;
-  }
-
-  QBatteryInfo::BatteryStatus state = m_battery->batteryStatus(0);
-  if (state == QBatteryInfo::BatteryOk || state == QBatteryInfo::BatteryFull) {
-    return false;
-  }
-
-  return true;
+bool BatteryInfo::isGood() const {
+  return m_isGood;
 }
 
 bool BatteryInfo::isActive() const {
@@ -81,10 +58,39 @@ void BatteryInfo::setActive(bool active) {
     m_battery = new QBatteryInfo(this);
 
     QObject::connect(m_battery, SIGNAL(batteryStatusChanged(int, QBatteryInfo::BatteryStatus)),
-		     this, SIGNAL(chargingChanged()));
+		     this, SLOT(check()));
     QObject::connect(m_battery, SIGNAL(chargingStateChanged(int, QBatteryInfo::ChargingState)),
-		     this, SIGNAL(chargingChanged()));
+		     this, SLOT(check()));
   }
 
   emit activeChanged();
+
+  if (m_battery) {
+    check();
+  }
+}
+
+void BatteryInfo::check() {
+  bool isGood = false;
+
+  if (!m_battery) {
+    qmlInfo(this) << "BatteryInfo has to be activated first";
+    return;
+  }
+
+  if (m_battery->chargingState(0) == QBatteryInfo::Charging) {
+    isGood = true;
+  } else {
+    QBatteryInfo::BatteryStatus state = m_battery->batteryStatus(0);
+    if (state == QBatteryInfo::BatteryOk || state == QBatteryInfo::BatteryFull) {
+      isGood = true;
+    } else {
+      isGood = false;
+    }
+  }
+
+  if (isGood != m_isGood) {
+    m_isGood = isGood;
+    emit isGoodChanged();
+  }
 }

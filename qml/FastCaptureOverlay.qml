@@ -128,14 +128,10 @@ Item {
         // Nothing
     }
 
-    function batteryLow() {
-        // Nothing
-    }
-
     function captureImage() {
         if (!imageMode.canCapture) {
             showError(qsTr("Camera is already capturing an image."))
-        } else if (!checkBattery()) {
+        } else if (!batteryMonitor.good) {
             showError(qsTr("Not enough battery to capture images."))
         } else if (!fileSystem.available) {
             showError(qsTr("Camera cannot capture images in mass storage mode."))

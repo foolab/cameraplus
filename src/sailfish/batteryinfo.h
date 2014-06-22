@@ -30,27 +30,28 @@ class QBatteryInfo;
 class BatteryInfo : public QObject {
   Q_OBJECT
 
-  Q_PROPERTY(bool charging READ isCharging NOTIFY chargingChanged);
-  Q_PROPERTY(bool critical READ isCritical NOTIFY criticalChanged);
   Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged);
+  Q_PROPERTY(bool good READ isGood NOTIFY isGoodChanged);
 
 public:
   BatteryInfo(QObject *parent = 0);
   ~BatteryInfo();
 
-  bool isCharging() const;
-  bool isCritical() const;
-
   bool isActive() const;
   void setActive(bool active);
 
+  bool isGood() const;
+
 signals:
-  void chargingChanged();
-  void criticalChanged();
   void activeChanged();
+  void isGoodChanged();
+
+private slots:
+  void check();
 
 private:
   QBatteryInfo *m_battery;
+  bool m_isGood;
 };
 
 #endif /* BATTERY_INFO_H */

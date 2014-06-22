@@ -27,7 +27,9 @@
 #endif
 
 BatteryInfo::BatteryInfo(QObject *parent) :
-  QObject(parent), m_battery(0) {
+  QObject(parent),
+  m_battery(0),
+  m_isGood(false) {
 
 }
 
@@ -35,32 +37,8 @@ BatteryInfo::~BatteryInfo() {
   setActive(false);
 }
 
-bool BatteryInfo::isCharging() const {
-  if (!m_battery) {
-    qmlInfo(this) << "BatteryInfo has to be activated first";
-    return false;
-  }
-
-  if (m_battery->getChargingState() == MeeGo::QmBattery::StateCharging) {
-    return true;
-  }
-
-  return false;
-}
-
-bool BatteryInfo::isCritical() const {
-  if (!m_battery) {
-    qmlInfo(this) << "BatteryInfo has to be activated first";
-    return true;
-  }
-
-  MeeGo::QmBattery::BatteryState state = m_battery->getBatteryState();
-
-  if (state == MeeGo::QmBattery::StateOK || state == MeeGo::QmBattery::StateFull) {
-    return false;
-  }
-
-  return true;
+bool BatteryInfo::isGood() const {
+  return m_isGood;
 }
 
 bool BatteryInfo::isActive() const {
@@ -79,10 +57,40 @@ void BatteryInfo::setActive(bool active) {
   else {
     m_battery = new MeeGo::QmBattery(this);
     QObject::connect(m_battery, SIGNAL(batteryStateChanged(MeeGo::QmBattery::BatteryState)),
-		     this, SIGNAL(chargingChanged()));
+		     this, SLOT(check()));
     QObject::connect(m_battery, SIGNAL(chargingStateChanged(MeeGo::QmBattery::ChargingState)),
-		     this, SIGNAL(chargingChanged()));
+		     this, SLOT(check()));
   }
 
   emit activeChanged();
+
+  if (m_battery) {
+    check();
+  }
+}
+
+void BatteryInfo::check() {
+  bool isGood = false;
+
+  if (!m_battery) {
+    qmlInfo(this) << "BatteryInfo has to be activated first";
+    return;
+  }
+
+  if (m_battery->getChargingState() == MeeGo::QmBattery::StateCharging) {
+    isGood = true;
+  } else {
+    MeeGo::QmBattery::BatteryState state = m_battery->getBatteryState();
+
+    if (state == MeeGo::QmBattery::StateOK || state == MeeGo::QmBattery::StateFull) {
+      isGood = true;
+    } else {
+      isGood = false;
+    }
+  }
+
+  if (isGood != m_isGood) {
+    m_isGood = isGood;
+    emit isGoodChanged();
+  }
 }
