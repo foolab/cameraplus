@@ -73,10 +73,6 @@
 #include "devicefeatures.h"
 #include "position.h"
 
-#ifdef QMLJSDEBUGGER
-#include "qt_private/qdeclarativedebughelper_p.h"
-#endif /* QMLJSDEBUGGER */
-
 #if defined(QT4)
 #include <QAbstractFileEngineHandler>
 #include "qmlfileengine.h"
@@ -107,10 +103,6 @@ static _XInitThreads __XInitThreads;
 #endif
 
 Q_DECL_EXPORT int main(int argc, char *argv[]) {
-#ifdef QMLJSDEBUGGER
-  QDeclarativeDebugHelper::enableDebugging();
-#endif /* QMLJSDEBUGGER */
-
 #ifdef SAILFISH
   setenv("LD_LIBRARY_PATH", "/usr/share/harbour-cameraplus/lib/", 1);
   // Registry file:

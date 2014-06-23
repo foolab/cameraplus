@@ -40,12 +40,6 @@ HEADERS += settings.h filenaming.h cameraresources.h \
 
 RESOURCES += ../qml/qml.qrc ../icons/icons.qrc
 
-contains(CONFIG, qmljsdebug) {
-    message("Enabling QML/JS Debugging")
-    QT += script
-    include(../qmljsdebugger/qmljsdebugger-src.pri)
-}
-
 harmattan {
     include(harmattan/harmattan.pri)
     RESOURCES += ../qml/harmattan/harmattan.qrc
