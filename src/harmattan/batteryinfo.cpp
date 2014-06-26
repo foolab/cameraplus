@@ -29,7 +29,7 @@
 BatteryInfo::BatteryInfo(QObject *parent) :
   QObject(parent),
   m_battery(0),
-  m_isGood(false) {
+  m_isGood(true) {
 
 }
 
@@ -74,10 +74,8 @@ void BatteryInfo::check() {
 
   if (!m_battery) {
     qmlInfo(this) << "BatteryInfo has to be activated first";
-    return;
-  }
-
-  if (m_battery->getChargingState() == MeeGo::QmBattery::StateCharging) {
+    isGood = true;
+  } else if (m_battery->getChargingState() == MeeGo::QmBattery::StateCharging) {
     isGood = true;
   } else {
     MeeGo::QmBattery::BatteryState state = m_battery->getBatteryState();
