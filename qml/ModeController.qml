@@ -37,7 +37,7 @@ Rectangle {
         id: animation
 
         alwaysRunToEnd: true
-        running: activePlugin.uuid != settings.plugin || cam.deviceId != settings.device
+        running: cam.running && (activePlugin.uuid != settings.plugin || cam.deviceId != settings.device)
 
         PropertyAnimation {
             properties: "opacity"
