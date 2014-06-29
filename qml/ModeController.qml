@@ -48,22 +48,22 @@ Rectangle {
 
         PauseAnimation { duration: 50 }
         ScriptAction {
-                script: {
-                        var restart = false
+            script: {
+                var restart = false
 
-                        if (cam.deviceId != settings.device) {
-                                viewfinder.cameraDeviceChanged()
-                                // Reset pipeline manager error
-                                pipelineManager.error = false
-                                restart = true
-                        }
-
-                        root.resetCamera(settings.device)
-
-                        if (restart) {
-                                pipelineManager.startCamera()
-                        }
+                if (cam.deviceId != settings.device) {
+                    viewfinder.cameraDeviceChanged()
+                    // Reset pipeline manager error
+                    pipelineManager.error = false
+                    restart = true
                 }
+
+                root.resetCamera(settings.device)
+
+                if (restart) {
+                    pipelineManager.startCamera()
+                }
+            }
         }
 
         PropertyAnimation {
