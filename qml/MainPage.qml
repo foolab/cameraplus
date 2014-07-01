@@ -201,7 +201,7 @@ CameraPage {
         }
 
         if (!viewfinder.camera.reset(deviceId, activePlugin.mode)) {
-            showError(qsTr("Failed to set camera device and mode. Please restart the application."))
+            showError(qsTr("Failed to initialize camera. Please restart."))
             return false
         }
 
