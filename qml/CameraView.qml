@@ -71,8 +71,6 @@ Viewfinder {
             autoFocusFailed: platformSettings.autoFocusFailedSound
         }
 
-        onFocusChanged: focus.value = Focus.ContinuousNormal
-
         onRunningChanged: {
             if (!cam.running) {
                 mountProtector.unlockAll()

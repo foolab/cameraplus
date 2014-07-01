@@ -213,6 +213,7 @@ CameraPage {
             viewfinder.camera.whiteBalance.value = s.imageWhiteBalance
             viewfinder.camera.colorTone.value = s.imageColorFilter
             viewfinder.camera.iso.value = s.imageIso
+            viewfinder.camera.focus.value = Focus.ContinuousNormal
 
             imageSettings.setImageResolution()
         } else {
@@ -222,6 +223,7 @@ CameraPage {
             viewfinder.camera.colorTone.value = s.videoColorFilter
             viewfinder.camera.videoMute.enabled = s.videoMuted
             viewfinder.camera.videoTorch.on = s.videoTorchOn
+            viewfinder.camera.focus.value = Focus.ContinuousNormal
 
             videoSettings.setVideoResolution()
         }
