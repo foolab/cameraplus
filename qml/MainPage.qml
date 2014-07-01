@@ -298,7 +298,7 @@ CameraPage {
 
     ReverseGeocode {
         id: geocode
-        active: positionSource.active && settings.useGeotags
+        active: settings.useGeotags
     }
 
     DeviceInfo {
