@@ -65,7 +65,7 @@ Row {
 
     Indicator {
         id: faceDetectionIndicator
-        visible: settings.faceDetectionEnabled
+        visible: deviceFeatures().isFaceDetectionSupported ? settings.faceDetectionEnabled : false
         source: cameraTheme.faceDetectionIndicatorIcon
     }
 }
