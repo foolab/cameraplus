@@ -191,8 +191,11 @@ Item {
             height: parent.height
         }
 
-        Indicator {
+        Image {
             id: gpsIndicator
+            height: parent.height
+            width: height
+            asynchronous: true
             visible: settings.useGps
             source: cameraTheme.gpsIndicatorIcon
 

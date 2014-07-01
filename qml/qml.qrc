@@ -22,7 +22,6 @@
 	<file>ImageSceneButton.qml</file>
 	<file>ImageModeSettings.qml</file>
 	<file>ImageWhiteBalanceButton.qml</file>
-	<file>Indicator.qml</file>
         <file>main.qml</file>
 	<file>MainPage.qml</file>
 	<file>ModeButton.qml</file>

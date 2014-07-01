@@ -47,9 +47,12 @@ Row {
         height: parent.height
     }
 
-    Indicator {
+    Image {
         id: gpsIndicator
+        height: parent.height
+        width: height
         visible: settings.useGps
+        asynchronous: true
         source: cameraTheme.gpsIndicatorIcon
 
         PropertyAnimation on opacity  {
@@ -63,8 +66,11 @@ Row {
         }
     }
 
-    Indicator {
+    Image {
         id: faceDetectionIndicator
+        height: parent.height
+        width: height
+        asynchronous: true
         visible: deviceFeatures().isFaceDetectionSupported ? settings.faceDetectionEnabled : false
         source: cameraTheme.faceDetectionIndicatorIcon
     }
