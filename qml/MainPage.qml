@@ -197,7 +197,19 @@ CameraPage {
                 }
             }
 
-            activePlugin = newPlugin
+            // Now load the actual QML:
+            var st = viewfinder.loadPlugin(newPlugin)
+            if (!st && newPlugin.uuid != "org.foolab.cameraplus.image") {
+                // fallback to image mode
+                settings.plugin = "org.foolab.cameraplus.image"
+                showError("Failed to load required plugin")
+                return resetCamera(deviceId)
+            } else if (!st) {
+                showError("Failed to load required plugin. Please reinstall")
+                return false
+            } else {
+                activePlugin = newPlugin
+            }
         }
 
         if (!viewfinder.camera.reset(deviceId, activePlugin.mode)) {

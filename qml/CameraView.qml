@@ -124,11 +124,21 @@ Viewfinder {
         status: cam ? cam.autoFocus.status : AutoFocus.None
     }
 
+    function loadPlugin(plugin) {
+        var oldSource = loader.source
+        loader.source = Qt.resolvedUrl(plugin.overlay)
+        if (loader.status == Loader.Error) {
+            console.log("Error loading " + plugin.overlay)
+            loader.source = oldSource
+            return false
+        }
+
+        return true
+    }
+
     Loader {
         id: loader
-        property string src: activePlugin.overlay
         anchors.fill: parent
-        source: Qt.resolvedUrl(src)
     }
 
     Connections {
