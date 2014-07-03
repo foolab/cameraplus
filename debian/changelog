@@ -1,3 +1,12 @@
+cameraplus (0.0.26-1) unstable; urgency=medium
+
+  * Fixed the 2 lines artifact sometimes showing up during start up
+  * tapping gallery button shows the media in gallery application instead of showing camera roll
+  * Avoid an unnecessary mode switch animation during startup
+  * Slightly decrease startup time by not disabling reverse geocoding when GPS is disabled
+
+ -- Mohammed Sameer <msameer@foolab.org>  Mon, 16 Jun 2014 00:51:49 +0300
+
 cameraplus (0.0.25-1) unstable; urgency=medium
 
   * Updated icon from mcbook

@@ -143,6 +143,13 @@ cp /lib/libm.so.6 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 %{_datadir}/harbour-cameraplus/etc/*
 
 %changelog
+* Mon Jun 16 2014 Mohammed Sameer <msameer@foolab.org> 0.0.26-1
+- tapping gallery button shows the media in gallery application instead of showing all images
+- fixed a bug that caused leaking camera buffers every time we restart the pipeline
+- completely disable face detection for now
+- Avoid an unnecessary mode switch animation during startup
+- Slightly decrease startup time by not disabling reverse geocoding when GPS is disabled
+
 * Sat Jun 14 2014 Mohammed Sameer <msameer@foolab.org> 0.0.25-1
 - New icon by mcbook
 - Do not prevent the flick to settings or post capture if the drag starts from the focus reticle
