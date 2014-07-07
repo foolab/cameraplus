@@ -30,10 +30,12 @@
 #include "qtcamvideomode.h"
 #include "qtcamnotifications.h"
 #include "qtcampropertysetter.h"
+#include "qtcamviewfinderbufferlistener.h"
 
 QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
 			 const QVariant& id, QObject *parent) :
-  QObject(parent), d_ptr(new QtCamDevicePrivate) {
+  QObject(parent),
+  d_ptr(new QtCamDevicePrivate) {
 
   d_ptr->q_ptr = this;
   d_ptr->name = name;
@@ -80,6 +82,7 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
     qWarning() << "Failed to create viewfinder filters";
   }
 
+  d_ptr->bufferListener = new QtCamViewfinderBufferListener(d_ptr, this);
   d_ptr->listener = new QtCamGStreamerMessageListener(gst_element_get_bus(d_ptr->cameraBin),
 						      d_ptr, this);
 
@@ -115,6 +118,8 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
 QtCamDevice::~QtCamDevice() {
   stop(true);
 
+  d_ptr->bufferListener->d_ptr->setSink(0);
+
   d_ptr->image->deactivate();
   d_ptr->video->deactivate();
 
@@ -146,13 +151,14 @@ bool QtCamDevice::setViewfinder(QtCamViewfinder *viewfinder) {
     }
 
     d_ptr->sink = 0;
-
+    d_ptr->bufferListener->d_ptr->setSink(0);
     d_ptr->viewfinder = 0;
     return true;
   }
 
   d_ptr->viewfinder = viewfinder;
   d_ptr->sink = 0;
+  d_ptr->bufferListener->d_ptr->setSink(0);
 
   return true;
 }
@@ -321,6 +327,10 @@ QtCamConfig *QtCamDevice::config() const {
 
 QtCamGStreamerMessageListener *QtCamDevice::listener() const {
   return d_ptr->listener;
+}
+
+QtCamViewfinderBufferListener *QtCamDevice::bufferListener() const {
+  return d_ptr->bufferListener;
 }
 
 QtCamNotifications *QtCamDevice::notifications() const {

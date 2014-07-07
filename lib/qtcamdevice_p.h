@@ -29,6 +29,8 @@
 #include "qtcamviewfinder.h"
 #include "qtcamdevice.h"
 #include "qtcammode.h"
+#include "qtcamviewfinderbufferlistener.h"
+#include "qtcamviewfinderbufferlistener_p.h"
 
 class QtCamGStreamerMessageListener;
 class QtCamMode;
@@ -124,10 +126,13 @@ public:
     sink = viewfinder->sinkElement();
     if (!sink) {
       qCritical() << "Failed to create GStreamer sink element";
+      bufferListener->d_ptr->setSink(0);
       return false;
     }
 
     g_object_set(cameraBin, "viewfinder-sink", sink, NULL);
+
+    bufferListener->d_ptr->setSink(sink);
 
     return true;
   }
@@ -372,6 +377,7 @@ public:
   QtCamViewfinder *viewfinder;
   QtCamConfig *conf;
   QtCamGStreamerMessageListener *listener;
+  QtCamViewfinderBufferListener *bufferListener;
   bool error;
   QtCamNotifications *notifications;
   QtCamPropertySetter *propertySetter;

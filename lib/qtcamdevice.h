@@ -36,6 +36,7 @@ class QtCamGStreamerMessageListener;
 class QtCamMetaData;
 class QtCamCapability;
 class QtCamNotifications;
+class QtCamViewfinderBufferListener;
 
 class QtCamDevice : public QObject {
   Q_OBJECT
@@ -62,6 +63,7 @@ public:
 
   QtCamConfig *config() const;
   QtCamGStreamerMessageListener *listener() const;
+  QtCamViewfinderBufferListener *bufferListener() const;
 
   QtCamNotifications *notifications() const;
 
