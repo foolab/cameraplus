@@ -49,6 +49,7 @@
 #include "viewfinder.h"
 #include "capability.h"
 #include "resolution.h"
+#include "viewfinderbufferhandler.h"
 #if defined(QT4)
 #include <QDeclarativeEngine>
 #elif defined(QT5)
@@ -122,6 +123,7 @@ void Plugin::registerTypes(const char *uri) {
   qmlRegisterType<Capability>();
 
   qmlRegisterType<Resolution>(uri, MAJOR, MINOR, "Resolution");
+  qmlRegisterType<ViewfinderBufferHandler>(uri, MAJOR, MINOR, "ViewfinderBufferHandler");
 }
 
 #if defined(QT4)
