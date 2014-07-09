@@ -347,4 +347,18 @@ Item {
     function cameraDeviceChanged() {
         resetToolBar()
     }
+
+    function applySettings() {
+        var s = deviceSettings()
+
+        camera.scene.value = s.videoSceneMode
+        camera.evComp.value = s.videoEvComp
+        camera.whiteBalance.value = s.videoWhiteBalance
+        camera.colorTone.value = s.videoColorFilter
+        camera.videoMute.enabled = s.videoMuted
+        camera.videoTorch.on = s.videoTorchOn
+        camera.focus.value = Focus.ContinuousNormal
+
+        videoSettings.setVideoResolution()
+    }
 }

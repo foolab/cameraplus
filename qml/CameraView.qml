@@ -136,6 +136,10 @@ Viewfinder {
         return true
     }
 
+    function applySettings() {
+        loader.item.applySettings()
+    }
+
     Loader {
         id: loader
         anchors.fill: parent

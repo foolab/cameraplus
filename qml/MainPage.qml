@@ -217,28 +217,7 @@ CameraPage {
             return false
         }
 
-        var s = deviceSettings()
-        if (activePlugin.mode == Camera.ImageMode) {
-            viewfinder.camera.scene.value = s.imageSceneMode
-            viewfinder.camera.flash.value = s.imageFlashMode
-            viewfinder.camera.evComp.value = s.imageEvComp
-            viewfinder.camera.whiteBalance.value = s.imageWhiteBalance
-            viewfinder.camera.colorTone.value = s.imageColorFilter
-            viewfinder.camera.iso.value = s.imageIso
-            viewfinder.camera.focus.value = Focus.ContinuousNormal
-
-            imageSettings.setImageResolution()
-        } else {
-            viewfinder.camera.scene.value = s.videoSceneMode
-            viewfinder.camera.evComp.value = s.videoEvComp
-            viewfinder.camera.whiteBalance.value = s.videoWhiteBalance
-            viewfinder.camera.colorTone.value = s.videoColorFilter
-            viewfinder.camera.videoMute.enabled = s.videoMuted
-            viewfinder.camera.videoTorch.on = s.videoTorchOn
-            viewfinder.camera.focus.value = Focus.ContinuousNormal
-
-            videoSettings.setVideoResolution()
-        }
+        viewfinder.applySettings()
 
         return true
     }

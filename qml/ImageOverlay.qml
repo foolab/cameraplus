@@ -192,4 +192,18 @@ Item {
     function cameraDeviceChanged() {
         resetToolBar()
     }
+
+    function applySettings() {
+        var s = deviceSettings()
+
+        camera.scene.value = s.imageSceneMode
+        camera.flash.value = s.imageFlashMode
+        camera.evComp.value = s.imageEvComp
+        camera.whiteBalance.value = s.imageWhiteBalance
+        camera.colorTone.value = s.imageColorFilter
+        camera.iso.value = s.imageIso
+        camera.focus.value = Focus.ContinuousNormal
+
+        imageSettings.setImageResolution()
+    }
 }
