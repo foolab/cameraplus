@@ -23,32 +23,16 @@
 import QtQuick 2.0
 import QtCamera 1.0
 
-Flickable {
-    property Camera camera: null
-    id: flick
+Column {
+    width: parent.width
+    spacing: 10
 
-    contentHeight: col.height
-    anchors.fill: parent
-    anchors.margins: 10
+    CameraLabel {
+        font.pixelSize: 36
+        text: qsTr("Video settings")
+    }
 
-    Column {
-        id: col
+    VideoResolutionSettings {
         width: parent.width
-        spacing: 10
-
-        CameraLabel {
-            font.pixelSize: 36
-            text: qsTr("Video settings")
-        }
-
-        VideoResolutionSettings {
-            camera: flick.camera
-            width: parent.width
-        }
-
-        CameraSettings {
-            camera: flick.camera
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
     }
 }

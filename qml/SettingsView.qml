@@ -24,19 +24,107 @@ import QtQuick 2.0
 import QtCamera 1.0
 import CameraPlus 1.0
 
-Item {
-    property Camera camera: viewfinder.camera
+Flickable {
+    id: flick
 
-    Loader {
-        id: loader
-        anchors.fill: parent
-        source: activePlugin.settings
+    contentHeight: col.height
+
+    anchors {
+        fill: parent
+        margins: 10
     }
 
-    Binding {
-        target: loader.item
-        property: "camera"
-        value: camera
-        when: loader.item != null
+    Column {
+        id: col
+        width: parent.width
+        spacing: 10
+
+        // Plugin settings:
+        Loader {
+            property Camera camera: viewfinder.camera
+            width: parent.width
+            source: activePlugin.settings
+        }
+
+        // Common settings:
+        CameraLabel {
+            font.pixelSize: 36
+            text: qsTr("Camera settings")
+            width: parent.width
+        }
+
+        CameraTextSwitch {
+            text: qsTr("Show grid lines")
+
+            checked: settings.gridEnabled
+            onCheckedChanged: settings.gridEnabled = checked
+        }
+
+        SectionHeader {
+            text: qsTr("Creator name")
+        }
+
+        CameraTextField {
+            placeholderText: qsTr("Name or copyright")
+            width: parent.width
+            text: settings.creatorName
+            onTextChanged: settings.creatorName = text
+        }
+
+        CameraTextSwitch {
+            text: qsTr("Use zoom keys for capture")
+            checked: settings.zoomAsShutter
+            onCheckedChanged: settings.zoomAsShutter = checked
+        }
+
+        CameraTextSwitch {
+            text: qsTr("Use proximity sensor for capture")
+
+            checked: settings.proximityAsShutter
+            onCheckedChanged: settings.proximityAsShutter = checked
+        }
+
+        CameraTextSwitch {
+            text: qsTr("Enable camera sounds")
+
+            checked: settings.soundEnabled
+            onCheckedChanged: settings.soundEnabled = checked
+        }
+
+        CameraTextSwitch {
+            text: qsTr("Preview images and videos after capturing")
+            checked: settings.enablePreview
+            onCheckedChanged: settings.enablePreview = checked
+        }
+
+        CameraTextSwitch {
+            text: qsTr("Enable night mode (Viewfinder dimming)")
+            checked: settings.nightMode
+            onCheckedChanged: settings.nightMode = checked
+        }
+
+        CameraTextSwitch {
+            text: qsTr("Left handed mode (requires restart)")
+            checked: settings.leftHandedMode
+            onCheckedChanged: settings.leftHandedMode = checked
+        }
+
+        CameraTextSwitch {
+            id: useGps
+            text: qsTr("Use GPS")
+
+            checked: settings.useGps
+            onCheckedChanged: settings.useGps = checked
+        }
+
+        CameraTextSwitch {
+            // TODO: transition when hiding/showing and we should scroll a bit to show it
+            visible: useGps.checked
+
+            text: qsTr("Use geotags")
+            checked: settings.useGeotags
+            onCheckedChanged: settings.useGeotags = checked
+        }
+
     }
 }

@@ -23,40 +23,23 @@
 import QtQuick 2.0
 import QtCamera 1.0
 
-Flickable {
-    property Camera camera
+Column {
+    width: parent.width
+    spacing: 10
 
-    id: flick
+    CameraLabel {
+        font.pixelSize: 36
+        text: qsTr("Image settings")
+    }
 
-    contentHeight: col.height
-    anchors.fill: parent
-    anchors.margins: 10
-
-    Column {
-        id: col
+    ImageResolutionSettings {
         width: parent.width
-        spacing: 10
+    }
 
-        CameraLabel {
-            font.pixelSize: 36
-            text: qsTr("Image settings")
-        }
-
-        ImageResolutionSettings {
-            camera: flick.camera
-            width: parent.width
-        }
-
-        CameraTextSwitch {
-            text: qsTr("Enable face detection")
-            checked: settings.faceDetectionEnabled
-            onCheckedChanged: settings.faceDetectionEnabled = checked
-            visible: deviceFeatures().isFaceDetectionSupported
-        }
-
-        CameraSettings {
-            camera: flick.camera
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
+    CameraTextSwitch {
+        text: qsTr("Enable face detection")
+        checked: settings.faceDetectionEnabled
+        onCheckedChanged: settings.faceDetectionEnabled = checked
+        visible: deviceFeatures().isFaceDetectionSupported
     }
 }
