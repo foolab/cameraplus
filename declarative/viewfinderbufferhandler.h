@@ -47,7 +47,7 @@ public:
   QObject *handler() const;
   void setHandler(QObject *handler);
 
-  void handleBuffer(GstBuffer *buffer);
+  void handleSample(const QtCamGstSample *sample);
 
 signals:
   void cameraChanged();

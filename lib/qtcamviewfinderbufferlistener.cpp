@@ -21,6 +21,7 @@
 #include "qtcamviewfinderbufferlistener.h"
 #include "qtcamviewfinderbufferlistener_p.h"
 #include "qtcamviewfinderbufferhandler.h"
+#include "qtcamgstsample.h"
 #include <QDebug>
 
 QtCamViewfinderBufferListenerPrivate::QtCamViewfinderBufferListenerPrivate(QtCamDevicePrivate *d) :
@@ -118,20 +119,27 @@ GstPadProbeReturn QtCamViewfinderBufferListenerPrivate::buffer_probe(GstPad *pad
   }
 
   GstBuffer *buffer = (GstBuffer *) info->data;
+  GstCaps *caps = gst_pad_get_current_caps(pad);
 
 #else
 gboolean QtCamViewfinderBufferListenerPrivate::buffer_probe(GstPad *pad, GstBuffer *buffer,
 							    gpointer user_data) {
-#endif
 
   Q_UNUSED(pad);
 
+  GstCaps *caps = gst_buffer_get_caps(buffer);
+#endif
+
   QtCamViewfinderBufferListenerPrivate *d = (QtCamViewfinderBufferListenerPrivate *) user_data;
+
+  QtCamGstSample sample(buffer, caps);
 
   QMutexLocker l(&d->mutex);
   foreach (QtCamViewfinderBufferHandler *handler, d->handlers) {
-    handler->handleBuffer(buffer);
+    handler->handleSample(&sample);
   }
+
+  gst_caps_unref(caps);
 
 #if GST_CHECK_VERSION(1,0,0)
   return GST_PAD_PROBE_OK;

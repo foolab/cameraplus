@@ -1,5 +1,3 @@
-// -*- c++ -*-
-
 /*!
  * This file is part of CameraPlus.
  *
@@ -20,18 +18,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef QT_CAM_VIEWFINDER_BUFFER_HANDLER_H
-#define QT_CAM_VIEWFINDER_BUFFER_HANDLER_H
+#include "qtcamgstsample.h"
 
-class QtCamGstSample;
-
-class QtCamViewfinderBufferHandler {
+class QtCamGstSamplePrivate {
 public:
-  QtCamViewfinderBufferHandler();
-  virtual ~QtCamViewfinderBufferHandler();
-
-  // Called from an arbitrary thread
-  virtual void handleSample(const QtCamGstSample *sample) = 0;
+  GstBuffer *buffer;
+  GstCaps *caps;
 };
 
-#endif /* QT_CAM_VIEWFINDER_BUFFER_HANDLER_H */
+QtCamGstSample::QtCamGstSample(GstBuffer *buffer, GstCaps *caps) :
+  d_ptr(new QtCamGstSamplePrivate) {
+
+  d_ptr->buffer = gst_buffer_ref(buffer);
+  d_ptr->caps = gst_caps_ref(caps);
+}
+
+QtCamGstSample::~QtCamGstSample() {
+  gst_caps_unref(d_ptr->caps);
+  gst_buffer_unref(d_ptr->buffer);
+
+  delete d_ptr; d_ptr = 0;
+}
+
+GstBuffer *QtCamGstSample::buffer() const {
+  return d_ptr->buffer;
+}
+
+GstCaps *QtCamGstSample::caps() const {
+  return d_ptr->caps;
+}

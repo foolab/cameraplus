@@ -82,7 +82,8 @@ void ViewfinderBufferHandler::setHandler(QObject *handler) {
     // now resolve our meta method:
     m_method = QMetaMethod();
     const QMetaObject *obj = m_handler->metaObject();
-    int index = obj->indexOfSlot(QMetaObject::normalizedSignature("handleBuffer(GstBuffer *)"));
+    int index =
+      obj->indexOfSlot(QMetaObject::normalizedSignature("handleSample(const QtCamGstSample *)"));
     if (index == -1) {
       qmlInfo(this) << "invalid handler";
     } else {
@@ -103,14 +104,14 @@ void ViewfinderBufferHandler::deviceAboutToChange() {
   }
 }
 
-void ViewfinderBufferHandler::handleBuffer(GstBuffer *buffer) {
+void ViewfinderBufferHandler::handleSample(const QtCamGstSample *sample) {
   QMutexLocker l(&m_mutex);
 
   if (!m_method.enclosingMetaObject()) {
     return;
   }
 
-  if (!m_method.invoke(m_handler, Qt::DirectConnection, Q_ARG(GstBuffer *, buffer))) {
+  if (!m_method.invoke(m_handler, Qt::DirectConnection, Q_ARG(const QtCamGstSample *, sample))) {
     qmlInfo(this) << "Failed to invoke handler";
   }
 }

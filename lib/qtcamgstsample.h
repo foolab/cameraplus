@@ -20,18 +20,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef QT_CAM_VIEWFINDER_BUFFER_HANDLER_H
-#define QT_CAM_VIEWFINDER_BUFFER_HANDLER_H
+#ifndef QT_CAM_GST_SAMPLE_H
+#define QT_CAM_GST_SAMPLE_H
 
-class QtCamGstSample;
+#include <gst/gst.h>
 
-class QtCamViewfinderBufferHandler {
+class QtCamGstSamplePrivate;
+
+class QtCamGstSample {
 public:
-  QtCamViewfinderBufferHandler();
-  virtual ~QtCamViewfinderBufferHandler();
+  QtCamGstSample(GstBuffer *buffer, GstCaps *caps);
+  ~QtCamGstSample();
 
-  // Called from an arbitrary thread
-  virtual void handleSample(const QtCamGstSample *sample) = 0;
+  GstBuffer *buffer() const;
+  GstCaps *caps() const;
+
+private:
+  QtCamGstSamplePrivate *d_ptr;
 };
 
-#endif /* QT_CAM_VIEWFINDER_BUFFER_HANDLER_H */
+#endif /* QT_CAM_GST_SAMPLE_H */
