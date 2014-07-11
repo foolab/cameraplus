@@ -23,15 +23,15 @@
 #include "qtcamdevice_p.h"
 #include "qtcamdevice.h"
 #include <QDebug>
-#include "qtcamgstreamermessagelistener.h"
+#include "qtcamgstmessagelistener.h"
 #include <gst/video/video.h>
 #include <QImage>
 #include <QFile>
 
-class PreviewImageHandler : public QtCamGStreamerMessageHandler {
+class PreviewImageHandler : public QtCamGstMessageHandler {
 public:
   PreviewImageHandler(QtCamMode *m, QObject *parent = 0) :
-    QtCamGStreamerMessageHandler("preview-image", parent) {
+    QtCamGstMessageHandler("preview-image", parent) {
     mode = m;
   }
 

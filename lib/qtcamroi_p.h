@@ -25,8 +25,8 @@
 
 #include "qtcamdevice.h"
 #include "qtcamdevice_p.h"
-#include "qtcamgstreamermessagehandler.h"
-#include "qtcamgstreamermessagelistener.h"
+#include "qtcamgstmessagehandler.h"
+#include "qtcamgstmessagelistener.h"
 #include "qtcamroi.h"
 #include <QDebug>
 #include <QPointer>
@@ -80,7 +80,7 @@ public:
 
   void installHandler() {
     if (dev->listener()) {
-      handler = new QtCamGStreamerMessageHandler(dev->config()->roiMessage(), this);
+      handler = new QtCamGstMessageHandler(dev->config()->roiMessage(), this);
       dev->listener()->addSyncHandler(handler);
       QObject::connect(handler, SIGNAL(messageSent(GstMessage *)),
 		       this, SLOT(handleMessage(GstMessage *)), Qt::DirectConnection);
@@ -196,7 +196,7 @@ public:
   QtCamDevice *dev;
   GstElement *roi;
   bool enabled;
-  QPointer<QtCamGStreamerMessageHandler> handler;
+  QPointer<QtCamGstMessageHandler> handler;
   QAtomicPointer<GstMessage> msg;
 };
 

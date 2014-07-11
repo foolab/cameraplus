@@ -1,3 +1,5 @@
+// -*- c++ -*-
+
 /*!
  * This file is part of CameraPlus.
  *
@@ -18,29 +20,30 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "qtcamgstreamermessagehandler.h"
+#ifndef QT_CAM_GST_MESSAGE_HANDLER_H
+#define QT_CAM_GST_MESSAGE_HANDLER_H
 
-class QtCamGStreamerMessageHandlerPrivate {
+#include <QObject>
+#include <gst/gst.h>
+
+class QtCamGstMessageHandlerPrivate;
+
+class QtCamGstMessageHandler : public QObject {
+  Q_OBJECT
+
 public:
-  QString name;
+  QtCamGstMessageHandler(const QString& messageName, QObject *parent = 0);
+  virtual ~QtCamGstMessageHandler();
+
+  QString messageName() const;
+
+  virtual void handleMessage(GstMessage *message);
+
+signals:
+  void messageSent(GstMessage *message);
+
+private:
+  QtCamGstMessageHandlerPrivate *d_ptr;
 };
 
-QtCamGStreamerMessageHandler::QtCamGStreamerMessageHandler(const QString& messageName,
-							   QObject *parent) :
-  QObject(parent), d_ptr(new QtCamGStreamerMessageHandlerPrivate) {
-
-  d_ptr->name = messageName;
-}
-
-QtCamGStreamerMessageHandler::~QtCamGStreamerMessageHandler() {
-  delete d_ptr; d_ptr = 0;
-}
-
-QString QtCamGStreamerMessageHandler::messageName() const {
-  return d_ptr->name;
-}
-
-void QtCamGStreamerMessageHandler::handleMessage(GstMessage *message) {
-  emit messageSent(message);
-}
-
+#endif /* QT_CAM_GST_MESSAGE_HANDLER_H */

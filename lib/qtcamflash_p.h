@@ -26,8 +26,8 @@
 #include <QObject>
 #include "qtcamcapability_p.h"
 #include "qtcamdevice.h"
-#include "qtcamgstreamermessagelistener.h"
-#include "qtcamgstreamermessagehandler.h"
+#include "qtcamgstmessagelistener.h"
+#include "qtcamgstmessagehandler.h"
 #include <QDebug>
 
 // subdevsrc ./gst-libs/gst/camera/gstcamerasrc2.h
@@ -50,13 +50,13 @@ public:
   }
 
   void init() {
-    QtCamGStreamerMessageListener *listener = dev->listener();
+    QtCamGstMessageListener *listener = dev->listener();
     if (!listener) {
       qWarning() << "Failed to get device listener. flash ready status will not be available";
       return;
     }
 
-    QtCamGStreamerMessageHandler *handler = new QtCamGStreamerMessageHandler("flash-status", this);
+    QtCamGstMessageHandler *handler = new QtCamGstMessageHandler("flash-status", this);
     QObject::connect(handler, SIGNAL(messageSent(GstMessage *)),
 		     this, SLOT(messageSent(GstMessage *)));
     listener->addHandler(handler);

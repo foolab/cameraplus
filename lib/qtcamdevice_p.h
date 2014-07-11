@@ -32,7 +32,7 @@
 #include "qtcamviewfinderbufferlistener.h"
 #include "qtcamviewfinderbufferlistener_p.h"
 
-class QtCamGStreamerMessageListener;
+class QtCamGstMessageListener;
 class QtCamMode;
 class QtCamImageMode;
 class QtCamVideoMode;
@@ -376,7 +376,7 @@ public:
 
   QtCamViewfinder *viewfinder;
   QtCamConfig *conf;
-  QtCamGStreamerMessageListener *listener;
+  QtCamGstMessageListener *listener;
   QtCamViewfinderBufferListener *bufferListener;
   bool error;
   QtCamNotifications *notifications;

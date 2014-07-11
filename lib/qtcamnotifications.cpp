@@ -35,10 +35,10 @@ QtCamNotifications::QtCamNotifications(QtCamDevice *dev, QObject *parent) :
   d_ptr->dev = dev;
 
   d_ptr->listener = dev->listener();
-  d_ptr->imageStart = new QtCamGStreamerMessageHandler("photo-capture-start", this);
-  d_ptr->imageEnd = new QtCamGStreamerMessageHandler("photo-capture-end", this);
-  d_ptr->videoDone = new QtCamGStreamerMessageHandler("video-done", this);
-  d_ptr->af = new QtCamGStreamerMessageHandler(GST_PHOTOGRAPHY_AUTOFOCUS_DONE, this);
+  d_ptr->imageStart = new QtCamGstMessageHandler("photo-capture-start", this);
+  d_ptr->imageEnd = new QtCamGstMessageHandler("photo-capture-end", this);
+  d_ptr->videoDone = new QtCamGstMessageHandler("video-done", this);
+  d_ptr->af = new QtCamGstMessageHandler(GST_PHOTOGRAPHY_AUTOFOCUS_DONE, this);
 
   if (d_ptr->listener) {
     d_ptr->listener->addSyncHandler(d_ptr->imageStart);

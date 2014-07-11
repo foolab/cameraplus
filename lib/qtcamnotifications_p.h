@@ -24,8 +24,8 @@
 #define QT_CAM_NOTIFICATIONS_P_H
 
 #include <QPointer>
-#include "qtcamgstreamermessagehandler.h"
-#include "qtcamgstreamermessagelistener.h"
+#include "qtcamgstmessagehandler.h"
+#include "qtcamgstmessagelistener.h"
 #include "qtcamnotifications.h"
 #ifndef GST_USE_UNSTABLE_API
 #define GST_USE_UNSTABLE_API
@@ -37,14 +37,14 @@ class QtCamNotificationsPrivate : public QObject {
 
 public:
   QtCamDevice *dev;
-  QPointer<QtCamGStreamerMessageHandler> imageStart;
-  QPointer<QtCamGStreamerMessageHandler> imageEnd;
+  QPointer<QtCamGstMessageHandler> imageStart;
+  QPointer<QtCamGstMessageHandler> imageEnd;
 
-  QPointer<QtCamGStreamerMessageHandler> videoDone;
+  QPointer<QtCamGstMessageHandler> videoDone;
 
-  QPointer<QtCamGStreamerMessageHandler> af;
+  QPointer<QtCamGstMessageHandler> af;
 
-  QPointer<QtCamGStreamerMessageListener> listener;
+  QPointer<QtCamGstMessageListener> listener;
 
   QtCamNotifications *q_ptr;
 

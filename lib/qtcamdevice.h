@@ -32,7 +32,7 @@ class QtCamViewfinder;
 class QtCamVideoMode;
 class QtCamImageMode;
 class QtCamMode;
-class QtCamGStreamerMessageListener;
+class QtCamGstMessageListener;
 class QtCamMetaData;
 class QtCamCapability;
 class QtCamNotifications;
@@ -62,7 +62,7 @@ public:
   QVariant id() const;
 
   QtCamConfig *config() const;
-  QtCamGStreamerMessageListener *listener() const;
+  QtCamGstMessageListener *listener() const;
   QtCamViewfinderBufferListener *bufferListener() const;
 
   QtCamNotifications *notifications() const;

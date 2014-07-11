@@ -24,7 +24,7 @@
 #include "qtcamdevice_p.h"
 #include <QDebug>
 #include <gst/gst.h>
-#include "qtcamgstreamermessagelistener.h"
+#include "qtcamgstmessagelistener.h"
 #include "qtcammode.h"
 #include "qtcamimagemode.h"
 #include "qtcamvideomode.h"
@@ -83,8 +83,8 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
   }
 
   d_ptr->bufferListener = new QtCamViewfinderBufferListener(d_ptr, this);
-  d_ptr->listener = new QtCamGStreamerMessageListener(gst_element_get_bus(d_ptr->cameraBin),
-						      d_ptr, this);
+  d_ptr->listener = new QtCamGstMessageListener(gst_element_get_bus(d_ptr->cameraBin),
+						d_ptr, this);
 
   QObject::connect(d_ptr->listener, SIGNAL(error(const QString&, int, const QString&)),
 		   this, SLOT(_d_error(const QString&, int, const QString&)));
@@ -325,7 +325,7 @@ QtCamConfig *QtCamDevice::config() const {
   return d_ptr->conf;
 }
 
-QtCamGStreamerMessageListener *QtCamDevice::listener() const {
+QtCamGstMessageListener *QtCamDevice::listener() const {
   return d_ptr->listener;
 }
 

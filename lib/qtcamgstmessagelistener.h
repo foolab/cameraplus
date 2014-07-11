@@ -20,30 +20,39 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef QT_CAM_GSTREAMER_MESSAGE_HANDLER_H
-#define QT_CAM_GSTREAMER_MESSAGE_HANDLER_H
+#ifndef QT_CAM_GST_MESSAGE_LISTENER_H
+#define QT_CAM_GST_MESSAGE_LISTENER_H
 
 #include <QObject>
 #include <gst/gst.h>
 
-class QtCamGStreamerMessageHandlerPrivate;
+class QtCamGstMessageListenerPrivate;
+class QtCamGstMessageHandler;
+class QtCamDevicePrivate;
 
-class QtCamGStreamerMessageHandler : public QObject {
+class QtCamGstMessageListener : public QObject {
   Q_OBJECT
 
 public:
-  QtCamGStreamerMessageHandler(const QString& messageName, QObject *parent = 0);
-  virtual ~QtCamGStreamerMessageHandler();
+  QtCamGstMessageListener(GstBus *bus, QtCamDevicePrivate *d, QObject *parent = 0);
+  ~QtCamGstMessageListener();
 
-  QString messageName() const;
+  void addHandler(QtCamGstMessageHandler *handler);
+  void removeHandler(QtCamGstMessageHandler *handler);
+  void addSyncHandler(QtCamGstMessageHandler *handler);
+  void removeSyncHandler(QtCamGstMessageHandler *handler);
 
-  virtual void handleMessage(GstMessage *message);
+  void flushMessages();
 
 signals:
-  void messageSent(GstMessage *message);
+  void error(const QString& message, int code, const QString& debug);
+  void starting();
+  void started();
+  void stopped();
+  void stopping();
 
 private:
-  QtCamGStreamerMessageHandlerPrivate *d_ptr;
+  QtCamGstMessageListenerPrivate *d_ptr;
 };
 
-#endif /* QT_CAM_GSTREAMER_MESSAGE_HANDLER_H */
+#endif /* QT_CAM_GST_MESSAGE_LISTENER_H */

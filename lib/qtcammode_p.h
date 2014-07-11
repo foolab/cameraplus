@@ -29,7 +29,7 @@
 #include "qtcamdevice_p.h"
 #include <gst/pbutils/encoding-profile.h>
 #include <gst/pbutils/encoding-target.h>
-#include "qtcamgstreamermessagehandler.h"
+#include "qtcamgstmessagehandler.h"
 
 #ifndef GST_USE_UNSTABLE_API
 #define GST_USE_UNSTABLE_API
@@ -266,10 +266,10 @@ public:
   QString tempFileName;
 };
 
-class DoneHandler : public QtCamGStreamerMessageHandler {
+class DoneHandler : public QtCamGstMessageHandler {
 public:
   DoneHandler(QtCamModePrivate *m, const char *done, QObject *parent = 0) :
-    QtCamGStreamerMessageHandler(done, parent) {
+    QtCamGstMessageHandler(done, parent) {
     mode = m;
   }
 

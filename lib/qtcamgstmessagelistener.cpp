@@ -18,19 +18,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "qtcamgstreamermessagelistener.h"
-#include "qtcamgstreamermessagehandler.h"
+#include "qtcamgstmessagelistener.h"
+#include "qtcamgstmessagehandler.h"
 #include <QMultiMap>
 #include <QMutex>
 #include <QDebug>
 #include "qtcamdevice_p.h"
 
-class QtCamGStreamerMessageListenerPrivate {
+class QtCamGstMessageListenerPrivate {
 public:
-  QMultiMap<QString, QtCamGStreamerMessageHandler *> handlers;
-  QMultiMap<QString, QtCamGStreamerMessageHandler *> syncHandlers;
+  QMultiMap<QString, QtCamGstMessageHandler *> handlers;
+  QMultiMap<QString, QtCamGstMessageHandler *> syncHandlers;
 
-  int handleMessage(GstMessage *message, QMultiMap<QString, QtCamGStreamerMessageHandler *>& map) {
+  int handleMessage(GstMessage *message, QMultiMap<QString, QtCamGstMessageHandler *>& map) {
     const GstStructure *s = gst_message_get_structure(message);
     if (!s) {
       return 0;
@@ -40,9 +40,9 @@ public:
     qDebug() << "Message" << gst_structure_get_name(s);
 #endif
 
-    QList<QtCamGStreamerMessageHandler *> list = map.values(gst_structure_get_name(s));
+    QList<QtCamGstMessageHandler *> list = map.values(gst_structure_get_name(s));
 
-    foreach (QtCamGStreamerMessageHandler *handler, list) {
+    foreach (QtCamGstMessageHandler *handler, list) {
       handler->handleMessage(message);
     }
 
@@ -137,16 +137,16 @@ public:
     return false;
   }
 
-  void addHandler(QtCamGStreamerMessageHandler *handler,
-		  QMultiMap<QString, QtCamGStreamerMessageHandler *>& map) {
+  void addHandler(QtCamGstMessageHandler *handler,
+		  QMultiMap<QString, QtCamGstMessageHandler *>& map) {
     if (!map.contains(handler->messageName(), handler)) {
       map.insert(handler->messageName(), handler);
       handler->setParent(q_ptr);
     }
   }
 
-  void removeHandler(QtCamGStreamerMessageHandler *handler,
-		     QMultiMap<QString, QtCamGStreamerMessageHandler *>& map) {
+  void removeHandler(QtCamGstMessageHandler *handler,
+		     QMultiMap<QString, QtCamGstMessageHandler *>& map) {
     map.remove(handler->messageName(), handler);
     handler->setParent(0);
   }
@@ -159,15 +159,15 @@ public:
 
   guint watchId;
 
-  QtCamGStreamerMessageListener *q_ptr;
+  QtCamGstMessageListener *q_ptr;
 };
 
 gboolean async_handler(GstBus *bus, GstMessage *message, gpointer data)
 {
   Q_UNUSED(bus);
 
-  QtCamGStreamerMessageListenerPrivate *d_ptr =
-    static_cast<QtCamGStreamerMessageListenerPrivate *>(data);
+  QtCamGstMessageListenerPrivate *d_ptr =
+    static_cast<QtCamGstMessageListenerPrivate *>(data);
 
   d_ptr->handleMessage(message);
 
@@ -178,8 +178,8 @@ gboolean async_handler(GstBus *bus, GstMessage *message, gpointer data)
 GstBusSyncReply sync_handler(GstBus *bus, GstMessage *message, gpointer data) {
   Q_UNUSED(bus);
 
-  QtCamGStreamerMessageListenerPrivate *d_ptr =
-    static_cast<QtCamGStreamerMessageListenerPrivate *>(data);
+  QtCamGstMessageListenerPrivate *d_ptr =
+    static_cast<QtCamGstMessageListenerPrivate *>(data);
 
   if (d_ptr->handleSyncMessage(message)) {
     // We need to pass the message.
@@ -191,10 +191,10 @@ GstBusSyncReply sync_handler(GstBus *bus, GstMessage *message, gpointer data) {
   return GST_BUS_PASS;
 }
 
-QtCamGStreamerMessageListener::QtCamGStreamerMessageListener(GstBus *bus,
+QtCamGstMessageListener::QtCamGstMessageListener(GstBus *bus,
 							     QtCamDevicePrivate *d,
 							     QObject *parent) :
-  QObject(parent), d_ptr(new QtCamGStreamerMessageListenerPrivate) {
+  QObject(parent), d_ptr(new QtCamGstMessageListenerPrivate) {
 
   d_ptr->dev = d;
   d_ptr->bus = bus;
@@ -209,7 +209,7 @@ QtCamGStreamerMessageListener::QtCamGStreamerMessageListener(GstBus *bus,
 #endif
 }
 
-QtCamGStreamerMessageListener::~QtCamGStreamerMessageListener() {
+QtCamGstMessageListener::~QtCamGstMessageListener() {
   g_source_remove(d_ptr->watchId);
 #if GST_CHECK_VERSION(1,0,0)
   gst_bus_set_sync_handler(d_ptr->bus, NULL, NULL, NULL);
@@ -228,27 +228,27 @@ QtCamGStreamerMessageListener::~QtCamGStreamerMessageListener() {
   delete d_ptr; d_ptr = 0;
 }
 
-void QtCamGStreamerMessageListener::addHandler(QtCamGStreamerMessageHandler *handler) {
+void QtCamGstMessageListener::addHandler(QtCamGstMessageHandler *handler) {
   d_ptr->addHandler(handler, d_ptr->handlers);
 }
 
-void QtCamGStreamerMessageListener::removeHandler(QtCamGStreamerMessageHandler *handler) {
+void QtCamGstMessageListener::removeHandler(QtCamGstMessageHandler *handler) {
   d_ptr->removeHandler(handler, d_ptr->handlers);
 }
 
-void QtCamGStreamerMessageListener::addSyncHandler(QtCamGStreamerMessageHandler *handler) {
+void QtCamGstMessageListener::addSyncHandler(QtCamGstMessageHandler *handler) {
   QMutexLocker locker(&d_ptr->syncMutex);
 
   d_ptr->addHandler(handler, d_ptr->syncHandlers);
 }
 
-void QtCamGStreamerMessageListener::removeSyncHandler(QtCamGStreamerMessageHandler *handler) {
+void QtCamGstMessageListener::removeSyncHandler(QtCamGstMessageHandler *handler) {
   QMutexLocker locker(&d_ptr->syncMutex);
 
   d_ptr->removeHandler(handler, d_ptr->syncHandlers);
 }
 
-void QtCamGStreamerMessageListener::flushMessages() {
+void QtCamGstMessageListener::flushMessages() {
   GstMessage *message = 0;
 
   while ((message = gst_bus_pop(d_ptr->bus))) {

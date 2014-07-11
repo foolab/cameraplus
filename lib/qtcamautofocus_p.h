@@ -24,8 +24,8 @@
 #define QT_CAM_AUTO_FOCUS_P_H
 
 #include "qtcamautofocus.h"
-#include "qtcamgstreamermessagehandler.h"
-#include "qtcamgstreamermessagelistener.h"
+#include "qtcamgstmessagehandler.h"
+#include "qtcamgstmessagelistener.h"
 #include "qtcamdevice.h"
 #include "qtcamdevice_p.h"
 #include <QPointer>
@@ -47,14 +47,14 @@ public:
     status(QtCamAutoFocus::None),
     cafStatus(QtCamAutoFocus::None) {
 
-    handler = new QtCamGStreamerMessageHandler(GST_PHOTOGRAPHY_AUTOFOCUS_DONE, this);
+    handler = new QtCamGstMessageHandler(GST_PHOTOGRAPHY_AUTOFOCUS_DONE, this);
 
     QObject::connect(handler, SIGNAL(messageSent(GstMessage *)),
 		     this, SLOT(handleMessage(GstMessage *)));
 
     dev->listener()->addHandler(handler);
 
-    cafHandler = new QtCamGStreamerMessageHandler("caf-update", this);
+    cafHandler = new QtCamGstMessageHandler("caf-update", this);
 
     QObject::connect(cafHandler, SIGNAL(messageSent(GstMessage *)),
 		     this, SLOT(handleCafMessage(GstMessage *)));
@@ -133,8 +133,8 @@ public:
   QtCamAutoFocus::Status status;
   QtCamAutoFocus::Status cafStatus;
 
-  QtCamGStreamerMessageHandler *handler;
-  QtCamGStreamerMessageHandler *cafHandler;
+  QtCamGstMessageHandler *handler;
+  QtCamGstMessageHandler *cafHandler;
 };
 
 #endif /* QT_CAM_AUTO_FOCUS_P_H */
