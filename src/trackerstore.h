@@ -52,9 +52,6 @@ public:
   QString model() const;
   void setModel(const QString& model);
 
-  Q_INVOKABLE bool addToFavorites(const QUrl& url);
-  Q_INVOKABLE bool removeFromFavorites(const QUrl& url);
-
 signals:
   void activeChanged();
   void manufacturerChanged();
