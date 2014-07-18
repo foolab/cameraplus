@@ -3,6 +3,9 @@
 %:
 	dh $@ --buildsystem=qmake
 
+override_dh_strip:
+	dh_strip --dbg-package=cameraplus-dbg
+
 override_dh_builddeb:
 	dh_builddeb
 	aegis-deb-add -control debian/cameraplus/DEBIAN/control .. debian/cameraplus.aegis=_aegis

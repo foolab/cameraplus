@@ -134,3 +134,11 @@ XB-Maemo-Icon-26:
 Description: Advanced user friendly camera
  Camera+ is an advanced yet user friendly camera
  application for MeeGo Harmattan
+
+Package: cameraplus-dbg
+Architecture: any
+Section: debug
+Priority: extra
+Depends: cameraplus (= ${binary:Version}), ${misc:Depends}
+Description: debugging symbols for cameraplus
+ This package contains the debugging symbols for cameraplus.
