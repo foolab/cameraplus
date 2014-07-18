@@ -141,30 +141,3 @@ cp /lib/libm.so.6 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 %{_datadir}/harbour-cameraplus/lib/*
 %{_datadir}/harbour-cameraplus/libexec/*
 %{_datadir}/harbour-cameraplus/etc/*
-
-%changelog
-* Mon Jun 16 2014 Mohammed Sameer <msameer@foolab.org> 0.0.26-1
-- tapping gallery button shows the media in gallery application instead of showing all images
-- fixed a bug that caused leaking camera buffers every time we restart the pipeline
-- completely disable face detection for now
-- Avoid an unnecessary mode switch animation during startup
-- Slightly decrease startup time by not disabling reverse geocoding when GPS is disabled
-
-* Sat Jun 14 2014 Mohammed Sameer <msameer@foolab.org> 0.0.25-1
-- New icon by mcbook
-- Do not prevent the flick to settings or post capture if the drag starts from the focus reticle
-- Changing image resolution aspect ratio should re-position focus reticle correctly
-- Reset touch focus when we switch between image and timer modes
-- Touch focus now takes into account inverted landscape orientation
-
-* Thu May 29 2014 Mohammed Sameer <msameer@foolab.org> 0.0.24-1
-- GPS and face detection are the only visible indicators
-- Move the resolution label back beside the indicators.
-- Added left handed mode
-- Take into account sensor orientation when rendering the viewfinder
-- Make sure we render the viewfinder correctly while zooming
-- Set proper exif orientation data to captured images
-- Fixed tapping the glowing dot in the resolutions settings page not switching the resolution
-
-* Thu May 29 2014 Mohammed Sameer <msameer@foolab.org> 0.0.23-1
-- Initial RPM release
