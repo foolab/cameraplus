@@ -93,11 +93,19 @@ void TrackerStore::setModel(const QString& model) {
 }
 
 void TrackerStore::storeImage(const QString& path) {
+#ifdef HARMATTAN
   execQuery(IMAGE_QUERY, path);
+#else
+  Q_UNUSED(path);
+#endif
 }
 
 void TrackerStore::storeVideo(const QString& path) {
+#ifdef HARMATTAN
   execQuery(VIDEO_QUERY, path);
+#else
+  Q_UNUSED(path);
+#endif
 }
 
 bool TrackerStore::execQuery(const QString& query, const QString& path) {
