@@ -43,14 +43,15 @@ public:
   bool isActive() const;
   void setActive(bool active);
 
-  Q_INVOKABLE bool storeImage(const QString& path);
-  Q_INVOKABLE bool storeVideo(const QString& path);
-
   QString manufacturer() const;
   void setManufacturer(const QString& manufacturer);
 
   QString model() const;
   void setModel(const QString& model);
+
+public slots:
+  void storeImage(const QString& path);
+  void storeVideo(const QString& path);
 
 signals:
   void activeChanged();

@@ -92,12 +92,12 @@ void TrackerStore::setModel(const QString& model) {
   }
 }
 
-bool TrackerStore::storeImage(const QString& path) {
-  return execQuery(IMAGE_QUERY, path);
+void TrackerStore::storeImage(const QString& path) {
+  execQuery(IMAGE_QUERY, path);
 }
 
-bool TrackerStore::storeVideo(const QString& path) {
-  return execQuery(VIDEO_QUERY, path);
+void TrackerStore::storeVideo(const QString& path) {
+  execQuery(VIDEO_QUERY, path);
 }
 
 bool TrackerStore::execQuery(const QString& query, const QString& path) {
