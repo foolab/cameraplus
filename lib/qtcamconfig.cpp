@@ -125,11 +125,11 @@ QtCamConfig::QtCamConfig(QObject *parent) :
   QString dev = QDeviceInfo().model();
 #endif
 
-  d_ptr->conf = new QSettings(CONFIGURATION_FILE.arg(dataDir()), QSettings::IniFormat, this);
+  d_ptr->conf = new QSettings(CONFIGURATION_FILE.arg(dir()), QSettings::IniFormat, this);
 
-  QString resolutions = RESOLUTIONS_FILE.arg(dataDir()).arg(dev.toLower() + "_");
+  QString resolutions = RESOLUTIONS_FILE.arg(dir()).arg(dev.toLower() + "_");
   if (!QFile(resolutions).exists()) {
-    resolutions = RESOLUTIONS_FILE.arg(dataDir()).arg(QString());
+    resolutions = RESOLUTIONS_FILE.arg(dir()).arg(QString());
   }
 
   d_ptr->resolutions = new QSettings(resolutions, QSettings::IniFormat, this);
@@ -139,7 +139,7 @@ QtCamConfig::~QtCamConfig() {
   delete d_ptr;
 }
 
-QString QtCamConfig::dataDir() const {
+QString QtCamConfig::dir() const {
   return QString::fromLocal8Bit(DATA_DIR);
 }
 

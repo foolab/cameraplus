@@ -45,7 +45,7 @@ public:
 
   virtual ~QtCamConfig();
 
-  QString dataDir() const;
+  QString dir() const;
 
   QString deviceScannerType() const;
   QString deviceScannerProperty() const;

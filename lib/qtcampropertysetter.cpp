@@ -253,7 +253,7 @@ QtCamPropertySetter::QtCamPropertySetter(QtCamDevicePrivate *pvt) :
   d_ptr(new QtCamPropertySetterPrivate) {
   d_ptr->gstFraction = GST_TYPE_FRACTION;
 
-  d_ptr->conf = new QSettings(PROPERTIES_FILE.arg(pvt->conf->dataDir()),
+  d_ptr->conf = new QSettings(PROPERTIES_FILE.arg(pvt->conf->dir()),
 			      QSettings::IniFormat);
 
   d_ptr->binAdded(pvt->cameraBin);
