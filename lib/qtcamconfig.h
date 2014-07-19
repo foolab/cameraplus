@@ -35,10 +35,6 @@ class QtCamVideoSettings;
 #define RENDERER_TYPE_MEEGO                   "meego"
 #define RENDERER_TYPE_NEMO                    "nemo"
 
-#ifndef DATA_DIR
-#define DATA_DIR                              "/usr/share/qtcamera/config/"
-#endif /* DATA_DIR */
-
 class QtCamConfigPrivate;
 
 class QtCamConfig : public QObject {
@@ -48,6 +44,8 @@ public:
   QtCamConfig(QObject *parent = 0);
 
   virtual ~QtCamConfig();
+
+  QString dataDir() const;
 
   QString deviceScannerType() const;
   QString deviceScannerProperty() const;

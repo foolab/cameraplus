@@ -33,8 +33,12 @@
 #include <QDeviceInfo>
 #endif
 
-#define CONFIGURATION_FILE                    DATA_DIR"/qtcamera.ini"
-#define RESOLUTIONS_FILE                      DATA_DIR"/%1resolutions.ini"
+#ifndef DATA_DIR
+#define DATA_DIR                              "/usr/share/qtcamera/config/"
+#endif /* DATA_DIR */
+
+#define CONFIGURATION_FILE                    QString("%1/qtcamera.ini")
+#define RESOLUTIONS_FILE                      QString("%1/%2resolutions.ini")
 
 class QtCamConfigPrivate {
 public:
@@ -121,11 +125,11 @@ QtCamConfig::QtCamConfig(QObject *parent) :
   QString dev = QDeviceInfo().model();
 #endif
 
-  d_ptr->conf = new QSettings(CONFIGURATION_FILE, QSettings::IniFormat, this);
+  d_ptr->conf = new QSettings(CONFIGURATION_FILE.arg(dataDir()), QSettings::IniFormat, this);
 
-  QString resolutions = QString(RESOLUTIONS_FILE).arg(dev.toLower() + "_");
+  QString resolutions = RESOLUTIONS_FILE.arg(dataDir()).arg(dev.toLower() + "_");
   if (!QFile(resolutions).exists()) {
-    resolutions = QString(RESOLUTIONS_FILE).arg(QString());
+    resolutions = RESOLUTIONS_FILE.arg(dataDir()).arg(QString());
   }
 
   d_ptr->resolutions = new QSettings(resolutions, QSettings::IniFormat, this);
@@ -133,6 +137,10 @@ QtCamConfig::QtCamConfig(QObject *parent) :
 
 QtCamConfig::~QtCamConfig() {
   delete d_ptr;
+}
+
+QString QtCamConfig::dataDir() const {
+  return QString::fromLocal8Bit(DATA_DIR);
 }
 
 QString QtCamConfig::deviceScannerType() const {

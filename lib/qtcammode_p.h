@@ -90,7 +90,7 @@ public:
     QString targetPath;
     QFileInfo info(path);
     if (!info.isAbsolute()) {
-      targetPath = QDir(DATA_DIR).absoluteFilePath(path);
+      targetPath = QDir(dev->conf->dataDir()).absoluteFilePath(path);
     }
     else {
       targetPath = info.filePath();
