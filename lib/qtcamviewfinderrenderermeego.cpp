@@ -71,9 +71,7 @@ QtCamViewfinderRendererMeeGo::QtCamViewfinderRendererMeeGo(QtCamConfig *config,
   m_id(0),
   m_notify(0),
   m_needsInit(true),
-  m_program(0),
-  m_angle(0),
-  m_flipped(false) {
+  m_program(0) {
 
   bzero(&m_vertexCoords, 8);
 }
@@ -382,12 +380,4 @@ void QtCamViewfinderRendererMeeGo::setVideoSize(const QSizeF& size) {
 
   emit renderAreaChanged();
   emit videoResolutionChanged();
-}
-
-void QtCamViewfinderRendererMeeGo::setViewfinderRotationAngle(int angle) {
-  m_angle = angle;
-}
-
-void QtCamViewfinderRendererMeeGo::setViewfinderFlipped(bool flipped) {
-  m_flipped = flipped;
 }

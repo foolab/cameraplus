@@ -70,9 +70,7 @@ QtCamViewfinderRendererNemo::QtCamViewfinderRendererNemo(QtCamConfig *config,
   m_needsInit(true),
   m_program(0),
   m_displaySet(false),
-  m_started(false),
-  m_angle(0),
-  m_flipped(false) {
+  m_started(false) {
 
   memset(m_vertexCoords, 0x0, 8 * sizeof (GLfloat));
 }
@@ -509,12 +507,4 @@ out:
 
   memcpy(texCoords, m_flipped ? front_coordinates[index] : back_coordinates[index],
 	 8 * sizeof(GLfloat));
-}
-
-void QtCamViewfinderRendererNemo::setViewfinderRotationAngle(int angle) {
-  m_angle = angle;
-}
-
-void QtCamViewfinderRendererNemo::setViewfinderFlipped(bool flipped) {
-  m_flipped = flipped;
 }

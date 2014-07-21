@@ -51,9 +51,6 @@ public:
 
   bool needsNativePainting();
 
-  virtual void setViewfinderRotationAngle(int angle);
-  virtual void setViewfinderFlipped(bool flipped);
-
 private slots:
   void setVideoSize(const QSizeF& size);
 
@@ -81,8 +78,6 @@ private:
   QSizeF m_videoSize;
   QRectF m_renderArea;
   EGLDisplay m_dpy;
-  int m_angle;
-  bool m_flipped;
 };
 
 #endif /* QT_CAM_VIEWFINDER_RENDERER_MEEGO_H */

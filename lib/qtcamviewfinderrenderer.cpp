@@ -26,7 +26,9 @@
 static QMap<QString, QMetaObject> _renderers;
 
 QtCamViewfinderRenderer::QtCamViewfinderRenderer(QtCamConfig *config, QObject *parent) :
-  QObject(parent) {
+  QObject(parent),
+  m_angle(0),
+  m_flipped(false) {
 
   Q_UNUSED(config);
 }
@@ -56,4 +58,12 @@ QtCamViewfinderRenderer *QtCamViewfinderRenderer::create(QtCamConfig *config, QO
 int QtCamViewfinderRenderer::registerRenderer(const QString& key, const QMetaObject& meta) {
   _renderers[key] = meta;
   return _renderers.size() - 1;
+}
+
+void QtCamViewfinderRenderer::setViewfinderRotationAngle(int angle) {
+  m_angle = angle;
+}
+
+void QtCamViewfinderRenderer::setViewfinderFlipped(bool flipped) {
+  m_flipped = flipped;
 }
