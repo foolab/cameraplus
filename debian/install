@@ -14,5 +14,11 @@ data/n9/features.ini usr/share/cameraplus/config/
 data/n9/image.gep usr/share/qtcamera/config/
 data/n9/video.gep usr/share/qtcamera/config/
 debian/cameraplus.png usr/share/themes/base/meegotouch/icons/
-sounds/*.wav usr/share/cameraplus/sounds/
-modes/*.ini usr/share/cameraplus/modes/
+sounds/CameraClick.wav usr/share/cameraplus/sounds/
+sounds/VideoRecord.wav usr/share/cameraplus/sounds/
+sounds/VideoStop.wav usr/share/cameraplus/sounds/
+sounds/CameraFocus.wav usr/share/cameraplus/sounds/
+sounds/CameraFocusFailed.wav usr/share/cameraplus/sounds/
+modes/image.ini usr/share/cameraplus/modes/
+modes/image-timer.ini usr/share/cameraplus/modes/
+modes/video.ini usr/share/cameraplus/modes/
