@@ -1,3 +1,7 @@
+* Mon Jul 21 2014 Mohammed Sameer <msameer@foolab.org> 0.0.27-1
+- Don't inform tracker about our captured media as it prevents it from indexing the media
+- Add ISO 800
+
 * Mon Jun 16 2014 Mohammed Sameer <msameer@foolab.org> 0.0.26-1
 - tapping gallery button shows the media in gallery application instead of showing all images
 - fixed a bug that caused leaking camera buffers every time we restart the pipeline
