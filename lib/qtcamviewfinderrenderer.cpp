@@ -67,3 +67,59 @@ void QtCamViewfinderRenderer::setViewfinderRotationAngle(int angle) {
 void QtCamViewfinderRenderer::setViewfinderFlipped(bool flipped) {
   m_flipped = flipped;
 }
+
+void QtCamViewfinderRenderer::calculateCoordinates(const QRect& crop, float *coords) {
+  int index = m_angle == 0 ? 0 : m_angle == -1 ? 0 : 360 / m_angle;
+
+  qreal tx = 0.0f, ty = 1.0f, sx = 1.0f, sy = 0.0f;
+
+  if (!crop.isEmpty()) {
+    QSizeF videoSize = videoResolution();
+    int top = crop.y();
+    int left = crop.x();
+    int right = crop.width() + left;
+    int bottom = crop.height() + top;
+
+    if ((right - left) <= 0 || (bottom - top) <= 0) {
+      // empty crop rectangle.
+      goto out;
+    }
+
+    int width = right - left;
+    int height = bottom - top;
+
+    int bufferWidth = videoSize.width();
+    int bufferHeight = videoSize.height();
+
+    if (width < bufferWidth) {
+      tx = (qreal)left / (qreal)bufferWidth;
+      sx = (qreal)(left + crop.width()) / (qreal)bufferWidth;
+    }
+
+    if (height < bufferHeight) {
+      // Our texture is inverted (sensor image Y goes downwards but OpenGL Y goes upwards)
+      // so texture coordinate 0,0.75 means crop 25% from the _bottom_
+      ty = (qreal)bottom / (qreal)bufferHeight;
+      sy = (qreal)(top) / (qreal)bufferHeight;
+    }
+  }
+
+out:
+  float back_coordinates[4][8] = {
+    {tx, sy, sx, sy, sx, ty, tx, ty}, // 0
+    {0, 0, 1, 0, 1, 1, 0, 1}, // 90       // TODO:
+    {sx, ty, tx, ty, tx, sy, sx, sy}, // 180
+    {0, 0, 1, 0, 1, 1, 0, 1}, // 270      // TODO:
+  };
+
+  // Front has x axis flipped (See note about flipped Y axis above)
+  float front_coordinates[4][8] = {
+    {sx, sy, tx, sy, tx, ty, sx, ty}, // 0
+    {1, 0, 0, 0, 0, 1, 1, 1}, // 90       // TODO:
+    {tx, ty, sx, ty, sx, sy, tx, sy}, // 180
+    {1, 0, 0, 0, 0, 1, 1, 1}, // 270      // TODO:
+  };
+
+  memcpy(coords, m_flipped ? front_coordinates[index] : back_coordinates[index],
+	 8 * sizeof(float));
+}

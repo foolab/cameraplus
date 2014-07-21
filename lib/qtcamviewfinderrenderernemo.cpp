@@ -319,14 +319,19 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame
     return;
   }
 
-  int index = m_angle == 0 ? 0 : m_angle == -1 ? 0 : 360 / m_angle;
-
   // Now take into account cropping:
-  GstMeta *crop =
+  GstMeta *meta =
     nemo_gst_video_texture_get_frame_meta(sink, GST_VIDEO_CROP_META_API_TYPE);
 
+  QRect crop;
+  if (meta) {
+    GstVideoCropMeta *crop_meta = (GstVideoCropMeta *) meta;
+    crop = QRect(crop_meta->x, crop_meta->y, crop_meta->width, crop_meta->height);
+  }
+
   GLfloat coords[8];
-  updateCropInfo(crop ? (GstVideoCropMeta *)crop : 0, coords, index);
+
+  calculateCoordinates(crop, coords);
 
   if (!nemo_gst_video_texture_bind_frame(sink, &img)) {
     qDebug() << "Failed to bind frame";
@@ -453,58 +458,4 @@ void QtCamViewfinderRendererNemo::cleanup() {
 
   g_object_remove_toggle_ref(G_OBJECT(m_sink), (GToggleNotify)sink_notify, this);
   m_sink = 0;
-}
-
-void QtCamViewfinderRendererNemo::updateCropInfo(const GstVideoCropMeta *crop,
-						 GLfloat *texCoords, int index) {
-  qreal tx = 0.0f, ty = 1.0f, sx = 1.0f, sy = 0.0f;
-
-  if (crop) {
-    int top = crop->y;
-    int left = crop->x;
-    int right = crop->width + left;
-    int bottom = crop->height + top;
-
-    if ((right - left) <= 0 || (bottom - top) <= 0) {
-      // empty crop rectangle.
-      goto out;
-    }
-
-    int width = right - left;
-    int height = bottom - top;
-
-    int bufferWidth = m_videoSize.width();
-    int bufferHeight = m_videoSize.height();
-
-    if (width < bufferWidth) {
-      tx = (qreal)left / (qreal)bufferWidth;
-      sx = (qreal)(left + crop->width) / (qreal)bufferWidth;
-    }
-
-    if (height < bufferHeight) {
-      // Our texture is inverted (sensor image Y goes downwards but OpenGL Y goes upwards)
-      // so texture coordinate 0,0.75 means crop 25% from the _bottom_
-      ty = (qreal)bottom / (qreal)bufferHeight;
-      sy = (qreal)(top) / (qreal)bufferHeight;
-    }
-  }
-
-out:
-  GLfloat back_coordinates[4][8] = {
-    {tx, sy, sx, sy, sx, ty, tx, ty}, // 0
-    {0, 0, 1, 0, 1, 1, 0, 1}, // 90       // TODO:
-    {sx, ty, tx, ty, tx, sy, sx, sy}, // 180
-    {0, 0, 1, 0, 1, 1, 0, 1}, // 270      // TODO:
-  };
-
-  // Front has x axis flipped (See note about flipped Y axis above)
-  GLfloat front_coordinates[4][8] = {
-    {sx, sy, tx, sy, tx, ty, sx, ty}, // 0
-    {1, 0, 0, 0, 0, 1, 1, 1}, // 90       // TODO:
-    {tx, ty, sx, ty, sx, sy, tx, sy}, // 180
-    {1, 0, 0, 0, 0, 1, 1, 1}, // 270      // TODO:
-  };
-
-  memcpy(texCoords, m_flipped ? front_coordinates[index] : back_coordinates[index],
-	 8 * sizeof(GLfloat));
 }

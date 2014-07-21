@@ -263,17 +263,6 @@ void QtCamViewfinderRendererMeeGo::createProgram() {
 }
 
 void QtCamViewfinderRendererMeeGo::paintFrame(const QMatrix4x4& matrix, int frame) {
-
-  // TODO: we don't flip the front camera
-  static GLfloat back_coordinates[4][8] = {
-    {0, 1, 1, 1, 1, 0, 0, 0}, // 0
-    {0, 1, 1, 1, 1, 0, 0, 0}, // 90 // TODO:
-    {1, 0, 0, 0, 0, 1, 1, 1}, // 180
-    {0, 1, 1, 1, 1, 0, 0, 0}, // 270 // TODO:
-  };
-
-  int index = m_angle == 0 ? 0 : m_angle == -1 ? 0 : 360 / m_angle;
-
   EGLSyncKHR sync = 0;
 
   if (frame == -1) {
@@ -300,8 +289,10 @@ void QtCamViewfinderRendererMeeGo::paintFrame(const QMatrix4x4& matrix, int fram
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
 
+  float coords[8];
+  calculateCoordinates(QRect(), coords);
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, &m_vertexCoords);
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, back_coordinates[index]);
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, coords);
 
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
@@ -333,16 +324,16 @@ void QtCamViewfinderRendererMeeGo::calculateCoords() {
   QSizeF renderSize = area.size();
 
   m_vertexCoords[0] = leftMargin;
-  m_vertexCoords[1] = topMargin + renderSize.height();
+  m_vertexCoords[1] = topMargin;
 
   m_vertexCoords[2] = renderSize.width() + leftMargin;
-  m_vertexCoords[3] = topMargin + renderSize.height();
+  m_vertexCoords[3] = topMargin;
 
   m_vertexCoords[4] = renderSize.width() + leftMargin;
-  m_vertexCoords[5] = topMargin;
+  m_vertexCoords[5] = topMargin + renderSize.height();
 
   m_vertexCoords[6] = leftMargin;
-  m_vertexCoords[7] = topMargin;
+  m_vertexCoords[7] = topMargin + renderSize.height();
 }
 
 QRectF QtCamViewfinderRendererMeeGo::renderArea() {

@@ -55,6 +55,8 @@ public:
   virtual void setViewfinderRotationAngle(int angle);
   virtual void setViewfinderFlipped(bool flipped);
 
+  void calculateCoordinates(const QRect& crop, float *coords);
+
 protected:
   QtCamViewfinderRenderer(QtCamConfig *config, QObject *parent = 0);
   int m_angle;
