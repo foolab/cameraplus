@@ -148,6 +148,7 @@ cp /usr/lib/libffmpegthumbnailer.so.* $RPM_BUILD_ROOT/usr/share/harbour-camerapl
 cp /usr/lib/libquill-qt5.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/bin/
 cp /usr/bin/gst-inspect-1.0 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/bin/
+cp /usr/bin/gst-launch-1.0 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/bin/
 
 %files
 %defattr(-,root,root,-)
