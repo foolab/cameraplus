@@ -59,11 +59,7 @@ Item {
         }
     }
 
-    onEnableChanged: {
-        if (!enable) {
-            captureControl.canceled = true
-        }
-    }
+    onEnableChanged: captureControl.canceled = !enabled
 
     transitions: [
         Transition {
