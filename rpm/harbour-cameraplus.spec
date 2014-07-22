@@ -1,5 +1,5 @@
 %define __provides_exclude_from ^%{_datadir}/.*$
-%define __requires_exclude ^libqtcamera.so.1|ld-linux-armhf.so.3|libFLAC.so.8|libavcodec.so.54|libavformat.so.54|libavutil.so.52|libbz2.so.1|libc.so.6|libdbus-qeventloop-qt5.so.1|libdl.so.2|libffmpegthumbnailer.so.4|libgstapp-1.0.so.0|libgstaudio-1.0.so.0|libgstbase-1.0.so.0|libgstbasecamerabinsrc-1.0.so.0|libgstcodecparsers-1.0.so.0|libgstfft-1.0.so.0|libgstnemointerfaces-1.0.so.0|libgstnemometa-1.0.so.0|libgstnet-1.0.so.0|libgstpbutils-1.0.so.0|libgstphotography-1.0.so.0|libgstreamer-1.0.so.0|libgstriff-1.0.so.0|libgstrtp-1.0.so.0|libgstrtsp-1.0.so.0|libgstsdp-1.0.so.0|libgsttag-1.0.so.0|libgstvideo-1.0.so.0|libjpeg.so.62|libogg.so.0|libopus.so.0|liborc-0.4.so.0|liborc-test-0.4.so.0|libquill-qt5.so.1|libquillimagefilter-qt5.so.1|libquillmetadata-qt5.so.1|libresourceqt5.so.1|libsndfile.so.1|libspeex.so.1|libswscale.so.2|libtheoradec.so.1|libtheoraenc.so.1|libvo-aacenc.so.0|libvorbis.so.0|libvorbisenc.so.2|libresource.so.0|libm.so.6|libgstdroidmemory-1.0.so.0|libm.so.6(GLIBC_2.15)$
+%define __requires_exclude ^libqtcamera.so.1|libFLAC.so.8|libavcodec.so.55|libavformat.so.55|libavutil.so.53|libbz2.so.1|libdbus-qeventloop-qt5.so.1|libffmpegthumbnailer.so.4|libgstapp-1.0.so.0|libgstaudio-1.0.so.0|libgstbase-1.0.so.0|libgstbasecamerabinsrc-1.0.so.0|libgstcodecparsers-1.0.so.0|libgstfft-1.0.so.0|libgstnemointerfaces-1.0.so.0|libgstnemometa-1.0.so.0|libgstnet-1.0.so.0|libgstpbutils-1.0.so.0|libgstphotography-1.0.so.0|libgstreamer-1.0.so.0|libgstriff-1.0.so.0|libgstrtp-1.0.so.0|libgstrtsp-1.0.so.0|libgstsdp-1.0.so.0|libgsttag-1.0.so.0|libgstvideo-1.0.so.0|libjpeg.so.62|libogg.so.0|libopus.so.0|liborc-0.4.so.0|liborc-test-0.4.so.0|libquill-qt5.so.1|libquillimagefilter-qt5.so.1|libquillmetadata-qt5.so.1|libresourceqt5.so.1|libsndfile.so.1|libspeex.so.1|libswscale.so.2|libtheoradec.so.1|libtheoraenc.so.1|libvo-aacenc.so.0|libvorbis.so.0|libvorbisenc.so.2|libresource.so.0|libgstdroidmemory-1.0.so.0|libgstgl-1.0.so.0|libgstbadbase-1.0.so.0|libgstbadvideo-1.0.so.0$
 
 Name:           harbour-cameraplus
 Summary:        Cameraplus is an advanced easy to use camera
@@ -111,8 +111,6 @@ tar -zpxvf %SOURCE11 -C $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/
 rm -rf $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/gstreamer-1.0/libgstvideoparsersbad.so
 
 cp /usr/lib/libsndfile.so.1 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp /lib/libdl.so.2 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp /lib/libc.so.6 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 cp /usr/lib/libjpeg.so.62 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 cp /usr/lib/libbz2.so.1 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 cp /usr/lib/libtheoraenc.so.1 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
@@ -128,7 +126,6 @@ cp /usr/lib/libquillimagefilter-qt5.so.1 $RPM_BUILD_ROOT/usr/share/harbour-camer
 cp /usr/lib/libresourceqt5.so.1 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 cp /usr/lib/libdbus-qeventloop-qt5.so.1 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 cp /usr/lib/libresource.so.0 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp /lib/libm.so.6 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 cp -a /usr/lib/gstreamer-1.0/ $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 cp -a /usr/lib/libgst*.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/libexec/
