@@ -46,7 +46,7 @@ BuildRequires:  gstreamer1.0-plugins-base
 BuildRequires:  gstreamer1.0-plugins-bad
 BuildRequires:  gstreamer1.0-plugins-good
 BuildRequires:  quill-qt5-utils
-#Requires:       gstreamer1.0-plugins-good
+BuildRequires:  gstreamer1.0-tools
 %description
 Cameraplus is an advanced easy to use camera
 
@@ -149,6 +149,8 @@ cp /usr/lib/libvo-aacenc.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 cp /usr/lib/liborc-0.4.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 cp /usr/lib/libffmpegthumbnailer.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 cp /usr/lib/libquill-qt5.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/bin/
+cp /usr/bin/gst-inspect-1.0 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/bin/
 
 %files
 %defattr(-,root,root,-)
@@ -162,6 +164,7 @@ cp /usr/lib/libquill-qt5.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 %{_datadir}/applications/harbour-cameraplus.desktop
 %{_datadir}/icons/hicolor/86x86/apps/harbour-cameraplus.png
 # dependencies
+%{_datadir}/harbour-cameraplus/bin/*
 %{_datadir}/harbour-cameraplus/share/*
 %{_datadir}/harbour-cameraplus/lib/*
 %{_datadir}/harbour-cameraplus/libexec/*
