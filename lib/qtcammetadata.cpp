@@ -19,7 +19,7 @@
  */
 
 #include "qtcammetadata.h"
-#include <gst/gsttaglist.h>
+#include <gst/gst.h>
 #include "qtcamdevice.h"
 #include "qtcamdevice_p.h"
 #include <QDebug>
