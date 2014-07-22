@@ -12,7 +12,6 @@ Source0:        %{name}-%{version}.tar.gz
 Source1:        harbour-cameraplus.desktop
 Source2:        harbour-cameraplus.png
 Source3:        qmake.conf
-Source10:       binaries.tgz
 Source11:       binaries-droid.tgz
 BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(gstreamer-plugins-base-1.0)
@@ -40,6 +39,13 @@ BuildRequires:  pkgconfig(libpulse)
 BuildRequires:  desktop-file-utils
 Requires:       qt5-qtdeclarative-import-positioning
 Requires:       qt5-qtdeclarative-import-sensors
+# These are there so we can copy the binaries we need
+BuildRequires:  gstreamer1.0-libav
+BuildRequires:  gstreamer1.0
+BuildRequires:  gstreamer1.0-plugins-base
+BuildRequires:  gstreamer1.0-plugins-bad
+BuildRequires:  gstreamer1.0-plugins-good
+BuildRequires:  quill-qt5-utils
 #Requires:       gstreamer1.0-plugins-good
 %description
 Cameraplus is an advanced easy to use camera
@@ -99,7 +105,6 @@ cp sounds/*.wav $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/sounds/
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
 cp modes/*.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
 
-tar -zpxvf %SOURCE10 -C $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/
 tar -zpxvf %SOURCE11 -C $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/
 
 # for now we remove libgstvideoparsersbad.so
@@ -124,6 +129,26 @@ cp /usr/lib/libresourceqt5.so.1 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib
 cp /usr/lib/libdbus-qeventloop-qt5.so.1 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 cp /usr/lib/libresource.so.0 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 cp /lib/libm.so.6 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+cp -a /usr/lib/gstreamer-1.0/ $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+cp -a /usr/lib/libgst*.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/libexec/
+cp -a /usr/libexec/gstreamer-1.0/ $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/libexec/
+cp -a /usr/lib/quill-utils/ $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/
+cp -a /usr/share/avconv/ $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/
+cp -a /usr/share/gstreamer-1.0/ $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/
+cp /usr/lib/libswscale.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+cp /usr/lib/libavresample.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+cp /usr/lib/libavutil.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+cp /usr/lib/libavformat.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+cp /usr/lib/libavdevice.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+cp /usr/lib/libavfilter.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+cp /usr/lib/libavcodec.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+cp /usr/lib/libopus.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+cp /usr/lib/libvo-aacenc.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+cp /usr/lib/liborc-0.4.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+cp /usr/lib/libffmpegthumbnailer.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+cp /usr/lib/libquill-qt5.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 
 %files
 %defattr(-,root,root,-)
