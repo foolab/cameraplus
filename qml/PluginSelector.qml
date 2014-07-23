@@ -29,53 +29,50 @@ Rectangle {
     border.color: "gray"
     radius: 20
 
-    ListView {
+    Flow {
         anchors.centerIn: parent
-        height: 150
-        width: Math.min(parent.width, (count - 1) * 100)
-        orientation: ListView.Horizontal
-        model: plugins
-        delegate: Rectangle {
-            anchors {
-                top: parent.top
-                topMargin: 20
-                bottom: parent.bottom
-                bottomMargin: 20
-            }
 
-            width: visible ? 100 : 0
-            color: mouse.pressed ? cameraStyle.pressedColor : "transparent"
-            visible: plugin.uuid != activePlugin.uuid && ((settings.device == 0 && plugin.primaryCameraSupported) || (settings.device == 1 && plugin.secondaryCameraSupported))
+        Repeater {
+            model: plugins
 
-            MouseArea {
-                id: mouse
-                anchors.fill: parent
-                onClicked: {
-                    settings.plugin = plugin.uuid
-                    pluginSelector.parent.hide()
-                }
-            }
+            delegate: Rectangle {
+                width: visible ? pluginSelector.width / 3 : 0
+                height: visible ? pluginSelector.height / 2 : 0
+                color: mouse.pressed ? cameraStyle.pressedColor : "transparent"
+                visible: plugin.uuid != activePlugin.uuid && ((settings.device == 0 && plugin.primaryCameraSupported) || (settings.device == 1 && plugin.secondaryCameraSupported))
 
-            Image {
-                anchors {
-                    top: parent.top
-                    horizontalCenter: parent.horizontalCenter
+                MouseArea {
+                    id: mouse
+                    anchors.fill: parent
+                    onClicked: {
+                        settings.plugin = plugin.uuid
+                        pluginSelector.parent.hide()
+                    }
                 }
 
-                source: plugin.icon
-                width: parent.width - 20
-                height: width
-            }
+                Image {
+                    id: icon
+                    anchors {
+                        left: parent.left
+                        leftMargin: 20
+                        verticalCenter: parent.verticalCenter
+                    }
 
-            CameraLabel {
-                width: parent.width - 20
-                height: 60
-                text: plugin.name
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                anchors {
-                    bottom: parent.bottom
-                    horizontalCenter: parent.horizontalCenter
+                    source: plugin.icon
+                    width: parent.height
+                    height: width
+                }
+
+                CameraLabel {
+                    width: 120
+                    height: parent.height
+                    text: plugin.name
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    anchors {
+                        left: icon.right
+                        verticalCenter: parent.verticalCenter
+                    }
                 }
             }
         }
