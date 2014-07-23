@@ -29,22 +29,26 @@
 #define PATH QString("%1%2.config%2cameraplus.conf").arg(QDir::homePath()).arg(QDir::separator())
 #endif
 
-#define DEFAULT_MODE                    1
-#define DEFAULT_USE_GPS                 true
-#define DEFAULT_USE_GEOTAGS             true
-#define DEFAULT_SOUND_ENABLED           true
-#define DEFAULT_SHOW_TOOL_BAR           false
-#define DEFAULT_VIDEO_MUTE              false
-#define DEFAULT_GRID_ENABLED            false
-#define DEFAULT_FACE_DETECTION_ENABLED  true
-#define DEFAULT_ZOOM_AS_SHUTTER         false
-#define DEFAULT_PROXIMITY_AS_SHUTTER    false
-#define DEFAULT_DEVICE                  0
-#define DEFAULT_ENABLE_PREVIEW          true
-#define DEFAULT_NIGHT_MODE              false
-#define DEFAULT_PLUGIN                  "org.foolab.cameraplus.image"
-#define DEFAULT_CAPTURE_TIMER_DELAY     5
-#define DEFAULT_LEFT_HANDED_MODE        false
+#define DEFAULT_MODE                      1
+#define DEFAULT_USE_GPS                   true
+#define DEFAULT_USE_GEOTAGS               true
+#define DEFAULT_SOUND_ENABLED             true
+#define DEFAULT_SHOW_TOOL_BAR             false
+#define DEFAULT_VIDEO_MUTE                false
+#define DEFAULT_GRID_ENABLED              false
+#define DEFAULT_FACE_DETECTION_ENABLED    true
+#define DEFAULT_ZOOM_AS_SHUTTER           false
+#define DEFAULT_PROXIMITY_AS_SHUTTER      false
+#define DEFAULT_DEVICE                    0
+#define DEFAULT_ENABLE_PREVIEW            true
+#define DEFAULT_NIGHT_MODE                false
+#define DEFAULT_PLUGIN                    "org.foolab.cameraplus.image"
+#define DEFAULT_CAPTURE_TIMER_DELAY       5
+#define DEFAULT_LEFT_HANDED_MODE          false
+#define DEFAULT_SEQUENTIAL_SHOTS_COUNT    5
+#define DEFAULT_SEQUENTIAL_SHOTS_INTERVAL 5
+#define DEFAULT_SEQUENTIAL_SHOTS_DELAY    5
+#define DEFAULT_SEQUENTIAL_SHOTS_FOCUS    true
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -266,5 +270,49 @@ void Settings::setLeftHandedModeEnabled(bool enabled) {
     m_settings->setValue("camera/leftHandedMode", enabled);
 
     emit leftHandedModeChanged();
+  }
+}
+
+int Settings::sequentialShotsCount() const {
+  return m_settings->value("sequentialShots/count", DEFAULT_SEQUENTIAL_SHOTS_COUNT).toInt();
+}
+
+void Settings::setSequentialShotsCount(int count) {
+  if (sequentialShotsCount() != count) {
+    m_settings->setValue("sequentialShots/count", count);
+    emit sequentialShotsCountChanged();
+  }
+}
+
+int Settings::sequentialShotsInterval() const {
+  return m_settings->value("sequentialShots/interval", DEFAULT_SEQUENTIAL_SHOTS_INTERVAL).toInt();
+}
+
+void Settings::setSequentialShotsInterval(int interval) {
+  if (sequentialShotsInterval() != interval) {
+    m_settings->setValue("sequentialShots/interval", interval);
+    emit sequentialShotsIntervalChanged();
+  }
+}
+
+int Settings::sequentialShotsDelay() const {
+  return m_settings->value("sequentialShots/delay", DEFAULT_SEQUENTIAL_SHOTS_DELAY).toInt();
+}
+
+void Settings::setSequentialShotsDelay(int delay) {
+  if (sequentialShotsDelay() != delay) {
+    m_settings->setValue("sequentialShots/delay", delay);
+    emit sequentialShotsDelayChanged();
+  }
+}
+
+bool Settings::isFocusBeforeSequentialShotsEnabled() const {
+  return m_settings->value("sequentialShots/focus", DEFAULT_SEQUENTIAL_SHOTS_FOCUS).toBool();
+}
+
+void Settings::setFocusBeforeSequentialShotsEnabled(bool enabled) {
+  if (isFocusBeforeSequentialShotsEnabled() != enabled) {
+    m_settings->setValue("sequentialShots/focus", enabled);
+    emit focusBeforeSequentialShotsChanged();
   }
 }

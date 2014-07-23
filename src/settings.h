@@ -48,6 +48,10 @@ class Settings : public QObject {
   Q_PROPERTY(QString plugin READ plugin WRITE setPlugin NOTIFY pluginChanged);
   Q_PROPERTY(int captureTimerDelay READ captureTimerDelay WRITE setCaptureTimerDelay NOTIFY captureTimerDelayChanged);
   Q_PROPERTY(bool leftHandedMode READ isLeftHandedModeEnabled WRITE setLeftHandedModeEnabled NOTIFY leftHandedModeChanged);
+  Q_PROPERTY(int sequentialShotsCount READ sequentialShotsCount WRITE setSequentialShotsCount NOTIFY sequentialShotsCountChanged);
+  Q_PROPERTY(int sequentialShotsInterval READ sequentialShotsInterval WRITE setSequentialShotsInterval NOTIFY sequentialShotsIntervalChanged);
+  Q_PROPERTY(int sequentialShotsDelay READ sequentialShotsDelay WRITE setSequentialShotsDelay NOTIFY sequentialShotsDelayChanged);
+  Q_PROPERTY(bool focusBeforeSequentialShots READ isFocusBeforeSequentialShotsEnabled WRITE setFocusBeforeSequentialShotsEnabled NOTIFY focusBeforeSequentialShotsChanged);
 
 public:
   Settings(QObject *parent = 0);
@@ -110,6 +114,18 @@ public:
   bool isLeftHandedModeEnabled();
   void setLeftHandedModeEnabled(bool enabled);
 
+  int sequentialShotsCount() const;
+  void setSequentialShotsCount(int count);
+
+  int sequentialShotsInterval() const;
+  void setSequentialShotsInterval(int interval);
+
+  int sequentialShotsDelay() const;
+  void setSequentialShotsDelay(int delay);
+
+  bool isFocusBeforeSequentialShotsEnabled() const;
+  void setFocusBeforeSequentialShotsEnabled(bool enabled);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
@@ -127,6 +143,10 @@ signals:
   void pluginChanged();
   void captureTimerDelayChanged();
   void leftHandedModeChanged();
+  void sequentialShotsCountChanged();
+  void sequentialShotsIntervalChanged();
+  void sequentialShotsDelayChanged();
+  void focusBeforeSequentialShotsChanged();
 
 private:
   QSettings *m_settings;
