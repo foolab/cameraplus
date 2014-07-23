@@ -20,6 +20,7 @@
 	<file>ImageResolutionSettings.qml</file>
 	<file>ImageSceneButton.qml</file>
 	<file>ImageModeSettings.qml</file>
+	<file>ImageSequentialShotsSettings.qml</file>
 	<file>ImageWhiteBalanceButton.qml</file>
         <file>main.qml</file>
 	<file>MainPage.qml</file>
