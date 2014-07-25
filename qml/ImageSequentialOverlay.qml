@@ -131,7 +131,7 @@ Item {
     Timer {
         id: autoFocusTimer
         interval: 200
-        running: captureControl.state == "capturing"
+        running: captureControl.state == "capturing" && settings.focusBeforeSequentialShots
         repeat: false
         onTriggered: {
             if (cam.autoFocus.cafStatus != AutoFocus.Success) {
@@ -318,13 +318,13 @@ Item {
     }
 
     function startAutoFocus() {
-        if (deviceFeatures().isAutoFocusSupported) {
+        if (settings.focusBeforeSequentialShots && deviceFeatures().isAutoFocusSupported) {
             cam.autoFocus.startAutoFocus()
         }
     }
 
     function stopAutoFocus() {
-        if (deviceFeatures().isAutoFocusSupported) {
+        if (settings.focusBeforeSequentialShots && deviceFeatures().isAutoFocusSupported) {
             if (!autoFocusTimer.running) {
                 cam.autoFocus.stopAutoFocus()
             }
