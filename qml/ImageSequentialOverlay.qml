@@ -184,7 +184,7 @@ Item {
         }
 
         visible: controlsVisible && !captureControl.capturing && !selectedLabel.visible
-        width: parent.width / 2
+        width: (parent.width * 3) / 4
         opacity: 0.8
         minimumValue: 2
         maximumValue: 60
@@ -212,7 +212,7 @@ Item {
         }
 
         visible: controlsVisible && !captureControl.capturing && !selectedLabel.visible
-        width: parent.width / 2
+        width: (parent.width * 3) / 4
         opacity: 0.8
         minimumValue: 0
         maximumValue: 60
