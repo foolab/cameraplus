@@ -252,7 +252,7 @@ Item {
     Connections {
         target: rootWindow
         onActiveChanged: {
-            if (!rootWindow.active && delayTimer.running) {
+            if (!rootWindow.active && remainingShots > 0) {
                 overlay.policyLost()
             }
         }
