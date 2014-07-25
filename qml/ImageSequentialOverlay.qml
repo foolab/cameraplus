@@ -90,7 +90,7 @@ Item {
             id: countDown
             anchors.horizontalCenter: parent.horizontalCenter
             property int value: 0
-            visible: value > 0
+            visible: remainingShots > 0
             text: value
             color: "white"
             styleColor: "black"
