@@ -45,15 +45,20 @@ Column {
 
         CameraSlider {
             anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width / 2
+            width: (parent.width * 3) / 4
             minimumValue: 0
-            maximumValue: 10
+            maximumValue: 60
             stepSize: 1
             value: settings.sequentialShotsDelay
             onValueChanged: {
                 if (pressed) {
                     settings.sequentialShotsDelay = value
                 }
+            }
+
+            valueIndicatorText: formatValue(value)
+            function formatValue(value) {
+                return qsTr("%1 seconds").arg(value)
             }
         }
     }
