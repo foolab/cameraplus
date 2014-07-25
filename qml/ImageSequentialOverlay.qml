@@ -259,9 +259,9 @@ Item {
     }
 
     CaptureCancel {
-            anchors.fill: parent
-            enabled: remainingShots > 0
-            onClicked: policyLost()
+        anchors.fill: parent
+        enabled: remainingShots > 0
+        onClicked: policyLost()
     }
 
     function _doCaptureImage() {
