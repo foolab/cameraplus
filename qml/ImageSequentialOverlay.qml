@@ -24,7 +24,6 @@ import QtQuick 2.0
 import QtCamera 1.0
 import CameraPlus 1.0
 
-// TODO: mountProtector
 Item {
     id: overlay
 
@@ -52,15 +51,19 @@ Item {
 
         onPreviewAvailable: overlay.previewAvailable(preview)
 
-        onSaved: {
-            --remainingShots
-            if (remainingShots > 0) {
-                countDown.value = settings.sequentialShotsInterval
-                captureTimer.start()
+        onCanCaptureChanged: {
+            // Seems canCapture can be called multiple times
+            // so we explicitly check for the timer state
+            if (canCapture && remainingShots > 0 && !captureTimer.running) {
+                --remainingShots
+                if (remainingShots > 0) {
+                    countDown.value = settings.sequentialShotsInterval
+                    captureTimer.start()
+                }
             }
-
-            mountProtector.unlock(platformSettings.imagePath)
         }
+
+        onSaved: mountProtector.unlock(platformSettings.imagePath)
     }
 
     ZoomSlider {
