@@ -274,6 +274,7 @@ Item {
 
     function focusAndCapture() {
         if (cam.autoFocus.cafStatus == AutoFocus.Success) {
+            cam.sounds.playAutoFocusAcquiredSound()
             _doCaptureImage()
         } else {
             startAutoFocus()
