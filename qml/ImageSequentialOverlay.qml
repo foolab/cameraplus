@@ -45,8 +45,6 @@ Item {
         id: imageMode
         camera: cam
 
-        onCaptureEnded: stopAutoFocus()
-
         enablePreview: settings.enablePreview
 
         onPreviewAvailable: overlay.previewAvailable(preview)
@@ -61,6 +59,8 @@ Item {
                     captureTimer.start()
                 }
             }
+
+            stopAutoFocus()
         }
 
         onSaved: mountProtector.unlock(platformSettings.imagePath)
@@ -129,29 +129,27 @@ Item {
     }
 
     Timer {
-        id: autoFocusTimer
-        interval: 200
-        running: captureControl.state == "capturing" && settings.focusBeforeSequentialShots
-        repeat: false
+        id: captureTimer
+        interval: settings.sequentialShotsInterval * 1000
         onTriggered: {
-            if (cam.autoFocus.cafStatus != AutoFocus.Success) {
-                startAutoFocus()
+            if (doFocus()) {
+                focusAndCapture()
             } else {
-                cam.sounds.playAutoFocusAcquiredSound()
+                _doCaptureImage()
             }
         }
     }
 
     Timer {
-        id: captureTimer
-        interval: settings.sequentialShotsInterval * 1000
-        onTriggered: _doCaptureImage()
-    }
-
-    Timer {
         id: delayTimer
         interval: settings.sequentialShotsDelay * 1000
-        onTriggered: _doCaptureImage()
+        onTriggered: {
+            if (doFocus()) {
+                focusAndCapture()
+            } else {
+                _doCaptureImage()
+            }
+        }
     }
 
     ZoomCaptureButton {
@@ -250,6 +248,16 @@ Item {
     }
 
     Connections {
+        target: camera.autoFocus
+        onStatusChanged: {
+            if (cam.autoFocus.status == AutoFocus.Success ||
+                cam.autoFocus.status == AutoFocus.Fail) {
+                _doCaptureImage()
+            }
+        }
+    }
+
+    Connections {
         target: rootWindow
         onActiveChanged: {
             if (!rootWindow.active && remainingShots > 0) {
@@ -264,6 +272,18 @@ Item {
         onClicked: policyLost()
     }
 
+    function focusAndCapture() {
+        if (cam.autoFocus.cafStatus == AutoFocus.Success) {
+            _doCaptureImage()
+        } else {
+            startAutoFocus()
+        }
+    }
+
+    function doFocus() {
+        return settings.focusBeforeSequentialShots && deviceFeatures().isAutoFocusSupported
+    }
+
     function _doCaptureImage() {
         metaData.setMetaData()
 
@@ -271,11 +291,7 @@ Item {
         if (!imageMode.capture(fileName)) {
             showError(qsTr("Failed to capture image. Please restart the camera."))
             mountProtector.unlock(platformSettings.imagePath)
-            stopAutoFocus()
-            remainingShots = 0
-            countDown.value = 0
-            delayTimer.stop()
-            captureTimer.stop()
+            policyLost()
         } else {
             trackerStore.storeImage(fileName)
         }
@@ -297,19 +313,19 @@ Item {
     function captureImage() {
         if (!imageMode.canCapture) {
             showError(qsTr("Camera is already capturing an image."))
-            stopAutoFocus()
+            policyLost()
         } else if (!batteryMonitor.good) {
             showError(qsTr("Not enough battery to capture images."))
-            stopAutoFocus()
+            policyLost()
         } else if (!fileSystem.available) {
             showError(qsTr("Camera cannot capture images in mass storage mode."))
-            stopAutoFocus()
+            policyLost()
         } else if (!fileSystem.hasFreeSpace(platformSettings.imagePath)) {
             showError(qsTr("Not enough space to capture images."))
-            stopAutoFocus()
+            policyLost()
         } else if (!mountProtector.lock(platformSettings.imagePath)) {
             showError(qsTr("Failed to lock images directory."))
-            stopAutoFocus()
+            policyLost()
         } else {
             remainingShots = settings.sequentialShotsCount
             delayTimer.start()
@@ -324,10 +340,8 @@ Item {
     }
 
     function stopAutoFocus() {
-        if (settings.focusBeforeSequentialShots && deviceFeatures().isAutoFocusSupported) {
-            if (!autoFocusTimer.running) {
-                cam.autoFocus.stopAutoFocus()
-            }
+        if (deviceFeatures().isAutoFocusSupported) {
+            cam.autoFocus.stopAutoFocus()
         }
     }
 
