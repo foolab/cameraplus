@@ -187,7 +187,7 @@ Item {
         width: (parent.width * 3) / 4
         opacity: 0.8
         minimumValue: 2
-        maximumValue: 60
+        maximumValue: 20
         stepSize: 1
         value: settings.sequentialShotsCount
         onValueChanged: {
