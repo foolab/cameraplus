@@ -21,4 +21,5 @@ sounds/CameraFocus.wav usr/share/cameraplus/sounds/
 sounds/CameraFocusFailed.wav usr/share/cameraplus/sounds/
 modes/image.ini usr/share/cameraplus/modes/
 modes/image-timer.ini usr/share/cameraplus/modes/
+modes/image-sequential.ini usr/share/cameraplus/modes/
 modes/video.ini usr/share/cameraplus/modes/
