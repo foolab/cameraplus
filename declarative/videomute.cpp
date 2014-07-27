@@ -20,6 +20,7 @@
 
 #include "videomute.h"
 #include "qtcamvideomute.h"
+#include "qtcamdevice.h"
 
 VideoMute::VideoMute(QtCamDevice *dev, QObject *parent) :
   QObject(parent),
@@ -29,13 +30,25 @@ VideoMute::VideoMute(QtCamDevice *dev, QObject *parent) :
 }
 
 VideoMute::~VideoMute() {
-  delete m_mute; m_mute = 0;
+  if (m_mute) {
+    delete m_mute;
+    m_mute = 0;
+  }
 }
 
 bool VideoMute::isEnabled() const {
-  return m_mute->isEnabled();
+  return m_mute ? m_mute->isEnabled() : false;
 }
 
 void VideoMute::setEnabled(bool enabled) {
-  m_mute->setEnabled(enabled);
+  if (m_mute) {
+    m_mute->setEnabled(enabled);
+  }
+}
+
+void VideoMute::prepareForDeviceChange() {
+  if (m_mute) {
+    delete m_mute;
+    m_mute = 0;
+  }
 }

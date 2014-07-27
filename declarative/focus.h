@@ -56,6 +56,9 @@ public:
 signals:
   void valueChanged();
 
+private slots:
+  void prepareForDeviceChange();
+
 private:
   QtCamFocus *m_f;
 };

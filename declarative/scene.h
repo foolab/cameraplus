@@ -54,6 +54,9 @@ public:
 signals:
   void valueChanged();
 
+private slots:
+  void prepareForDeviceChange();
+
 private:
   QtCamScene *m_scene;
 };

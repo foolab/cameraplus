@@ -33,21 +33,33 @@ EvComp::EvComp(QtCamDevice *dev, QObject *parent) :
 }
 
 EvComp::~EvComp() {
-  delete m_evComp; m_evComp = 0;
+  if (m_evComp) {
+    delete m_evComp;
+    m_evComp = 0;
+  }
 }
 
 qreal EvComp::value() {
-  return m_evComp->value();
+  return m_evComp ? m_evComp->value() : 0.0;
 }
 
 void EvComp::setValue(qreal val) {
-  m_evComp->setValue(val);
+  if (m_evComp) {
+    m_evComp->setValue(val);
+  }
 }
 
 qreal EvComp::minimum() {
-  return m_evComp->minimumValue();
+  return m_evComp ? m_evComp->minimumValue() : 0.0;
 }
 
 qreal EvComp::maximum() {
-  return m_evComp->maximumValue();
+  return m_evComp ? m_evComp->maximumValue() : 0.0;
+}
+
+void EvComp::prepareForDeviceChange() {
+  if (m_evComp) {
+    delete m_evComp;
+    m_evComp = 0;
+  }
 }

@@ -30,13 +30,25 @@ Focus::Focus(QtCamDevice *dev, QObject *parent) :
 }
 
 Focus::~Focus() {
-  delete m_f; m_f = 0;
+  if (m_f) {
+    delete m_f;
+    m_f = 0;
+  }
 }
 
 Focus::FocusMode Focus::value() {
-  return (FocusMode)m_f->value();
+  return m_f ? (FocusMode)m_f->value() : Focus::Auto;
 }
 
 void Focus::setValue(const Focus::FocusMode& mode) {
-  m_f->setValue((QtCamFocus::FocusMode)mode);
+  if (m_f) {
+    m_f->setValue((QtCamFocus::FocusMode)mode);
+  }
+}
+
+void Focus::prepareForDeviceChange() {
+  if (m_f) {
+    delete m_f;
+    m_f = 0;
+  }
 }

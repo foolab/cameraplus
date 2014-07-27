@@ -34,21 +34,33 @@ Exposure::Exposure(QtCamDevice *dev, QObject *parent) :
 }
 
 Exposure::~Exposure() {
-  delete m_exposure; m_exposure = 0;
+  if (m_exposure) {
+    delete m_exposure;
+    m_exposure = 0;
+  }
 }
 
 unsigned int Exposure::value() {
-  return m_exposure->value();
+  return m_exposure ? m_exposure->value() : 0;
 }
 
 void Exposure::setValue(unsigned int val) {
-  m_exposure->setValue(val);
+  if (m_exposure) {
+    m_exposure->setValue(val);
+  }
 }
 
 unsigned int Exposure::minimum() {
-  return m_exposure->minimumValue();
+  return m_exposure ? m_exposure->minimumValue() : 0;
 }
 
 unsigned int Exposure::maximum() {
-  return m_exposure->maximumValue();
+  return m_exposure ? m_exposure->maximumValue() : 0;
+}
+
+void Exposure::prepareForDeviceChange() {
+  if (m_exposure) {
+    delete m_exposure;
+    m_exposure = 0;
+  }
 }

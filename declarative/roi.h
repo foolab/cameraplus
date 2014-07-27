@@ -57,6 +57,7 @@ signals:
 private slots:
   void handleRegionsChanged(const QList<QRectF>& regions, const QRectF& primary,
 			    const QList<QRectF>& rest);
+  void prepareForDeviceChange();
 
 private:
   QtCamRoi *m_roi;

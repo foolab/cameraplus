@@ -50,6 +50,9 @@ signals:
   void minimumChanged();
   void maximunmChanged();
 
+private slots:
+  void prepareForDeviceChange();
+
 private:
   QtCamIso *m_iso;
 };

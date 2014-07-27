@@ -20,6 +20,7 @@
 
 #include "videotorch.h"
 #include "qtcamvideotorch.h"
+#include "qtcamdevice.h"
 
 VideoTorch::VideoTorch(QtCamDevice *dev, QObject *parent) :
   QObject(parent),
@@ -29,13 +30,25 @@ VideoTorch::VideoTorch(QtCamDevice *dev, QObject *parent) :
 }
 
 VideoTorch::~VideoTorch() {
-  delete m_torch; m_torch = 0;
+  if (m_torch) {
+    delete m_torch;
+    m_torch = 0;
+  }
 }
 
 bool VideoTorch::isOn() const {
-  return m_torch->isOn();
+  return m_torch ? m_torch->isOn() : false;
 }
 
 void VideoTorch::setOn(bool on) {
-  m_torch->setOn(on);
+  if (m_torch) {
+    m_torch->setOn(on);
+  }
+}
+
+void VideoTorch::prepareForDeviceChange() {
+  if (m_torch) {
+    delete m_torch;
+    m_torch = 0;
+  }
 }

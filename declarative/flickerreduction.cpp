@@ -30,13 +30,25 @@ FlickerReduction::FlickerReduction(QtCamDevice *dev, QObject *parent) :
 }
 
 FlickerReduction::~FlickerReduction() {
-  delete m_fr; m_fr = 0;
+  if (m_fr) {
+    delete m_fr;
+    m_fr = 0;
+  }
 }
 
 FlickerReduction::FlickerReductionMode FlickerReduction::value() {
-  return (FlickerReductionMode)m_fr->value();
+  return m_fr ? (FlickerReductionMode)m_fr->value() : FlickerReduction::Auto;
 }
 
 void FlickerReduction::setValue(const FlickerReduction::FlickerReductionMode& mode) {
-  m_fr->setValue((QtCamFlickerReduction::FlickerReductionMode)mode);
+  if (m_fr) {
+    m_fr->setValue((QtCamFlickerReduction::FlickerReductionMode)mode);
+  }
+}
+
+void FlickerReduction::prepareForDeviceChange() {
+  if (m_fr) {
+    delete m_fr;
+    m_fr = 0;
+  }
 }

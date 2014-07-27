@@ -50,6 +50,9 @@ signals:
   void minimumChanged();
   void maximunmChanged();
 
+private slots:
+  void prepareForDeviceChange();
+
 private:
   QtCamZoom *m_zoom;
 };

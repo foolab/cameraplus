@@ -272,66 +272,95 @@ void Camera::resetCapabilities() {
 
   delete m_zoom;
   m_zoom = new Zoom(dev, this);
+  QObject::connect(this, SIGNAL(prepareForDeviceChange()), m_zoom, SLOT(prepareForDeviceChange()));
   emit zoomChanged();
 
   delete m_flash;
   m_flash = new Flash(dev, this);
+  QObject::connect(this, SIGNAL(prepareForDeviceChange()),
+		   m_flash, SLOT(prepareForDeviceChange()));
   emit flashChanged();
 
   delete m_scene;
   m_scene = new Scene(dev, this);
+  QObject::connect(this, SIGNAL(prepareForDeviceChange()),
+		   m_scene, SLOT(prepareForDeviceChange()));
   emit sceneChanged();
 
   delete m_evComp;
   m_evComp = new EvComp(dev, this);
+  QObject::connect(this, SIGNAL(prepareForDeviceChange()),
+		   m_evComp, SLOT(prepareForDeviceChange()));
   emit evCompChanged();
 
   delete m_whiteBalance;
   m_whiteBalance = new WhiteBalance(dev, this);
+  QObject::connect(this, SIGNAL(prepareForDeviceChange()),
+		   m_whiteBalance, SLOT(prepareForDeviceChange()));
   emit whiteBalanceChanged();
 
   delete m_colorTone;
   m_colorTone = new ColorTone(dev, this);
+  QObject::connect(this, SIGNAL(prepareForDeviceChange()),
+		   m_colorTone, SLOT(prepareForDeviceChange()));
   emit colorToneChanged();
 
   delete m_iso;
   m_iso = new Iso(dev, this);
+  QObject::connect(this, SIGNAL(prepareForDeviceChange()), m_iso, SLOT(prepareForDeviceChange()));
   emit isoChanged();
 
   delete m_exposure;
   m_exposure = new Exposure(dev, this);
+  QObject::connect(this, SIGNAL(prepareForDeviceChange()),
+		   m_exposure, SLOT(prepareForDeviceChange()));
   emit exposureChanged();
 
   delete m_aperture;
   m_aperture = new Aperture(dev, this);
+  QObject::connect(this, SIGNAL(prepareForDeviceChange()),
+		   m_aperture, SLOT(prepareForDeviceChange()));
   emit apertureChanged();
 
   delete m_noiseReduction;
   m_noiseReduction = new NoiseReduction(dev, this);
+  QObject::connect(this, SIGNAL(prepareForDeviceChange()),
+		   m_noiseReduction, SLOT(prepareForDeviceChange()));
   emit noiseReductionChanged();
 
   delete m_flickerReduction;
   m_flickerReduction = new FlickerReduction(dev, this);
+  QObject::connect(this, SIGNAL(prepareForDeviceChange()),
+		   m_flickerReduction, SLOT(prepareForDeviceChange()));
   emit flickerReductionChanged();
 
   delete m_focus;
   m_focus = new Focus(dev, this);
+  QObject::connect(this, SIGNAL(prepareForDeviceChange()),
+		   m_focus, SLOT(prepareForDeviceChange()));
   emit focusChanged();
 
   delete m_autoFocus;
   m_autoFocus = new AutoFocus(dev, this);
+  QObject::connect(this, SIGNAL(prepareForDeviceChange()),
+		   m_autoFocus, SLOT(prepareForDeviceChange()));
   emit autoFocusChanged();
 
   delete m_roi;
   m_roi = new Roi(dev, this);
+  QObject::connect(this, SIGNAL(prepareForDeviceChange()), m_roi, SLOT(prepareForDeviceChange()));
   emit roiChanged();
 
   delete m_videoMute;
   m_videoMute = new VideoMute(dev, this);
+  QObject::connect(this, SIGNAL(prepareForDeviceChange()),
+		   m_videoMute, SLOT(prepareForDeviceChange()));
   emit videoMuteChanged();
 
   delete m_videoTorch;
   m_videoTorch = new VideoTorch(dev, this);
+  QObject::connect(this, SIGNAL(prepareForDeviceChange()),
+		   m_videoTorch, SLOT(prepareForDeviceChange()));
   emit videoTorchChanged();
 }
 

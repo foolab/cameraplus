@@ -30,14 +30,26 @@ NoiseReduction::NoiseReduction(QtCamDevice *dev, QObject *parent) :
 }
 
 NoiseReduction::~NoiseReduction() {
-  delete m_nr; m_nr = 0;
+  if (m_nr) {
+    delete m_nr;
+    m_nr = 0;
+  }
 }
 
 
 NoiseReduction::NoiseReductionMode NoiseReduction::value() {
-  return (NoiseReductionMode)m_nr->value();
+  return m_nr ? (NoiseReductionMode)m_nr->value() : NoiseReduction::None;
 }
 
 void NoiseReduction::setValue(const NoiseReduction::NoiseReductionMode& mode) {
-  m_nr->setValue((QtCamNoiseReduction::NoiseReductionMode)mode);
+  if (m_nr) {
+    m_nr->setValue((QtCamNoiseReduction::NoiseReductionMode)mode);
+  }
+}
+
+void NoiseReduction::prepareForDeviceChange() {
+  if (m_nr) {
+    delete m_nr;
+    m_nr = 0;
+  }
 }

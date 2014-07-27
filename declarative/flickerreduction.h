@@ -51,6 +51,9 @@ public:
 signals:
   void valueChanged();
 
+private slots:
+  void prepareForDeviceChange();
+
 private:
   QtCamFlickerReduction *m_fr;
 };

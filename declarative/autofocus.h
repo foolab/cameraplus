@@ -56,6 +56,9 @@ signals:
   void valueChanged();
   void cafValueChanged();
 
+private slots:
+  void prepareForDeviceChange();
+
 private:
   QtCamAutoFocus *m_af;
 };

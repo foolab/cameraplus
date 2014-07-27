@@ -30,13 +30,25 @@ ColorTone::ColorTone(QtCamDevice *dev, QObject *parent) :
 }
 
 ColorTone::~ColorTone() {
-  delete m_color; m_color = 0;
+  if (m_color) {
+    delete m_color;
+    m_color = 0;
+  }
 }
 
 ColorTone::ColorToneMode ColorTone::value() {
-  return (ColorToneMode)m_color->value();
+  return m_color ? (ColorToneMode)m_color->value() : ColorTone::Normal;
 }
 
 void ColorTone::setValue(const ColorTone::ColorToneMode& mode) {
-  m_color->setValue((QtCamColorTone::ColorToneMode)mode);
+  if (m_color) {
+    m_color->setValue((QtCamColorTone::ColorToneMode)mode);
+  }
+}
+
+void ColorTone::prepareForDeviceChange() {
+  if (m_color) {
+    delete m_color;
+    m_color = 0;
+  }
 }

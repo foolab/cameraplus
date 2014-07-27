@@ -33,21 +33,33 @@ Aperture::Aperture(QtCamDevice *dev, QObject *parent) :
 }
 
 Aperture::~Aperture() {
-  delete m_aperture; m_aperture = 0;
+  if (m_aperture) {
+    delete m_aperture;
+    m_aperture = 0;
+  }
 }
 
 unsigned int Aperture::value() {
-  return m_aperture->value();
+  return m_aperture ? m_aperture->value() : 0;
 }
 
 void Aperture::setValue(unsigned int val) {
-  m_aperture->setValue(val);
+  if (m_aperture) {
+    m_aperture->setValue(val);
+  }
 }
 
 unsigned int Aperture::minimum() {
-  return m_aperture->minimumValue();
+  return m_aperture ? m_aperture->minimumValue() : 0;
 }
 
 unsigned int Aperture::maximum() {
-  return m_aperture->maximumValue();
+  return m_aperture ? m_aperture->maximumValue() : 0;
+}
+
+void Aperture::prepareForDeviceChange() {
+  if (m_aperture) {
+    delete m_aperture;
+    m_aperture = 0;
+  }
 }

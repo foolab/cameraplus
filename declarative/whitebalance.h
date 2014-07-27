@@ -53,6 +53,9 @@ public:
 signals:
   void valueChanged();
 
+private slots:
+  void prepareForDeviceChange();
+
 private:
   QtCamWhiteBalance *m_wb;
 };

@@ -131,6 +131,7 @@ void tst_camera::checkCapabilities() {
   QCOMPARE(m_cam->evComp()->value(), 0.0);
   QCOMPARE(m_cam->scene()->value(), Scene::Auto);
   QCOMPARE(m_cam->flash()->value(), Flash::Auto);
+  QCOMPARE(m_cam->flash()->isReady(), true);
   QCOMPARE(m_cam->videoMute()->isEnabled(), false);
   QCOMPARE(m_cam->videoTorch()->isOn(), false);
 }

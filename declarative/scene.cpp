@@ -30,13 +30,25 @@ Scene::Scene(QtCamDevice *dev, QObject *parent) :
 }
 
 Scene::~Scene() {
-  delete m_scene; m_scene = 0;
+  if (m_scene) {
+    delete m_scene;
+    m_scene = 0;
+  }
 }
 
 Scene::SceneMode Scene::value() const {
-  return (SceneMode)m_scene->value();
+  return m_scene ? (SceneMode)m_scene->value() : Scene::Auto;
 }
 
 void Scene::setValue(const Scene::SceneMode& mode) {
-  m_scene->setValue((QtCamScene::SceneMode)mode);
+  if (m_scene) {
+    m_scene->setValue((QtCamScene::SceneMode)mode);
+  }
+}
+
+void Scene::prepareForDeviceChange() {
+  if (m_scene) {
+    delete m_scene;
+    m_scene = 0;
+  }
 }

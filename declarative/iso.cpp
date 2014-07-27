@@ -33,21 +33,33 @@ Iso::Iso(QtCamDevice *dev, QObject *parent) :
 }
 
 Iso::~Iso() {
-  delete m_iso; m_iso = 0;
+  if (m_iso) {
+    delete m_iso;
+    m_iso = 0;
+  }
 }
 
 unsigned int Iso::value() {
-  return m_iso->value();
+  return m_iso ? m_iso->value() : 0;
 }
 
 void Iso::setValue(unsigned int val) {
-  m_iso->setValue(val);
+  if (m_iso) {
+    m_iso->setValue(val);
+  }
 }
 
 unsigned int Iso::minimum() {
-  return m_iso->minimumValue();
+  return m_iso ? m_iso->minimumValue() : 0;
 }
 
 unsigned int Iso::maximum() {
-  return m_iso->maximumValue();
+  return m_iso ? m_iso->maximumValue() : 0;
+}
+
+void Iso::prepareForDeviceChange() {
+  if (m_iso) {
+    delete m_iso;
+    m_iso = 0;
+  }
 }

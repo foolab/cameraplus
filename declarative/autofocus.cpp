@@ -30,25 +30,37 @@ AutoFocus::AutoFocus(QtCamDevice *dev, QObject *parent) :
 }
 
 AutoFocus::~AutoFocus() {
-  delete m_af; m_af = 0;
+  if (m_af) {
+    delete m_af;
+    m_af = 0;
+  }
 }
 
 AutoFocus::Status AutoFocus::status() {
-  return (AutoFocus::Status)m_af->status();
+  return m_af ? (AutoFocus::Status)m_af->status() : AutoFocus::None;
 }
 
 AutoFocus::Status AutoFocus::cafStatus() {
-  return (AutoFocus::Status)m_af->cafStatus();
+  return m_af ? (AutoFocus::Status)m_af->cafStatus() : AutoFocus::None;
 }
 
 bool AutoFocus::startAutoFocus() {
-  return m_af->startAutoFocus();
+  return m_af ? m_af->startAutoFocus() : false;
 }
 
 bool AutoFocus::stopAutoFocus() {
-  return m_af->stopAutoFocus();
+  if (m_af) {
+    return m_af->stopAutoFocus();
+  }
 }
 
 bool AutoFocus::canFocus(int sceneMode) {
-  return m_af->canFocus((QtCamScene::SceneMode)sceneMode);
+  return m_af ? m_af->canFocus((QtCamScene::SceneMode)sceneMode) : true;
+}
+
+void AutoFocus::prepareForDeviceChange() {
+  if (m_af) {
+    delete m_af;
+    m_af = 0;
+  }
 }

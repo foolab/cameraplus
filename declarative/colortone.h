@@ -59,6 +59,9 @@ public:
 signals:
   void valueChanged();
 
+private slots:
+  void prepareForDeviceChange();
+
 private:
   QtCamColorTone *m_color;
 };

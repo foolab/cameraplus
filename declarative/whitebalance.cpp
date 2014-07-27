@@ -30,13 +30,25 @@ WhiteBalance::WhiteBalance(QtCamDevice *dev, QObject *parent) :
 }
 
 WhiteBalance::~WhiteBalance() {
-  delete m_wb; m_wb = 0;
+  if (m_wb) {
+    delete m_wb;
+    m_wb = 0;
+  }
 }
 
 WhiteBalance::WhiteBalanceMode WhiteBalance::value() {
-  return (WhiteBalanceMode)m_wb->value();
+  return m_wb ? (WhiteBalanceMode)m_wb->value() : WhiteBalance::Auto;
 }
 
 void WhiteBalance::setValue(const WhiteBalance::WhiteBalanceMode& mode) {
-  m_wb->setValue((QtCamWhiteBalance::WhiteBalanceMode)mode);
+  if (m_wb) {
+    m_wb->setValue((QtCamWhiteBalance::WhiteBalanceMode)mode);
+  }
+}
+
+void WhiteBalance::prepareForDeviceChange() {
+  if (m_wb) {
+    delete m_wb;
+    m_wb = 0;
+  }
 }

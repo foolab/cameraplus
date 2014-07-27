@@ -42,6 +42,9 @@ public:
 signals:
   void stateChanged();
 
+private slots:
+  void prepareForDeviceChange();
+
 private:
   QtCamVideoMute *m_mute;
 };

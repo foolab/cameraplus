@@ -34,22 +34,31 @@ Roi::Roi(QtCamDevice *device, QObject *parent) :
 }
 
 Roi::~Roi() {
-  delete m_roi; m_roi = 0;
+  if (m_roi) {
+    delete m_roi;
+    m_roi = 0;
+  }
 }
 
 
 void Roi::setEnabled(bool enabled) {
   if (Roi::isEnabled() != enabled) {
-    m_roi->setEnabled(enabled);
-    emit enabledChanged();
+    if (m_roi) {
+      m_roi->setEnabled(enabled);
+      emit enabledChanged();
+    }
   }
 }
 
 bool Roi::isEnabled() {
-  return m_roi->isEnabled();
+  return m_roi ? m_roi->isEnabled() : false;
 }
 
 void Roi::setRegionOfInterest(const QRectF& region) {
+  if (!m_roi) {
+    return;
+  }
+
   QRectF area = m_roi->device()->viewfinder()->renderArea();
 
   QRectF rect(region.x() / area.width(),
@@ -61,7 +70,9 @@ void Roi::setRegionOfInterest(const QRectF& region) {
 }
 
 void Roi::resetRegionOfInterest() {
-  m_roi->resetRegionOfInterest();
+  if (m_roi) {
+    m_roi->resetRegionOfInterest();
+  }
 }
 
 void Roi::handleRegionsChanged(const QList<QRectF>& regions, const QRectF& primary,
@@ -91,4 +102,11 @@ void Roi::handleRegionsChanged(const QList<QRectF>& regions, const QRectF& prima
 						    primary.height() * area.height()));
 
   emit regionsChanged(regionsList, primaryRect, restList);
+}
+
+void Roi::prepareForDeviceChange() {
+  if (m_roi) {
+    delete m_roi;
+    m_roi = 0;
+  }
 }

@@ -33,21 +33,33 @@ Zoom::Zoom(QtCamDevice *dev, QObject *parent) :
 }
 
 Zoom::~Zoom() {
-  delete m_zoom; m_zoom = 0;
+  if (m_zoom) {
+    delete m_zoom;
+    m_zoom = 0;
+  }
 }
 
 qreal Zoom::value() {
-  return m_zoom->value();
+  return m_zoom ? m_zoom->value() : 1.0;
 }
 
 void Zoom::setValue(qreal val) {
-  m_zoom->setValue(val);
+  if (m_zoom) {
+    m_zoom->setValue(val);
+  }
 }
 
 qreal Zoom::minimum() {
-  return m_zoom->minimumValue();
+  return m_zoom ? m_zoom->minimumValue() : 1.0;
 }
 
 qreal Zoom::maximum() {
-  return m_zoom->maximumValue();
+  return m_zoom ? m_zoom->maximumValue() : 1.0;
+}
+
+void Zoom::prepareForDeviceChange() {
+  if (m_zoom) {
+    delete m_zoom;
+    m_zoom = 0;
+  }
 }

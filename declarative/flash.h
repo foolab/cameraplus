@@ -56,6 +56,9 @@ signals:
   void valueChanged();
   void readyChanged();
 
+private slots:
+  void prepareForDeviceChange();
+
 private:
   QtCamFlash *m_flash;
 };
