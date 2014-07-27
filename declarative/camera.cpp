@@ -164,6 +164,10 @@ bool Camera::setDeviceId(const QVariant& deviceId) {
   }
 
   m_dev = m_cam->device(deviceId, this);
+  if (!m_dev) {
+    qmlInfo(this) << "Failed to set device ID to " << deviceId;
+    return false;
+  }
 
   m_id = deviceId;
 
