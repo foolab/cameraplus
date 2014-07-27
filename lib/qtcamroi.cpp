@@ -114,7 +114,7 @@ void QtCamRoi::setEnabled(bool enabled) {
 
 bool QtCamRoi::isEnabled() {
   if (!d_ptr->roi) {
-    return false;
+    return d_ptr->enabled;
   }
 
   gboolean val = FALSE;
