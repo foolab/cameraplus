@@ -20,3 +20,6 @@ equals(QT_MAJOR_VERSION, 5) {
     CONFIG += qt5
     DEFINES += QT5
 }
+
+QMAKE_CXXFLAGS_DEBUG=-ggdb
+QMAKE_CFLAGS_DEBUG=-ggdb
