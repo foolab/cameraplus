@@ -28,6 +28,7 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <gst/gst.h>
+#include <QDebug>
 
 class QtCamScannerPrivate {
 public:
@@ -42,17 +43,20 @@ void QtCamScannerPrivate::scanEnum() {
   // Too bad there's no way to get the values of an enum without creating the element :(
   GstElement *elem = gst_element_factory_make(conf->videoSource().toLatin1(), NULL);
   if (!elem) {
+    qWarning() << "QtCamScanner: Failed to create an instance of" << conf->videoSource();
     return;
   }
 
   GParamSpec *spec = g_object_class_find_property(G_OBJECT_GET_CLASS(elem),
 						  conf->deviceScannerProperty().toLatin1());
   if (!spec) {
+    qWarning() << "QtCamScanner: Failed to get property" << conf->deviceScannerProperty();
     gst_object_unref(elem);
     return;
   }
 
   if (!G_IS_PARAM_SPEC_ENUM(spec)) {
+    qWarning() << "QtCamScanner: Property" << conf->deviceScannerProperty() << "is not an enum";
     gst_object_unref(elem);
     return;
   }
