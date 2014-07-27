@@ -23,10 +23,11 @@
 #ifndef QT_CAM_VIEWFINDER_H
 #define QT_CAM_VIEWFINDER_H
 
-#include <gst/gst.h>
 #include <QRectF>
 
 class QtCamDevice;
+
+typedef struct _GstElement GstElement;
 
 class QtCamViewfinder {
 public:

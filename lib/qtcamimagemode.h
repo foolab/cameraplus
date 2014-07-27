@@ -24,12 +24,13 @@
 #define QT_CAM_IMAGE_MODE_H
 
 #include "qtcammode.h"
-#include <gst/pbutils/encoding-profile.h>
 
 class QtCamDevicePrivate;
 class QtCamImageModePrivate;
 class QtCamResolution;
 class QtCamImageSettings;
+
+typedef struct _GstEncodingProfile GstEncodingProfile;
 
 class QtCamImageMode : public QtCamMode {
   Q_OBJECT
