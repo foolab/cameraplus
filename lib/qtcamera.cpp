@@ -52,8 +52,9 @@ QtCamera::QtCamera(QtCamConfig *config, QObject *parent) :
 
 QtCamera::~QtCamera() {
   delete d_ptr; d_ptr = 0;
-
+#if 0
   gst_deinit();
+#endif
 }
 
 void QtCamera::refreshDevices() {
