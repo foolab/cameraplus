@@ -1,3 +1,12 @@
+cameraplus (0.0.28-1) unstable; urgency=medium
+
+  * Don't ignore the first tap on the capture button after returning from post capture view
+  * Reworked camera plugin selector
+  * Added sequential shots mode
+  * Fixed a rare crash when switching between front and back cameras
+
+ -- Mohammed Sameer <msameer@foolab.org>  Tue, 22 Jul 2014 00:26:48 +0300
+
 cameraplus (0.0.27-1) unstable; urgency=medium
 
   * horizontally flip front camera to prevent upside down viewfinder in portrait mode

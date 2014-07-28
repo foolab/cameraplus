@@ -1,3 +1,10 @@
+* Mon Jul 21 2014 Mohammed Sameer <msameer@foolab.org> 0.0.28-1
+- Updated GStreamer to 1.4.0 (No user visible changes)
+- Don't ignore the first tap on the capture button after returning from post capture view
+- Reworked camera plugin selector
+- Added sequential shots mode
+- Fixed a rare crash when switching between front and back cameras
+
 * Mon Jul 21 2014 Mohammed Sameer <msameer@foolab.org> 0.0.27-1
 - Don't inform tracker about our captured media as it prevents it from indexing the media
 - Add ISO 800
