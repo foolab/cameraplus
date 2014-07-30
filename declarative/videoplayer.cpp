@@ -49,7 +49,9 @@ VideoPlayer::VideoPlayer(QQuickItem *parent) :
   m_bin(0),
   m_state(VideoPlayer::StateStopped),
   m_timer(new QTimer(this)),
-  m_pos(0) {
+  m_pos(0),
+  m_volume(0),
+  m_watch(0) {
 
   m_timer->setSingleShot(false);
   m_timer->setInterval(500);
@@ -67,6 +69,16 @@ VideoPlayer::VideoPlayer(QQuickItem *parent) :
 }
 
 VideoPlayer::~VideoPlayer() {
+  if (m_volume > 0) {
+    g_signal_handler_disconnect(m_bin, m_volume);
+    m_volume = 0;
+  }
+
+  if (m_watch) {
+    g_source_remove(m_watch);
+    m_watch = 0;
+  }
+
   stop();
 
   if (m_bin) {
@@ -114,7 +126,8 @@ void VideoPlayer::classBegin() {
     return;
   }
 
-  g_signal_connect (G_OBJECT (m_bin), "notify::volume", G_CALLBACK (on_volume_changed), this);
+  m_volume =
+    g_signal_connect (G_OBJECT (m_bin), "notify::volume", G_CALLBACK (on_volume_changed), this);
   g_object_set (m_bin, "flags", 99, NULL);
 
   GstElement *elem = gst_element_factory_make("pulsesink", "VideoPlayerPulseSink");
@@ -126,7 +139,7 @@ void VideoPlayer::classBegin() {
   }
 
   GstBus *bus = gst_element_get_bus(m_bin);
-  gst_bus_add_watch(bus, bus_call, this);
+  m_watch = gst_bus_add_watch(bus, bus_call, this);
   gst_object_unref(bus);
 }
 

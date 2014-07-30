@@ -124,6 +124,8 @@ private:
   State m_state;
   QTimer *m_timer;
   qint64 m_pos;
+  gulong m_volume;
+  gulong m_watch;
 };
 
 #endif /* VIDEO_PLAYER_H */
