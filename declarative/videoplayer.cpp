@@ -436,13 +436,14 @@ gboolean VideoPlayer::bus_call(GstBus *bus, GstMessage *msg, gpointer data) {
   switch (GST_MESSAGE_TYPE(msg)) {
   case GST_MESSAGE_EOS:
     that->stop();
-    break;
+    return FALSE;
 
   case GST_MESSAGE_ERROR:
     gst_message_parse_error (msg, &err, &debug);
 
     emit that->error(err->message, err->code, debug);
     that->stop();
+
     if (err) {
       g_error_free (err);
     }
@@ -451,13 +452,11 @@ gboolean VideoPlayer::bus_call(GstBus *bus, GstMessage *msg, gpointer data) {
       g_free (debug);
     }
 
-    break;
+    return FALSE;
 
   default:
-    break;
+    return TRUE;
   }
-
-  return TRUE;  
 }
 
 void VideoPlayer::updateRequested() {
