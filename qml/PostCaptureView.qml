@@ -55,6 +55,9 @@ Item {
         highlightResizeDuration: 1
         highlightRangeMode: ListView.StrictlyEnforceRange
         interactive: currentItem ? !currentItem.busy : true
+        // We cache some images. This should speed up loading a bit and prevent
+        // rotation when we flick images in portrait mode
+        cacheBuffer: height * 2
 
         delegate: PostCaptureViewImage {
             id: image

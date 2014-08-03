@@ -73,10 +73,6 @@ Flickable {
         width: parent.width
         height: parent.height
 
-        Behavior on rotation {
-            NumberAnimation { duration: 200; }
-        }
-
         state: "landscape"
         states: [
             State {
