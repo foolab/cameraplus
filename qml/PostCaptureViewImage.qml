@@ -77,11 +77,11 @@ Flickable {
         states: [
             State {
                 name: "portrait"
-                when: isPortrait && !media.video
+                when: isPortrait
             },
             State {
                 name: "landscape"
-                when: !isPortrait || media.video
+                when: !isPortrait
             }
         ]
 
