@@ -169,6 +169,11 @@ Flickable {
         pinch.minimumScale: 1
         pinch.maximumScale: 4
         onPinchFinished: flick.returnToBounds()
+
+        function clamp(num, min, max) {
+            return num < min ? min : (num > max ? max : num)
+        }
+
         onPinchStarted: {
             initialWidth = image.width * image.scale
             initialHeight = image.height * image.scale
@@ -180,11 +185,11 @@ Flickable {
             var newWidth = Math.max(initialWidth * scale, postCaptureView.width)
             var newHeight = Math.max(initialHeight * scale, postCaptureView.height)
 
-            newWidth = Math.max(newWidth, postCaptureView.width * pinchArea.pinch.minimumScale)
-            newWidth = Math.min(newWidth, postCaptureView.width * pinchArea.pinch.maximumScale)
+            newWidth = clamp(newWidth, postCaptureView.width * pinchArea.pinch.minimumScale,
+                postCaptureView.width * pinchArea.pinch.maximumScale)
 
-            newHeight = Math.max(newHeight, postCaptureView.height * pinchArea.pinch.minimumScale)
-            newHeight = Math.min(newHeight, postCaptureView.height * pinchArea.pinch.maximumScale)
+            newHeight = clamp(newHeight, postCaptureView.height * pinchArea.pinch.minimumScale,
+                postCaptureView.height * pinchArea.pinch.maximumScale)
 
             var center = pinch.center
             if (newWidth == postCaptureView.width) {
