@@ -1,3 +1,10 @@
+cameraplus (0.0.29-1) unstable; urgency=medium
+
+  * Don't show rotation animation when we flick between images in portrait post capture view
+  * Rotate video preview in portrait mode like we do with images
+
+ -- Mohammed Sameer <msameer@foolab.org>  Tue, 29 Jul 2014 14:26:36 +0300
+
 cameraplus (0.0.28-1) unstable; urgency=medium
 
   * Don't ignore the first tap on the capture button after returning from post capture view

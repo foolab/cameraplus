@@ -1,3 +1,9 @@
+* Tue Jul 29 2014 Mohammed Sameer <msameer@foolab.org> 0.0.29-1
+- Fixed a potential crash when we fail to play a video in post capture
+- Don't show rotation animation when we flick between images in portrait post capture view
+- Updated the AAC encoder to latest upstream git (one fix applied).
+- Rotate video preview in portrait mode like we do with images
+
 * Mon Jul 21 2014 Mohammed Sameer <msameer@foolab.org> 0.0.28-1
 - Updated GStreamer to 1.4.0 (No user visible changes)
 - Don't ignore the first tap on the capture button after returning from post capture view
