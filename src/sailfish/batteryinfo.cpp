@@ -57,9 +57,9 @@ void BatteryInfo::setActive(bool active) {
   else {
     m_battery = new QBatteryInfo(this);
 
-    QObject::connect(m_battery, SIGNAL(batteryStatusChanged(int, QBatteryInfo::BatteryStatus)),
+    QObject::connect(m_battery, SIGNAL(levelStatusChanged(QBatteryInfo::LevelStatus)),
 		     this, SLOT(check()));
-    QObject::connect(m_battery, SIGNAL(chargingStateChanged(int, QBatteryInfo::ChargingState)),
+    QObject::connect(m_battery, SIGNAL(chargingStateChanged(QBatteryInfo::ChargingState)),
 		     this, SLOT(check()));
   }
 
@@ -76,11 +76,11 @@ void BatteryInfo::check() {
   if (!m_battery) {
     qmlInfo(this) << "BatteryInfo has to be activated first";
     isGood = true;
-  } else if (m_battery->chargingState(0) == QBatteryInfo::Charging) {
+  } else if (m_battery->chargingState() == QBatteryInfo::Charging) {
     isGood = true;
   } else {
-    QBatteryInfo::BatteryStatus state = m_battery->batteryStatus(0);
-    if (state == QBatteryInfo::BatteryOk || state == QBatteryInfo::BatteryFull) {
+    QBatteryInfo::LevelStatus state = m_battery->levelStatus();
+    if (state == QBatteryInfo::LevelOk || state == QBatteryInfo::LevelFull) {
       isGood = true;
     } else {
       isGood = false;
