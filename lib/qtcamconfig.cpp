@@ -75,7 +75,7 @@ public:
 
   QList<QtCamResolution> readResolutions(const QtCamResolution::Mode& targetMode,
 					 const QVariant& targetDevice) {
-    QMap<int, QtCamResolution> res;
+    QMap<float, QtCamResolution> res;
 
     foreach (const QString& id, resolutions->childGroups()) {
       resolutions->beginGroup(id);
@@ -104,8 +104,6 @@ public:
 	mode = QtCamResolution::ModeVideo;
       }
 
-      int order = resolutions->value("order", 0).toInt();
-
       resolutions->endGroup();
 
       if (targetMode != mode || targetDevice != device) {
@@ -115,7 +113,7 @@ public:
       QtCamResolution r(id, name, aspectRatio, capture, preview, viewfinder, fps, nightFps,
 			zslFps, megaPixels, commonName, mode, device);
       if (r.isValid()) {
-	res.insertMulti(order, r);
+	res.insertMulti(-1 * megaPixels, r); // a trick to sort in reverse!
       }
     }
 
