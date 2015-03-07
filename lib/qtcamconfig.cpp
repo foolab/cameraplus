@@ -86,7 +86,7 @@ public:
       float megaPixels = capture.width() * capture.height();
       megaPixels = floor((megaPixels * 10) / (1000.0 * 1000.0)) / 10;
 
-      QString aspectRatio = calculateAspectRatio(viewfinder);
+      QString aspectRatio = calculateAspectRatio(capture);
       QString commonName = resolutions->value("resolution").toString();
       QVariant device = resolutions->value("device");
 
