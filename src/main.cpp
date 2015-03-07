@@ -105,16 +105,6 @@ static _XInitThreads __XInitThreads;
 Q_DECL_EXPORT int main(int argc, char *argv[]) {
 #ifdef SAILFISH
   setenv("LD_LIBRARY_PATH", "/usr/share/harbour-cameraplus/lib/", 1);
-  // Registry file:
-  QString registry = QString("%1/.cache/harbour-cameraplus/gstreamer1.0-registry.armv7hl.bin").
-    arg(QDir::homePath());
-  setenv("GST_REGISTRY_1_0", registry.toUtf8().constData(), 1);
-
-  // plugin scanner
-  setenv("GST_PLUGIN_SCANNER_1_0", "/usr/share/harbour-cameraplus/libexec/gstreamer-1.0/gst-plugin-scanner", 1);
-
-  // plugins:
-  setenv("GST_PLUGIN_SYSTEM_PATH_1_0", "/usr/share/harbour-cameraplus/lib/gstreamer-1.0/", 1);
 #endif
 
 #if defined(QT4)
