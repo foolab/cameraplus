@@ -32,6 +32,7 @@
 #else
 #include <QDeviceInfo>
 #endif
+#include <cmath>
 
 #ifndef DATA_DIR
 #define DATA_DIR                              "/usr/share/qtcamera/config/"
@@ -82,7 +83,9 @@ public:
       int fps = resolutions->value("fps").toInt();
       int nightFps = resolutions->value("night").toInt();
       int zslFps = resolutions->value("zsl").toInt();
-      float megaPixels = resolutions->value("megapixels").toFloat();
+      float megaPixels = capture.width() * capture.height();
+      megaPixels = floor((megaPixels * 10) / (1000.0 * 1000.0)) / 10;
+
       QString aspectRatio = resolutions->value("aspectratio").toString();
       QString commonName = resolutions->value("resolution").toString();
       QVariant device = resolutions->value("device");
