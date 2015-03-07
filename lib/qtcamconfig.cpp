@@ -38,9 +38,6 @@
 #define DATA_DIR                              "/usr/share/qtcamera/config/"
 #endif /* DATA_DIR */
 
-#define CONFIGURATION_FILE                    QString("%1/qtcamera.ini")
-#define RESOLUTIONS_FILE                      QString("%1/%2resolutions.ini")
-
 static inline uint qHash(const QSize& size) {
   return qHash(QString("%1x%2").arg(size.width()).arg(size.height()));
 }
@@ -166,19 +163,25 @@ public:
 };
 
 QtCamConfig::QtCamConfig(QObject *parent) :
-  QObject(parent), d_ptr(new QtCamConfigPrivate) {
+  QObject(parent),
+  d_ptr(new QtCamConfigPrivate) {
 
 #ifdef QT4
-  QString dev = QtMobility::QSystemDeviceInfo().model();
+  QString dev = QtMobility::QSystemDeviceInfo().model().toLower();
 #else
-  QString dev = QDeviceInfo().model();
+  QString dev = QDeviceInfo().model().toLower();
 #endif
 
-  d_ptr->conf = new QSettings(CONFIGURATION_FILE.arg(dir()), QSettings::IniFormat, this);
+  QString confFile = QString("%1/%2/qtcamera.ini").arg(dir()).arg(dev);
+  if (!QFile::exists(confFile)) {
+    confFile = QString("%1/qtcamera.ini").arg(dir());
+  }
 
-  QString resolutions = RESOLUTIONS_FILE.arg(dir()).arg(dev.toLower() + "_");
+  d_ptr->conf = new QSettings(confFile, QSettings::IniFormat, this);
+
+  QString resolutions = QString("%1/%2/resolutions.ini").arg(dir()).arg(dev);
   if (!QFile(resolutions).exists()) {
-    resolutions = RESOLUTIONS_FILE.arg(dir()).arg(QString());
+    QString resolutions = QString("%1/resolutions.ini").arg(dir());
   }
 
   d_ptr->resolutions = new QSettings(resolutions, QSettings::IniFormat, this);
