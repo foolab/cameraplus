@@ -23,7 +23,6 @@
 class QtCamResolutionPrivate : public QSharedData {
 public:
   QString id;
-  QString name;
   QString aspectRatio;
   QString commonName;
   QSize capture;
@@ -37,7 +36,7 @@ public:
   QVariant device;
 };
 
-QtCamResolution::QtCamResolution(const QString& id, const QString& name,
+QtCamResolution::QtCamResolution(const QString& id,
 				 const QString& aspectRatio, const QSize& capture,
 				 const QSize& preview, const QSize& viewfinder,
 				 int fps, int nightFps, int zslFps, float megaPixels,
@@ -46,7 +45,6 @@ QtCamResolution::QtCamResolution(const QString& id, const QString& name,
   d_ptr(new QtCamResolutionPrivate) {
 
   d_ptr->id = id;
-  d_ptr->name = name;
   d_ptr->aspectRatio = aspectRatio;
   d_ptr->commonName = commonName;
   d_ptr->capture = capture;
@@ -87,14 +85,6 @@ QString QtCamResolution::id() const {
 
 void QtCamResolution::setId(const QString& id) {
   d_ptr->id = id;
-}
-
-QString QtCamResolution::name() const {
-  return d_ptr->name;
-}
-
-void QtCamResolution::setName(const QString& name) {
-  d_ptr->name = name;
 }
 
 QString QtCamResolution::aspectRatio() const {

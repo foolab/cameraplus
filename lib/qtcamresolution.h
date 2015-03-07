@@ -37,7 +37,7 @@ public:
     ModeVideo,
   } Mode;
 
-  QtCamResolution(const QString& id, const QString& name, const QString& aspectRatio,
+  QtCamResolution(const QString& id, const QString& aspectRatio,
 		  const QSize& capture, const QSize& preview, const QSize& viewfinder,
 		  int fps, int nightFps, int zslFps, float megaPixels, const QString& commonName,
 		  const Mode& mode, const QVariant device);
@@ -52,9 +52,6 @@ public:
 
   QString id() const;
   void setId(const QString& id);
-
-  QString name() const;
-  void setName(const QString& name);
 
   QString aspectRatio() const;
   void setAspectRatio(const QString& aspectRatio);

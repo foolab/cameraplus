@@ -44,7 +44,7 @@ Column {
 
             delegate: CameraCheckButton {
                 width: resoultionsRow.width / resolutions.count
-                text: qsTr("%1 %2").arg(resolutionName).arg(resolution)
+                text: qsTr("%1").arg(resolution)
                 checked: deviceSettings().videoResolution == resolutionId
                 onClicked: {
                     deviceSettings().videoResolution = resolutionId

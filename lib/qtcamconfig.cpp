@@ -80,7 +80,6 @@ public:
     foreach (const QString& id, resolutions->childGroups()) {
       resolutions->beginGroup(id);
 
-      QString name = resolutions->value("name").toString();
       QSize capture = readResolution("capture");
       QSize preview = readResolution("preview");
       QSize viewfinder = readResolution("viewfinder");
@@ -110,7 +109,7 @@ public:
 	continue;
       }
 
-      QtCamResolution r(id, name, aspectRatio, capture, preview, viewfinder, fps, nightFps,
+      QtCamResolution r(id, aspectRatio, capture, preview, viewfinder, fps, nightFps,
 			zslFps, megaPixels, commonName, mode, device);
       if (r.isValid()) {
 	res.insertMulti(-1 * megaPixels, r); // a trick to sort in reverse!

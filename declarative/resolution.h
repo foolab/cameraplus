@@ -30,7 +30,6 @@ class Resolution : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(QString resolutionLd READ resolutionId WRITE setResolutionId NOTIFY resolutionIdChanged);
-  Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged);
   Q_PROPERTY(QString aspectRatio READ aspectRatio WRITE setAspectRatio NOTIFY aspectRatioChanged);
   Q_PROPERTY(QString commonName READ commonName WRITE setCommonName NOTIFY commonNameChanged);
   Q_PROPERTY(QSize captureResolution READ capture WRITE setCapture NOTIFY captureChanged);
@@ -49,9 +48,6 @@ public:
 
   QString resolutionId() const;
   void setResolutionId(const QString& resolutionId);
-
-  QString name() const;
-  void setName(const QString& name);
 
   QString aspectRatio() const;
   void setAspectRatio(const QString& aspectRatio);

@@ -51,7 +51,6 @@ ResolutionModel::~ResolutionModel() {
 void ResolutionModel::init() {
   QHash<int, QByteArray> roles;
   roles[IdRole] = "resolutionId";
-  roles[NameRole] = "resolutionName";
   roles[CaptureRole] = "captureResolution";
   roles[PreviewRole] = "previewResolution";
   roles[FpsRole] = "frameRate";
@@ -81,9 +80,6 @@ QVariant ResolutionModel::data(const QModelIndex& index, int role) const {
   switch (role) {
   case IdRole:
     return res.id();
-
-  case NameRole:
-    return res.name();
 
   case CaptureRole:
     return res.captureResolution();

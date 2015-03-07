@@ -39,7 +39,6 @@ public:
 
   enum ResolutionRoles {
     IdRole = Qt::UserRole + 1,
-    NameRole,
     CaptureRole,
     PreviewRole,
     FpsRole,

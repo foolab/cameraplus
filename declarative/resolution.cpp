@@ -52,17 +52,6 @@ void Resolution::setResolutionId(const QString& resolutionId) {
   }
 }
 
-QString Resolution::name() const {
-  return m_resolution.name();
-}
-
-void Resolution::setName(const QString& name) {
-  if (m_resolution.name() != name) {
-    m_resolution.setName(name);
-    emit nameChanged();
-  }
-}
-
 QString Resolution::aspectRatio() const {
   return m_resolution.aspectRatio();
 }
