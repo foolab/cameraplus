@@ -32,6 +32,8 @@ class QSize;
 class QImage;
 class QtCamDevice;
 
+typedef struct _GstEncodingProfile GstEncodingProfile;
+
 class QtCamMode : public QObject {
   Q_OBJECT
 
@@ -65,6 +67,8 @@ signals:
   void activeChanged();
 
 protected:
+  void setEncodingProfile(GstEncodingProfile *profile, const QLatin1String& propertyName);
+
   virtual void start() = 0;
   virtual void stop() = 0;
 

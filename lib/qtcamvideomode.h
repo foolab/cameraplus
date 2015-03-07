@@ -30,8 +30,6 @@ class QtCamVideoModePrivate;
 class QtCamResolution;
 class QtCamVideoSettings;
 
-typedef struct _GstEncodingProfile GstEncodingProfile;
-
 class QtCamVideoMode : public QtCamMode {
   Q_OBJECT
 
@@ -51,8 +49,6 @@ public:
   bool setResolution(const QtCamResolution& resolution);
 
   QtCamResolution currentResolution();
-
-  void setProfile(GstEncodingProfile *profile);
 
   QtCamVideoSettings *settings();
 

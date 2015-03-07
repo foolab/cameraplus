@@ -172,3 +172,12 @@ QtCamDevice *QtCamMode::device() const {
 void QtCamMode::disablePreview() {
   d_ptr->setPreviewSize(QSize());
 }
+
+void QtCamMode::setEncodingProfile(GstEncodingProfile *profile,
+				   const QLatin1String& propertyName) {
+  if (d_ptr->dev->cameraBin) {
+    g_object_set(d_ptr->dev->cameraBin, propertyName.latin1(), profile, NULL);
+  }
+
+  gst_encoding_profile_unref(profile);
+}

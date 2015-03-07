@@ -108,7 +108,7 @@ QtCamVideoMode::QtCamVideoMode(QtCamDevicePrivate *dev, QObject *parent) :
   if (!name.isEmpty() && !path.isEmpty()) {
     GstEncodingProfile *profile = d_ptr->loadProfile(path, name);
     if (profile) {
-      setProfile(profile);
+      setEncodingProfile(profile, QLatin1String("video-profile"));
     }
   }
 
@@ -221,15 +221,6 @@ bool QtCamVideoMode::setResolution(const QtCamResolution& resolution) {
   applySettings();
 
   return true;
-}
-
-void QtCamVideoMode::setProfile(GstEncodingProfile *profile) {
-  if (!d_ptr->dev->cameraBin) {
-    gst_encoding_profile_unref(profile);
-    return;
-  }
-
-  g_object_set(d_ptr->dev->cameraBin, "video-profile", profile, NULL);
 }
 
 QtCamVideoSettings *QtCamVideoMode::settings() {
