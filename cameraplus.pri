@@ -9,6 +9,8 @@ contains(MEEGO_EDITION, "harmattan") {
     message("Building for sailfish")
     DEFINES += SAILFISH
     CONFIG += sailfish
+    DEFINES += DATA_DIR=\\\"/usr/share/harbour-cameraplus/share/qtcamera/config/\\\"
+    LIBS += -Wl,-rpath=/usr/share/harbour-cameraplus/lib/
 }
 
 equals(QT_MAJOR_VERSION, 4) {

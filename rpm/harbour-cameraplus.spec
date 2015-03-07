@@ -11,7 +11,6 @@ URL:            http://gitorious.org/cameraplus
 Source0:        %{name}-%{version}.tar.gz
 Source1:        harbour-cameraplus.desktop
 Source2:        harbour-cameraplus.png
-Source3:        qmake.conf
 Source11:       binaries-droid.tgz
 BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(gstreamer-plugins-base-1.0)
@@ -54,7 +53,6 @@ Cameraplus is an advanced easy to use camera
 %setup -q
 
 %build
-cp %SOURCE3 .qmake.conf
 %qmake5
 
 make %{?jobs:-j%jobs}
