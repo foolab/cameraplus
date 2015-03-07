@@ -86,7 +86,7 @@ public:
       float megaPixels = capture.width() * capture.height();
       megaPixels = floor((megaPixels * 10) / (1000.0 * 1000.0)) / 10;
 
-      QString aspectRatio = resolutions->value("aspectratio").toString();
+      QString aspectRatio = calculateAspectRatio(viewfinder);
       QString commonName = resolutions->value("resolution").toString();
       QVariant device = resolutions->value("device");
 
@@ -117,6 +117,33 @@ public:
 
     return res.values();
   }
+
+  QString calculateAspectRatio(const QSize& size) {
+    if (m_ratios.isEmpty()) {
+      m_ratios[1.3] = "4:3";
+      m_ratios[1.5] = "3:2";
+      m_ratios[1.6] = "16:10";
+      m_ratios[1.7] = "16:9";
+    }
+
+    qDebug() << size;
+
+    float r = (size.width() * 1.0) / size.height();
+    r = floor(r * 10) / 10.0;
+
+    for (QMap<float, QString>::const_iterator iter = m_ratios.constBegin();
+	 iter != m_ratios.constEnd(); iter++) {
+      if (qFuzzyCompare (r, iter.key())) {
+	return iter.value();
+      }
+    }
+
+    qWarning() << "calculateAspectRatio: unknown aspect ratio for size" << size;
+
+    return QString("?:?");
+  }
+
+  QMap<float, QString> m_ratios;
 };
 
 QtCamConfig::QtCamConfig(QObject *parent) :
