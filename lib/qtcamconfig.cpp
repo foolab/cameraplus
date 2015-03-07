@@ -126,8 +126,6 @@ public:
       m_ratios[1.7] = "16:9";
     }
 
-    qDebug() << size;
-
     float r = (size.width() * 1.0) / size.height();
     r = floor(r * 10) / 10.0;
 
