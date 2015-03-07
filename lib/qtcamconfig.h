@@ -45,7 +45,7 @@ public:
 
   virtual ~QtCamConfig();
 
-  QString dir() const;
+  QString lookUp(const QString& path) const;
 
   QString deviceScannerType() const;
   QString deviceScannerProperty() const;

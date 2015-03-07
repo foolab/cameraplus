@@ -23,8 +23,6 @@
 #include <QSettings>
 #include <QDebug>
 
-#define PROPERTIES_FILE                       QString("%1/properties.ini")
-
 class QtCamPropertySetterPrivate {
 public:
   void binAdded(GstElement *bin) {
@@ -253,8 +251,7 @@ QtCamPropertySetter::QtCamPropertySetter(QtCamDevicePrivate *pvt) :
   d_ptr(new QtCamPropertySetterPrivate) {
   d_ptr->gstFraction = GST_TYPE_FRACTION;
 
-  d_ptr->conf = new QSettings(PROPERTIES_FILE.arg(pvt->conf->dir()),
-			      QSettings::IniFormat);
+  d_ptr->conf = new QSettings(pvt->conf->lookUp("properties.ini"), QSettings::IniFormat);
 
   d_ptr->binAdded(pvt->cameraBin);
 }

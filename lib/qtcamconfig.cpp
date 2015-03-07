@@ -160,6 +160,8 @@ public:
 
   QMap<float, QString> m_ratios;
   QHash<QSize, QString> m_names;
+
+  QString model;
 };
 
 QtCamConfig::QtCamConfig(QObject *parent) :
@@ -167,32 +169,27 @@ QtCamConfig::QtCamConfig(QObject *parent) :
   d_ptr(new QtCamConfigPrivate) {
 
 #ifdef QT4
-  QString dev = QtMobility::QSystemDeviceInfo().model().toLower();
+  d_ptr->model = QtMobility::QSystemDeviceInfo().model().toLower();
 #else
-  QString dev = QDeviceInfo().model().toLower();
+  d_ptr->model = QDeviceInfo().model().toLower();
 #endif
 
-  QString confFile = QString("%1/%2/qtcamera.ini").arg(dir()).arg(dev);
-  if (!QFile::exists(confFile)) {
-    confFile = QString("%1/qtcamera.ini").arg(dir());
-  }
-
-  d_ptr->conf = new QSettings(confFile, QSettings::IniFormat, this);
-
-  QString resolutions = QString("%1/%2/resolutions.ini").arg(dir()).arg(dev);
-  if (!QFile(resolutions).exists()) {
-    QString resolutions = QString("%1/resolutions.ini").arg(dir());
-  }
-
-  d_ptr->resolutions = new QSettings(resolutions, QSettings::IniFormat, this);
+  d_ptr->conf = new QSettings(lookUp("qtcamera.ini"), QSettings::IniFormat, this);
+  d_ptr->resolutions = new QSettings(lookUp("resolutions.ini"), QSettings::IniFormat, this);
 }
 
 QtCamConfig::~QtCamConfig() {
   delete d_ptr;
 }
 
-QString QtCamConfig::dir() const {
-  return QString::fromLocal8Bit(DATA_DIR);
+QString QtCamConfig::lookUp(const QString& path) const {
+  QString finalPath = QString("%1/%2/%3").arg(DATA_DIR).arg(d_ptr->model).arg(path);
+
+  if (!QFile::exists(finalPath)) {
+    finalPath = QString("%1/%2").arg(DATA_DIR).arg(path);
+  }
+
+  return finalPath;
 }
 
 QString QtCamConfig::deviceScannerType() const {
