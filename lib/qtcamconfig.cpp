@@ -41,6 +41,10 @@
 #define CONFIGURATION_FILE                    QString("%1/qtcamera.ini")
 #define RESOLUTIONS_FILE                      QString("%1/%2resolutions.ini")
 
+static inline uint qHash(const QSize& size) {
+  return qHash(QString("%1x%2").arg(size.width()).arg(size.height()));
+}
+
 class QtCamConfigPrivate {
 public:
   QString element(const QString& name) const {
@@ -87,7 +91,7 @@ public:
       megaPixels = floor((megaPixels * 10) / (1000.0 * 1000.0)) / 10;
 
       QString aspectRatio = calculateAspectRatio(capture);
-      QString commonName = resolutions->value("resolution").toString();
+      QString commonName = QtCamConfigPrivate::commonName(capture);
       QVariant device = resolutions->value("device");
 
       QtCamResolution::Mode mode;
@@ -141,7 +145,27 @@ public:
     return QString("?:?");
   }
 
+  QString commonName(const QSize& size) {
+    if (m_names.isEmpty()) {
+      m_names[QSize(1920, 1080)] = "1080p";
+      m_names[QSize(1920, 1088)] = "1080p";
+      m_names[QSize(1280, 720)] = "720p";
+      m_names[QSize(640, 480)] = "VGA";
+      m_names[QSize(848, 480)] = "WVGA"; // OK wikipedia lists it as wide PAL but WTH is wide PAL?
+      m_names[QSize(800, 480)] = "WVGA";
+      m_names[QSize(320, 240)] = "QVGA";
+    }
+
+    if (!m_names.contains(size)) {
+      qWarning() << "commonName: unknown name for the resolution" << size;
+      return QString("???");
+    }
+
+    return m_names[size];
+  }
+
   QMap<float, QString> m_ratios;
+  QHash<QSize, QString> m_names;
 };
 
 QtCamConfig::QtCamConfig(QObject *parent) :
