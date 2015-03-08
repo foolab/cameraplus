@@ -363,7 +363,9 @@ public:
     QList<QSize> res;
 
     if (!cameraBin) {
+#if 0
       qWarning() << "queryResolutions: no camerabin";
+#endif
       return res;
     }
 
@@ -371,7 +373,9 @@ public:
     g_object_get(cameraBin, prop, &caps, NULL);
 
     if (!caps) {
+#if 0
       qWarning() << "queryResolutions: no caps";
+#endif
       return res;
     }
 
@@ -381,7 +385,9 @@ public:
 
       if (!gst_structure_get_int(s, "width", &width) ||
 	  !gst_structure_get_int(s, "height", &height)) {
+#if 0
 	qWarning() << "queryResolutions: no dimensions";
+#endif
 	continue;
       }
 
