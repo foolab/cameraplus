@@ -359,6 +359,39 @@ public:
     QMetaObject::invokeMethod(d->q_ptr, "sensorOrientationAngleChanged", Qt::QueuedConnection);
   }
 
+  QList<QSize> queryResolutions(const char *prop) {
+    QList<QSize> res;
+
+    if (!cameraBin) {
+      qWarning() << "queryResolutions: no camerabin";
+      return res;
+    }
+
+    GstCaps *caps = NULL;
+    g_object_get(cameraBin, prop, &caps, NULL);
+
+    if (!caps) {
+      qWarning() << "queryResolutions: no caps";
+      return res;
+    }
+
+    for (guint x = 0; x < gst_caps_get_size(caps); x++) {
+      const GstStructure *s = gst_caps_get_structure(caps, x);
+      int width, height;
+
+      if (!gst_structure_get_int(s, "width", &width) ||
+	  !gst_structure_get_int(s, "height", &height)) {
+	qWarning() << "queryResolutions: no dimensions";
+	continue;
+      }
+
+      res << QSize(width, height);
+    }
+
+    gst_caps_unref(caps);
+
+    return res;
+  }
 
   QString name;
   QVariant id;

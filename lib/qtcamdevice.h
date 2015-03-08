@@ -69,6 +69,10 @@ public:
 
   int sensorOrientationAngle();
 
+  QList<QSize> queryImageResolutions();
+  QList<QSize> queryVideoResolutions();
+  QList<QSize> queryViewfinderResolutions();
+
 signals:
   void error(const QString& message, int code, const QString& debug);
   void started();

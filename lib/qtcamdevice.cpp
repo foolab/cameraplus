@@ -351,4 +351,16 @@ int QtCamDevice::sensorOrientationAngle() {
   return -1;
 }
 
+QList<QSize> QtCamDevice::queryImageResolutions() {
+  return d_ptr->queryResolutions("image-capture-supported-caps");
+}
+
+QList<QSize> QtCamDevice::queryVideoResolutions() {
+  return d_ptr->queryResolutions("video-capture-supported-caps");
+}
+
+QList<QSize> QtCamDevice::queryViewfinderResolutions() {
+  return d_ptr->queryResolutions("viewfinder-supported-caps");
+}
+
 #include "moc_qtcamdevice.cpp"
