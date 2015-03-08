@@ -32,15 +32,11 @@
 #else
 #include <QDeviceInfo>
 #endif
-#include <cmath>
+#include "qtcamutils.h"
 
 #ifndef DATA_DIR
 #define DATA_DIR                              "/usr/share/qtcamera/config/"
 #endif /* DATA_DIR */
-
-static inline uint qHash(const QSize& size) {
-  return qHash(QString("%1x%2").arg(size.width()).arg(size.height()));
-}
 
 class QtCamConfigPrivate {
 public:
@@ -83,11 +79,9 @@ public:
       int fps = resolutions->value("fps").toInt();
       int nightFps = resolutions->value("night").toInt();
       int zslFps = resolutions->value("zsl").toInt();
-      float megaPixels = capture.width() * capture.height();
-      megaPixels = floor((megaPixels * 10) / (1000.0 * 1000.0)) / 10;
-
-      QString aspectRatio = calculateAspectRatio(capture);
-      QString commonName = QtCamConfigPrivate::commonName(capture);
+      float megaPixels = QtCamUtils::megapixelsForResolution(capture);
+      QString aspectRatio = QtCamUtils::aspectRatioForResolution(capture);
+      QString commonName = QtCamUtils::commonNameForResolution(capture);
       QVariant device = resolutions->value("device");
 
       QtCamResolution::Mode mode;
@@ -115,51 +109,6 @@ public:
 
     return res.values();
   }
-
-  QString calculateAspectRatio(const QSize& size) {
-    if (m_ratios.isEmpty()) {
-      m_ratios[1.3] = "4:3";
-      m_ratios[1.5] = "3:2";
-      m_ratios[1.6] = "16:10";
-      m_ratios[1.7] = "16:9";
-    }
-
-    float r = (size.width() * 1.0) / size.height();
-    r = floor(r * 10) / 10.0;
-
-    for (QMap<float, QString>::const_iterator iter = m_ratios.constBegin();
-	 iter != m_ratios.constEnd(); iter++) {
-      if (qFuzzyCompare (r, iter.key())) {
-	return iter.value();
-      }
-    }
-
-    qWarning() << "calculateAspectRatio: unknown aspect ratio for size" << size;
-
-    return QString("?:?");
-  }
-
-  QString commonName(const QSize& size) {
-    if (m_names.isEmpty()) {
-      m_names[QSize(1920, 1080)] = "1080p";
-      m_names[QSize(1920, 1088)] = "1080p";
-      m_names[QSize(1280, 720)] = "720p";
-      m_names[QSize(640, 480)] = "VGA";
-      m_names[QSize(848, 480)] = "WVGA"; // OK wikipedia lists it as wide PAL but WTH is wide PAL?
-      m_names[QSize(800, 480)] = "WVGA";
-      m_names[QSize(320, 240)] = "QVGA";
-    }
-
-    if (!m_names.contains(size)) {
-      qWarning() << "commonName: unknown name for the resolution" << size;
-      return QString("???");
-    }
-
-    return m_names[size];
-  }
-
-  QMap<float, QString> m_ratios;
-  QHash<QSize, QString> m_names;
 
   QString model;
 };

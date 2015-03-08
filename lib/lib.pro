@@ -27,7 +27,7 @@ HEADERS += qtcamconfig.h qtcamera.h qtcamscanner.h qtcamdevice.h qtcamviewfinder
            qtcamvideomute.h qtcamnotifications.h qtcamfocus.h qtcamautofocus.h \
            qtcampropertysetter.h qtcamroi.h qtcamresolution.h \
            qtcamviewfinderbufferlistener.h qtcamviewfinderbufferhandler.h \
-           qtcamgstsample.h qtcamnullviewfinder.h
+           qtcamgstsample.h qtcamnullviewfinder.h qtcamutils.h
 
 SOURCES += qtcamconfig.cpp qtcamera.cpp qtcamscanner.cpp qtcamdevice.cpp qtcamviewfinder.cpp \
            qtcammode.cpp qtcamgstmessagehandler.cpp qtcamgstmessagelistener.cpp \
@@ -39,7 +39,7 @@ SOURCES += qtcamconfig.cpp qtcamera.cpp qtcamscanner.cpp qtcamdevice.cpp qtcamvi
            qtcamvideomute.cpp qtcamnotifications.cpp qtcamfocus.cpp qtcamautofocus.cpp \
            qtcampropertysetter.cpp qtcamroi.cpp qtcamresolution.cpp \
            qtcamviewfinderbufferlistener.cpp qtcamviewfinderbufferhandler.cpp \
-           qtcamgstsample.cpp qtcamnullviewfinder.cpp
+           qtcamgstsample.cpp qtcamnullviewfinder.cpp qtcamutils.cpp
 
 HEADERS += qtcammode_p.h qtcamdevice_p.h qtcamcapability_p.h qtcamautofocus_p.h \
            qtcamnotifications_p.h qtcamflash_p.h qtcamroi_p.h qtcamviewfinderbufferlistener_p.h
