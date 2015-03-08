@@ -25,13 +25,16 @@
 #include <qtcamdevice.h>
 #include <qtcamconfig.h>
 #include <qtcamnullviewfinder.h>
+#include <qtcamutils.h>
 #include <QDebug>
 
 void dump(const QList<QSize>& res, const char *name) {
   qDebug() << name << "resolutions";
 
   foreach (const QSize& r, res) {
-    qDebug() << r.width() << "x"<< r.height();
+    qDebug() << r.width() << "x"<< r.height() <<
+      QtCamUtils::aspectRatioForResolution(r) <<
+      QtCamUtils::commonNameForResolution(r);
   }
 }
 
