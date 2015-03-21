@@ -105,7 +105,6 @@ Viewfinder {
 
     BatteryInfo {
         id: batteryMonitor
-        active: cam.running
     }
 
     PreviewImage {

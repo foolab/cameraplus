@@ -1,7 +1,7 @@
 /*!
  * This file is part of CameraPlus.
  *
- * Copyright (C) 2012-2014 Mohammed Sameer <msameer@foolab.org>
+ * Copyright (C) 2012-2015 Mohammed Sameer <msameer@foolab.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,72 +19,46 @@
  */
 
 #include "batteryinfo.h"
-#include <qmbattery.h>
+#include <contextproperty.h>
 #if defined(QT4)
 #include <QDeclarativeInfo>
 #elif defined(QT5)
 #include <QQmlInfo>
 #endif
 
+#define PERCENTAGE_PROPERTY          "Battery.ChargePercentage"
+#define CHARGING_PROPERTY            "Battery.IsCharging"
+#define BATTERY_LOW_THRESHOLD        5
+
 BatteryInfo::BatteryInfo(QObject *parent) :
   QObject(parent),
-  m_battery(0),
-  m_isGood(true) {
+  m_percentage(new ContextProperty(PERCENTAGE_PROPERTY, this)),
+  m_charging(new ContextProperty(CHARGING_PROPERTY, this)) {
 
+  m_percentage->waitForSubscription(true);
+  m_charging->waitForSubscription(true);
+
+  QObject::connect(m_percentage, SIGNAL(valueChanged()), this, SLOT(check()));
+  QObject::connect(m_charging, SIGNAL(valueChanged()), this, SLOT(check()));
+
+  check();
 }
 
 BatteryInfo::~BatteryInfo() {
-  setActive(false);
+
 }
 
 bool BatteryInfo::isGood() const {
   return m_isGood;
 }
 
-bool BatteryInfo::isActive() const {
-  return m_battery != 0;
-}
-
-void BatteryInfo::setActive(bool active) {
-  if (isActive() == active) {
-    return;
-  }
-
-  if (!active) {
-    m_battery->deleteLater();
-    m_battery = 0;
-  }
-  else {
-    m_battery = new MeeGo::QmBattery(this);
-    QObject::connect(m_battery, SIGNAL(batteryStateChanged(MeeGo::QmBattery::BatteryState)),
-		     this, SLOT(check()));
-    QObject::connect(m_battery, SIGNAL(chargingStateChanged(MeeGo::QmBattery::ChargingState)),
-		     this, SLOT(check()));
-  }
-
-  emit activeChanged();
-
-  if (m_battery) {
-    check();
-  }
-}
-
 void BatteryInfo::check() {
   bool isGood = false;
 
-  if (!m_battery) {
-    qmlInfo(this) << "BatteryInfo has to be activated first";
+  if (m_charging->value().toBool()) {
     isGood = true;
-  } else if (m_battery->getChargingState() == MeeGo::QmBattery::StateCharging) {
+  } else if (m_percentage->value().toInt() > BATTERY_LOW_THRESHOLD) {
     isGood = true;
-  } else {
-    MeeGo::QmBattery::BatteryState state = m_battery->getBatteryState();
-
-    if (state == MeeGo::QmBattery::StateOK || state == MeeGo::QmBattery::StateFull) {
-      isGood = true;
-    } else {
-      isGood = false;
-    }
   }
 
   if (isGood != m_isGood) {

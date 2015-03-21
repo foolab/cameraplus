@@ -27,7 +27,7 @@ SOURCES += main.cpp \
            mountprotector.cpp devicesettings.cpp fileindex.cpp \
            stack.cpp toolbarlayout.cpp quillitem.cpp pluginloader.cpp \
            qrangemodel.cpp phoneprofile.cpp devicefeatures.cpp \
-           position.cpp
+           position.cpp batteryinfo.cpp
 
 HEADERS += settings.h filenaming.h cameraresources.h \
            trackerstore.h focusrectangle.h sharehelper.h \
@@ -36,7 +36,7 @@ HEADERS += settings.h filenaming.h cameraresources.h \
            mountprotector.h devicesettings.h fileindex.h \
            stack.h toolbarlayout.h quillitem.h pluginloader.h \
            qrangemodel.h phoneprofile.h devicefeatures.h \
-           position.h
+           position.h batteryinfo.h
 
 RESOURCES += ../qml/qml.qrc ../icons/icons.qrc
 
