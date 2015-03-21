@@ -44,6 +44,14 @@ BuildRequires:  quill-qt5-utils
 %description
 Cameraplus is an advanced easy to use camera
 
+%package tools
+Summary: Tools for cameraplus
+Group: Applications/Multimedia
+Requires:  harbour-cameraplus = %{version}-%{release}
+
+%description tools
+%{summary}
+
 %prep
 %setup -q
 
@@ -69,6 +77,9 @@ cp data/sailfish/video.gep $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qt
 cp data/sailfish/hammerhead/video.gep $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/nexus\ 5/
 cp data/sailfish/image.gep $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
 cp data/sailfish/properties.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
+
+# qtcamera tools
+cp tools/dump_resolutions $RPM_BUILD_ROOT/usr/bin/
 
 # cameraplus configuration
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/cameraplus/config/
@@ -134,3 +145,8 @@ cp /usr/lib/libquill-qt5.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 # dependencies
 %{_datadir}/harbour-cameraplus/share/*
 %{_datadir}/harbour-cameraplus/lib/*
+
+%files tools
+%defattr(-,root,root,-)
+%{_bindir}/dump_resolutions
+
