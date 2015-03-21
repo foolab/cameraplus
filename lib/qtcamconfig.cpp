@@ -118,9 +118,9 @@ QtCamConfig::QtCamConfig(QObject *parent) :
   d_ptr(new QtCamConfigPrivate) {
 
 #ifdef QT4
-  d_ptr->model = QtMobility::QSystemDeviceInfo().model().toLower();
+  d_ptr->model = QtMobility::QSystemDeviceInfo().productName().toLower();
 #else
-  d_ptr->model = QDeviceInfo().model().toLower();
+  d_ptr->model = QDeviceInfo().productName().toLower();
 #endif
 
   d_ptr->conf = new QSettings(lookUp("qtcamera.ini"), QSettings::IniFormat, this);
