@@ -35,17 +35,6 @@
 #define PATH "/usr/share/harbour-cameraplus/share/cameraplus/config/cameraplus.ini"
 #endif
 
-#define PREVIEW_SIZE                             QSize(854, 480)
-#define PREVIEW_FLAVOR_NAME                      QString("screen")
-#define GRID_SIZE                                QSize(170, 170)
-#define GRID_FLAVOR_NAME                         QString("cropped")
-#define TEMPORARY_FILE_PATH                      "%1%2.config%2quill%2tmp"
-#define THUMBNAIL_EXTENSION                      QString("jpeg")
-#define THUMBNAIL_CREATION_ENABLED               true
-#define DBUS_THUMBNAILING_ENABLED                true
-#define BACKGROUND_RENDERING_COLOR               QColor(Qt::black)
-#define MAX_TEXTURE_SIZE                         QSize(2048, 2048)
-
 #ifdef HARMATTAN
 #define IMAGE_PATH QString("%1%2MyDocs%2DCIM%2").arg(QDir::homePath()).arg(QDir::separator())
 #define VIDEO_PATH IMAGE_PATH
@@ -65,78 +54,6 @@ PlatformSettings::PlatformSettings(QObject *parent) :
 
 PlatformSettings::~PlatformSettings() {
   delete m_settings;
-}
-
-QSize PlatformSettings::previewSize() {
-  return m_settings->value("quill/previewSize", PREVIEW_SIZE).toSize();
-}
-
-QString PlatformSettings::previewFlavorName() {
-  return m_settings->value("quill/previewFlavorName", PREVIEW_FLAVOR_NAME).toString();
-}
-
-QSize PlatformSettings::gridSize() {
-  return m_settings->value("quill/gridSize", GRID_SIZE).toSize();
-}
-
-QString PlatformSettings::gridFlavorName() {
-  return m_settings->value("quill/gridFlavorName", GRID_FLAVOR_NAME).toString();
-}
-
-QString PlatformSettings::thumbnailExtension() {
-  return m_settings->value("quill/thumbnailExtension", THUMBNAIL_EXTENSION).toString();
-}
-
-QColor PlatformSettings::backgroundRenderingColor() {
-  return m_settings->value("quill/backgroundRenderingColor",
-			   BACKGROUND_RENDERING_COLOR).value<QColor>();
-}
-
-bool PlatformSettings::isDBusThumbnailingEnabled() {
-  return m_settings->value("quill/dbusThumbnailingEnabled", DBUS_THUMBNAILING_ENABLED).toBool();
-}
-
-bool PlatformSettings::isThumbnailCreationEnabled() {
-  return m_settings->value("quill/thumbnailCreationEnabled", THUMBNAIL_CREATION_ENABLED).toBool();
-}
-
-QString PlatformSettings::temporaryFilePath() {
-  QString defaultPath = QString(TEMPORARY_FILE_PATH).arg(QDir::homePath()).arg(QDir::separator());
-  return m_settings->value("quill/temporaryFilePath", defaultPath).toString();
-}
-
-void PlatformSettings::init() {
-  Quill::setPreviewLevelCount(3);
-
-  {
-    // cropped display level
-    QSize size = gridSize();
-    int len = qMax(size.width(), size.height());
-    Quill::setThumbnailFlavorName(QuillItem::DisplayLevelCropped, gridFlavorName());
-    Quill::setPreviewSize(QuillItem::DisplayLevelCropped, QSize(len, len));
-    Quill::setMinimumPreviewSize(QuillItem::DisplayLevelCropped, QSize(len, len));
-  }
-
-  {
-    // full screen display level
-    QSize size = previewSize();
-    int len = qMax(size.width(), size.height());
-
-    Quill::setThumbnailFlavorName(QuillItem::DisplayLevelFullScreen, previewFlavorName());
-    Quill::setPreviewSize(QuillItem::DisplayLevelFullScreen, QSize(len, len));
-  }
-
-  // large display level
-  Quill::setPreviewSize(QuillItem::DisplayLevelLarge, MAX_TEXTURE_SIZE);
-
-  Quill::setThumbnailExtension(thumbnailExtension());
-  Quill::setBackgroundRenderingColor(backgroundRenderingColor());
-  Quill::setDBusThumbnailingEnabled(isDBusThumbnailingEnabled());
-  Quill::setThumbnailCreationEnabled(isThumbnailCreationEnabled());
-
-  QString tempPath = temporaryFilePath();
-  QDir().mkpath(tempPath);
-  Quill::setTemporaryFilePath(tempPath);
 }
 
 PlatformSettings::Service PlatformSettings::service(const QString& id) {

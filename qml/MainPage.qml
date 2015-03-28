@@ -117,10 +117,7 @@ CameraPage {
         }
     }
 
-    Component.onCompleted: {
-        platformSettings.init()
-        root.resetCamera(settings.device)
-    }
+    Component.onCompleted: root.resetCamera(settings.device)
 
     PlatformSettings {
         id: platformSettings

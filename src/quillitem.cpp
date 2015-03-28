@@ -23,12 +23,50 @@
 #if defined(QT4)
 #include <QPainter>
 #include <QDeclarativeInfo>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 #elif defined(QT5)
 #include <QQmlInfo>
 #include <QQuickWindow>
 #include <QSGNode>
 #include <QSGSimpleTextureNode>
 #endif
+#include <QDir>
+
+#define PREVIEW_FLAVOR_NAME                      QString("screen")
+#define GRID_FLAVOR_NAME                         QString("cropped")
+#define THUMBNAIL_EXTENSION                      QString("jpeg")
+#define BACKGROUND_RENDERING_COLOR               QColor(Qt::black)
+#define MAX_TEXTURE_SIZE                         QSize(2048, 2048)
+
+bool QuillItem::m_initialized = false;
+
+static void initQuill(int width, int height) {
+  Quill::setThumbnailExtension(THUMBNAIL_EXTENSION);
+  Quill::setBackgroundRenderingColor(BACKGROUND_RENDERING_COLOR);
+  Quill::setDBusThumbnailingEnabled(true);
+  Quill::setThumbnailCreationEnabled(true);
+
+  QString tempPath = QString("%1/.config/quill/tmp/").arg(QDir::homePath());
+  QDir().mkpath(tempPath);
+  Quill::setTemporaryFilePath(tempPath);
+
+  Quill::setPreviewLevelCount(3);
+
+  // cropped level
+  int len = qMin(width, height) / 4;
+  Quill::setThumbnailFlavorName(QuillItem::DisplayLevelCropped, GRID_FLAVOR_NAME);
+  Quill::setPreviewSize(QuillItem::DisplayLevelCropped, QSize(len, len));
+  Quill::setMinimumPreviewSize(QuillItem::DisplayLevelCropped, QSize(len, len));
+
+  // full screen level
+  len = qMax(width, height);
+  Quill::setThumbnailFlavorName(QuillItem::DisplayLevelFullScreen, PREVIEW_FLAVOR_NAME);
+  Quill::setPreviewSize(QuillItem::DisplayLevelFullScreen, QSize(len, len));
+
+  // large level
+  Quill::setPreviewSize(QuillItem::DisplayLevelLarge, MAX_TEXTURE_SIZE);
+}
 
 #if defined(QT5)
 QuillItem::QuillItem(QQuickItem *parent) :
@@ -62,6 +100,20 @@ void QuillItem::componentComplete() {
 #elif defined(QT5)
   QQuickItem::componentComplete();
 #endif
+
+  if (!QuillItem::m_initialized) {
+#if defined(QT4)
+    QGraphicsView *v = scene()->views().isEmpty() ? 0 : scene()->views().at(0);
+    Q_ASSERT (v != 0);
+
+    initQuill(v->width(), v->height());
+#else
+    QQuickWindow *w = window();
+    initQuill(w->width(), w->height());
+#endif
+
+    QuillItem::m_initialized = true;
+  }
 
   m_file = new QuillFile(m_url.toLocalFile(), m_mimeType);
   m_file->setPriority(m_priority == PriorityHigh ?

@@ -60,18 +60,6 @@ public:
     QString m_method;
   };
 
-  QSize previewSize();
-  QString previewFlavorName();
-
-  QSize gridSize();
-  QString gridFlavorName();
-
-  QString thumbnailExtension();
-  QColor backgroundRenderingColor();
-  bool isDBusThumbnailingEnabled();
-  bool isThumbnailCreationEnabled();
-  QString temporaryFilePath();
-
   Service service(const QString& id);
 
   QString imageCaptureStartedSound() const;
@@ -91,9 +79,6 @@ public:
 
   int primarySensorOrientationAngle() const;
   int secondarySensorOrientationAngle() const;
-
-public slots:
-  void init();
 
 private:
   QString canonicalPath(const QString& path) const;

@@ -120,6 +120,8 @@ private:
   QImage m_image;
   QRectF m_sourceRect;
   QRectF m_targetRect;
+
+  static bool m_initialized;
 };
 
 #endif /* QUILL_ITEM_H */
