@@ -63,9 +63,6 @@ public:
     return settings->value(specificKey, var);
   }
 
-  QSettings *conf;
-  QSettings *resolutions;
-
   QList<QtCamResolution> readResolutions(const QtCamResolution::Mode& targetMode,
 					 const QVariant& targetDevice) {
     QMap<float, QtCamResolution> res;
@@ -110,6 +107,8 @@ public:
     return res.values();
   }
 
+  QSettings *conf;
+  QSettings *resolutions;
   QString model;
 };
 
