@@ -87,7 +87,7 @@ Item {
         anchors.bottomMargin: hideImageList ? -120 : 0
         anchors.right: parent.right
         anchors.left: parent.left
-        height: 120
+        height: (Math.min(postCaptureView.width, postCaptureView.height) / 4) + 4
         onCurrentIndexChanged: view.currentIndex = currentIndex
         highlightFollowsCurrentItem: true
         orientation: ListView.Horizontal
@@ -101,8 +101,8 @@ Item {
 
         delegate: Rectangle {
             id: rectangle
-            width: 120
-            height: 120
+            width: ListView.view.height
+            height: width
             border.color: media.video ? "blue" : "white"
             border.width: 2
             color: "black"
@@ -146,8 +146,8 @@ Item {
 
             QuillItem {
                 id: thumbnail
-                width: 116
-                height: 116
+                width: parent.width - 4
+                height: width
                 anchors.centerIn: parent
                 url: media.url
                 mimeType: media.mimeType
