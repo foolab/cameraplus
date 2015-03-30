@@ -44,6 +44,14 @@ BuildRequires:  quill-qt5-utils
 %description
 Cameraplus is an advanced easy to use camera
 
+%package tools
+Summary: Tools for cameraplus
+Group: Applications/Multimedia
+Requires:  harbour-cameraplus = %{version}-%{release}
+
+%description tools
+%{summary}
+
 %prep
 %setup -q
 
@@ -61,14 +69,18 @@ cp %SOURCE2 $RPM_BUILD_ROOT/usr/share/icons/hicolor/86x86/apps/
 
 # qtcamera configuration
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
-mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/jolla/
-mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/nexus\ 5/
+mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/jp-1301/
+mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/hammerhead/
 cp data/sailfish/qtcamera.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
-cp data/sailfish/jolla/resolutions.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/jolla/
+cp data/sailfish/jolla/resolutions.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/jp-1301/
 cp data/sailfish/video.gep $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
-cp data/sailfish/hammerhead/video.gep $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/nexus\ 5/
+cp data/sailfish/hammerhead/video.gep $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/hammerhead/
 cp data/sailfish/image.gep $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
 cp data/sailfish/properties.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
+cp data/sailfish/qtcamera.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
+
+# qtcamera tools
+cp tools/dump_resolutions $RPM_BUILD_ROOT/usr/bin/
 
 # cameraplus configuration
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/cameraplus/config/
@@ -134,3 +146,8 @@ cp /usr/lib/libquill-qt5.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 # dependencies
 %{_datadir}/harbour-cameraplus/share/*
 %{_datadir}/harbour-cameraplus/lib/*
+
+%files tools
+%defattr(-,root,root,-)
+%{_bindir}/dump_resolutions
+
