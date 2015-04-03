@@ -84,3 +84,25 @@ float QtCamUtils::megapixelsForResolution(const QSize& size) {
   mp = floor((mp * 10) / (1000.0 * 1000.0)) / 10;
   return mp;
 }
+
+QSize QtCamUtils::findMatchingResolution(const QSize& size, const QList<QSize>& sizes) {
+  QString r = aspectRatioForResolution(size);
+  if (r.isEmpty()) {
+    return QSize();
+  }
+
+  QSize target;
+
+  foreach (const QSize& s, sizes) {
+    if (aspectRatioForResolution(s) != r) {
+      continue;
+    }
+
+    int mp = s.width() * s.height();
+    if (mp > target.width() * target.height()) {
+      target = s;
+    }
+  }
+
+  return target;
+}

@@ -32,6 +32,7 @@ public:
   static QString commonNameForResolution(const QSize& size);
   static QString aspectRatioForResolution(const QSize& size);
   static float megapixelsForResolution(const QSize& size);
+  static QSize findMatchingResolution(const QSize& size, const QList<QSize>& sizes);
 };
 
 #endif /* QT_CAM_UTILS_H */
