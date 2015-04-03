@@ -176,3 +176,7 @@ QString QtCamConfig::mediaFourcc(const QString& id) const {
 QString QtCamConfig::fastCaptureProperty() const {
   return d_ptr->conf->value("fast-capture/property").toString();
 }
+
+QString QtCamConfig::resolutionsProvider() const {
+  return d_ptr->conf->value("General/resolutions").toString();
+}

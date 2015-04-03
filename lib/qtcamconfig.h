@@ -32,6 +32,9 @@
 #define RENDERER_TYPE_MEEGO                   "meego"
 #define RENDERER_TYPE_NEMO                    "nemo"
 
+#define RESOLUTIONS_PROVIDER_INI              "ini"
+#define RESOLUTIONS_PROVIDER_CAPS             "caps"
+
 class QtCamConfigPrivate;
 
 class QtCamConfig : public QObject {
@@ -86,6 +89,8 @@ public:
   QString mediaFourcc(const QString& id) const;
 
   QString fastCaptureProperty() const;
+
+  QString resolutionsProvider() const;
 
 private:
   QtCamConfigPrivate *d_ptr;
