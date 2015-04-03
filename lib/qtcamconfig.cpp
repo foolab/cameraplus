@@ -48,7 +48,10 @@ QtCamConfig::QtCamConfig(QObject *parent) :
 #endif
 
   d_ptr->conf = new QSettings(lookUp("qtcamera.ini"), QSettings::IniFormat, this);
-  d_ptr->resolutions = new QSettings(lookUp("resolutions.ini"), QSettings::IniFormat, this);
+
+  if (resolutionsProvider() == RESOLUTIONS_PROVIDER_INI) {
+    d_ptr->resolutions = new QSettings(lookUp("resolutions.ini"), QSettings::IniFormat, this);
+  }
 }
 
 QtCamConfig::~QtCamConfig() {

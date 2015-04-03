@@ -378,7 +378,15 @@ QtCamImageSettings *QtCamDevice::imageSettings() {
     QString profileName = conf->readWithFallback(generic, specific, "profile-name").toString();
     QString profilePath = conf->readWithFallback(generic, specific, "profile-path").toString();
     QString suffix = conf->readWithFallback(generic, specific, "extension").toString();
-    QList<QtCamResolution> resolutions = conf->readResolutions(QtCamResolution::ModeImage, id());
+
+    QList<QtCamResolution> resolutions;
+
+    if (d_ptr->conf->resolutionsProvider() == RESOLUTIONS_PROVIDER_INI) {
+      resolutions = conf->readResolutions(QtCamResolution::ModeImage, id());
+    } else {
+      resolutions =
+	d_ptr->generateImageResolutions(queryViewfinderResolutions(), queryImageResolutions());
+    }
 
     d_ptr->imageSettings =
       new QtCamImageSettings(id().toString(), suffix, profileName, profilePath, resolutions);
@@ -397,7 +405,15 @@ QtCamVideoSettings *QtCamDevice::videoSettings() {
     QString profileName = conf->readWithFallback(generic, specific, "profile-name").toString();
     QString profilePath = conf->readWithFallback(generic, specific, "profile-path").toString();
     QString suffix = conf->readWithFallback(generic, specific, "extension").toString();
-    QList<QtCamResolution> resolutions = conf->readResolutions(QtCamResolution::ModeVideo, id());
+
+    QList<QtCamResolution> resolutions;
+
+    if (d_ptr->conf->resolutionsProvider() == RESOLUTIONS_PROVIDER_INI) {
+      resolutions = conf->readResolutions(QtCamResolution::ModeVideo, id());
+    } else {
+      resolutions =
+	d_ptr->generateVideoResolutions(queryViewfinderResolutions(), queryVideoResolutions());
+    }
 
     d_ptr->videoSettings =
       new QtCamVideoSettings(id().toString(), suffix, profileName, profilePath, resolutions);

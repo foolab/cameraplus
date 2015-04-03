@@ -31,6 +31,8 @@
 #include "qtcammode.h"
 #include "qtcamviewfinderbufferlistener.h"
 #include "qtcamviewfinderbufferlistener_p.h"
+#include "qtcamresolution.h"
+#include "qtcamutils.h"
 
 class QtCamGstMessageListener;
 class QtCamMode;
@@ -397,6 +399,62 @@ public:
     }
 
     gst_caps_unref(caps);
+
+    return res;
+  }
+
+  QList<QtCamResolution> generateImageResolutions(const QList<QSize>& vf,
+						  const QList<QSize>& image) {
+
+    QList<QtCamResolution> res;
+
+    foreach (const QSize& i, image) {
+      QString aspect = QtCamUtils::aspectRatioForResolution(i);
+      QSize viewfinder = QtCamUtils::findMatchingResolution(i, vf);
+      if (!viewfinder.isValid()) {
+	continue;
+      }
+
+      float mp = QtCamUtils::megapixelsForResolution(i);
+      QString resolutionId = QString("%1-%2").arg(aspect).arg(mp);
+
+      // For now we use viewfinder as the preview, we hardcode FPS to 30.
+      // We also disable night mode and zsl
+      QtCamResolution r(resolutionId, aspect, i, viewfinder, viewfinder, 30, -1,
+			-1, mp, QString(), QtCamResolution::ModeImage, id);
+
+      res << r;
+    }
+
+    return res;
+  }
+
+  QList<QtCamResolution> generateVideoResolutions(const QList<QSize>& vf,
+						  const QList<QSize>& video) {
+    QList<QtCamResolution> res;
+
+    foreach (const QSize& v, video) {
+      QString aspect = QtCamUtils::aspectRatioForResolution(v);
+      QString commonName = QtCamUtils::commonNameForResolution(v);
+      if (commonName.isEmpty()) {
+	continue;
+      }
+
+      QSize viewfinder = QtCamUtils::findMatchingResolution(v, vf);
+      if (!viewfinder.isValid()) {
+	continue;
+      }
+
+      float mp = QtCamUtils::megapixelsForResolution(v);
+      QString resolutionId = QString("%1-%2").arg(aspect).arg(mp);
+
+      // For now we use viewfinder as the preview, we hardcode FPS to 30.
+      // We also disable night mode and zsl
+      QtCamResolution r(resolutionId, aspect, v, viewfinder, viewfinder, 30, -1,
+			-1, mp, commonName, QtCamResolution::ModeVideo, id);
+
+      res << r;
+    }
 
     return res;
   }
