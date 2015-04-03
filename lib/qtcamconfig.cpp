@@ -50,10 +50,7 @@ public:
   }
 
   QVariant readWithFallback(const QString& generic, const QString& specific, const QString& key,
-			    QSettings *settings = 0) {
-    if (!settings) {
-      settings = conf;
-    }
+			    QSettings *settings) {
 
     QString genericKey = QString("%1/%2").arg(generic).arg(key);
     QString specificKey = QString("%1/%2").arg(specific).arg(key);
