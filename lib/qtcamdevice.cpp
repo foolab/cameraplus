@@ -35,6 +35,32 @@
 #include "qtcamimagesettings.h"
 #include "qtcamvideosettings.h"
 
+#define SET_STATE(x)                                                                          \
+  {                                                                                           \
+    GstStateChangeReturn err = gst_element_set_state(d_ptr->cameraBin, x);                    \
+    if (err == GST_STATE_CHANGE_FAILURE) {                                                    \
+      qWarning() << "failed to set pipeline state to" << x;                                   \
+      return false;                                                                           \
+    }                                                                                         \
+                                                                                              \
+    if (err == GST_STATE_CHANGE_ASYNC) {                                                      \
+      /* We need to wait. Harmattan's subdevsrc has a race condition. If we set the scene */  \
+      /* mode to night and update the resolutions before the pipeline is running */           \
+      /* then it barfs with: streaming task paused, reason not-negotiated (-4) */             \
+      GstState state;                                                                         \
+      if (gst_element_get_state(d_ptr->cameraBin, &state, NULL, GST_SECOND)                   \
+	  != GST_STATE_CHANGE_SUCCESS) {                                                      \
+	/* We are seriously screwed up :( */                                                  \
+	return false;                                                                         \
+      }                                                                                       \
+                                                                                              \
+      if (state != x) {                                                                       \
+	/* Huh ? Is this even possible ?? */                                                  \
+	return false;                                                                         \
+      }                                                                                       \
+    }                                                                                         \
+  }
+
 QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
 			 const QVariant& id, QObject *parent) :
   QObject(parent),
@@ -193,13 +219,6 @@ bool QtCamDevice::start() {
     return true;
   }
 
-  if (!d_ptr->active) {
-    d_ptr->image->activate();
-  }
-  else {
-    d_ptr->active->applySettings();
-  }
-
   // start viewfinder.
   d_ptr->viewfinder->start();
 
@@ -208,31 +227,32 @@ bool QtCamDevice::start() {
     return false;
   }
 
-  GstStateChangeReturn err = gst_element_set_state(d_ptr->cameraBin, GST_STATE_PLAYING);
-  if (err == GST_STATE_CHANGE_FAILURE) {
-    qWarning() << "Failed to start camera pipeline";
-    return false;
+  // Go to paused state:
+  SET_STATE(GST_STATE_PAUSED);
+
+  // Now query the resolutions if needed
+  if (d_ptr->conf->resolutionsProvider() != RESOLUTIONS_PROVIDER_INI) {
+    if (!d_ptr->imageSettings->hasResolutions()) {
+      QList<QtCamResolution> resolutions =
+	d_ptr->generateImageResolutions(queryViewfinderResolutions(), queryImageResolutions());
+      d_ptr->imageSettings->updateResolutions(resolutions);
+    }
+
+    if (!d_ptr->videoSettings->hasResolutions()) {
+      QList<QtCamResolution> resolutions =
+	d_ptr->generateVideoResolutions(queryViewfinderResolutions(), queryVideoResolutions());
+      d_ptr->videoSettings->updateResolutions(resolutions);
+    }
   }
 
-  // We need to wait for startup to complet. There's a race condition somewhere in the pipeline.
-  // If we set the scene mode to night and update the resolution while starting up
-  // then subdevsrc2 barfs:
-  // streaming task paused, reason not-negotiated (-4)
-  GstState state;
-  if (err != GST_STATE_CHANGE_ASYNC) {
-    return true;
+  if (!d_ptr->active) {
+    d_ptr->image->activate();
+  }
+  else {
+    d_ptr->active->applySettings();
   }
 
-  if (gst_element_get_state(d_ptr->cameraBin, &state, 0, GST_CLOCK_TIME_NONE)
-      != GST_STATE_CHANGE_SUCCESS) {
-    // We are seriously screwed up :(
-    return false;
-  }
-
-  if (state != GST_STATE_PLAYING) {
-    // Huh ? Is this even possible ??
-    return false;
-  }
+  SET_STATE(GST_STATE_PLAYING);
 
   return true;
 }
