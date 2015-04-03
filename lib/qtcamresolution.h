@@ -42,7 +42,7 @@ public:
 		  int fps, int nightFps, int zslFps, float megaPixels, const QString& commonName,
 		  const Mode& mode, const QVariant device);
   QtCamResolution(const QtCamResolution& other);
-  QtCamResolution();
+  QtCamResolution(const QtCamResolution::Mode& mode);
 
   QtCamResolution& operator=(const QtCamResolution& other);
 

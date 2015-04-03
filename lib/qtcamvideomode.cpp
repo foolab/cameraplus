@@ -31,7 +31,8 @@
 class QtCamVideoModePrivate : public QtCamModePrivate {
 public:
   QtCamVideoModePrivate(QtCamDevicePrivate *dev) :
-  QtCamModePrivate(dev) {
+  QtCamModePrivate(dev),
+  resolution(QtCamResolution(QtCamResolution::ModeVideo)) {
 
   }
 

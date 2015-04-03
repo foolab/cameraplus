@@ -70,9 +70,10 @@ QtCamResolution& QtCamResolution::operator=(const QtCamResolution& other) {
   return *this;
 }
 
-QtCamResolution::QtCamResolution() :
+QtCamResolution::QtCamResolution(const QtCamResolution::Mode& mode) :
   d_ptr(new QtCamResolutionPrivate) {
 
+  d_ptr->mode = mode;
 }
 
 QtCamResolution::~QtCamResolution() {

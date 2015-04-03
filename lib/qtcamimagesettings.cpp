@@ -76,7 +76,7 @@ QString QtCamImageSettings::profilePath() const {
 
 QtCamResolution QtCamImageSettings::defaultResolution(const QString& aspectRatio) const {
   if (d_ptr->resolutions.isEmpty()) {
-    return QtCamResolution();
+    return QtCamResolution(QtCamResolution::ModeImage);
   }
 
   if (aspectRatio.isEmpty()) {
