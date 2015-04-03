@@ -29,6 +29,13 @@
 
 class QtCamConfigPrivate {
 public:
+  QtCamConfigPrivate(QtCamConfig *q) :
+    q_ptr(q),
+    conf(0),
+    resolutions(0) {
+
+  }
+
   QString element(const QString& name) const {
     return conf->value(QString("%1/element").arg(name)).toString();
   }
@@ -92,6 +99,7 @@ public:
     return res.values();
   }
 
+  QtCamConfig *q_ptr;
   QSettings *conf;
   QSettings *resolutions;
   QString model;

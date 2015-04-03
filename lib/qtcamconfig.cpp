@@ -39,7 +39,7 @@
 
 QtCamConfig::QtCamConfig(QObject *parent) :
   QObject(parent),
-  d_ptr(new QtCamConfigPrivate) {
+  d_ptr(new QtCamConfigPrivate(this)) {
 
 #ifdef QT4
   d_ptr->model = QtMobility::QSystemDeviceInfo().productName().toLower();
