@@ -31,14 +31,11 @@
 class QtCamVideoModePrivate : public QtCamModePrivate {
 public:
   QtCamVideoModePrivate(QtCamDevicePrivate *dev) :
-  QtCamModePrivate(dev),
-  settings(dev->q_ptr->videoSettings()),
-  resolution(settings->defaultResolution()) {
+  QtCamModePrivate(dev) {
 
   }
 
   ~QtCamVideoModePrivate() {
-    settings = 0;
   }
 
   void _d_idleStateChanged(bool isIdle) {
@@ -48,7 +45,6 @@ public:
     }
   }
 
-  QtCamVideoSettings *settings;
   QtCamResolution resolution;
 };
 
@@ -125,6 +121,10 @@ bool QtCamVideoMode::canCapture() {
 }
 
 void QtCamVideoMode::applySettings() {
+  if (!d->resolution.isValid()) {
+    d->resolution = settings()->defaultResolution();
+  }
+
   bool night = d_ptr->inNightMode();
 
   int fps = night ? d->resolution.nightFrameRate() : d->resolution.frameRate();
@@ -224,7 +224,7 @@ bool QtCamVideoMode::setResolution(const QtCamResolution& resolution) {
 }
 
 QtCamVideoSettings *QtCamVideoMode::settings() {
-  return d->settings;
+  return d_ptr->dev->q_ptr->videoSettings();
 }
 
 QtCamResolution QtCamVideoMode::currentResolution() {

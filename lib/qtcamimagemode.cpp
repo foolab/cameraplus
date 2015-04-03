@@ -28,14 +28,11 @@ class QtCamImageModePrivate : public QtCamModePrivate {
 public:
   QtCamImageModePrivate(QtCamDevicePrivate *dev) :
   QtCamModePrivate(dev),
-  settings(dev->q_ptr->imageSettings()),
-  resolution(settings->defaultResolution()),
   fastCaptureEnabled(false) {
 
   }
 
   ~QtCamImageModePrivate() {
-    settings = 0;
   }
 
   bool applyFastCapture() {
@@ -64,7 +61,6 @@ public:
     return true;
   }
 
-  QtCamImageSettings *settings;
   QtCamResolution resolution;
   bool fastCaptureEnabled;
 };
@@ -96,6 +92,10 @@ bool QtCamImageMode::canCapture() {
 }
 
 void QtCamImageMode::applySettings() {
+  if (!d->resolution.isValid()) {
+    d->resolution = settings()->defaultResolution();
+  }
+
   int fps = d->resolution.frameRate();
 
   if (d_ptr->inNightMode()) {
@@ -176,7 +176,7 @@ bool QtCamImageMode::setResolution(const QtCamResolution& resolution) {
 }
 
 QtCamImageSettings *QtCamImageMode::settings() const {
-  return d->settings;
+  return d_ptr->dev->q_ptr->imageSettings();
 }
 
 QtCamResolution QtCamImageMode::currentResolution() {
