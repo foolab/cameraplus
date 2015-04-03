@@ -122,7 +122,8 @@ void Plugin::registerTypes(const char *uri) {
   qmlRegisterType<Viewfinder>(uri, MAJOR, MINOR, "Viewfinder");
   qmlRegisterType<Capability>();
 
-  qmlRegisterType<Resolution>(uri, MAJOR, MINOR, "Resolution");
+  qmlRegisterUncreatableType<Resolution>(uri, MAJOR, MINOR, "Resolution",
+					 "Resolution cannot be created manually");
   qmlRegisterType<ViewfinderBufferHandler>(uri, MAJOR, MINOR, "ViewfinderBufferHandler");
 }
 

@@ -22,11 +22,6 @@
 
 #include "resolution.h"
 
-Resolution::Resolution(QObject *parent) :
-  QObject(parent) {
-
-}
-
 Resolution::Resolution(const QtCamResolution& resolution, QObject *parent) :
   QObject(parent),
   m_resolution(resolution) {

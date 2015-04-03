@@ -40,7 +40,6 @@ class Resolution : public QObject {
   Q_PROPERTY(float megaPixels READ megaPixels WRITE setMegaPixels NOTIFY megaPixelsChanged);
 
 public:
-  Resolution(QObject *parent = 0);
   Resolution(const QtCamResolution& resolution, QObject *parent = 0);
   ~Resolution();
 
