@@ -26,9 +26,6 @@
 #include <QObject>
 #include <QStringList>
 
-class QtCamImageSettings;
-class QtCamVideoSettings;
-
 #define SCANNER_TYPE_V4L2                     "v4l2"
 #define SCANNER_TYPE_ENUM                     "enum"
 
@@ -39,6 +36,7 @@ class QtCamConfigPrivate;
 
 class QtCamConfig : public QObject {
   Q_OBJECT
+  friend class QtCamDevice;
 
 public:
   QtCamConfig(QObject *parent = 0);
@@ -59,9 +57,6 @@ public:
   QString audioSource() const;
   QString wrapperVideoSource() const;
   QString wrapperVideoSourceProperty() const;
-
-  QtCamImageSettings *imageSettings(const QVariant& id);
-  QtCamVideoSettings *videoSettings(const QVariant& id);
 
   QString imageEncodingProfileName() const;
   QString imageEncodingProfilePath() const;

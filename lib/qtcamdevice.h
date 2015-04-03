@@ -37,6 +37,8 @@ class QtCamMetaData;
 class QtCamCapability;
 class QtCamNotifications;
 class QtCamViewfinderBufferListener;
+class QtCamImageSettings;
+class QtCamVideoSettings;
 
 class QtCamDevice : public QObject {
   Q_OBJECT
@@ -72,6 +74,9 @@ public:
   QList<QSize> queryImageResolutions();
   QList<QSize> queryVideoResolutions();
   QList<QSize> queryViewfinderResolutions();
+
+  QtCamImageSettings *imageSettings();
+  QtCamVideoSettings *videoSettings();
 
 signals:
   void error(const QString& message, int code, const QString& debug);

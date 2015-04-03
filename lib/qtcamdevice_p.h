@@ -53,7 +53,9 @@ public:
     conf(0),
     error(false),
     notifications(0),
-    viewfinderFilters(0) {
+    viewfinderFilters(0),
+    imageSettings(0),
+    videoSettings(0) {
 
   }
 
@@ -421,6 +423,8 @@ public:
   QtCamNotifications *notifications;
   QtCamPropertySetter *propertySetter;
   GstElement *viewfinderFilters;
+  QtCamImageSettings *imageSettings;
+  QtCamVideoSettings *videoSettings;
 };
 
 #endif /* QT_CAM_DEVICE_P_H */

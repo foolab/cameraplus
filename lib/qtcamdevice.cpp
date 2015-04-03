@@ -31,6 +31,9 @@
 #include "qtcamnotifications.h"
 #include "qtcampropertysetter.h"
 #include "qtcamviewfinderbufferlistener.h"
+#include "qtcamconfig_p.h"
+#include "qtcamimagesettings.h"
+#include "qtcamvideosettings.h"
 
 QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
 			 const QVariant& id, QObject *parent) :
@@ -131,6 +134,9 @@ QtCamDevice::~QtCamDevice() {
   if (d_ptr->cameraBin) {
     gst_object_unref(d_ptr->cameraBin);
   }
+
+  delete d_ptr->imageSettings; d_ptr->imageSettings = 0;
+  delete d_ptr->videoSettings; d_ptr->videoSettings = 0;
 
   delete d_ptr; d_ptr = 0;
 }
@@ -361,6 +367,43 @@ QList<QSize> QtCamDevice::queryVideoResolutions() {
 
 QList<QSize> QtCamDevice::queryViewfinderResolutions() {
   return d_ptr->queryResolutions("viewfinder-supported-caps");
+}
+
+QtCamImageSettings *QtCamDevice::imageSettings() {
+  if (!d_ptr->imageSettings) {
+    QtCamConfigPrivate *conf = d_ptr->conf->d_ptr;
+
+    QString generic = "image";
+    QString specific = QString("%1-%2").arg(generic).arg(id().toString());
+    QString profileName = conf->readWithFallback(generic, specific, "profile-name").toString();
+    QString profilePath = conf->readWithFallback(generic, specific, "profile-path").toString();
+    QString suffix = conf->readWithFallback(generic, specific, "extension").toString();
+    QList<QtCamResolution> resolutions = conf->readResolutions(QtCamResolution::ModeImage, id());
+
+    d_ptr->imageSettings =
+      new QtCamImageSettings(id().toString(), suffix, profileName, profilePath, resolutions);
+  }
+
+  return d_ptr->imageSettings;
+}
+
+QtCamVideoSettings *QtCamDevice::videoSettings() {
+  if (!d_ptr->videoSettings) {
+    QtCamConfigPrivate *conf = d_ptr->conf->d_ptr;
+
+    QString generic = "video";
+    QString specific = QString("%1-%2").arg(generic).arg(id().toString());
+
+    QString profileName = conf->readWithFallback(generic, specific, "profile-name").toString();
+    QString profilePath = conf->readWithFallback(generic, specific, "profile-path").toString();
+    QString suffix = conf->readWithFallback(generic, specific, "extension").toString();
+    QList<QtCamResolution> resolutions = conf->readResolutions(QtCamResolution::ModeVideo, id());
+
+    d_ptr->videoSettings =
+      new QtCamVideoSettings(id().toString(), suffix, profileName, profilePath, resolutions);
+  }
+
+  return d_ptr->videoSettings;
 }
 
 #include "moc_qtcamdevice.cpp"

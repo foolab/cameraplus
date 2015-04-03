@@ -32,13 +32,13 @@ class QtCamVideoModePrivate : public QtCamModePrivate {
 public:
   QtCamVideoModePrivate(QtCamDevicePrivate *dev) :
   QtCamModePrivate(dev),
-  settings(dev->conf->videoSettings(dev->id)),
+  settings(dev->q_ptr->videoSettings()),
   resolution(settings->defaultResolution()) {
 
   }
 
   ~QtCamVideoModePrivate() {
-    delete settings;
+    settings = 0;
   }
 
   void _d_idleStateChanged(bool isIdle) {

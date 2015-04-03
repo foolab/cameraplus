@@ -28,14 +28,14 @@ class QtCamImageModePrivate : public QtCamModePrivate {
 public:
   QtCamImageModePrivate(QtCamDevicePrivate *dev) :
   QtCamModePrivate(dev),
-  settings(dev->conf->imageSettings(dev->id)),
+  settings(dev->q_ptr->imageSettings()),
   resolution(settings->defaultResolution()),
   fastCaptureEnabled(false) {
 
   }
 
   ~QtCamImageModePrivate() {
-    delete settings;
+    settings = 0;
   }
 
   bool applyFastCapture() {

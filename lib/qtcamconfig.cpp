@@ -19,8 +19,6 @@
  */
 
 #include "qtcamconfig.h"
-#include "qtcamimagesettings.h"
-#include "qtcamvideosettings.h"
 #include "qtcamresolution.h"
 #include <QSettings>
 #include <QStringList>
@@ -101,34 +99,6 @@ QString QtCamConfig::wrapperVideoSource() const {
 
 QString QtCamConfig::wrapperVideoSourceProperty() const {
   return d_ptr->conf->value("wrapper-video-source/property").toString();
-}
-
-QtCamImageSettings *QtCamConfig::imageSettings(const QVariant& id) {
-  QString generic = "image";
-  QString specific = QString("%1-%2").arg(generic).arg(id.toString());
-
-  QString profileName = d_ptr->readWithFallback(generic, specific, "profile-name").toString();
-  QString profilePath = d_ptr->readWithFallback(generic, specific, "profile-path").toString();
-  QString suffix = d_ptr->readWithFallback(generic, specific, "extension").toString();
-
-  QList<QtCamResolution> resolutions = d_ptr->readResolutions(QtCamResolution::ModeImage,
-							      id);
-
-  return new QtCamImageSettings(id.toString(), suffix, profileName, profilePath, resolutions);
-}
-
-QtCamVideoSettings *QtCamConfig::videoSettings(const QVariant& id) {
-  QString generic = "video";
-  QString specific = QString("%1-%2").arg(generic).arg(id.toString());
-
-  QString profileName = d_ptr->readWithFallback(generic, specific, "profile-name").toString();
-  QString profilePath = d_ptr->readWithFallback(generic, specific, "profile-path").toString();
-  QString suffix = d_ptr->readWithFallback(generic, specific, "extension").toString();
-
-  QList<QtCamResolution> resolutions = d_ptr->readResolutions(QtCamResolution::ModeVideo,
-							      id);
-
-  return new QtCamVideoSettings(id.toString(), suffix, profileName, profilePath, resolutions);
 }
 
 QString QtCamConfig::imageEncodingProfileName() const {

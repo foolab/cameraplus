@@ -38,15 +38,14 @@ public:
     return QSize(parts[0].toInt(), parts[1].toInt());
   }
 
-  QVariant readWithFallback(const QString& generic, const QString& specific, const QString& key,
-			    QSettings *settings) {
+  QVariant readWithFallback(const QString& generic, const QString& specific, const QString& key) {
 
     QString genericKey = QString("%1/%2").arg(generic).arg(key);
     QString specificKey = QString("%1/%2").arg(specific).arg(key);
 
-    QVariant var = settings->value(genericKey);
+    QVariant var = conf->value(genericKey);
 
-    return settings->value(specificKey, var);
+    return conf->value(specificKey, var);
   }
 
   QList<QtCamResolution> readResolutions(const QtCamResolution::Mode& targetMode,
