@@ -51,6 +51,9 @@ public:
   QList<QtCamResolution> resolutions(const QString& aspectRatio = QString()) const;
   QStringList aspectRatios() const;
 
+  bool hasResolutions() const;
+  void updateResolutions(const QList<QtCamResolution>& resolutions);
+
 private:
   QSharedDataPointer<QtCamImageSettingsPrivate> d_ptr;
 };

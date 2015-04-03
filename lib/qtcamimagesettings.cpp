@@ -119,3 +119,11 @@ QStringList QtCamImageSettings::aspectRatios() const {
 
   return aspects;
 }
+
+bool QtCamImageSettings::hasResolutions() const {
+  return !d_ptr->resolutions.isEmpty();
+}
+
+void QtCamImageSettings::updateResolutions(const QList<QtCamResolution>& resolutions) {
+  d_ptr->resolutions = resolutions;
+}
