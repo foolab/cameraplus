@@ -22,6 +22,13 @@
 
 class QtCamResolutionPrivate : public QSharedData {
 public:
+  QtCamResolutionPrivate() :
+    fps(-1),
+    nightFps(-1),
+    zslFps(-1),
+    megaPixels(-1) {
+  }
+
   QString id;
   QString aspectRatio;
   QString commonName;
