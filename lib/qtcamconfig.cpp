@@ -33,81 +33,11 @@
 #include <QDeviceInfo>
 #endif
 #include "qtcamutils.h"
+#include "qtcamconfig_p.h"
 
 #ifndef DATA_DIR
 #define DATA_DIR                              "/usr/share/qtcamera/config/"
 #endif /* DATA_DIR */
-
-class QtCamConfigPrivate {
-public:
-  QString element(const QString& name) const {
-    return conf->value(QString("%1/element").arg(name)).toString();
-  }
-
-  QSize readResolution(const QString key) {
-    QList<QString> parts = resolutions->value(key).toString().trimmed().split("x");
-    return QSize(parts[0].toInt(), parts[1].toInt());
-  }
-
-  QVariant readWithFallback(const QString& generic, const QString& specific, const QString& key,
-			    QSettings *settings) {
-
-    QString genericKey = QString("%1/%2").arg(generic).arg(key);
-    QString specificKey = QString("%1/%2").arg(specific).arg(key);
-
-    QVariant var = settings->value(genericKey);
-
-    return settings->value(specificKey, var);
-  }
-
-  QList<QtCamResolution> readResolutions(const QtCamResolution::Mode& targetMode,
-					 const QVariant& targetDevice) {
-    QMap<float, QtCamResolution> res;
-
-    foreach (const QString& id, resolutions->childGroups()) {
-      resolutions->beginGroup(id);
-
-      QSize capture = readResolution("capture");
-      QSize preview = readResolution("preview");
-      QSize viewfinder = readResolution("viewfinder");
-      int fps = resolutions->value("fps").toInt();
-      int nightFps = resolutions->value("night").toInt();
-      int zslFps = resolutions->value("zsl").toInt();
-      float megaPixels = QtCamUtils::megapixelsForResolution(capture);
-      QString aspectRatio = QtCamUtils::aspectRatioForResolution(capture);
-      QString commonName = QtCamUtils::commonNameForResolution(capture);
-      QVariant device = resolutions->value("device");
-
-      QtCamResolution::Mode mode;
-      QString m = resolutions->value("mode").toString();
-
-      if (m == "image") {
-	mode = QtCamResolution::ModeImage;
-      }
-      else if (m == "video") {
-	mode = QtCamResolution::ModeVideo;
-      }
-
-      resolutions->endGroup();
-
-      if (targetMode != mode || targetDevice != device) {
-	continue;
-      }
-
-      QtCamResolution r(id, aspectRatio, capture, preview, viewfinder, fps, nightFps,
-			zslFps, megaPixels, commonName, mode, device);
-      if (r.isValid()) {
-	res.insertMulti(-1 * megaPixels, r); // a trick to sort in reverse!
-      }
-    }
-
-    return res.values();
-  }
-
-  QSettings *conf;
-  QSettings *resolutions;
-  QString model;
-};
 
 QtCamConfig::QtCamConfig(QObject *parent) :
   QObject(parent),
