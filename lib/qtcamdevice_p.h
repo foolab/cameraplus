@@ -371,6 +371,15 @@ public:
       return res;
     }
 
+    GstState st;
+    if (gst_element_get_state(cameraBin, &st, NULL, GST_SECOND) != GST_STATE_CHANGE_SUCCESS) {
+      return res;
+    }
+
+    if (st == GST_STATE_NULL) {
+      return res;
+    }
+
     GstCaps *caps = NULL;
     g_object_get(cameraBin, prop, &caps, NULL);
 
