@@ -58,10 +58,12 @@ QString QtCamUtils::aspectRatioForResolution(const QSize& size) {
   static QMap<float, QString> ratios;
 
   if (ratios.isEmpty()) {
+    ratios[1.2] = "1:2";
     ratios[1.3] = "4:3";
     ratios[1.5] = "3:2";
     ratios[1.6] = "16:10";
     ratios[1.7] = "16:9";
+    ratios[1.8] = "9:5";
   }
 
   float r = (size.width() * 1.0) / size.height();
@@ -74,9 +76,7 @@ QString QtCamUtils::aspectRatioForResolution(const QSize& size) {
     }
   }
 
-#if 0
   qWarning() << "calculateAspectRatio: unknown aspect ratio for size" << size;
-#endif
 
   return QString("?:?");
 }
