@@ -20,7 +20,7 @@
 
 #include "qtcamvideosettings.h"
 
-class QtCamVideoSettingsPrivate : public QSharedData {
+class QtCamVideoSettingsPrivate {
 public:
   QString id;
   QString suffix;
@@ -32,7 +32,9 @@ public:
 QtCamVideoSettings::QtCamVideoSettings(const QString& id, const QString& suffix,
 				       const QString& profileName,
 				       const QString& profilePath,
-				       const QList<QtCamResolution>& resolutions) :
+				       const QList<QtCamResolution>& resolutions,
+				       QObject *parent) :
+  QObject(parent),
   d_ptr(new QtCamVideoSettingsPrivate) {
 
   d_ptr->id = id;
@@ -42,19 +44,8 @@ QtCamVideoSettings::QtCamVideoSettings(const QString& id, const QString& suffix,
   d_ptr->resolutions = resolutions;
 }
 
-QtCamVideoSettings::QtCamVideoSettings(const QtCamVideoSettings& other) :
-  d_ptr(other.d_ptr) {
-
-}
-
-QtCamVideoSettings& QtCamVideoSettings::operator=(const QtCamVideoSettings& other) {
-  d_ptr = other.d_ptr;
-
-  return *this;
-}
-
 QtCamVideoSettings::~QtCamVideoSettings() {
-  // QSharedData will take care of reference counting.
+  delete d_ptr; d_ptr = 0;
 }
 
 QString QtCamVideoSettings::id() const {
@@ -125,4 +116,6 @@ bool QtCamVideoSettings::hasResolutions() const {
 
 void QtCamVideoSettings::updateResolutions(const QList<QtCamResolution>& resolutions) {
   d_ptr->resolutions = resolutions;
+
+  emit resolutionsUpdated();
 }

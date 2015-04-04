@@ -409,7 +409,7 @@ QtCamImageSettings *QtCamDevice::imageSettings() {
     }
 
     d_ptr->imageSettings =
-      new QtCamImageSettings(id().toString(), suffix, profileName, profilePath, resolutions);
+      new QtCamImageSettings(id().toString(), suffix, profileName, profilePath, resolutions, this);
   }
 
   return d_ptr->imageSettings;
@@ -436,7 +436,7 @@ QtCamVideoSettings *QtCamDevice::videoSettings() {
     }
 
     d_ptr->videoSettings =
-      new QtCamVideoSettings(id().toString(), suffix, profileName, profilePath, resolutions);
+      new QtCamVideoSettings(id().toString(), suffix, profileName, profilePath, resolutions, this);
   }
 
   return d_ptr->videoSettings;

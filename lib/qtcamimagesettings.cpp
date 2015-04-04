@@ -19,10 +19,9 @@
  */
 
 #include "qtcamimagesettings.h"
-#include <QSharedData>
 #include <QDebug>
 
-class QtCamImageSettingsPrivate : public QSharedData {
+class QtCamImageSettingsPrivate {
 public:
   QString id;
   QString suffix;
@@ -33,7 +32,9 @@ public:
 
 QtCamImageSettings::QtCamImageSettings(const QString& id, const QString& suffix,
 				       const QString& profileName, const QString& profilePath,
-				       const QList<QtCamResolution>& resolutions) :
+				       const QList<QtCamResolution>& resolutions,
+				       QObject *parent) :
+  QObject(parent),
   d_ptr(new QtCamImageSettingsPrivate) {
 
   d_ptr->id = id;
@@ -43,19 +44,8 @@ QtCamImageSettings::QtCamImageSettings(const QString& id, const QString& suffix,
   d_ptr->resolutions = resolutions;
 }
 
-QtCamImageSettings::QtCamImageSettings(const QtCamImageSettings& other) :
-  d_ptr(other.d_ptr) {
-
-}
-
-QtCamImageSettings& QtCamImageSettings::operator=(const QtCamImageSettings& other) {
-  d_ptr = other.d_ptr;
-
-  return *this;
-}
-
 QtCamImageSettings::~QtCamImageSettings() {
-  // QSharedData will take care of reference counting.
+  delete d_ptr; d_ptr = 0;
 }
 
 QString QtCamImageSettings::id() const {
@@ -126,4 +116,6 @@ bool QtCamImageSettings::hasResolutions() const {
 
 void QtCamImageSettings::updateResolutions(const QList<QtCamResolution>& resolutions) {
   d_ptr->resolutions = resolutions;
+
+  emit resolutionsUpdated();
 }

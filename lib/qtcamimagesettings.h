@@ -23,22 +23,22 @@
 #ifndef QT_CAM_IMAGE_SETTINGS_H
 #define QT_CAM_IMAGE_SETTINGS_H
 
+#include <QObject>
 #include <QSize>
 #include <QPair>
 #include <QString>
-#include <QSharedDataPointer>
 #include <QStringList>
 #include "qtcamresolution.h"
 
 class QtCamImageSettingsPrivate;
 
-class QtCamImageSettings {
+class QtCamImageSettings : public QObject {
+  Q_OBJECT
+
 public:
   QtCamImageSettings(const QString& id, const QString& suffix, const QString& profileName,
-		     const QString& profilePath, const QList<QtCamResolution>& resolutions);
-  QtCamImageSettings(const QtCamImageSettings& other);
-
-  QtCamImageSettings& operator=(const QtCamImageSettings& other);
+		     const QString& profilePath, const QList<QtCamResolution>& resolutions,
+		     QObject *parent = 0);
 
   ~QtCamImageSettings();
 
@@ -54,8 +54,11 @@ public:
   bool hasResolutions() const;
   void updateResolutions(const QList<QtCamResolution>& resolutions);
 
+signals:
+  void resolutionsUpdated();
+
 private:
-  QSharedDataPointer<QtCamImageSettingsPrivate> d_ptr;
+  QtCamImageSettingsPrivate *d_ptr;
 };
 
 #endif /* QT_CAM_IMAGE_SETTINGS_H */
