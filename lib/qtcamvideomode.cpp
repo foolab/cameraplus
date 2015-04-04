@@ -124,6 +124,7 @@ bool QtCamVideoMode::canCapture() {
 void QtCamVideoMode::applySettings() {
   if (!d->resolution.isValid()) {
     d->resolution = settings()->defaultResolution();
+    emit resolutionChanged();
   }
 
   bool night = d_ptr->inNightMode();
@@ -207,6 +208,7 @@ void QtCamVideoMode::stopRecording(bool sync) {
 
 bool QtCamVideoMode::setResolution(const QtCamResolution& resolution) {
   d->resolution = resolution;
+  emit resolutionChanged();
 
   if (!d_ptr->dev->q_ptr->isRunning()) {
     // We will return true here because setting the resolution on a non-running pipeline

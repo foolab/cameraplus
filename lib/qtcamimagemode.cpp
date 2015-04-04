@@ -95,6 +95,7 @@ bool QtCamImageMode::canCapture() {
 void QtCamImageMode::applySettings() {
   if (!d->resolution.isValid()) {
     d->resolution = settings()->defaultResolution();
+    emit resolutionChanged();
   }
 
   int fps = d->resolution.frameRate();
@@ -159,6 +160,7 @@ bool QtCamImageMode::capture(const QString& fileName) {
 
 bool QtCamImageMode::setResolution(const QtCamResolution& resolution) {
   d->resolution = resolution;
+  emit resolutionChanged();
 
   if (!d_ptr->dev->q_ptr->isRunning()) {
     // We will return true here because setting the resolution on a non-running pipeline
