@@ -40,12 +40,14 @@ QString QtCamUtils::commonNameForResolution(const QSize& size) {
     names[QSize(848, 480)] = "WVGA"; // OK wikipedia lists it as wide PAL but WTH is wide PAL?
     names[QSize(800, 480)] = "WVGA";
     names[QSize(320, 240)] = "QVGA";
+    names[QSize(720, 480)] = "480p";
+    names[QSize(480, 320)] = "HVGA";
+    names[QSize(352, 288)] = "VCD PAL";
+    names[QSize(176, 144)] = "QCIF";
   }
 
   if (!names.contains(size)) {
-#if 0
     qWarning() << "commonName: unknown name for the resolution" << size;
-#endif
     return QString("???");
   }
 
