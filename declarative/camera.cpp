@@ -79,6 +79,10 @@ Camera::Camera(QObject *parent) :
 }
 
 Camera::~Camera() {
+  // emit this in order to allow declarative elements to cleanup before
+  // we destroy the device
+  emit prepareForDeviceChange();
+
   if (m_dev) {
     if (m_dev->activeMode()) {
       m_dev->activeMode()->deactivate();
