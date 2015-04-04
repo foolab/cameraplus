@@ -37,7 +37,7 @@ ImageSettings::ImageSettings(QObject *parent) :
 }
 
 ImageSettings::~ImageSettings() {
-  m_settings = 0;
+  setSettings(0);
 
   if (m_currentResolution) {
     delete m_currentResolution;
@@ -89,25 +89,19 @@ void ImageSettings::setCamera(Camera *camera) {
 }
 
 void ImageSettings::deviceChanged() {
-  m_settings = m_cam->device()->imageMode()->settings();
+  setSettings(m_cam->device()->imageMode()->settings());
 
   emit settingsChanged();
 
   emit readyChanged();
 
-  delete m_resolutions;
-  m_resolutions = 0;
-
-  delete m_currentResolution;
-  m_currentResolution = 0;
+  resolutionsUpdated();
 
   emit aspectRatioCountChanged();
-  emit resolutionsChanged();
-  emit currentResolutionChanged();
 }
 
 void ImageSettings::prepareForDeviceChange() {
-  m_settings = 0;
+  setSettings(0);
 }
 
 ResolutionModel *ImageSettings::resolutions() {
@@ -215,4 +209,29 @@ QString ImageSettings::aspectRatioForResolution(const QString& resolution) {
   }
 
   return QString();
+}
+
+void ImageSettings::setSettings(QtCamImageSettings *settings) {
+  if (m_settings) {
+    QObject::disconnect(m_settings, SIGNAL(resolutionsUpdated()),
+			this, SLOT(resolutionsUpdated()));
+  }
+
+  m_settings = settings;
+
+  if (m_settings) {
+    QObject::connect(m_settings, SIGNAL(resolutionsUpdated()),
+		     this, SLOT(resolutionsUpdated()));
+  }
+}
+
+void ImageSettings::resolutionsUpdated() {
+  delete m_resolutions;
+  m_resolutions = 0;
+
+  delete m_currentResolution;
+  m_currentResolution = 0;
+
+  emit resolutionsChanged();
+  emit currentResolutionChanged();
 }
