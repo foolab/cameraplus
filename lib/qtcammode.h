@@ -65,6 +65,7 @@ signals:
   void saved(const QString& fileName);
   void canCaptureChanged();
   void activeChanged();
+  void resolutionChanged();
 
 protected:
   void setEncodingProfile(GstEncodingProfile *profile, const QLatin1String& propertyName);

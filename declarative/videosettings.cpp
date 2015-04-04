@@ -31,18 +31,12 @@ VideoSettings::VideoSettings(QObject *parent) :
   QObject(parent),
   m_cam(0),
   m_settings(0),
-  m_resolutions(0),
-  m_currentResolution(0) {
+  m_resolutions(0) {
 
 }
 
 VideoSettings::~VideoSettings() {
   setSettings(0);
-
-  if (m_currentResolution) {
-    delete m_currentResolution;
-    m_currentResolution = 0;
-  }
 }
 
 QString VideoSettings::suffix() const {
@@ -80,11 +74,6 @@ void VideoSettings::setCamera(Camera *camera) {
 
   if (m_cam->device()) {
     deviceChanged();
-  }
-  else {
-    delete m_currentResolution;
-    m_currentResolution = 0;
-    emit currentResolutionChanged();
   }
 }
 
@@ -140,20 +129,6 @@ int VideoSettings::aspectRatioCount() const {
   return aspectRatios().count();
 }
 
-Resolution *VideoSettings::currentResolution() {
-  if (m_currentResolution) {
-    return m_currentResolution;
-  }
-
-  if (!m_cam || !m_cam->device()) {
-    return 0;
-  }
-
-  m_currentResolution = new Resolution(m_cam->device()->videoMode()->currentResolution());
-
-  return m_currentResolution;
-}
-
 bool VideoSettings::setResolution(const QtCamResolution& resolution) {
   if (!isReady()) {
     return false;
@@ -163,16 +138,7 @@ bool VideoSettings::setResolution(const QtCamResolution& resolution) {
     return false;
   }
 
-  if (m_cam->device()->videoMode()->setResolution(resolution)) {
-    delete m_currentResolution;
-    m_currentResolution = 0;
-
-    emit currentResolutionChanged();
-
-    return true;
-  }
-
-  return false;
+  return m_cam->device()->videoMode()->setResolution(resolution);
 }
 
 void VideoSettings::setSettings(QtCamVideoSettings *settings) {
@@ -193,9 +159,5 @@ void VideoSettings::resolutionsUpdated() {
   delete m_resolutions;
   m_resolutions = 0;
 
-  delete m_currentResolution;
-  m_currentResolution = 0;
-
   emit resolutionsChanged();
-  emit currentResolutionChanged();
 }

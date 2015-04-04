@@ -22,6 +22,7 @@
 #include "qtcamvideomode.h"
 #include "qtcamdevice.h"
 #include "camera.h"
+#include "resolution.h"
 
 VideoMode::VideoMode(QObject *parent) :
   Mode(parent),
@@ -68,4 +69,12 @@ bool VideoMode::isRecording() {
 
 void VideoMode::changeMode() {
   m_mode = m_cam->device()->videoMode();
+}
+
+Resolution *VideoMode::resolution() {
+  if (m_cam && m_cam->device()) {
+    return new Resolution(m_cam->device()->videoMode()->currentResolution());
+  }
+
+  return 0;
 }

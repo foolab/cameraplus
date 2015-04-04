@@ -23,19 +23,23 @@
 #include "camera.h"
 #include "qtcamdevice.h"
 #include "previewprovider.h"
+#include "resolution.h"
 
 Mode::Mode(QObject *parent) :
   QObject(parent),
   m_cam(0),
   m_mode(0),
   m_seq(0),
-  m_previewEnabled(true) {
+  m_previewEnabled(true),
+  m_currentResolution(0) {
 
 }
 
 Mode::~Mode() {
   m_cam = 0;
   m_mode = 0;
+
+  setCurrentResolution(0);
 }
 
 Camera *Mode::camera() {
@@ -94,10 +98,13 @@ void Mode::deviceChanged() {
     		     this, SIGNAL(canCaptureChanged()));
     QObject::connect(m_cam->device(), SIGNAL(runningStateChanged(bool)),
 		     this, SIGNAL(canCaptureChanged()));
+    QObject::connect(m_mode, SIGNAL(resolutionChanged()), this, SLOT(resolutionChanged()));
 
     setPreviewState();
 
     postChangeMode();
+
+    resolutionChanged();
   }
 
   emit canCaptureChanged();
@@ -132,6 +139,8 @@ void Mode::prepareForDeviceChange() {
     QObject::disconnect(m_cam->device(), SIGNAL(runningStateChanged(bool)),
 			this, SIGNAL(canCaptureChanged()));
 
+    QObject::disconnect(m_mode, SIGNAL(resolutionChanged()), this, SLOT(resolutionChanged()));
+    setCurrentResolution(0);
     preChangeMode();
   }
 }
@@ -158,5 +167,22 @@ void Mode::setPreviewState() {
   }
   else {
     m_mode->disablePreview();
+  }
+}
+
+Resolution *Mode::currentResolution() {
+  return m_currentResolution;
+}
+
+void Mode::resolutionChanged() {
+  setCurrentResolution(resolution());
+}
+
+void Mode::setCurrentResolution(Resolution *resolution) {
+  if (m_currentResolution != resolution) {
+    delete m_currentResolution;
+    m_currentResolution = resolution;
+
+    emit currentResolutionChanged();
   }
 }

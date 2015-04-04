@@ -29,7 +29,6 @@
 class Camera;
 class QtCamImageSettings;
 class ResolutionModel;
-class Resolution;
 class QtCamResolution;
 
 class ImageSettings : public QObject {
@@ -41,7 +40,6 @@ class ImageSettings : public QObject {
   Q_PROPERTY(int aspectRatioCount READ aspectRatioCount NOTIFY aspectRatioCountChanged);
   Q_PROPERTY(ResolutionModel *resolutions READ resolutions NOTIFY resolutionsChanged);
   Q_PROPERTY(bool ready READ isReady NOTIFY readyChanged);
-  Q_PROPERTY(Resolution *currentResolution READ currentResolution NOTIFY currentResolutionChanged);
 
 public:
   ImageSettings(QObject *parent = 0);
@@ -57,8 +55,6 @@ public:
 
   bool isReady() const;
 
-  Resolution *currentResolution();
-
   Q_INVOKABLE bool setResolution(const QString& resolution);
   Q_INVOKABLE QString aspectRatioForResolution(const QString& resolution);
   Q_INVOKABLE QString bestResolution(const QString& aspectRatio, const QString& resolution);
@@ -71,7 +67,6 @@ signals:
   void resolutionsChanged();
   void readyChanged();
   void aspectRatioCountChanged();
-  void currentResolutionChanged();
 
 private slots:
   void deviceChanged();
@@ -85,7 +80,6 @@ private:
   Camera *m_cam;
   QtCamImageSettings *m_settings;
   ResolutionModel *m_resolutions;
-  Resolution *m_currentResolution;
 };
 
 #endif /* IMAGE_SETTINGS_H */

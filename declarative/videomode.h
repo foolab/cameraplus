@@ -26,6 +26,7 @@
 #include "mode.h"
 
 class QtCamVideoMode;
+class Resolution;
 
 class VideoMode : public Mode {
   Q_OBJECT
@@ -49,6 +50,7 @@ protected:
   virtual void preChangeMode();
   virtual void postChangeMode();
   virtual void changeMode();
+  virtual Resolution *resolution();
 
 private:
   QtCamVideoMode *m_video;

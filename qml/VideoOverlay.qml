@@ -186,7 +186,7 @@ Item {
         CameraLabel {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            text: videoSettings.currentResolution ? videoSettings.currentResolution.commonName : ""
+            text: videoMode.currentResolution.commonName
             font.bold: true
             height: parent.height
         }

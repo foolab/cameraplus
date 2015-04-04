@@ -29,6 +29,7 @@
 class Camera;
 class QImage;
 class QtCamMode;
+class Resolution;
 
 class Mode : public QObject {
   Q_OBJECT
@@ -38,6 +39,7 @@ class Mode : public QObject {
   Q_PROPERTY(bool active READ isActive NOTIFY activeChanged);
   Q_PROPERTY(bool ready READ isReady NOTIFY isReadyChanged);
   Q_PROPERTY(bool enablePreview READ isPreviewEnabled WRITE setPreviewEnabled NOTIFY enablePreviewChanged);
+  Q_PROPERTY(Resolution *currentResolution READ currentResolution NOTIFY currentResolutionChanged);
 
 public:
   Mode(QObject *parent = 0);
@@ -55,6 +57,8 @@ public:
   bool isPreviewEnabled();
   void setPreviewEnabled(bool enabled);
 
+  Resolution *currentResolution();
+
 signals:
   void cameraChanged();
   void canCaptureChanged();
@@ -63,16 +67,21 @@ signals:
   void saved(const QString& fileName);
   void isReadyChanged();
   void enablePreviewChanged();
+  void currentResolutionChanged();
 
 private slots:
   void gotPreview(const QImage& image, const QString& fileName);
   void deviceChanged();
   void prepareForDeviceChange();
+  void resolutionChanged();
 
 protected:
+  void setCurrentResolution(Resolution *resolution);
+
   virtual void preChangeMode() = 0;
   virtual void postChangeMode() = 0;
   virtual void changeMode() = 0;
+  virtual Resolution *resolution() = 0;
 
   Camera *m_cam;
   QPointer<QtCamMode> m_mode;
@@ -82,6 +91,7 @@ private:
 
   unsigned long long m_seq;
   bool m_previewEnabled;
+  Resolution *m_currentResolution;
 };
 
 #endif /* MODE_H */

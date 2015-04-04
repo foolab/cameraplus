@@ -56,7 +56,6 @@ public:
 signals:
   void captureStarted();
   void captureEnded();
-  void resolutionChanged();
 
 protected:
   virtual void start();

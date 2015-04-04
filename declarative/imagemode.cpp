@@ -22,6 +22,7 @@
 #include "qtcamimagemode.h"
 #include "qtcamdevice.h"
 #include "camera.h"
+#include "resolution.h"
 
 ImageMode::ImageMode(QObject *parent) :
   Mode(parent),
@@ -93,4 +94,12 @@ void ImageMode::disableFastCapture() {
 
 bool ImageMode::isFastCaptureEnabled() const {
   return m_fastCaptureEnabled;
+}
+
+Resolution *ImageMode::resolution() {
+  if (m_cam && m_cam->device()) {
+    return new Resolution(m_cam->device()->imageMode()->currentResolution());
+  }
+
+  return 0;
 }

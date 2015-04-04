@@ -42,7 +42,7 @@ Row {
     CameraLabel {
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
-        text: imageSettings.currentResolution ? qsTr("%1M").arg(imageSettings.currentResolution.megaPixels) : qsTr("?M")
+        text: qsTr("%1M").arg(imageMode.currentResolution.megaPixels)
         font.bold: true
         height: parent.height
     }

@@ -59,7 +59,6 @@ public slots:
 
 signals:
   void recordingStateChanged();
-  void resolutionChanged();
 
 protected:
   virtual void start();
