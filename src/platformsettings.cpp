@@ -27,7 +27,6 @@
 #elif defined(QT5)
 #include <QQmlInfo>
 #endif
-#include "quillitem.h"
 
 #ifdef HARMATTAN
 #define PATH "/usr/share/cameraplus/config/cameraplus.ini"
@@ -48,7 +47,8 @@
 #endif
 
 PlatformSettings::PlatformSettings(QObject *parent) :
-  QObject(parent), m_settings(new QSettings(PATH, QSettings::IniFormat)) {
+  QObject(parent),
+  m_settings(new QSettings(PATH, QSettings::IniFormat)) {
 
 }
 
