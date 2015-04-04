@@ -426,6 +426,14 @@ public:
       res << r;
     }
 
+    if (!res.isEmpty()) {
+      QTextStream s(stdout);
+      s << "Image resolutions for device " << id.toString() << "\n";
+      foreach (const QtCamResolution& r, res) {
+	s << r;
+      }
+    }
+
     return res;
   }
 
@@ -454,6 +462,14 @@ public:
 			-1, mp, commonName, QtCamResolution::ModeVideo, id);
 
       res << r;
+    }
+
+    if (!res.isEmpty()) {
+      QTextStream s(stdout);
+      s << "Video resolutions for device " << id.toString() << "\n";
+      foreach (const QtCamResolution& r, res) {
+	s << r;
+      }
     }
 
     return res;

@@ -27,6 +27,7 @@
 #include <QSize>
 #include <QString>
 #include <QVariant>
+#include <QTextStream>
 
 class QtCamResolutionPrivate;
 
@@ -85,6 +86,8 @@ public:
 
   QVariant device() const;
   void setDevice(const QVariant& device);
+
+  friend QTextStream& operator<<(QTextStream& s, const QtCamResolution& res);
 
 private:
   QSharedDataPointer<QtCamResolutionPrivate> d_ptr;

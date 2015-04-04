@@ -189,3 +189,21 @@ bool QtCamResolution::isValid() const {
     d_ptr->viewfinder.isValid() &&
     d_ptr->fps > 0;
 }
+
+QTextStream& operator<<(QTextStream& s, const QtCamResolution& res) {
+#define DUMP_RES(rr) res.d_ptr->rr.width() << "x" << res.d_ptr->rr.height()
+  s << "\n[" << res.d_ptr->id << "]" << "\n"
+    << "aspect ratio: " << res.d_ptr->aspectRatio << "\n"
+    << "common name: " << res.d_ptr->commonName << "\n"
+    << "capture: " << DUMP_RES(capture) << "\n"
+    << "preview: " << DUMP_RES(preview) << "\n"
+    << "viewfinder: " << DUMP_RES(viewfinder) << "\n"
+    << "fps: " << res.d_ptr->fps << "\n"
+    << "night fp: " << res.d_ptr->nightFps << "\n"
+    << "zsl fps: " << res.d_ptr->zslFps << "\n"
+    << "megapixels: " << res.d_ptr->megaPixels << "\n"
+    << "device: " << res.d_ptr->device.toString() << "\n"
+    << "mode: " <<  res.d_ptr->mode << "\n";
+
+  return s;
+}
