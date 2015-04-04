@@ -32,7 +32,7 @@ Column {
         text: qsTr("Resolution")
     }
 
-    Row {
+    Flow {
         id: resoultionsRow
         width: parent.width
         enabled: camera ? camera.idle : false
@@ -43,7 +43,7 @@ Column {
             model: videoSettings.resolutions
 
             delegate: CameraCheckButton {
-                width: resoultionsRow.width / resolutions.count
+                width: resoultionsRow.width / Math.min(resolutions.count, 5)
                 text: qsTr("%1").arg(resolution)
                 checked: deviceSettings().videoResolution == resolutionId
                 onClicked: {

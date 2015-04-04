@@ -65,7 +65,7 @@ Column {
         visible: resolutionsRow.visible
     }
 
-    Row {
+    Flow {
         id: resolutionsRow
         width: parent.width
         enabled: camera ? camera.idle : false
@@ -77,7 +77,7 @@ Column {
                 imageSettings.resolutions : undefined
 
             delegate: CameraCheckButton {
-                width: resolutionsRow.width / resolutions.count
+                width: resolutionsRow.width / Math.min(resolutions.count, 5)
                 text: qsTr("%1 MP").arg(megaPixels)
                 checked: deviceSettings().imageResolution == resolutionId
                 onClicked: {
