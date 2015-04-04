@@ -416,7 +416,8 @@ public:
       }
 
       float mp = QtCamUtils::megapixelsForResolution(i);
-      QString resolutionId = QString("%1-%2").arg(aspect).arg(mp);
+      QString resolutionId =
+	QString("%1x%2-%3").arg(i.width()).arg(i.height()).arg(aspect);
 
       // For now we use viewfinder as the preview, we hardcode FPS to 30.
       // We also disable night mode and zsl
@@ -454,7 +455,8 @@ public:
       }
 
       float mp = QtCamUtils::megapixelsForResolution(v);
-      QString resolutionId = QString("%1-%2").arg(aspect).arg(mp);
+      QString resolutionId =
+	QString("%1x%2-%3").arg(v.width()).arg(v.height()).arg(aspect);
 
       // For now we use viewfinder as the preview, we hardcode FPS to 30.
       // We also disable night mode and zsl
