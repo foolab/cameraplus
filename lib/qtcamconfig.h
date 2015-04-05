@@ -91,6 +91,8 @@ public:
   QString fastCaptureProperty() const;
 
   QString resolutionsProvider() const;
+  int resolutionsImageFps() const;
+  int resolutionsVideoFps() const;
 
 private:
   QtCamConfigPrivate *d_ptr;

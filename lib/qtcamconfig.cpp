@@ -183,3 +183,11 @@ QString QtCamConfig::fastCaptureProperty() const {
 QString QtCamConfig::resolutionsProvider() const {
   return d_ptr->conf->value("resolutions/provider").toString();
 }
+
+int QtCamConfig::resolutionsImageFps() const {
+  return d_ptr->conf->value("resolutions/imageFps").toInt();
+}
+
+int QtCamConfig::resolutionsVideoFps() const {
+  return d_ptr->conf->value("resolutions/videoFps").toInt();
+}
