@@ -7,7 +7,9 @@ usr/lib/qt4/imports/QtCamera/qmldir usr/lib/qt4/imports/QtCamera/
 debian/cameraplus.desktop usr/share/applications/
 data/harmattan/qtcamera.ini usr/share/qtcamera/config/
 data/harmattan/n9/resolutions.ini usr/share/qtcamera/config/rm-696/
+data/harmattan/n9/device.ini usr/share/qtcamera/config/rm-696/
 data/harmattan/n950/resolutions.ini usr/share/qtcamera/config/rm-680/
+data/harmattan/n950/device.ini usr/share/qtcamera/config/rm-680/
 data/harmattan/properties.ini usr/share/qtcamera/config/
 data/harmattan/cameraplus.ini usr/share/cameraplus/config/
 data/harmattan/features.ini usr/share/cameraplus/config/
