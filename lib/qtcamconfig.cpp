@@ -181,5 +181,5 @@ QString QtCamConfig::fastCaptureProperty() const {
 }
 
 QString QtCamConfig::resolutionsProvider() const {
-  return d_ptr->conf->value("General/resolutions").toString();
+  return d_ptr->conf->value("resolutions/provider").toString();
 }
