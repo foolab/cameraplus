@@ -46,7 +46,6 @@ public:
   }
 
   QVariant readWithFallback(const QString& generic, const QString& specific, const QString& key) {
-
     QString genericKey = QString("%1/%2").arg(generic).arg(key);
     QString specificKey = QString("%1/%2").arg(specific).arg(key);
 
@@ -58,6 +57,11 @@ public:
   QList<QtCamResolution> readResolutions(const QtCamResolution::Mode& targetMode,
 					 const QVariant& targetDevice) {
     QMap<float, QtCamResolution> res;
+
+    if (!resolutions) {
+      qFatal("cannot read resolutions with this resolutions provider");
+      QList<QtCamResolution>(); // Heck!
+    }
 
     foreach (const QString& id, resolutions->childGroups()) {
       resolutions->beginGroup(id);
