@@ -22,6 +22,7 @@
 
 #include "devicesettings.h"
 #include "settings.h"
+#include <QSettings>
 
 #define IMAGE_RESOLUTION_KEY        "imageResolution"
 #define VIDEO_RESOLUTION_KEY        "videoResolution"
@@ -44,8 +45,6 @@ PrimaryDeviceSettings::PrimaryDeviceSettings(QObject *parent) :
 
   QHash<QString, QVariant> props;
 
-  props[IMAGE_RESOLUTION_KEY] = "image-high-16:9";
-  props[VIDEO_RESOLUTION_KEY] = "video-high";
   props[FAST_CAPTURE_RESOLUTION_KEY] = "image-medium-16:9";
   props[IMAGE_SCENE_MODE_KEY] = 6;
   props[VIDEO_SCENE_MODE_KEY] = 6;
@@ -67,13 +66,7 @@ SecondaryDeviceSettings::SecondaryDeviceSettings(QObject *parent) :
   DeviceSettings(parent) {
 
   QHash<QString, QVariant> props;
-#ifdef SAILFISH
-  props[IMAGE_RESOLUTION_KEY] = "sec-image-high-16:9";
-  props[VIDEO_RESOLUTION_KEY] = "sec-video-high-16:9";
-#else
-  props[IMAGE_RESOLUTION_KEY] = "sec-image-low";
-  props[VIDEO_RESOLUTION_KEY] = "sec-video-low";
-#endif
+
   props[FAST_CAPTURE_RESOLUTION_KEY] = "";
   props[IMAGE_SCENE_MODE_KEY] = 6;
   props[VIDEO_SCENE_MODE_KEY] = 6;
@@ -119,12 +112,29 @@ void DeviceSettings::setSettings(Settings *settings) {
 }
 
 QVariant DeviceSettings::get(const QString& settingsKey, const QString& hashKey) const {
+  QVariant defaultValue;
+
   if (!m_props.contains(hashKey)) {
-    qFatal("%s not found", qPrintable(hashKey));
+    // Try to read it from deviceConfig
+    QSettings s(m_config, QSettings::IniFormat);
+    s.beginGroup(m_id);
+    defaultValue = s.value(hashKey);
+    s.endGroup();
+
+    // Insert it in case we need to get it again
+    if (defaultValue.isValid()) {
+      m_props.insert(hashKey, defaultValue);
+    }
+  } else {
+    defaultValue = m_props[hashKey];
+  }
+
+  if (!defaultValue.isValid()) {
+    qFatal("no default value for %s/%s", qPrintable(m_id), qPrintable(hashKey));
+
     return QVariant();
   }
 
-  QVariant defaultValue = m_props[hashKey];
   QString key = QString("%1/%2").arg(m_id).arg(settingsKey);
 
   return m_settings->value(key, defaultValue);
@@ -298,5 +308,16 @@ void DeviceSettings::setFastCaptureResolution(const QString& resolution) {
   if (fastCaptureResolution() != resolution) {
     set("image/fastCaptureResolution", resolution);
     emit fastCaptureResolutionChanged();
+  }
+}
+
+QString DeviceSettings::deviceConfig() const {
+  return m_config;
+}
+
+void DeviceSettings::setDeviceConfig(const QString& conf) {
+  if (m_config != conf) {
+    m_config = conf;
+    emit deviceConfigChanged();
   }
 }

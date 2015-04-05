@@ -126,6 +126,7 @@ CameraPage {
     PrimaryDeviceSettings {
         id: primarySettings
         settings: settings
+        deviceConfig: viewfinder.camera.cameraConfig.lookUp("device.ini")
     }
 
     DeviceSettingsSetter {
@@ -139,6 +140,7 @@ CameraPage {
     SecondaryDeviceSettings {
         id: secondarySettings
         settings: settings
+        deviceConfig: viewfinder.camera.cameraConfig.lookUp("device.ini")
     }
 
     DeviceSettingsSetter {

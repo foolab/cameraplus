@@ -47,6 +47,7 @@ class DeviceSettings : public QObject {
   Q_PROPERTY(bool videoTorchOn READ isVideoTorchOn WRITE setVideoTorchOn NOTIFY videoTorchOnChanged);
   Q_PROPERTY(bool videoMuted READ isVideoMuted WRITE setVideoMuted NOTIFY videoMutedChanged);
   Q_PROPERTY(QString fastCaptureResolution READ fastCaptureResolution WRITE setFastCaptureResolution NOTIFY fastCaptureResolutionChanged);
+  Q_PROPERTY(QString deviceConfig READ deviceConfig WRITE setDeviceConfig NOTIFY deviceConfigChanged);
 
 public:
   DeviceSettings(QObject *parent = 0);
@@ -100,6 +101,9 @@ public:
   QString fastCaptureResolution() const;
   void setFastCaptureResolution(const QString& resolution);
 
+  QString deviceConfig() const;
+  void setDeviceConfig(const QString& conf);
+
 signals:
   void settingsChanged();
   void imageSceneModeChanged();
@@ -117,6 +121,7 @@ signals:
   void videoTorchOnChanged();
   void videoMutedChanged();
   void fastCaptureResolutionChanged();
+  void deviceConfigChanged();
 
 protected:
   void init(const QString& id, const QHash<QString, QVariant>& props);
@@ -127,7 +132,8 @@ private:
 
   QString m_id;
   Settings *m_settings;
-  QHash<QString, QVariant> m_props;
+  mutable QHash<QString, QVariant> m_props;
+  QString m_config;
 };
 
 class PrimaryDeviceSettings : public DeviceSettings {
