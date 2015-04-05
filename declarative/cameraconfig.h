@@ -42,6 +42,8 @@ public:
   QString imageSuffix() const;
   QString videoSuffix() const;
 
+  Q_INVOKABLE QString lookUp(const QString& path);
+
 private:
   QtCamConfig *m_config;
 };

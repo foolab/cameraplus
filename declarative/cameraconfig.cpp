@@ -44,3 +44,7 @@ QString CameraConfig::imageSuffix() const {
 QString CameraConfig::videoSuffix() const {
   return m_config->videoSuffix();
 }
+
+QString CameraConfig::lookUp(const QString& path) {
+  return m_config->lookUp(path);
+}
