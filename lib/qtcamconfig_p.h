@@ -30,23 +30,28 @@
 
 class QtCamConfigPrivate {
 public:
-  QtCamConfigPrivate(QtCamConfig *q, const QString& dir) :
+  QtCamConfigPrivate(QtCamConfig *q) :
     q_ptr(q),
     genericConf(0),
     deviceConf(0),
     resolutions(0) {
 
-    if (q_ptr->resolutionsProvider() == RESOLUTIONS_PROVIDER_INI) {
-      resolutions = new QSettings(q_ptr->lookUp("resolutions.ini"), QSettings::IniFormat, q_ptr);
-    }
+  }
 
+
+  void init(const QString& dir) {
     QString path = QString("%1/%2/%3").arg(dir).arg(model).arg("qtcamera.ini");
     if (QFile::exists(path)) {
-      deviceConf = new QSettings(path, QSettings::IniFormat, q);
+      deviceConf = new QSettings(path, QSettings::IniFormat, q_ptr);
     }
 
     path = QString("%1/%2").arg(dir).arg("qtcamera.ini");
-    genericConf = new QSettings(path, QSettings::IniFormat, q);
+    genericConf = new QSettings(path, QSettings::IniFormat, q_ptr);
+
+    // Now that we have our conf pointers set, we can try to read
+    if (q_ptr->resolutionsProvider() == RESOLUTIONS_PROVIDER_INI) {
+      resolutions = new QSettings(q_ptr->lookUp("resolutions.ini"), QSettings::IniFormat, q_ptr);
+    }
   }
 
   inline QVariant confValue(const QString& key) const {
