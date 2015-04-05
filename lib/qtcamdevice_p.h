@@ -407,6 +407,7 @@ public:
 						  const QList<QSize>& image) {
 
     QList<QtCamResolution> res;
+    int fps = conf->resolutionsImageFps();
 
     foreach (const QSize& i, image) {
       QString aspect = QtCamUtils::aspectRatioForResolution(i);
@@ -419,9 +420,9 @@ public:
       QString resolutionId =
 	QString("%1x%2-%3").arg(i.width()).arg(i.height()).arg(aspect);
 
-      // For now we use viewfinder as the preview, we hardcode FPS to 30.
+      // For now we use viewfinder as the preview.
       // We also disable night mode and zsl
-      QtCamResolution r(resolutionId, aspect, i, viewfinder, viewfinder, 30, -1,
+      QtCamResolution r(resolutionId, aspect, i, viewfinder, viewfinder, fps, -1,
 			-1, mp, QString(), QtCamResolution::ModeImage, id);
 
       res << r;
@@ -441,6 +442,7 @@ public:
   QList<QtCamResolution> generateVideoResolutions(const QList<QSize>& vf,
 						  const QList<QSize>& video) {
     QList<QtCamResolution> res;
+    int fps = conf->resolutionsVideoFps();
 
     foreach (const QSize& v, video) {
       QString aspect = QtCamUtils::aspectRatioForResolution(v);
@@ -458,9 +460,9 @@ public:
       QString resolutionId =
 	QString("%1x%2-%3").arg(v.width()).arg(v.height()).arg(aspect);
 
-      // For now we use viewfinder as the preview, we hardcode FPS to 30.
+      // For now we use viewfinder as the preview.
       // We also disable night mode and zsl
-      QtCamResolution r(resolutionId, aspect, v, viewfinder, viewfinder, 30, -1,
+      QtCamResolution r(resolutionId, aspect, v, viewfinder, viewfinder, fps, -1,
 			-1, mp, commonName, QtCamResolution::ModeVideo, id);
 
       res << r;
