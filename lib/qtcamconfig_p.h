@@ -24,23 +24,38 @@
 #define QT_CAM_CONFIG_P_H
 
 #include <QSettings>
+#include <QFile>
 #include "qtcamresolution.h"
 #include "qtcamutils.h"
 
 class QtCamConfigPrivate {
 public:
-  QtCamConfigPrivate(QtCamConfig *q) :
+  QtCamConfigPrivate(QtCamConfig *q, const QString& dir) :
     q_ptr(q),
-    conf(new QSettings(q->lookUp("qtcamera.ini"), QSettings::IniFormat, q)),
+    genericConf(0),
+    deviceConf(0),
     resolutions(0) {
 
     if (q_ptr->resolutionsProvider() == RESOLUTIONS_PROVIDER_INI) {
       resolutions = new QSettings(q_ptr->lookUp("resolutions.ini"), QSettings::IniFormat, q_ptr);
     }
+
+    QString path = QString("%1/%2/%3").arg(dir).arg(model).arg("qtcamera.ini");
+    if (QFile::exists(path)) {
+      deviceConf = new QSettings(path, QSettings::IniFormat, q);
+    }
+
+    path = QString("%1/%2").arg(dir).arg("qtcamera.ini");
+    genericConf = new QSettings(path, QSettings::IniFormat, q);
   }
 
   inline QVariant confValue(const QString& key) const {
-    return conf->value(key);
+    QVariant val = deviceConf ? deviceConf->value(key) : QVariant();
+    if (!val.isValid() && genericConf) {
+      return genericConf->value(key);
+    }
+
+    return val;
   }
 
   QSize readResolution(const QString key) {
@@ -49,12 +64,15 @@ public:
   }
 
   QVariant readWithFallback(const QString& generic, const QString& specific, const QString& key) {
+    // TODO: this will only query the generic configuration
+    // This function is used by QtCamDevice to read the image and video profile and extension
+    // bits and should be removed when we make those configurable too
     QString genericKey = QString("%1/%2").arg(generic).arg(key);
     QString specificKey = QString("%1/%2").arg(specific).arg(key);
 
-    QVariant var = conf->value(genericKey);
+    QVariant var = genericConf->value(genericKey);
 
-    return conf->value(specificKey, var);
+    return genericConf->value(specificKey, var);
   }
 
   QList<QtCamResolution> readResolutions(const QtCamResolution::Mode& targetMode,
@@ -110,7 +128,7 @@ public:
 
 private:
   QtCamConfig *q_ptr;
-  QSettings *conf;
+  QSettings *genericConf, *deviceConf;
   QSettings *resolutions;
 };
 
