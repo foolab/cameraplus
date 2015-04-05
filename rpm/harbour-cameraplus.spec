@@ -72,6 +72,7 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/jp-1301/
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/hammerhead/
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/bacon/
+cp data/sailfish/device.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
 cp data/sailfish/qtcamera.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
 cp data/sailfish/jolla/device.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/jp-1301/
 cp data/sailfish/video.gep $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
