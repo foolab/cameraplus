@@ -187,7 +187,7 @@ bool QtCamResolution::isValid() const {
   return d_ptr->capture.isValid() &&
     d_ptr->preview.isValid() &&
     d_ptr->viewfinder.isValid() &&
-    d_ptr->fps > 0;
+    d_ptr->fps > -1;
 }
 
 QTextStream& operator<<(QTextStream& s, const QtCamResolution& res) {
