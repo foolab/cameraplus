@@ -31,13 +31,16 @@ class QtCamConfigPrivate {
 public:
   QtCamConfigPrivate(QtCamConfig *q) :
     q_ptr(q),
-    conf(0),
+    conf(new QSettings(q->lookUp("qtcamera.ini"), QSettings::IniFormat, q)),
     resolutions(0) {
 
+    if (q_ptr->resolutionsProvider() == RESOLUTIONS_PROVIDER_INI) {
+      resolutions = new QSettings(q_ptr->lookUp("resolutions.ini"), QSettings::IniFormat, q_ptr);
+    }
   }
 
-  QString element(const QString& name) const {
-    return conf->value(QString("%1/element").arg(name)).toString();
+  inline QVariant confValue(const QString& key) const {
+    return conf->value(key);
   }
 
   QSize readResolution(const QString key) {
@@ -103,10 +106,12 @@ public:
     return res.values();
   }
 
+  QString model;
+
+private:
   QtCamConfig *q_ptr;
   QSettings *conf;
   QSettings *resolutions;
-  QString model;
 };
 
 #endif /* QT_CAM_CONFIG_P_H */

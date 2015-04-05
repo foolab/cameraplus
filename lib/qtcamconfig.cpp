@@ -46,12 +46,6 @@ QtCamConfig::QtCamConfig(QObject *parent) :
 #else
   d_ptr->model = QDeviceInfo().productName().toLower();
 #endif
-
-  d_ptr->conf = new QSettings(lookUp("qtcamera.ini"), QSettings::IniFormat, this);
-
-  if (resolutionsProvider() == RESOLUTIONS_PROVIDER_INI) {
-    d_ptr->resolutions = new QSettings(lookUp("resolutions.ini"), QSettings::IniFormat, this);
-  }
 }
 
 QtCamConfig::~QtCamConfig() {
@@ -69,125 +63,125 @@ QString QtCamConfig::lookUp(const QString& path) const {
 }
 
 QString QtCamConfig::deviceScannerType() const {
-  return d_ptr->conf->value("devices/scanner").toString();
+  return d_ptr->confValue("devices/scanner").toString();
 }
 
 QString QtCamConfig::deviceScannerProperty() const {
-  return d_ptr->conf->value("devices/property").toString();
+  return d_ptr->confValue("devices/property").toString();
 }
 
 QString QtCamConfig::videoSource() const {
-  return d_ptr->element("video-source");
+  return d_ptr->confValue("video-source/element").toString();
 }
 
 QString QtCamConfig::viewfinderSink() const {
-  return d_ptr->element("viewfinder-sink");
+  return d_ptr->confValue("viewfinder-sink/element").toString();
 }
 
 QString QtCamConfig::viewfinderRenderer() const {
-  return d_ptr->conf->value("viewfinder-sink/renderer").toString();
+  return d_ptr->confValue("viewfinder-sink/renderer").toString();
 }
 
 bool QtCamConfig::viewfinderUseFence() const {
-  return d_ptr->conf->value("viewfinder-sink/use-fence").toBool();
+  return d_ptr->confValue("viewfinder-sink/use-fence").toBool();
 }
 
 QString QtCamConfig::audioSource() const {
-  return d_ptr->element("audio-source");
+  return d_ptr->confValue("audio-source/element").toString();
 }
 
 QString QtCamConfig::wrapperVideoSource() const {
-  return d_ptr->element("wrapper-video-source");
+  return d_ptr->confValue("wrapper-video-source/element").toString();
 }
 
 QString QtCamConfig::wrapperVideoSourceProperty() const {
-  return d_ptr->conf->value("wrapper-video-source/property").toString();
+  return d_ptr->confValue("wrapper-video-source/property").toString();
 }
 
 QString QtCamConfig::imageEncodingProfileName() const {
-  return d_ptr->conf->value("image/profile-name").toString();
+  return d_ptr->confValue("image/profile-name").toString();
 }
 
 QString QtCamConfig::imageEncodingProfilePath() const {
-  return d_ptr->conf->value("image/profile-path").toString();
+  return d_ptr->confValue("image/profile-path").toString();
 }
 
 QString QtCamConfig::videoEncodingProfileName() const {
-  return d_ptr->conf->value("video/profile-name").toString();
+  return d_ptr->confValue("video/profile-name").toString();
 }
 
 QString QtCamConfig::videoEncodingProfilePath() const {
-  return d_ptr->conf->value("video/profile-path").toString();
+  return d_ptr->confValue("video/profile-path").toString();
 }
 
 QString QtCamConfig::audioCaptureCaps() const {
-  return d_ptr->conf->value("audio-capture-caps/caps").toString();
+  return d_ptr->confValue("audio-capture-caps/caps").toString();
 }
 
 QString QtCamConfig::imageSuffix() const {
-  return d_ptr->conf->value("image/extension").toString();
+  return d_ptr->confValue("image/extension").toString();
 }
 
 QString QtCamConfig::videoSuffix() const {
-  return d_ptr->conf->value("video/extension").toString();
+  return d_ptr->confValue("video/extension").toString();
 }
 
 QStringList QtCamConfig::viewfinderFilters() const {
-  return d_ptr->conf->value("viewfinder-filters/elements").toStringList();
+  return d_ptr->confValue("viewfinder-filters/elements").toStringList();
 }
 
 bool QtCamConfig::viewfinderFiltersUseAnalysisBin() const {
-  return d_ptr->conf->value("viewfinder-filters/use-analysis-bin").toBool();
+  return d_ptr->confValue("viewfinder-filters/use-analysis-bin").toBool();
 }
 
 QStringList QtCamConfig::imageFilters() const {
-  return d_ptr->conf->value("image-filters/elements").toStringList();
+  return d_ptr->confValue("image-filters/elements").toStringList();
 }
 
 bool QtCamConfig::imageFiltersUseAnalysisBin() const {
-  return d_ptr->conf->value("image-filters/use-analysis-bin").toBool();
+  return d_ptr->confValue("image-filters/use-analysis-bin").toBool();
 }
 
 QString QtCamConfig::roiElement() const {
-  return d_ptr->conf->value("roi/element").toString();
+  return d_ptr->confValue("roi/element").toString();
 }
 
 QString QtCamConfig::roiMessageName() const {
-  return d_ptr->conf->value("roi/message").toString();
+  return d_ptr->confValue("roi/message").toString();
 }
 
 QString QtCamConfig::roiEnableProperty() const {
-  return d_ptr->conf->value("roi/enable").toString();
+  return d_ptr->confValue("roi/enable").toString();
 }
 
 QString QtCamConfig::roiMessage() const {
-  return d_ptr->conf->value("roi/message").toString();
+  return d_ptr->confValue("roi/message").toString();
 }
 
 bool QtCamConfig::isPreviewSupported() const {
-  return d_ptr->conf->value("General/preview-supported").toBool();
+  return d_ptr->confValue("General/preview-supported").toBool();
 }
 
 QString QtCamConfig::mediaType(const QString& id) const {
-  return d_ptr->conf->value(QString("media-type/%1").arg(id)).toString();
+  return d_ptr->confValue(QString("media-type/%1").arg(id)).toString();
 }
 
 QString QtCamConfig::mediaFourcc(const QString& id) const {
-  return d_ptr->conf->value(QString("media-type/%1-fourcc").arg(id)).toString();
+  return d_ptr->confValue(QString("media-type/%1-fourcc").arg(id)).toString();
 }
 
 QString QtCamConfig::fastCaptureProperty() const {
-  return d_ptr->conf->value("fast-capture/property").toString();
+  return d_ptr->confValue("fast-capture/property").toString();
 }
 
 QString QtCamConfig::resolutionsProvider() const {
-  return d_ptr->conf->value("resolutions/provider").toString();
+  return d_ptr->confValue("resolutions/provider").toString();
 }
 
 int QtCamConfig::resolutionsImageFps() const {
-  return d_ptr->conf->value("resolutions/imageFps").toInt();
+  return d_ptr->confValue("resolutions/imageFps").toInt();
 }
 
 int QtCamConfig::resolutionsVideoFps() const {
-  return d_ptr->conf->value("resolutions/videoFps").toInt();
+  return d_ptr->confValue("resolutions/videoFps").toInt();
 }
