@@ -79,6 +79,7 @@ private:
   Camera *m_cam;
   QtCamVideoSettings *m_settings;
   ResolutionModel *m_resolutions;
+  QString m_pendingResolution;
 };
 
 #endif /* VIDEO_SETTINGS_H */

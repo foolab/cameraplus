@@ -116,6 +116,14 @@ bool VideoSettings::setResolution(const QString& resolution) {
 
   QList<QtCamResolution> res = m_settings->resolutions();
 
+  if (res.isEmpty()) {
+    // store the resolution
+    m_pendingResolution = resolution;
+    return true;
+  } else {
+    m_pendingResolution.clear();
+  }
+
   foreach (const QtCamResolution& r, res) {
     if (r.id() == resolution) {
       return setResolution(r);
@@ -160,4 +168,11 @@ void VideoSettings::resolutionsUpdated() {
   m_resolutions = 0;
 
   emit resolutionsChanged();
+
+  if (!m_pendingResolution.isEmpty()) {
+    // We need to copy the string because setResolution() will clear
+    // m_pendingResolution. Since we pass a reference to m_pendingResolution,
+    // clearing it will make the reference empty and will never match anything
+    setResolution(QString(m_pendingResolution));
+  }
 }

@@ -80,6 +80,7 @@ private:
   Camera *m_cam;
   QtCamImageSettings *m_settings;
   ResolutionModel *m_resolutions;
+  QString m_pendingResolution;
 };
 
 #endif /* IMAGE_SETTINGS_H */
