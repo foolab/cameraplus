@@ -78,7 +78,7 @@ cp data/sailfish/jolla/device.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/s
 cp data/sailfish/hammerhead/device.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/hammerhead/
 cp data/sailfish/video.gep $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
 cp data/sailfish/hammerhead/video.gep $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/hammerhead/
-cp data/sailfish/hammerhead/video.gep $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/bacon/
+cp data/sailfish/bacon/video.gep $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/bacon/
 cp data/sailfish/image.gep $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
 cp data/sailfish/properties.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
 cp data/sailfish/qtcamera.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
