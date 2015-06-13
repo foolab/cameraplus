@@ -16,6 +16,7 @@
 	<file>ImageColorFilterButton.qml</file>
 	<file>ImageEvCompButton.qml</file>
 	<file>ImageIsoButton.qml</file>
+	<file>BaseOverlay.qml</file>
 	<file>ImageOverlay.qml</file>
 	<file>ImageResolutionSettings.qml</file>
 	<file>ImageSceneButton.qml</file>

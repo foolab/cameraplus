@@ -24,13 +24,14 @@ import QtQuick 2.0
 import QtCamera 1.0
 import CameraPlus 1.0
 
-MouseArea {
+Item {
     id: mouse
     x: renderArea.x
     y: renderArea.y
     width: renderArea.width
     height: renderArea.height
 
+    property bool reticlePressed
     property variant videoResolution
     onVideoResolutionChanged: resetReticle()
 
@@ -50,7 +51,7 @@ MouseArea {
     property variant primaryRoiRect: Qt.rect(0, 0, 0, 0)
     property variant roiRects
     property variant allRoiRects
-    property bool roiMode: allRoiRects != null && allRoiRects.length > 0 && !touchMode && !pressed && settings.faceDetectionEnabled
+    property bool roiMode: allRoiRects != null && allRoiRects.length > 0 && !touchMode && !reticlePressed && settings.faceDetectionEnabled
 
     onRoiModeChanged: {
         if (!roiMode) {
@@ -61,16 +62,16 @@ MouseArea {
     enabled: deviceFeatures().isTouchFocusSupported
 
     property variant __initialPos
-    onPressed: {
+    function pressed(point) {
         __initialPos = touchPoint
-        calculateTouchPoint(mouse.x, mouse.y)
+        calculateTouchPoint(point.x, point.y)
     }
 
-    onCanceled: {
+    function canceled() {
         calculateTouchPoint(__initialPos.x, __initialPos.y)
     }
 
-    onDoubleClicked: {
+    function doubleClicked() {
         resetReticle()
     }
 
@@ -140,8 +141,8 @@ MouseArea {
 
     FocusRectangle {
         id: reticle
-        width: mouse.pressed ? 150 : mouse.touchMode ? 200 : roiMode ? primaryRoiRect.width : 250
-        height: mouse.pressed ? 90 : mouse.touchMode ? 120 : roiMode ? primaryRoiRect.height : 150
+        width: mouse.reticlePressed ? 150 : mouse.touchMode ? 200 : roiMode ? primaryRoiRect.width : 250
+        height: mouse.reticlePressed ? 90 : mouse.touchMode ? 120 : roiMode ? primaryRoiRect.height : 150
         x: Math.min(Math.max(mouse.touchPoint.x - (width / 2), 0), mouse.width - reticle.width)
         y: Math.min(Math.max(mouse.touchPoint.y - (height / 2), 0), mouse.height - reticle.height)
         color: predictColor(cafStatus, status)

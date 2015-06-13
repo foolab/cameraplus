@@ -24,22 +24,16 @@ import QtQuick 2.0
 import QtCamera 1.0
 import CameraPlus 1.0
 
-Item {
+BaseOverlay {
     id: overlay
 
-    property Camera cam
-    property bool animationRunning: false
-    property int policyMode: CameraResources.Image
-    property bool pressed: capture.pressed || zoomSlider.pressed || modeButton.pressed || remainingShots > 0
-    property bool controlsVisible: imageMode.canCapture && cam.running && !animationRunning
-        && !modeController.busy && remainingShots == 0
-    property bool inhibitDim: remainingShots > 0
+    policyMode: CameraResources.Image
+    pressed: remainingShots > 0 || pageBeingManipulated
+    inhibitDim: remainingShots > 0
+    captureButtonIconSource: cameraTheme.selfTimerIconId
+    canCapture: imageMode.canCapture && remainingShots == 0
 
     property int remainingShots: 0
-
-    signal previewAvailable(string uri)
-
-    anchors.fill: parent
 
     ImageMode {
         id: imageMode
@@ -60,16 +54,10 @@ Item {
                 }
             }
 
-            stopAutoFocus()
+            stopCapture()
         }
 
         onSaved: mountProtector.unlock(platformSettings.imagePath)
-    }
-
-    ZoomSlider {
-        id: zoomSlider
-        camera: cam
-        visible: controlsVisible && !captureControl.capturing
     }
 
     Column {
@@ -107,27 +95,6 @@ Item {
         }
     }
 
-    ModeButton {
-        id: modeButton
-        anchors.horizontalCenter: capture.horizontalCenter
-        anchors.top: capture.bottom
-        anchors.topMargin: 20
-        visible: controlsVisible && !captureControl.capturing
-    }
-
-    CaptureButton {
-        id: capture
-        iconSource: cameraTheme.selfTimerIconId
-        visible: controlsVisible
-
-        onExited: {
-            if (mouseX <= 0 || mouseY <= 0 || mouseX > width || mouseY > height) {
-                // Release outside the button:
-                captureControl.canceled = true
-            }
-        }
-    }
-
     Timer {
         id: captureTimer
         interval: settings.sequentialShotsInterval * 1000
@@ -152,26 +119,6 @@ Item {
         }
     }
 
-    ZoomCaptureButton {
-        id: zoomCapture
-    }
-
-    CaptureControl {
-        id: captureControl
-        capturePressed: capture.pressed
-        zoomPressed: zoomCapture.zoomPressed
-        proximityClosed: proximitySensor.sensorClosed
-        onStartCapture: captureImage()
-        onCancelCapture: stopAutoFocus()
-        enable: inCaptureView
-    }
-
-    CaptureCancel {
-        anchors.fill: parent
-        enabled: captureControl.showCancelBanner
-        onPressed: captureControl.canceled = true
-    }
-
     CameraSlider {
         id: count
 
@@ -181,7 +128,7 @@ Item {
             horizontalCenter: parent.horizontalCenter
         }
 
-        visible: controlsVisible && !captureControl.capturing && !selectedLabel.visible
+        visible: controlsVisible && !overlayCapturing && !selectedLabel.visible
         width: (parent.width * 3) / 4
         opacity: 0.8
         minimumValue: 2
@@ -209,7 +156,7 @@ Item {
             horizontalCenter: parent.horizontalCenter
         }
 
-        visible: controlsVisible && !captureControl.capturing && !selectedLabel.visible
+        visible: controlsVisible && !overlayCapturing && !selectedLabel.visible
         width: (parent.width * 3) / 4
         opacity: 0.8
         minimumValue: 0
@@ -233,18 +180,18 @@ Item {
         id: selectedLabel
         anchors.bottom: toolBar.top
         anchors.bottomMargin: 20
-        visible: controlsVisible && !captureControl.capturing && text != ""
+        visible: controlsVisible && !overlayCapturing && text != ""
     }
 
     ImageModeToolBar {
         id: toolBar
         selectedLabel: selectedLabel
-        visible: controlsVisible && !captureControl.capturing
+        visible: controlsVisible && !overlayCapturing
     }
 
     ImageModeIndicators {
         id: indicators
-        visible: controlsVisible && !captureControl.capturing
+        visible: controlsVisible && !overlayCapturing
     }
 
     Connections {
@@ -307,11 +254,11 @@ Item {
         countDown.value = 0
         delayTimer.stop()
         captureTimer.stop()
-        stopAutoFocus()
+        stopCapture()
         mountProtector.unlock(platformSettings.imagePath)
     }
 
-    function captureImage() {
+    function startCapture() {
         if (!imageMode.canCapture) {
             showError(qsTr("Camera is already capturing an image."))
             policyLost()
@@ -340,7 +287,7 @@ Item {
         }
     }
 
-    function stopAutoFocus() {
+    function stopCapture() {
         if (deviceFeatures().isAutoFocusSupported) {
             cam.autoFocus.stopAutoFocus()
         }

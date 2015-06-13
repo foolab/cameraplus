@@ -24,75 +24,23 @@ import QtQuick 2.0
 import QtCamera 1.0
 import CameraPlus 1.0
 
-Item {
+BaseOverlay {
     id: overlay
     property bool recording: false
 
-    property Camera cam
-    property bool animationRunning: false
-    property int policyMode: recording == true ? CameraResources.Recording : CameraResources.Video
-    property bool controlsVisible: !animationRunning && cam != null && cam.running
-        && !modeController.busy
-    property bool pressed: overlay.recording || capture.pressed ||
-        zoomSlider.pressed || modeButton.pressed
-    property bool inhibitDim: recording
-
-    signal previewAvailable(string uri)
-
-    anchors.fill: parent
+    policyMode: recording == true ? CameraResources.Recording : CameraResources.Video
+    pressed: overlay.recording || pageBeingManipulated
+    inhibitDim: recording
+    captureButtonIconSource: overlay.recording ? cameraTheme.captureButtonStopRecordingIconId : cameraTheme.captureButtonVideoIconId
+    overlayCapturing: recording
+    zoomSliderVisible: true
+    canCapture: true
 
     VideoMode {
         id: videoMode
         camera: cam
         enablePreview: settings.enablePreview
         onPreviewAvailable: overlay.previewAvailable(preview)
-    }
-
-    ZoomSlider {
-        id: zoomSlider
-        camera: cam
-        visible: controlsVisible
-    }
-
-    ModeButton {
-        id: modeButton
-        anchors.horizontalCenter: capture.horizontalCenter
-        anchors.top: capture.bottom
-        anchors.topMargin: 20
-        visible: controlsVisible && !overlay.recording
-    }
-
-    ZoomCaptureButton {
-        id: zoomCapture
-    }
-
-    CaptureControl {
-        id: captureControl
-        capturePressed: capture.pressed
-        zoomPressed: zoomCapture.zoomPressed
-        proximityClosed: proximitySensor.sensorClosed
-        onStartCapture: overlay.toggleRecording()
-        enable: inCaptureView
-    }
-
-    CaptureCancel {
-        anchors.fill: parent
-        enabled: captureControl.showCancelBanner
-        onPressed: captureControl.canceled = true
-    }
-
-    CaptureButton {
-        id: capture
-        iconSource: overlay.recording ? cameraTheme.captureButtonStopRecordingIconId : cameraTheme.captureButtonVideoIconId
-
-        visible: controlsVisible
-
-        onExited: {
-            if (mouseX <= 0 || mouseY <= 0 || mouseX > width || mouseY > height) {
-                // Release outside the button:
-                captureControl.canceled = true
-            }
-        }
     }
 
     CameraToolBarLabel {
@@ -317,12 +265,17 @@ Item {
         overlay.recording = false
     }
 
-    function toggleRecording() {
+    function startCapture() {
         if (overlay.recording) {
             overlay.stopRecording()
         } else {
             overlay.startRecording()
         }
+    }
+
+    function stopCapture() {
+        // This is a callback needed by CaptureControln when user cancels
+        // an attempt to capture. It's relevant only for images
     }
 
     function cameraError() {
