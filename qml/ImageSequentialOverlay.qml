@@ -119,60 +119,51 @@ BaseOverlay {
         }
     }
 
-    CameraSlider {
-        id: count
-
-        anchors {
-            top: zoomSlider.bottom
-            topMargin: 40
-            horizontalCenter: parent.horizontalCenter
-        }
-
+    Column {
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: 20
         visible: controlsVisible && !overlayCapturing && !selectedLabel.visible
-        width: (parent.width * 3) / 4
-        opacity: 0.8
-        minimumValue: 2
-        maximumValue: 20
-        stepSize: 1
-        value: settings.sequentialShotsCount
-        onValueChanged: {
-            if (pressed) {
-                settings.sequentialShotsCount = value
+        spacing: 20
+
+        OnScreenOption {
+            id: count
+            text: qsTr("%1x").arg(settings.sequentialShotsCount)
+            minimumValue: 2
+            maximumValue: 20
+            stepSize: 1
+            value: settings.sequentialShotsCount
+            onValueChanged: {
+                if (pressed) {
+                    settings.sequentialShotsCount = value
+                }
+            }
+
+            valueIndicatorVisible: true
+            valueIndicatorText: formatValue(value)
+            function formatValue(value) {
+                return qsTr("Capture %1 shots").arg(value)
             }
         }
 
-        valueIndicatorVisible: true
-        valueIndicatorText: formatValue(value)
-        function formatValue(value) {
-            return qsTr("%1 shots").arg(value)
-        }
-    }
-
-    CameraSlider {
-        id: interval
-
-        anchors {
-            bottom: toolBar.top
-            horizontalCenter: parent.horizontalCenter
-        }
-
-        visible: controlsVisible && !overlayCapturing && !selectedLabel.visible
-        width: (parent.width * 3) / 4
-        opacity: 0.8
-        minimumValue: 0
-        maximumValue: 60
-        stepSize: 1
-        value: settings.sequentialShotsInterval
-        onValueChanged: {
-            if (pressed) {
-                settings.sequentialShotsInterval = value
+        OnScreenOption {
+            id: interval
+            text: qsTr("%1s").arg(settings.sequentialShotsInterval)
+            minimumValue: 0
+            maximumValue: 60
+            stepSize: 1
+            value: settings.sequentialShotsInterval
+            onValueChanged: {
+                if (pressed) {
+                    settings.sequentialShotsInterval = value
+                }
             }
-        }
 
-        valueIndicatorVisible: true
-        valueIndicatorText: formatValue(value)
-        function formatValue(value) {
-            return qsTr("%1 seconds interval").arg(value)
+            valueIndicatorVisible: true
+            valueIndicatorText: formatValue(value)
+            function formatValue(value) {
+                return qsTr("%1 seconds interval").arg(value)
+            }
         }
     }
 
@@ -275,6 +266,8 @@ BaseOverlay {
             showError(qsTr("Failed to lock images directory."))
             policyLost()
         } else {
+            count.close()
+            interval.close()
             remainingShots = settings.sequentialShotsCount
             delayTimer.start()
             countDown.value = settings.sequentialShotsDelay
