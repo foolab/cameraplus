@@ -58,5 +58,6 @@
 	<file>CameraToolIcon.qml</file>
 	<file>CameraSlider.qml</file>
 	<file>FastCaptureOverlay.qml</file>
+	<file>OnScreenOption.qml</file>
     </qresource>
 </RCC>
