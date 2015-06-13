@@ -103,13 +103,13 @@ BaseOverlay {
         }
     }
 
-    CameraSlider {
+    OnScreenOption {
         id: delay
-        anchors.bottom: toolBar.top
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: 20
+        text: qsTr("%1s").arg(settings.captureTimerDelay)
         visible: controlsVisible && !overlayCapturing && !selectedLabel.visible
-        width: 500
-        opacity: 0.8
         minimumValue: 1
         maximumValue: 20
         stepSize: 1
@@ -119,10 +119,11 @@ BaseOverlay {
                 settings.captureTimerDelay = value
             }
         }
+
         valueIndicatorVisible: true
         valueIndicatorText: formatValue(value)
         function formatValue(value) {
-            return qsTr("%1 seconds").arg(value)
+            return qsTr("Caoture after %1 seconds").arg(value)
         }
     }
 
@@ -186,6 +187,7 @@ BaseOverlay {
             showError(qsTr("Failed to lock images directory."))
             stopCapture()
         } else {
+            delay.close()
             captureTimer.start()
         }
     }
