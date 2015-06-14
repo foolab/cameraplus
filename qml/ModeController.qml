@@ -42,7 +42,7 @@ Rectangle {
         PropertyAnimation {
             properties: "opacity"
             target: controller
-            duration: 150
+            duration: 50
             to: 1.0
         }
 
