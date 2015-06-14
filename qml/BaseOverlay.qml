@@ -98,6 +98,7 @@ Item {
 
     PluginSelector {
         id: pluginSelector
+        visible: inCaptureView || (!inCaptureView && modeButton.x == modeButton.drag.minimumX)
 
         z: 1
         anchors {
