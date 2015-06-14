@@ -43,24 +43,8 @@ CameraToolIcon {
         anchors.fill: parent
         id: mouse
 
-        property real __pos
-        property int __dir
-        onPressed: {
-            __pos = mapToItem(parent.parent, mouse.x, mouse.y).x
-            __dir = 0
-        }
-
-        onPositionChanged: {
-            var pos = mapToItem(parent.parent, mouse.x, mouse.y).x;
-            if (pos > __pos) {
-                __dir = 1
-            } else if (pos < __pos) {
-                __dir = -1
-            }
-
-            __pos = pos
-        }
-
+        property bool __interactive: false
+        onPressed: __interactive = true
 
         drag {
             target: parent
@@ -69,11 +53,8 @@ CameraToolIcon {
 
             onActiveChanged: {
                 if (!mouse.drag.active) {
-                    if (__dir == -1) {
-                        parent.x = mouse.drag.maximumX
-                    } else if (__dir == 1) {
-                        parent.x = mouse.drag.minimumX
-                    }
+                    __interactive = false
+                    parent.x = mouse.drag.minimumX
                 }
             }
         }
