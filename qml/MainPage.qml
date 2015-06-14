@@ -381,38 +381,6 @@ CameraPage {
         }
     }
 
-    MouseArea {
-        anchors.fill: parent
-        enabled: pluginSelector.source != ""
-        onClicked: pluginSelector.hide()
-    }
-
-    Loader {
-        id: pluginSelector
-        property bool _show
-        anchors.centerIn: parent
-        width: parent.width - 40
-        height: 150
-        opacity: _show ? 0.8 : 0
-
-        Behavior on opacity {
-            SequentialAnimation {
-                NumberAnimation { duration: 200; }
-                ScriptAction { script: if (!pluginSelector._show) { pluginSelector.source = "" } }
-            }
-        }
-
-        function show() {
-            _show = true
-            pluginSelector.source = Qt.resolvedUrl("PluginSelector.qml")
-        }
-
-        function hide() {
-            _show = false
-        }
-
-    }
-
     Standby {
         policyLost: pipelineManager.state == "policyLost"
         visible: !rootWindow.active || pipelineManager.showStandBy ||

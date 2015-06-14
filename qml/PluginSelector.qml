@@ -24,20 +24,28 @@ import QtQuick 2.0
 
 Rectangle {
     id: pluginSelector
-    anchors.fill: parent
+    width: flow.width + (radius * 2)
     color: "black"
     border.color: "gray"
     radius: 20
 
     Flow {
-        anchors.centerIn: parent
+        id: flow
+        flow: Flow.TopToBottom
+
+        anchors {
+            left: parent.left
+            top: parent.top
+            bottom: parent.bottom
+            margins: 20
+        }
 
         Repeater {
             model: plugins
 
             delegate: Rectangle {
-                width: visible ? pluginSelector.width / 3 : 0
-                height: visible ? pluginSelector.height / 2 : 0
+                width: visible ? 245 : 0
+                height: visible ? 100 : 0
                 color: mouse.pressed ? cameraStyle.pressedColor : "transparent"
                 visible: plugin.uuid != activePlugin.uuid && ((settings.device == 0 && plugin.primaryCameraSupported) || (settings.device == 1 && plugin.secondaryCameraSupported))
 
@@ -52,25 +60,23 @@ Rectangle {
 
                 Image {
                     id: icon
-                    anchors {
-                        left: parent.left
-                        leftMargin: 20
-                        verticalCenter: parent.verticalCenter
-                    }
-
+                    anchors.left: parent.left
                     source: plugin.icon
                     width: parent.height
                     height: width
+                    anchors.verticalCenter: parent.verticalCenter
                 }
 
                 CameraLabel {
-                    width: 120
+                    width: 150
                     height: parent.height
                     text: plugin.name
-                    horizontalAlignment: Text.AlignHCenter
+                    horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
+
                     anchors {
                         left: icon.right
+                        leftMargin: 20
                         verticalCenter: parent.verticalCenter
                     }
                 }

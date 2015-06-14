@@ -25,15 +25,63 @@ import QtQuick 2.0
 import QtCamera 1.0
 
 CameraToolIcon {
-    width: 55
-    height: 55
+    property alias drag: mouse.drag
+
+    width: 75
+    height: 75
     opacity: 0.5
 
     border.color: cameraStyle.borderColor
     border.width: 1
-    radius: width / 3
+    radius: width / 2
 
-    color: pressed ? cameraStyle.pressedColor : cameraStyle.releasedColor
+    Behavior on x {
+        PropertyAnimation { duration: 200 }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        id: mouse
+
+        property real __pos
+        property int __dir
+        onPressed: {
+            __pos = mapToItem(parent.parent, mouse.x, mouse.y).x
+            __dir = 0
+        }
+
+        onPositionChanged: {
+            var pos = mapToItem(parent.parent, mouse.x, mouse.y).x;
+            if (pos > __pos) {
+                __dir = 1
+            } else if (pos < __pos) {
+                __dir = -1
+            }
+
+            __pos = pos
+        }
+
+
+        drag {
+            target: parent
+            axis: Drag.XAxis
+            filterChildren: true
+
+            onActiveChanged: {
+                if (!mouse.drag.active) {
+                    if (__dir == -1) {
+                        parent.x = mouse.drag.maximumX
+                    } else if (__dir == 1) {
+                        parent.x = mouse.drag.minimumX
+                    }
+                }
+            }
+        }
+
+        onClicked: parent.clicked()
+    }
+
+    color: mouse.pressed ? cameraStyle.pressedColor : cameraStyle.releasedColor
 
     iconSource: cameraTheme.modeButtonIconId
 
@@ -50,7 +98,13 @@ CameraToolIcon {
                 settings.plugin = plugin.uuid;
             }
         } else {
-            pluginSelector.show()
+            if (activePlugin.uuid.search(".image") != -1) {
+                // switch to video
+                settings.plugin = "org.foolab.cameraplus.video"
+            } else {
+                // switch to image
+                settings.plugin = "org.foolab.cameraplus.image"
+            }
         }
     }
 }

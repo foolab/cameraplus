@@ -76,10 +76,38 @@ Item {
 
     ModeButton {
         id: modeButton
-        anchors.horizontalCenter: capture.horizontalCenter
-        anchors.top: capture.bottom
-        anchors.topMargin: 20
+        x: capture.x + ((capture.width - width) / 2)
+        drag.minimumX: parent.width - (modeButton.width + pluginSelector.width + 20 + pluginSelector.anchors.leftMargin)
+        drag.maximumX: capture.x + ((capture.width - width) / 2)
+
+        anchors {
+            top: capture.bottom
+            topMargin: 20
+        }
+
         visible: controlsVisible && !overlayCapturing
+        onVisibleChanged: x = drag.maximumX
+    }
+
+    MouseArea {
+        z: 1
+        anchors.fill: parent
+        enabled: modeButton.x == modeButton.drag.minimumX
+        onClicked: modeButton.x = modeButton.drag.maximumX
+    }
+
+    PluginSelector {
+        id: pluginSelector
+
+        z: 1
+        anchors {
+            left: modeButton.right
+            leftMargin: parent.width - modeButton.drag.maximumX - modeButton.width
+            top: parent.top
+            bottom: parent.bottom
+            topMargin: 20
+            bottomMargin: 20
+        }
     }
 
     ZoomSlider {
