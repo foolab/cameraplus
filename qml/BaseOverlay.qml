@@ -76,9 +76,11 @@ Item {
 
     ModeButton {
         id: modeButton
+        property bool opened: settings.leftHandedMode ? modeButton.x == modeButton.drag.maximumX : modeButton.x == modeButton.drag.minimumX
+
         x: capture.x + ((capture.width - width) / 2)
-        drag.minimumX: parent.width - (modeButton.width + pluginSelector.width + 20 + pluginSelector.anchors.leftMargin)
-        drag.maximumX: capture.x + ((capture.width - width) / 2)
+        drag.minimumX: settings.leftHandedMode ? capture.x + ((capture.width - width) / 2) : parent.width - (modeButton.width + pluginSelector.width + 20 + pluginSelector.anchors.leftMargin)
+        drag.maximumX: settings.leftHandedMode ? pluginSelector.width + 20 + pluginSelector.anchors.rightMargin : capture.x + ((capture.width - width) / 2)
 
         anchors {
             top: capture.bottom
@@ -86,24 +88,30 @@ Item {
         }
 
         visible: controlsVisible && !overlayCapturing
-        onVisibleChanged: x = drag.maximumX
+        onVisibleChanged: modeButton.close()
+
+        function close() {
+            modeButton.x = settings.leftHandedMode ? modeButton.drag.minimumX : modeButton.drag.maximumX
+        }
     }
 
     MouseArea {
         z: 1
         anchors.fill: parent
-        enabled: modeButton.x == modeButton.drag.minimumX
-        onClicked: modeButton.x = modeButton.drag.maximumX
+        enabled: modeButton.opened
+        onClicked: modeButton.close()
     }
 
     PluginSelector {
         id: pluginSelector
-        visible: inCaptureView || (!inCaptureView && modeButton.x == modeButton.drag.minimumX)
+        visible: inCaptureView || modeButton.opened
 
         z: 1
         anchors {
-            left: modeButton.right
+            left: settings.leftHandedMode ? undefined : modeButton.right
             leftMargin: parent.width - modeButton.drag.maximumX - modeButton.width
+            right: settings.leftHandedMode ? modeButton.left : undefined
+            rightMargin: capture.x + ((capture.width - modeButton.width) / 2)
             top: parent.top
             bottom: parent.bottom
             topMargin: 20

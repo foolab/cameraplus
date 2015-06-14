@@ -54,7 +54,7 @@ CameraToolIcon {
             onActiveChanged: {
                 if (!mouse.drag.active) {
                     __interactive = false
-                    parent.x = mouse.drag.minimumX
+                    parent.x = settings.leftHandedMode ? mouse.drag.maximumX : mouse.drag.minimumX
                 }
             }
         }
