@@ -120,11 +120,15 @@ BaseOverlay {
     }
 
     Column {
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left
-        anchors.leftMargin: 20
         visible: controlsVisible && !overlayCapturing && !selectedLabel.visible
         spacing: 20
+        anchors {
+            verticalCenter: parent.verticalCenter
+            left: settings.leftHandedMode ? undefined : parent.left
+            leftMargin: 20
+            right : settings.leftHandedMode ? parent.right : undefined
+            rightMargin: 20
+        }
 
         OnScreenOption {
             id: count

@@ -105,9 +105,15 @@ BaseOverlay {
 
     OnScreenOption {
         id: delay
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left
-        anchors.leftMargin: 20
+
+        anchors {
+            verticalCenter: parent.verticalCenter
+            left: settings.leftHandedMode ? undefined : parent.left
+            leftMargin: 20
+            right : settings.leftHandedMode ? parent.right : undefined
+            rightMargin: 20
+        }
+
         text: qsTr("%1s").arg(settings.captureTimerDelay)
         visible: controlsVisible && !overlayCapturing && !selectedLabel.visible
         minimumValue: 1

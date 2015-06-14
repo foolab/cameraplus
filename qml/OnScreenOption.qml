@@ -61,9 +61,13 @@ Item {
 
     CameraSlider {
         id: slider
-        anchors.left: rect.right
-        anchors.leftMargin: 20
-        anchors.verticalCenter: rect.verticalCenter
+        anchors {
+            verticalCenter: rect.verticalCenter
+            left: settings.leftHandedMode ? undefined : rect.right
+            leftMargin: 20
+            right : settings.leftHandedMode ? rect.left : undefined
+            rightMargin: 20
+        }
         visible: opacity > 0.0
         opacity: rootWindow.active && __showSlider ? 1.0 : 0.0
         Behavior on opacity {
