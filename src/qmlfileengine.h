@@ -58,11 +58,6 @@ public:
   virtual uint ownerId(FileOwner owner) const;
   virtual QString owner(FileOwner owner) const;
   virtual QDateTime fileTime(FileTime time) const;
-  // TODO:
-  //  virtual Iterator *beginEntryList(QDir::Filters filters, const QStringList &filterNames);
-  //  virtual Iterator *endEntryList();
-  //  bool extension(Extension extension, const ExtensionOption *option = 0, ExtensionReturn *output = 0);
-  //  bool supportsExtension(Extension extension) const;
 
 private:
   QResource *m_res;

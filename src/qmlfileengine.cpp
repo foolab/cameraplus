@@ -24,8 +24,6 @@
 #include <QResource>
 #include <QDateTime>
 
-// TODO: support mmap extension
-
 QmlFileEngine::QmlFileEngine(const QString& fileName) :
   QFSFileEngine(fileName),
   m_res(new QResource(fileName)),
@@ -207,7 +205,6 @@ QString QmlFileEngine::fileName(QAbstractFileEngine::FileName file) const {
     break;
   }
 
-  // TODO:
   return QString();
 }
 
