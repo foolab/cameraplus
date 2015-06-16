@@ -108,6 +108,7 @@ private:
 
       return FALSE;
     }
+
     if (rewriter->updateDelta) {
       GstClockTime delta = rewriter->ts_b - rewriter->ts_a;
       rewriter->ts_delta += delta;
