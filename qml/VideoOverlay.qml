@@ -43,6 +43,23 @@ BaseOverlay {
         onPreviewAvailable: overlay.previewAvailable(preview)
     }
 
+    CaptureButton {
+        reversed: !settings.leftHandedMode
+        iconSource: cameraTheme.videoPauseIconId
+        visible: controlsVisible && overlay.recording
+        onClicked: videoMode.pauseRecording(!videoMode.paused)
+
+        PropertyAnimation on opacity  {
+            easing.type: Easing.OutSine
+            loops: Animation.Infinite
+            from: 0.1
+            to: 0.5
+            duration: 1000
+            running: videoMode.paused
+            alwaysRunToEnd: true
+        }
+    }
+
     CameraToolBarLabel {
         id: selectedLabel
         anchors.bottom: toolBar.top
@@ -180,7 +197,7 @@ BaseOverlay {
     Timer {
         id: recordingDuration
         property int duration: 0
-        running: overlay.recording
+        running: overlay.recording && !videoMode.paused
         interval: 1000
         repeat: true
 
