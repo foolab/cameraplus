@@ -44,6 +44,7 @@ Item {
 
     CaptureButton {
         id: capture
+        reversed: settings.leftHandedMode
         visible: controlsVisible
 
         onExited: {

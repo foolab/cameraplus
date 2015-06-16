@@ -24,14 +24,15 @@ import QtQuick 2.0
 
 CameraToolIcon {
     id: button
+    property bool reversed
     color: pressed ? cameraStyle.pressedColor : cameraStyle.releasedColor
     border.color: cameraStyle.borderColor
     border.width: 1
     radius: width / 3
     anchors {
-        right: settings.leftHandedMode ? undefined : parent.right
+        right: reversed ? undefined : parent.right
         rightMargin: 20
-        left: settings.leftHandedMode ? parent.left : undefined
+        left: reversed ? parent.left : undefined
         leftMargin: 20
         verticalCenter: parent.verticalCenter
     }
