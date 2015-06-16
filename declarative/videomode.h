@@ -31,6 +31,7 @@ class Resolution;
 class VideoMode : public Mode {
   Q_OBJECT
   Q_PROPERTY(bool recording READ isRecording NOTIFY recordingStateChanged);
+  Q_PROPERTY(bool paused READ isPaused NOTIFY pauseStateChanged);
 
 public:
   VideoMode(QObject *parent = 0);
@@ -39,12 +40,15 @@ public:
   Q_INVOKABLE bool startRecording(const QString& fileName, const QString& tmpFileName);
 
   bool isRecording();
+  bool isPaused();
 
 public slots:
   void stopRecording(bool sync);
+  void pauseRecording(bool pause);
 
 signals:
   void recordingStateChanged();
+  void pauseStateChanged();
 
 protected:
   virtual void preChangeMode();

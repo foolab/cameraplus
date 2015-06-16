@@ -45,10 +45,18 @@ void VideoMode::stopRecording(bool sync) {
   }
 }
 
+void VideoMode::pauseRecording(bool pause) {
+  if (m_video) {
+    m_video->pauseRecording(pause);
+  }
+}
+
 void VideoMode::preChangeMode() {
   if (m_video) {
     QObject::disconnect(m_video, SIGNAL(recordingStateChanged()),
 			this, SIGNAL(recordingStateChanged()));
+    QObject::disconnect(m_video, SIGNAL(pauseStateChanged()),
+			this, SIGNAL(pauseStateChanged()));
   }
 
   m_video = 0;
@@ -59,12 +67,18 @@ void VideoMode::postChangeMode() {
 
   if (m_video) {
     QObject::connect(m_video, SIGNAL(recordingStateChanged()),
-			this, SIGNAL(recordingStateChanged()));
+		     this, SIGNAL(recordingStateChanged()));
+    QObject::connect(m_video, SIGNAL(pauseStateChanged()),
+		     this, SIGNAL(pauseStateChanged()));
   }
 }
 
 bool VideoMode::isRecording() {
   return m_video ? m_video->isRecording() : false;
+}
+
+bool VideoMode::isPaused() {
+  return m_video ? m_video->isPaused() : false;
 }
 
 void VideoMode::changeMode() {
