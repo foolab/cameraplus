@@ -33,8 +33,6 @@ class QtCamVideoSettings;
 class QtCamVideoMode : public QtCamMode {
   Q_OBJECT
 
-  Q_PROPERTY(bool recording READ isRecording NOTIFY recordingStateChanged);
-
 public:
   QtCamVideoMode(QtCamDevicePrivate *dev, QObject *parent = 0);
   ~QtCamVideoMode();
@@ -43,6 +41,7 @@ public:
   virtual void applySettings();
 
   bool isRecording();
+  bool isPaused();
 
   bool startRecording(const QString& fileName, const QString& tmpFileName = QString());
 
@@ -56,9 +55,11 @@ public:
 
 public slots:
   void stopRecording(bool sync);
+  void pauseRecording(bool pause);
 
 signals:
   void recordingStateChanged();
+  void pauseStateChanged();
 
 protected:
   virtual void start();

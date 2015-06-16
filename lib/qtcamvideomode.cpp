@@ -28,11 +28,159 @@
 #include <QMutex>
 #include <QWaitCondition>
 
+class StreamRewriter {
+public:
+  StreamRewriter(GstPad *srcPad, bool copy) {
+    ts_a = ts_b = ts_delta = GST_CLOCK_TIME_NONE;
+
+    updateTs = false;
+    blocked = false;
+    updateDelta = false;
+    copyBuffers = copy;
+#if GST_CHECK_VERSION(1,0,0)
+    probe = gst_pad_add_probe(srcPad, GST_PAD_PROBE_TYPE_BUFFER, gst1_buffer_probe, this, NULL);
+#else
+    probe = gst_pad_add_buffer_probe(srcPad, G_CALLBACK(buffer_probe), this);
+#endif
+    pad = srcPad;
+  }
+
+  ~StreamRewriter() {
+#if GST_CHECK_VERSION(1,0,0)
+    gst_pad_remove_probe(pad, probe);
+#else
+    gst_pad_remove_buffer_probe(pad, probe);
+#endif
+    gst_object_unref(pad);
+  }
+
+  void block() {
+    QMutexLocker locker(&mutex);
+    updateTs = true;
+    blocked = true;
+  }
+
+  void unblock() {
+    QMutexLocker locker(&mutex);
+    updateDelta = true;
+    blocked = false;
+  }
+
+  bool isBlocked() {
+    return blocked;
+  }
+
+private:
+#if GST_CHECK_VERSION(1,0,0)
+  static GstPadProbeReturn gst1_buffer_probe(GstPad *pad, GstPadProbeInfo *info,
+					     gpointer user_data) {
+    if (_buffer_probe(pad, (GstBuffer *)info->data, user_data)) {
+      return GST_PAD_PROBE_PASS;
+    }
+
+    return GST_PAD_PROBE_DROP;
+  }
+#endif
+
+  static gboolean buffer_probe(GstPad *pad, GstMiniObject *mini_obj, gpointer user_data) {
+    GstBuffer *buffer = GST_BUFFER(mini_obj);
+    return _buffer_probe(pad, buffer, user_data);
+  }
+
+  static gboolean _buffer_probe(GstPad *pad, GstBuffer *buffer, gpointer user_data) {
+#if GST_CHECK_VERSION(1,0,0)
+    Q_UNUSED(pad);
+#endif
+
+    StreamRewriter *rewriter = (StreamRewriter *) user_data;
+
+    QMutexLocker locker(&rewriter->mutex);
+
+    // The whole logic is from here:
+    // http://stackoverflow.com/questions/7524658/how-to-pause-video-recording-in-gstreamer
+    if (rewriter->blocked) {
+      if (rewriter->updateTs) {
+	rewriter->ts_a = GST_BUFFER_TIMESTAMP(buffer);
+	rewriter->updateTs = false;
+      }
+
+      rewriter->ts_b = GST_BUFFER_TIMESTAMP(buffer);
+
+      return FALSE;
+    }
+    if (rewriter->updateDelta) {
+      GstClockTime delta = rewriter->ts_b - rewriter->ts_a;
+      rewriter->ts_delta += delta;
+      rewriter->updateDelta = false;
+    }
+
+    if (rewriter->copyBuffers) {
+#if GST_CHECK_VERSION(1,0,0)
+      // The only GStreamer 1.x implementation we have currently is SailfishOS droidcamsrc
+      // which pushes different buffers so no need to copy. It's bad that we manipulate
+      // the buffer in place like that though :/
+
+      if (GST_CLOCK_TIME_IS_VALID(GST_BUFFER_DTS(buffer))) {
+	GST_BUFFER_DTS(buffer) -= rewriter->ts_delta;
+      }
+
+      if (GST_CLOCK_TIME_IS_VALID(GST_BUFFER_PTS(buffer))) {
+	GST_BUFFER_PTS(buffer) -= rewriter->ts_delta;
+      }
+
+      return TRUE;
+#else
+      // The only implementation we have for GStreamer 0.10 is Harmattan subdevsrc
+      // which pushes the same frame through vidsrc and vfsrc so we must copy the buffer
+      GstBuffer *new_buffer = gst_buffer_new();
+      GST_BUFFER_DATA(new_buffer) = GST_BUFFER_DATA(buffer);
+      GST_BUFFER_SIZE(new_buffer) = GST_BUFFER_SIZE(buffer);
+      GST_BUFFER_TIMESTAMP(new_buffer) = GST_BUFFER_TIMESTAMP(buffer) - rewriter->ts_delta;
+      GST_BUFFER_DURATION(new_buffer) = GST_BUFFER_DURATION(buffer);
+      GST_BUFFER_OFFSET(new_buffer) = GST_BUFFER_OFFSET(buffer);
+      GST_BUFFER_OFFSET_END(new_buffer) = GST_BUFFER_OFFSET_END(buffer);
+      GST_BUFFER_MALLOCDATA(new_buffer) = (guint8 *)gst_buffer_ref(buffer);
+      GST_BUFFER_FREE_FUNC(new_buffer) = (void (*)(void*))gst_buffer_unref;
+
+      // TODO: error checking
+      gst_pad_chain(pad->peer, new_buffer);
+
+      return FALSE; // drop
+#endif
+    } else {
+#if GST_CHECK_VERSION(1,0,0)
+      if (GST_CLOCK_TIME_IS_VALID(GST_BUFFER_DTS(buffer))) {
+	GST_BUFFER_DTS(buffer) -= rewriter->ts_delta;
+      }
+
+      if (GST_CLOCK_TIME_IS_VALID(GST_BUFFER_PTS(buffer))) {
+	GST_BUFFER_PTS(buffer) -= rewriter->ts_delta;
+      }
+#else
+      GST_BUFFER_TIMESTAMP(buffer) -= rewriter->ts_delta;
+#endif
+
+      return TRUE; // pass
+    }
+  }
+
+  GstPad *pad;
+  gulong probe;
+  GstClockTime ts_a, ts_b, ts_delta;
+  bool blocked;
+  bool updateTs;
+  bool updateDelta;
+  bool copyBuffers;
+  QMutex mutex;
+};
+
 class QtCamVideoModePrivate : public QtCamModePrivate {
 public:
   QtCamVideoModePrivate(QtCamDevicePrivate *dev) :
   QtCamModePrivate(dev),
-  resolution(QtCamResolution(QtCamResolution::ModeVideo)) {
+  resolution(QtCamResolution(QtCamResolution::ModeVideo)),
+  audio(0),
+  video(0) {
 
   }
 
@@ -46,7 +194,57 @@ public:
     }
   }
 
+  StreamRewriter *createRewriter(const char *prop, const char *name, bool copy) {
+    GstPad *pad = NULL;
+    GstElement *elem = NULL;
+
+    g_object_get(dev->cameraBin, prop, &elem, NULL);
+
+    if (!elem) {
+      qWarning() << "Failed to get element" << prop;
+      return NULL;
+    }
+
+    pad = gst_element_get_static_pad(elem, name);
+    if (!pad) {
+      qWarning() << "Failed to get pad" << name << "from element" << prop;
+    }
+
+    gst_object_unref(elem);
+
+    if (pad) {
+      return new StreamRewriter(pad, copy);
+    }
+
+    return NULL;
+  }
+
+  void createRewriters() {
+    if (!audio) {
+      audio = createRewriter("audio-source", "src", false);
+    }
+
+    if (!video) {
+      video = createRewriter("camera-source", "vidsrc", true);
+    }
+  }
+
+  void clearRewriters() {
+    if (audio) {
+      delete audio;
+      audio = 0;
+    }
+
+    if (video) {
+      delete video;
+      video = 0;
+    }
+  }
+
   QtCamResolution resolution;
+
+  StreamRewriter *audio;
+  StreamRewriter *video;
 };
 
 class VideoDoneHandler : public DoneHandler {
@@ -155,6 +353,18 @@ bool QtCamVideoMode::isRecording() {
   return !d_ptr->dev->q_ptr->isIdle();
 }
 
+bool QtCamVideoMode::isPaused() {
+  if (!isRecording()) {
+    return false;
+  }
+
+  if ((d->audio && d->audio->isBlocked()) || (d->video && d->video->isBlocked())) {
+    return true;
+  }
+
+  return false;
+}
+
 bool QtCamVideoMode::startRecording(const QString& fileName, const QString& tmpFileName) {
   if (!canCapture() || isRecording()) {
     return false;
@@ -185,6 +395,8 @@ bool QtCamVideoMode::startRecording(const QString& fileName, const QString& tmpF
 }
 
 void QtCamVideoMode::stopRecording(bool sync) {
+  pauseRecording(false);
+
   if (isRecording()) {
     VideoDoneHandler *handler = dynamic_cast<VideoDoneHandler *>(d_ptr->doneHandler);
     if (sync) {
@@ -192,6 +404,7 @@ void QtCamVideoMode::stopRecording(bool sync) {
 
       if (handler->isDone()) {
 	handler->unlock();
+	d->clearRewriters();
 	return;
       }
     }
@@ -204,6 +417,29 @@ void QtCamVideoMode::stopRecording(bool sync) {
       handler->unlock();
     }
   }
+
+  d->clearRewriters();
+}
+
+void QtCamVideoMode::pauseRecording(bool pause) {
+  if (!isRecording()) {
+    return;
+  }
+
+  if (isPaused() == pause) {
+    return;
+  }
+
+  if (pause) {
+    d->createRewriters();
+    d->audio->block();
+    d->video->block();
+  } else {
+    d->audio->unblock();
+    d->video->unblock();
+  }
+
+  emit pauseStateChanged();
 }
 
 bool QtCamVideoMode::setResolution(const QtCamResolution& resolution) {
