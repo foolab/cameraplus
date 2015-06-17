@@ -35,10 +35,6 @@ CameraToolIcon {
     border.width: 1
     radius: width / 2
 
-    Behavior on x {
-        PropertyAnimation { duration: 200 }
-    }
-
     MouseArea {
         anchors.fill: parent
         id: mouse

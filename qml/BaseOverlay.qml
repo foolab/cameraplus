@@ -83,6 +83,19 @@ Item {
         drag.minimumX: settings.leftHandedMode ? capture.x + ((capture.width - width) / 2) : parent.width - (modeButton.width + pluginSelector.width + 20 + pluginSelector.anchors.leftMargin)
         drag.maximumX: settings.leftHandedMode ? pluginSelector.width + 20 + pluginSelector.anchors.rightMargin : capture.x + ((capture.width - width) / 2)
 
+        property bool dragActive: drag.active
+        onDragActiveChanged: {
+            if (dragActive) {
+                xTransition.enabled = true
+            }
+        }
+
+        Behavior on x {
+            id: xTransition
+            PropertyAnimation { duration: 200 }
+            enabled: false
+        }
+
         anchors {
             top: capture.bottom
             topMargin: 20
