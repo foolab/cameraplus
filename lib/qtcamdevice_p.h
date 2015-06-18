@@ -385,17 +385,43 @@ public:
 
     for (guint x = 0; x < gst_caps_get_size(caps); x++) {
       const GstStructure *s = gst_caps_get_structure(caps, x);
-      int width, height;
+      const GValue *width = gst_structure_get_value(s, "width");
+      const GValue *height = gst_structure_get_value(s, "height");
 
-      if (!gst_structure_get_int(s, "width", &width) ||
-	  !gst_structure_get_int(s, "height", &height)) {
-#if 0
+      if (!width || !height) {
 	qWarning() << "queryResolutions: no dimensions";
-#endif
 	continue;
       }
 
-      res << QSize(width, height);
+      bool width_is_list = GST_VALUE_HOLDS_LIST(width) ? true : false;
+      bool height_is_list = GST_VALUE_HOLDS_LIST(height) ? true : false;
+
+      if (!width_is_list && !height_is_list) {
+	res << QSize(g_value_get_int(width), g_value_get_int(height));
+      } else if (width_is_list && height_is_list) {
+	guint ws = gst_value_list_get_size(width);
+	guint hs = gst_value_list_get_size(width);
+	for (guint wc = 0; wc < ws; wc++) {
+	  int w = g_value_get_int(gst_value_list_get_value(width, wc));
+	  for (guint hc = 0; hc < hs; hc++) {
+	    int h = g_value_get_int(gst_value_list_get_value(height, hc));
+	    res << QSize(w, h);
+	  }
+	}
+      } else if (width_is_list) {
+	int h = g_value_get_int(height);
+	for (guint i = 0; i < gst_value_list_get_size(width); i++) {
+	  int w = g_value_get_int(gst_value_list_get_value(width, i));
+	  res << QSize(w, h);
+	}
+      } else if (height_is_list) {
+	int w = g_value_get_int(width);
+
+	for (guint i = 0; i < gst_value_list_get_size(height); i++) {
+	  int h = g_value_get_int(gst_value_list_get_value(height, i));
+	  res << QSize(w, h);
+	}
+      }
     }
 
     gst_caps_unref(caps);
