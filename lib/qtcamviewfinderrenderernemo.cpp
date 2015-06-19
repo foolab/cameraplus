@@ -170,7 +170,11 @@ void QtCamViewfinderRendererNemo::reset() {
   m_displaySet = false;
 
   m_started = false;
-  // TODO: more? delete m_progrem, and set m_needsInit?
+  m_needsInit = true;
+  if (m_program) {
+    delete m_program;
+    m_program = 0;
+  }
 }
 
 void QtCamViewfinderRendererNemo::start() {
