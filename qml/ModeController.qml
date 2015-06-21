@@ -32,7 +32,7 @@ Rectangle {
     anchors.fill: parent
     color: cameraStyle.backgroundColor
     opacity: 0
-
+    visible: opacity > 0
     SequentialAnimation {
         id: animation
 
