@@ -24,8 +24,8 @@ import QtQuick 1.1
 
 QtObject {
     property color pressedColor: "#0080FF"
-    property color releasedColor: "black"
     property color borderColor: "gray"
+    property color backgroundColor: "black"
     property real zoomSliderStepSize: 0.1
     property real captureButtonWidth: 100
     property real captureButtonHeight: captureButtonWidth
@@ -39,7 +39,6 @@ QtObject {
     property real padding: 20
     property real standByIconWidth: 200
     property real standByIconHeight: 200
-    property color backgroundColor: "black"
     property real indicatorArrayHeight: 32
     property real spacingSmall: 5
     property real spacingMedium: 10

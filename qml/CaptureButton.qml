@@ -25,7 +25,7 @@ import QtQuick 2.0
 CameraToolIcon {
     id: button
     property bool reversed
-    color: pressed ? cameraStyle.pressedColor : cameraStyle.releasedColor
+    color: pressed ? cameraStyle.pressedColor : cameraStyle.backgroundColor
     border.color: cameraStyle.borderColor
     border.width: 1
     radius: width / 3

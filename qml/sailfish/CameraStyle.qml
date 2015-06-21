@@ -26,8 +26,8 @@ import Sailfish.Silica 1.0
 // TODO:
 QtObject {
     property color pressedColor: "blue"
-    property color releasedColor: "black"
     property color borderColor: "gray"
+    property color backgroundColor: "black"
     property real zoomSliderStepSize: 1.0
     property real captureButtonWidth: Theme.itemSizeLarge
     property real captureButtonHeight: captureButtonWidth
@@ -41,7 +41,6 @@ QtObject {
     property real padding: Theme.paddingMedium
     property real standByIconWidth: Theme.itemSizeHuge
     property real standByIconHeight: standByIconWidth
-    property color backgroundColor: "black"
     property real indicatorArrayHeight: Theme.iconSizeSmall
     property real spacingSmall: Theme.paddingSmall
     property real spacingMedium: Theme.paddingMedium

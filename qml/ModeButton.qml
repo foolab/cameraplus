@@ -58,7 +58,7 @@ CameraToolIcon {
         onClicked: parent.clicked()
     }
 
-    color: mouse.pressed ? cameraStyle.pressedColor : cameraStyle.releasedColor
+    color: mouse.pressed ? cameraStyle.pressedColor : cameraStyle.backgroundColor
 
     iconSource: cameraTheme.modeButtonIconId
 
