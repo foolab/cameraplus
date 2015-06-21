@@ -35,8 +35,8 @@ ApplicationWindow {
     }
 
     cover: CoverBackground {
-            CoverPlaceholder {
-                icon.source: _window.standByIcon
-            }
-      }
+               CoverPlaceholder {
+                   icon.source: _window.standByIcon
+               }
+           }
 }
