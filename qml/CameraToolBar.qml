@@ -98,8 +98,8 @@ Rectangle {
 
     width: expanded ? targetWidth : menu.width
     height: menu.height
-    color: "black"
-    border.color: "gray"
+    color: cameraStyle.backgroundColor
+    border.color: cameraStyle.borderColor
     radius: 20
 
     Behavior on width {

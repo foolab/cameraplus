@@ -26,10 +26,12 @@ import QtCamera 1.0
 CameraToolBar {
     id: toolBar
     property CameraLabel selectedLabel
-    anchors.bottom: parent.bottom
-    anchors.bottomMargin: 20
-    anchors.left: parent.left
-    anchors.leftMargin: 20
+    anchors {
+        bottom: parent.bottom
+        bottomMargin: cameraStyle.padding
+        left: parent.left
+        leftMargin: cameraStyle.padding
+    }
     opacity: 0.5
     targetWidth: parent.width - (anchors.leftMargin * 2)
     expanded: settings.showToolBar

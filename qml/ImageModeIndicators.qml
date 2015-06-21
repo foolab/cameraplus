@@ -28,15 +28,15 @@ Row {
 
     anchors {
         top: parent.top
-        topMargin: 20
+        topMargin: cameraStyle.padding
         left: settings.leftHandedMode ? undefined: parent.left
-        leftMargin: 20
+        leftMargin: cameraStyle.padding
         right: settings.leftHandedMode ? parent.right : undefined
-        rightMargin: 20
+        rightMargin: cameraStyle.padding
     }
 
-    height: 32
-    spacing: 5
+    height: cameraStyle.indicatorArrayHeight
+    spacing: cameraStyle.spacingSmall
     visible: controlsVisible && !captureControl.capturing
 
     CameraLabel {

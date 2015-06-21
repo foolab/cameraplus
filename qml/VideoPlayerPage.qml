@@ -84,7 +84,7 @@ Item {
             value: (width * video.volume) / 100
             handleVisible: false
             valueIndicatorVisible: false
-            height: 25
+            height: cameraStyle.volumeSliderHeight
             opacity: timer.running ? 1.0 : 0.0
 
             Behavior on opacity {
@@ -134,10 +134,12 @@ Item {
 
         hideBack: true
         expanded: true
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 20
-        anchors.left: parent.left
-        anchors.leftMargin: 20
+        anchors {
+            bottom: parent.bottom
+            bottomMargin: cameraStyle.padding
+            left: parent.left
+            leftMargin: cameraStyle.padding
+        }
         opacity: show ? 0.8 : 0.0
         visible: opacity > 0
 

@@ -33,17 +33,17 @@ Item {
     property alias valueIndicatorText: slider.valueIndicatorText
     property bool __showSlider: false
 
-    width: 80
-    height: 80
+    width: cameraStyle.onScreenOptionWidth
+    height: cameraStyle.onScreenOptionHeight
 
     Rectangle {
         id: rect
         anchors.fill: parent
-        color: mouse.pressed ? cameraStyle.pressedColor : "black"
+        color: mouse.pressed ? cameraStyle.pressedColor : cameraStyle.backgroundColor
         opacity: 0.5
         radius: 40
         border.width: 1
-        border.color: "gray"
+        border.color: cameraStyle.borderColor
 
         MouseArea {
             id: mouse
@@ -54,7 +54,7 @@ Item {
         CameraLabel {
             id: label
             anchors.centerIn: parent
-            font.pixelSize: 36
+            font.pixelSize: cameraStyle.fontSizeLarge
             font.bold: true
         }
     }
@@ -64,9 +64,9 @@ Item {
         anchors {
             verticalCenter: rect.verticalCenter
             left: settings.leftHandedMode ? undefined : rect.right
-            leftMargin: 20
+            leftMargin: cameraStyle.padding
             right : settings.leftHandedMode ? rect.left : undefined
-            rightMargin: 20
+            rightMargin: cameraStyle.padding
         }
         visible: opacity > 0.0
         opacity: rootWindow.active && __showSlider ? 1.0 : 0.0

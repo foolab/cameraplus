@@ -24,6 +24,6 @@ import QtQuick 1.1
 
 Rectangle {
     anchors.fill: parent
-    color: "black"
+    color: cameraStyle.backgroundColor
     property int orientationAngle: screen.rotation
 }

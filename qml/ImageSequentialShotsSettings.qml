@@ -25,10 +25,10 @@ import QtCamera 1.0
 
 Column {
     width: parent.width
-    spacing: 10
+    spacing: cameraStyle.spacingMedium
 
     CameraLabel {
-        font.pixelSize: 36
+        font.pixelSize: cameraStyle.fontSizeLarge
         text: qsTr("Sequential shots settings")
     }
 

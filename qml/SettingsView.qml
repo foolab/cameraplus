@@ -37,7 +37,7 @@ Flickable {
     Column {
         id: col
         width: parent.width
-        spacing: 10
+        spacing: cameraStyle.spacingMedium
 
         // Plugin settings:
         Loader {
@@ -48,7 +48,7 @@ Flickable {
 
         // Common settings:
         CameraLabel {
-            font.pixelSize: 36
+            font.pixelSize: cameraStyle.fontSizeLarge
             text: qsTr("Camera settings")
             width: parent.width
         }

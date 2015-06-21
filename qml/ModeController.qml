@@ -30,7 +30,7 @@ Rectangle {
 
     z: 1
     anchors.fill: parent
-    color: "black"
+    color: cameraStyle.backgroundColor
     opacity: 0
 
     SequentialAnimation {

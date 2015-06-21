@@ -50,17 +50,17 @@ MouseArea {
 
     Rectangle {
         anchors.fill: parent
-        color: "black"
+        color: cameraStyle.backgroundColor
         opacity: 0.8
     }
 
     Column {
         anchors.centerIn: parent
-        spacing: 20
+        spacing: cameraStyle.spacingLarge
 
         CameraLabel {
             width: parent.width
-            font.pixelSize: 36
+            font.pixelSize: cameraStyle.fontSizeLarge
             font.bold: true
             horizontalAlignment: Text.AlignHCenter
             text: qsTr("Delete item?")
@@ -69,7 +69,7 @@ MouseArea {
         CameraLabel {
             id: message
             width: parent.width
-            font.pixelSize: 32
+            font.pixelSize: cameraStyle.fontSizeMedium
             horizontalAlignment: Text.AlignHCenter
         }
 

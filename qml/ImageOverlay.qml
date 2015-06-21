@@ -60,8 +60,10 @@ BaseOverlay {
 
     CameraToolBarLabel {
         id: selectedLabel
-        anchors.bottom: toolBar.top
-        anchors.bottomMargin: 20
+        anchors {
+            bottom: toolBar.top
+            bottomMargin: cameraStyle.padding
+        }
         visible: controlsVisible && !overlayCapturing
     }
 

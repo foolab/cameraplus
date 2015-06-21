@@ -24,8 +24,8 @@ import QtQuick 2.0
 
 Rectangle {
     color: "transparent"
-    width: 64
-    height: 64
+    width: cameraStyle.toolIconWidth
+    height: cameraStyle.toolIconHeight
     opacity: enabled ? 1.0 : 0.5
 
     property alias pressed: mouse.pressed

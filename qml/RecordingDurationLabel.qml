@@ -25,10 +25,12 @@ import QtQuick 2.0
 Rectangle {
     property int duration
 
-    anchors.bottom: parent.bottom
-    anchors.right: parent.right
-    anchors.rightMargin: 20
-    anchors.bottomMargin: 20
+    anchors {
+        bottom: parent.bottom
+        right: parent.right
+        rightMargin: cameraStyle.padding
+        bottomMargin: cameraStyle.padding
+    }
 
     color: "transparent"
     width: 100

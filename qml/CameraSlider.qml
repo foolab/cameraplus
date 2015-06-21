@@ -35,8 +35,8 @@ MouseArea {
     property string valueIndicatorText: value.toFixed(1)
     property bool handleVisible: true
 
-    width: 500
-    height: 40
+    width: parent.width / 2
+    height: cameraStyle.sliderHeight
 
     RangeModel {
         id: range

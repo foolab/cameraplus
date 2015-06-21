@@ -62,16 +62,20 @@ BaseOverlay {
 
     CameraToolBarLabel {
         id: selectedLabel
-        anchors.bottom: toolBar.top
-        anchors.bottomMargin: 20
+        anchors {
+            bottom: toolBar.top
+            bottomMargin: cameraStyle.padding
+        }
     }
 
     CameraToolBar {
         id: toolBar
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 20
-        anchors.left: parent.left
-        anchors.leftMargin: 20
+        anchors {
+            bottom: parent.bottom
+            bottomMargin: cameraStyle.padding
+            left: parent.left
+            leftMargin: cameraStyle.padding
+        }
         opacity: 0.5
         targetWidth: parent.width - (anchors.leftMargin * 2)
         visible: controlsVisible
@@ -137,15 +141,15 @@ BaseOverlay {
     Row {
         anchors {
             top: parent.top
-            topMargin: 20
+            topMargin: cameraStyle.padding
             left: settings.leftHandedMode ? undefined: parent.left
-            leftMargin: 20
+            leftMargin: cameraStyle.padding
             right: settings.leftHandedMode ? parent.right : undefined
-            rightMargin: 20
+            rightMargin: cameraStyle.padding
         }
 
-        height: 32
-        spacing: 5
+        height: cameraStyle.indicatorArrayHeight
+        spacing: cameraStyle.spacingSmall
         visible: controlsVisible
 
         CameraLabel {

@@ -24,7 +24,7 @@ import QtQuick 2.0
 import QtCamera 1.0
 
 Column {
-    spacing: 10
+    spacing: cameraStyle.spacingMedium
 
     visible: videoSettings.resolutions.count > 1
 

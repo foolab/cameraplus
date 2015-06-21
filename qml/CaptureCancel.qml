@@ -31,13 +31,15 @@ MouseArea {
     Rectangle {
         anchors.top: parent.top
         opacity: parent.enabled ? 0.5 : 0
-        anchors.topMargin: 20
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors {
+            topMargin: cameraStyle.padding
+            horizontalCenter: parent.horizontalCenter
+        }
         visible: opacity > 0
         height: label.height * 2
         width: parent.width * 0.7
-        color: "black"
-        border.color: "gray"
+        color: cameraStyle.backgroundColor
+        border.color: cameraStyle.borderColor
         radius: 20
 
         Behavior on opacity {
@@ -49,7 +51,7 @@ MouseArea {
             anchors.verticalCenter: parent.verticalCenter
             width: parent.width
             text: qsTr("Tap anywhere to cancel")
-            font.pixelSize: 24
+            font.pixelSize: cameraStyle.fontSizeSmall
             horizontalAlignment: Text.AlignHCenter
         }
     }

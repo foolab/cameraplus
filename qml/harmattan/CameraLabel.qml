@@ -24,7 +24,7 @@ import QtQuick 1.1
 
 Text {
     font.family: "Nokia Pure Text"
-    font.pixelSize: 24
+    font.pixelSize: cameraStyle.fontSizeSmall
     color: "#ffffff"
     wrapMode: Text.Wrap
 }

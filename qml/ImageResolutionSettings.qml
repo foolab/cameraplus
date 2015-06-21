@@ -26,7 +26,7 @@ import QtCamera 1.0
 Column {
     property string currentAspectRatio:
         imageSettings.aspectRatioForResolution(deviceSettings().imageResolution);
-    spacing: 10
+    spacing: cameraStyle.spacingMedium
 
     Binding {
         target: imageSettings.resolutions

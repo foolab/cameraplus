@@ -41,7 +41,7 @@ Viewfinder {
 
     Rectangle {
         anchors.fill: parent
-        color: "black"
+        color: cameraStyle.backgroundColor
         opacity: settings.nightMode ? 0.7 : 0
     }
 

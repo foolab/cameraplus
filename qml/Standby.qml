@@ -27,15 +27,14 @@ Rectangle {
 
     property bool policyLost: false
 
-    color: "black"
+    color: cameraStyle.backgroundColor
     anchors.fill: parent
     z: 2
 
     Image {
         id: icon
-        // Same dimensions as the image itself
-        width: 200
-        height: 200
+        width: cameraStyle.standByIconWidth
+        height: cameraStyle.standByIconHeight
         source: cameraTheme.standbyIcon
         anchors.centerIn: parent
         asynchronous: true
@@ -47,7 +46,7 @@ Rectangle {
         anchors.left: parent.left
         text: qsTr("Resources lost")
         color: "white"
-        font.pixelSize: 36
+        font.pixelSize: cameraStyle.fontSizeLarge
         horizontalAlignment: Text.AlignHCenter
         visible: parent.policyLost
     }

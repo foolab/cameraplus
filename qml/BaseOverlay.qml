@@ -98,7 +98,7 @@ Item {
 
         anchors {
             top: capture.bottom
-            topMargin: 20
+            topMargin: cameraStyle.padding
         }
 
         visible: controlsVisible && !overlayCapturing
@@ -128,8 +128,8 @@ Item {
             rightMargin: capture.x + ((capture.width - modeButton.width) / 2)
             top: parent.top
             bottom: parent.bottom
-            topMargin: 20
-            bottomMargin: 20
+            topMargin: cameraStyle.padding
+            bottomMargin: cameraStyle.padding
         }
     }
 

@@ -221,7 +221,7 @@ Flickable {
             text: qsTr("Failed to load preview")
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 32
+            font.pixelSize: cameraStyle.fontSizeMedium
         }
 
         CameraToolIcon {

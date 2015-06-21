@@ -27,4 +27,33 @@ QtObject {
     property color releasedColor: "black"
     property color borderColor: "gray"
     property real zoomSliderStepSize: 0.1
+    property real captureButtonWidth: 100
+    property real captureButtonHeight: captureButtonWidth
+    property real modeButtonWidth: 75
+    property real modeButtonHeight: modeButtonWidth
+    property real onScreenOptionWidth: 80
+    property real onScreenOptionHeight: 80
+    property real toolIconWidth: 64
+    property real toolIconHeight: 64
+    property real pluginSelectorDelagateHeight: 100
+    property real padding: 20
+    property real standByIconWidth: 200
+    property real standByIconHeight: 200
+    property color backgroundColor: "black"
+    property real indicatorArrayHeight: 32
+    property real spacingSmall: 5
+    property real spacingMedium: 10
+    property real spacingLarge: 20
+    property real fontSizeSmall: 24
+    property real fontSizeMedium: 32
+    property real fontSizeLarge: 36
+    property real sliderHeight: 40
+    property real zoomSliderHeight: sliderHeight
+    property real volumeSliderHeight: 25
+    property real focusReticleNormalWidth: 250
+    property real focusReticleNormalHeight: 150
+    property real focusReticlePressedWidth: 150
+    property real focusReticlePressedHeight: 90
+    property real focusReticleTouchWidth: 200
+    property real focusReticleTouchHeight: 120
 }

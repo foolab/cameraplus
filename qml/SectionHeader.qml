@@ -29,7 +29,7 @@ Row {
     anchors.right: parent.right
     anchors.leftMargin: 10
     anchors.rightMargin: 10
-    spacing: 10
+    spacing: cameraStyle.spacingMedium
 
     property alias text: label.text
 

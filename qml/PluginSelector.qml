@@ -25,8 +25,8 @@ import QtQuick 2.0
 Rectangle {
     id: pluginSelector
     width: flow.width + (radius * 2)
-    color: "black"
-    border.color: "gray"
+    color: cameraStyle.backgroundColor
+    border.color: cameraStyle.borderColor
     radius: 20
 
     Flow {
@@ -37,15 +37,15 @@ Rectangle {
             left: parent.left
             top: parent.top
             bottom: parent.bottom
-            margins: 20
+            margins: cameraStyle.padding
         }
 
         Repeater {
             model: plugins
 
             delegate: Rectangle {
-                width: visible ? 245 : 0
-                height: visible ? 100 : 0
+                width: visible ? label.width + label.anchors.leftMargin + icon.width : 0
+                height: visible ? cameraStyle.pluginSelectorDelagateHeight : 0
                 color: mouse.pressed ? cameraStyle.pressedColor : "transparent"
                 visible: plugin.uuid != activePlugin.uuid && ((settings.device == 0 && plugin.primaryCameraSupported) || (settings.device == 1 && plugin.secondaryCameraSupported))
 
@@ -68,7 +68,7 @@ Rectangle {
                 }
 
                 CameraLabel {
-                    width: 150
+                    id: label
                     height: parent.height
                     text: plugin.name
                     horizontalAlignment: Text.AlignLeft
@@ -76,7 +76,7 @@ Rectangle {
 
                     anchors {
                         left: icon.right
-                        leftMargin: 20
+                        leftMargin: cameraStyle.padding
                         verticalCenter: parent.verticalCenter
                     }
                 }

@@ -30,8 +30,8 @@ Rectangle {
     height: label.height * 2
     y: shown ? 8 : - (height + 8)
     anchors.horizontalCenter: parent.horizontalCenter
-    color: "black"
-    border.color: "gray"
+    color: cameraStyle.backgroundColor
+    border.color: cameraStyle.borderColor
     radius: 20
     opacity: shown ? 1.0 : 0
 

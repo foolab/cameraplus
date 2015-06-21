@@ -40,7 +40,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: "black"
+        color: cameraStyle.backgroundColor
     }
 
     ListView {
@@ -83,16 +83,18 @@ Item {
 
     ListView {
         id: thumbnails
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: hideImageList ? -120 : 0
-        anchors.right: parent.right
-        anchors.left: parent.left
+        anchors {
+            bottom: parent.bottom
+            bottomMargin: hideImageList ? -height : 0
+            right: parent.right
+            left: parent.left
+        }
         height: (Math.min(postCaptureView.width, postCaptureView.height) / 4) + 4
         onCurrentIndexChanged: view.currentIndex = currentIndex
         highlightFollowsCurrentItem: true
         orientation: ListView.Horizontal
         model: postCaptureModel
-        visible: anchors.bottomMargin > -100
+        visible: anchors.bottomMargin > -height
         interactive: view.interactive
 
         Behavior on anchors.bottomMargin {
@@ -105,7 +107,7 @@ Item {
             height: width
             border.color: media.video ? "blue" : "white"
             border.width: 2
-            color: "black"
+            color: cameraStyle.backgroundColor
             enabled: view.interactive
 
             scale: mouse.pressed ? 2 : 1
@@ -184,10 +186,12 @@ Item {
 
     CameraToolBar {
         id: toolBar
-        anchors.top: parent.top
-        anchors.topMargin: hideImageList ? -100 : 20
-        anchors.left: parent.left
-        anchors.leftMargin: 20
+        anchors {
+            top: parent.top
+            topMargin: hideImageList ? -height : cameraStyle.padding
+            left: parent.left
+            leftMargin: cameraStyle.padding
+        }
         opacity: 0.5
         targetWidth: parent.width - (anchors.leftMargin * 2)
         expanded: true
@@ -224,10 +228,17 @@ Item {
             CameraLabel {
                 height: toolBar.height
                 text: view.currentItem ? view.currentItem.fileName : ""
-                width: 350
-                font.pixelSize: 32
+                width: parent.width / 2
+                font.pixelSize: cameraStyle.fontSizeMedium
                 font.bold: true
                 verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignRight
+            }
+
+            Item {
+                // just for padding
+                width: cameraStyle.padding
+                height: cameraStyle.padding
             }
         }
     }

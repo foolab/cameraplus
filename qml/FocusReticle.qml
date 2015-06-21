@@ -141,8 +141,8 @@ Item {
 
     FocusRectangle {
         id: reticle
-        width: mouse.reticlePressed ? 150 : mouse.touchMode ? 200 : roiMode ? primaryRoiRect.width : 250
-        height: mouse.reticlePressed ? 90 : mouse.touchMode ? 120 : roiMode ? primaryRoiRect.height : 150
+        width: mouse.reticlePressed ? cameraStyle.focusReticlePressedWidth : mouse.touchMode ? cameraStyle.focusReticleTouchWidth : roiMode ? primaryRoiRect.width : cameraStyle.focusReticleNormalWidth
+        height: mouse.reticlePressed ? cameraStyle.focusReticlePressedHeight : mouse.touchMode ? cameraStyle.focusReticleTouchHeight : roiMode ? primaryRoiRect.height : cameraStyle.focusReticleNormalHeight
         x: Math.min(Math.max(mouse.touchPoint.x - (width / 2), 0), mouse.width - reticle.width)
         y: Math.min(Math.max(mouse.touchPoint.y - (height / 2), 0), mouse.height - reticle.height)
         color: predictColor(cafStatus, status)

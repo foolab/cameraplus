@@ -21,10 +21,41 @@
  */
 
 import QtQuick 2.0
+import Sailfish.Silica 1.0
+
 // TODO:
 QtObject {
     property color pressedColor: "blue"
     property color releasedColor: "black"
     property color borderColor: "gray"
     property real zoomSliderStepSize: 1.0
+    property real captureButtonWidth: Theme.itemSizeLarge
+    property real captureButtonHeight: captureButtonWidth
+    property real modeButtonWidth: Theme.itemSizeSmall
+    property real modeButtonHeight: modeButtonWidth
+    property real onScreenOptionWidth: Theme.itemSizeSmall
+    property real onScreenOptionHeight: onScreenOptionWidth
+    property real toolIconWidth: Theme.itemSizeExtraSmall
+    property real toolIconHeight: toolIconWidth
+    property real pluginSelectorDelagateHeight: Theme.itemSizeLarge
+    property real padding: Theme.paddingMedium
+    property real standByIconWidth: Theme.itemSizeHuge
+    property real standByIconHeight: standByIconWidth
+    property color backgroundColor: "black"
+    property real indicatorArrayHeight: Theme.iconSizeSmall
+    property real spacingSmall: Theme.paddingSmall
+    property real spacingMedium: Theme.paddingMedium
+    property real spacingLarge: Theme.paddingLarge
+    property real fontSizeSmall: Theme.fontSizeSmall
+    property real fontSizeMedium: Theme.fontSizeMedium
+    property real fontSizeLarge: Theme.fontSizeLarge
+    property real sliderHeight: Theme.itemSizeExtraSmall * 0.5
+    property real zoomSliderHeight: Theme.itemSizeExtraSmall * 0.75
+    property real volumeSliderHeight: Theme.itemSizeExtraSmall / 4
+    property real focusReticleNormalWidth: focusReticleNormalHeight * 5 / 3
+    property real focusReticleNormalHeight: Theme.itemSizeHuge
+    property real focusReticlePressedWidth: focusReticlePressedHeight * 5 / 3
+    property real focusReticlePressedHeight: Theme.itemSizeSmall
+    property real focusReticleTouchWidth: focusReticleTouchHeight * 5 / 3
+    property real focusReticleTouchHeight: Theme.itemSizeLarge
 }

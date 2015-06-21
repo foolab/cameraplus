@@ -27,8 +27,8 @@ import QtCamera 1.0
 CameraToolIcon {
     property alias drag: mouse.drag
 
-    width: 75
-    height: 75
+    width: cameraStyle.modeButtonWidth
+    height: cameraStyle.modeButtonHeight
     opacity: 0.5
 
     border.color: cameraStyle.borderColor

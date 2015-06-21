@@ -69,7 +69,7 @@ BaseOverlay {
             color: "white"
             styleColor: "black"
             style: Text.Outline
-            font.pixelSize: 36
+            font.pixelSize: cameraStyle.fontSizeLarge
             text: qsTr("Remaining shots: %1").arg(remainingShots)
             visible: remainingShots > 0
         }
@@ -83,7 +83,7 @@ BaseOverlay {
             color: "white"
             styleColor: "black"
             style: Text.Outline
-            font.pixelSize: 36
+            font.pixelSize: cameraStyle.fontSizeLarge
 
             Timer {
                 id: countDownTimer
@@ -121,13 +121,13 @@ BaseOverlay {
 
     Column {
         visible: controlsVisible && !overlayCapturing && !selectedLabel.visible
-        spacing: 20
+        spacing: cameraStyle.spacingLarge
         anchors {
             verticalCenter: parent.verticalCenter
             left: settings.leftHandedMode ? undefined : parent.left
-            leftMargin: 20
+            leftMargin: cameraStyle.padding
             right : settings.leftHandedMode ? parent.right : undefined
-            rightMargin: 20
+            rightMargin: cameraStyle.padding
         }
 
         OnScreenOption {
@@ -173,8 +173,10 @@ BaseOverlay {
 
     CameraToolBarLabel {
         id: selectedLabel
-        anchors.bottom: toolBar.top
-        anchors.bottomMargin: 20
+        anchors {
+            bottom: toolBar.top
+            bottomMargin: cameraStyle.padding
+        }
         visible: controlsVisible && !overlayCapturing && text != ""
     }
 

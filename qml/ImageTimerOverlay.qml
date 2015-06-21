@@ -56,7 +56,7 @@ BaseOverlay {
         color: "white"
         styleColor: "black"
         style: Text.Outline
-        font.pixelSize: 36
+        font.pixelSize: cameraStyle.fontSizeLarge
 
         onVisibleChanged: {
             if (visible) {
@@ -109,9 +109,9 @@ BaseOverlay {
         anchors {
             verticalCenter: parent.verticalCenter
             left: settings.leftHandedMode ? undefined : parent.left
-            leftMargin: 20
+            leftMargin: cameraStyle.padding
             right : settings.leftHandedMode ? parent.right : undefined
-            rightMargin: 20
+            rightMargin: cameraStyle.padding
         }
 
         text: qsTr("%1s").arg(settings.captureTimerDelay)
@@ -135,8 +135,10 @@ BaseOverlay {
 
     CameraToolBarLabel {
         id: selectedLabel
-        anchors.bottom: toolBar.top
-        anchors.bottomMargin: 20
+        anchors {
+            bottom: toolBar.top
+            bottomMargin: cameraStyle.padding
+        }
         visible: controlsVisible && !overlayCapturing && text != ""
     }
 

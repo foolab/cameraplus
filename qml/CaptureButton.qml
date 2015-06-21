@@ -31,13 +31,13 @@ CameraToolIcon {
     radius: width / 3
     anchors {
         right: reversed ? undefined : parent.right
-        rightMargin: 20
+        rightMargin: cameraStyle.padding
         left: reversed ? parent.left : undefined
-        leftMargin: 20
+        leftMargin: cameraStyle.padding
         verticalCenter: parent.verticalCenter
     }
 
-    width: 100
-    height: 100
+    width: cameraStyle.captureButtonWidth
+    height: cameraStyle.captureButtonHeight
     opacity: 0.5
 }
