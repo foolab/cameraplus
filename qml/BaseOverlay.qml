@@ -118,7 +118,7 @@ Item {
 
     PluginSelector {
         id: pluginSelector
-        visible: inCaptureView || modeButton.opened
+        visible: cam.running && (inCaptureView || modeButton.opened)
 
         z: 1
         anchors {
