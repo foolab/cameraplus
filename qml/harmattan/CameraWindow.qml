@@ -31,7 +31,7 @@ Item {
 
     property Component initialPage
     property Item page
-
+    property url standByIcon
     property bool active: platformQuirks.windowActive
 
     PlatformQuirks {

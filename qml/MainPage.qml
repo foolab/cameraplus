@@ -30,6 +30,12 @@ CameraPage {
     property bool inCaptureMode: mainView.currentIndex == 1
     property Plugin activePlugin
 
+    Binding {
+        target: rootWindow
+        property: "standByIcon"
+        value: cameraTheme.standbyIcon
+    }
+
     Connections {
         target: rootWindow
         onActiveChanged: {
