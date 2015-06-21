@@ -26,7 +26,7 @@
 #include <QTimer>
 #include <QWindow>
 
-#define KEY_REPEAT_TIMEOUT 75
+#define KEY_REPEAT_TIMEOUT 25
 
 DeviceKeys::DeviceKeys(QObject *parent) :
   QObject(parent),
