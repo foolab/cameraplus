@@ -63,6 +63,10 @@ bool DeviceKeys::eventFilter(QObject *obj, QEvent *event) {
     QKeyEvent *e = dynamic_cast<QKeyEvent *>(event);
     int key = e->key();
 
+    if (e->isAutoRepeat()) {
+      return QObject::eventFilter(obj, event);
+    }
+
     if (key == Qt::Key_VolumeUp || key == Qt::Key_VolumeDown) {
       processKeyEvent(key, ev);
     }
