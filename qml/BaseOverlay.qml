@@ -32,7 +32,7 @@ Item {
     property bool pressed: pageBeingManipulated
     property bool inhibitDim: false
     property bool controlsVisible: cam != null && cam.running && !modeController.busy && !animationRunning && canCapture
-    property bool pageBeingManipulated: capture.pressed || zoomSlider.pressed || modeButton.pressed
+    property bool pageBeingManipulated: capture.pressed || zoomSlider.pressed || modeButton.pressed || modeButton.opened
     property bool canCapture: false
     property alias captureButtonIconSource: capture.iconSource
     property alias overlayCapturing: captureControl.capturing
