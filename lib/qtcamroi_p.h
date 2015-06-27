@@ -57,11 +57,12 @@ public:
       delete handler.data();
     }
 
-    GstMessage *message = msg.fetchAndStoreOrdered(0);
-    if (message) {
-      gst_message_unref(message);
-      message = 0;
+    mutex.lock();
+    if (msg) {
+      gst_message_unref(msg);
+      msg = 0;
     }
+    mutex.unlock();
   }
 
   bool sendEventToSource(GstEvent *event) {
@@ -113,11 +114,14 @@ public slots:
   void handleMessage(GstMessage *message) {
     gst_message_ref(message);
 
-    GstMessage *oldMessage = msg.fetchAndStoreOrdered(message);
-
-    if (oldMessage) {
-      gst_message_unref(oldMessage);
+    mutex.lock();
+    if (msg) {
+      gst_message_unref(msg);
     }
+
+    msg = message;
+
+    mutex.unlock();
 
     QMetaObject::invokeMethod(this, "processMessage", Qt::QueuedConnection);
   }
@@ -140,7 +144,11 @@ private slots:
   }
 
   void processMessage() {
-    GstMessage *message = msg.fetchAndStoreOrdered(0);
+    mutex.lock();
+    GstMessage *message = msg;
+    msg = 0;
+    mutex.unlock();
+
     if (!message) {
       return;
     }
@@ -186,9 +194,9 @@ private slots:
     QList<QRectF> rest(rects);
     QRectF primary = index == -1 ? QRectF() : rest.takeAt(index);
 
-    emit q_ptr->regionsOfInterestUpdated(rects, primary, rest);
-
     gst_message_unref(message);
+
+    emit q_ptr->regionsOfInterestUpdated(rects, primary, rest);
   }
 
 public:
@@ -197,7 +205,8 @@ public:
   GstElement *roi;
   bool enabled;
   QPointer<QtCamGstMessageHandler> handler;
-  QAtomicPointer<GstMessage> msg;
+  QMutex mutex;
+  GstMessage *msg;
 };
 
 #endif /* QT_CAM_ROI_P_H */
