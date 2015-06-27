@@ -65,6 +65,15 @@ public:
     mutex.unlock();
   }
 
+  void clear() {
+    mutex.lock();
+    if (msg) {
+      gst_message_unref(msg);
+      msg = 0;
+    }
+    mutex.unlock();
+  }
+
   bool sendEventToSource(GstEvent *event) {
     if (!dev->d_ptr->videoSource) {
       qWarning() << "No video source";

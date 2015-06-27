@@ -106,6 +106,8 @@ void QtCamRoi::setEnabled(bool enabled) {
     return;
   }
 
+  d_ptr->clear();
+
   gboolean val = enabled ? TRUE : FALSE;
 
   g_object_set(d_ptr->roi, d_ptr->dev->config()->roiEnableProperty().toUtf8().constData(),
