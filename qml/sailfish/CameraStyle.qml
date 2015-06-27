@@ -57,4 +57,5 @@ QtObject {
     property real focusReticlePressedHeight: Theme.itemSizeSmall
     property real focusReticleTouchWidth: focusReticleTouchHeight * 5 / 3
     property real focusReticleTouchHeight: Theme.itemSizeLarge
+    property real focusReticleCenterRectDimension: Theme.itemSizeMedium
 }

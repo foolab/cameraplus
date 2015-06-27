@@ -44,8 +44,8 @@ Item {
 
     property variant touchPoint: Qt.point(mouse.width / 2, mouse.height / 2)
 
-    // A 100x100 central "rectangle"
-    property variant centerRect: Qt.rect((mouse.width / 2 - 50), (mouse.height / 2) - 50, 100, 100)
+    // A central "rectangle"
+    property variant centerRect: Qt.rect((mouse.width - cameraStyle.focusReticleCenterRectDimension) / 2, (mouse.height - cameraStyle.focusReticleCenterRectDimension) / 2, cameraStyle.focusReticleCenterRectDimension, cameraStyle.focusReticleCenterRectDimension)
 
     // ROI:
     property variant primaryRoiRect: Qt.rect(0, 0, 0, 0)

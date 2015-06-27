@@ -55,4 +55,5 @@ QtObject {
     property real focusReticlePressedHeight: 90
     property real focusReticleTouchWidth: 200
     property real focusReticleTouchHeight: 120
+    property real focusReticleCenterRectDimension: 100
 }
