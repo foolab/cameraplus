@@ -162,6 +162,10 @@ private slots:
       return;
     }
 
+    if (!enabled) {
+      return;
+    }
+
     QList<QRectF> rects;
     unsigned width = 0, height = 0;
 
