@@ -120,7 +120,7 @@ Viewfinder {
         visible: loader.item != null && loader.item.controlsVisible &&
             cam.autoFocus.canFocus(cam.scene.value)
         cafStatus: cam ? cam.autoFocus.cafStatus : AutoFocus.None
-        status: cam ? cam.autoFocus.status : AutoFocus.None
+        autoFocusStatus: cam ? cam.autoFocus.status : AutoFocus.None
     }
 
     MouseArea {

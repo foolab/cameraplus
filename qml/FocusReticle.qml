@@ -38,7 +38,7 @@ Item {
     property variant renderArea
 
     property int cafStatus
-    property int status
+    property int autoFocusStatus
     property Camera cam
     property bool touchMode
 
@@ -109,12 +109,12 @@ Item {
         touchPoint = Qt.point(x, y)
     }
 
-    function predictColor(caf, status) {
-        if (status == AutoFocus.Success) {
+    function predictColor(caf, autoFocusStatus) {
+        if (autoFocusStatus == AutoFocus.Success) {
             return "steelblue"
-        } else if (status == AutoFocus.Fail) {
+        } else if (autoFocusStatus == AutoFocus.Fail) {
             return "red"
-        } else if (status == AutoFocus.Running) {
+        } else if (autoFocusStatus == AutoFocus.Running) {
             return "white"
         } else if (caf == AutoFocus.Success) {
             return "steelblue"
@@ -145,7 +145,7 @@ Item {
         height: mouse.reticlePressed ? cameraStyle.focusReticlePressedHeight : mouse.touchMode ? cameraStyle.focusReticleTouchHeight : roiMode ? primaryRoiRect.height : cameraStyle.focusReticleNormalHeight
         x: Math.min(Math.max(mouse.touchPoint.x - (width / 2), 0), mouse.width - reticle.width)
         y: Math.min(Math.max(mouse.touchPoint.y - (height / 2), 0), mouse.height - reticle.height)
-        color: predictColor(cafStatus, status)
+        color: predictColor(cafStatus, autoFocusStatus)
 
         onXChanged: setRegionOfInterest()
         onYChanged: setRegionOfInterest()
@@ -212,7 +212,7 @@ Item {
     */
     Timer {
         interval: 500
-        running: status == AutoFocus.Running
+        running: autoFocusStatus == AutoFocus.Running
         triggeredOnStart: true
         repeat: true
         onTriggered: reticle.visible = !reticle.visible
