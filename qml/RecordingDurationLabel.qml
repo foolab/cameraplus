@@ -26,42 +26,44 @@ Rectangle {
     property int duration
 
     anchors {
-        bottom: parent.bottom
+        verticalCenter: parent.verticalCenter
         right: parent.right
         rightMargin: cameraStyle.padding
-        bottomMargin: cameraStyle.padding
     }
 
     color: "transparent"
-    width: 100
-    height: 30
+    width: row.width
+    height: row.height
 
-    Image {
-        id: recordingIcon
-        source: cameraTheme.recordingDurationIcon
-        width: 20
-        height: 20
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left
-        anchors.leftMargin: 5
-        sourceSize.width: 20
-        sourceSize.height: 20
-    }
+    Row {
+        id: row
+        spacing: cameraStyle.spacingSmall
+        height: label.height
 
-    CameraLabel {
-        function formatDuration(dur) {
-            var secs = parseInt(recordingDuration.duration)
-            var minutes = Math.floor(secs / 60)
-            var seconds = secs - (minutes * 60)
-
-            var date = new Date()
-            date.setSeconds(seconds)
-            date.setMinutes(minutes)
-            return Qt.formatTime(date, "mm:ss")
+        Image {
+            source: cameraTheme.recordingDurationIcon
+            width: label.height * 2 / 3
+            height: width
+            anchors.verticalCenter: parent.verticalCenter
+            sourceSize.width: width
+            sourceSize.height: height
         }
 
-        text: formatDuration(parent.duration)
-        anchors.left: recordingIcon.right
-        anchors.leftMargin: 5
+        CameraLabel {
+            id: label
+            function formatDuration(dur) {
+                var secs = parseInt(recordingDuration.duration)
+                var minutes = Math.floor(secs / 60)
+                var seconds = secs - (minutes * 60)
+
+                var date = new Date()
+                date.setSeconds(seconds)
+                date.setMinutes(minutes)
+                return Qt.formatTime(date, "mm:ss")
+            }
+
+            text: formatDuration(parent.duration)
+            anchors.verticalCenter: parent.verticalCenter
+        }
     }
 }
