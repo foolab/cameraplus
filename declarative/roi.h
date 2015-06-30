@@ -35,6 +35,7 @@ class Roi : public QObject {
 
   Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled NOTIFY enabledChanged);
   Q_PROPERTY(QVariantList regions READ regions NOTIFY regionsChanged);
+  Q_PROPERTY(int regionCount READ regionCount NOTIFY regionCountChanged);
 
 public:
   Roi(QtCamDevice *device, QObject *parent = 0);
@@ -49,6 +50,8 @@ public:
   QVariantList regions() const;
   void setRegions(const QVariantList& regions);
 
+  int regionCount() const;
+
 public slots:
   void setRegionOfInterest(const QRectF& region);
   void resetRegionOfInterest();
@@ -56,6 +59,8 @@ public slots:
 signals:
   void enabledChanged();
   void regionsChanged();
+  void regionCountChanged();
+
   void regionsChanged(const QVariantList& regions, const QVariant& primary,
 		      const QVariantList& rest);
 

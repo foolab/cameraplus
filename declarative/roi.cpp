@@ -126,5 +126,10 @@ void Roi::setRegions(const QVariantList& regions) {
     m_regions = regions;
 
     emit regionsChanged();
+    emit regionCountChanged();
   }
+}
+
+int Roi::regionCount() const {
+  return m_regions.size();
 }
