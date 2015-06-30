@@ -48,6 +48,8 @@ void Roi::setEnabled(bool enabled) {
       emit enabledChanged();
     }
   }
+
+  setRegions(QVariantList());
 }
 
 bool Roi::isEnabled() {
@@ -102,11 +104,27 @@ void Roi::handleRegionsChanged(const QList<QRectF>& regions, const QRectF& prima
 						    primary.height() * area.height()));
 
   emit regionsChanged(regionsList, primaryRect, restList);
+
+  setRegions(regionsList);
 }
 
 void Roi::prepareForDeviceChange() {
   if (m_roi) {
     delete m_roi;
     m_roi = 0;
+  }
+
+  setRegions(QVariantList());
+}
+
+QVariantList Roi::regions() const {
+  return m_regions;
+}
+
+void Roi::setRegions(const QVariantList& regions) {
+  if (m_regions != regions) {
+    m_regions = regions;
+
+    emit regionsChanged();
   }
 }
