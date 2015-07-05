@@ -113,9 +113,12 @@ Viewfinder {
 
     FocusReticle {
         id: focusReticle
+        x: viewfinder.renderArea.x
+        y: viewfinder.renderArea.y
+        width: viewfinder.renderArea.width
+        height: viewfinder.renderArea.height
         cam: cam
         videoResolution: viewfinder.videoResolution
-        renderArea: viewfinder.renderArea
         reticlePressed: mouse.pressed
         visible: loader.item != null && loader.item.controlsVisible &&
             cam.autoFocus.canFocus(cam.scene.value)

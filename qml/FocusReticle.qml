@@ -26,26 +26,25 @@ import CameraPlus 1.0
 
 Item {
     id: mouse
-    x: renderArea.x
-    y: renderArea.y
-    width: renderArea.width
-    height: renderArea.height
-
     property bool reticlePressed
     property variant videoResolution
     onVideoResolutionChanged: resetReticle()
-
-    property variant renderArea
 
     property int cafStatus
     property int autoFocusStatus
     property Camera cam
     property bool touchMode
 
-    property variant touchPoint: Qt.point(mouse.width / 2, mouse.height / 2)
+    // Current touch point
+    property variant _touchPoint: Qt.point(mouse.width / 2, mouse.height / 2)
 
-    // A central "rectangle"
-    property variant centerRect: Qt.rect((mouse.width - cameraStyle.focusReticleCenterRectDimension) / 2, (mouse.height - cameraStyle.focusReticleCenterRectDimension) / 2, cameraStyle.focusReticleCenterRectDimension, cameraStyle.focusReticleCenterRectDimension)
+    // A central region.
+    property real _centerX: (mouse.width - cameraStyle.focusReticleCenterRectDimension) / 2
+    property real _centerY: (mouse.height - cameraStyle.focusReticleCenterRectDimension) / 2
+    property real _centerDimension: cameraStyle.focusReticleCenterRectDimension
+
+    // used to store the existing touch point before changing it when the reticle gets pressed
+    property variant _initialPos
 
     // ROI:
     property variant primaryRoiRect: Qt.rect(0, 0, 0, 0)
@@ -61,14 +60,13 @@ Item {
 
     enabled: deviceFeatures().isTouchFocusSupported
 
-    property variant __initialPos
     function pressed(point) {
-        __initialPos = touchPoint
+        _initialPos = _touchPoint
         calculateTouchPoint(point.x, point.y)
     }
 
     function canceled() {
-        calculateTouchPoint(__initialPos.x, __initialPos.y)
+        calculateTouchPoint(_initialPos.x, _initialPos.y)
     }
 
     function doubleClicked() {
@@ -76,7 +74,7 @@ Item {
     }
 
     function resetReticle() {
-        calculateTouchPoint(centerRect.x, centerRect.y)
+        calculateTouchPoint(_centerX, _centerY)
     }
 
     function setRegionOfInterest() {
@@ -97,16 +95,16 @@ Item {
     }
 
     function calculateTouchPoint(x, y) {
-        if (x >= centerRect.x && y >= centerRect.y &&
-            x <= centerRect.x + centerRect.width &&
-            y <= centerRect.y + centerRect.height) {
+        if (x >= _centerX && y >= _centerY &&
+            x <= _centerX + _centerDimension &&
+            y <= _centerY + _centerDimension) {
                 touchMode = false
-                touchPoint = Qt.point(mouse.width / 2, mouse.height / 2)
+                _touchPoint = Qt.point(mouse.width / 2, mouse.height / 2)
                 return
         }
 
         touchMode = true
-        touchPoint = Qt.point(x, y)
+        _touchPoint = Qt.point(x, y)
     }
 
     function predictColor(caf, autoFocusStatus) {
@@ -143,8 +141,8 @@ Item {
         id: reticle
         width: mouse.reticlePressed ? cameraStyle.focusReticlePressedWidth : mouse.touchMode ? cameraStyle.focusReticleTouchWidth : roiMode ? primaryRoiRect.width : cameraStyle.focusReticleNormalWidth
         height: mouse.reticlePressed ? cameraStyle.focusReticlePressedHeight : mouse.touchMode ? cameraStyle.focusReticleTouchHeight : roiMode ? primaryRoiRect.height : cameraStyle.focusReticleNormalHeight
-        x: Math.min(Math.max(mouse.touchPoint.x - (width / 2), 0), mouse.width - reticle.width)
-        y: Math.min(Math.max(mouse.touchPoint.y - (height / 2), 0), mouse.height - reticle.height)
+        x: Math.min(Math.max(mouse._touchPoint.x - (width / 2), 0), mouse.width - reticle.width)
+        y: Math.min(Math.max(mouse._touchPoint.y - (height / 2), 0), mouse.height - reticle.height)
         color: predictColor(cafStatus, autoFocusStatus)
 
         onXChanged: setRegionOfInterest()
@@ -188,7 +186,7 @@ Item {
                 return
             }
 
-            touchPoint = Qt.point(primary.x + (reticle.width / 2),
+            _touchPoint = Qt.point(primary.x + (reticle.width / 2),
                 primary.y + (reticle.height / 2))
         }
     }
@@ -204,10 +202,10 @@ Item {
     Rectangle {
         color: "red"
         opacity: 0.4
-        x: centerRect.x
-        y: centerRect.y
-        width: centerRect.width
-        height: centerRect.height
+        x: _centerX
+        y: _centerY
+        width: _centerDimension
+        height: _centerDimension
     }
     */
     Timer {
@@ -216,10 +214,6 @@ Item {
         triggeredOnStart: true
         repeat: true
         onTriggered: reticle.visible = !reticle.visible
-        onRunningChanged: {
-            if (!running) {
-                reticle.visible = true
-            }
-        }
+        onRunningChanged: reticle.visible = true
     }
 }
