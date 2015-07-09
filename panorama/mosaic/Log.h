@@ -16,9 +16,15 @@
 #ifndef LOG_H_
 #define LOG_H
 
+#if 0
 #include <android/log.h>
 #define LOGV(...) __android_log_print(ANDROID_LOG_SILENT, LOG_TAG, __VA_ARGS__)
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#endif
+
+#define LOGV(...) fprintf(stderr, "VERBOSE: " __VA_ARGS__)
+#define LOGI(...) fprintf(stderr, "INFO: " __VA_ARGS__)
+#define LOGE(...) fprintf(stderr, "ERROR: " __VA_ARGS__)
 
 #endif

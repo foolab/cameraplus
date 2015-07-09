@@ -1,4 +1,5 @@
 #include "FrameBuffer.h"
+#include <iostream>
 
 FrameBuffer::FrameBuffer()
 {

@@ -15,6 +15,7 @@
  */
 
 #include "SurfaceTextureRenderer.h"
+#include <cstring>
 
 #include <GLES2/gl2ext.h>
 const GLfloat g_vVertices[] = {
