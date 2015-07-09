@@ -16,7 +16,6 @@
 
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
-#include <jni.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,7 +29,7 @@
 #include "mosaic/Log.h"
 #define LOG_TAG "MosaicRenderer"
 
-#include "mosaic_renderer_jni.h"
+#include "mosaic_renderer.h"
 
 // Texture handle
 GLuint gSurfaceTextureID[1];
@@ -474,28 +473,7 @@ void FreeTextureMemory()
     sem_post(&gPreviewImage_semaphore);
 }
 
-extern "C"
-{
-    JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved);
-    JNIEXPORT void JNICALL JNI_OnUnload(JavaVM* vm, void* reserved);
-    JNIEXPORT jint JNICALL Java_com_android_camera_MosaicRenderer_init(
-            JNIEnv * env, jobject obj);
-    JNIEXPORT void JNICALL Java_com_android_camera_MosaicRenderer_reset(
-            JNIEnv * env, jobject obj,  jint width, jint height,
-            jboolean isLandscapeOrientation);
-    JNIEXPORT void JNICALL Java_com_android_camera_MosaicRenderer_preprocess(
-            JNIEnv * env, jobject obj, jfloatArray stMatrix);
-    JNIEXPORT void JNICALL Java_com_android_camera_MosaicRenderer_transferGPUtoCPU(
-            JNIEnv * env, jobject obj);
-    JNIEXPORT void JNICALL Java_com_android_camera_MosaicRenderer_step(
-            JNIEnv * env, jobject obj);
-    JNIEXPORT void JNICALL Java_com_android_camera_MosaicRenderer_updateMatrix(
-            JNIEnv * env, jobject obj);
-    JNIEXPORT void JNICALL Java_com_android_camera_MosaicRenderer_setWarping(
-            JNIEnv * env, jobject obj, jboolean flag);
-};
-
-
+#if 0
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved)
 {
     sem_init(&gPreviewImage_semaphore, 0, 1);
@@ -802,3 +780,4 @@ JNIEXPORT void JNICALL Java_com_android_camera_MosaicRenderer_updateMatrix(
         g_dTranslationToFBOCenterGL[i] = g_dTranslationToFBOCenter[i];
     }
 }
+#endif

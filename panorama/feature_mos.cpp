@@ -18,10 +18,9 @@
 *
  */
 #include <string.h>
-#include <jni.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include <sys/time.h>
 #include <db_utilities_camera.h>
 
 #include "mosaic/AlignFeatures.h"
@@ -34,7 +33,7 @@
 extern "C" {
 #endif
 
-#include "mosaic_renderer_jni.h"
+#include "mosaic_renderer.h"
 
 char buffer[1024];
 
@@ -273,7 +272,7 @@ void YUV420toYVU24_NEW(ImageType yvu24, ImageType yuv420sp, int width,
     }
 }
 
-
+#if 0
 JNIEXPORT void JNICALL Java_com_android_camera_Mosaic_allocateMosaicMemory(
         JNIEnv* env, jobject thiz, jint width, jint height)
 {
@@ -663,6 +662,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_android_camera_Mosaic_getFinalMosaicNV21(
     ImageUtils::freeImage(resultYVU);
     return bytes;
 }
+#endif
 
 #ifdef __cplusplus
 }
