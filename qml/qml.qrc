@@ -59,5 +59,6 @@
 	<file>CameraSlider.qml</file>
 	<file>FastCaptureOverlay.qml</file>
 	<file>OnScreenOption.qml</file>
+	<file>PanoramaOverlay.qml</file>
     </qresource>
 </RCC>
