@@ -38,6 +38,7 @@ Item {
     property alias overlayCapturing: captureControl.capturing
     property alias zoomSliderVisible: zoomSlider.visible
     property bool enableFocus: true
+    property bool enableRoi: true
 
     signal previewAvailable(string uri)
 

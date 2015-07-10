@@ -196,11 +196,13 @@ Viewfinder {
         when: loader.item != null
     }
 
+    property bool _enableRoi: loader.item != null ? loader.item.enableRoi : false
+
     /* Camera bindings */
     Binding {
         target: cam.roi
         property: "enabled"
-        value: deviceFeatures().isFaceDetectionSupported ? settings.faceDetectionEnabled && !focusReticle.reticlePressed && !focusReticle.touchMode && cam.mode == Camera.ImageMode : false
+        value: deviceFeatures().isFaceDetectionSupported ? settings.faceDetectionEnabled && !focusReticle.reticlePressed && !focusReticle.touchMode && _enableRoi : false
     }
 
     function policyLost() {

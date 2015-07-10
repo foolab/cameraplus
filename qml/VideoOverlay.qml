@@ -35,6 +35,7 @@ BaseOverlay {
     overlayCapturing: recording
     zoomSliderVisible: true
     canCapture: true
+    enableRoi: false
 
     VideoMode {
         id: videoMode
