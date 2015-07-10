@@ -47,3 +47,19 @@ GstBuffer *QtCamGstSample::buffer() const {
 GstCaps *QtCamGstSample::caps() const {
   return d_ptr->caps;
 }
+
+qint32 QtCamGstSample::width() const {
+  const GstStructure *s = gst_caps_get_structure (d_ptr->caps, 0);
+  qint32 w = -1;
+  gst_structure_get_int (s, "width", &w);
+
+  return w;
+}
+
+qint32 QtCamGstSample::height() const {
+  const GstStructure *s = gst_caps_get_structure (d_ptr->caps, 0);
+  qint32 h = -1;
+  gst_structure_get_int (s, "height", &h);
+
+  return h;
+}

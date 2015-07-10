@@ -24,6 +24,7 @@
 #define QT_CAM_GST_SAMPLE_H
 
 #include <gst/gst.h>
+#include <QtGlobal>
 
 class QtCamGstSamplePrivate;
 
@@ -34,6 +35,9 @@ public:
 
   GstBuffer *buffer() const;
   GstCaps *caps() const;
+
+  qint32 width() const;
+  qint32 height() const;
 
 private:
   QtCamGstSamplePrivate *d_ptr;
