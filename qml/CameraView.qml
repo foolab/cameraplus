@@ -121,7 +121,7 @@ Viewfinder {
         videoResolution: viewfinder.videoResolution
         reticlePressed: mouse.pressed
         visible: loader.item != null && loader.item.controlsVisible &&
-            cam.autoFocus.canFocus(cam.scene.value)
+            loader.item.enableFocus && cam.autoFocus.canFocus(cam.scene.value)
         cafStatus: cam ? cam.autoFocus.cafStatus : AutoFocus.None
         autoFocusStatus: cam ? cam.autoFocus.status : AutoFocus.None
     }
@@ -129,15 +129,27 @@ Viewfinder {
     MouseArea {
         id: mouse
         anchors.fill: parent
-        onDoubleClicked: focusReticle.doubleClicked()
+        onDoubleClicked: {
+            if (focusReticle.visible) {
+                focusReticle.doubleClicked()
+            }
+        }
 
         onPressed: {
+            if (!focusReticle.visible) {
+                return
+             }
+
             if (mouseX >= viewfinder.renderArea.x && mouseY >= viewfinder.renderArea.y && mouseX <= viewfinder.renderArea.x + viewfinder.renderArea.width && mouseY <= viewfinder.renderArea.y + viewfinder.renderArea.height) {
                 focusReticle.pressed(mouse)
             }
         }
 
-        onCanceled: focusReticle.canceled()
+        onCanceled: {
+            if (focusReticle.visible) {
+                focusReticle.canceled()
+            }
+        }
     }
 
     function loadPlugin(plugin) {
