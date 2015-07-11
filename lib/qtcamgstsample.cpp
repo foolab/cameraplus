@@ -19,11 +19,17 @@
  */
 
 #include "qtcamgstsample.h"
+#include <gst/gst.h>
+#include <QDebug>
 
 class QtCamGstSamplePrivate {
 public:
   GstBuffer *buffer;
   GstCaps *caps;
+#if GST_CHECK_VERSION(1,0,0)
+  GstMapInfo info;
+  bool mapped;
+#endif
 };
 
 QtCamGstSample::QtCamGstSample(GstBuffer *buffer, GstCaps *caps) :
@@ -31,9 +37,19 @@ QtCamGstSample::QtCamGstSample(GstBuffer *buffer, GstCaps *caps) :
 
   d_ptr->buffer = gst_buffer_ref(buffer);
   d_ptr->caps = gst_caps_ref(caps);
+
+#if GST_CHECK_VERSION(1,0,0)
+  d_ptr->mapped = false;
+#endif
 }
 
 QtCamGstSample::~QtCamGstSample() {
+#if GST_CHECK_VERSION(1,0,0)
+  if (d_ptr->mapped) {
+    gst_buffer_unmap (d_ptr->buffer, &d_ptr->info);
+    d_ptr->mapped = false;
+  }
+#endif
   gst_caps_unref(d_ptr->caps);
   gst_buffer_unref(d_ptr->buffer);
 
@@ -63,3 +79,29 @@ qint32 QtCamGstSample::height() const {
 
   return h;
 }
+
+const uchar *QtCamGstSample::data() {
+#if GST_CHECK_VERSION(1,0,0)
+  if (!d_ptr->mapped) {
+    if (!gst_buffer_map (d_ptr->buffer, &d_ptr->info, GST_MAP_READ)) {
+      qCritical() << "Failed to map buffer";
+      return NULL;
+    }
+
+    d_ptr->mapped = true;
+  }
+
+  return d_ptr->info.data;
+#else
+  return GST_BUFFER_DATA (d_ptr->buffer);
+#endif
+}
+
+qint64 QtCamGstSample::size() {
+#if GST_CHECK_VERSION(1,0,0)
+  return gst_buffer_get_size (d_ptr->buffer);
+#else
+  return GST_BUFFER_SIZE (d_ptr->buffer);
+#endif
+}
+
