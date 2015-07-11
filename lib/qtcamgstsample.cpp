@@ -26,6 +26,10 @@ class QtCamGstSamplePrivate {
 public:
   GstBuffer *buffer;
   GstCaps *caps;
+  qint32 width;
+  qint32 height;
+  GstVideoFormat format;
+
 #if GST_CHECK_VERSION(1,0,0)
   GstMapInfo info;
   bool mapped;
@@ -40,6 +44,25 @@ QtCamGstSample::QtCamGstSample(GstBuffer *buffer, GstCaps *caps) :
 
 #if GST_CHECK_VERSION(1,0,0)
   d_ptr->mapped = false;
+#endif
+
+  d_ptr->width = -1;
+  d_ptr->height = -1;
+  d_ptr->format = GST_VIDEO_FORMAT_UNKNOWN;
+
+#if GST_CHECK_VERSION(1,0,0)
+  GstVideoInfo info;
+  if (!gst_video_info_from_caps (&info, d_ptr->caps)) {
+    qCritical() << "Failed to parse GStreamer caps";
+  } else {
+    d_ptr->width = info.width;
+    d_ptr->height = info.height;
+    d_ptr->format = info.finfo->format;
+  }
+#else
+  if (!gst_video_format_parse_caps (d_ptr->caps, &d_ptr->format, &d_ptr->width, &d_ptr->height)) {
+    qCritical() << "Failed to parse GStreamer caps";
+  }
 #endif
 }
 
@@ -65,19 +88,11 @@ GstCaps *QtCamGstSample::caps() const {
 }
 
 qint32 QtCamGstSample::width() const {
-  const GstStructure *s = gst_caps_get_structure (d_ptr->caps, 0);
-  qint32 w = -1;
-  gst_structure_get_int (s, "width", &w);
-
-  return w;
+  return d_ptr->width;
 }
 
 qint32 QtCamGstSample::height() const {
-  const GstStructure *s = gst_caps_get_structure (d_ptr->caps, 0);
-  qint32 h = -1;
-  gst_structure_get_int (s, "height", &h);
-
-  return h;
+  return d_ptr->height;
 }
 
 const uchar *QtCamGstSample::data() {
