@@ -24,13 +24,13 @@
 #define QT_CAM_VIEWFINDER_RENDERER_H
 
 #include <QObject>
-#include <gst/gst.h>
 #include <QRectF>
 
 class QtCamConfig;
 class QMetaObject;
 class QMatrix4x4;
 class QSizeF;
+typedef struct _GstElement GstElement;
 
 class QtCamViewfinderRenderer : public QObject {
   Q_OBJECT

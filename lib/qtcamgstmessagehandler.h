@@ -24,9 +24,9 @@
 #define QT_CAM_GST_MESSAGE_HANDLER_H
 
 #include <QObject>
-#include <gst/gst.h>
 
 class QtCamGstMessageHandlerPrivate;
+typedef struct _GstMessage GstMessage;
 
 class QtCamGstMessageHandler : public QObject {
   Q_OBJECT

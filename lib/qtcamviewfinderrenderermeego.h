@@ -24,6 +24,7 @@
 #define QT_CAM_VIEWFINDER_RENDERER_MEEGO_H
 
 #include "qtcamviewfinderrenderer.h"
+#include <gst/gst.h>
 #include <QImage>
 #include <QMutex>
 #include <QMatrix4x4>
