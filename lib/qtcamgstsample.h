@@ -24,6 +24,7 @@
 #define QT_CAM_GST_SAMPLE_H
 
 #include <QtGlobal>
+#include <gst/video/video.h>
 
 class QtCamGstSamplePrivate;
 typedef struct _GstBuffer GstBuffer;
@@ -42,6 +43,8 @@ public:
 
   const uchar *data();
   qint64 size();
+
+  GstVideoFormat format() const;
 
 private:
   QtCamGstSamplePrivate *d_ptr;

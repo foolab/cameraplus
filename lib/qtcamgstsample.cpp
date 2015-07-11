@@ -120,3 +120,6 @@ qint64 QtCamGstSample::size() {
 #endif
 }
 
+GstVideoFormat QtCamGstSample::format() const {
+  return d_ptr->format;
+}
