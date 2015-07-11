@@ -24,11 +24,11 @@
 #define QT_CAM_GST_MESSAGE_LISTENER_H
 
 #include <QObject>
-#include <gst/gst.h>
 
 class QtCamGstMessageListenerPrivate;
 class QtCamGstMessageHandler;
 class QtCamDevicePrivate;
+typedef struct _GstBus GstBus;
 
 class QtCamGstMessageListener : public QObject {
   Q_OBJECT
