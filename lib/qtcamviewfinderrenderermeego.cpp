@@ -283,6 +283,7 @@ void QtCamViewfinderRendererMeeGo::paintFrame(const QMatrix4x4& matrix, int fram
   if (!meego_gst_video_texture_bind_frame(sink, GL_TEXTURE_EXTERNAL_OES, frame)) {
     qDebug() << "Failed to bind frame";
     m_program->release();
+    meego_gst_video_texture_release_frame (sink, frame, NULL);
     return;
   }
 
