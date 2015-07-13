@@ -19,6 +19,7 @@
  */
 
 #include "qtcamviewfinderrenderer.h"
+#include "qtcamviewfinderrenderer_p.h"
 #include "qtcamconfig.h"
 #include <QMap>
 #include <QDebug>
@@ -27,14 +28,13 @@ static QMap<QString, QMetaObject> _renderers;
 
 QtCamViewfinderRenderer::QtCamViewfinderRenderer(QtCamConfig *config, QObject *parent) :
   QObject(parent),
-  m_angle(0),
-  m_flipped(false) {
+  d_ptr(new QtCamViewfinderRendererPrivate) {
 
   Q_UNUSED(config);
 }
 
 QtCamViewfinderRenderer::~QtCamViewfinderRenderer() {
-
+  delete d_ptr;
 }
 
 QtCamViewfinderRenderer *QtCamViewfinderRenderer::create(QtCamConfig *config, QObject *parent) {
@@ -61,15 +61,15 @@ int QtCamViewfinderRenderer::registerRenderer(const QString& key, const QMetaObj
 }
 
 void QtCamViewfinderRenderer::setViewfinderRotationAngle(int angle) {
-  m_angle = angle;
+  d_ptr->angle = angle;
 }
 
 void QtCamViewfinderRenderer::setViewfinderFlipped(bool flipped) {
-  m_flipped = flipped;
+  d_ptr->flipped = flipped;
 }
 
 void QtCamViewfinderRenderer::calculateCoordinates(const QRect& crop, float *coords) {
-  int index = m_angle == 0 ? 0 : m_angle == -1 ? 0 : 360 / m_angle;
+  int index = d_ptr->angle == 0 ? 0 : d_ptr->angle == -1 ? 0 : 360 / d_ptr->angle;
 
   qreal tx = 0.0f, ty = 1.0f, sx = 1.0f, sy = 0.0f;
 
@@ -120,6 +120,6 @@ out:
     {1, 0, 0, 0, 0, 1, 1, 1}, // 270      // TODO:
   };
 
-  memcpy(coords, m_flipped ? front_coordinates[index] : back_coordinates[index],
+  memcpy(coords, d_ptr->flipped ? front_coordinates[index] : back_coordinates[index],
 	 8 * sizeof(float));
 }

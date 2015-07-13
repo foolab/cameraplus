@@ -30,6 +30,7 @@ class QtCamConfig;
 class QMetaObject;
 class QMatrix4x4;
 class QSizeF;
+class QtCamViewfinderRendererPrivate;
 typedef struct _GstElement GstElement;
 
 class QtCamViewfinderRenderer : public QObject {
@@ -59,8 +60,7 @@ public:
 
 protected:
   QtCamViewfinderRenderer(QtCamConfig *config, QObject *parent = 0);
-  int m_angle;
-  bool m_flipped;
+  QtCamViewfinderRendererPrivate *d_ptr;
 
 signals:
   void updateRequested();
