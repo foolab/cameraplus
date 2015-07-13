@@ -123,3 +123,7 @@ out:
   memcpy(coords, d_ptr->flipped ? front_coordinates[index] : back_coordinates[index],
 	 8 * sizeof(float));
 }
+
+void QtCamViewfinderRenderer::paint(const QMatrix4x4& matrix, const QRectF& viewport) {
+  render(matrix, viewport);
+}

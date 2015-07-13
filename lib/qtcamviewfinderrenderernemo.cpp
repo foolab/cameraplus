@@ -88,16 +88,16 @@ bool QtCamViewfinderRendererNemo::needsNativePainting() {
   return true;
 }
 
-void QtCamViewfinderRendererNemo::paint(const QMatrix4x4& matrix, const QRectF& viewport) {
+bool QtCamViewfinderRendererNemo::render(const QMatrix4x4& matrix, const QRectF& viewport) {
   if (!m_started) {
     qWarning() << "renderer not started yet";
-    return;
+    return false;
   }
 
   QOpenGLContext *ctx = QOpenGLContext::currentContext();
   if (!ctx) {
     qWarning() << "A current OpenGL context is required";
-    return;
+    return false;
   }
 
   if (m_dpy == EGL_NO_DISPLAY) {
@@ -115,7 +115,7 @@ void QtCamViewfinderRendererNemo::paint(const QMatrix4x4& matrix, const QRectF& 
 
   QMutexLocker locker(&m_frameMutex);
   if (m_frame == -1) {
-    return;
+    return false;
   }
 
   if (m_needsInit) {
@@ -143,7 +143,7 @@ void QtCamViewfinderRendererNemo::paint(const QMatrix4x4& matrix, const QRectF& 
     createProgram();
   }
 
-  paintFrame(matrix, m_frame);
+  return paintFrame(matrix, m_frame);
 }
 
 void QtCamViewfinderRendererNemo::resize(const QSizeF& size) {
@@ -308,19 +308,19 @@ void QtCamViewfinderRendererNemo::createProgram() {
   m_program->release();
 }
 
-void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame) {
+bool QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame) {
   EGLSyncKHR sync = 0;
   EGLImageKHR img = 0;
 
   if (frame == -1) {
-    return;
+    return false;
   }
 
   NemoGstVideoTexture *sink = NEMO_GST_VIDEO_TEXTURE(m_sink);
 
   if (!nemo_gst_video_texture_acquire_frame(sink)) {
     qDebug() << "Failed to acquire frame";
-    return;
+    return false;
   }
 
   // Now take into account cropping:
@@ -340,7 +340,7 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame
   if (!nemo_gst_video_texture_bind_frame(sink, &img)) {
     qDebug() << "Failed to bind frame";
     nemo_gst_video_texture_release_frame(sink, NULL);
-    return;
+    return false;
   }
 
   GLuint texture;
@@ -380,6 +380,7 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix, int frame
 
   nemo_gst_video_texture_release_frame(sink, sync);
   glDeleteTextures (1, &texture);
+  return true;
 }
 
 void QtCamViewfinderRendererNemo::calculateVertexCoords() {
