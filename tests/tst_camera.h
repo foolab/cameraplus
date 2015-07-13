@@ -15,6 +15,7 @@ public:
 
   QRectF renderArea() const { return QRectF(); }
   QSizeF videoResolution() const { return QSizeF(); }
+  QtCamViewfinderRenderer *renderer() const { return 0; }
 };
 
 #endif /* TST_CAMERA_H */

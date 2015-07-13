@@ -26,6 +26,7 @@
 #include <QRectF>
 
 class QtCamDevice;
+class QtCamViewfinderRenderer;
 
 typedef struct _GstElement GstElement;
 
@@ -40,6 +41,7 @@ public:
 
   virtual QRectF renderArea() const = 0;
   virtual QSizeF videoResolution() const = 0;
+  virtual QtCamViewfinderRenderer *renderer() const = 0;
 };
 
 #endif /* QT_CAM_VIEWFINDER_H */

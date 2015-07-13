@@ -85,6 +85,7 @@ public:
 #endif
 
   GstElement *sinkElement();
+  QtCamViewfinderRenderer *renderer() const;
   void start();
   void stop();
 
