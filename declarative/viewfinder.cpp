@@ -321,3 +321,7 @@ void Viewfinder::setViewfinderFlipped(bool flipped) {
     emit viewfinderFlippedChanged();
   }
 }
+
+QtCamViewfinderRenderer *Viewfinder::renderer() const {
+  return m_renderer;
+}

@@ -154,3 +154,7 @@ void QtCamGraphicsViewfinder::setRenderingEnabled(bool enabled) {
     emit renderingEnabledChanged();
   }
 }
+
+QtCamViewfinderRenderer *QtCamGraphicsViewfinder::renderer() const {
+  return d_ptr->renderer;
+}

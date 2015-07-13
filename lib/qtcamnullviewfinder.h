@@ -42,6 +42,7 @@ public:
 
   QRectF renderArea() const;
   QSizeF videoResolution() const;
+  QtCamViewfinderRenderer *renderer() const;
 
 private:
   static void sink_notify(QtCamNullViewfinder *q, GObject *object, gboolean is_last_ref);

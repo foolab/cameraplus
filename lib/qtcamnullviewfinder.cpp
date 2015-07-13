@@ -68,3 +68,7 @@ void QtCamNullViewfinder::sink_notify(QtCamNullViewfinder *q,
     q->m_sink = 0;
   }
 }
+
+QtCamViewfinderRenderer *QtCamNullViewfinder::renderer() const {
+  return 0;
+}
