@@ -89,10 +89,10 @@ bool QtCamViewfinderRendererMeeGo::needsNativePainting() {
   return true;
 }
 
-void QtCamViewfinderRendererMeeGo::paint(const QMatrix4x4& matrix, const QRectF& viewport) {
+bool QtCamViewfinderRendererMeeGo::render(const QMatrix4x4& matrix, const QRectF& viewport) {
   QMutexLocker locker(&m_frameMutex);
   if (m_frame == -1) {
-    return;
+    return false;
   }
 
   if (m_needsInit) {
@@ -115,7 +115,7 @@ void QtCamViewfinderRendererMeeGo::paint(const QMatrix4x4& matrix, const QRectF&
     createProgram();
   }
 
-  paintFrame(matrix, m_frame);
+  return paintFrame(matrix, m_frame);
 }
 
 void QtCamViewfinderRendererMeeGo::resize(const QSizeF& size) {
@@ -262,17 +262,17 @@ void QtCamViewfinderRendererMeeGo::createProgram() {
   m_program->release();
 }
 
-void QtCamViewfinderRendererMeeGo::paintFrame(const QMatrix4x4& matrix, int frame) {
+bool QtCamViewfinderRendererMeeGo::paintFrame(const QMatrix4x4& matrix, int frame) {
   EGLSyncKHR sync = 0;
 
   if (frame == -1) {
-    return;
+    return false;
   }
 
   MeegoGstVideoTexture *sink = MEEGO_GST_VIDEO_TEXTURE(m_sink);
   if (!meego_gst_video_texture_acquire_frame(sink, frame)) {
     qDebug() << "Failed to acquire frame";
-    return;
+    return false;
   }
 
   m_program->bind();
@@ -284,7 +284,7 @@ void QtCamViewfinderRendererMeeGo::paintFrame(const QMatrix4x4& matrix, int fram
     qDebug() << "Failed to bind frame";
     m_program->release();
     meego_gst_video_texture_release_frame (sink, frame, NULL);
-    return;
+    return false;
   }
 
   glEnableVertexAttribArray(0);
@@ -311,6 +311,8 @@ void QtCamViewfinderRendererMeeGo::paintFrame(const QMatrix4x4& matrix, int fram
   }
 
   meego_gst_video_texture_release_frame(sink, frame, sync);
+
+  return true;
 }
 
 void QtCamViewfinderRendererMeeGo::calculateCoords() {
