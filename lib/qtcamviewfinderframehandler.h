@@ -20,40 +20,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef QT_CAM_VIEWFINDER_RENDERER_P_H
-#define QT_CAM_VIEWFINDER_RENDERER_P_H
+#ifndef QT_CAM_VIEWFINDER_FRAME_HANDLER_H
+#define QT_CAM_VIEWFINDER_FRAME_HANDLER_H
 
-#include <QSize>
-#include <QMutex>
-#include "qtcamviewfinderframe.h"
+class QtCamViewfinderFrame;
 
-class QtCamViewfinderRendererBufferInterface {
+class QtCamViewfinderFrameHandler {
 public:
-  virtual void handleData(unsigned char *data,
-			  const QSize& size,
-			  const QtCamViewfinderFrame::Format& format) = 0;
+  QtCamViewfinderFrameHandler();
+  virtual ~QtCamViewfinderFrameHandler();
+
+  // Called from an arbitrary thread
+  virtual void handleFrame(const QtCamViewfinderFrame *frame) = 0;
 };
 
-class QtCamViewfinderRendererPrivate {
-public:
-  QtCamViewfinderRendererPrivate() :
-    angle(0),
-    flipped(false),
-    iface(0) {
-
-  }
-
-  void setInterface(QtCamViewfinderRendererBufferInterface *i) {
-    m_lock.lock();
-    iface = i;
-    m_lock.unlock();
-  }
-
-  int angle;
-  bool flipped;
-
-  QMutex m_lock;
-  QtCamViewfinderRendererBufferInterface *iface;
-};
-
-#endif /* QT_CAM_VIEWFINDER_RENDERER_P_H */
+#endif /* QT_CAM_VIEWFINDER_FRAME_HANDLER_H */

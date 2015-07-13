@@ -35,6 +35,7 @@ typedef struct _GstElement GstElement;
 
 class QtCamViewfinderRenderer : public QObject {
   Q_OBJECT
+  friend class QtCamViewfinderFrameListenerPrivate;
 
 public:
   static QtCamViewfinderRenderer *create(QtCamConfig *config, QObject *parent = 0);

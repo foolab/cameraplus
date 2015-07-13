@@ -37,6 +37,7 @@ class QtCamMetaData;
 class QtCamCapability;
 class QtCamNotifications;
 class QtCamViewfinderBufferListener;
+class QtCamViewfinderFrameListener;
 class QtCamImageSettings;
 class QtCamVideoSettings;
 
@@ -66,6 +67,7 @@ public:
   QtCamConfig *config() const;
   QtCamGstMessageListener *listener() const;
   QtCamViewfinderBufferListener *bufferListener() const;
+  QtCamViewfinderFrameListener *frameListener() const;
 
   QtCamNotifications *notifications() const;
 

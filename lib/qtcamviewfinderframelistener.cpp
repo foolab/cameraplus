@@ -1,5 +1,3 @@
-// -*- c++ -*-
-
 /*!
  * This file is part of CameraPlus.
  *
@@ -20,40 +18,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef QT_CAM_VIEWFINDER_RENDERER_P_H
-#define QT_CAM_VIEWFINDER_RENDERER_P_H
+#include "qtcamviewfinderframelistener.h"
+#include "qtcamviewfinderframelistener_p.h"
 
-#include <QSize>
-#include <QMutex>
-#include "qtcamviewfinderframe.h"
+QtCamViewfinderFrameListener::QtCamViewfinderFrameListener(QObject *parent) :
+  QObject(parent),
+  d_ptr(new QtCamViewfinderFrameListenerPrivate) {
 
-class QtCamViewfinderRendererBufferInterface {
-public:
-  virtual void handleData(unsigned char *data,
-			  const QSize& size,
-			  const QtCamViewfinderFrame::Format& format) = 0;
-};
+}
 
-class QtCamViewfinderRendererPrivate {
-public:
-  QtCamViewfinderRendererPrivate() :
-    angle(0),
-    flipped(false),
-    iface(0) {
+QtCamViewfinderFrameListener::~QtCamViewfinderFrameListener() {
+  delete d_ptr; d_ptr = 0;
+}
 
-  }
+void QtCamViewfinderFrameListener::addHandler(QtCamViewfinderFrameHandler *handler) {
+  d_ptr->addHandler(handler);
+}
 
-  void setInterface(QtCamViewfinderRendererBufferInterface *i) {
-    m_lock.lock();
-    iface = i;
-    m_lock.unlock();
-  }
-
-  int angle;
-  bool flipped;
-
-  QMutex m_lock;
-  QtCamViewfinderRendererBufferInterface *iface;
-};
-
-#endif /* QT_CAM_VIEWFINDER_RENDERER_P_H */
+void QtCamViewfinderFrameListener::removeHandler(QtCamViewfinderFrameHandler *handler) {
+  d_ptr->removeHandler(handler);
+}
