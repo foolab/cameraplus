@@ -40,6 +40,7 @@ class QtCamImageMode;
 class QtCamVideoMode;
 class QtCamPropertySetter;
 class QtCamAnalysisBin;
+class QtCamViewfinderFrameListener;
 
 class QtCamDevicePrivate {
 public:
@@ -523,6 +524,7 @@ public:
   QtCamConfig *conf;
   QtCamGstMessageListener *listener;
   QtCamViewfinderBufferListener *bufferListener;
+  QtCamViewfinderFrameListener *frameListener;
   bool error;
   QtCamNotifications *notifications;
   QtCamPropertySetter *propertySetter;

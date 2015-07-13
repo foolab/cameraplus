@@ -1,5 +1,3 @@
-// -*- c++ -*-
-
 /*!
  * This file is part of CameraPlus.
  *
@@ -20,40 +18,35 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef QT_CAM_VIEWFINDER_RENDERER_P_H
-#define QT_CAM_VIEWFINDER_RENDERER_P_H
-
-#include <QSize>
-#include <QMutex>
 #include "qtcamviewfinderframe.h"
 
-class QtCamViewfinderRendererBufferInterface {
+class QtCamViewfinderFramePrivate {
 public:
-  virtual void handleData(unsigned char *data,
-			  const QSize& size,
-			  const QtCamViewfinderFrame::Format& format) = 0;
+  QByteArray data;
+  QSize size;
+  QtCamViewfinderFrame::Format format;
 };
 
-class QtCamViewfinderRendererPrivate {
-public:
-  QtCamViewfinderRendererPrivate() :
-    angle(0),
-    flipped(false),
-    iface(0) {
+QtCamViewfinderFrame::QtCamViewfinderFrame(const QByteArray& data,
+					   const QSize& size, const Format& format) {
+  d_ptr = new QtCamViewfinderFramePrivate;
+  d_ptr->data = data;
+  d_ptr->size = size;
+  d_ptr->format = format;
+}
 
-  }
+QtCamViewfinderFrame::~QtCamViewfinderFrame() {
+  delete d_ptr; d_ptr = 0;
+}
 
-  void setInterface(QtCamViewfinderRendererBufferInterface *i) {
-    m_lock.lock();
-    iface = i;
-    m_lock.unlock();
-  }
+QSize QtCamViewfinderFrame::size() const {
+  return d_ptr->size;
+}
 
-  int angle;
-  bool flipped;
+QtCamViewfinderFrame::Format QtCamViewfinderFrame::format() const {
+  return d_ptr->format;
+}
 
-  QMutex m_lock;
-  QtCamViewfinderRendererBufferInterface *iface;
-};
-
-#endif /* QT_CAM_VIEWFINDER_RENDERER_P_H */
+const QByteArray QtCamViewfinderFrame::data() {
+  return d_ptr->data;
+}

@@ -31,6 +31,8 @@
 #include "qtcamnotifications.h"
 #include "qtcampropertysetter.h"
 #include "qtcamviewfinderbufferlistener.h"
+#include "qtcamviewfinderframelistener.h"
+#include "qtcamviewfinderframelistener_p.h"
 #include "qtcamconfig_p.h"
 #include "qtcamimagesettings.h"
 #include "qtcamvideosettings.h"
@@ -142,6 +144,7 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
   d_ptr->video = new QtCamVideoMode(d_ptr, this);
 
   d_ptr->notifications = new QtCamNotifications(this, this);
+  d_ptr->frameListener = new QtCamViewfinderFrameListener(this);
 }
 
 QtCamDevice::~QtCamDevice() {
@@ -254,6 +257,8 @@ bool QtCamDevice::start() {
 
   SET_STATE(GST_STATE_PLAYING);
 
+  d_ptr->frameListener->d_ptr->setRenderer(d_ptr->viewfinder->renderer());
+
   return true;
 }
 
@@ -261,6 +266,8 @@ bool QtCamDevice::stop(bool force) {
   if (!d_ptr->cameraBin) {
     return true;
   }
+
+  d_ptr->frameListener->d_ptr->setRenderer(0);
 
   if (d_ptr->error) {
     gst_element_set_state(d_ptr->cameraBin, GST_STATE_NULL);
@@ -357,6 +364,10 @@ QtCamGstMessageListener *QtCamDevice::listener() const {
 
 QtCamViewfinderBufferListener *QtCamDevice::bufferListener() const {
   return d_ptr->bufferListener;
+}
+
+QtCamViewfinderFrameListener *QtCamDevice::frameListener() const {
+  return d_ptr->frameListener;
 }
 
 QtCamNotifications *QtCamDevice::notifications() const {

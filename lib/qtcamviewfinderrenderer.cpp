@@ -18,11 +18,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#define DEBUG_GL_READ 0
+
 #include "qtcamviewfinderrenderer.h"
 #include "qtcamviewfinderrenderer_p.h"
 #include "qtcamconfig.h"
 #include <QMap>
 #include <QDebug>
+#include <GLES2/gl2.h>
+#ifdef DEBUG_GL_READ
+#include <QElapsedTimer>
+#endif
 
 static QMap<QString, QMetaObject> _renderers;
 
@@ -125,5 +131,65 @@ out:
 }
 
 void QtCamViewfinderRenderer::paint(const QMatrix4x4& matrix, const QRectF& viewport) {
-  render(matrix, viewport);
+  if (!render(matrix, viewport)) {
+    return;
+  }
+
+  d_ptr->m_lock.lock();
+  if (!d_ptr->iface) {
+    d_ptr->m_lock.unlock();
+    return;
+  }
+
+  d_ptr->m_lock.unlock();
+
+  // TODO: this is all Harmattan specific
+  QRectF area = renderArea();
+  unsigned char *data = (unsigned char *)malloc(area.width() * area.height() * 2);
+
+#if 0
+  glFinish();
+  glPixelStorei(GL_PACK_ALIGNMENT, 2);
+  glPixelStorei(GL_UNPACK_ALIGNMENT, 2);
+#endif
+
+#ifdef DEBUG_GL_READ
+  QElapsedTimer t;
+  t.start();
+#endif
+
+  glReadPixels(area.x(), area.y(), area.width(), area.height(),
+	       GL_RGB, GL_UNSIGNED_SHORT_5_6_5, data);
+
+  GLenum err = glGetError();
+
+#ifdef DEBUG_GL_READ
+  qDebug() << err << t.elapsed();
+#endif
+
+  if (err != GL_NO_ERROR) {
+    qCritical() << "Error" << err << "reading GL pixels";
+    free(data);
+    return;
+  }
+
+  // GL viewport is horizontally mirrored so we need to fix that:
+  unsigned char *out_data = (unsigned char *)malloc(area.width() * area.height() * 2);
+  int w = area.width();
+  int h = area.height();
+  for (int x = 0; x < h; x++) {
+    unsigned char *dst = &out_data[(h - x - 1) * w * 2];
+    memcpy(dst, &data[w*x], w * 2);
+  }
+
+  free(data);
+  d_ptr->m_lock.lock();
+
+  if (d_ptr->iface) {
+    d_ptr->iface->handleData(out_data,
+			     QSize(area.width(), area.height()),
+			     QtCamViewfinderFrame::RGB565);
+  }
+  d_ptr->m_lock.unlock();
+  free(out_data);
 }
