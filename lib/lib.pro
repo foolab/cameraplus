@@ -43,7 +43,7 @@ SOURCES += qtcamconfig.cpp qtcamera.cpp qtcamscanner.cpp qtcamdevice.cpp qtcamvi
 
 HEADERS += qtcammode_p.h qtcamdevice_p.h qtcamcapability_p.h qtcamautofocus_p.h \
            qtcamnotifications_p.h qtcamflash_p.h qtcamroi_p.h qtcamviewfinderbufferlistener_p.h \
-           qtcamconfig_p.h
+           qtcamconfig_p.h qtcamviewfinderrenderer_p.h
 
 harmattan:LIBS += -lgstphotography-0.10
 sailfish:LIBS += -lgstphotography-1.0
