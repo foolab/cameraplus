@@ -29,6 +29,7 @@
 #endif
 #include <pulse/pulseaudio.h>
 #include <sndfile.h>
+#include <unistd.h>
 
 #define CAMERA_IMAGE_START_SOUND_ID     "cameraplus-image-start"
 #define CAMERA_IMAGE_END_SOUND_ID       "cameraplus-image-end"
