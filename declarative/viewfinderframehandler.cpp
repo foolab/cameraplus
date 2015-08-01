@@ -21,7 +21,6 @@
 #include "viewfinderframehandler.h"
 #include "qtcamdevice.h"
 #include "qtcamviewfinderframelistener.h"
-#include "camera.h"
 #if defined(QT4)
 #include <QDeclarativeInfo>
 #elif defined(QT5)
@@ -29,10 +28,7 @@
 #endif
 
 ViewfinderFrameHandler::ViewfinderFrameHandler(QObject *parent) :
-  QObject(parent),
-  m_cam(0),
-  m_handler(0),
-  m_dev(0) {
+  ViewfinderHandler("handleFrame(const QtCamViewfinderFrame *)", parent) {
 
 }
 
@@ -40,68 +36,12 @@ ViewfinderFrameHandler::~ViewfinderFrameHandler() {
   deviceAboutToChange();
 }
 
-Camera *ViewfinderFrameHandler::camera() const {
-  return m_cam;
+void ViewfinderFrameHandler::registerHandler(QtCamDevice *dev) {
+  dev->frameListener()->addHandler(this);
 }
 
-void ViewfinderFrameHandler::setCamera(Camera *camera) {
-  if (m_cam == camera) {
-    return;
-  }
-
-  if (m_cam) {
-    QObject::disconnect(m_cam, SIGNAL(prepareForDeviceChange()),
-			this, SLOT(deviceAboutToChange()));
-    QObject::disconnect(m_cam, SIGNAL(deviceChanged()), this, SLOT(deviceChanged()));
-
-    deviceAboutToChange();
-  }
-
-  m_cam = camera;
-
-  if (m_cam) {
-    QObject::connect(m_cam, SIGNAL(prepareForDeviceChange()), this, SLOT(deviceAboutToChange()));
-    QObject::connect(m_cam, SIGNAL(deviceChanged()), this, SLOT(deviceChanged()));
-
-    deviceChanged();
-  }
-
-  emit cameraChanged();
-}
-
-QObject *ViewfinderFrameHandler::handler() const {
-  return m_handler;
-}
-
-void ViewfinderFrameHandler::setHandler(QObject *handler) {
-  if (m_handler != handler) {
-    QMutexLocker l(&m_mutex);
-    m_handler = handler;
-    emit handlerChanged();
-
-    // now resolve our meta method:
-    m_method = QMetaMethod();
-    const QMetaObject *obj = m_handler->metaObject();
-    int index =
-      obj->indexOfSlot(QMetaObject::normalizedSignature("handleFrame(const QtCamViewfinderFrame *)"));
-    if (index == -1) {
-      qmlInfo(this) << "invalid handler";
-    } else {
-      m_method = obj->method(index);
-    }
-  }
-}
-
-void ViewfinderFrameHandler::deviceChanged() {
-  if (m_cam && m_cam->device()) {
-    m_cam->device()->frameListener()->addHandler(this);
-  }
-}
-
-void ViewfinderFrameHandler::deviceAboutToChange() {
-  if (m_cam && m_cam->device()) {
-    m_cam->device()->frameListener()->removeHandler(this);
-  }
+void ViewfinderFrameHandler::unregisterHandler(QtCamDevice *dev) {
+  dev->frameListener()->removeHandler(this);
 }
 
 void ViewfinderFrameHandler::handleFrame(const QtCamViewfinderFrame *frame) {
@@ -111,7 +51,8 @@ void ViewfinderFrameHandler::handleFrame(const QtCamViewfinderFrame *frame) {
     return;
   }
 
-  if (!m_method.invoke(m_handler, Qt::DirectConnection, Q_ARG(const QtCamViewfinderFrame *, frame))) {
+  if (!m_method.invoke(m_handler, Qt::DirectConnection,
+		       Q_ARG(const QtCamViewfinderFrame *, frame))) {
     qmlInfo(this) << "Failed to invoke handler";
   }
 }

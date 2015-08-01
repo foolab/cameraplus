@@ -23,46 +23,23 @@
 #ifndef VIEWFINDER_FRAME_HANDLER_H
 #define VIEWFINDER_FRAME_HANDLER_H
 
-#include <QObject>
-#include <QMutex>
+#include "viewfinderhandler.h"
 #include "qtcamviewfinderframehandler.h"
-#include <QMetaMethod>
 
-class Camera;
 class QtCamDevice;
 
-class ViewfinderFrameHandler : public QObject, public QtCamViewfinderFrameHandler {
+class ViewfinderFrameHandler : public ViewfinderHandler, public QtCamViewfinderFrameHandler {
   Q_OBJECT
-
-  Q_PROPERTY(Camera* camera READ camera WRITE setCamera NOTIFY cameraChanged);
-  Q_PROPERTY(QObject* handler READ handler WRITE setHandler NOTIFY handlerChanged);
 
 public:
   ViewfinderFrameHandler(QObject *parent = 0);
   ~ViewfinderFrameHandler();
 
-  Camera *camera() const;
-  void setCamera(Camera *camera);
-
-  QObject *handler() const;
-  void setHandler(QObject *handler);
-
   void handleFrame(const QtCamViewfinderFrame *frame);
 
-signals:
-  void cameraChanged();
-  void handlerChanged();
-
-private slots:
-  void deviceChanged();
-  void deviceAboutToChange();
-
-private:
-  Camera *m_cam;
-  QObject *m_handler;
-  QtCamDevice *m_dev;
-  QMutex m_mutex;
-  QMetaMethod m_method;
+protected:
+  void registerHandler(QtCamDevice *dev);
+  void unregisterHandler(QtCamDevice *dev);
 };
 
 #endif /* VIEWFINDER_FRAME_HANDLER_H */

@@ -25,7 +25,8 @@ HEADERS += plugin.h previewprovider.h camera.h mode.h imagemode.h videomode.h \
            resolutionmodel.h videosettings.h \
            notificationscontainer.h sounds.h focus.h autofocus.h \
            roi.h cameraconfig.h videoplayer.h viewfinder.h capability.h \
-           resolution.h viewfinderbufferhandler.h viewfinderframehandler.h
+           resolution.h viewfinderbufferhandler.h viewfinderframehandler.h \
+           viewfinderhandler.h
 
 SOURCES += plugin.cpp previewprovider.cpp camera.cpp mode.cpp imagemode.cpp videomode.cpp \
            zoom.cpp flash.cpp scene.cpp evcomp.cpp videotorch.cpp whitebalance.cpp \
@@ -34,7 +35,8 @@ SOURCES += plugin.cpp previewprovider.cpp camera.cpp mode.cpp imagemode.cpp vide
            resolutionmodel.cpp videosettings.cpp \
            notificationscontainer.cpp sounds.cpp focus.cpp autofocus.cpp \
            roi.cpp cameraconfig.cpp videoplayer.cpp viewfinder.cpp capability.cpp \
-           resolution.cpp viewfinderbufferhandler.cpp viewfinderframehandler.cpp
+           resolution.cpp viewfinderbufferhandler.cpp viewfinderframehandler.cpp \
+           viewfinderhandler.cpp
 
 PLUGIN_IMPORT_PATH = QtCamera
 target.path = $$[QT_INSTALL_IMPORTS]/$$PLUGIN_IMPORT_PATH
