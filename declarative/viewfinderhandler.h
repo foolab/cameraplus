@@ -32,8 +32,10 @@ class QtCamDevice;
 
 class ViewfinderHandler : public QObject {
   Q_OBJECT
+
   Q_PROPERTY(Camera* camera READ camera WRITE setCamera NOTIFY cameraChanged);
   Q_PROPERTY(QObject* handler READ handler WRITE setHandler NOTIFY handlerChanged);
+  Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled NOTIFY enabledChanged);
 
 public:
   ViewfinderHandler(const char *slot, QObject *parent = 0);
@@ -45,9 +47,13 @@ public:
   QObject *handler() const;
   void setHandler(QObject *handler);
 
+  bool isEnabled() const;
+  void setEnabled(bool enabled);
+
 signals:
   void cameraChanged();
   void handlerChanged();
+  void enabledChanged();
 
 private slots:
   void deviceChanged();
@@ -56,6 +62,8 @@ protected slots:
   void deviceAboutToChange();
 
 protected:
+  virtual void update();
+
   virtual void registerHandler(QtCamDevice *dev) = 0;
   virtual void unregisterHandler(QtCamDevice *dev) = 0;
 
@@ -65,6 +73,7 @@ protected:
   QtCamDevice *m_dev;
   QMutex m_mutex;
   QMetaMethod m_method;
+  bool m_enabled;
 };
 
 #endif /* VIEWFINDER_HANDLER_H */

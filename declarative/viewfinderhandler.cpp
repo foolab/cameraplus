@@ -31,7 +31,8 @@ ViewfinderHandler::ViewfinderHandler(const char *slot, QObject *parent) :
   m_slot(QMetaObject::normalizedSignature(slot)),
   m_cam(0),
   m_handler(0),
-  m_dev(0) {
+  m_dev(0),
+  m_enabled(false) {
 
 }
 
@@ -50,24 +51,31 @@ void ViewfinderHandler::setCamera(Camera *camera) {
     return;
   }
 
+  bool enabled = m_enabled;
+  m_enabled = false;
+
+  QMutexLocker l(&m_mutex);
+
   if (m_cam) {
     QObject::disconnect(m_cam, SIGNAL(prepareForDeviceChange()),
 			this, SLOT(deviceAboutToChange()));
     QObject::disconnect(m_cam, SIGNAL(deviceChanged()), this, SLOT(deviceChanged()));
 
-    deviceAboutToChange();
+    update();
   }
 
   m_cam = camera;
 
+  m_enabled = enabled;
+
   if (m_cam) {
     QObject::connect(m_cam, SIGNAL(prepareForDeviceChange()), this, SLOT(deviceAboutToChange()));
     QObject::connect(m_cam, SIGNAL(deviceChanged()), this, SLOT(deviceChanged()));
-
-    deviceChanged();
   }
 
   emit cameraChanged();
+
+  update();
 }
 
 QObject *ViewfinderHandler::handler() const {
@@ -76,7 +84,14 @@ QObject *ViewfinderHandler::handler() const {
 
 void ViewfinderHandler::setHandler(QObject *handler) {
   if (m_handler != handler) {
+
     QMutexLocker l(&m_mutex);
+
+    bool enabled = m_enabled;
+    m_enabled = false;
+
+    update();
+
     m_handler = handler;
     emit handlerChanged();
 
@@ -89,23 +104,57 @@ void ViewfinderHandler::setHandler(QObject *handler) {
     } else {
       m_method = obj->method(index);
     }
+
+    m_enabled = enabled;
+
+    update();
   }
 }
 
 void ViewfinderHandler::deviceChanged() {
-  if (m_cam) {
+  QMutexLocker l(&m_mutex);
+  update();
+}
+
+void ViewfinderHandler::deviceAboutToChange() {
+  QMutexLocker l(&m_mutex);
+
+  bool enabled = m_enabled;
+  m_enabled = false;
+
+  update();
+
+  m_enabled = enabled;
+}
+
+bool ViewfinderHandler::isEnabled() const {
+  return m_enabled;
+}
+
+void ViewfinderHandler::setEnabled(bool enabled) {
+  if (enabled != isEnabled()) {
+    QMutexLocker l(&m_mutex);
+
+    m_enabled = enabled;
+
+    emit enabledChanged();
+
+    update();
+  }
+}
+
+void ViewfinderHandler::update() {
+  if (m_enabled && m_cam && m_handler && m_method.signature()) {
     QtCamDevice *dev = m_cam->device();
     if (dev) {
       registerHandler(dev);
     }
-  }
-}
-
-void ViewfinderHandler::deviceAboutToChange() {
-  if (m_cam) {
-    QtCamDevice *dev = m_cam->device();
-    if (dev) {
-      unregisterHandler(dev);
+  } else {
+    if (m_cam) {
+      QtCamDevice *dev = m_cam->device();
+      if (dev) {
+	unregisterHandler(dev);
+      }
     }
   }
 }
