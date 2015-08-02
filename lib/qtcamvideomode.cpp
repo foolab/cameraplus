@@ -19,6 +19,7 @@
  */
 
 #include "qtcamvideomode.h"
+#include "qtcamvideomode_p.h"
 #include "qtcammode_p.h"
 #include <QDebug>
 #include "qtcamdevice_p.h"
@@ -175,9 +176,7 @@ private:
   QMutex mutex;
 };
 
-class QtCamVideoModePrivate : public QtCamModePrivate {
-public:
-  QtCamVideoModePrivate(QtCamDevicePrivate *dev) :
+QtCamVideoModePrivate::QtCamVideoModePrivate(QtCamDevicePrivate *dev) :
   QtCamModePrivate(dev),
   resolution(QtCamResolution(QtCamResolution::ModeVideo)),
   audio(0),
@@ -185,68 +184,63 @@ public:
 
   }
 
-  ~QtCamVideoModePrivate() {
-  }
+QtCamVideoModePrivate::~QtCamVideoModePrivate() {
+}
 
-  void _d_idleStateChanged(bool isIdle) {
-    if (isIdle && dev->active == dev->video) {
-      QMetaObject::invokeMethod(dev->video, "recordingStateChanged");
-      QMetaObject::invokeMethod(dev->video, "canCaptureChanged");
-    }
-  }
+StreamRewriter *QtCamVideoModePrivate::createRewriter(const char *prop,
+						      const char *name, bool copy) {
+  GstPad *pad = NULL;
+  GstElement *elem = NULL;
 
-  StreamRewriter *createRewriter(const char *prop, const char *name, bool copy) {
-    GstPad *pad = NULL;
-    GstElement *elem = NULL;
+  g_object_get(dev->cameraBin, prop, &elem, NULL);
 
-    g_object_get(dev->cameraBin, prop, &elem, NULL);
-
-    if (!elem) {
-      qWarning() << "Failed to get element" << prop;
-      return NULL;
-    }
-
-    pad = gst_element_get_static_pad(elem, name);
-    if (!pad) {
-      qWarning() << "Failed to get pad" << name << "from element" << prop;
-    }
-
-    gst_object_unref(elem);
-
-    if (pad) {
-      return new StreamRewriter(pad, copy);
-    }
-
+  if (!elem) {
+    qWarning() << "Failed to get element" << prop;
     return NULL;
   }
 
-  void createRewriters() {
-    if (!audio) {
-      audio = createRewriter("audio-source", "src", false);
-    }
-
-    if (!video) {
-      video = createRewriter("camera-source", "vidsrc", true);
-    }
+  pad = gst_element_get_static_pad(elem, name);
+  if (!pad) {
+    qWarning() << "Failed to get pad" << name << "from element" << prop;
   }
 
-  void clearRewriters() {
-    if (audio) {
-      delete audio;
-      audio = 0;
-    }
+  gst_object_unref(elem);
 
-    if (video) {
-      delete video;
-      video = 0;
-    }
+  if (pad) {
+    return new StreamRewriter(pad, copy);
   }
 
-  QtCamResolution resolution;
+  return NULL;
+}
 
-  StreamRewriter *audio;
-  StreamRewriter *video;
-};
+void QtCamVideoModePrivate::createRewriters() {
+  if (!audio) {
+    audio = createRewriter("audio-source", "src", false);
+  }
+
+  if (!video) {
+    video = createRewriter("camera-source", "vidsrc", true);
+  }
+}
+
+void QtCamVideoModePrivate::clearRewriters() {
+  if (audio) {
+    delete audio;
+    audio = 0;
+  }
+
+  if (video) {
+    delete video;
+    video = 0;
+  }
+}
+
+void QtCamVideoModePrivate::_d_idleStateChanged(bool isIdle) {
+  if (isIdle && dev->active == dev->video) {
+    QMetaObject::invokeMethod(dev->video, "recordingStateChanged");
+    QMetaObject::invokeMethod(dev->video, "canCaptureChanged");
+  }
+}
 
 class VideoDoneHandler : public DoneHandler {
 public:
@@ -309,7 +303,7 @@ QtCamVideoMode::QtCamVideoMode(QtCamDevicePrivate *dev, QObject *parent) :
   }
 
   QObject::connect(d_ptr->dev->q_ptr, SIGNAL(idleStateChanged(bool)),
-		   this, SLOT(_d_idleStateChanged(bool)));
+		   d, SLOT(_d_idleStateChanged(bool)));
 }
 
 QtCamVideoMode::~QtCamVideoMode() {
@@ -474,5 +468,3 @@ QtCamResolution QtCamVideoMode::currentResolution() {
 void QtCamVideoMode::enablePreview() {
   d_ptr->setPreviewSize(d->resolution.previewResolution());
 }
-
-#include "moc_qtcamvideomode.cpp"

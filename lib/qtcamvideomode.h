@@ -67,7 +67,6 @@ protected:
 
 private:
   QtCamVideoModePrivate *d;
-  Q_PRIVATE_SLOT(d, void _d_idleStateChanged(bool));
 };
 
 #endif /* QT_CAM_VIDEO_MODE_H */

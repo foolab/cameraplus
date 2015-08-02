@@ -91,11 +91,6 @@ signals:
   void sensorOrientationAngleChanged();
 
 private:
-  Q_PRIVATE_SLOT(d_ptr, void _d_error(const QString&, int, const QString&))
-  Q_PRIVATE_SLOT(d_ptr, void _d_started())
-  Q_PRIVATE_SLOT(d_ptr, void _d_stopped())
-  Q_PRIVATE_SLOT(d_ptr, void _d_stopping())
-
   friend class QtCamMetaDataPrivate;
   friend class QtCamCapability;
   friend class QtCamVideoTorch;

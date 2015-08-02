@@ -20,37 +20,31 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef QT_CAM_NOTIFICATIONS_H
-#define QT_CAM_NOTIFICATIONS_H
+#ifndef QT_CAM_VIDEO_MODE_P_H
+#define QT_CAM_VIDEO_MODE_P_H
 
 #include <QObject>
+#include "qtcammode_p.h"
 
-class QtCamNotificationsPrivate;
-class QtCamDevice;
+class StreamRewriter;
 
-class QtCamNotifications : public QObject {
+class QtCamVideoModePrivate : public QObject, public QtCamModePrivate {
   Q_OBJECT
 
-  friend class QtCamNotificationsPrivate;
-
 public:
-  QtCamNotifications(QtCamDevice *dev, QObject *parent = 0);
-  ~QtCamNotifications();
+  QtCamVideoModePrivate(QtCamDevicePrivate *dev);
+  ~QtCamVideoModePrivate();
 
-signals:
-  // This will be emitted from another signal.
-  void imageCaptureStarted();
+  StreamRewriter *createRewriter(const char *prop, const char *name, bool copy);
+  void createRewriters();
+  void clearRewriters();
 
-  void imageCaptureEnded();
+  QtCamResolution resolution;
+  StreamRewriter *audio;
+  StreamRewriter *video;
 
-  void videoRecordingStarted();
-  void videoRecordingEnded();
-
-  void autoFocusAcquired();
-  void autoFocusFailed();
-
-private:
-  QtCamNotificationsPrivate *d_ptr;
+public slots:
+  void _d_idleStateChanged(bool isIdle);
 };
 
-#endif /* QT_CAM_NOTIFICATIONS_H */
+#endif /* QT_CAM_VIDEO_MODE_P_H */

@@ -118,10 +118,10 @@ QtCamDevice::QtCamDevice(QtCamConfig *config, const QString& name,
 						d_ptr, this);
 
   QObject::connect(d_ptr->listener, SIGNAL(error(const QString&, int, const QString&)),
-		   this, SLOT(_d_error(const QString&, int, const QString&)));
-  QObject::connect(d_ptr->listener, SIGNAL(started()), this, SLOT(_d_started()));
-  QObject::connect(d_ptr->listener, SIGNAL(stopped()), this, SLOT(_d_stopped()));
-  QObject::connect(d_ptr->listener, SIGNAL(stopping()), this, SLOT(_d_stopping()));
+		   d_ptr, SLOT(_d_error(const QString&, int, const QString&)));
+  QObject::connect(d_ptr->listener, SIGNAL(started()), d_ptr, SLOT(_d_started()));
+  QObject::connect(d_ptr->listener, SIGNAL(stopped()), d_ptr, SLOT(_d_stopped()));
+  QObject::connect(d_ptr->listener, SIGNAL(stopping()), d_ptr, SLOT(_d_stopping()));
 
   g_signal_connect(d_ptr->cameraBin, "notify::idle",
 		   G_CALLBACK(QtCamDevicePrivate::on_idle_changed), d_ptr);
@@ -452,5 +452,3 @@ QtCamVideoSettings *QtCamDevice::videoSettings() {
 
   return d_ptr->videoSettings;
 }
-
-#include "moc_qtcamdevice.cpp"

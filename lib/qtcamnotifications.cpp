@@ -57,7 +57,7 @@ QtCamNotifications::QtCamNotifications(QtCamDevice *dev, QObject *parent) :
 		   this, SIGNAL(videoRecordingEnded()), Qt::DirectConnection);
 
   QObject::connect(d_ptr->af, SIGNAL(messageSent(GstMessage *)),
-		   this, SLOT(autoFocusStatusChanged(GstMessage *)));
+		   d_ptr, SLOT(autoFocusStatusChanged(GstMessage *)));
 
   QObject::connect(d_ptr->imageStart, SIGNAL(messageSent(GstMessage *)),
 		   d_ptr->dev->d_ptr->image, SIGNAL(captureStarted()), Qt::AutoConnection);
@@ -80,5 +80,3 @@ QtCamNotifications::~QtCamNotifications() {
 
   delete d_ptr; d_ptr = 0;
 }
-
-#include "moc_qtcamnotifications.cpp"
