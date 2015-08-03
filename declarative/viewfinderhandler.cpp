@@ -144,7 +144,14 @@ void ViewfinderHandler::setEnabled(bool enabled) {
 }
 
 void ViewfinderHandler::update() {
-  if (m_enabled && m_cam && m_handler && m_method.signature()) {
+  bool valid =
+#if defined(QT4)
+    m_method.signature();
+#else
+  m_method.isValid();
+#endif
+
+  if (m_enabled && m_cam && m_handler && valid) {
     QtCamDevice *dev = m_cam->device();
     if (dev) {
       registerHandler(dev);
