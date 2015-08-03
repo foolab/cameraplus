@@ -30,9 +30,9 @@
 #endif
 
 #if defined(QT4)
-class Plugin : public QDeclarativeExtensionPlugin {
+class DeclarativePlugin : public QDeclarativeExtensionPlugin {
 #elif defined(QT5)
-class Plugin : public QQmlExtensionPlugin {
+class DeclarativePlugin : public QQmlExtensionPlugin {
 #endif
 
   Q_OBJECT
@@ -42,8 +42,8 @@ class Plugin : public QQmlExtensionPlugin {
 #endif
 
 public:
-  Plugin(QObject *parent = 0);
-  ~Plugin();
+  DeclarativePlugin(QObject *parent = 0);
+  ~DeclarativePlugin();
 
 #if defined(QT4)
   void initializeEngine(QDeclarativeEngine *engine, const char *uri);

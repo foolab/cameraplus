@@ -61,7 +61,7 @@
 #define MAJOR 1
 #define MINOR 0
 
-Plugin::Plugin(QObject *parent) :
+DeclarativePlugin::DeclarativePlugin(QObject *parent) :
 #if defined(QT4)
   QDeclarativeExtensionPlugin(parent) {
 #elif defined(QT5)
@@ -70,21 +70,21 @@ Plugin::Plugin(QObject *parent) :
 
 }
 
-Plugin::~Plugin() {
+DeclarativePlugin::~DeclarativePlugin() {
 
 }
 
 #if defined(QT4)
-void Plugin::initializeEngine(QDeclarativeEngine *engine, const char *uri) {
+void DeclarativePlugin::initializeEngine(QDeclarativeEngine *engine, const char *uri) {
 #elif defined(QT5)
-void Plugin::initializeEngine(QQmlEngine *engine, const char *uri) {
+void DeclarativePlugin::initializeEngine(QQmlEngine *engine, const char *uri) {
 #endif
   Q_UNUSED(uri);
 
   engine->addImageProvider("preview", new PreviewProvider);
 }
 
-void Plugin::registerTypes(const char *uri) {
+void DeclarativePlugin::registerTypes(const char *uri) {
   Q_ASSERT(QLatin1String(uri) == QLatin1String("QtCamera"));
 
   qmlRegisterType<Camera>(uri, MAJOR, MINOR, "Camera");
@@ -132,5 +132,5 @@ void Plugin::registerTypes(const char *uri) {
 }
 
 #if defined(QT4)
-Q_EXPORT_PLUGIN2(declarativeqtcamera, Plugin);
+Q_EXPORT_PLUGIN2(declarativeqtcamera, DeclarativePlugin);
 #endif
