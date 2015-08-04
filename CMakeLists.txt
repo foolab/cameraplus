@@ -36,6 +36,18 @@ else()
   message(FATAL_ERROR "unknown platform")
 endif()
 
+add_subdirectory(external)
+
+ExternalProject_Get_Property(libyuv source_dir)
+set(LIBYUV_INCLUDE_DIR ${source_dir}/include)
+ExternalProject_Get_Property(libyuv install_dir)
+set(LIBYUV_LIB_DIR ${install_dir}/lib)
+
+ExternalProject_Get_Property(libpanorama-stitcher source_dir)
+set(PANORAMA_STITCHER_INCLUDE_DIR ${source_dir})
+ExternalProject_Get_Property(libpanorama-stitcher install_dir)
+set(PANORAMA_STITCHER_LIB_DIR ${install_dir}/lib)
+
 add_subdirectory(lib)
 add_subdirectory(declarative)
 add_subdirectory(src)
