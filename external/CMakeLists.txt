@@ -3,7 +3,7 @@ include(ExternalProject)
 ExternalProject_Add(libpanorama-stitcher
   URL ${CMAKE_CURRENT_SOURCE_DIR}/panorama-stitcher
   PATCH_COMMAND NOCONFIGURE=1 ./autogen.sh
-  CONFIGURE_COMMAND <SOURCE_DIR>/configure --enable-static --disable-shared --prefix=<INSTALL_DIR> CFLAGS=-fPIC CXXFLAGS=-fPIC
+  CONFIGURE_COMMAND <SOURCE_DIR>/configure --enable-static --disable-shared --prefix=<INSTALL_DIR> CFLAGS=-fPIC CXXFLAGS=-fPIC\ -ffast-math\ -O2
   )
 
 ExternalProject_Add(libyuv
