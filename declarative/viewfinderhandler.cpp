@@ -100,7 +100,7 @@ void ViewfinderHandler::setHandler(QObject *handler) {
     const QMetaObject *obj = m_handler->metaObject();
     int index = obj->indexOfSlot(m_slot.toUtf8().constData());
     if (index == -1) {
-      qmlInfo(this) << "Cannot find slot" << m_slot;
+      qmlInfo(this) << "Cannot find slot " << m_slot;
     } else {
       m_method = obj->method(index);
     }

@@ -149,6 +149,30 @@ bool ImageSettings::setResolution(const QtCamResolution& resolution) {
   return m_cam->device()->imageMode()->setResolution(resolution);
 }
 
+bool ImageSettings::setViewfinderResolution(const QSize& resolution) {
+  if (!isReady()) {
+    return false;
+  }
+
+  if (!m_cam || !m_cam->device()) {
+    return false;
+  }
+
+  QList<QtCamResolution> res = m_settings->resolutions();
+
+  if (res.isEmpty()) {
+    return false;
+  }
+
+  foreach (const QtCamResolution& r, res) {
+    if (r.viewfinderResolution() == resolution) {
+      return setResolution(r);
+    }
+  }
+
+  return false;
+}
+
 QString ImageSettings::bestResolution(const QString& aspectRatio, const QString& resolution) {
   if (!isReady()) {
     return QString();

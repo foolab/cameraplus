@@ -30,6 +30,7 @@ class Camera;
 class QtCamImageSettings;
 class ResolutionModel;
 class QtCamResolution;
+class QSize;
 
 class ImageSettings : public QObject {
   Q_OBJECT
@@ -58,6 +59,7 @@ public:
   Q_INVOKABLE bool setResolution(const QString& resolution);
   Q_INVOKABLE QString aspectRatioForResolution(const QString& resolution);
   Q_INVOKABLE QString bestResolution(const QString& aspectRatio, const QString& resolution);
+  Q_INVOKABLE bool setViewfinderResolution(const QSize& resolution);
 
   int aspectRatioCount() const;
 
