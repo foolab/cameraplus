@@ -1,0 +1,6 @@
+[submodule "external/libyuv"]
+	path = external/libyuv
+	url = https://github.com/foolab/libyuv.git
+[submodule "external/panorama-stitcher"]
+	path = external/panorama-stitcher
+	url = https://github.com/foolab/panorama-stitcher.git
