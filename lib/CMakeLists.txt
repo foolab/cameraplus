@@ -111,7 +111,6 @@ if (HARMATTAN)
 
   # We need to set this manually
   set(EXTRA_LIBRARIES -lgstphotography-0.10)
-  qt4_wrap_cpp(MOC_FILES ${HEADER_FILES} ${PRIVATE_HEADER_FILES} ${EXTRA_HEADER_FILES})
 elseif (SAILFISH)
   set(EXTRA_HEADER_FILES qtcamviewfinderrenderernemo.h)
   set(EXTRA_SOURCE_FILES qtcamviewfinderrenderernemo.cpp)
@@ -120,20 +119,26 @@ elseif (SAILFISH)
 
   # We need to set this manually
   set(EXTRA_LIBRARIES -lgstphotography-1.0)
-  qt5_wrap_cpp(MOC_FILES ${HEADER_FILES} ${PRIVATE_HEADER_FILES} ${EXTRA_HEADER_FILES})
 endif()
 
+qt_wrap_cpp(MOC_FILES ${HEADER_FILES} ${PRIVATE_HEADER_FILES} ${EXTRA_HEADER_FILES})
 add_library(qtcamera SHARED ${SOURCE_FILES} ${EXTRA_SOURCE_FILES} ${MOC_FILES})
 
-if (SAILFISH)
-qt5_use_modules(qtcamera Gui)
+if (QT5)
+  qt5_use_modules(qtcamera Gui)
 endif()
 
 add_definitions(${QT_SYSTEM_INFO_CFLAGS} ${GST_INCLUDE_CFLAGS})
 include_directories(${QT_SYSTEM_INFO_INCLUDE_DIRS} ${GST_INCLUDE_DIRS})
 target_link_libraries(qtcamera ${GST_LIBRARIES} ${QT_SYSTEM_INFO_LIBRARIES} ${EXTRA_LIBRARIES})
 
+if (HARMATTAN)
+  target_link_libraries(qtcamera Qt4::QtOpenGL)
+elseif (SAILFISH)
+  # TODO:
+endif()
+
 set_property(TARGET qtcamera PROPERTY VERSION "1.0.0")
 set_property(TARGET qtcamera PROPERTY SOVERSION 1)
 
-install (TARGETS qtcamera DESTINATION lib)
+install(TARGETS qtcamera DESTINATION lib)

@@ -14,12 +14,7 @@ set(HEADER_FILES
   panoramainput.h
   )
 
-if (HARMATTAN)
-  pkg_check_modules(GST REQUIRED gstreamer-video-0.10)
-  qt4_wrap_cpp(MOC_FILES ${HEADER_FILES})
-elseif (SAILFISH)
-
-endif()
+qt_wrap_cpp(MOC_FILES ${HEADER_FILES})
 
 link_directories(${LIBYUV_LIB_DIR} ${PANORAMA_STITCHER_LIB_DIR})
 add_library(cameraplus-panorama MODULE ${SOURCE_FILES} ${MOC_FILES})
@@ -27,8 +22,8 @@ target_link_libraries(cameraplus-panorama ${DECLARATIVE_LIBRARIES} qtcamera yuv 
 include_directories(../lib/
   ${LIBYUV_INCLUDE_DIR}
   ${PANORAMA_STITCHER_INCLUDE_DIR}
-  ${GST_INCLUDE_DIRS}
   )
-add_definitions(${GST_INCLUDE_CFLAGS})
+
+configure_gst(cameraplus-panorama)
 add_dependencies(cameraplus-panorama libyuv panorama-stitcher)
 install(TARGETS cameraplus-panorama DESTINATION lib)

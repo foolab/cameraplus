@@ -57,8 +57,6 @@ if (HARMATTAN)
   include_directories(harmattan)
   include(harmattan/CMakeLists.txt)
 
-  qt4_wrap_cpp(MOC_FILES ${HEADER_FILES} ${EXTRA_HEADER_FILES})
-
   qt4_add_resources(qrc_extra ${EXTRA_RESOURCES})
   qt4_add_resources(qrc_qml ../qml/qml.qrc)
   qt4_add_resources(qrc_icons ../icons/icons.qrc)
@@ -66,12 +64,12 @@ elseif (SAILFISH)
   include_directories(sailfish)
   include(sailfish/CMakeLists.txt)
 
-  qt5_wrap_cpp(MOC_FILES ${HEADER_FILES} ${EXTRA_HEADER_FILES})
-
   qt5_add_resources(qrc_extra ${EXTRA_RESOURCES})
   qt5_add_resources(qrc_qml ../qml/qml.qrc)
   qt5_add_resources(qrc_icons ../icons/icons.qrc)
 endif()
+
+qt_wrap_cpp(MOC_FILES ${HEADER_FILES} ${EXTRA_HEADER_FILES})
 
 add_executable(cameraplus
   ${SOURCE_FILES} ${MOC_FILES}
@@ -87,9 +85,6 @@ target_link_libraries(cameraplus ${QT_LIBRARIES})
 
 if (SAILFISH)
   qt5_use_modules(cameraplus Gui Quick)
-#  qt_add_resources(qrc_extra ${EXTRA_RESOURCES})
-#  qt_add_resources(qrc_qml ../qml/qml.qrc)
-#  qt_add_resources(qrc_icons ../icons/icons.qrc)
 endif()
 
 install(TARGETS cameraplus DESTINATION bin)

@@ -20,24 +20,6 @@
 #include "videomute.h"
 #include "videotorch.h"
 
-class tst_camera : public QObject {
-  Q_OBJECT
-
-public slots:
-  void checkCapabilities();
-
-private slots:
-  void init();
-  void cleanup();
-
-  void reset();
-  void startStop();
-  void capabilities();
-
-private:
-  Camera *m_cam;
-};
-
 void tst_camera::init() {
   m_cam = new Camera(this);
 }
@@ -137,5 +119,3 @@ void tst_camera::checkCapabilities() {
 }
 
 QTEST_APPLESS_MAIN(tst_camera);
-
-#include "tst_camera.moc"

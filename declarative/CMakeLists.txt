@@ -76,20 +76,15 @@ set(HEADER_FILES
   viewfinderhandler.h
   )
 
-if (HARMATTAN)
-  pkg_check_modules(GST REQUIRED gstreamer-0.10)
-  qt4_wrap_cpp(MOC_FILES ${HEADER_FILES})
-elseif (SAILFISH)
-  pkg_check_modules(GST REQUIRED gstreamer-1.0)
-  qt5_wrap_cpp(MOC_FILES ${HEADER_FILES})
-endif()
+qt_wrap_cpp(MOC_FILES ${HEADER_FILES})
 
 pkg_check_modules(DECLARATIVE REQUIRED sndfile libpulse)
 
 add_library(declarativeqtcamera MODULE ${SOURCE_FILES} ${MOC_FILES})
 
-add_definitions(${GST_INCLUDE_CFLAGS} ${DECLARATIVE_INCLUDE_CFLAGS})
-include_directories(../lib/ ${GST_INCLUDE_DIRS} ${DECLARATIVE_INCLUDE_DIRS})
+add_definitions(${DECLARATIVE_INCLUDE_CFLAGS})
+include_directories(../lib/ ${DECLARATIVE_INCLUDE_DIRS})
+configure_gst(declarativeqtcamera)
 
 target_link_libraries(declarativeqtcamera ${DECLARATIVE_LIBRARIES} qtcamera)
 
