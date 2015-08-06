@@ -36,13 +36,13 @@ BaseOverlay {
     pressed: processing || pageBeingManipulated
     inhibitDim: processing
     captureButtonIconSource: cameraTheme.captureButtonImageIconId
-    canCapture: imageMode.canCapture && !processing
+    canCapture: imageMode.canCapture
     zoomSliderVisible: false
     enableFocus: false
     enableRoi: false
     renderingEnabled: panorama.status != Panorama.Stitching
-
-    property bool processing
+    overlayCapturing: processing
+    property bool processing: panorama.status != Panorama.Idle
 
     Panorama {
         id: panorama
@@ -72,6 +72,23 @@ BaseOverlay {
         onSaved: mountProtector.unlock(platformSettings.imagePath)
     }
 
+    CameraToolIcon {
+        border {
+            width: 1
+            color: cameraStyle.borderColor
+        }
+
+        anchors {
+            right: parent.right
+            rightMargin: cameraStyle.padding
+            bottom: parent.bottom
+            bottomMargin: cameraStyle.padding
+        }
+        visible: panorama.status != Panorama.Idle
+        iconSource: cameraTheme.deleteIconId
+        onClicked: stopPanorama()
+    }
+
     Connections {
         target: rootWindow
         onActiveChanged: {
@@ -86,12 +103,23 @@ BaseOverlay {
     }
 
     function policyLost() {
-        // TODO: stop panorama mode
-        stopCapture()
-        mountProtector.unlock(platformSettings.imagePath)
+        stitchPanorama()
     }
 
     function startCapture() {
+        if (panorama.status != Panorama.Idle) {
+            // TODO: allow stitching only if we have more than X frames?
+            stitchPanorama()
+        } else {
+            startPanorama()
+        }
+    }
+
+    function stitchPanorama() {
+        panorama.stitch()
+    }
+
+    function startPanorama() {
         if (!batteryMonitor.good) {
             showError(qsTr("Not enough battery to capture images."))
             stopCapture()
@@ -109,8 +137,14 @@ BaseOverlay {
         }
     }
 
+    function stopPanorama() {
+        panorama.stop()
+        mountProtector.unlock(platformSettings.imagePath)
+    }
+
     function stopCapture() {
-        // TODO:
+        // This is a callback needed by CaptureControln when user cancels
+        // an attempt to capture. It's relevant only for images
     }
 
     function cameraDeviceChanged() {
