@@ -23,6 +23,7 @@
 import QtQuick 2.0
 import QtCamera 1.0
 import CameraPlus 1.0
+import CameraPlus.Panorama 1.0
 
 // TODO: disable proximity capture
 // TODO: disable zoom capture
@@ -39,8 +40,24 @@ BaseOverlay {
     zoomSliderVisible: false
     enableFocus: false
     enableRoi: false
+    renderingEnabled: panorama.status != Panorama.Stitching
 
     property bool processing
+
+    Panorama {
+        id: panorama
+        input: panoramaInput
+    }
+
+    PanoramaInput {
+        id: panoramaInput
+    }
+
+    ViewfinderBufferHandler {
+        camera: cam
+        handler: panoramaInput
+        enabled: panorama.status == Panorama.Tracking
+    }
 
     ImageMode {
         id: imageMode
@@ -88,7 +105,7 @@ BaseOverlay {
             showError(qsTr("Failed to lock images directory."))
             stopCapture()
         } else {
-            // TODO: start panorama
+            panorama.start()
         }
     }
 
@@ -112,6 +129,36 @@ BaseOverlay {
         camera.iso.value = 0
         camera.focus.value = Focus.Auto
 
-        imageSettings.setImageResolution()
+        imageSettings.setViewfinderResolution(Qt.size(640, 480))
+    }
+
+    CameraSlider {
+        anchors.centerIn: parent
+        minimumValue: 0
+        maximumValue: 100
+        stepSize: 1
+        valueIndicatorVisible: false
+        handleVisible: false
+        enabled: false
+        opacity: 0.5
+        value: panorama.stitchingProgress
+        visible: panorama.status == Panorama.Stitching
+    }
+
+    CameraSlider {
+        anchors {
+            bottom: parent.bottom
+            horizontalCenter: parent.horizontalCenter
+        }
+
+        minimumValue: 0
+        maximumValue: 100
+        stepSize: 1
+        valueIndicatorVisible: false
+        handleVisible: false
+        enabled: false
+        opacity: 0.5
+        value: panorama.frameCount
+        visible: panorama.status == Panorama.Tracking
     }
 }
