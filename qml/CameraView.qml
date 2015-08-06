@@ -33,7 +33,7 @@ Viewfinder {
 
     camera: cam
     cameraConfig: cam.cameraConfig
-    renderingEnabled: mainView.currentItem == viewfinder
+    renderingEnabled: mainView.currentItem == viewfinder && (loader.item ? loader.item.renderingEnabled : true)
     viewfinderRotationAngle: cameraPosition.viewfinderRotationAngle
     viewfinderFlipped: cameraPosition.isViewfinderFlipped
 

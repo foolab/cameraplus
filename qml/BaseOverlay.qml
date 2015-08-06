@@ -39,6 +39,7 @@ Item {
     property alias zoomSliderVisible: zoomSlider.visible
     property bool enableFocus: true
     property bool enableRoi: true
+    property bool renderingEnabled: true
 
     signal previewAvailable(string uri)
 
