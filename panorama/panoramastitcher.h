@@ -34,7 +34,8 @@ class PanoramaStitcher : public QThread, private Stitcher {
   Q_OBJECT
 
 public:
-  PanoramaStitcher(std::vector<uint8_t *> *frames, const QString& output, QObject *parent = 0);
+  PanoramaStitcher(std::vector<uint8_t *> *frames, const QString& output,
+		   bool keepFrames, QObject *parent = 0);
   ~PanoramaStitcher();
 
   void stop();
@@ -49,9 +50,12 @@ signals:
   void done();
 
 private:
+  void dumpFrames();
+
   QString m_output;
   std::vector<uint8_t *> *m_frames;
   bool m_running;
+  bool m_keepFrames;
   QTimer m_timer;
 };
 

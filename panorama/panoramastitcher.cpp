@@ -23,16 +23,19 @@
 #include <QTimer>
 #include <QImageWriter>
 #include <QImage>
+#include <QDir>
+#include "libyuv.h"
 
 #define PROGRESS_TIMER_INTERVAL 500
 
 PanoramaStitcher::PanoramaStitcher(std::vector<uint8_t *> *frames, const QString& output,
-				   QObject *parent) :
+				   bool keepFrames, QObject *parent) :
   QThread(parent),
   Stitcher(FRAME_WIDTH, FRAME_HEIGHT, frames->size()),
   m_output(output),
   m_frames(frames),
-  m_running(true) {
+  m_running(true),
+  m_keepFrames(keepFrames) {
 
   m_timer.setInterval(PROGRESS_TIMER_INTERVAL);
   QObject::connect(&m_timer, SIGNAL(timeout()), this, SIGNAL(progressChanged()));
@@ -54,6 +57,10 @@ void PanoramaStitcher::stop() {
 }
 
 void PanoramaStitcher::run() {
+  if (m_keepFrames) {
+    dumpFrames();
+  }
+
   for (int x = 0; x < m_frames->size(); x++) {
     if (!m_running) {
       goto out;
@@ -94,4 +101,33 @@ out:
 
 int PanoramaStitcher::progress() {
   return Stitcher::progress();
+}
+
+void PanoramaStitcher::dumpFrames() {
+  QString d = QString("%1.frames").arg(m_output);
+  QDir dir(d);
+
+  // TODO: error
+  dir.mkpath(".");
+
+  uint8_t rgb[FRAME_WIDTH * FRAME_HEIGHT * 3];
+
+  for (int x = 0; x < m_frames->size(); x++) {
+    uint8_t *data = m_frames->at(x);
+
+    // Convert to RGB:
+    int err = libyuv::I420ToRGB24(FRAME_Y(data), FRAME_WIDTH,
+			  FRAME_U(data), FRAME_WIDTH/2,
+			  FRAME_V(data), FRAME_WIDTH/2,
+			  rgb, FRAME_WIDTH * 3,
+			  FRAME_WIDTH, FRAME_HEIGHT);
+    // TODO: error
+
+    QString file = QString("%1/%2.jpg").arg(d).arg(x);
+    QImageWriter wr(file, "JPG");
+    QImage img(rgb, FRAME_WIDTH, FRAME_HEIGHT, QImage::Format_RGB888);
+
+    // TODO: error
+    bool foo = wr.write(img);
+  }
 }

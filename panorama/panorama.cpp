@@ -28,11 +28,13 @@
 #include "panoramatracker.h"
 #include "panoramastitcher.h"
 
+// TODO: switch keepFrames to false by defaule
 Panorama::Panorama(QObject *parent) :
   QObject(parent),
   m_input(0),
   m_tracker(0),
-  m_stitcher(0) {
+  m_stitcher(0),
+  m_keepFrames(true) {
 
 }
 
@@ -147,7 +149,7 @@ void Panorama::stitch() {
 
   std::vector<uint8_t *> *frames = m_tracker->releaseFrames();
 
-  m_stitcher = new PanoramaStitcher(frames, m_output);
+  m_stitcher = new PanoramaStitcher(frames, m_output, m_keepFrames);
   QObject::connect(m_stitcher, SIGNAL(progressChanged()), this, SIGNAL(stitchingProgressChanged()));
   QObject::connect(m_stitcher, SIGNAL(done()), this, SLOT(stitchingDone()));
   m_stitcher->start();
@@ -204,4 +206,15 @@ void Panorama::stitchingDone() {
   m_lock.unlock();
 
   emit statusChanged();
+}
+
+bool Panorama::keepFrames() const {
+  return m_keepFrames;
+}
+
+void Panorama::setKeepFrames(bool keep) {
+  if (m_keepFrames != keep) {
+    m_keepFrames = keep;
+    emit keepFramesChanged();
+  }
 }
