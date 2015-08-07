@@ -24,7 +24,7 @@
 #if defined(QT4)
 #include <QtDeclarative>
 #elif defined(QT5)
-#include <QQmlEngine>
+#include <QtQuick>
 #endif
 
 #define MAJOR 1

@@ -39,7 +39,6 @@ class FileNaming : public QObject, public QDeclarativeParserStatus {
   Q_INTERFACES(QDeclarativeParserStatus)
 #elif defined(QT5)
 class FileNaming : public QObject, public QQmlParserStatus {
-  Q_INTERFACES(QQmlParserStatus)
 #endif
 
   Q_OBJECT

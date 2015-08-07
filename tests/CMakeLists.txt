@@ -5,7 +5,7 @@ MACRO(ADD_TEST name )
   if (QT4)
     target_link_libraries(${name} Qt4::QtTest Qt4::QtDeclarative)
   elseif (QT5)
-# TODO
+    qt5_use_modules(${name} Test)
   endif()
 ENDMACRO(ADD_TEST)
 
@@ -14,7 +14,7 @@ if (QT4)
   find_package(Qt4 REQUIRED QtDeclarative)
   include(${QT_USE_FILE})
 elseif (QT5)
-# TODO:
+  find_package(Qt5Test REQUIRED)
 endif()
 
 qt_wrap_cpp(tst_camera_moc tst_camera.h)

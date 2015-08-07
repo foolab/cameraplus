@@ -32,6 +32,7 @@ PanoramaInput::~PanoramaInput() {
 
 }
 
+#ifdef HARMATTAN
 void PanoramaInput::handleSample(const QtCamGstSample *sample) {
   GstBuffer *buffer = sample->buffer();
   int size = GST_BUFFER_SIZE(buffer);
@@ -53,3 +54,4 @@ void PanoramaInput::handleSample(const QtCamGstSample *sample) {
 
   emit dataAvailable(frame);
 }
+#endif
