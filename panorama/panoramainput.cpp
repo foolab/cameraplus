@@ -41,9 +41,9 @@ void PanoramaInput::handleSample(const QtCamGstSample *sample) {
   guint8 src[size];
   memcpy(src, GST_BUFFER_DATA(buffer), size);
 
-  guint8 *frame = new guint8[size];
+  guint8 *frame = new guint8[FRAME_WIDTH * FRAME_HEIGHT * 3 / 2];
 
-  int err = libyuv::UYVYToI420(src, FRAME_WIDTH,
+  int err = libyuv::UYVYToI420(src, FRAME_WIDTH * 2,
 			       FRAME_Y(frame), FRAME_WIDTH,
 			       FRAME_U(frame), FRAME_WIDTH/2,
 			       FRAME_V(frame), FRAME_WIDTH/2,
