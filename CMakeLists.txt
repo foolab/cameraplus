@@ -46,6 +46,10 @@ if (PLATFORM STREQUAL "sailfish")
 
   # This is used by exec_program() to get the imports dir
   get_target_property(QT_QMAKE_EXECUTABLE Qt5::qmake LOCATION)
+  # We need to query this manually
+  exec_program(${QT_QMAKE_EXECUTABLE}
+    ARGS "-query QT_INSTALL_QML " OUTPUT_VARIABLE QT_INSTALL_IMPORTS)
+
   message("Building for Sailfish")
 elseif (PLATFORM STREQUAL "harmattan")
   find_package(Qt4 REQUIRED QtCore QtGui QtDeclarative QtDbus QtOpengl)
@@ -54,14 +58,16 @@ elseif (PLATFORM STREQUAL "harmattan")
   set(HARMATTAN 1)
   set(QT4 1)
   include(${QT_USE_FILE})
+
+  # We need to query this manually
+  exec_program(${QT_QMAKE_EXECUTABLE}
+    ARGS "-query QT_INSTALL_IMPORTS " OUTPUT_VARIABLE QT_INSTALL_IMPORTS)
+
   message("Building for Harmattan")
 else()
   message(FATAL_ERROR "unknown platform")
 endif()
 
-# We need to query this manually
-exec_program(${QT_QMAKE_EXECUTABLE}
-  ARGS "-query QT_INSTALL_IMPORTS " OUTPUT_VARIABLE QT_INSTALL_IMPORTS)
 
 add_subdirectory(external)
 
