@@ -25,7 +25,7 @@ include_directories(../lib/
   )
 
 configure_gst(cameraplus-panorama)
-add_dependencies(cameraplus-panorama libyuv panorama-stitcher)
+add_dependencies(cameraplus-panorama libyuv panorama-stitcher qtcamera)
 install(TARGETS cameraplus-panorama DESTINATION ${QT_INSTALL_IMPORTS}/CameraPlus/Panorama)
 install(FILES qmldir DESTINATION ${QT_INSTALL_IMPORTS}/CameraPlus/Panorama)
 

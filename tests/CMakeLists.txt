@@ -26,3 +26,6 @@ add_executable(tst_position tst_position.cpp ../src/position.cpp ${tst_position_
 add_test(tst_position)
 
 include_directories(../lib/ ../declarative/ ../src/)
+
+add_dependencies(tst_camera declarativeqtcamera)
+add_dependencies(tst_position declarativeqtcamera)

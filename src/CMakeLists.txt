@@ -77,6 +77,8 @@ add_executable(cameraplus
   ${qrc_extra} ${qrc_qml} ${qrc_icons}
   )
 
+add_dependencies(cameraplus qtcamera)
+
 add_definitions(${EXTRA_INCLUDE_CFLAGS})
 include_directories(${EXTRA_INCLUDE_DIRS})
 
