@@ -1,9 +1,10 @@
 usr/bin/cameraplus usr/bin/
 usr/lib/libqtcamera.so.1.0.0 usr/lib/
-usr/lib/libqtcamera.so.1.0 usr/lib/
 usr/lib/libqtcamera.so.1 usr/lib/
 usr/lib/qt4/imports/QtCamera/libdeclarativeqtcamera.so usr/lib/qt4/imports/QtCamera/
 usr/lib/qt4/imports/QtCamera/qmldir usr/lib/qt4/imports/QtCamera/
+usr/lib/qt4/imports/CameraPlus/Panorama/libcameraplus-panorama.so usr/lib/qt4/imports/CameraPlus/Panorama/
+usr/lib/qt4/imports/CameraPlus/Panorama/qmldir usr/lib/qt4/imports/CameraPlus/Panorama/
 debian/cameraplus.desktop usr/share/applications/
 data/harmattan/qtcamera.ini usr/share/qtcamera/config/
 data/harmattan/n9/resolutions.ini usr/share/qtcamera/config/rm-696/

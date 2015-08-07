@@ -35,6 +35,7 @@ BuildRequires:  pkgconfig(contextkit-statefs)
 BuildRequires:  pkgconfig(sndfile)
 BuildRequires:  pkgconfig(libpulse)
 BuildRequires:  desktop-file-utils
+BuildRequires:  cmake
 Requires:       qt5-qtdeclarative-import-positioning
 Requires:       qt5-qtdeclarative-import-sensors
 
@@ -56,7 +57,7 @@ Requires:  harbour-cameraplus = %{version}-%{release}
 %setup -q
 
 %build
-%qmake5
+cmake  -DPLATFORM=sailfish -DDATA_DIR=/usr/share/harbour-cameraplus/share/qtcamera/config/ -DCMAKE_INSTALL_PREFIX=/usr/share/harbour-cameraplus/
 
 make %{?jobs:-j%jobs}
 
@@ -83,7 +84,7 @@ cp data/sailfish/properties.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/sha
 cp data/sailfish/qtcamera.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
 
 # qtcamera tools
-cp tools/dump_resolutions $RPM_BUILD_ROOT/usr/bin/
+mv $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/bindump_resolutions $RPM_BUILD_ROOT/usr/bin/
 
 # cameraplus configuration
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/cameraplus/config/
@@ -144,6 +145,7 @@ cp /usr/lib/libquill-qt5.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 %{_datadir}/harbour-cameraplus/share/sounds/*
 %{_datadir}/harbour-cameraplus/share/modes/*
 %{_datadir}/harbour-cameraplus/lib/qt5/qml/QtCamera/*
+%{_datadir}/harbour-cameraplus/lib/qt5/qml/CameraPlus/Panorama/*
 %{_datadir}/applications/harbour-cameraplus.desktop
 %{_datadir}/icons/hicolor/86x86/apps/harbour-cameraplus.png
 # dependencies

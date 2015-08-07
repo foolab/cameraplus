@@ -1,7 +1,10 @@
 #!/usr/bin/make -f
 
 %:
-	dh $@ --buildsystem=qmake
+	dh $@ --buildsystem=cmake
+
+override_dh_auto_configure:
+	dh_auto_configure -- -DCMAKE_INSTALL_PREFIX=/usr -DPLATFORM=harmattan
 
 override_dh_strip:
 	dh_strip --dbg-package=cameraplus-dbg
