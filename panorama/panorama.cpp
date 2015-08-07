@@ -90,13 +90,16 @@ void Panorama::setInput(PanoramaInput *input) {
   }
 }
 
-void Panorama::start() {
+void Panorama::start(const QString& output) {
   if (status() != Panorama::Idle) {
     qmlInfo(this) << "Already running";
     return;
   }
 
   m_lock.lock();
+
+  m_output = output;
+
   m_tracker = new PanoramaTracker;
   QObject::connect(m_tracker, SIGNAL(frameCountChanged()), this, SLOT(trackerFrameCountChanged()));
   m_tracker->start();
@@ -144,7 +147,7 @@ void Panorama::stitch() {
 
   std::vector<uint8_t *> *frames = m_tracker->releaseFrames();
 
-  m_stitcher = new PanoramaStitcher(frames);
+  m_stitcher = new PanoramaStitcher(frames, m_output);
   QObject::connect(m_stitcher, SIGNAL(progressChanged()), this, SIGNAL(stitchingProgressChanged()));
   QObject::connect(m_stitcher, SIGNAL(done()), this, SLOT(stitchingDone()));
   m_stitcher->start();

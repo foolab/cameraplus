@@ -78,7 +78,7 @@ signals:
   void inputChanged();
 
 public slots:
-  void start();
+  void start(const QString& output);
   void stop();
   void stitch();
 
@@ -92,6 +92,7 @@ private:
   PanoramaInput *m_input;
   PanoramaTracker *m_tracker;
   PanoramaStitcher *m_stitcher;
+  QString m_output;
 };
 
 #endif /* PANORAMA_H */

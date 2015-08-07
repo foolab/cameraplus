@@ -26,9 +26,11 @@
 
 #define PROGRESS_TIMER_INTERVAL 500
 
-PanoramaStitcher::PanoramaStitcher(std::vector<uint8_t *> *frames, QObject *parent) :
+PanoramaStitcher::PanoramaStitcher(std::vector<uint8_t *> *frames, const QString& output,
+				   QObject *parent) :
   QThread(parent),
   Stitcher(FRAME_WIDTH, FRAME_HEIGHT, frames->size()),
+  m_output(output),
   m_frames(frames),
   m_running(true) {
 
@@ -72,7 +74,7 @@ void PanoramaStitcher::run() {
   }
 
   {
-    QImageWriter wr("/home/developer/MyDocs/DCIM/pano.png", "PNG");
+    QImageWriter wr(m_output, "JPG");
     int w, h;
     const unsigned char *im = image(w, h);
 

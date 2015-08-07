@@ -133,7 +133,8 @@ BaseOverlay {
             showError(qsTr("Failed to lock images directory."))
             stopCapture()
         } else {
-            panorama.start()
+            var fileName = fileNaming.imageFileName()
+            panorama.start(fileName)
         }
     }
 
