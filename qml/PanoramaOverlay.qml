@@ -36,7 +36,7 @@ BaseOverlay {
     pressed: processing || pageBeingManipulated
     inhibitDim: processing
     captureButtonIconSource: cameraTheme.captureButtonImageIconId
-    canCapture: imageMode.canCapture
+    canCapture: imageMode.canCapture && panorama.status != Panorama.Stitching
     zoomSliderVisible: false
     enableFocus: false
     enableRoi: false
