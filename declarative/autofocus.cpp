@@ -49,9 +49,7 @@ bool AutoFocus::startAutoFocus() {
 }
 
 bool AutoFocus::stopAutoFocus() {
-  if (m_af) {
-    return m_af->stopAutoFocus();
-  }
+  return m_af ? m_af->stopAutoFocus() : false;
 }
 
 bool AutoFocus::canFocus(int sceneMode) {
