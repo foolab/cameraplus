@@ -23,63 +23,18 @@
 #ifndef VIDEO_SETTINGS_H
 #define VIDEO_SETTINGS_H
 
-#include <QObject>
-#include <QStringList>
+#include "modesettings.h"
 
-class Camera;
-class QtCamVideoSettings;
-class ResolutionModel;
-class Resolution;
-class QtCamResolution;
-
-class VideoSettings : public QObject {
+class VideoSettings : public ModeSettings {
   Q_OBJECT
-
-  Q_PROPERTY(Camera* camera READ camera WRITE setCamera NOTIFY cameraChanged);
-  Q_PROPERTY(QString suffix READ suffix NOTIFY settingsChanged);
-  Q_PROPERTY(QStringList aspectRatios READ aspectRatios NOTIFY settingsChanged);
-  Q_PROPERTY(int aspectRatioCount READ aspectRatioCount NOTIFY aspectRatioCountChanged);
-  Q_PROPERTY(ResolutionModel *resolutions READ resolutions NOTIFY resolutionsChanged);
-  Q_PROPERTY(bool ready READ isReady NOTIFY readyChanged);
 
 public:
   VideoSettings(QObject *parent = 0);
   ~VideoSettings();
 
-  QString suffix() const;
-  QStringList aspectRatios() const;
-
-  Camera *camera();
-  void setCamera(Camera *camera);
-
-  ResolutionModel *resolutions();
-
-  bool isReady() const;
-
-  Q_INVOKABLE bool setResolution(const QString& resolution);
-
-  int aspectRatioCount() const;
-
-signals:
-  void settingsChanged();
-  void cameraChanged();
-  void resolutionsChanged();
-  void readyChanged();
-  void aspectRatioCountChanged();
-
-private slots:
-  void deviceChanged();
-  void prepareForDeviceChange();
-  void resolutionsUpdated();
-
-private:
-  bool setResolution(const QtCamResolution& resolution);
-  void setSettings(QtCamVideoSettings *settings);
-
-  Camera *m_cam;
-  QtCamVideoSettings *m_settings;
-  ResolutionModel *m_resolutions;
-  QString m_pendingResolution;
+protected:
+  void resetSettings();
+  bool applyResolution(const QtCamResolution& resolution);
 };
 
 #endif /* VIDEO_SETTINGS_H */

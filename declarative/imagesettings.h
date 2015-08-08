@@ -23,66 +23,18 @@
 #ifndef IMAGE_SETTINGS_H
 #define IMAGE_SETTINGS_H
 
-#include <QObject>
-#include <QStringList>
+#include "modesettings.h"
 
-class Camera;
-class QtCamImageSettings;
-class ResolutionModel;
-class QtCamResolution;
-class QSize;
-
-class ImageSettings : public QObject {
+class ImageSettings : public ModeSettings {
   Q_OBJECT
-
-  Q_PROPERTY(Camera* camera READ camera WRITE setCamera NOTIFY cameraChanged);
-  Q_PROPERTY(QString suffix READ suffix NOTIFY settingsChanged);
-  Q_PROPERTY(QStringList aspectRatios READ aspectRatios NOTIFY settingsChanged);
-  Q_PROPERTY(int aspectRatioCount READ aspectRatioCount NOTIFY aspectRatioCountChanged);
-  Q_PROPERTY(ResolutionModel *resolutions READ resolutions NOTIFY resolutionsChanged);
-  Q_PROPERTY(bool ready READ isReady NOTIFY readyChanged);
 
 public:
   ImageSettings(QObject *parent = 0);
   ~ImageSettings();
 
-  QString suffix() const;
-  QStringList aspectRatios() const;
-
-  Camera *camera();
-  void setCamera(Camera *camera);
-
-  ResolutionModel *resolutions();
-
-  bool isReady() const;
-
-  Q_INVOKABLE bool setResolution(const QString& resolution);
-  Q_INVOKABLE QString aspectRatioForResolution(const QString& resolution);
-  Q_INVOKABLE QString bestResolution(const QString& aspectRatio, const QString& resolution);
-  Q_INVOKABLE bool setViewfinderResolution(const QSize& resolution);
-
-  int aspectRatioCount() const;
-
-signals:
-  void settingsChanged();
-  void cameraChanged();
-  void resolutionsChanged();
-  void readyChanged();
-  void aspectRatioCountChanged();
-
-private slots:
-  void deviceChanged();
-  void prepareForDeviceChange();
-  void resolutionsUpdated();
-
-private:
-  bool setResolution(const QtCamResolution& resolution);
-  void setSettings(QtCamImageSettings *settings);
-
-  Camera *m_cam;
-  QtCamImageSettings *m_settings;
-  ResolutionModel *m_resolutions;
-  QString m_pendingResolution;
+protected:
+  void resetSettings();
+  bool applyResolution(const QtCamResolution& resolution);
 };
 
 #endif /* IMAGE_SETTINGS_H */

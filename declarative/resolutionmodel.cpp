@@ -19,33 +19,19 @@
  */
 
 #include "resolutionmodel.h"
-#include "qtcamimagesettings.h"
-#include "qtcamvideosettings.h"
-#include <QDebug>
+#include "qtcammodesettings.h"
 
-ResolutionModel::ResolutionModel(QtCamImageSettings *settings, QObject *parent) :
+ResolutionModel::ResolutionModel(QtCamModeSettings *settings, QObject *parent) :
   QAbstractListModel(parent),
-  m_image(settings),
-  m_video(0) {
+  m_settings(settings) {
 
   init();
 
-  m_resolutions = m_image->resolutions(m_aspectRatio);
-}
-
-ResolutionModel::ResolutionModel(QtCamVideoSettings *settings, QObject *parent) :
-  QAbstractListModel(parent),
-  m_image(0),
-  m_video(settings) {
-
-  init();
-
-  m_resolutions = m_video->resolutions(m_aspectRatio);
+  m_resolutions = m_settings->resolutions(m_aspectRatio);
 }
 
 ResolutionModel::~ResolutionModel() {
-  m_image = 0;
-  m_video = 0;
+  m_settings = 0;
 }
 
 void ResolutionModel::init() {
@@ -119,12 +105,7 @@ void ResolutionModel::setAspectRatio(const QString& aspectRatio) {
     beginResetModel();
 
     // TODO: there is a crash here when we switch devices
-    if (m_image) {
-      m_resolutions = m_image->resolutions(m_aspectRatio);
-    }
-    else if (m_video) {
-      m_resolutions = m_video->resolutions(m_aspectRatio);
-    }
+    m_resolutions = m_settings->resolutions(m_aspectRatio);
 
     endResetModel();
 

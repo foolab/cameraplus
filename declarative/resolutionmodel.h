@@ -25,8 +25,7 @@
 
 #include <QAbstractListModel>
 
-class QtCamImageSettings;
-class QtCamVideoSettings;
+class QtCamModeSettings;
 class QtCamResolution;
 
 class ResolutionModel : public QAbstractListModel {
@@ -48,8 +47,7 @@ public:
     AspectRatioRole,
   };
 
-  ResolutionModel(QtCamImageSettings *settings, QObject *parent = 0);
-  ResolutionModel(QtCamVideoSettings *settings, QObject *parent = 0);
+  ResolutionModel(QtCamModeSettings *settings, QObject *parent = 0);
   ~ResolutionModel();
 
   int rowCount(const QModelIndex& parent = QModelIndex()) const;
@@ -70,8 +68,7 @@ private:
 
   QString m_aspectRatio;
 
-  QtCamImageSettings *m_image;
-  QtCamVideoSettings *m_video;
+  QtCamModeSettings *m_settings;
 
   QList<QtCamResolution> m_resolutions;
 

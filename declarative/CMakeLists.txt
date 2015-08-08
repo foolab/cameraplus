@@ -19,8 +19,9 @@ set(SOURCE_FILES
   flickerreduction.cpp
   videomute.cpp
   metadata.cpp
-  imagesettings.cpp
   resolutionmodel.cpp
+  modesettings.cpp
+  imagesettings.cpp
   videosettings.cpp
   notificationscontainer.cpp
   sounds.cpp
@@ -58,8 +59,9 @@ set(HEADER_FILES
   flickerreduction.h
   videomute.h
   metadata.h
-  imagesettings.h
   resolutionmodel.h
+  modesettings.h
+  imagesettings.h
   videosettings.h
   notificationscontainer.h
   sounds.h

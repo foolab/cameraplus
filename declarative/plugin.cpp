@@ -40,8 +40,9 @@
 #include "roi.h"
 #include "videomute.h"
 #include "metadata.h"
-#include "imagesettings.h"
 #include "resolutionmodel.h"
+#include "modesettings.h"
+#include "imagesettings.h"
 #include "videosettings.h"
 #include "sounds.h"
 #include "cameraconfig.h"
@@ -118,6 +119,7 @@ void DeclarativePlugin::registerTypes(const char *uri) {
 			  "ResolutionModel can be obtained from the corresponding mode");
 
   qmlRegisterType<Mode>();
+  qmlRegisterType<ModeSettings>();
   qmlRegisterType<CameraConfig>(uri, MAJOR, MINOR, "CameraConfig");
 
   qmlRegisterType<VideoPlayer>("QtCameraExtras", MAJOR, MINOR, "VideoPlayer");
