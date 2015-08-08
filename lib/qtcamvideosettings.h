@@ -23,16 +23,9 @@
 #ifndef QT_CAM_VIDEO_SETTINGS_H
 #define QT_CAM_VIDEO_SETTINGS_H
 
-#include <QObject>
-#include <QSize>
-#include <QPair>
-#include <QString>
-#include <QStringList>
-#include "qtcamresolution.h"
+#include "qtcammodesettings.h"
 
-class QtCamVideoSettingsPrivate;
-
-class QtCamVideoSettings : public QObject {
+class QtCamVideoSettings : public QtCamModeSettings {
   Q_OBJECT
 
 public:
@@ -41,24 +34,6 @@ public:
 		     QObject *parent = 0);
 
   ~QtCamVideoSettings();
-
-  QString id() const;
-  QString suffix() const;
-  QString profileName() const;
-  QString profilePath() const;
-
-  QtCamResolution defaultResolution(const QString& aspectRatio = QString()) const;
-  QList<QtCamResolution> resolutions(const QString& aspectRatio = QString()) const;
-  QStringList aspectRatios() const;
-
-  bool hasResolutions() const;
-  void updateResolutions(const QList<QtCamResolution>& resolutions);
-
-signals:
-  void resolutionsUpdated();
-
-private:
-  QtCamVideoSettingsPrivate *d_ptr;
 };
 
 #endif /* QT_CAM_VIDEO_SETTINGS_H */

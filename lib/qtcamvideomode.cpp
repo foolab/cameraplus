@@ -457,7 +457,7 @@ bool QtCamVideoMode::setResolution(const QtCamResolution& resolution) {
   return true;
 }
 
-QtCamVideoSettings *QtCamVideoMode::settings() {
+QtCamVideoSettings *QtCamVideoMode::settings() const {
   return d_ptr->dev->q_ptr->videoSettings();
 }
 

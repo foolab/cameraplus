@@ -20,102 +20,16 @@
 
 #include "qtcamvideosettings.h"
 
-class QtCamVideoSettingsPrivate {
-public:
-  QString id;
-  QString suffix;
-  QString profileName;
-  QString profilePath;
-  QList<QtCamResolution> resolutions;
-};
-
 QtCamVideoSettings::QtCamVideoSettings(const QString& id, const QString& suffix,
 				       const QString& profileName,
 				       const QString& profilePath,
 				       const QList<QtCamResolution>& resolutions,
 				       QObject *parent) :
-  QObject(parent),
-  d_ptr(new QtCamVideoSettingsPrivate) {
+  QtCamModeSettings(id, suffix, profileName, profilePath,
+		    resolutions, QtCamResolution::ModeVideo, parent) {
 
-  d_ptr->id = id;
-  d_ptr->suffix = suffix;
-  d_ptr->profileName = profileName;
-  d_ptr->profilePath = profilePath;
-  d_ptr->resolutions = resolutions;
 }
 
 QtCamVideoSettings::~QtCamVideoSettings() {
-  delete d_ptr; d_ptr = 0;
-}
 
-QString QtCamVideoSettings::id() const {
-  return d_ptr->id;
-}
-
-QString QtCamVideoSettings::suffix() const {
-  return d_ptr->suffix;
-}
-
-QString QtCamVideoSettings::profileName() const {
-  return d_ptr->profileName;
-}
-
-QString QtCamVideoSettings::profilePath() const {
-  return d_ptr->profilePath;
-}
-
-QtCamResolution QtCamVideoSettings::defaultResolution(const QString& aspectRatio) const {
-  if (d_ptr->resolutions.isEmpty()) {
-    return QtCamResolution(QtCamResolution::ModeVideo);
-  }
-
-  if (aspectRatio.isEmpty()) {
-    return d_ptr->resolutions[0];
-  }
-
-  foreach (const QtCamResolution& r, d_ptr->resolutions) {
-    if (r.aspectRatio() == aspectRatio) {
-      return r;
-    }
-  }
-
-  return d_ptr->resolutions[0];
-}
-
-QList<QtCamResolution> QtCamVideoSettings::resolutions(const QString& aspectRatio) const {
-  if (aspectRatio.isEmpty()) {
-    return d_ptr->resolutions;
-  }
-
-  QList<QtCamResolution> res;
-
-  foreach (const QtCamResolution& r, d_ptr->resolutions) {
-    if (r.aspectRatio() == aspectRatio) {
-      res << r;
-    }
-  }
-
-  return res;
-}
-
-QStringList QtCamVideoSettings::aspectRatios() const {
-  QStringList aspects;
-
-  foreach (const QtCamResolution& r, d_ptr->resolutions) {
-    if (aspects.indexOf(r.aspectRatio()) == -1) {
-      aspects << r.aspectRatio();
-    }
-  }
-
-  return aspects;
-}
-
-bool QtCamVideoSettings::hasResolutions() const {
-  return !d_ptr->resolutions.isEmpty();
-}
-
-void QtCamVideoSettings::updateResolutions(const QList<QtCamResolution>& resolutions) {
-  d_ptr->resolutions = resolutions;
-
-  emit resolutionsUpdated();
 }

@@ -8,6 +8,7 @@ set(SOURCE_FILES
   qtcamgstmessagehandler.cpp
   qtcamgstmessagelistener.cpp
   qtcamviewfinderrenderer.cpp
+  qtcammodesettings.cpp
   qtcamimagesettings.cpp
   qtcamvideosettings.cpp
   qtcamimagemode.cpp
@@ -53,6 +54,7 @@ set(HEADER_FILES
   qtcamgstmessagehandler.h
   qtcamgstmessagelistener.h
   qtcamviewfinderrenderer.h
+  qtcammodesettings.h
   qtcamimagesettings.h
   qtcamvideosettings.h
   qtcamimagemode.h

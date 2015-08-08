@@ -49,7 +49,7 @@ public:
 
   QtCamResolution currentResolution();
 
-  QtCamVideoSettings *settings();
+  QtCamVideoSettings *settings() const;
 
   void enablePreview();
 
