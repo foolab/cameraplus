@@ -60,5 +60,6 @@
 	<file>FastCaptureOverlay.qml</file>
 	<file>OnScreenOption.qml</file>
 	<file>PanoramaOverlay.qml</file>
+	<file>PanoramaSettings.qml</file>
     </qresource>
 </RCC>

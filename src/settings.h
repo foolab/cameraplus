@@ -52,6 +52,8 @@ class Settings : public QObject {
   Q_PROPERTY(int sequentialShotsInterval READ sequentialShotsInterval WRITE setSequentialShotsInterval NOTIFY sequentialShotsIntervalChanged);
   Q_PROPERTY(int sequentialShotsDelay READ sequentialShotsDelay WRITE setSequentialShotsDelay NOTIFY sequentialShotsDelayChanged);
   Q_PROPERTY(bool focusBeforeSequentialShots READ isFocusBeforeSequentialShotsEnabled WRITE setFocusBeforeSequentialShotsEnabled NOTIFY focusBeforeSequentialShotsChanged);
+  Q_PROPERTY(bool panoramaKeepFrames READ panoramaKeepFrames WRITE setPanoramaKeepFrames NOTIFY panoramaKeepFramesChanged);
+  Q_PROPERTY(bool panoramaUseHighResolution READ panoramaUseHighResolution WRITE setPanoramaUseHighResolution NOTIFY panoramaUseHighResolutionChanged);
 
 public:
   Settings(QObject *parent = 0);
@@ -126,6 +128,12 @@ public:
   bool isFocusBeforeSequentialShotsEnabled() const;
   void setFocusBeforeSequentialShotsEnabled(bool enabled);
 
+  bool panoramaKeepFrames() const;
+  void setPanoramaKeepFrames(bool keep);
+
+  bool panoramaUseHighResolution() const;
+  void setPanoramaUseHighResolution(bool use);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
@@ -147,6 +155,8 @@ signals:
   void sequentialShotsIntervalChanged();
   void sequentialShotsDelayChanged();
   void focusBeforeSequentialShotsChanged();
+  void panoramaKeepFramesChanged();
+  void panoramaUseHighResolutionChanged();
 
 private:
   QSettings *m_settings;
