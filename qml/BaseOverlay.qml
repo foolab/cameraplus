@@ -41,6 +41,7 @@ Item {
     property bool enableRoi: true
     property bool renderingEnabled: true
     property alias zoomCaptureEnabled: zoomCapture.enabled
+    property bool proximityCaptureEnabled: true
 
     signal previewAvailable(string uri)
 
@@ -67,7 +68,7 @@ Item {
         id: captureControl
         capturePressed: capture.pressed
         zoomPressed: zoomCapture.zoomPressed
-        proximityClosed: proximitySensor.sensorClosed
+        proximityClosed: overlay.proximityCaptureEnabled && proximitySensor.sensorClosed
         onStartCapture: overlay.startCapture()
         onCancelCapture: stopCapture()
         enable: inCaptureView
