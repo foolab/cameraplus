@@ -36,6 +36,7 @@ BuildRequires:  pkgconfig(sndfile)
 BuildRequires:  pkgconfig(libpulse)
 BuildRequires:  desktop-file-utils
 BuildRequires:  cmake
+BuildRequires:  libjpeg-devel
 Requires:       qt5-qtdeclarative-import-positioning
 Requires:       qt5-qtdeclarative-import-sensors
 
@@ -62,7 +63,12 @@ cmake  -DPLATFORM=sailfish -DDATA_DIR=/usr/share/harbour-cameraplus/share/qtcame
 make %{?jobs:-j%jobs}
 
 %install
-%qmake5_install
+%make_install
+
+mv $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/bin/ $RPM_BUILD_ROOT/%{_bindir}
+
+mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/
+mv $RPM_BUILD_ROOT/%{_libdir}/* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 
 # icon
 mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/86x86/apps/
@@ -83,9 +89,6 @@ cp data/sailfish/image.gep $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qt
 cp data/sailfish/properties.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
 cp data/sailfish/qtcamera.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/config/
 
-# qtcamera tools
-mv $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/qtcamera/bindump_resolutions $RPM_BUILD_ROOT/usr/bin/
-
 # cameraplus configuration
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/cameraplus/config/
 cp data/sailfish/cameraplus.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/cameraplus/config/
@@ -99,23 +102,13 @@ desktop-file-install --delete-original                   \
   --dir %{buildroot}%{_datadir}/applications             \
    %{buildroot}%{_datadir}/applications/*.desktop
 
-mv $RPM_BUILD_ROOT/usr/bin/cameraplus $RPM_BUILD_ROOT/usr/bin/harbour-cameraplus
-
-mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-mv $RPM_BUILD_ROOT/usr/lib/libqtcamera.so.1.0.0 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/libqtcamera.so.1
-rm $RPM_BUILD_ROOT/usr/lib/libqtcamera.so.1.0
-rm $RPM_BUILD_ROOT/usr/lib/libqtcamera.so.1
-rm $RPM_BUILD_ROOT/usr/lib/libqtcamera.so
-
-mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/qt5/qml
-mv $RPM_BUILD_ROOT/usr/lib/qt5/imports/QtCamera $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/qt5/qml/
-rm -rf $RPM_BUILD_ROOT/usr/lib/qt5/imports
+mv $RPM_BUILD_ROOT/%{_bindir}/cameraplus $RPM_BUILD_ROOT/%{_bindir}/harbour-cameraplus
 
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/sounds/
 cp sounds/*.wav $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/sounds/
 
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
-cp modes/*.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
+cp modes/image.ini modes/image-timer.ini modes/image-sequential.ini modes/image-panorama.ini modes/video.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
 
 cp /usr/lib/libbz2.so.1 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 cp /usr/lib/libquillmetadata-qt5.so.1 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
