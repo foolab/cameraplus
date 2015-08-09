@@ -25,9 +25,11 @@ import QtCamera 1.0
 import CameraPlus 1.0
 import CameraPlus.Panorama 1.0
 
-// TODO: disable proximity capture
-// TODO: disable zoom capture
-// TODO: disable zooming via rocker
+// TODO: show preview while stitching?
+// TODO: resolution does not work upon startup (sailfish)
+// TODO: wide strip?
+// TODO: metadata
+// TODO: high reolution does not work for harmattan
 
 BaseOverlay {
     id: overlay
@@ -42,11 +44,17 @@ BaseOverlay {
     enableRoi: false
     renderingEnabled: panorama.status != Panorama.Stitching
     overlayCapturing: processing
+    zoomCaptureEnabled: false
+    proximityCaptureEnabled: false
+
     property bool processing: panorama.status != Panorama.Idle
+    property variant lowResolution: Qt.size(640, 480)
+    property variant highResolution: Qt.size(1280, 720)
 
     Panorama {
         id: panorama
         input: panoramaInput
+        keepFrames: settings.panoramaKeepFrames
     }
 
     PanoramaInput {
@@ -62,14 +70,6 @@ BaseOverlay {
     ImageMode {
         id: imageMode
         camera: cam
-
-        onCaptureEnded: stopCapture()
-
-        enablePreview: settings.enablePreview
-
-        onPreviewAvailable: overlay.previewAvailable(preview)
-
-        onSaved: mountProtector.unlock(platformSettings.imagePath)
     }
 
     CameraToolIcon {
@@ -153,7 +153,6 @@ BaseOverlay {
     }
 
     function applySettings() {
-            // TODO:
         var s = deviceSettings()
 
         camera.scene.value = Scene.Manual
@@ -164,7 +163,20 @@ BaseOverlay {
         camera.iso.value = 0
         camera.focus.value = Focus.Auto
 
-        imageSettings.setViewfinderResolution(Qt.size(640, 480))
+        setPanoramaResolution()
+    }
+
+    Connections {
+        target: settings
+        onPanoramaUseHighResolutionChanged: setPanoramaResolution()
+    }
+
+    function setPanoramaResolution() {
+        var res = settings.panoramaUseHighResolution ? highResolution : lowResolution
+
+        if (!imageSettings.setViewfinderResolution(res)) {
+            showError(qsTr("Failed to set resolution."))
+        }
     }
 
     CameraSlider {

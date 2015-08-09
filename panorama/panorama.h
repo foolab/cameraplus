@@ -23,16 +23,6 @@
 #ifndef PANORAMA_H
 #define PANORAMA_H
 
-#define FRAME_WIDTH    640
-#define FRAME_HEIGHT   480
-#define TRACKER_WIDTH  160
-#define TRACKER_HEIGHT 120
-#define FRAME_Y(x) x
-#define FRAME_U(x) &x[FRAME_WIDTH*FRAME_HEIGHT]
-#define FRAME_V(x) &x[FRAME_WIDTH*FRAME_HEIGHT+FRAME_WIDTH/2*FRAME_HEIGHT/2]
-#define TRACKER_Y(x) x
-#define TRACKER_U(x) &x[TRACKER_WIDTH*TRACKER_HEIGHT]
-#define TRACKER_V(x) &x[TRACKER_WIDTH*TRACKER_HEIGHT+TRACKER_WIDTH/2*TRACKER_HEIGHT/2]
 #define MAX_TRACKER_FRAMES 100
 
 #include <QObject>
@@ -43,6 +33,7 @@
 class PanoramaInput;
 class PanoramaTracker;
 class PanoramaStitcher;
+class QSize;
 
 class Panorama : public QObject {
   Q_OBJECT
@@ -88,7 +79,7 @@ public slots:
   void stitch();
 
 private slots:
-  void inputDataAvailable(uint8_t *data);
+  void inputDataAvailable(uint8_t *data, const QSize& size);
   void trackerFrameCountChanged();
   void stitchingDone();
 

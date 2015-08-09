@@ -27,6 +27,7 @@
 #include <stdint.h>
 
 class QtCamGstSample;
+class QSize;
 
 class PanoramaInput : public QObject {
   Q_OBJECT
@@ -36,7 +37,7 @@ public:
   ~PanoramaInput();
 
 signals:
-  void dataAvailable(uint8_t *data);
+  void dataAvailable(uint8_t *data, const QSize& size);
 
 private slots:
 #ifdef HARMATTAN

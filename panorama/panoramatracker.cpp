@@ -25,7 +25,9 @@
 
 PanoramaTracker::PanoramaTracker(QObject *parent) :
   QThread(parent),
-  Tracker(TRACKER_WIDTH, TRACKER_HEIGHT, MAX_TRACKER_FRAMES),
+  Tracker(MAX_TRACKER_FRAMES),
+  m_width(0),
+  m_height(0),
   m_running(true) {
 
   m_input.reserve(5);
@@ -54,9 +56,18 @@ int PanoramaTracker::frameCount() {
   return m_scaled.size();
 }
 
-bool PanoramaTracker::handleData(uint8_t *data) {
+bool PanoramaTracker::handleData(uint8_t *data, const QSize& size) {
   if (!m_lock.tryLock()) {
     return false;
+  }
+
+  if (!Tracker::isInitialized()) {
+    int m_width = size.width() > 720 ? size.width() / 8 : size.width() / 4;
+    int m_height = size.width() > 720 ? size.height() / 8 : size.height() / 4;
+    m_inputSize = size;
+
+    // TODO: error
+    Tracker::initialize(m_width, m_height);
   }
 
   if (m_frames->size() >= MAX_TRACKER_FRAMES) {
@@ -101,22 +112,29 @@ void PanoramaTracker::run() {
 
     Panorama::clear(m_input);
 
-    uint8_t *scaled = new uint8_t[TRACKER_WIDTH * TRACKER_HEIGHT * 3 / 2];
+    uint8_t *scaled = new uint8_t[m_width * m_height * 3 / 2];
 
-    int err = libyuv::I420Scale(FRAME_Y(input), FRAME_WIDTH,
-				FRAME_U(input), FRAME_WIDTH/2,
-				FRAME_V(input), FRAME_WIDTH/2,
-				FRAME_WIDTH, FRAME_HEIGHT,
-				TRACKER_Y(scaled), TRACKER_WIDTH,
-				TRACKER_U(scaled), TRACKER_WIDTH/2,
-				TRACKER_V(scaled), TRACKER_WIDTH/2,
-				TRACKER_WIDTH, TRACKER_HEIGHT,
-				libyuv::kFilterBilinear);
-    if (err != 0) {
-      // TODO: error
-    }
+    uint8_t *y = input,
+      *u = y + m_inputSize.width() * m_inputSize.height(),
+      *v = u + m_inputSize.width()/2 * m_inputSize.height()/2;
 
-    err = addFrame(scaled);
+    uint8_t *ys = scaled,
+      *us = ys + m_width * m_height,
+      *vs = us + m_width/2 * m_height/2;
+
+    // No need for error checking because the function always returns 0
+    libyuv::I420Scale(y, m_inputSize.width(),
+		      u, m_inputSize.width()/2,
+		      v, m_inputSize.width()/2,
+		      m_inputSize.width(), m_inputSize.height(),
+		      ys, m_width,
+		      us, m_width/2,
+		      vs, m_width/2,
+		      m_width, m_height,
+		      libyuv::kFilterBilinear);
+
+    // TODO:
+    int err = addFrame(scaled);
 
     if (err >= 0) {
       m_scaled.push_back(scaled);
@@ -138,4 +156,9 @@ std::vector<uint8_t *> *PanoramaTracker::releaseFrames() {
   std::vector<uint8_t *> *frames = m_frames;
   m_frames = 0;
   return frames;
+}
+
+QSize PanoramaTracker::size() {
+  QMutexLocker l(&m_lock);
+  return m_inputSize;
 }

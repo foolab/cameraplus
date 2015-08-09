@@ -21,21 +21,49 @@
 #include "panoramastitcher.h"
 #include "panorama.h"
 #include <QTimer>
-#include <QImageWriter>
 #include <QImage>
 #include <QDir>
+#include <jpeglib.h>
 #include "libyuv.h"
+#include "mosaic/Blend.h"
+#include <cstdio>
+#include <csetjmp>
+#if defined(QT4)
+#include <QDeclarativeInfo>
+#elif defined(QT5)
+#include <QQmlInfo>
+#endif
 
 #define PROGRESS_TIMER_INTERVAL 500
 
-PanoramaStitcher::PanoramaStitcher(std::vector<uint8_t *> *frames, const QString& output,
+struct __error_mgr : public jpeg_error_mgr {
+  jmp_buf setjmp_buffer;
+} __error_mgr;
+
+static void
+__error_exit (j_common_ptr cinfo) {
+  struct __error_mgr *myerr = (struct __error_mgr *) cinfo->err;
+
+  char buff[JMSG_LENGTH_MAX];
+  (*cinfo->err->format_message)(cinfo, buff);
+
+  qWarning() << buff;
+
+  /* jump */
+  longjmp(myerr->setjmp_buffer, 1);
+}
+
+PanoramaStitcher::PanoramaStitcher(std::vector<uint8_t *> *frames, const QSize& size,
+				   const QString& output,
 				   bool keepFrames, QObject *parent) :
   QThread(parent),
-  Stitcher(FRAME_WIDTH, FRAME_HEIGHT, frames->size()),
+  Stitcher(size.width(), size.height(), frames->size()),
   m_output(output),
   m_frames(frames),
   m_running(true),
-  m_keepFrames(keepFrames) {
+  m_keepFrames(keepFrames),
+  m_alignProgress(0),
+  m_size(size) {
 
   m_timer.setInterval(PROGRESS_TIMER_INTERVAL);
   QObject::connect(&m_timer, SIGNAL(timeout()), this, SIGNAL(progressChanged()));
@@ -57,16 +85,26 @@ void PanoramaStitcher::stop() {
 }
 
 void PanoramaStitcher::run() {
+  int w, h;
+  const unsigned char *im ;
+
   if (m_keepFrames) {
     dumpFrames();
   }
 
-  for (int x = 0; x < m_frames->size(); x++) {
+  int size = m_frames->size();
+  for (int x = 0; x < size; x++) {
     if (!m_running) {
       goto out;
     }
     // TODO: error
     addFrame(m_frames->at(x));
+
+    m_progressLock.lock();
+    m_alignProgress = (TIME_PERCENT_ALIGN/size) * x;
+    m_progressLock.unlock();
+
+    emit progressChanged();
   }
 
   if (!m_running) {
@@ -80,15 +118,9 @@ void PanoramaStitcher::run() {
     goto out;
   }
 
-  {
-    QImageWriter wr(m_output, "JPG");
-    int w, h;
-    const unsigned char *im = image(w, h);
-
-    QImage img(im, w, h, QImage::Format_RGB888);
-    // TODO: error
-    bool foo = wr.write(img);
-  }
+  // TODO: error
+  im = image(w, h);
+  writeJpeg(im, QSize(w, h), m_output);
 
 out:
   if (m_frames) {
@@ -100,7 +132,8 @@ out:
 }
 
 int PanoramaStitcher::progress() {
-  return Stitcher::progress();
+  QMutexLocker l(&m_progressLock);
+  return m_alignProgress + Stitcher::progress();
 }
 
 void PanoramaStitcher::dumpFrames() {
@@ -110,24 +143,73 @@ void PanoramaStitcher::dumpFrames() {
   // TODO: error
   dir.mkpath(".");
 
-  uint8_t rgb[FRAME_WIDTH * FRAME_HEIGHT * 3];
+  uint8_t rgb[m_size.width() * m_size.height() * 3];
+
+  uint8_t *y, *u, *v;
+  int width = m_size.width(), height = m_size.height();
 
   for (int x = 0; x < m_frames->size(); x++) {
     uint8_t *data = m_frames->at(x);
 
+    y = data;
+    u = y + width * height;
+    v = u + width/2 * height/2;
+
     // Convert to RGB:
-    int err = libyuv::I420ToRGB24(FRAME_Y(data), FRAME_WIDTH,
-			  FRAME_U(data), FRAME_WIDTH/2,
-			  FRAME_V(data), FRAME_WIDTH/2,
-			  rgb, FRAME_WIDTH * 3,
-			  FRAME_WIDTH, FRAME_HEIGHT);
+    int err = libyuv::I420ToRGB24(y, width,
+				  u, width/2,
+				  v, width/2,
+				  rgb, width * 3,
+				  width, height);
     // TODO: error
 
     QString file = QString("%1/%2.jpg").arg(d).arg(x);
-    QImageWriter wr(file, "JPG");
-    QImage img(rgb, FRAME_WIDTH, FRAME_HEIGHT, QImage::Format_RGB888);
-
-    // TODO: error
-    bool foo = wr.write(img);
+    writeJpeg(rgb, QSize(width, height), file);
   }
+}
+
+bool PanoramaStitcher::writeJpeg(const uint8_t *data, const QSize& size, const QString& fileName) {
+  struct jpeg_compress_struct cinfo;
+  struct __error_mgr jerr;
+
+  FILE *outFile = fopen(fileName.toLocal8Bit().constData(), "wb");
+  if (!outFile) {
+    qmlInfo(this) << "Failed to open " << fileName;
+    return false;
+  }
+
+  cinfo.err = jpeg_std_error((jpeg_error_mgr *)&jerr);
+  jerr.error_exit = __error_exit;
+
+  if (setjmp(jerr.setjmp_buffer)) {
+    fclose(outFile);
+    jpeg_destroy_compress(&cinfo);
+    unlink(fileName.toLocal8Bit().constData());
+    return false;
+  }
+
+  jpeg_create_compress(&cinfo);
+  jpeg_stdio_dest(&cinfo, outFile);
+
+  cinfo.image_width = size.width();
+  cinfo.image_height = size.height();
+  cinfo.input_components = 3;
+  cinfo.in_color_space   = JCS_RGB;
+
+  jpeg_set_defaults(&cinfo);
+  // TODO: configurable quality
+  jpeg_set_quality (&cinfo, 100, TRUE);
+  jpeg_start_compress(&cinfo, TRUE);
+
+  JSAMPROW row_pointer;
+
+  while (cinfo.next_scanline < cinfo.image_height) {
+    row_pointer = (JSAMPROW) &data[cinfo.next_scanline*3*size.width()];
+    jpeg_write_scanlines(&cinfo, &row_pointer, 1);
+  }
+  jpeg_finish_compress(&cinfo);
+
+  fclose(outFile);
+
+  jpeg_destroy_compress(&cinfo);
 }

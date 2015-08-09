@@ -22,6 +22,7 @@
 #include "qtcamgstsample.h"
 #include "libyuv.h"
 #include "panorama.h"
+#include <QSize>
 
 PanoramaInput::PanoramaInput(QObject *parent) :
   QObject(parent) {
@@ -34,6 +35,8 @@ PanoramaInput::~PanoramaInput() {
 
 #ifdef HARMATTAN
 void PanoramaInput::handleSample(const QtCamGstSample *sample) {
+  QSize s(sample->width(), sample->height());
+
   GstBuffer *buffer = sample->buffer();
   int size = GST_BUFFER_SIZE(buffer);
 
@@ -41,17 +44,19 @@ void PanoramaInput::handleSample(const QtCamGstSample *sample) {
   guint8 src[size];
   memcpy(src, GST_BUFFER_DATA(buffer), size);
 
-  guint8 *frame = new guint8[FRAME_WIDTH * FRAME_HEIGHT * 3 / 2];
+  guint8 *frame = new guint8[s.width() * s.height() * 3 / 2];
 
-  int err = libyuv::UYVYToI420(src, FRAME_WIDTH * 2,
-			       FRAME_Y(frame), FRAME_WIDTH,
-			       FRAME_U(frame), FRAME_WIDTH/2,
-			       FRAME_V(frame), FRAME_WIDTH/2,
-			       FRAME_WIDTH, FRAME_HEIGHT);
-  if (err != 0) {
-    // TODO: error
-  }
+  guint8 *y = frame,
+    *u = y + s.width() * s.height(),
+    *v = u + s.width()/2 * s.height()/2;
 
-  emit dataAvailable(frame);
+  // No need for error checking because the function always returns 0
+  libyuv::UYVYToI420(src, s.width() * 2,
+		     y, s.width(),
+		     u, s.width()/2,
+		     v, s.width()/2,
+		     s.width(), s.height());
+
+  emit dataAvailable(frame, s);
 }
 #endif

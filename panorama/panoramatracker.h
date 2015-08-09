@@ -29,6 +29,7 @@
 #include <stdint.h>
 #include <vector>
 #include "stitcher/tracker.h"
+#include <QSize>
 
 class PanoramaTracker : public QThread, private Tracker {
   Q_OBJECT
@@ -39,11 +40,13 @@ public:
 
   int frameCount();
 
-  bool handleData(uint8_t *data);
+  bool handleData(uint8_t *data, const QSize& size);
 
   void stop();
 
   std::vector<uint8_t *> *releaseFrames();
+
+  QSize size();
 
 protected:
   void run();
@@ -52,6 +55,9 @@ signals:
   void frameCountChanged();
 
 private:
+  int m_width;
+  int m_height;
+  QSize m_inputSize;
   bool m_running;
   QMutex m_lock;
   QWaitCondition m_cond;

@@ -35,7 +35,6 @@ ImageMode::~ImageMode() {
   m_image = 0;
 }
 
-
 bool ImageMode::capture(const QString& fileName) {
   return m_image ? m_image->capture(fileName) : false;
 }
