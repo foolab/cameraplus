@@ -40,6 +40,7 @@ Item {
     property bool enableFocus: true
     property bool enableRoi: true
     property bool renderingEnabled: true
+    property alias zoomCaptureEnabled: zoomCapture.enabled
 
     signal previewAvailable(string uri)
 

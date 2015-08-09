@@ -53,7 +53,7 @@ Item {
 
     Connections {
         id: zoomConnection
-        target: keys
+        target: zoomHandler.enabled ? keys : null
 
         onActiveChanged: {
             if (!zoomConnection.active) {
