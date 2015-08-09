@@ -39,7 +39,7 @@ CameraSlider {
     }
 
     Connections {
-        target: keys
+        target: slider.visible ? keys : null
 
         onVolumeUpPressed: {
             if (settings.zoomAsShutter) {
