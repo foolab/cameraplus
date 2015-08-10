@@ -235,16 +235,16 @@ bool QtCamDevice::start() {
 
   // Now query the resolutions if needed
   if (d_ptr->conf->resolutionsProvider() != RESOLUTIONS_PROVIDER_INI) {
-    if (!d_ptr->imageSettings->hasResolutions()) {
+    if (!imageSettings()->hasResolutions()) {
       QList<QtCamResolution> resolutions =
 	d_ptr->generateImageResolutions(queryViewfinderResolutions(), queryImageResolutions());
-      d_ptr->imageSettings->updateResolutions(resolutions);
+      imageSettings()->updateResolutions(resolutions);
     }
 
-    if (!d_ptr->videoSettings->hasResolutions()) {
+    if (!videoSettings()->hasResolutions()) {
       QList<QtCamResolution> resolutions =
 	d_ptr->generateVideoResolutions(queryViewfinderResolutions(), queryVideoResolutions());
-      d_ptr->videoSettings->updateResolutions(resolutions);
+      videoSettings()->updateResolutions(resolutions);
     }
   }
 
