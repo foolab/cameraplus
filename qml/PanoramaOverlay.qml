@@ -49,7 +49,7 @@ BaseOverlay {
 
     property bool processing: panorama.status != Panorama.Idle
     property variant lowResolution: Qt.size(640, 480)
-    property variant highResolution: Qt.size(1280, 720)
+    property variant highResolution: Qt.size(960, 540)
 
     Panorama {
         id: panorama
