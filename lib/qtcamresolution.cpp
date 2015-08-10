@@ -41,6 +41,7 @@ public:
   float megaPixels;
   QtCamResolution::Mode mode;
   QVariant device;
+  bool visible;
 };
 
 QtCamResolution::QtCamResolution(const QString& id,
@@ -48,7 +49,7 @@ QtCamResolution::QtCamResolution(const QString& id,
 				 const QSize& preview, const QSize& viewfinder,
 				 int fps, int nightFps, int zslFps, float megaPixels,
 				 const QString& commonName, const Mode& mode,
-				 const QVariant device) :
+				 const QVariant device, bool visible) :
   d_ptr(new QtCamResolutionPrivate) {
 
   d_ptr->id = id;
@@ -63,6 +64,7 @@ QtCamResolution::QtCamResolution(const QString& id,
   d_ptr->megaPixels = megaPixels;
   d_ptr->mode = mode;
   d_ptr->device = device;
+  d_ptr->visible = visible;
 }
 
 
@@ -190,6 +192,10 @@ bool QtCamResolution::isValid() const {
     d_ptr->fps > -1;
 }
 
+bool QtCamResolution::isVisible() const {
+  return d_ptr->visible;
+}
+
 QTextStream& operator<<(QTextStream& s, const QtCamResolution& res) {
 #define DUMP_RES(rr) res.d_ptr->rr.width() << "x" << res.d_ptr->rr.height()
   s << "\n[" << res.d_ptr->id << "]" << "\n"
@@ -203,7 +209,8 @@ QTextStream& operator<<(QTextStream& s, const QtCamResolution& res) {
     << "zsl fps: " << res.d_ptr->zslFps << "\n"
     << "megapixels: " << res.d_ptr->megaPixels << "\n"
     << "device: " << res.d_ptr->device.toString() << "\n"
-    << "mode: " <<  res.d_ptr->mode << "\n";
+    << "mode: " <<  res.d_ptr->mode << "\n"
+    << "visible: " <<  res.d_ptr->visible << "\n";
 
   return s;
 }

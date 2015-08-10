@@ -179,6 +179,7 @@ bool ModeSettings::setViewfinderResolution(const QSize& resolution) {
   }
 
   QList<QtCamResolution> res = m_settings->resolutions();
+  res.append(m_settings->hiddenResolutions());
 
   if (res.isEmpty()) {
     return false;

@@ -49,6 +49,8 @@ public:
 
   QtCamResolution defaultResolution(const QString& aspectRatio = QString()) const;
   QList<QtCamResolution> resolutions(const QString& aspectRatio = QString()) const;
+  QList<QtCamResolution> hiddenResolutions() const;
+
   QStringList aspectRatios() const;
 
   bool hasResolutions() const;

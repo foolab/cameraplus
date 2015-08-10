@@ -102,6 +102,7 @@ public:
       QString aspectRatio = QtCamUtils::aspectRatioForResolution(capture);
       QString commonName = QtCamUtils::commonNameForResolution(capture);
       QVariant device = resolutions->value("device");
+      bool visible = resolutions->value("visible", true).toBool();
 
       QtCamResolution::Mode mode;
       QString m = resolutions->value("mode").toString();
@@ -120,7 +121,7 @@ public:
       }
 
       QtCamResolution r(id, aspectRatio, capture, preview, viewfinder, fps, nightFps,
-			zslFps, megaPixels, commonName, mode, device);
+			zslFps, megaPixels, commonName, mode, device, visible);
       if (r.isValid()) {
 	res.insertMulti(-1 * megaPixels, r); // a trick to sort in reverse!
       }
