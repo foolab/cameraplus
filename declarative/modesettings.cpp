@@ -168,8 +168,6 @@ QString ModeSettings::bestResolution(const QString& aspectRatio, const QString& 
 }
 
 bool ModeSettings::setViewfinderResolution(const QSize& resolution) {
-  // TODO: We need to improve this or even remove it and find another way
-
   if (!isReady()) {
     return false;
   }
@@ -182,7 +180,11 @@ bool ModeSettings::setViewfinderResolution(const QSize& resolution) {
   res.append(m_settings->hiddenResolutions());
 
   if (res.isEmpty()) {
-    return false;
+    // Store the resolution:
+    m_pendingViewfinderResolution = resolution;
+    return true;
+  } else {
+    m_pendingViewfinderResolution = QSize();
   }
 
   foreach (const QtCamResolution& r, res) {
@@ -235,5 +237,7 @@ void ModeSettings::resolutionsUpdated() {
     // m_pendingResolution. Since we pass a reference to m_pendingResolution,
     // clearing it will make the reference empty and will never match anything
     setResolution(QString(m_pendingResolution));
+  } else if (m_pendingViewfinderResolution.isValid()) {
+    setViewfinderResolution(QSize(m_pendingViewfinderResolution));
   }
 }

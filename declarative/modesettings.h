@@ -25,13 +25,13 @@
 
 #include <QObject>
 #include <QStringList>
+#include <QSize>
 
 class Camera;
 class QtCamModeSettings;
 class ResolutionModel;
 class Resolution;
 class QtCamResolution;
-class QSize;
 
 class ModeSettings : public QObject {
   Q_OBJECT
@@ -89,6 +89,7 @@ private:
 
   QtCamModeSettings *m_settings;
   ResolutionModel *m_resolutions;
+  QSize m_pendingViewfinderResolution;
   QString m_pendingResolution;
 };
 
