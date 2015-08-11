@@ -1,0 +1,19 @@
+diff --git a/project.pro b/project.pro
+index dddb4f0..2508b4d 100644
+--- a/project.pro
++++ b/project.pro
+@@ -6,13 +6,4 @@ TEMPLATE = subdirs
+ 
+ CONFIG += ordered
+ 
+-SUBDIRS = src \
+-          utils \
+-          tests \
+-
+-contains( doc, no ) {
+-    message( "Not building the documentation ..." )
+-}
+-else {
+-    include(doc/doc.pri)
+-    }
++SUBDIRS = src
