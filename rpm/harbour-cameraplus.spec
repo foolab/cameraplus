@@ -1,5 +1,5 @@
 %define __provides_exclude_from ^%{_datadir}/.*$
-%define __requires_exclude ^libqtcamera.so.1|libFLAC.so.8|libavcodec.so.55|libavformat.so.55|libavutil.so.53|libbz2.so.1|libdbus-qeventloop-qt5.so.1|libffmpegthumbnailer.so.4|libjpeg.so.62|libogg.so.0|libquill-qt5.so.1|libquillimagefilter-qt5.so.1|libquillmetadata-qt5.so.1|libresourceqt5.so.1|libswscale.so.2|libresource.so.0$
+%define __requires_exclude ^libqtcamera.so.1|libavcodec.so.56|libavformat.so.56|libavutil.so.54|libavdevice.so.56|libavfilter.so.5|libpostproc.so.53|libswresample.so.1|libswscale.so.3|libffmpegthumbnailer.so.4|libquill-qt5.so.1$
 
 Name:           harbour-cameraplus
 Summary:        Cameraplus is an advanced easy to use camera
@@ -30,18 +30,18 @@ BuildRequires:  pkgconfig(Qt5Sensors)
 BuildRequires:  pkgconfig(Qt5Test)
 BuildRequires:  pkgconfig(libresourceqt5)
 BuildRequires:  pkgconfig(Qt5SystemInfo)
-BuildRequires:  pkgconfig(quill-qt5)
 BuildRequires:  pkgconfig(contextkit-statefs)
 BuildRequires:  pkgconfig(sndfile)
 BuildRequires:  pkgconfig(libpulse)
+BuildRequires:  pkgconfig(exempi-2.0)
 BuildRequires:  desktop-file-utils
 BuildRequires:  cmake
 BuildRequires:  libjpeg-devel
+BuildRequires:  pkgconfig(quillmetadata-qt5)
+BuildRequires:  pkgconfig(quillimagefilter-qt5)
+BuildRequires:  pkgconfig(libexif)
 Requires:       qt5-qtdeclarative-import-positioning
 Requires:       qt5-qtdeclarative-import-sensors
-
-# These are there so we can copy the binaries we need
-BuildRequires:  quill-qt5-utils
 
 %description
 Cameraplus is an advanced easy to use camera
@@ -60,10 +60,12 @@ Requires:  harbour-cameraplus = %{version}-%{release}
 %build
 cmake  -DPLATFORM=sailfish -DDATA_DIR=/usr/share/harbour-cameraplus/share/qtcamera/config/ -DCMAKE_INSTALL_PREFIX=/usr/share/harbour-cameraplus/
 
-make %{?jobs:-j%jobs}
+make %{?jobs:-j%jobs} VERBOSE=1
 
 %install
 %make_install
+
+rm $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/libqtcamera.so
 
 mv $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/bin/ $RPM_BUILD_ROOT/%{_bindir}
 
@@ -110,24 +112,8 @@ cp sounds/*.wav $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/sounds/
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
 cp modes/image.ini modes/image-timer.ini modes/image-sequential.ini modes/image-panorama.ini modes/video.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
 
-cp /usr/lib/libbz2.so.1 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp /usr/lib/libquillmetadata-qt5.so.1 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp /usr/lib/libquillimagefilter-qt5.so.1 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp /usr/lib/libresourceqt5.so.1 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp /usr/lib/libdbus-qeventloop-qt5.so.1 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp /usr/lib/libresource.so.0 $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp -a /usr/lib/quill-utils/ $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/
-cp -a /usr/share/avconv/ $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/
-cp /usr/lib/libswscale.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp /usr/lib/libavresample.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp /usr/lib/libavutil.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp /usr/lib/libavformat.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp /usr/lib/libavdevice.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp /usr/lib/libavfilter.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp /usr/lib/libavcodec.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp /usr/lib/libffmpegthumbnailer.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
-cp /usr/lib/libquill-qt5.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
+# dependencies
+cp -a deps/usr/lib/lib*.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 
 %files
 %defattr(-,root,root,-)
@@ -142,7 +128,6 @@ cp /usr/lib/libquill-qt5.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 %{_datadir}/applications/harbour-cameraplus.desktop
 %{_datadir}/icons/hicolor/86x86/apps/harbour-cameraplus.png
 # dependencies
-%{_datadir}/harbour-cameraplus/share/*
 %{_datadir}/harbour-cameraplus/lib/*
 
 %files tools
