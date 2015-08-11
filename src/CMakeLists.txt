@@ -67,6 +67,9 @@ elseif (SAILFISH)
   qt5_add_resources(qrc_extra ${EXTRA_RESOURCES})
   qt5_add_resources(qrc_qml ../qml/qml.qrc)
   qt5_add_resources(qrc_icons ../icons/icons.qrc)
+
+  # external targets
+  include_directories("${CMAKE_BINARY_DIR}/deps/usr/include/qt5/quill-qt5/")
 endif()
 
 qt_wrap_cpp(MOC_FILES ${HEADER_FILES} ${EXTRA_HEADER_FILES})
@@ -87,6 +90,8 @@ target_link_libraries(cameraplus ${QT_LIBRARIES})
 
 if (SAILFISH)
   qt5_use_modules(cameraplus Gui Quick)
+  add_dependencies(cameraplus quill)
+  target_link_libraries(cameraplus -L${CMAKE_BINARY_DIR}/deps/usr/lib/ -lquill-qt5 -lffmpegthumbnailer -L${FFMPEG_DIR}/lib/ -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lpostproc -lswresample -lswscale -lexempi)
 endif()
 
 install(TARGETS cameraplus DESTINATION bin)

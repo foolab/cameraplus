@@ -25,9 +25,9 @@ pkg_check_modules(EXTRA REQUIRED
   Qt5Sparql
   libresourceqt5
   qdeclarative5-boostable
-  quill-qt5
   contextkit-statefs
   Qt5Sensors
+  quillimagefilter-qt5
   )
 
 set(EXTRA_RESOURCES "../qml/sailfish/sailfish.qrc")
