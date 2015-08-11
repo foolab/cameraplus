@@ -1,0 +1,29 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a5896d0..cc2ac7c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -28,7 +28,7 @@ INCLUDE(CPack)
+ INCLUDE(GNUInstallDirs)
+ 
+ SET(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
++SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+ 
+ OPTION(ENABLE_SHARED "Build shared library" ON)
+ OPTION(ENABLE_STATIC "Build static library" OFF)
+diff --git a/libffmpegthumbnailer/videothumbnailerc.cpp b/libffmpegthumbnailer/videothumbnailerc.cpp
+index 497a1ce..a326c3d 100644
+--- a/libffmpegthumbnailer/videothumbnailerc.cpp
++++ b/libffmpegthumbnailer/videothumbnailerc.cpp
+@@ -25,9 +25,10 @@ using namespace ffmpegthumbnailer;
+ 
+ struct thumbnailer_data
+ {
++    thumbnailer_data() : log_cb(0) {}
+     VideoThumbnailer thumbnailer;
+     FilmStripFilter filter;
+-    thumbnailer_log_callback log_cb = nullptr;
++    thumbnailer_log_callback log_cb;
+ };
+ 
+ static void trace_message(video_thumbnailer* thumbnailer, ThumbnailerLogLevel lvl, const char* message)
