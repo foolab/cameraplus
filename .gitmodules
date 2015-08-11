@@ -4,3 +4,12 @@
 [submodule "external/panorama-stitcher"]
 	path = external/panorama-stitcher
 	url = https://github.com/foolab/panorama-stitcher.git
+[submodule "external/ffmpeg"]
+	path = external/ffmpeg
+	url = git://git.videolan.org/ffmpeg.git
+[submodule "external/ffmpegthumbnailer"]
+	path = external/ffmpegthumbnailer
+	url = https://github.com/dirkvdb/ffmpegthumbnailer.git
+[submodule "external/quill"]
+	path = external/quill
+	url = https://github.com/foolab/quill
