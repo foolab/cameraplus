@@ -228,7 +228,7 @@ Item {
             CameraLabel {
                 height: toolBar.height
                 text: view.currentItem ? view.currentItem.fileName : ""
-                width: parent.width / 2
+                width: toolBar.width / 2
                 font.pixelSize: cameraStyle.fontSizeMedium
                 font.bold: true
                 verticalAlignment: Text.AlignVCenter
