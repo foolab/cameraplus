@@ -140,6 +140,7 @@ Item {
             left: parent.left
             leftMargin: cameraStyle.padding
         }
+        width: parent.width - 2 * anchors.leftMargin
         opacity: show ? 0.8 : 0.0
         visible: opacity > 0
 
@@ -155,6 +156,7 @@ Item {
 
             CameraSlider {
                 id: slider
+                width: toolBar.width / 2
                 anchors.verticalCenter: parent.verticalCenter
                 handleVisible: false
                 minimumValue: 0
