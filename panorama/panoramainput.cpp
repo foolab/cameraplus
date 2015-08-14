@@ -33,30 +33,37 @@ PanoramaInput::~PanoramaInput() {
 
 }
 
-#ifdef HARMATTAN
 void PanoramaInput::handleSample(const QtCamGstSample *sample) {
-  QSize s(sample->width(), sample->height());
+  QtCamGstSample *s = const_cast<QtCamGstSample *>(sample);
+  QSize sz(s->width(), s->height());
 
-  GstBuffer *buffer = sample->buffer();
-  int size = GST_BUFFER_SIZE(buffer);
+  int size = s->size();
 
   // Harmattan memory needs to be copied.
+#ifdef HARMATTAN
   guint8 src[size];
-  memcpy(src, GST_BUFFER_DATA(buffer), size);
+  memcpy(src, s->data(), size);
+#else
+  const guint8 *src = s->data();
+#endif
 
-  guint8 *frame = new guint8[s.width() * s.height() * 3 / 2];
+  if (!src) {
+    // TODO: error
+    return;
+  }
+
+  guint8 *frame = new guint8[sz.width() * sz.height() * 3 / 2];
 
   guint8 *y = frame,
-    *u = y + s.width() * s.height(),
-    *v = u + s.width()/2 * s.height()/2;
+    *u = y + sz.width() * sz.height(),
+    *v = u + sz.width()/2 * sz.height()/2;
 
   // No need for error checking because the function always returns 0
-  libyuv::UYVYToI420(src, s.width() * 2,
-		     y, s.width(),
-		     u, s.width()/2,
-		     v, s.width()/2,
-		     s.width(), s.height());
+  libyuv::UYVYToI420(src, sz.width() * 2,
+		     y, sz.width(),
+		     u, sz.width()/2,
+		     v, sz.width()/2,
+		     sz.width(), sz.height());
 
-  emit dataAvailable(frame, s);
+  emit dataAvailable(frame, sz);
 }
-#endif

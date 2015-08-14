@@ -40,9 +40,7 @@ signals:
   void dataAvailable(uint8_t *data, const QSize& size);
 
 private slots:
-#ifdef HARMATTAN
   void handleSample(const QtCamGstSample *sample);
-#endif
 };
 
 #endif /* PANORAMA_INPUT_H */
