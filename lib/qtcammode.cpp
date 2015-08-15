@@ -311,21 +311,21 @@ void QtCamModePrivate::setCaps(const char *property, const QSize& resolution, in
   }
 
   GstCaps *caps = 0;
+  gchar *tpl = 0;
 
   if (fps <= 0) {
-    gchar *tpl = g_strdup_printf (CAPS_NO_FPS, media,
-				  resolution.width(),
-				  resolution.height());
-    caps = gst_caps_from_string (tpl);
-    g_free (tpl);
+    tpl = g_strdup_printf (CAPS_NO_FPS, media,
+			   resolution.width(),
+			   resolution.height());
   } else {
-    gchar *tpl = g_strdup_printf (CAPS_FPS, media,
-				  resolution.width(),
-				  resolution.height(),
-				  fps - 1, 1, fps + 1, 1);
-    caps = gst_caps_from_string (tpl);
-    g_free (tpl);
+    tpl = g_strdup_printf (CAPS_FPS, media,
+			   resolution.width(),
+			   resolution.height(),
+			   fps - 1, 1, fps + 1, 1);
   }
+
+  caps = gst_caps_from_string (tpl);
+  g_free (tpl);
 
   if (fourcc) {
 #if GST_CHECK_VERSION(1,0,0)
@@ -351,6 +351,8 @@ void QtCamModePrivate::setCaps(const char *property, const QSize& resolution, in
   if (old) {
     gst_caps_unref(old);
   }
+
+  gst_caps_unref(caps);
 }
 
 void QtCamModePrivate::setPreviewSize(const QSize& size) {
