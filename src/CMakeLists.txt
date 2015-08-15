@@ -82,10 +82,10 @@ add_executable(cameraplus
 
 add_dependencies(cameraplus qtcamera)
 
-add_definitions(${EXTRA_INCLUDE_CFLAGS})
+add_definitions(${EXTRA_CFLAGS})
 include_directories(${EXTRA_INCLUDE_DIRS})
 
-target_link_libraries(cameraplus ${EXTRA_LIBRARIES})
+target_link_libraries(cameraplus ${EXTRA_LDFLAGS})
 target_link_libraries(cameraplus ${QT_LIBRARIES})
 
 if (SAILFISH)

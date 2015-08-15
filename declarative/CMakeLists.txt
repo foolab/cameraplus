@@ -84,11 +84,11 @@ pkg_check_modules(DECLARATIVE REQUIRED sndfile libpulse)
 
 add_library(declarativeqtcamera MODULE ${SOURCE_FILES} ${MOC_FILES})
 
-add_definitions(${DECLARATIVE_INCLUDE_CFLAGS})
+add_definitions(${DECLARATIVE_CFLAGS})
 include_directories(../lib/ ${DECLARATIVE_INCLUDE_DIRS})
 configure_gst(declarativeqtcamera)
 
-target_link_libraries(declarativeqtcamera ${DECLARATIVE_LIBRARIES} qtcamera)
+target_link_libraries(declarativeqtcamera ${DECLARATIVE_LDFLAGS} qtcamera)
 
 install(TARGETS declarativeqtcamera DESTINATION ${QT_INSTALL_IMPORTS}/QtCamera)
 install(FILES qmldir DESTINATION ${QT_INSTALL_IMPORTS}/QtCamera)

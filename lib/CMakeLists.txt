@@ -130,9 +130,9 @@ if (QT5)
   qt5_use_modules(qtcamera Gui)
 endif()
 
-add_definitions(${QT_SYSTEM_INFO_CFLAGS} ${GST_INCLUDE_CFLAGS})
+add_definitions(${QT_SYSTEM_INFO_CFLAGS} ${GST_CFLAGS})
 include_directories(${QT_SYSTEM_INFO_INCLUDE_DIRS} ${GST_INCLUDE_DIRS})
-target_link_libraries(qtcamera ${GST_LIBRARIES} ${QT_SYSTEM_INFO_LIBRARIES} ${EXTRA_LIBRARIES})
+target_link_libraries(qtcamera ${GST_LDFLAGS} ${QT_SYSTEM_INFO_LIBRARIES} ${EXTRA_LIBRARIES})
 
 if (HARMATTAN)
   target_link_libraries(qtcamera Qt4::QtOpenGL)
