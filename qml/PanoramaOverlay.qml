@@ -26,10 +26,8 @@ import CameraPlus 1.0
 import CameraPlus.Panorama 1.0
 
 // TODO: show preview while stitching?
-// TODO: resolution does not work upon startup (sailfish)
 // TODO: wide strip?
 // TODO: metadata
-// TODO: high reolution does not work for harmattan
 
 BaseOverlay {
     id: overlay

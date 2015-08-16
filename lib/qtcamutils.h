@@ -24,6 +24,7 @@
 #define QT_CAM_UTILS_H
 
 #include <QString>
+#include <QList>
 
 class QSize;
 
@@ -32,7 +33,8 @@ public:
   static QString commonNameForResolution(const QSize& size);
   static QString aspectRatioForResolution(const QSize& size);
   static float megapixelsForResolution(const QSize& size);
-  static QSize findMatchingResolution(const QSize& size, const QList<QSize>& sizes);
+  static QList<QSize> findMatchingResolutions(const QSize& size, const QList<QSize>& sizes,
+					      QSize& max);
 };
 
 #endif /* QT_CAM_UTILS_H */

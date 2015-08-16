@@ -405,7 +405,8 @@ public:
 
     foreach (const QSize& i, image) {
       QString aspect = QtCamUtils::aspectRatioForResolution(i);
-      QSize viewfinder = QtCamUtils::findMatchingResolution(i, vf);
+      QSize viewfinder;
+      QList<QSize> all = QtCamUtils::findMatchingResolutions(i, vf, viewfinder);
       if (!viewfinder.isValid()) {
 	continue;
       }
@@ -418,7 +419,7 @@ public:
       // We also disable night mode and zsl
       QtCamResolution r(resolutionId, aspect, i, viewfinder, viewfinder, fps, -1,
 			-1, mp, QString(), QtCamResolution::ModeImage, id);
-
+      r.setAllViewfinderResolutions(all);
       res << r;
     }
 
@@ -445,7 +446,8 @@ public:
 	continue;
       }
 
-      QSize viewfinder = QtCamUtils::findMatchingResolution(v, vf);
+      QSize viewfinder;
+      QList<QSize> all = QtCamUtils::findMatchingResolutions(v, vf, viewfinder);
       if (!viewfinder.isValid()) {
 	continue;
       }
@@ -458,7 +460,7 @@ public:
       // We also disable night mode and zsl
       QtCamResolution r(resolutionId, aspect, v, viewfinder, viewfinder, fps, -1,
 			-1, mp, commonName, QtCamResolution::ModeVideo, id);
-
+      r.setAllViewfinderResolutions(all);
       res << r;
     }
 

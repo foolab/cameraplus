@@ -28,7 +28,6 @@ public:
   QString profileName;
   QString profilePath;
   QList<QtCamResolution> resolutions;
-  QList<QtCamResolution> hiddenResolutions;
 };
 
 QtCamModeSettings::QtCamModeSettings(const QString& id, const QString& suffix,
@@ -43,14 +42,7 @@ QtCamModeSettings::QtCamModeSettings(const QString& id, const QString& suffix,
   d_ptr->suffix = suffix;
   d_ptr->profileName = profileName;
   d_ptr->profilePath = profilePath;
-
-  foreach (const QtCamResolution& r, resolutions) {
-    if (r.isVisible()) {
-      d_ptr->resolutions << r;
-    } else {
-      d_ptr->hiddenResolutions << r;
-    }
-  }
+  d_ptr->resolutions = resolutions;
 }
 
 QtCamModeSettings::~QtCamModeSettings() {
@@ -105,10 +97,6 @@ QList<QtCamResolution> QtCamModeSettings::resolutions(const QString& aspectRatio
   }
 
   return res;
-}
-
-QList<QtCamResolution> QtCamModeSettings::hiddenResolutions() const {
-  return d_ptr->hiddenResolutions;
 }
 
 QStringList QtCamModeSettings::aspectRatios() const {

@@ -41,7 +41,7 @@ public:
   QtCamResolution(const QString& id, const QString& aspectRatio,
 		  const QSize& capture, const QSize& preview, const QSize& viewfinder,
 		  int fps, int nightFps, int zslFps, float megaPixels, const QString& commonName,
-		  const Mode& mode, const QVariant device, bool visible = true);
+		  const Mode& mode, const QVariant device);
   QtCamResolution(const QtCamResolution& other);
   QtCamResolution(const QtCamResolution::Mode& mode);
 
@@ -66,6 +66,9 @@ public:
   QSize viewfinderResolution() const;
   void setViewfinderResolution(const QSize& viewfinderResolution);
 
+  QList<QSize> allViewfinderResolutions() const;
+  void setAllViewfinderResolutions(const QList<QSize>& resolutions);
+
   QSize previewResolution() const;
   void setPreviewResolution(const QSize& previewResolution);
 
@@ -86,8 +89,6 @@ public:
 
   QVariant device() const;
   void setDevice(const QVariant& device);
-
-  bool isVisible() const;
 
   friend QTextStream& operator<<(QTextStream& s, const QtCamResolution& res);
 
