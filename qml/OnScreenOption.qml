@@ -32,6 +32,7 @@ Item {
     property alias valueIndicatorVisible: slider.valueIndicatorVisible
     property alias valueIndicatorText: slider.valueIndicatorText
     property bool __showSlider: false
+    property Item visualParent
 
     width: cameraStyle.onScreenOptionWidth
     height: cameraStyle.onScreenOptionHeight
@@ -61,6 +62,7 @@ Item {
 
     CameraSlider {
         id: slider
+        width: visualParent.width / 2
         anchors {
             verticalCenter: rect.verticalCenter
             left: settings.leftHandedMode ? undefined : rect.right

@@ -132,6 +132,7 @@ BaseOverlay {
 
         OnScreenOption {
             id: count
+            visualParent: overlay
             text: qsTr("%1x").arg(settings.sequentialShotsCount)
             minimumValue: 2
             maximumValue: 20
@@ -152,6 +153,7 @@ BaseOverlay {
 
         OnScreenOption {
             id: interval
+            visualParent: overlay
             text: qsTr("%1s").arg(settings.sequentialShotsInterval)
             minimumValue: 0
             maximumValue: 60

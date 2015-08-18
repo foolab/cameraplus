@@ -105,6 +105,7 @@ BaseOverlay {
 
     OnScreenOption {
         id: delay
+        visualParent: overlay
 
         anchors {
             verticalCenter: parent.verticalCenter
