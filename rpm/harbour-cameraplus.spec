@@ -112,7 +112,7 @@ mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/sounds/
 cp sounds/*.wav $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/sounds/
 
 mkdir -p $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
-cp modes/image.ini modes/image-timer.ini modes/image-sequential.ini modes/image-panorama.ini modes/video.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
+cp modes/image.ini modes/image-timer.ini modes/image-sequential.ini modes/video.ini $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/modes/
 
 # dependencies
 cp -a deps/usr/lib/lib*.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
