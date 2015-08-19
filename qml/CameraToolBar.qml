@@ -111,9 +111,12 @@ Rectangle {
         id: menu
         rotation: parent.expanded ? 0 : 90
         iconSource: cameraTheme.cameraToolBarMenuIcon
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
+        anchors {
+            left: parent.left
+            top: parent.top
+            bottom: parent.bottom
+        }
+        width: height
         Behavior on rotation {
             NumberAnimation { duration: 250 }
         }
