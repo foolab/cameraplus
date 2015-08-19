@@ -35,6 +35,7 @@ QtObject {
     property real onScreenOptionHeight: 80
     property real toolIconWidth: 64
     property real toolIconHeight: 64
+    property real toolBarHeight: 74
     property real pluginSelectorDelagateHeight: 100
     property real padding: 20
     property real standByIconWidth: 200

@@ -37,6 +37,7 @@ QtObject {
     property real onScreenOptionHeight: onScreenOptionWidth
     property real toolIconWidth: Theme.itemSizeExtraSmall
     property real toolIconHeight: toolIconWidth
+    property real toolBarHeight: Theme.itemSizeSmall
     property real pluginSelectorDelagateHeight: Theme.itemSizeLarge
     property real padding: Theme.paddingMedium
     property real standByIconWidth: Theme.itemSizeHuge

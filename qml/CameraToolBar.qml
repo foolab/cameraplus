@@ -97,7 +97,7 @@ Rectangle {
     Component.onDestruction: Layout.clear(dock, stack)
 
     width: expanded ? targetWidth : menu.width
-    height: menu.height
+    height: cameraStyle.toolBarHeight
     color: cameraStyle.backgroundColor
     border.color: cameraStyle.borderColor
     radius: 20

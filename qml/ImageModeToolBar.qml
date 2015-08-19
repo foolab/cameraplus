@@ -28,7 +28,7 @@ CameraToolBar {
     property CameraLabel selectedLabel
     anchors {
         bottom: parent.bottom
-        bottomMargin: cameraStyle.padding
+        bottomMargin: cameraStyle.spacingMedium
         left: parent.left
         leftMargin: cameraStyle.padding
     }
