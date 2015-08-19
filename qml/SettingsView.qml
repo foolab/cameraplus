@@ -31,7 +31,7 @@ Flickable {
 
     anchors {
         fill: parent
-        margins: 10
+        margins: cameraStyle.spacingMedium
     }
 
     Column {
