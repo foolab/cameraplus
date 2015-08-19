@@ -44,6 +44,8 @@ Rectangle {
             model: plugins
 
             delegate: Rectangle {
+                property bool valid: plugin.uuid != activePlugin.uuid &&
+                    ((settings.device == 0 && plugin.primaryCameraSupported) || (settings.device == 1 && plugin.secondaryCameraSupported))
                 Rectangle {
                     // This is a hack to highlight the whole row.
                     // We cannot do this with the parent Rectangle
@@ -54,7 +56,7 @@ Rectangle {
                 width: visible ? label.width + label.anchors.leftMargin + icon.width : 0
                 height: visible ? cameraStyle.pluginSelectorDelagateHeight : 0
                 color: "transparent"
-                visible: plugin.uuid != activePlugin.uuid && ((settings.device == 0 && plugin.primaryCameraSupported) || (settings.device == 1 && plugin.secondaryCameraSupported))
+                visible: valid
 
                 MouseArea {
                     id: mouse
