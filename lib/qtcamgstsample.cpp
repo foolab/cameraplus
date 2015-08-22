@@ -24,6 +24,45 @@
 
 class QtCamGstSamplePrivate {
 public:
+  QtCamGstSamplePrivate(GstBuffer *b, GstCaps *c) :
+    buffer(gst_buffer_ref(b)),
+    caps(gst_caps_ref(c)),
+    width(-1),
+    height(-1),
+    format(GST_VIDEO_FORMAT_UNKNOWN) {
+
+#if GST_CHECK_VERSION(1,0,0)
+    mapped = false;
+#endif
+
+#if GST_CHECK_VERSION(1,0,0)
+    GstVideoInfo info;
+    if (!gst_video_info_from_caps (&info, caps)) {
+      qCritical() << "Failed to parse GStreamer caps";
+    } else {
+      width = info.width;
+      height = info.height;
+      format = info.finfo->format;
+    }
+#else
+    if (!gst_video_format_parse_caps (caps, &format, &width, &height)) {
+      qCritical() << "Failed to parse GStreamer caps";
+    }
+#endif
+  }
+
+  ~QtCamGstSamplePrivate() {
+#if GST_CHECK_VERSION(1,0,0)
+    if (mapped) {
+      gst_buffer_unmap (buffer, &info);
+      mapped = false;
+    }
+#endif
+
+    gst_caps_unref(caps);
+    gst_buffer_unref(buffer);
+  }
+
   GstBuffer *buffer;
   GstCaps *caps;
   qint32 width;
@@ -37,45 +76,14 @@ public:
 };
 
 QtCamGstSample::QtCamGstSample(GstBuffer *buffer, GstCaps *caps) :
-  d_ptr(new QtCamGstSamplePrivate) {
+  d_ptr(new QtCamGstSamplePrivate(buffer, caps)) {
+}
 
-  d_ptr->buffer = gst_buffer_ref(buffer);
-  d_ptr->caps = gst_caps_ref(caps);
-
-#if GST_CHECK_VERSION(1,0,0)
-  d_ptr->mapped = false;
-#endif
-
-  d_ptr->width = -1;
-  d_ptr->height = -1;
-  d_ptr->format = GST_VIDEO_FORMAT_UNKNOWN;
-
-#if GST_CHECK_VERSION(1,0,0)
-  GstVideoInfo info;
-  if (!gst_video_info_from_caps (&info, d_ptr->caps)) {
-    qCritical() << "Failed to parse GStreamer caps";
-  } else {
-    d_ptr->width = info.width;
-    d_ptr->height = info.height;
-    d_ptr->format = info.finfo->format;
-  }
-#else
-  if (!gst_video_format_parse_caps (d_ptr->caps, &d_ptr->format, &d_ptr->width, &d_ptr->height)) {
-    qCritical() << "Failed to parse GStreamer caps";
-  }
-#endif
+QtCamGstSample::QtCamGstSample(const QtCamGstSample& other) {
+  d_ptr = new QtCamGstSamplePrivate(other.d_ptr->buffer, other.d_ptr->caps);
 }
 
 QtCamGstSample::~QtCamGstSample() {
-#if GST_CHECK_VERSION(1,0,0)
-  if (d_ptr->mapped) {
-    gst_buffer_unmap (d_ptr->buffer, &d_ptr->info);
-    d_ptr->mapped = false;
-  }
-#endif
-  gst_caps_unref(d_ptr->caps);
-  gst_buffer_unref(d_ptr->buffer);
-
   delete d_ptr; d_ptr = 0;
 }
 
@@ -122,4 +130,10 @@ qint64 QtCamGstSample::size() {
 
 GstVideoFormat QtCamGstSample::format() const {
   return d_ptr->format;
+}
+
+QtCamGstSample& QtCamGstSample::operator=(const QtCamGstSample& other) {
+  d_ptr = new QtCamGstSamplePrivate(other.d_ptr->buffer, other.d_ptr->caps);
+
+  return *this;
 }

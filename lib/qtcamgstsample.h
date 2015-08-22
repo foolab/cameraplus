@@ -33,7 +33,10 @@ typedef struct _GstCaps GstCaps;
 class QtCamGstSample {
 public:
   QtCamGstSample(GstBuffer *buffer, GstCaps *caps);
+  QtCamGstSample(const QtCamGstSample& other);
   ~QtCamGstSample();
+
+  QtCamGstSample& operator=(const QtCamGstSample& other);
 
   GstBuffer *buffer() const;
   GstCaps *caps() const;
