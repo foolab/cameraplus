@@ -53,6 +53,37 @@ BaseOverlay {
         id: panorama
         input: panoramaInput
         keepFrames: settings.panoramaKeepFrames
+        onError: {
+            console.log("Panorama error " + errorCode)
+            switch (errorCode) {
+                    case Panorama.ErrorTrackerInit:
+                        showError(qsTr("Failed to initialize panorama tracker"))
+                        break;
+                    case Panorama.ErrorTrackerFormat:
+                        showError(qsTr("Unknown camera color format"))
+                        break;
+                    case Panorama.ErrorTrackerConvert:
+                        showError(qsTr("Failed to analyze camera frame"))
+                        break;
+
+                    case Panorama.ErrorIntermediatesDirectory:
+                    case Panorama.ErrorIntermediatesConvert:
+                    case Panorama.ErrorIntermediatesSave:
+                        showError(qsTr("Failed to save intermediate frames"))
+                        break;
+                    case Panorama.ErrorStitch:
+                        showError(qsTr("Failed to generate the panorama image"))
+                        break;
+                    case Panorama.ErrorSave:
+                        showError(qsTr("Failed to save panorama image"))
+                        break;
+                    default:
+                        showError(qsTr("Unknown error from panorama generate"))
+                        break;
+            }
+
+            stop()
+        }
     }
 
     PanoramaInput {

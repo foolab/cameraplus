@@ -29,6 +29,7 @@
 #include "stitcher/tracker.h"
 #include <QSize>
 #include <glib.h>
+#include "panorama.h"
 
 class PanoramaInput;
 
@@ -53,6 +54,7 @@ protected:
 
 signals:
   void frameCountChanged();
+  void error(const Panorama::Error& errorCode);
 
 private:
   int m_width;

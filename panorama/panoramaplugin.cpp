@@ -57,6 +57,8 @@ void PanoramaPlugin::registerTypes(const char *uri) {
 
   qmlRegisterType<PanoramaInput>(uri, MAJOR, MINOR, "PanoramaInput");
   qmlRegisterType<Panorama>(uri, MAJOR, MINOR, "Panorama");
+
+  qRegisterMetaType<Panorama::Error>("Panorama::Error");
 }
 
 #if defined(QT4)

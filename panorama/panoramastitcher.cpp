@@ -94,7 +94,9 @@ void PanoramaStitcher::run() {
     if (!m_running) {
       goto out;
     }
-    // TODO: error
+
+    // We will ignore error here. We have already added scaled down versions of
+    // all the frames to tracker before.
     addFrame(m_frames[x]);
 
     m_progressLock.lock();
@@ -108,16 +110,20 @@ void PanoramaStitcher::run() {
     goto out;
   }
 
-  // TODO: error
-  stitch();
+  if (stitch() == Stitcher::Error) {
+    emit error(Panorama::ErrorStitch);
+    goto out;
+  }
 
   if (!m_running) {
     goto out;
   }
 
-  // TODO: error
   im = image(w, h);
-  writeJpeg(im, QSize(w, h), m_output);
+
+  if (!writeJpeg(im, QSize(w, h), m_output)) {
+    emit error(Panorama::ErrorSave);
+  }
 
 out:
   Panorama::clear(m_frames);
@@ -133,8 +139,9 @@ void PanoramaStitcher::dumpFrames() {
   QString d = QString("%1.frames").arg(m_output);
   QDir dir(d);
 
-  // TODO: error
-  dir.mkpath(".");
+  if (!dir.mkpath(".")) {
+    emit error(Panorama::ErrorIntermediatesDirectory);
+  }
 
   guint8 rgb[m_size.width() * m_size.height() * 3];
 
@@ -149,12 +156,14 @@ void PanoramaStitcher::dumpFrames() {
     v = u + width/2 * height/2;
 
     // Convert to RGB:
-    int err = libyuv::I420ToRGB24(y, width,
-				  u, width/2,
-				  v, width/2,
-				  rgb, width * 3,
-				  width, height);
-    // TODO: error
+    if (libyuv::I420ToRGB24(y, width,
+			    u, width/2,
+			    v, width/2,
+			    rgb, width * 3,
+			    width, height) != 0) {
+      emit error(Panorama::ErrorIntermediatesConvert);
+      continue;
+    }
 
     // TODO: find a better way
     // We need to convert the bgr we get from libyuv to rgb
@@ -170,7 +179,10 @@ void PanoramaStitcher::dumpFrames() {
     }
 
     QString file = QString("%1/%2.jpg").arg(d).arg(x);
-    writeJpeg(rgb, QSize(width, height), file);
+    if (!writeJpeg(rgb, QSize(width, height), file)) {
+      emit error(Panorama::ErrorIntermediatesSave);
+      continue;
+    }
   }
 }
 
@@ -213,9 +225,12 @@ bool PanoramaStitcher::writeJpeg(const guint8 *data, const QSize& size, const QS
     row_pointer = (JSAMPROW) &data[cinfo.next_scanline*3*size.width()];
     jpeg_write_scanlines(&cinfo, &row_pointer, 1);
   }
+
   jpeg_finish_compress(&cinfo);
 
   fclose(outFile);
 
   jpeg_destroy_compress(&cinfo);
+
+  return true;
 }

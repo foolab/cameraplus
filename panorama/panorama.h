@@ -44,6 +44,7 @@ class Panorama : public QObject {
   Q_PROPERTY(PanoramaInput* input READ input WRITE setInput NOTIFY inputChanged);
   Q_PROPERTY(bool keepFrames READ keepFrames WRITE setKeepFrames NOTIFY keepFramesChanged);
   Q_ENUMS(Status);
+  Q_ENUMS(Error);
 
 public:
   typedef enum {
@@ -51,6 +52,17 @@ public:
     Tracking,
     Stitching,
   } Status;
+
+  typedef enum {
+    ErrorTrackerInit,
+    ErrorTrackerFormat,
+    ErrorTrackerConvert,
+    ErrorIntermediatesDirectory,
+    ErrorIntermediatesConvert,
+    ErrorIntermediatesSave,
+    ErrorStitch,
+    ErrorSave,
+  } Error;
 
   Panorama(QObject *parent = 0);
   ~Panorama();
@@ -73,6 +85,7 @@ signals:
   void statusChanged();
   void inputChanged();
   void keepFramesChanged();
+  void error(const Panorama::Error& errorCode);
 
 public slots:
   void start(const QString& output);

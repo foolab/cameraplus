@@ -80,8 +80,11 @@ void PanoramaTracker::run() {
       int m_height = size.width() > 720 ? size.height() / 8 : size.height() / 4;
       m_inputSize = size;
 
-      // TODO: error
-      Tracker::initialize(m_width, m_height);
+
+      if (!Tracker::initialize(m_width, m_height)) {
+	emit error(Panorama::ErrorTrackerInit);
+	return;
+      }
     }
 
     // Now we can process the sample:
@@ -97,23 +100,25 @@ void PanoramaTracker::run() {
       break;
     default:
       qCritical() << "Unsupported color format";
-      continue;
-      // TODO: error
+      emit error(Panorama::ErrorTrackerFormat);
+      return;
     }
 
     guint8 *y = dst.data(),
       *u = y + m_inputSize.width() * m_inputSize.height(),
       *v = u + m_inputSize.width()/2 * m_inputSize.height()/2;
 
-    // TODO: error
-    ConvertToI420(src, sample->size(),
-		  y, m_inputSize.width(),
-		  u, m_inputSize.width() / 2,
-		  v, m_inputSize.width() / 2,
-		  0, 0,
-		  m_inputSize.width(), m_inputSize.height(),
-		  m_inputSize.width(), m_inputSize.height(),
-		  libyuv::kRotate0, fmt);
+    if (ConvertToI420(src, sample->size(),
+		      y, m_inputSize.width(),
+		      u, m_inputSize.width() / 2,
+		      v, m_inputSize.width() / 2,
+		      0, 0,
+		      m_inputSize.width(), m_inputSize.height(),
+		      m_inputSize.width(), m_inputSize.height(),
+		      libyuv::kRotate0, fmt) != 0) {
+      emit error(Panorama::ErrorTrackerConvert);
+      return;
+    }
 
     QScopedArrayPointer<guint8> scaled(new guint8[m_width * m_height * 3 / 2]);
     guint8 *ys = scaled.data(),
@@ -132,7 +137,6 @@ void PanoramaTracker::run() {
 		      m_width, m_height,
 		      libyuv::kFilterBilinear);
 
-    // TODO: error
     int err = addFrame(scaled.data());
 
     if (err >= 0) {

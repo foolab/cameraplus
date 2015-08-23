@@ -25,12 +25,12 @@
 
 #include <QThread>
 #include <QMutex>
-#include <stdint.h>
 #include <vector>
 #include "stitcher/stitcher.h"
 #include <QTimer>
 #include <QSize>
 #include <glib.h>
+#include "panorama.h"
 
 class PanoramaStitcher : public QThread, private Stitcher {
   Q_OBJECT
@@ -50,6 +50,7 @@ protected:
 signals:
   void progressChanged();
   void done();
+  void error(const Panorama::Error& errorCode);
 
 private:
   void dumpFrames();

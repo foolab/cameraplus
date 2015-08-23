@@ -90,6 +90,8 @@ void Panorama::start(const QString& output) {
 
   m_output = output;
   m_tracker = new PanoramaTracker(m_input);
+  QObject::connect(m_tracker, SIGNAL(error(const Panorama::Error&)),
+		   this, SIGNAL(error(const Panorama::Error&)));
   QObject::connect(m_tracker, SIGNAL(frameCountChanged()), this, SLOT(trackerFrameCountChanged()));
   m_tracker->start();
   m_lock.unlock();
@@ -144,7 +146,10 @@ void Panorama::stitch() {
   m_tracker->releaseFrames(frames);
 
   m_stitcher = new PanoramaStitcher(frames, m_tracker->size(), m_output, m_keepFrames);
-  QObject::connect(m_stitcher, SIGNAL(progressChanged()), this, SIGNAL(stitchingProgressChanged()));
+  QObject::connect(m_stitcher, SIGNAL(progressChanged()),
+		   this, SIGNAL(stitchingProgressChanged()));
+  QObject::connect(m_stitcher, SIGNAL(error(const Panorama::Error&)),
+		   this, SIGNAL(error(const Panorama::Error&)));
   QObject::connect(m_stitcher, SIGNAL(done()), this, SLOT(stitchingDone()));
   m_stitcher->start();
 
