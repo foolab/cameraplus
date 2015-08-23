@@ -44,7 +44,7 @@ public:
   qint32 width() const;
   qint32 height() const;
 
-  const uchar *data();
+  const guint8 *data();
   qint64 size();
 
   GstVideoFormat format() const;

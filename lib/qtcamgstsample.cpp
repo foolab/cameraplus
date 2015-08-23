@@ -103,7 +103,7 @@ qint32 QtCamGstSample::height() const {
   return d_ptr->height;
 }
 
-const uchar *QtCamGstSample::data() {
+const guint8 *QtCamGstSample::data() {
 #if GST_CHECK_VERSION(1,0,0)
   if (!d_ptr->mapped) {
     if (!gst_buffer_map (d_ptr->buffer, &d_ptr->info, GST_MAP_READ)) {
