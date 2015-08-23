@@ -141,6 +141,7 @@ void PanoramaStitcher::dumpFrames() {
 
   if (!dir.mkpath(".")) {
     emit error(Panorama::ErrorIntermediatesDirectory);
+    return;
   }
 
   guint8 rgb[m_size.width() * m_size.height() * 3];
