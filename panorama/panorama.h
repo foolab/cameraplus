@@ -29,6 +29,7 @@
 #include <stdint.h>
 #include <QMutex>
 #include <vector>
+#include <glib.h>
 
 class PanoramaInput;
 class PanoramaTracker;
@@ -64,7 +65,7 @@ public:
   bool keepFrames() const;
   void setKeepFrames(bool keep);
 
-  static void clear(std::vector<uint8_t *>& v);
+  static void clear(std::vector<guint8 *>& v);
 
 signals:
   void frameCountChanged();
@@ -79,7 +80,6 @@ public slots:
   void stitch();
 
 private slots:
-  void inputDataAvailable(uint8_t *data, const QSize& size);
   void trackerFrameCountChanged();
   void stitchingDone();
 

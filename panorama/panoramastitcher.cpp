@@ -53,17 +53,18 @@ __error_exit (j_common_ptr cinfo) {
   longjmp(myerr->setjmp_buffer, 1);
 }
 
-PanoramaStitcher::PanoramaStitcher(std::vector<uint8_t *> *frames, const QSize& size,
+PanoramaStitcher::PanoramaStitcher(std::vector<guint8 *>& frames, const QSize& size,
 				   const QString& output,
 				   bool keepFrames, QObject *parent) :
   QThread(parent),
-  Stitcher(size.width(), size.height(), frames->size()),
+  Stitcher(size.width(), size.height(), frames.size()),
   m_output(output),
-  m_frames(frames),
   m_running(true),
   m_keepFrames(keepFrames),
   m_alignProgress(0),
   m_size(size) {
+
+  std::swap(m_frames, frames);
 
   m_timer.setInterval(PROGRESS_TIMER_INTERVAL);
   QObject::connect(&m_timer, SIGNAL(timeout()), this, SIGNAL(progressChanged()));
@@ -71,11 +72,7 @@ PanoramaStitcher::PanoramaStitcher(std::vector<uint8_t *> *frames, const QSize& 
 }
 
 PanoramaStitcher::~PanoramaStitcher() {
-  if (m_frames) {
-    Panorama::clear(*m_frames);
-    delete m_frames;
-    m_frames = 0;
-  }
+  Panorama::clear(m_frames);
 }
 
 void PanoramaStitcher::stop() {
@@ -86,19 +83,19 @@ void PanoramaStitcher::stop() {
 
 void PanoramaStitcher::run() {
   int w, h;
-  const unsigned char *im ;
+  const unsigned char *im;
 
   if (m_keepFrames) {
     dumpFrames();
   }
 
-  int size = m_frames->size();
+  int size = m_frames.size();
   for (int x = 0; x < size; x++) {
     if (!m_running) {
       goto out;
     }
     // TODO: error
-    addFrame(m_frames->at(x));
+    addFrame(m_frames[x]);
 
     m_progressLock.lock();
     m_alignProgress = (TIME_PERCENT_ALIGN/size) * x;
@@ -123,11 +120,7 @@ void PanoramaStitcher::run() {
   writeJpeg(im, QSize(w, h), m_output);
 
 out:
-  if (m_frames) {
-    Panorama::clear(*m_frames);
-    delete m_frames;
-    m_frames = 0;
-  }
+  Panorama::clear(m_frames);
   emit done();
 }
 
@@ -143,13 +136,13 @@ void PanoramaStitcher::dumpFrames() {
   // TODO: error
   dir.mkpath(".");
 
-  uint8_t rgb[m_size.width() * m_size.height() * 3];
+  guint8 rgb[m_size.width() * m_size.height() * 3];
 
-  uint8_t *y, *u, *v;
+  guint8 *y, *u, *v;
   int width = m_size.width(), height = m_size.height();
 
-  for (int x = 0; x < m_frames->size(); x++) {
-    uint8_t *data = m_frames->at(x);
+  for (int x = 0; x < m_frames.size(); x++) {
+    guint8 *data = m_frames[x];
 
     y = data;
     u = y + width * height;
@@ -163,12 +156,25 @@ void PanoramaStitcher::dumpFrames() {
 				  width, height);
     // TODO: error
 
+    // TODO: find a better way
+    // We need to convert the bgr we get from libyuv to rgb
+    int size = width * height * 3;
+    guint8 *s = rgb;
+    guint8 a, b;
+    for (int i = 0; i < size; i += 3) {
+      a = s[0];
+      b = s[2];
+      s[0] = b;
+      s[2] = a;
+      s += 3;
+    }
+
     QString file = QString("%1/%2.jpg").arg(d).arg(x);
     writeJpeg(rgb, QSize(width, height), file);
   }
 }
 
-bool PanoramaStitcher::writeJpeg(const uint8_t *data, const QSize& size, const QString& fileName) {
+bool PanoramaStitcher::writeJpeg(const guint8 *data, const QSize& size, const QString& fileName) {
   struct jpeg_compress_struct cinfo;
   struct __error_mgr jerr;
 
@@ -194,7 +200,7 @@ bool PanoramaStitcher::writeJpeg(const uint8_t *data, const QSize& size, const Q
   cinfo.image_width = size.width();
   cinfo.image_height = size.height();
   cinfo.input_components = 3;
-  cinfo.in_color_space   = JCS_RGB;
+  cinfo.in_color_space = JCS_RGB;
 
   jpeg_set_defaults(&cinfo);
   // TODO: configurable quality

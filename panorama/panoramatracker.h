@@ -25,26 +25,26 @@
 
 #include <QThread>
 #include <QMutex>
-#include <QWaitCondition>
-#include <stdint.h>
 #include <vector>
 #include "stitcher/tracker.h"
 #include <QSize>
+#include <glib.h>
+
+class PanoramaInput;
 
 class PanoramaTracker : public QThread, private Tracker {
   Q_OBJECT
 
 public:
-  PanoramaTracker(QObject *parent = 0);
+  PanoramaTracker(PanoramaInput *input, QObject *parent = 0);
   ~PanoramaTracker();
 
   int frameCount();
 
-  bool handleData(uint8_t *data, const QSize& size);
-
   void stop();
+  bool isRunning();
 
-  std::vector<uint8_t *> *releaseFrames();
+  void releaseFrames(std::vector<guint8 *>& frames);
 
   QSize size();
 
@@ -60,10 +60,9 @@ private:
   QSize m_inputSize;
   bool m_running;
   QMutex m_lock;
-  QWaitCondition m_cond;
-  std::vector<uint8_t *> m_input;
-  std::vector<uint8_t *> m_scaled;
-  std::vector<uint8_t *> *m_frames;
+  PanoramaInput *m_input;
+  std::vector<guint8 *> m_scaled;
+  std::vector<guint8 *> m_frames;
 };
 
 #endif /* PANORAMA_TRACKER_H */

@@ -74,19 +74,7 @@ PanoramaInput *Panorama::input() const {
 
 void Panorama::setInput(PanoramaInput *input) {
   if (m_input != input) {
-
-    if (m_input) {
-      QObject::disconnect(m_input, SIGNAL(dataAvailable(uint8_t *, const QSize&)),
-			  this, SLOT(inputDataAvailable(uint8_t *, const QSize&)));
-    }
-
     m_input = input;
-
-    if (m_input) {
-      QObject::connect(m_input, SIGNAL(dataAvailable(uint8_t *, const QSize&)),
-		       this, SLOT(inputDataAvailable(uint8_t *, const QSize&)), Qt::DirectConnection);
-    }
-
     emit inputChanged();
   }
 }
@@ -98,10 +86,10 @@ void Panorama::start(const QString& output) {
   }
 
   m_lock.lock();
+  m_input->start();
 
   m_output = output;
-
-  m_tracker = new PanoramaTracker;
+  m_tracker = new PanoramaTracker(m_input);
   QObject::connect(m_tracker, SIGNAL(frameCountChanged()), this, SLOT(trackerFrameCountChanged()));
   m_tracker->start();
   m_lock.unlock();
@@ -111,6 +99,9 @@ void Panorama::start(const QString& output) {
 
 void Panorama::stop() {
   m_lock.lock();
+
+  // This first to unlock tracker
+  m_input->stop();
 
   if (m_tracker) {
     m_tracker->stop();
@@ -144,9 +135,13 @@ void Panorama::stitch() {
     return;
   }
 
+  // This first to unlock tracker
+  m_input->stop();
+
   m_tracker->stop();
 
-  std::vector<uint8_t *> *frames = m_tracker->releaseFrames();
+  std::vector<guint8 *> frames;
+  m_tracker->releaseFrames(frames);
 
   m_stitcher = new PanoramaStitcher(frames, m_tracker->size(), m_output, m_keepFrames);
   QObject::connect(m_stitcher, SIGNAL(progressChanged()), this, SIGNAL(stitchingProgressChanged()));
@@ -161,24 +156,7 @@ void Panorama::stitch() {
   emit statusChanged();
 }
 
-void Panorama::inputDataAvailable(uint8_t *data, const QSize& size) {
-  QMutexLocker l(&m_lock);
-  if (!m_tracker) {
-    qDebug() << "not tracking";
-    goto out;
-  }
-
-  if (!m_tracker->handleData(data, size)) {
-    goto out;
-  }
-
-  return;
-
-out:
-  delete [] data;
-}
-
-void Panorama::clear(std::vector<uint8_t *>& v) {
+void Panorama::clear(std::vector<guint8 *>& v) {
   for (int x = 0; x < v.size(); x++) {
     delete [] v[x];
   }

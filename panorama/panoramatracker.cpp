@@ -21,34 +21,37 @@
 #include "panoramatracker.h"
 #include "panorama.h"
 #include "libyuv.h"
+#include "qtcamgstsample.h"
+#include "panoramainput.h"
 #include <QDebug>
+#include <QScopedPointer>
+#include <QScopedArrayPointer>
+#include <algorithm>
 
-PanoramaTracker::PanoramaTracker(QObject *parent) :
+PanoramaTracker::PanoramaTracker(PanoramaInput *input, QObject *parent) :
   QThread(parent),
   Tracker(MAX_TRACKER_FRAMES),
-  m_width(0),
-  m_height(0),
-  m_running(true) {
+  m_width(-1),
+  m_height(-1),
+  m_running(true),
+  m_input(input) {
 
-  m_input.reserve(5);
   m_scaled.reserve(MAX_TRACKER_FRAMES);
-  m_frames = new std::vector<uint8_t *>();
-  m_frames->reserve(MAX_TRACKER_FRAMES);
+  m_frames.reserve(MAX_TRACKER_FRAMES);
 }
 
 PanoramaTracker::~PanoramaTracker() {
   m_lock.lock();
 
-  Panorama::clear(m_input);
   Panorama::clear(m_scaled);
-
-  if (m_frames) {
-    Panorama::clear(*m_frames);
-    delete m_frames;
-    m_frames = 0;
-  }
+  Panorama::clear(m_frames);
 
   m_lock.unlock();
+}
+
+bool PanoramaTracker::isRunning() {
+  QMutexLocker l(&m_lock);
+  return m_running;
 }
 
 int PanoramaTracker::frameCount() {
@@ -56,72 +59,68 @@ int PanoramaTracker::frameCount() {
   return m_scaled.size();
 }
 
-bool PanoramaTracker::handleData(uint8_t *data, const QSize& size) {
-  if (!m_lock.tryLock()) {
-    return false;
-  }
-
-  if (!Tracker::isInitialized()) {
-    int m_width = size.width() > 720 ? size.width() / 8 : size.width() / 4;
-    int m_height = size.width() > 720 ? size.height() / 8 : size.height() / 4;
-    m_inputSize = size;
-
-    // TODO: error
-    Tracker::initialize(m_width, m_height);
-  }
-
-  if (m_frames->size() >= MAX_TRACKER_FRAMES) {
-    m_lock.unlock();
-    return false;
-  }
-
-  m_input.push_back(data);
-  m_cond.wakeAll();
-
-  m_lock.unlock();
-
-  return true;
-}
-
 void PanoramaTracker::stop() {
   m_lock.lock();
   m_running = false;
-  m_cond.wakeAll();
   m_lock.unlock();
   wait();
 }
 
 void PanoramaTracker::run() {
-  m_lock.lock();
+  while (isRunning() && m_scaled.size() <= MAX_TRACKER_FRAMES) {
+    QScopedPointer<QtCamGstSample> sample(m_input->sample());
 
-  while (m_running && m_scaled.size() <= MAX_TRACKER_FRAMES) {
-    if (m_input.size() == 0) {
-      m_cond.wait(&m_lock);
+    if (!sample) {
+      continue;
     }
 
-    if (!m_running) {
+    if (!Tracker::isInitialized()) {
+      QSize size = QSize(sample->width(), sample->height());
+      int m_width = size.width() > 720 ? size.width() / 8 : size.width() / 4;
+      int m_height = size.width() > 720 ? size.height() / 8 : size.height() / 4;
+      m_inputSize = size;
+
+      // TODO: error
+      Tracker::initialize(m_width, m_height);
+    }
+
+    // Now we can process the sample:
+    const guint8 *src = sample->data();
+
+    QScopedArrayPointer<guint8>
+      dst(new guint8[m_inputSize.width() * m_inputSize.height() * 3 / 2]);
+    enum libyuv::FourCC fmt;
+
+    switch (sample->format()) {
+    case GST_VIDEO_FORMAT_UYVY:
+      fmt = libyuv::FOURCC_UYVY;
       break;
+    default:
+      qCritical() << "Unsupported color format";
+      continue;
+      // TODO: error
     }
 
-    if (!m_frames) {
-      break;
-    }
-
-    uint8_t *input = m_input[m_input.size() - 1];
-    m_input.pop_back();
-
-    Panorama::clear(m_input);
-
-    uint8_t *scaled = new uint8_t[m_width * m_height * 3 / 2];
-
-    uint8_t *y = input,
+    guint8 *y = dst.data(),
       *u = y + m_inputSize.width() * m_inputSize.height(),
       *v = u + m_inputSize.width()/2 * m_inputSize.height()/2;
 
-    uint8_t *ys = scaled,
+    // TODO: error
+    ConvertToI420(src, sample->size(),
+		  y, m_inputSize.width(),
+		  u, m_inputSize.width() / 2,
+		  v, m_inputSize.width() / 2,
+		  0, 0,
+		  m_inputSize.width(), m_inputSize.height(),
+		  m_inputSize.width(), m_inputSize.height(),
+		  libyuv::kRotate0, fmt);
+
+    QScopedArrayPointer<guint8> scaled(new guint8[m_width * m_height * 3 / 2]);
+    guint8 *ys = scaled.data(),
       *us = ys + m_width * m_height,
       *vs = us + m_width/2 * m_height/2;
 
+    // Now scale:
     // No need for error checking because the function always returns 0
     libyuv::I420Scale(y, m_inputSize.width(),
 		      u, m_inputSize.width()/2,
@@ -133,29 +132,20 @@ void PanoramaTracker::run() {
 		      m_width, m_height,
 		      libyuv::kFilterBilinear);
 
-    // TODO:
-    int err = addFrame(scaled);
+    // TODO: error
+    int err = addFrame(scaled.data());
 
     if (err >= 0) {
-      m_scaled.push_back(scaled);
-      m_frames->push_back(input);
+      m_scaled.push_back(scaled.take());
+      m_frames.push_back(dst.take());
       emit frameCountChanged();
-    } else {
-      delete [] scaled;
-      delete [] input;
     }
   }
-
-  Panorama::clear(m_input);
-
-  m_lock.unlock();
 }
 
-std::vector<uint8_t *> *PanoramaTracker::releaseFrames() {
+void PanoramaTracker::releaseFrames(std::vector<guint8 *>& frames) {
   QMutexLocker l(&m_lock);
-  std::vector<uint8_t *> *frames = m_frames;
-  m_frames = 0;
-  return frames;
+  std::swap(m_frames, frames);
 }
 
 QSize PanoramaTracker::size() {

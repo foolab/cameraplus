@@ -30,12 +30,13 @@
 #include "stitcher/stitcher.h"
 #include <QTimer>
 #include <QSize>
+#include <glib.h>
 
 class PanoramaStitcher : public QThread, private Stitcher {
   Q_OBJECT
 
 public:
-  PanoramaStitcher(std::vector<uint8_t *> *frames, const QSize& size, const QString& output,
+  PanoramaStitcher(std::vector<guint8 *>& frames, const QSize& size, const QString& output,
 		   bool keepFrames, QObject *parent = 0);
   ~PanoramaStitcher();
 
@@ -52,10 +53,10 @@ signals:
 
 private:
   void dumpFrames();
-  bool writeJpeg(const uint8_t *data, const QSize& size, const QString& fileName);
+  bool writeJpeg(const guint8 *data, const QSize& size, const QString& fileName);
 
   QString m_output;
-  std::vector<uint8_t *> *m_frames;
+  std::vector<guint8 *> m_frames;
   bool m_running;
   bool m_keepFrames;
   QTimer m_timer;

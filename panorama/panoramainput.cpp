@@ -20,50 +20,77 @@
 
 #include "panoramainput.h"
 #include "qtcamgstsample.h"
-#include "libyuv.h"
-#include "panorama.h"
-#include <QSize>
 
 PanoramaInput::PanoramaInput(QObject *parent) :
-  QObject(parent) {
+  QObject(parent),
+  m_sample(0),
+  m_running(false) {
 
 }
 
 PanoramaInput::~PanoramaInput() {
+  stop();
+}
 
+void PanoramaInput::start() {
+  QMutexLocker l(&m_lock);
+
+  m_running = true;
+}
+
+void PanoramaInput::stop() {
+  QMutexLocker l(&m_lock);
+
+  if (m_sample) {
+    delete m_sample;
+    m_sample = 0;
+  }
+
+  m_running = false;
+
+  m_cond.wakeOne();
 }
 
 void PanoramaInput::handleSample(const QtCamGstSample *sample) {
-  QtCamGstSample *s = const_cast<QtCamGstSample *>(sample);
-  QSize sz(s->width(), s->height());
+  QMutexLocker l(&m_lock);
 
-  int size = s->size();
+  if (m_sample) {
+    delete m_sample;
+  }
 
-  // Harmattan memory needs to be copied.
-#ifdef HARMATTAN
-  guint8 src[size];
-  memcpy(src, s->data(), size);
-#else
-  const guint8 *src = s->data();
-#endif
-
-  if (!src) {
-    // TODO: error
+  if (!m_running) {
     return;
   }
 
-  guint8 *frame = new guint8[sz.width() * sz.height() * 3 / 2];
+  m_sample = new QtCamGstSample(*sample);
 
-  guint8 *y = frame,
-    *u = y + sz.width() * sz.height(),
-    *v = u + sz.width()/2 * sz.height()/2;
+  m_cond.wakeOne();
+}
 
-  // No need for error checking because the function always returns 0
-  libyuv::UYVYToI420(src, sz.width() * 2,
-		     y, sz.width(),
-		     u, sz.width()/2,
-		     v, sz.width()/2,
-		     sz.width(), sz.height());
+QtCamGstSample *PanoramaInput::sample() {
+  QMutexLocker l(&m_lock);
+  if (!m_running) {
+    return 0;
+  }
 
-  emit dataAvailable(frame, sz);
+  if (m_sample) {
+    QtCamGstSample *sample = m_sample;
+    m_sample = 0;
+    return sample;
+  }
+
+  m_cond.wait(&m_lock);
+
+  if (!m_running) {
+    return 0;
+  }
+
+  if (m_sample) {
+    // We must have a sample
+    QtCamGstSample *sample = m_sample;
+    m_sample = 0;
+    return sample;
+  }
+
+  return 0;
 }

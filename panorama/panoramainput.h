@@ -24,10 +24,10 @@
 #define PANORAMA_INPUT_H
 
 #include <QObject>
-#include <stdint.h>
+#include <QMutex>
+#include <QWaitCondition>
 
 class QtCamGstSample;
-class QSize;
 
 class PanoramaInput : public QObject {
   Q_OBJECT
@@ -36,11 +36,19 @@ public:
   PanoramaInput(QObject *parent = 0);
   ~PanoramaInput();
 
-signals:
-  void dataAvailable(uint8_t *data, const QSize& size);
+  QtCamGstSample *sample();
+
+  void start();
+  void stop();
 
 private slots:
   void handleSample(const QtCamGstSample *sample);
+
+private:
+  bool m_running;
+  QMutex m_lock;
+  QWaitCondition m_cond;
+  QtCamGstSample *m_sample;
 };
 
 #endif /* PANORAMA_INPUT_H */
