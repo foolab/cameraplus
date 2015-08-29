@@ -55,14 +55,15 @@ __error_exit (j_common_ptr cinfo) {
 
 PanoramaStitcher::PanoramaStitcher(std::vector<guint8 *>& frames, const QSize& size,
 				   const QString& output,
-				   bool keepFrames, QObject *parent) :
+				   bool keepFrames, int jpegQuality, QObject *parent) :
   QThread(parent),
   Stitcher(size.width(), size.height(), frames.size()),
   m_output(output),
   m_running(true),
   m_keepFrames(keepFrames),
   m_alignProgress(0),
-  m_size(size) {
+  m_size(size),
+  m_jpegQuality(jpegQuality) {
 
   std::swap(m_frames, frames);
 
@@ -216,8 +217,7 @@ bool PanoramaStitcher::writeJpeg(const guint8 *data, const QSize& size, const QS
   cinfo.in_color_space = JCS_RGB;
 
   jpeg_set_defaults(&cinfo);
-  // TODO: configurable quality
-  jpeg_set_quality (&cinfo, 100, TRUE);
+  jpeg_set_quality (&cinfo, m_jpegQuality, TRUE);
   jpeg_start_compress(&cinfo, TRUE);
 
   JSAMPROW row_pointer;

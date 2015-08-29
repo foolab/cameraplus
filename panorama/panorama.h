@@ -40,6 +40,7 @@ class Panorama : public QObject {
   Q_OBJECT
   Q_PROPERTY(int frameCount READ frameCount NOTIFY frameCountChanged);
   Q_PROPERTY(int stitchingProgress READ stitchingProgress NOTIFY stitchingProgressChanged);
+  Q_PROPERTY(int jpegQuality READ jpegQuality WRITE setJpegQuality NOTIFY jpegQualityChanged);
   Q_PROPERTY(Status status READ status NOTIFY statusChanged);
   Q_PROPERTY(PanoramaInput* input READ input WRITE setInput NOTIFY inputChanged);
   Q_PROPERTY(bool keepFrames READ keepFrames WRITE setKeepFrames NOTIFY keepFramesChanged);
@@ -77,6 +78,9 @@ public:
   bool keepFrames() const;
   void setKeepFrames(bool keep);
 
+  int jpegQuality() const;
+  void setJpegQuality(int quality);
+
   static void clear(std::vector<guint8 *>& v);
 
 signals:
@@ -86,6 +90,7 @@ signals:
   void inputChanged();
   void keepFramesChanged();
   void error(const Panorama::Error& errorCode);
+  void jpegQualityChanged();
 
 public slots:
   void start(const QString& output);
@@ -103,6 +108,7 @@ private:
   PanoramaStitcher *m_stitcher;
   QString m_output;
   bool m_keepFrames;
+  int m_jpegQuality;
 };
 
 #endif /* PANORAMA_H */
