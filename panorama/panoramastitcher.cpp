@@ -57,7 +57,7 @@ PanoramaStitcher::PanoramaStitcher(std::vector<guint8 *>& frames, const QSize& s
 				   const QString& output,
 				   bool keepFrames, int jpegQuality, QObject *parent) :
   QThread(parent),
-  Stitcher(size.width(), size.height(), frames.size()),
+  Stitcher(size.width(), size.height(), frames.size(), Stitcher::Wide),
   m_output(output),
   m_running(true),
   m_keepFrames(keepFrames),
