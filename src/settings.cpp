@@ -51,6 +51,7 @@
 #define DEFAULT_SEQUENTIAL_SHOTS_FOCUS           true
 #define DEFAULT_PANORAMA_KEEP_FRAMES             false
 #define DEFAULT_PANORAMA_USE_HIGH_RESOLUTION     false
+#define DEFAULT_PANORAMA_JPEG_QUALITY            100
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -338,5 +339,16 @@ void Settings::setPanoramaUseHighResolution(bool use) {
   if (panoramaUseHighResolution() != use) {
     m_settings->setValue("panorama/useHighResolution", use);
     emit panoramaUseHighResolutionChanged();
+  }
+}
+
+int Settings::panoramaJpegQuality() const {
+  return m_settings->value("panorama/jpegQuality", DEFAULT_PANORAMA_JPEG_QUALITY).toInt();
+}
+
+void Settings::setPanoramaJpegQuality(int quality) {
+  if (quality != panoramaJpegQuality()) {
+    m_settings->setValue("panorama/jpegQuality", quality);
+    emit panoramaJpegQualityChanged();
   }
 }

@@ -53,6 +53,7 @@ BaseOverlay {
         id: panorama
         input: panoramaInput
         keepFrames: settings.panoramaKeepFrames
+        jpegQuality: settings.panoramaJpegQuality
         onError: {
             console.log("Panorama error " + errorCode)
             switch (errorCode) {

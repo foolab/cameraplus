@@ -43,4 +43,24 @@ Column {
         checked: settings.panoramaUseHighResolution
         onCheckedChanged: settings.panoramaUseHighResolution = checked
     }
+
+    CameraLabel {
+        text: qsTr("Final JPEG quality")
+        horizontalAlignment: Text.AlignLeft
+    }
+
+    CameraSlider {
+        property bool _completed: false
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: (parent.width * 3) / 4
+        minimumValue: 1
+        maximumValue: 100
+        stepSize: 1
+        Component.onCompleted: { _completed = true; value = settings.panoramaJpegQuality }
+        onValueChanged: {
+            if (_completed) {
+                settings.panoramaJpegQuality = value
+            }
+        }
+    }
 }
