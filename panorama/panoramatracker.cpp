@@ -80,8 +80,8 @@ void PanoramaTracker::run() {
       int m_height = size.width() > 720 ? size.height() / 8 : size.height() / 4;
       m_inputSize = size;
 
-
-      if (!Tracker::initialize(m_width, m_height)) {
+      // TODO: This should be 5.0 but we fail to stitch sometimes if we set it to 5
+      if (!Tracker::initialize(m_width, m_height, 2.0f)) {
 	emit error(Panorama::ErrorTrackerInit);
 	return;
       }
