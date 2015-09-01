@@ -37,7 +37,7 @@ class PanoramaStitcher : public QThread, private Stitcher {
 
 public:
   PanoramaStitcher(std::vector<guint8 *>& frames, const QSize& size, const QString& output,
-		   bool keepFrames, int jpegQuality, QObject *parent = 0);
+		   bool keepFrames, QObject *parent = 0);
   ~PanoramaStitcher();
 
   void stop();
@@ -60,7 +60,6 @@ private:
   QTimer m_timer;
   int m_alignProgress;
   QSize m_size;
-  int m_jpegQuality;
   QMutex m_progressLock;
 };
 

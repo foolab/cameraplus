@@ -33,8 +33,7 @@ Panorama::Panorama(QObject *parent) :
   m_input(0),
   m_tracker(0),
   m_stitcher(0),
-  m_keepFrames(false),
-  m_jpegQuality(100) {
+  m_keepFrames(false) {
 
 }
 
@@ -146,8 +145,7 @@ void Panorama::stitch() {
   std::vector<guint8 *> frames;
   m_tracker->releaseFrames(frames);
 
-  m_stitcher = new PanoramaStitcher(frames, m_tracker->size(), m_output,
-				    m_keepFrames, m_jpegQuality);
+  m_stitcher = new PanoramaStitcher(frames, m_tracker->size(), m_output, m_keepFrames);
   QObject::connect(m_stitcher, SIGNAL(progressChanged()),
 		   this, SIGNAL(stitchingProgressChanged()));
   QObject::connect(m_stitcher, SIGNAL(error(const Panorama::Error&)),
@@ -202,17 +200,5 @@ void Panorama::setKeepFrames(bool keep) {
   if (m_keepFrames != keep) {
     m_keepFrames = keep;
     emit keepFramesChanged();
-  }
-}
-
-int Panorama::jpegQuality() const {
-  return m_jpegQuality;
-}
-
-void Panorama::setJpegQuality(int quality) {
-  if (m_jpegQuality != quality) {
-    m_jpegQuality = quality;
-
-    emit jpegQualityChanged();
   }
 }
