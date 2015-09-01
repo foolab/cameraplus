@@ -58,6 +58,7 @@ public:
   QString videoSuffix() const;
   void setVideoSuffix(const QString& suffix);
 
+  Q_INVOKABLE QString imageFileNameWithExtension(const QString& ext);
   Q_INVOKABLE QString imageFileName();
   Q_INVOKABLE QString videoFileName();
   Q_INVOKABLE QString temporaryVideoFileName();

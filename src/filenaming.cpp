@@ -64,6 +64,10 @@ void FileNaming::setVideoSuffix(const QString& suffix) {
   }
 }
 
+QString FileNaming::imageFileNameWithExtension(const QString& ext) {
+  return fileName(m_platformSettings->imagePath(), ext, Image);
+}
+
 QString FileNaming::imageFileName() {
   return fileName(m_platformSettings->imagePath(), m_imageSuffix, Image);
 }
