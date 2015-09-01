@@ -53,9 +53,6 @@ signals:
   void error(const Panorama::Error& errorCode);
 
 private:
-  void dumpFrames();
-  bool writeJpeg(const guint8 *data, const QSize& size, const QString& fileName);
-
   QString m_output;
   std::vector<guint8 *> m_frames;
   bool m_running;

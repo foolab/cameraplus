@@ -23,7 +23,7 @@
 #include <QTimer>
 #include <QImage>
 #include <QDir>
-#include <jpeglib.h>
+#include <tiffio.h>
 #include "libyuv.h"
 #include "mosaic/Blend.h"
 #include <cstdio>
@@ -36,22 +36,110 @@
 
 #define PROGRESS_TIMER_INTERVAL 500
 
-struct __error_mgr : public jpeg_error_mgr {
-  jmp_buf setjmp_buffer;
-} __error_mgr;
+class TiffWriter {
+public:
+  TiffWriter(int pages) : m_tif(0), m_page(0), m_pages(pages) {}
+  ~TiffWriter() {
+    close();
+  }
 
-static void
-__error_exit (j_common_ptr cinfo) {
-  struct __error_mgr *myerr = (struct __error_mgr *) cinfo->err;
+  bool open(const QString& file) {
+    if (m_tif) {
+      return false;
+    }
 
-  char buff[JMSG_LENGTH_MAX];
-  (*cinfo->err->format_message)(cinfo, buff);
+    m_tif = TIFFOpen(file.toLocal8Bit().constData(), "w");
+    return m_tif != 0;
+  }
 
-  qWarning() << buff;
+  void close() {
+    if (m_tif) {
+      TIFFClose(m_tif);
+      m_tif = 0;
+    }
+  }
 
-  /* jump */
-  longjmp(myerr->setjmp_buffer, 1);
-}
+  bool write(const guint8 *data, const QSize& size) {
+    TIFFSetField(m_tif, TIFFTAG_IMAGEWIDTH, size.width());
+    TIFFSetField(m_tif, TIFFTAG_IMAGELENGTH, size.height());
+    TIFFSetField(m_tif, TIFFTAG_BITSPERSAMPLE, 8);
+    TIFFSetField(m_tif, TIFFTAG_SAMPLESPERPIXEL, 3);
+    TIFFSetField(m_tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+    TIFFSetField(m_tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+
+    // TODO: orientation
+    TIFFSetField(m_tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
+    TIFFSetField(m_tif, TIFFTAG_SUBFILETYPE, FILETYPE_PAGE);
+    TIFFSetField(m_tif, TIFFTAG_PAGENUMBER, m_page++, m_pages);
+    TIFFSetField(m_tif, TIFFTAG_COMPRESSION, COMPRESSION_CCITTRLE);
+
+    for (int x = 0; x < size.height(); x++) {
+      if (TIFFWriteScanline(m_tif, (void *)&data[x * size.width() * 3], x, 0) != 1) {
+	qWarning() << "Failed to write scanline";
+	return false;
+      }
+
+    }
+
+    if (TIFFWriteDirectory(m_tif) != 1) {
+      qWarning() << "Failed to write directory";
+      return false;
+    }
+
+    return true;
+  }
+
+private:
+  TIFF *m_tif;
+  int m_page;
+  int m_pages;
+};
+
+class YUVToRGB {
+public:
+  YUVToRGB(const QSize& size) : m_size(size) {
+    m_rgb = new guint8[m_size.width() * m_size.height() * 3];
+  }
+
+  ~YUVToRGB() {
+    delete [] m_rgb;
+  }
+
+  guint8 *convert(guint8 *data) {
+    guint8 *y, *u, *v;
+
+    y = data;
+    u = y + m_size.width() * m_size.height();
+    v = u + m_size.width()/2 * m_size.height()/2;
+    if (libyuv::I420ToRGB24(y, m_size.width(),
+			    u, m_size.width()/2,
+			    v, m_size.width()/2,
+			    m_rgb, m_size.width() * 3,
+			    m_size.width(), m_size.height()) != 0) {
+      return 0;
+    }
+
+
+    // TODO: find a better way
+    // We need to convert the bgr we get from libyuv to rgb
+    int size = m_size.width() * m_size.height() * 3;
+    guint8 *s = m_rgb;
+    guint8 a, b;
+    for (int i = 0; i < size; i += 3) {
+      a = s[0];
+      b = s[2];
+      s[0] = b;
+      s[2] = a;
+      s += 3;
+    }
+
+    return m_rgb;
+  }
+
+private:
+  QSize m_size;
+  guint8 *m_rgb;
+};
 
 PanoramaStitcher::PanoramaStitcher(std::vector<guint8 *>& frames, const QSize& size,
 				   const QString& output,
@@ -83,12 +171,11 @@ void PanoramaStitcher::stop() {
 }
 
 void PanoramaStitcher::run() {
+  TiffWriter tif(m_keepFrames ? m_frames.size() + 1 : 1);
+  YUVToRGB conv(m_size);
+
   int w, h;
   const unsigned char *im;
-
-  if (m_keepFrames) {
-    dumpFrames();
-  }
 
   int size = m_frames.size();
   for (int x = 0; x < size; x++) {
@@ -122,9 +209,37 @@ void PanoramaStitcher::run() {
 
   im = image(w, h);
 
-  if (!writeJpeg(im, QSize(w, h), m_output)) {
+  if (!tif.open(m_output)) {
     emit error(Panorama::ErrorSave);
+    goto out;
   }
+
+  if (!tif.write(im, QSize(w, h))) {
+    emit error(Panorama::ErrorSave);
+    goto out;
+  }
+
+  if (m_keepFrames) {
+    for (int x = 0; x < m_frames.size(); x++) {
+
+      // YUV to RGB conversion
+      guint8 *data = conv.convert(m_frames[x]);
+
+      if (!data) {
+	emit error(Panorama::ErrorIntermediatesConvert);
+	tif.close();
+	goto out;
+      }
+
+      if (!tif.write(data, m_size)) {
+	emit error(Panorama::ErrorIntermediatesSave);
+	tif.close();
+	goto out;
+      }
+    }
+  }
+
+  tif.close();
 
 out:
   Panorama::clear(m_frames);
@@ -134,104 +249,4 @@ out:
 int PanoramaStitcher::progress() {
   QMutexLocker l(&m_progressLock);
   return m_alignProgress + Stitcher::progress();
-}
-
-void PanoramaStitcher::dumpFrames() {
-  QString d = QString("%1.frames").arg(m_output);
-  QDir dir(d);
-
-  if (!dir.mkpath(".")) {
-    emit error(Panorama::ErrorIntermediatesDirectory);
-    return;
-  }
-
-  guint8 rgb[m_size.width() * m_size.height() * 3];
-
-  guint8 *y, *u, *v;
-  int width = m_size.width(), height = m_size.height();
-
-  for (int x = 0; x < m_frames.size(); x++) {
-    guint8 *data = m_frames[x];
-
-    y = data;
-    u = y + width * height;
-    v = u + width/2 * height/2;
-
-    // Convert to RGB:
-    if (libyuv::I420ToRGB24(y, width,
-			    u, width/2,
-			    v, width/2,
-			    rgb, width * 3,
-			    width, height) != 0) {
-      emit error(Panorama::ErrorIntermediatesConvert);
-      continue;
-    }
-
-    // TODO: find a better way
-    // We need to convert the bgr we get from libyuv to rgb
-    int size = width * height * 3;
-    guint8 *s = rgb;
-    guint8 a, b;
-    for (int i = 0; i < size; i += 3) {
-      a = s[0];
-      b = s[2];
-      s[0] = b;
-      s[2] = a;
-      s += 3;
-    }
-
-    QString file = QString("%1/%2.jpg").arg(d).arg(x);
-    if (!writeJpeg(rgb, QSize(width, height), file)) {
-      emit error(Panorama::ErrorIntermediatesSave);
-      continue;
-    }
-  }
-}
-
-bool PanoramaStitcher::writeJpeg(const guint8 *data, const QSize& size, const QString& fileName) {
-  struct jpeg_compress_struct cinfo;
-  struct __error_mgr jerr;
-
-  FILE *outFile = fopen(fileName.toLocal8Bit().constData(), "wb");
-  if (!outFile) {
-    qmlInfo(this) << "Failed to open " << fileName;
-    return false;
-  }
-
-  cinfo.err = jpeg_std_error((jpeg_error_mgr *)&jerr);
-  jerr.error_exit = __error_exit;
-
-  if (setjmp(jerr.setjmp_buffer)) {
-    fclose(outFile);
-    jpeg_destroy_compress(&cinfo);
-    unlink(fileName.toLocal8Bit().constData());
-    return false;
-  }
-
-  jpeg_create_compress(&cinfo);
-  jpeg_stdio_dest(&cinfo, outFile);
-
-  cinfo.image_width = size.width();
-  cinfo.image_height = size.height();
-  cinfo.input_components = 3;
-  cinfo.in_color_space = JCS_RGB;
-
-  jpeg_set_defaults(&cinfo);
-  jpeg_set_quality (&cinfo, m_jpegQuality, TRUE);
-  jpeg_start_compress(&cinfo, TRUE);
-
-  JSAMPROW row_pointer;
-
-  while (cinfo.next_scanline < cinfo.image_height) {
-    row_pointer = (JSAMPROW) &data[cinfo.next_scanline*3*size.width()];
-    jpeg_write_scanlines(&cinfo, &row_pointer, 1);
-  }
-
-  jpeg_finish_compress(&cinfo);
-
-  fclose(outFile);
-
-  jpeg_destroy_compress(&cinfo);
-
-  return true;
 }

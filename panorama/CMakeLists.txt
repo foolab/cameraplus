@@ -16,15 +16,15 @@ set(HEADER_FILES
 
 qt_wrap_cpp(MOC_FILES ${HEADER_FILES})
 
-find_package(JPEG REQUIRED)
+find_package(TIFF REQUIRED)
 
 link_directories(${LIBYUV_LIB_DIR} ${PANORAMA_STITCHER_LIB_DIR})
-add_library(cameraplus-panorama MODULE ${SOURCE_FILES} ${MOC_FILES} ${JPEG_LIBRARIES})
-target_link_libraries(cameraplus-panorama qtcamera yuv panorama-stitcher)
+add_library(cameraplus-panorama MODULE ${SOURCE_FILES} ${MOC_FILES})
+target_link_libraries(cameraplus-panorama qtcamera yuv panorama-stitcher ${TIFF_LIBRARIES})
 include_directories(../lib/
   ${LIBYUV_INCLUDE_DIR}
   ${PANORAMA_STITCHER_INCLUDE_DIR}
-  ${JPEG_INCLUDE_DIR}
+  ${TIFF_INCLUDE_DIR}
   )
 
 configure_gst(cameraplus-panorama)

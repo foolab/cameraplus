@@ -163,7 +163,7 @@ BaseOverlay {
             showError(qsTr("Failed to lock images directory."))
             stopCapture()
         } else {
-            var fileName = fileNaming.imageFileName()
+            var fileName = fileNaming.imageFileNameWithExtension("tif")
             panorama.start(fileName)
         }
     }
