@@ -118,9 +118,7 @@ Flickable {
         }
 
         CameraTextSwitch {
-            // TODO: transition when hiding/showing and we should scroll a bit to show it
-            visible: useGps.checked
-
+            enabled: useGps.checked
             text: qsTr("Use geotags")
             checked: settings.useGeotags
             onCheckedChanged: settings.useGeotags = checked
