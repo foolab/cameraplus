@@ -317,6 +317,7 @@ CameraPage {
         videoSuffix: viewfinder.camera.cameraConfig.videoSuffix
         settings: settings
         platformSettings: platformSettings
+        fileNamingInUtc: settings.fileNamingInUtc
     }
 
     MountProtector {

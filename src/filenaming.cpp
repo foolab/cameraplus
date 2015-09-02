@@ -34,7 +34,8 @@ FileNaming::FileNaming(QObject *parent) :
   QObject(parent),
   m_settings(0),
   m_platformSettings(0),
-  m_index(0) {
+  m_index(0),
+  m_fileNamingInUtc(true) {
 
 }
 
@@ -94,7 +95,9 @@ QString FileNaming::fileName(const QString& path, const QString& suffix, const T
     return QString();
   }
 
-  QString date = QDateTime::currentDateTime().toUTC().date().toString("yyyyMMdd");
+  QString date = m_fileNamingInUtc ?
+    QDateTime::currentDateTime().toUTC().date().toString("yyyyMMdd") :
+    QDateTime::currentDateTime().date().toString("yyyyMMdd");
   QDir dir(path);
 
   // index is the last used index
@@ -178,5 +181,16 @@ void FileNaming::componentComplete() {
   }
   else {
     m_index = new MultiFileIndex(m_settings);
+  }
+}
+
+bool FileNaming::isFileNamingInUtc() const {
+  return m_fileNamingInUtc;
+}
+
+void FileNaming::setFileNamingInUtc(bool inUtc) {
+  if (m_fileNamingInUtc != inUtc) {
+    m_fileNamingInUtc = inUtc;
+    emit fileNamingInUtcChanged();
   }
 }

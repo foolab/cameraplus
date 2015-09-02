@@ -54,6 +54,7 @@ class Settings : public QObject {
   Q_PROPERTY(bool focusBeforeSequentialShots READ isFocusBeforeSequentialShotsEnabled WRITE setFocusBeforeSequentialShotsEnabled NOTIFY focusBeforeSequentialShotsChanged);
   Q_PROPERTY(bool panoramaKeepFrames READ panoramaKeepFrames WRITE setPanoramaKeepFrames NOTIFY panoramaKeepFramesChanged);
   Q_PROPERTY(bool panoramaUseHighResolution READ panoramaUseHighResolution WRITE setPanoramaUseHighResolution NOTIFY panoramaUseHighResolutionChanged);
+  Q_PROPERTY(bool fileNamingInUtc READ isFileNamingInUtc WRITE setFileNamingInUtc NOTIFY fileNamingInUtcChanged);
 
 public:
   Settings(QObject *parent = 0);
@@ -134,6 +135,9 @@ public:
   bool panoramaUseHighResolution() const;
   void setPanoramaUseHighResolution(bool use);
 
+  bool isFileNamingInUtc() const;
+  void setFileNamingInUtc(bool inUtc);
+
 signals:
   void modeChanged();
   void creatorNameChanged();
@@ -157,6 +161,7 @@ signals:
   void focusBeforeSequentialShotsChanged();
   void panoramaKeepFramesChanged();
   void panoramaUseHighResolutionChanged();
+  void fileNamingInUtcChanged();
 
 private:
   QSettings *m_settings;

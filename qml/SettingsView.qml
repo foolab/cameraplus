@@ -124,5 +124,15 @@ Flickable {
             onCheckedChanged: settings.useGeotags = checked
         }
 
+        SectionHeader {
+            text: qsTr("Advanced")
+        }
+
+        CameraTextSwitch {
+            text: qsTr("Use UTC for file naming timestamp")
+            checked: settings.fileNamingInUtc
+            onCheckedChanged: settings.fileNamingInUtc = checked
+        }
+
     }
 }

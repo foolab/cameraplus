@@ -47,6 +47,7 @@ class FileNaming : public QObject, public QQmlParserStatus {
   Q_PROPERTY(QString videoSuffix READ videoSuffix WRITE setVideoSuffix NOTIFY videoSuffixChanged);
   Q_PROPERTY(Settings *settings READ settings WRITE setSettings NOTIFY settingsChanged);
   Q_PROPERTY(PlatformSettings *platformSettings READ platformSettings WRITE setPlatformSettings NOTIFY platformSettingsChanged);
+  Q_PROPERTY(bool fileNamingInUtc READ isFileNamingInUtc WRITE setFileNamingInUtc NOTIFY fileNamingInUtcChanged);
 
 public:
   FileNaming(QObject *parent = 0);
@@ -72,11 +73,15 @@ public:
   virtual void classBegin();
   virtual void componentComplete();
 
+  bool isFileNamingInUtc() const;
+  void setFileNamingInUtc(bool inUtc);
+
 signals:
   void imageSuffixChanged();
   void videoSuffixChanged();
   void settingsChanged();
   void platformSettingsChanged();
+  void fileNamingInUtcChanged();
 
 private:
   typedef enum {
@@ -93,6 +98,7 @@ private:
   Settings *m_settings;
   PlatformSettings *m_platformSettings;
   FileIndex *m_index;
+  bool m_fileNamingInUtc;
 };
 
 #endif /* FILE_NAMING_H */

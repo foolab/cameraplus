@@ -51,6 +51,7 @@
 #define DEFAULT_SEQUENTIAL_SHOTS_FOCUS           true
 #define DEFAULT_PANORAMA_KEEP_FRAMES             false
 #define DEFAULT_PANORAMA_USE_HIGH_RESOLUTION     false
+#define DEFAULT_FILE_NAMING_IN_UTC               true
 
 Settings::Settings(QObject *parent) :
   QObject(parent),
@@ -338,5 +339,17 @@ void Settings::setPanoramaUseHighResolution(bool use) {
   if (panoramaUseHighResolution() != use) {
     m_settings->setValue("panorama/useHighResolution", use);
     emit panoramaUseHighResolutionChanged();
+  }
+}
+
+bool Settings::isFileNamingInUtc() const {
+  return m_settings->value("fileNaming/inUtc", DEFAULT_FILE_NAMING_IN_UTC).toBool();
+}
+
+void Settings::setFileNamingInUtc(bool inUtc) {
+  if (isFileNamingInUtc() != inUtc) {
+    m_settings->setValue("fileNaming/inUtc", inUtc);
+
+    emit fileNamingInUtcChanged();
   }
 }
