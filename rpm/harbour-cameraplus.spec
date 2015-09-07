@@ -40,6 +40,7 @@ BuildRequires:  libjpeg-devel
 BuildRequires:  pkgconfig(quillmetadata-qt5)
 BuildRequires:  pkgconfig(quillimagefilter-qt5)
 BuildRequires:  pkgconfig(libexif)
+BuildRequires:  pkgconfig(libtiff-4)
 Requires:       qt5-qtdeclarative-import-positioning
 Requires:       qt5-qtdeclarative-import-sensors
 
