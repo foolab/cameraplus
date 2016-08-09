@@ -160,7 +160,7 @@
     <message>
         <location filename="qml/ImageIsoButton.qml" line="37"/>
         <source>ISO</source>
-        <translation type="unfinished">ISO</translation>
+        <translation>ISO</translation>
     </message>
 </context>
 <context>
@@ -712,17 +712,17 @@
     <message>
         <location filename="qml/SettingsView.qml" line="107"/>
         <source>Left handed mode (requires restart)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tryb dla leworęcznych (wymaga restartu)</translation>
     </message>
     <message>
         <location filename="qml/SettingsView.qml" line="114"/>
         <source>Use GPS</source>
-        <translation type="unfinished"></translation>
+        <translation>Używaj GPS</translation>
     </message>
     <message>
         <location filename="qml/SettingsView.qml" line="122"/>
         <source>Use geotags</source>
-        <translation type="unfinished"></translation>
+        <translation>Używaj geotagów</translation>
     </message>
     <message>
         <location filename="qml/SettingsView.qml" line="128"/>
@@ -794,7 +794,7 @@
     <message>
         <location filename="qml/VideoModeSettings.qml" line="32"/>
         <source>Video settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia video</translation>
     </message>
 </context>
 <context>
@@ -843,7 +843,7 @@
     <message>
         <location filename="qml/VideoOverlay.qml" line="276"/>
         <source>Not enough space to record video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zbyt mało miejsca, aby nagrywać.</translation>
     </message>
 </context>
 <context>
