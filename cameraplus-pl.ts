@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="pl_PL">
 <context>
     <name>CameraShareHelper</name>
     <message>
         <location filename="qml/sailfish/CameraShareHelper.qml" line="56"/>
         <source>Share %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Udostępnij %1</translation>
     </message>
 </context>
 <context>
@@ -14,7 +14,7 @@
     <message>
         <location filename="qml/CameraView.qml" line="95"/>
         <source>Camera error. Please restart the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd aparatu. Zrestartuj aplikację.</translation>
     </message>
 </context>
 <context>
@@ -22,7 +22,7 @@
     <message>
         <location filename="qml/CaptureCancel.qml" line="53"/>
         <source>Tap anywhere to cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Dotknij gdziekolwiek, aby anulować</translation>
     </message>
 </context>
 <context>
@@ -40,12 +40,12 @@
     <message>
         <location filename="qml/harmattan/DeletePopup.qml" line="77"/>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Tak</translation>
     </message>
     <message>
         <location filename="qml/harmattan/DeletePopup.qml" line="85"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie</translation>
     </message>
 </context>
 <context>
@@ -101,7 +101,7 @@
     <message>
         <location filename="qml/FlashButton.qml" line="31"/>
         <source>Red eye</source>
-        <translation type="unfinished"></translation>
+        <translation>Redukcja czerwonych oczu</translation>
     </message>
     <message>
         <location filename="qml/FlashButton.qml" line="36"/>
@@ -160,7 +160,7 @@
     <message>
         <location filename="qml/ImageIsoButton.qml" line="37"/>
         <source>ISO</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ISO</translation>
     </message>
 </context>
 <context>
@@ -168,7 +168,7 @@
     <message>
         <location filename="qml/ImageModeIndicators.qml" line="45"/>
         <source>%1M</source>
-        <translation type="unfinished"></translation>
+        <translation>%1M</translation>
     </message>
 </context>
 <context>
@@ -176,12 +176,12 @@
     <message>
         <location filename="qml/ImageModeSettings.qml" line="32"/>
         <source>Image settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia zdjęć</translation>
     </message>
     <message>
         <location filename="qml/ImageModeSettings.qml" line="40"/>
         <source>Enable face detection</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz rozpoznawanie twarzy</translation>
     </message>
 </context>
 <context>
@@ -204,7 +204,7 @@
     <message>
         <location filename="qml/ImageOverlay.qml" line="100"/>
         <source>Not enough space to capture images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Za mało dostępnego miejsca, aby robić zdjęcia.</translation>
     </message>
     <message>
         <location filename="qml/ImageOverlay.qml" line="103"/>
@@ -227,12 +227,12 @@
     <message>
         <location filename="qml/ImageResolutionSettings.qml" line="64"/>
         <source>Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdzielczość</translation>
     </message>
     <message>
         <location filename="qml/ImageResolutionSettings.qml" line="81"/>
         <source>%1 MP</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 MP</translation>
     </message>
 </context>
 <context>
@@ -255,17 +255,17 @@
     <message>
         <location filename="qml/ImageSceneButton.qml" line="31"/>
         <source>Portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>Portret</translation>
     </message>
     <message>
         <location filename="qml/ImageSceneButton.qml" line="32"/>
         <source>Night</source>
-        <translation type="unfinished"></translation>
+        <translation>Tryb nocny</translation>
     </message>
     <message>
         <location filename="qml/ImageSceneButton.qml" line="33"/>
         <source>Sport</source>
-        <translation type="unfinished"></translation>
+        <translation>Sport</translation>
     </message>
     <message>
         <location filename="qml/ImageSceneButton.qml" line="38"/>
@@ -278,7 +278,7 @@
     <message>
         <location filename="qml/ImageSequentialOverlay.qml" line="73"/>
         <source>Remaining shots: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozostało ujęć: %1</translation>
     </message>
     <message>
         <location filename="qml/ImageSequentialOverlay.qml" line="136"/>
@@ -356,7 +356,7 @@
     <message>
         <location filename="qml/ImageSequentialShotsSettings.qml" line="73"/>
         <source>Enable face detection</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz rozpoznawanie twarzy</translation>
     </message>
 </context>
 <context>
@@ -667,7 +667,7 @@
     <message>
         <location filename="qml/SettingsView.qml" line="52"/>
         <source>Camera settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia aparatu</translation>
     </message>
     <message>
         <location filename="qml/SettingsView.qml" line="57"/>
@@ -702,7 +702,7 @@
     <message>
         <location filename="qml/SettingsView.qml" line="95"/>
         <source>Preview images and videos after capturing</source>
-        <translation type="unfinished"></translation>
+        <translation>Podgląd zdjęć i filmów po wykonaniu</translation>
     </message>
     <message>
         <location filename="qml/SettingsView.qml" line="101"/>
@@ -727,7 +727,7 @@
     <message>
         <location filename="qml/SettingsView.qml" line="128"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaawansowane</translation>
     </message>
     <message>
         <location filename="qml/SettingsView.qml" line="132"/>
@@ -859,12 +859,12 @@
     <message>
         <location filename="qml/VideoResolutionSettings.qml" line="32"/>
         <source>Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdzielczość</translation>
     </message>
     <message>
         <location filename="qml/VideoResolutionSettings.qml" line="47"/>
         <source>%1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1</translation>
     </message>
 </context>
 <context>
