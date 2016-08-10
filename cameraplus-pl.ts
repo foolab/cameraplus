@@ -30,12 +30,12 @@
     <message>
         <location filename="qml/sailfish/DeletePopup.qml" line="45"/>
         <source>Deleting %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuwanie %1</translation>
     </message>
     <message>
         <location filename="qml/harmattan/DeletePopup.qml" line="66"/>
         <source>Delete item?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy na pewno usunąć?</translation>
     </message>
     <message>
         <location filename="qml/harmattan/DeletePopup.qml" line="77"/>
@@ -106,7 +106,7 @@
     <message>
         <location filename="qml/FlashButton.qml" line="36"/>
         <source>Flash</source>
-        <translation type="unfinished"></translation>
+        <translation>Lampa błyskowa</translation>
     </message>
 </context>
 <context>
@@ -114,37 +114,37 @@
     <message>
         <location filename="qml/ImageColorFilterButton.qml" line="28"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normalny</translation>
     </message>
     <message>
         <location filename="qml/ImageColorFilterButton.qml" line="29"/>
         <source>Gray scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Skala szarości</translation>
     </message>
     <message>
         <location filename="qml/ImageColorFilterButton.qml" line="30"/>
         <source>Sepia</source>
-        <translation type="unfinished"></translation>
+        <translation>Sepia</translation>
     </message>
     <message>
         <location filename="qml/ImageColorFilterButton.qml" line="31"/>
         <source>Vivid</source>
-        <translation type="unfinished"></translation>
+        <translation>Żywy</translation>
     </message>
     <message>
         <location filename="qml/ImageColorFilterButton.qml" line="32"/>
         <source>Negative</source>
-        <translation type="unfinished"></translation>
+        <translation>Negatyw</translation>
     </message>
     <message>
         <location filename="qml/ImageColorFilterButton.qml" line="33"/>
         <source>Solarize</source>
-        <translation type="unfinished"></translation>
+        <translation>Solaryzacja</translation>
     </message>
     <message>
         <location filename="qml/ImageColorFilterButton.qml" line="38"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtr</translation>
     </message>
 </context>
 <context>
@@ -152,7 +152,7 @@
     <message>
         <location filename="qml/ImageEvCompButton.qml" line="29"/>
         <source>EV</source>
-        <translation type="unfinished"></translation>
+        <translation>EV</translation>
     </message>
 </context>
 <context>
@@ -240,17 +240,17 @@
     <message>
         <location filename="qml/ImageSceneButton.qml" line="28"/>
         <source>Automatic</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatyczny</translation>
     </message>
     <message>
         <location filename="qml/ImageSceneButton.qml" line="29"/>
         <source>Macro</source>
-        <translation type="unfinished"></translation>
+        <translation>Makro</translation>
     </message>
     <message>
         <location filename="qml/ImageSceneButton.qml" line="30"/>
         <source>Landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>Krajobraz</translation>
     </message>
     <message>
         <location filename="qml/ImageSceneButton.qml" line="31"/>
@@ -260,7 +260,7 @@
     <message>
         <location filename="qml/ImageSceneButton.qml" line="32"/>
         <source>Night</source>
-        <translation>Tryb nocny</translation>
+        <translation>Noc</translation>
     </message>
     <message>
         <location filename="qml/ImageSceneButton.qml" line="33"/>
@@ -270,7 +270,7 @@
     <message>
         <location filename="qml/ImageSceneButton.qml" line="38"/>
         <source>Scene</source>
-        <translation type="unfinished"></translation>
+        <translation>Tryb</translation>
     </message>
 </context>
 <context>
@@ -283,17 +283,17 @@
     <message>
         <location filename="qml/ImageSequentialOverlay.qml" line="136"/>
         <source>%1x</source>
-        <translation type="unfinished"></translation>
+        <translation>%1x</translation>
     </message>
     <message>
         <location filename="qml/ImageSequentialOverlay.qml" line="150"/>
         <source>Capture %1 shots</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonaj %1 ujęć</translation>
     </message>
     <message>
         <location filename="qml/ImageSequentialOverlay.qml" line="157"/>
         <source>%1s</source>
-        <translation type="unfinished"></translation>
+        <translation>%1s</translation>
     </message>
     <message>
         <location filename="qml/ImageSequentialOverlay.qml" line="171"/>
@@ -407,32 +407,32 @@
     <message>
         <location filename="qml/ImageWhiteBalanceButton.qml" line="28"/>
         <source>Automatic</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatyczny</translation>
     </message>
     <message>
         <location filename="qml/ImageWhiteBalanceButton.qml" line="29"/>
         <source>Sunny</source>
-        <translation type="unfinished"></translation>
+        <translation>Słońce</translation>
     </message>
     <message>
         <location filename="qml/ImageWhiteBalanceButton.qml" line="30"/>
         <source>Cloudy</source>
-        <translation type="unfinished"></translation>
+        <translation>Zachmurzenie</translation>
     </message>
     <message>
         <location filename="qml/ImageWhiteBalanceButton.qml" line="31"/>
         <source>Flourescent</source>
-        <translation type="unfinished"></translation>
+        <translation>Fluorescencja</translation>
     </message>
     <message>
         <location filename="qml/ImageWhiteBalanceButton.qml" line="32"/>
         <source>Tungsten</source>
-        <translation type="unfinished"></translation>
+        <translation>Światło sztuczne</translation>
     </message>
     <message>
         <location filename="qml/ImageWhiteBalanceButton.qml" line="37"/>
         <source>WB</source>
-        <translation type="unfinished"></translation>
+        <translation>Balans bieli</translation>
     </message>
 </context>
 <context>
@@ -440,18 +440,18 @@
     <message>
         <location filename="qml/MainPage.qml" line="200"/>
         <source>Failed to load required camera plugin. Please reinstall!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się załadować wymaganej wtyczki aparatu. Zainstaluj aplikację ponownie!</translation>
     </message>
     <message>
         <location filename="qml/MainPage.qml" line="221"/>
         <source>Failed to initialize camera. Please restart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się zainicjalizować aparatu. Zrestartuj aplikację.</translation>
     </message>
     <message>
         <location filename="qml/MainPage.qml" line="340"/>
         <location filename="qml/MainPage.qml" line="351"/>
         <source>Failed to set required resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się ustawić żądanej rozdzielczości</translation>
     </message>
 </context>
 <context>
@@ -522,7 +522,7 @@
     <message>
         <location filename="qml/PanoramaSettings.qml" line="32"/>
         <source>Panorama settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia panoramy</translation>
     </message>
     <message>
         <location filename="qml/PanoramaSettings.qml" line="36"/>
@@ -532,12 +532,12 @@
     <message>
         <location filename="qml/PanoramaSettings.qml" line="42"/>
         <source>Higher resolution (Slower)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyższa rozdzielczość (wolniej)</translation>
     </message>
     <message>
         <location filename="qml/PanoramaSettings.qml" line="48"/>
         <source>Final JPEG quality</source>
-        <translation type="unfinished"></translation>
+        <translation>Końcowa jakość JPEG</translation>
     </message>
 </context>
 <context>
@@ -553,17 +553,17 @@
     <message>
         <location filename="qml/PostCaptureView.qml" line="170"/>
         <source>Error playing video. Please try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd odtwarzania filmu. Spróbuj ponownie.</translation>
     </message>
     <message>
         <location filename="qml/PostCaptureView.qml" line="210"/>
         <source>Failed to launch share service</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się uruchomić usługi udostępniania</translation>
     </message>
     <message>
         <location filename="qml/PostCaptureView.qml" line="257"/>
         <source>Failed to launch gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się uruchomić galerii</translation>
     </message>
 </context>
 <context>
@@ -672,17 +672,17 @@
     <message>
         <location filename="qml/SettingsView.qml" line="57"/>
         <source>Show grid lines</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż linie siatki</translation>
     </message>
     <message>
         <location filename="qml/SettingsView.qml" line="64"/>
         <source>Creator name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa autora</translation>
     </message>
     <message>
         <location filename="qml/SettingsView.qml" line="68"/>
         <source>Name or copyright</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa lub prawa autorskie</translation>
     </message>
     <message>
         <location filename="qml/SettingsView.qml" line="75"/>
@@ -692,12 +692,12 @@
     <message>
         <location filename="qml/SettingsView.qml" line="81"/>
         <source>Use proximity sensor for capture</source>
-        <translation type="unfinished"></translation>
+        <translation>Czujnik zbliżeniowy jako spust migawki</translation>
     </message>
     <message>
         <location filename="qml/SettingsView.qml" line="88"/>
         <source>Enable camera sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz dźwięki</translation>
     </message>
     <message>
         <location filename="qml/SettingsView.qml" line="95"/>
@@ -707,7 +707,7 @@
     <message>
         <location filename="qml/SettingsView.qml" line="101"/>
         <source>Enable night mode (Viewfinder dimming)</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz tryb nocny (przyciemnianie wizjera)</translation>
     </message>
     <message>
         <location filename="qml/SettingsView.qml" line="107"/>
@@ -732,7 +732,7 @@
     <message>
         <location filename="qml/SettingsView.qml" line="132"/>
         <source>Use UTC for file naming timestamp</source>
-        <translation type="unfinished"></translation>
+        <translation>Używaj UTC w nazwach plików</translation>
     </message>
 </context>
 <context>
@@ -748,37 +748,37 @@
     <message>
         <location filename="qml/VideoColorFilterButton.qml" line="28"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normalny</translation>
     </message>
     <message>
         <location filename="qml/VideoColorFilterButton.qml" line="29"/>
         <source>Gray scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Skala szarości</translation>
     </message>
     <message>
         <location filename="qml/VideoColorFilterButton.qml" line="30"/>
         <source>Sepia</source>
-        <translation type="unfinished"></translation>
+        <translation>Sepia</translation>
     </message>
     <message>
         <location filename="qml/VideoColorFilterButton.qml" line="31"/>
         <source>Vivid</source>
-        <translation type="unfinished"></translation>
+        <translation>Żywy</translation>
     </message>
     <message>
         <location filename="qml/VideoColorFilterButton.qml" line="32"/>
         <source>Negative</source>
-        <translation type="unfinished"></translation>
+        <translation>Negatyw</translation>
     </message>
     <message>
         <location filename="qml/VideoColorFilterButton.qml" line="33"/>
         <source>Solarize</source>
-        <translation type="unfinished"></translation>
+        <translation>Solaryzacja</translation>
     </message>
     <message>
         <location filename="qml/VideoColorFilterButton.qml" line="38"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtr</translation>
     </message>
 </context>
 <context>
@@ -786,7 +786,7 @@
     <message>
         <location filename="qml/VideoEvCompButton.qml" line="29"/>
         <source>EV</source>
-        <translation type="unfinished"></translation>
+        <translation>EV</translation>
     </message>
 </context>
 <context>
@@ -872,17 +872,17 @@
     <message>
         <location filename="qml/VideoSceneButton.qml" line="28"/>
         <source>Automatic</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatyczny</translation>
     </message>
     <message>
         <location filename="qml/VideoSceneButton.qml" line="29"/>
         <source>Night</source>
-        <translation type="unfinished"></translation>
+        <translation>Noc</translation>
     </message>
     <message>
         <location filename="qml/VideoSceneButton.qml" line="34"/>
         <source>Scene</source>
-        <translation type="unfinished"></translation>
+        <translation>Tryb</translation>
     </message>
 </context>
 <context>
@@ -890,32 +890,32 @@
     <message>
         <location filename="qml/VideoWhiteBalanceButton.qml" line="28"/>
         <source>Automatic</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatyczny</translation>
     </message>
     <message>
         <location filename="qml/VideoWhiteBalanceButton.qml" line="29"/>
         <source>Sunny</source>
-        <translation type="unfinished"></translation>
+        <translation>Słońce</translation>
     </message>
     <message>
         <location filename="qml/VideoWhiteBalanceButton.qml" line="30"/>
         <source>Cloudy</source>
-        <translation type="unfinished"></translation>
+        <translation>Zachmurzenie</translation>
     </message>
     <message>
         <location filename="qml/VideoWhiteBalanceButton.qml" line="31"/>
         <source>Flourescent</source>
-        <translation type="unfinished"></translation>
+        <translation>Fluorescencja</translation>
     </message>
     <message>
         <location filename="qml/VideoWhiteBalanceButton.qml" line="32"/>
         <source>Tungsten</source>
-        <translation type="unfinished"></translation>
+        <translation>Światło sztuczne</translation>
     </message>
     <message>
         <location filename="qml/VideoWhiteBalanceButton.qml" line="37"/>
         <source>WB</source>
-        <translation type="unfinished"></translation>
+        <translation>Balans bieli</translation>
     </message>
 </context>
 </TS>
