@@ -130,7 +130,7 @@ BaseOverlay {
         valueIndicatorVisible: true
         valueIndicatorText: formatValue(value)
         function formatValue(value) {
-            return qsTr("Caoture after %1 seconds").arg(value)
+            return qsTr("Capture after %1 seconds").arg(value)
         }
     }
 

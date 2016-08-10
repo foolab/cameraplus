@@ -373,7 +373,8 @@
     </message>
     <message>
         <location filename="qml/ImageTimerOverlay.qml" line="133"/>
-        <source>Caoture after %1 seconds</source>
+        <source>Capture after %1 seconds</source>
+        <oldsource>Caoture after %1 seconds</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
