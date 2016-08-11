@@ -687,7 +687,8 @@
     </message>
     <message>
         <location filename="qml/SettingsView.qml" line="75"/>
-        <source>Use zoom keys for capture</source>
+        <source>Use volume keys for capture</source>
+        <oldsource>Use zoom keys for capture</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
