@@ -72,7 +72,7 @@ Flickable {
         }
 
         CameraTextSwitch {
-            text: qsTr("Use zoom keys for capture")
+            text: qsTr("Use volume keys for capture")
             checked: settings.zoomAsShutter
             onCheckedChanged: settings.zoomAsShutter = checked
         }
