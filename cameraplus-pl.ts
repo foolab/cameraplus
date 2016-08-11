@@ -53,32 +53,32 @@
     <message>
         <location filename="qml/FastCaptureOverlay.qml" line="133"/>
         <source>Camera is already capturing an image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aparat jest w trakcie wykonywania zdjęcia.</translation>
     </message>
     <message>
         <location filename="qml/FastCaptureOverlay.qml" line="135"/>
         <source>Not enough battery to capture images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Za mało baterii, aby wykonywać zdjęcia.</translation>
     </message>
     <message>
         <location filename="qml/FastCaptureOverlay.qml" line="137"/>
         <source>Camera cannot capture images in mass storage mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można wykonywać zdjęć w trybie pamięci masowej.</translation>
     </message>
     <message>
         <location filename="qml/FastCaptureOverlay.qml" line="139"/>
         <source>Not enough space to capture images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Niewystarczająco miejsca, aby wykonywać zdjęcia.</translation>
     </message>
     <message>
         <location filename="qml/FastCaptureOverlay.qml" line="141"/>
         <source>Failed to lock images directory.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się zablokować katalogu ze zdjęciami.</translation>
     </message>
     <message>
         <location filename="qml/FastCaptureOverlay.qml" line="147"/>
         <source>Failed to capture image. Please restart the camera.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się wykonać zdjęcia. Zrestartuj aplikację.</translation>
     </message>
 </context>
 <context>
@@ -86,17 +86,17 @@
     <message>
         <location filename="qml/FlashButton.qml" line="28"/>
         <source>Automatic</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatycznie</translation>
     </message>
     <message>
         <location filename="qml/FlashButton.qml" line="29"/>
         <source>Always on</source>
-        <translation type="unfinished"></translation>
+        <translation>Zawsze włączona</translation>
     </message>
     <message>
         <location filename="qml/FlashButton.qml" line="30"/>
         <source>Always off</source>
-        <translation type="unfinished"></translation>
+        <translation>Zawsze wyłączona</translation>
     </message>
     <message>
         <location filename="qml/FlashButton.qml" line="31"/>
@@ -189,17 +189,17 @@
     <message>
         <location filename="qml/ImageOverlay.qml" line="91"/>
         <source>Camera is already capturing an image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aparat jest w trakcie wykonywania zdjęcia.</translation>
     </message>
     <message>
         <location filename="qml/ImageOverlay.qml" line="94"/>
         <source>Not enough battery to capture images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Za mało baterii, aby wykonywać zdjęcia.</translation>
     </message>
     <message>
         <location filename="qml/ImageOverlay.qml" line="97"/>
         <source>Camera cannot capture images in mass storage mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można wykonywać zdjęć w trybie pamięci masowej.</translation>
     </message>
     <message>
         <location filename="qml/ImageOverlay.qml" line="100"/>
@@ -209,12 +209,12 @@
     <message>
         <location filename="qml/ImageOverlay.qml" line="103"/>
         <source>Failed to lock images directory.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się zablokować katalogu ze zdjęciami.</translation>
     </message>
     <message>
         <location filename="qml/ImageOverlay.qml" line="110"/>
         <source>Failed to capture image. Please restart the camera.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się wykonać zdjęcia. Zrestartuj aplikację.</translation>
     </message>
 </context>
 <context>
@@ -222,7 +222,7 @@
     <message>
         <location filename="qml/ImageResolutionSettings.qml" line="38"/>
         <source>Aspect ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>Format obrazu</translation>
     </message>
     <message>
         <location filename="qml/ImageResolutionSettings.qml" line="64"/>
@@ -298,37 +298,37 @@
     <message>
         <location filename="qml/ImageSequentialOverlay.qml" line="171"/>
         <source>%1 seconds interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Ujęcie co %1 sekund</translation>
     </message>
     <message>
         <location filename="qml/ImageSequentialOverlay.qml" line="239"/>
         <source>Failed to capture image. Please restart the camera.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się wykonać zdjęcia. Zrestartuj aplikację.</translation>
     </message>
     <message>
         <location filename="qml/ImageSequentialOverlay.qml" line="262"/>
         <source>Camera is already capturing an image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aparat jest w trakcie wykonywania zdjęcia.</translation>
     </message>
     <message>
         <location filename="qml/ImageSequentialOverlay.qml" line="265"/>
         <source>Not enough battery to capture images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Za mało baterii, aby wykonywać zdjęcia.</translation>
     </message>
     <message>
         <location filename="qml/ImageSequentialOverlay.qml" line="268"/>
         <source>Camera cannot capture images in mass storage mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można wykonywać zdjęć w trybie pamięci masowej.</translation>
     </message>
     <message>
         <location filename="qml/ImageSequentialOverlay.qml" line="271"/>
         <source>Not enough space to capture images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Niewystarczająco miejsca, aby wykonywać zdjęcia.</translation>
     </message>
     <message>
         <location filename="qml/ImageSequentialOverlay.qml" line="274"/>
         <source>Failed to lock images directory.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się zablokować katalogu ze zdjęciami.</translation>
     </message>
 </context>
 <context>
@@ -336,22 +336,22 @@
     <message>
         <location filename="qml/ImageSequentialShotsSettings.qml" line="32"/>
         <source>Sequential shots settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia sekwencji zdjęć</translation>
     </message>
     <message>
         <location filename="qml/ImageSequentialShotsSettings.qml" line="43"/>
         <source>Delay before capturing the first image (0 for no delay): %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas do wykonania pierwszego zdjęcia: %1</translation>
     </message>
     <message>
         <location filename="qml/ImageSequentialShotsSettings.qml" line="61"/>
         <source>%1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sekund</translation>
     </message>
     <message>
         <location filename="qml/ImageSequentialShotsSettings.qml" line="67"/>
         <source>Try to focus before capturing images</source>
-        <translation type="unfinished"></translation>
+        <translation>Spróbuj złapać ostrość zanim zrobisz zdjęcie</translation>
     </message>
     <message>
         <location filename="qml/ImageSequentialShotsSettings.qml" line="73"/>
@@ -364,43 +364,43 @@
     <message>
         <location filename="qml/ImageTimerOverlay.qml" line="97"/>
         <source>Failed to capture image. Please restart the camera.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się wykonać zdjęcia. Zrestartuj aplikację.</translation>
     </message>
     <message>
         <location filename="qml/ImageTimerOverlay.qml" line="118"/>
         <source>%1s</source>
-        <translation type="unfinished"></translation>
+        <translation>%1s</translation>
     </message>
     <message>
         <location filename="qml/ImageTimerOverlay.qml" line="133"/>
         <source>Capture after %1 seconds</source>
         <oldsource>Caoture after %1 seconds</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Wykonaj zdjęcie po %1 sekundach</translation>
     </message>
     <message>
         <location filename="qml/ImageTimerOverlay.qml" line="184"/>
         <source>Camera is already capturing an image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aparat jest w trakcie wykonywania zdjęcia.</translation>
     </message>
     <message>
         <location filename="qml/ImageTimerOverlay.qml" line="187"/>
         <source>Not enough battery to capture images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Za mało baterii, aby wykonywać zdjęcia.</translation>
     </message>
     <message>
         <location filename="qml/ImageTimerOverlay.qml" line="190"/>
         <source>Camera cannot capture images in mass storage mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można wykonywać zdjęć w trybie pamięci masowej.</translation>
     </message>
     <message>
         <location filename="qml/ImageTimerOverlay.qml" line="193"/>
         <source>Not enough space to capture images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Niewystarczająco miejsca, aby wykonywać zdjęcia.</translation>
     </message>
     <message>
         <location filename="qml/ImageTimerOverlay.qml" line="196"/>
         <source>Failed to lock images directory.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się zablokować katalogu ze zdjęciami.</translation>
     </message>
 </context>
 <context>
@@ -460,62 +460,62 @@
     <message>
         <location filename="qml/PanoramaOverlay.qml" line="60"/>
         <source>Failed to initialize panorama tracker</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się zainicjalizować śledzenia panoramy</translation>
     </message>
     <message>
         <location filename="qml/PanoramaOverlay.qml" line="63"/>
         <source>Unknown camera color format</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieznany format koloru aparatu</translation>
     </message>
     <message>
         <location filename="qml/PanoramaOverlay.qml" line="66"/>
         <source>Failed to analyze camera frame</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się przeanalizować ujęcia</translation>
     </message>
     <message>
         <location filename="qml/PanoramaOverlay.qml" line="72"/>
         <source>Failed to save intermediate frames</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się zapisać ujęc pośrednich</translation>
     </message>
     <message>
         <location filename="qml/PanoramaOverlay.qml" line="75"/>
         <source>Failed to generate the panorama image</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się wygenerować obrazu panoramicznego</translation>
     </message>
     <message>
         <location filename="qml/PanoramaOverlay.qml" line="78"/>
         <source>Failed to save panorama image</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się zapisać panoramy</translation>
     </message>
     <message>
         <location filename="qml/PanoramaOverlay.qml" line="81"/>
         <source>Unknown error from panorama generate</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieznany błąd podczas generowania panoramy</translation>
     </message>
     <message>
         <location filename="qml/PanoramaOverlay.qml" line="153"/>
         <source>Not enough battery to capture images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Za mało baterii, aby wykonywać zdjęcia.</translation>
     </message>
     <message>
         <location filename="qml/PanoramaOverlay.qml" line="156"/>
         <source>Camera cannot capture images in mass storage mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można wykonywać zdjęć w trybie pamięci masowej.</translation>
     </message>
     <message>
         <location filename="qml/PanoramaOverlay.qml" line="159"/>
         <source>Not enough space to capture images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Niewystarczająco miejsca, aby wykonywać zdjęcia.</translation>
     </message>
     <message>
         <location filename="qml/PanoramaOverlay.qml" line="162"/>
         <source>Failed to lock images directory.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się zablokować katalogu ze zdjęciami.</translation>
     </message>
     <message>
         <location filename="qml/PanoramaOverlay.qml" line="207"/>
         <source>Failed to set resolution.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się ustawić żądanej rozdzielczości.</translation>
     </message>
 </context>
 <context>
@@ -528,7 +528,7 @@
     <message>
         <location filename="qml/PanoramaSettings.qml" line="36"/>
         <source>Keep intermediate frames</source>
-        <translation type="unfinished"></translation>
+        <translation>Zachowuj ujęcia pośrednie</translation>
     </message>
     <message>
         <location filename="qml/PanoramaSettings.qml" line="42"/>
@@ -546,7 +546,7 @@
     <message>
         <location filename="qml/PipelineManager.qml" line="75"/>
         <source>Failed to start camera. Please restart the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się uruchomić aparatu. Zrestartuj aplikację.</translation>
     </message>
 </context>
 <context>
@@ -572,12 +572,12 @@
     <message>
         <location filename="qml/PostCaptureViewImage.qml" line="153"/>
         <source>Failed to delete item</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuwanie zakończone niepowodzeniem</translation>
     </message>
     <message>
         <location filename="qml/PostCaptureViewImage.qml" line="221"/>
         <source>Failed to load preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się wczytać podglądu</translation>
     </message>
 </context>
 <context>
@@ -585,82 +585,82 @@
     <message>
         <location filename="declarative/plugin.cpp" line="95"/>
         <source>Cannot create separate instance of Zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się utworzyć oddzielnej instancji obiektu klasy Zoom</translation>
     </message>
     <message>
         <location filename="declarative/plugin.cpp" line="96"/>
         <source>Cannot create separate instance of Flash</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się utworzyć oddzielnej instancji obiektu klasy Flash</translation>
     </message>
     <message>
         <location filename="declarative/plugin.cpp" line="97"/>
         <source>Cannot create separate instance of Scene</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się utworzyć oddzielnej instancji obiektu klasy Scene</translation>
     </message>
     <message>
         <location filename="declarative/plugin.cpp" line="98"/>
         <source>Cannot create separate instance of EvComp</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się utworzyć oddzielnej instancji obiektu klasy EvComp</translation>
     </message>
     <message>
         <location filename="declarative/plugin.cpp" line="99"/>
         <source>Cannot create separate instance of WhiteBalance</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się utworzyć oddzielnej instancji obiektu klasy WhiteBalance</translation>
     </message>
     <message>
         <location filename="declarative/plugin.cpp" line="100"/>
         <source>Cannot create separate instance of ColorTone</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się utworzyć oddzielnej instancji obiektu klasy ColorTone</translation>
     </message>
     <message>
         <location filename="declarative/plugin.cpp" line="101"/>
         <source>Cannot create separate instance of Exposure</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się utworzyć oddzielnej instancji obiektu klasy Exposure</translation>
     </message>
     <message>
         <location filename="declarative/plugin.cpp" line="102"/>
         <source>Cannot create separate instance of Aperture</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się utworzyć oddzielnej instancji obiektu klasy Aperture</translation>
     </message>
     <message>
         <location filename="declarative/plugin.cpp" line="103"/>
         <source>Cannot create separate instance of Iso</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się utworzyć oddzielnej instancji obiektu klasy Iso</translation>
     </message>
     <message>
         <location filename="declarative/plugin.cpp" line="104"/>
         <source>Cannot create separate instance of NoiseReduction</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się utworzyć oddzielnej instancji obiektu klasy NoiseReduction</translation>
     </message>
     <message>
         <location filename="declarative/plugin.cpp" line="105"/>
         <source>Cannot create separate instance of FlickerReduction</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się utworzyć oddzielnej instancji obiektu klasy FlickerReduction</translation>
     </message>
     <message>
         <location filename="declarative/plugin.cpp" line="106"/>
         <source>Cannot create separate instance of Focus</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się utworzyć oddzielnej instancji obiektu klasy Focus</translation>
     </message>
     <message>
         <location filename="declarative/plugin.cpp" line="107"/>
         <source>Cannot create separate instance of AutoFocus</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się utworzyć oddzielnej instancji obiektu klasy AutoFocus</translation>
     </message>
     <message>
         <location filename="declarative/plugin.cpp" line="108"/>
         <source>Cannot create separate instance of Roi</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się utworzyć oddzielnej instancji obiektu klasy Roi</translation>
     </message>
     <message>
         <location filename="declarative/plugin.cpp" line="110"/>
         <source>Cannot create separate instance of VideoMute</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się utworzyć oddzielnej instancji obiektu klasy VideoMute</translation>
     </message>
     <message>
         <location filename="declarative/plugin.cpp" line="111"/>
         <source>Cannot create separate instance of VideoTorch</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się utworzyć oddzielnej instancji obiektu klasy VideoTorch</translation>
     </message>
 </context>
 <context>
@@ -741,7 +741,7 @@
     <message>
         <location filename="qml/Standby.qml" line="47"/>
         <source>Resources lost</source>
-        <translation type="unfinished"></translation>
+        <translation>Utracono zasób</translation>
     </message>
 </context>
 <context>
@@ -803,43 +803,43 @@
     <message>
         <location filename="qml/VideoOverlay.qml" line="215"/>
         <source>Maximum recording time reached.</source>
-        <translation type="unfinished"></translation>
+        <translation>Osiągnięto maksymalną długość nagrania.</translation>
     </message>
     <message>
         <location filename="qml/VideoOverlay.qml" line="218"/>
         <source>Not enough space to continue recording.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zbyt mało miejsca, aby kontynuować nagrywanie.</translation>
     </message>
     <message>
         <location filename="qml/VideoOverlay.qml" line="235"/>
         <source>Failed to acquire needed resources.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się uzyskać dostępu do potrzebnych zasobów.</translation>
     </message>
     <message>
         <location filename="qml/VideoOverlay.qml" line="243"/>
         <source>Failed to lock temporary videos directory.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się zablokować tymczasowego katalogu na filmy.</translation>
     </message>
     <message>
         <location filename="qml/VideoOverlay.qml" line="249"/>
         <source>Failed to lock videos directory.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się zablokować katalogu z filmami.</translation>
     </message>
     <message>
         <location filename="qml/VideoOverlay.qml" line="259"/>
         <source>Failed to record video. Please restart the camera.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się nagrać filmu. Zrestartuj aplikację.</translation>
     </message>
     <message>
         <location filename="qml/VideoOverlay.qml" line="272"/>
         <source>Camera cannot record videos in mass storage mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można nagrywać filmów w trybie pamięci masowej.</translation>
     </message>
     <message>
         <location filename="qml/VideoOverlay.qml" line="274"/>
         <location filename="qml/VideoOverlay.qml" line="318"/>
         <source>Not enough battery to record video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zbyt mało miejsca, aby nagrywać.</translation>
     </message>
     <message>
         <location filename="qml/VideoOverlay.qml" line="276"/>
@@ -852,7 +852,7 @@
     <message>
         <location filename="qml/VideoPlayerPage.qml" line="104"/>
         <source>Error playing video. Please try again or restart the application</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd przy wyświetlaniu filmu. Spróbuj ponownie lub zrestartuj aplikację</translation>
     </message>
 </context>
 <context>
