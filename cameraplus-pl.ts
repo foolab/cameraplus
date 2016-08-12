@@ -689,7 +689,7 @@
         <location filename="qml/SettingsView.qml" line="75"/>
         <source>Use volume keys for capture</source>
         <oldsource>Use zoom keys for capture</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Klawisze głośności jako spust migawki</translation>
     </message>
     <message>
         <location filename="qml/SettingsView.qml" line="81"/>
