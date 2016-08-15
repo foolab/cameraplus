@@ -41,6 +41,7 @@ BuildRequires:  pkgconfig(quillmetadata-qt5)
 BuildRequires:  pkgconfig(quillimagefilter-qt5)
 BuildRequires:  pkgconfig(libexif)
 BuildRequires:  pkgconfig(libtiff-4)
+BuildRequires:  qt5-qttools-linguist
 Requires:       qt5-qtdeclarative-import-positioning
 Requires:       qt5-qtdeclarative-import-sensors
 
