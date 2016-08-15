@@ -32,6 +32,10 @@ if (DATA_DIR)
   add_definitions(-DDATA_DIR="${DATA_DIR}")
 endif()
 
+if (TRANSLATIONS_DIR)
+  add_definitions(-DTRANSLATIONS_DIR="${TRANSLATIONS_DIR}")
+endif()
+
 find_package(PkgConfig)
 
 if (PLATFORM STREQUAL "sailfish")
