@@ -81,6 +81,7 @@ set(PANORAMA_STITCHER_INCLUDE_DIR ${source_dir})
 ExternalProject_Get_Property(libpanorama-stitcher install_dir)
 set(PANORAMA_STITCHER_LIB_DIR ${install_dir}/lib)
 
+add_subdirectory(translations)
 add_subdirectory(lib)
 add_subdirectory(declarative)
 add_subdirectory(src)

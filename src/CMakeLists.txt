@@ -78,6 +78,7 @@ add_executable(cameraplus
   ${SOURCE_FILES} ${MOC_FILES}
   ${EXTRA_SOURCE_FILES}
   ${qrc_extra} ${qrc_qml} ${qrc_icons}
+  ${QM}
   )
 
 add_dependencies(cameraplus qtcamera)
