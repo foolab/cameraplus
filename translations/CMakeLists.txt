@@ -3,7 +3,7 @@ MACRO(QT_CREATE_TRANSLATIONS)
     cameraplus-pl.ts
     )
 
-  set(DIRS ../src ../declarative ../lib ../panorama)
+  set(DIRS ../src ../declarative ../lib ../panorama ../qml)
 
   if (QT4)
     QT4_CREATE_TRANSLATION(QM ${DIRS} ${TRANS})
