@@ -31,6 +31,8 @@
 #include <QQmlError>
 #endif
 
+#include <QTranslator>
+
 #include "settings.h"
 #include "filenaming.h"
 #include "quillitem.h"
@@ -102,6 +104,10 @@ public:
 static _XInitThreads __XInitThreads;
 #endif
 
+#ifndef TRANSLATIONS_DIR
+#define TRANSLATIONS_DIR "/usr/share/cameraplus/translations/"
+#endif /* TRANSLATIONS_DIR */
+
 Q_DECL_EXPORT int main(int argc, char *argv[]) {
 #ifdef SAILFISH
   setenv("LD_LIBRARY_PATH", "/usr/share/harbour-cameraplus/lib/", 1);
@@ -121,6 +127,11 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
 
   QQuickView *view = MDeclarativeCache::qQuickView();
 #endif
+
+  QTranslator translator;
+  if (translator.load(QString("cameraplus-%1").arg(QLocale().name()), TRANSLATIONS_DIR)) {
+    app->installTranslator(&translator);
+  }
 
 #if defined(QT4)
   view->setBackgroundBrush(QBrush(Qt::black));
