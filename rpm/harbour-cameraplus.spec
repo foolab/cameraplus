@@ -61,7 +61,7 @@ Requires:  harbour-cameraplus = %{version}-%{release}
 %setup -q
 
 %build
-cmake  -DPLATFORM=sailfish -DDATA_DIR=/usr/share/harbour-cameraplus/share/qtcamera/config/ -DCMAKE_INSTALL_PREFIX=/usr/share/harbour-cameraplus/
+cmake  -DPLATFORM=sailfish -DDATA_DIR=/usr/share/harbour-cameraplus/share/qtcamera/config/ -DCMAKE_INSTALL_PREFIX=/usr/share/harbour-cameraplus/ -DTRANSLATIONS_DIR=/usr/share/harbour-cameraplus/share/translations/
 
 make %{?jobs:-j%jobs} VERBOSE=1
 
