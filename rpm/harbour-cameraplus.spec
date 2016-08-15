@@ -120,6 +120,8 @@ cp modes/image.ini modes/image-timer.ini modes/image-sequential.ini modes/video.
 # dependencies
 cp -a deps/usr/lib/lib*.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 
+mv $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/cameraplus/translations/ $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/share/translations/
+
 %files
 %defattr(-,root,root,-)
 %{_bindir}/harbour-cameraplus
@@ -132,6 +134,7 @@ cp -a deps/usr/lib/lib*.so.* $RPM_BUILD_ROOT/usr/share/harbour-cameraplus/lib/
 %{_datadir}/harbour-cameraplus/lib/qt5/qml/CameraPlus/Panorama/*
 %{_datadir}/applications/harbour-cameraplus.desktop
 %{_datadir}/icons/hicolor/86x86/apps/harbour-cameraplus.png
+%{_datadir}/harbour-cameraplus/share/translations/*.qm
 # dependencies
 %{_datadir}/harbour-cameraplus/lib/*
 
