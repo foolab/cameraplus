@@ -50,3 +50,10 @@ add_custom_target(ts-template
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 add_dependencies(ts-files ts-template)
+
+# A target to extract plural formats:
+add_custom_target(plurals
+  ALL
+  COMMAND ${LUPDATE} ${SRC_DIRS} -pluralonly -ts ${CMAKE_SOURCE_DIR}/translations/plurals.ts
+  COMMAND ${LRELEASE} translations/plurals.ts -qm ${CMAKE_BINARY_DIR}/translations/plurals.qm
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
