@@ -286,9 +286,8 @@
         <translation>%1x</translation>
     </message>
     <message>
-        <location filename="../qml/ImageSequentialOverlay.qml" line="150"/>
         <source>Capture %1 shots</source>
-        <translation>Wykonaj %1 ujęć</translation>
+        <translation type="obsolete">Wykonaj %1 ujęć</translation>
     </message>
     <message>
         <location filename="../qml/ImageSequentialOverlay.qml" line="157"/>
@@ -296,9 +295,28 @@
         <translation>%1s</translation>
     </message>
     <message>
-        <location filename="../qml/ImageSequentialOverlay.qml" line="171"/>
         <source>%1 seconds interval</source>
-        <translation>Ujęcie co %1 sekund</translation>
+        <translation type="obsolete">Ujęcie co %1 sekund</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../qml/ImageSequentialOverlay.qml" line="150"/>
+        <source>Capture %n shots</source>
+        <comment>0</comment>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../qml/ImageSequentialOverlay.qml" line="171"/>
+        <source>%n seconds interval</source>
+        <comment>0</comment>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../qml/ImageSequentialOverlay.qml" line="239"/>
@@ -343,10 +361,19 @@
         <source>Delay before capturing the first image (0 for no delay): %1</source>
         <translation>Czas do wykonania pierwszego zdjęcia: %1</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <location filename="../qml/ImageSequentialShotsSettings.qml" line="61"/>
+        <source>%n seconds</source>
+        <comment>0</comment>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
         <source>%1 seconds</source>
-        <translation>%1 sekund</translation>
+        <translation type="obsolete">%1 sekund</translation>
     </message>
     <message>
         <location filename="../qml/ImageSequentialShotsSettings.qml" line="67"/>
@@ -372,10 +399,19 @@
         <translation>%1s</translation>
     </message>
     <message>
-        <location filename="../qml/ImageTimerOverlay.qml" line="133"/>
         <source>Capture after %1 seconds</source>
         <oldsource>Caoture after %1 seconds</oldsource>
-        <translation>Wykonaj zdjęcie po %1 sekundach</translation>
+        <translation type="obsolete">Wykonaj zdjęcie po %1 sekundach</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../qml/ImageTimerOverlay.qml" line="133"/>
+        <source>Capture after %n seconds</source>
+        <comment>0</comment>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../qml/ImageTimerOverlay.qml" line="184"/>

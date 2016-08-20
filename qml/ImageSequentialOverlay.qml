@@ -147,7 +147,7 @@ BaseOverlay {
             valueIndicatorVisible: true
             valueIndicatorText: formatValue(value)
             function formatValue(value) {
-                return qsTr("Capture %1 shots").arg(value)
+                return qsTr("Capture %n shots", "0", value)
             }
         }
 
@@ -168,7 +168,7 @@ BaseOverlay {
             valueIndicatorVisible: true
             valueIndicatorText: formatValue(value)
             function formatValue(value) {
-                return qsTr("%1 seconds interval").arg(value)
+                return qsTr("%n seconds interval", "0", value)
             }
         }
     }

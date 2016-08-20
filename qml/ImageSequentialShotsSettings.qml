@@ -58,7 +58,7 @@ Column {
 
             valueIndicatorText: formatValue(value)
             function formatValue(value) {
-                return qsTr("%1 seconds").arg(value)
+                return qsTr("%n seconds", "0", value)
             }
         }
     }
