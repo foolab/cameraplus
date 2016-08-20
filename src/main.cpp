@@ -128,6 +128,11 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   QQuickView *view = MDeclarativeCache::qQuickView();
 #endif
 
+  QTranslator plurals;
+  if (plurals.load("plurals.qm", TRANSLATIONS_DIR)) {
+    app->installTranslator(&plurals);
+  }
+
   QTranslator translator;
   if (translator.load(QString("cameraplus-%1").arg(QLocale().name()), TRANSLATIONS_DIR)) {
     app->installTranslator(&translator);
