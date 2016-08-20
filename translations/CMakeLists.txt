@@ -18,7 +18,7 @@ set(SRC_DIRS src declarative lib panorama qml)
 add_custom_target(ts-files)
 
 # An empty target to generate qm files
-add_custom_target(qm-files ALL SOURCES ${TS_FILES})
+add_custom_target(qm-files SOURCES ${TS_FILES})
 
 foreach (ts ${TS_FILES})
   string(REPLACE . - target ${ts})
@@ -56,7 +56,6 @@ add_dependencies(ts-files ts-template)
 
 # A target to extract plural formats:
 add_custom_target(plurals
-  ALL
   COMMAND ${LUPDATE} ${SRC_DIRS} -pluralonly -ts ${CMAKE_SOURCE_DIR}/translations/plurals.ts
   COMMAND ${LRELEASE} translations/plurals.ts -qm ${CMAKE_BINARY_DIR}/translations/plurals.qm
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})

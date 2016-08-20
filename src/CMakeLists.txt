@@ -80,7 +80,9 @@ add_executable(cameraplus
   ${qrc_extra} ${qrc_qml} ${qrc_icons}
   )
 
-add_dependencies(cameraplus qtcamera translations)
+add_dependencies(cameraplus qtcamera)
+add_dependencies(cameraplus qm-files)
+add_dependencies(cameraplus plurals)
 
 add_definitions(${EXTRA_CFLAGS})
 include_directories(${EXTRA_INCLUDE_DIRS})
