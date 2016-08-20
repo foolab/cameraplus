@@ -42,6 +42,9 @@ foreach (ts ${TS_FILES})
 
   # add qm file to main qm target
   add_dependencies(qm-files ${target}-qm)
+
+  install(FILES ${CMAKE_BINARY_DIR}/translations/${qm} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/cameraplus/translations)
+
 endforeach(ts)
 
 # A target to build translation template:
@@ -57,3 +60,4 @@ add_custom_target(plurals
   COMMAND ${LUPDATE} ${SRC_DIRS} -pluralonly -ts ${CMAKE_SOURCE_DIR}/translations/plurals.ts
   COMMAND ${LRELEASE} translations/plurals.ts -qm ${CMAKE_BINARY_DIR}/translations/plurals.qm
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+install(FILES ${CMAKE_BINARY_DIR}/translations/plurals.qm DESTINATION ${CMAKE_INSTALL_PREFIX}/share/cameraplus/translations)
