@@ -1,3 +1,27 @@
+* Tue Aug 23 2016 Mohammed Sameer <msameer@foolab.org> 0.0.30-1
+- Ported to Qt 5.2
+- Change megapixels abbreviation in the settings page to MP instead of Mpx
+- Get rid of the resolution classification (low, medium, high) in the settings pages
+- use statefs to obtain battery information
+- Show all supported camera resolutions in settings
+- Cleaner UI for image timer and sequential modes
+- Reworked mode button and mode selection:
+  - A click on the button will switch between image and video modes
+  - a button drag will show all available modes
+- Slightly decrease the transition time between various modes
+- Experimental support for pausing video recording
+- Fixed a bug that sometimes caused a black viewfinder after maximizing the application.
+- Make zooming via rocker keys a bit faster
+- Switch video recording format to H264
+- Fixed a memory leak when we change the resolution
+- Initial Jolla tablet support
+- Disable "use geotags" option instead of hiding it if using the GPS option is disabled
+- Add an option to not use UTC for file naming
+- Fixed typo in timer mode (Thanks marmistrz for spotting and reporting)
+- Change zoom keys to volume keys in settings (Thanks marmistrz for spotting and reporting)
+- Polish translation by Marcin Mielniczuk
+- Fixes for various plural formats
+
 * Tue Jul 29 2014 Mohammed Sameer <msameer@foolab.org> 0.0.29-1
 - Fixed a potential crash when we fail to play a video in post capture
 - Don't show rotation animation when we flick between images in portrait post capture view

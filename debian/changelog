@@ -1,3 +1,27 @@
+cameraplus (0.0.30-1) unstable; urgency=medium
+
+  * Change megapixels abbreviation in the settings page to MP instead of Mpx
+  * Get rid of the resolution classification (low, medium, high) in the settings pages
+  * Use context kit to obtain battery information
+  * Cleaner UI for image timer and sequential modes
+  * Slightly decrease the transition time between various modes
+  * Experimental support for pausing video recording
+  * Reworked mode button and mode selection:
+    - A click on the button will switch between image and video modes
+    - A mode button left drag will show all available modes
+  * Highly experimental panorama support.
+  * Fixed a memory leak when we change the resolution
+  * Slightly increase the height of the camera toolbar
+  * Disable "use geotags" option instead of hiding it if using the GPS option is disabled
+  * Add an option to not use UTC for file naming
+  * Fixed typo in timer mode (Thanks marmistrz for spotting and reporting)
+  * Change zoom keys to volume keys in settings (Thanks marmistrz for spotting and reporting)
+  * Polish translation by Marcin Mielniczuk
+  * Fixes for various plural formats
+  * Improved launcher icon by zxcvbnm3230
+
+ -- Mohammed Sameer <msameer@foolab.org>  Tue, 23 Aug 2016 19:15:36 +0300
+
 cameraplus (0.0.29-1) unstable; urgency=medium
 
   * Don't show rotation animation when we flick between images in portrait post capture view
