@@ -302,20 +302,20 @@
         <location filename="../qml/ImageSequentialOverlay.qml" line="150"/>
         <source>Capture %n shots</source>
         <comment>0</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Wykonaj %n ujęcie</numerusform>
+            <numerusform>Wykonaj %n ujęcia</numerusform>
+            <numerusform>Wykonaj %n ujęć</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../qml/ImageSequentialOverlay.qml" line="171"/>
         <source>%n seconds interval</source>
         <comment>0</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Ujęcie co %n sekundę</numerusform>
+            <numerusform>Ujęcie co %n sekundy</numerusform>
+            <numerusform>Ujęcie co %n sekund</numerusform>
         </translation>
     </message>
     <message>
@@ -365,10 +365,10 @@
         <location filename="../qml/ImageSequentialShotsSettings.qml" line="61"/>
         <source>%n seconds</source>
         <comment>0</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n sekunda</numerusform>
+            <numerusform>%n sekundy</numerusform>
+            <numerusform>%n sekund</numerusform>
         </translation>
     </message>
     <message>
@@ -407,10 +407,10 @@
         <location filename="../qml/ImageTimerOverlay.qml" line="133"/>
         <source>Capture after %n seconds</source>
         <comment>0</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Wykonaj zdjęcie po %n sekundzie</numerusform>
+            <numerusform>Wykonaj zdjęcie po %n sekundach</numerusform>
+            <numerusform>Wykonaj zdjęcie po %n sekundach</numerusform>
         </translation>
     </message>
     <message>
