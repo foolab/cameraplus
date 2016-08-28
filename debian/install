@@ -27,5 +27,5 @@ modes/image-timer.ini usr/share/cameraplus/modes/
 modes/image-sequential.ini usr/share/cameraplus/modes/
 modes/image-panorama.ini usr/share/cameraplus/modes/
 modes/video.ini usr/share/cameraplus/modes/
-usr/share/cameraplus/translations/cameraplus-pl.qm
+usr/share/cameraplus/translations/cameraplus-*.qm
 usr/share/cameraplus/translations/plurals.qm
