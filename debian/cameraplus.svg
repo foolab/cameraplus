@@ -20,10 +20,10 @@
    enable-background="new 0 0 512 512"
    xml:space="preserve"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="v1.svg"><metadata
+   sodipodi:docname="cameraplus.svg"><metadata
    id="metadata3584"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><defs
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
    id="defs3582"><linearGradient
      id="linearGradient4354"><stop
        id="stop4356"
@@ -343,8 +343,8 @@
    id="namedview3580"
    showgrid="false"
    inkscape:zoom="5.2149125"
-   inkscape:cx="-2.1248503"
-   inkscape:cy="45.961311"
+   inkscape:cx="64.223339"
+   inkscape:cy="45.19428"
    inkscape:window-x="0"
    inkscape:window-y="30"
    inkscape:window-maximized="0"
@@ -526,7 +526,8 @@
 
 
 <g
-   id="DO_NOT_EDIT_-_HIGHLIGHT-0"><defs
+   id="DO_NOT_EDIT_-_HIGHLIGHT-0"
+   transform="matrix(1.025641,0,0,1.025641,-1.02564,-1.02564)"><defs
      id="defs3690-4"><filter
        color-interpolation-filters="sRGB"
        id="Adobe_OpacityMaskFilter-1-9"
@@ -678,11 +679,7 @@
        id="stop4070" /><stop
        offset="1"
        style="stop-color:#FFFFFF"
-       id="stop4072" /></linearGradient><path
-     style="opacity:0.25;fill:url(#linearGradient4352);fill-opacity:1"
-     inkscape:connector-curvature="0"
-     id="HIGHLIGHT_1_-6"
-     d="M 39.999,1 C 11.105,1 1,11.106 1,40 1,68.893 11.105,79 39.999,79 68.896,79 79,68.893 79,40 79,11.106 68.896,1 39.999,1 z m 0,77.025 C 11.57,78.025 1.976,68.43 1.976,40 c 0,-28.429 9.595,-38.024 38.023,-38.024 28.43,0 38.024,9.596 38.024,38.024 0,28.43 -9.594,38.025 -38.024,38.025 z" /></g><g
+       id="stop4072" /></linearGradient></g><g
    id="DO_NOT_EDIT_-_BOUNDING_BOX">
 	<rect
    style="fill:none"
@@ -692,7 +689,8 @@
    width="80"
    height="80" />
 </g><g
-   id="PLACE_YOUR_BACKGROUND_HERE">
+   id="PLACE_YOUR_BACKGROUND_HERE"
+   transform="matrix(1.025641,0,0,1.025641,-1.02564,-1.02564)">
 	<g
    id="INDIVIDUAL_BACKGROUND_1_">
 		<defs
@@ -940,7 +938,7 @@
 	
 </g><g
    id="g4584"
-   transform="matrix(0.16081944,0,0,0.16081944,-1.1697766,68.304221)"><circle
+   transform="matrix(0.16494302,0,0,0.16494302,-2.2366281,69.018424)"><circle
      transform="translate(0,-432)"
      style="fill:url(#linearGradient4668)"
      sodipodi:ry="197.5"
