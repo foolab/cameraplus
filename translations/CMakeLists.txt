@@ -6,7 +6,7 @@ elseif (QT5)
   set(LRELEASE ${Qt5_LRELEASE_EXECUTABLE})
 endif()
 
-set(TS_FILES cameraplus-pl.ts cameraplus-sv.ts)
+set(TS_FILES cameraplus-pl.ts cameraplus-sv.ts cameraplus-es.ts)
 set(SRC_DIRS src declarative lib panorama qml)
 
 # We have 2 main targets:
