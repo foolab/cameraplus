@@ -35,6 +35,7 @@ BuildRequires:  pkgconfig(sndfile)
 BuildRequires:  pkgconfig(libpulse)
 BuildRequires:  pkgconfig(exempi-2.0)
 BuildRequires:  pkgconfig(libpng)
+BuildRequires:  pkgconfig(egl)
 BuildRequires:  desktop-file-utils
 BuildRequires:  cmake
 BuildRequires:  libjpeg-devel
